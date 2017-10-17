@@ -1,0 +1,13 @@
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\RealCity.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\RealCity.pdb
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\Assembly-CSharp.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\ColossalManaged.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\ICities.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\UnityEngine.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\UnityEngine.UI.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\PopsApiWrapper.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Debug\RealCity.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Debug\RealCity.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Debug\RealCity.pdb
