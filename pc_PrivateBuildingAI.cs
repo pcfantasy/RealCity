@@ -10,6 +10,7 @@ namespace RealCity
 {
     public class pc_PrivateBuildingAI : CommonBuildingAI
     {
+        public static uint prebuidlingid = 0;
         // PrivateBuildingAI
         protected void SimulationStepActive_1(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
@@ -45,6 +46,16 @@ namespace RealCity
             {
                 buildingData.m_majorProblemTimer = 0;
             }
+
+            int i;
+            if (prebuidlingid < buildingID)
+            {
+                for (i = (int)(prebuidlingid + 1); i < buildingID; i++)
+                {
+                    comm_data.building_money[i] = 0;
+                }
+            }
+            prebuidlingid = buildingID;
         }
 
         //        public void building_status()

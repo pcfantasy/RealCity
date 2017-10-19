@@ -236,9 +236,17 @@ namespace RealCity
 
         //1.3 income-outcome
         //public static byte citizen_shopping_idex = 0;
-        public static int family_profit_money_num = 0;
-        public static int family_loss_money_num = 0;
-        
+        public static short[] citizen_money = new short[65536];
+        public static byte[] citizen_very_profit_time_num = new byte[65536];
+        public static byte[] citizen_profit_time_num = new byte[65536];
+        public static byte[] citizen_loss_time_num = new byte[65536];
+        public static ushort family_profit_money_num = 0;
+        public static ushort family_loss_money_num = 0;
+        public static ushort family_very_profit_money_num = 0;
+        public static ushort family_weight_stable_high = 0;
+        public static ushort family_weight_stable_low = 0;
+
+
         //2 building
         //economic_active_count
         //2.1 building income
@@ -370,7 +378,8 @@ namespace RealCity
         public static int PublicTransport_metro = 0;
         public static int PublicTransport_taxi = 0;
 
-
+        //4 outside connection
+        public static byte outside_situation_index = 0;
         //other in-game variable
 
     }

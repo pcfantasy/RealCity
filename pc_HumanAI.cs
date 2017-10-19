@@ -31,14 +31,19 @@ namespace RealCity
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
                     int num = -100;
-                    //DebugLog.LogToFileOnly("we go in now, find a visit arrive");
                     info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num);
+                    if (info.m_class.m_service == ItemClass.Service.Beautification)
+                    {
+                        StatisticsManager instance3 = Singleton<StatisticsManager>.instance;
+                        StatisticBase statisticBase = instance3.Acquire<StatisticInt32>(StatisticType.ParkVisitCount);
+                        statisticBase.Add(1);
+                    }
                     ushort eventIndex = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].m_eventIndex;
                     if (eventIndex != 0)
                     {
-                        EventManager instance3 = Singleton<EventManager>.instance;
-                        EventInfo info2 = instance3.m_events.m_buffer[(int)eventIndex].Info;
-                        info2.m_eventAI.VisitorEnter(eventIndex, ref instance3.m_events.m_buffer[(int)eventIndex], citizen);
+                        EventManager instance4 = Singleton<EventManager>.instance;
+                        EventInfo info2 = instance4.m_events.m_buffer[(int)eventIndex].Info;
+                        info2.m_eventAI.VisitorEnter(eventIndex, ref instance4.m_events.m_buffer[(int)eventIndex], citizenData.m_targetBuilding, citizen);
                     }
                 }
             }

@@ -17,8 +17,9 @@ namespace RealCity
     {
         public static uint precitizenid = 0;
         public static int family_count = 0;
-        public static int family_profit_money_num = 0;
-        public static int family_loss_money_num = 0;
+        public static ushort family_very_profit_money_num = 0;
+        public static ushort family_profit_money_num = 0;
+        public static ushort family_loss_money_num = 0;
         public static int citizen_salary_count = 0;
         public static int citizen_outcome_count = 0;
         public static int citizen_salary_tax_total = 0;
@@ -511,8 +512,12 @@ namespace RealCity
                         default:
                             break;
                     }
-                }
-            }//if (citizen_id != 0u)
+                    if (num == 0)
+                    {
+                        DebugLog.LogToFileOnly("find unknown citizen workbuilding" + " building servise is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service + " building subservice is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService);
+                    }
+                }//if (citizen_id != 0u)
+            }
 
             if(comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
             {
@@ -589,7 +594,6 @@ namespace RealCity
                 citizen_process_done = false;
                 family_count++;
             }
-            precitizenid = homeID;
 
             //here we caculate citizen income
             int temp_num;
@@ -683,22 +687,98 @@ namespace RealCity
             citizen_outcome_count = citizen_outcome_count + temp_num;
 
             //income - outcome
-            temp_num = citizen_salary_current - (int)(tax+0.99f) - temp_num - comm_data.citizen_average_transport_fee;
+            temp_num = citizen_salary_current - (int)(tax+0.5f) - temp_num - comm_data.citizen_average_transport_fee;
+            comm_data.citizen_money[homeID] = (short)(comm_data.citizen_money[homeID] + temp_num);
+            //set other non-exist citizen status to 0
+            uint i;
+            if (precitizenid < homeID)
+            {
+                for (i = (precitizenid + 1); i < homeID; i++)
+                {
+                    comm_data.citizen_money[i] = 0;
+                    comm_data.citizen_loss_time_num[i] = 0;
+                    comm_data.citizen_profit_time_num[i] = 0;
+                    comm_data.citizen_very_profit_time_num[i] = 0;
+                }
+            }
+            precitizenid = homeID;
+            //process citizen status
+            System.Random rand = new System.Random();
             if (temp_num <= 0)
             {
-                temp_num = 1;
-                family_loss_money_num = family_loss_money_num + 1;
+                temp_num = rand.Next(5);
+                family_loss_money_num = (ushort)(family_loss_money_num + 1);
+                comm_data.citizen_loss_time_num[homeID] = (byte)(comm_data.citizen_loss_time_num[homeID] + 1);
+                comm_data.citizen_profit_time_num[homeID] = 0;
+                comm_data.citizen_very_profit_time_num[homeID] = 0;
                 //try_move_family to do here;
+            }
+            else if (temp_num > 30)
+            {
+                temp_num = 20 + rand.Next(10);
+                family_very_profit_money_num = (ushort)(family_very_profit_money_num + 1);
+                comm_data.citizen_loss_time_num[homeID] = 0;
+                comm_data.citizen_profit_time_num[homeID] = (byte)(comm_data.citizen_profit_time_num[homeID] + 1);
+                comm_data.citizen_very_profit_time_num[homeID] = (byte)(comm_data.citizen_very_profit_time_num[homeID] + 1);
             }
             else
             {
-                family_profit_money_num = family_profit_money_num + 1;
+                temp_num = (temp_num - rand.Next(5) > 5 )? (temp_num - rand.Next(5)):5;
+                family_profit_money_num = (ushort)(family_profit_money_num + 1);
+                comm_data.citizen_loss_time_num[homeID] = 0;
+                comm_data.citizen_profit_time_num[homeID] = (byte)(comm_data.citizen_profit_time_num[homeID] + 1);
+                comm_data.citizen_very_profit_time_num[homeID] = 0;
             }
 
-            if (temp_num > 40)
+            if (comm_data.citizen_money[homeID] > 30000)
             {
-                temp_num = 40;
+                comm_data.citizen_money[homeID] = 30000;
             }
+
+            if(comm_data.citizen_profit_time_num[homeID] > 250)
+            {
+                comm_data.citizen_profit_time_num[homeID] = 250;
+            }
+            if (comm_data.citizen_very_profit_time_num[homeID] > 250)
+            {
+                comm_data.citizen_very_profit_time_num[homeID] = 250;
+            }
+            if (comm_data.citizen_loss_time_num[homeID] > 250)
+            {
+                comm_data.citizen_loss_time_num[homeID] = 250;
+            }
+
+            if ((comm_data.citizen_money[homeID] > 0) && (comm_data.citizen_very_profit_time_num[homeID] >= 200))
+            {
+                comm_data.family_weight_stable_high = (ushort)(comm_data.family_weight_stable_high + 1);
+                //change wealth to high
+                //try move family here (1、2、3 level house to 4-5 level house)
+            }
+            else if ((comm_data.citizen_money[homeID] > 0) && (comm_data.citizen_profit_time_num[homeID] >= 200))
+            {
+                //change wealth to mediem
+            }else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_loss_time_num[homeID] >= 200))
+            {
+                //change wealth to low
+                //try move family here try move family here (2-5 level house to 1 level house)
+            }
+            else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_loss_time_num[homeID] >= 100))
+            {
+                //change wealth to low
+                //try move family here (4-5 level house to 2-3 level house)
+            }
+            else
+            {
+                //just keep;
+            }
+
+            if (comm_data.citizen_money[homeID] < 0)
+            {
+                comm_data.family_weight_stable_low = (ushort)(comm_data.family_weight_stable_low + 1);
+            }
+
+                comm_data.citizen_money[homeID] = (short)(comm_data.citizen_money[homeID] - temp_num);
+
             //comm_data.citizen_shopping_idex = (byte)temp_num;
             return (byte)temp_num;
             //return to original game code.

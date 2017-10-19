@@ -72,6 +72,10 @@ namespace RealCity
             {
                 comm_data.vehical_last_transfer_flag[i] = false;
             }
+            for (int i = 0; i < comm_data.citizen_money.Length; i++)
+            {
+                comm_data.citizen_money[i] = 0;
+            }           
         }
 
         public override void OnLevelUnloading()

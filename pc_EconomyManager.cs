@@ -647,7 +647,7 @@ namespace RealCity
             {
                 return PrivateClassIndex(service, subService, level);
             }
-            return PublicClassIndex(service, subService) + 95;
+            return PublicClassIndex(service, subService) + 120;
         }
 
         // EconomyManager
