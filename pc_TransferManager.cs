@@ -133,149 +133,149 @@ namespace RealCity
                     case TransferManager.TransferReason.Goods:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.shop_get_goods_from_local_count++;
+                            pc_PrivateBuildingAI.shop_get_goods_from_local_count++;
                             break;
                         } else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position))) {
-                            comm_data.shop_get_goods_from_outside_count++;
+                            pc_PrivateBuildingAI.shop_get_goods_from_outside_count++;
                             break;
                         } else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position))) {
-                            comm_data.industy_goods_to_outside_count++;
+                            pc_PrivateBuildingAI.industy_goods_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Logs:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.logs_to_industy_count++;
+                            pc_PrivateBuildingAI.logs_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.logs_from_outside_count++;
+                            pc_PrivateBuildingAI.logs_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.logs_to_outside_count++;
+                            pc_PrivateBuildingAI.logs_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Grain:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.Grain_to_industy_count++;
+                            pc_PrivateBuildingAI.Grain_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.Grain_from_outside_count++;
+                            pc_PrivateBuildingAI.Grain_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.Grain_to_outside_count++;
+                            pc_PrivateBuildingAI.Grain_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Oil:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.oil_to_industy_count++;
+                            pc_PrivateBuildingAI.oil_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.oil_from_outside_count++;
+                            pc_PrivateBuildingAI.oil_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.oil_to_outside_count++;
+                            pc_PrivateBuildingAI.oil_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Ore:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.ore_to_industy_count++;
+                            pc_PrivateBuildingAI.ore_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.ore_from_outside_count++;
+                            pc_PrivateBuildingAI.ore_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.ore_to_outside_count++;
+                            pc_PrivateBuildingAI.ore_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Lumber:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.lumber_to_industy_count++;
+                            pc_PrivateBuildingAI.lumber_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.lumber_from_outside_count++;
+                            pc_PrivateBuildingAI.lumber_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.lumber_to_outside_count++;
+                            pc_PrivateBuildingAI.lumber_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Food:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.food_to_industy_count++;
+                            pc_PrivateBuildingAI.food_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.food_from_outside_count++;
+                            pc_PrivateBuildingAI.food_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.food_to_outside_count++;
+                            pc_PrivateBuildingAI.food_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Petrol:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.Petrol_to_industy_count++;
+                            pc_PrivateBuildingAI.Petrol_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.Petrol_from_outside_count++;
+                            pc_PrivateBuildingAI.Petrol_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.Petrol_to_outside_count++;
+                            pc_PrivateBuildingAI.Petrol_to_outside_count++;
                             break;
                         }
                         break;
                     case TransferManager.TransferReason.Coal:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.coal_to_industy_count++;
+                            pc_PrivateBuildingAI.coal_to_industy_count++;
                             break;
                         }
                         else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.coal_from_outside_count++;
+                            pc_PrivateBuildingAI.coal_from_outside_count++;
                             break;
                         }
                         else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            comm_data.coal_to_outside_count++;
+                            pc_PrivateBuildingAI.coal_to_outside_count++;
                             break;
                         }
                         break;

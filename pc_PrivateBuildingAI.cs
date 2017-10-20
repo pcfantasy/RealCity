@@ -8,8 +8,75 @@ using UnityEngine;
 
 namespace RealCity
 {
+
     public class pc_PrivateBuildingAI : CommonBuildingAI
     {
+        //2.1 building income
+        //2.1.1 profit and tranport cost
+        public static ushort resident_shopping_count = 0;
+        public static ushort resident_leisure_count = 0;
+        public static ushort shop_get_goods_from_local_count = 0;
+        public static ushort shop_get_goods_from_outside_count = 0;
+        public static ushort industy_goods_to_outside_count = 0;
+        public static ushort Grain_to_outside_count = 0;
+        public static ushort Grain_to_industy_count = 0;
+        public static ushort Grain_from_outside_count = 0;
+        public static ushort food_to_outside_count = 0;
+        public static ushort food_to_industy_count = 0;
+        public static ushort food_from_outside_count = 0;
+        public static ushort oil_to_outside_count = 0;
+        public static ushort oil_to_industy_count = 0;
+        public static ushort oil_from_outside_count = 0;
+        public static ushort Petrol_to_outside_count = 0;
+        public static ushort Petrol_to_industy_count = 0;
+        public static ushort Petrol_from_outside_count = 0;
+        public static ushort ore_to_outside_count = 0;
+        public static ushort ore_to_industy_count = 0;
+        public static ushort ore_from_outside_count = 0;
+        public static ushort coal_to_outside_count = 0;
+        public static ushort coal_to_industy_count = 0;
+        public static ushort coal_from_outside_count = 0;
+        public static ushort logs_to_outside_count = 0;
+        public static ushort logs_to_industy_count = 0;
+        public static ushort logs_from_outside_count = 0;
+        public static ushort lumber_to_outside_count = 0;
+        public static ushort lumber_to_industy_count = 0;
+        public static ushort lumber_from_outside_count = 0;
+        public static ushort visit_shopping_count = 0;
+        public static ushort visit_leisure_count = 0;
+
+        public static float comm_profit = 5;
+        public static float indu_profit = 5;
+        public static float food_profit = 5;
+        public static float petrol_profit = 5;
+        public static float coal_profit = 5;
+        public static float lumber_profit = 5;
+        public static float oil_profit = 5;
+        public static float ore_profit = 5;
+        public static float grain_profit = 5;
+        public static float log_profit = 5;
+
+        public static bool all_building_process_done;
+        public static ushort all_comm_building_profit = 0;
+        public static ushort all_industry_building_profit = 0;
+        public static ushort all_foresty_building_profit = 0;
+        public static ushort all_farmer_building_profit = 0;
+        public static ushort all_oil_building_profit = 0;
+        public static ushort all_ore_building_profit = 0;
+        public static ushort all_comm_building_loss = 0;
+        public static ushort all_industry_building_loss = 0;
+        public static ushort all_foresty_building_loss = 0;
+        public static ushort all_farmer_building_loss = 0;
+        public static ushort all_oil_building_loss = 0;
+        public static ushort all_ore_building_loss = 0;
+        public static ushort all_buildings = 0;
+        public static uint total_cargo_vehical_time = 0;
+        public static uint temp_total_cargo_vehical_time = 0;//temp use
+        public static uint temp_total_cargo_vehical_time_last = 0;//temp use
+        public static uint total_cargo_transfer_size = 0;
+        public static uint total_train_transfer_size = 0;
+        public static uint total_ship_transfer_size = 0;
+
         public static uint prebuidlingid = 0;
         // PrivateBuildingAI
         protected void SimulationStepActive_1(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
@@ -95,31 +162,34 @@ namespace RealCity
                 switch (building.Info.m_class.m_subService)
                 {
                     case ItemClass.SubService.IndustrialFarming:
-                        comm_data.all_farmer_building_profit = (ushort)(comm_data.all_farmer_building_profit + 1);
+                        all_farmer_building_profit = (ushort)(all_farmer_building_profit + 1);
                         break;
                     case ItemClass.SubService.IndustrialForestry:
-                        comm_data.all_foresty_building_profit = (ushort)(comm_data.all_foresty_building_profit + 1);
+                        all_foresty_building_profit = (ushort)(all_foresty_building_profit + 1);
                         break;
                     case ItemClass.SubService.IndustrialOil:
-                        comm_data.all_oil_building_profit = (ushort)(comm_data.all_oil_building_profit + 1);
+                        all_oil_building_profit = (ushort)(all_oil_building_profit + 1);
                         break;
                     case ItemClass.SubService.IndustrialOre:
-                        comm_data.all_ore_building_profit = (ushort)(comm_data.all_ore_building_profit + 1);
+                        all_ore_building_profit = (ushort)(all_ore_building_profit + 1);
                         break;
                     case ItemClass.SubService.IndustrialGeneric:
-                        comm_data.all_comm_building_profit = (ushort)(comm_data.all_comm_building_profit + 1);
+                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
                         break;
                     case ItemClass.SubService.CommercialHigh:
-                        comm_data.all_comm_building_profit = (ushort)(comm_data.all_comm_building_profit + 1);
+                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
                         break;
                     case ItemClass.SubService.CommercialLow:
-                        comm_data.all_comm_building_profit = (ushort)(comm_data.all_comm_building_profit + 1);
+                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
                         break;
                     case ItemClass.SubService.CommercialLeisure:
-                        comm_data.all_comm_building_profit = (ushort)(comm_data.all_comm_building_profit + 1);
+                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
                         break;
                     case ItemClass.SubService.CommercialTourist:
-                        comm_data.all_comm_building_profit = (ushort)(comm_data.all_comm_building_profit + 1);
+                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                        break;
+                    case ItemClass.SubService.CommercialEco:
+                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
                         break;
                     default: break;
                 }
@@ -129,31 +199,31 @@ namespace RealCity
                 switch (building.Info.m_class.m_subService)
                 {
                     case ItemClass.SubService.IndustrialFarming:
-                        comm_data.all_farmer_building_loss = (ushort)(comm_data.all_farmer_building_loss + 1);
+                        all_farmer_building_loss = (ushort)(all_farmer_building_loss + 1);
                         break;
                     case ItemClass.SubService.IndustrialForestry:
-                        comm_data.all_foresty_building_loss = (ushort)(comm_data.all_foresty_building_loss + 1);
+                        all_foresty_building_loss = (ushort)(all_foresty_building_loss + 1);
                         break;
                     case ItemClass.SubService.IndustrialOil:
-                        comm_data.all_oil_building_loss = (ushort)(comm_data.all_oil_building_loss + 1);
+                        all_oil_building_loss = (ushort)(all_oil_building_loss + 1);
                         break;
                     case ItemClass.SubService.IndustrialOre:
-                        comm_data.all_ore_building_loss = (ushort)(comm_data.all_ore_building_loss + 1);
+                        all_ore_building_loss = (ushort)(all_ore_building_loss + 1);
                         break;
                     case ItemClass.SubService.IndustrialGeneric:
-                        comm_data.all_comm_building_loss = (ushort)(comm_data.all_comm_building_loss + 1);
+                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
                         break;
                     case ItemClass.SubService.CommercialHigh:
-                        comm_data.all_comm_building_loss = (ushort)(comm_data.all_comm_building_loss + 1);
+                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
                         break;
                     case ItemClass.SubService.CommercialLow:
-                        comm_data.all_comm_building_loss = (ushort)(comm_data.all_comm_building_loss + 1);
+                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
                         break;
                     case ItemClass.SubService.CommercialLeisure:
-                        comm_data.all_comm_building_loss = (ushort)(comm_data.all_comm_building_loss + 1);
+                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
                         break;
                     case ItemClass.SubService.CommercialTourist:
-                        comm_data.all_comm_building_loss = (ushort)(comm_data.all_comm_building_loss + 1);
+                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
                         break;
                     default: break;
                 }
@@ -230,9 +300,14 @@ namespace RealCity
                 case ItemClass.SubService.CommercialTourist:
                     num1 = (int)(behaviour.m_educated0Count * comm_data.comm_tou_education0 + behaviour.m_educated1Count * comm_data.comm_tou_education1 + behaviour.m_educated2Count * comm_data.comm_tou_education2 + behaviour.m_educated3Count * comm_data.comm_tou_education3);
                     break;
+                case ItemClass.SubService.CommercialEco:
+                    num1 = (int)(behaviour.m_educated0Count * comm_data.comm_eco_education0 + behaviour.m_educated1Count * comm_data.comm_eco_education1 + behaviour.m_educated2Count * comm_data.comm_eco_education2 + behaviour.m_educated3Count * comm_data.comm_eco_education3);
+                    break;
                 default: break;
             }
             System.Random rand = new System.Random();
+
+            //add some benefit if building is profit
             if ((num1 != 0) && (comm_data.building_money[buildingID] >= 0))
             {
                 num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
@@ -280,6 +355,23 @@ namespace RealCity
             ItemClass.SubService subService = @class.m_subService;
             switch (subService)
             {
+                case ItemClass.SubService.OfficeHightech:
+                    incomeAccumulation = comm_data.office_high_tech;
+                    break;
+                case ItemClass.SubService.OfficeGeneric:
+                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        incomeAccumulation = comm_data.office_gen_levell;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        incomeAccumulation = comm_data.office_gen_level2;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        incomeAccumulation = comm_data.office_gen_level3;
+                    }
+                    break;
                 case ItemClass.SubService.IndustrialFarming:
                     incomeAccumulation = comm_data.indu_farm;
                     break;
@@ -340,6 +432,9 @@ namespace RealCity
                 case ItemClass.SubService.CommercialTourist:
                     incomeAccumulation = comm_data.comm_tourist;
                     break;
+                case ItemClass.SubService.CommercialEco:
+                    incomeAccumulation = comm_data.comm_eco;
+                    break;
                 case ItemClass.SubService.ResidentialHigh:
                     if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
                     {
@@ -360,6 +455,28 @@ namespace RealCity
                     else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
                     {
                         incomeAccumulation = comm_data.resident_high_level5;
+                    }
+                    break;
+                case ItemClass.SubService.ResidentialHighEco:
+                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        incomeAccumulation = comm_data.resident_high_eco_level1;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        incomeAccumulation = comm_data.resident_high_eco_level2;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        incomeAccumulation = comm_data.resident_high_eco_level3;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level4)
+                    {
+                        incomeAccumulation = comm_data.resident_high_eco_level4;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
+                    {
+                        incomeAccumulation = comm_data.resident_high_eco_level5;
                     }
                     break;
                 case ItemClass.SubService.ResidentialLow:
@@ -384,22 +501,29 @@ namespace RealCity
                         incomeAccumulation = comm_data.resident_low_level5;
                     }
                     break;
+                case ItemClass.SubService.ResidentialLowEco:
+                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        incomeAccumulation = comm_data.resident_low_eco_level1;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        incomeAccumulation = comm_data.resident_low_eco_level2;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        incomeAccumulation = comm_data.resident_low_eco_level3;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
+                    {
+                        incomeAccumulation = comm_data.resident_low_eco_level4;
+                    }
+                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
+                    {
+                        incomeAccumulation = comm_data.resident_low_eco_level5;
+                    }
+                    break;
                 default: break;
-            }
-            if (@class.m_service == ItemClass.Service.Office)
-            {
-                if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
-                {
-                    incomeAccumulation = comm_data.office_low_levell;
-                }
-                else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
-                {
-                    incomeAccumulation = comm_data.office_low_level2;
-                }
-                else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
-                {
-                    incomeAccumulation = comm_data.office_low_level3;
-                }
             }
         }
     }

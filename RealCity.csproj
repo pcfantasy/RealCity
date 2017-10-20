@@ -85,7 +85,7 @@
     <Compile Include="RedirectionHelper.cs" />
     <Compile Include="saveandrestore.cs" />
     <Compile Include="comm_data.cs" />
-    <Compile Include="UI.cs" />
+    <Compile Include="Moreeconomic.cs" />
     <Compile Include="loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

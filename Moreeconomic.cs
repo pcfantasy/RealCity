@@ -13,7 +13,7 @@ namespace RealCity
 {
     public class MoreeconomicGUI : UIPanel
     {
-        public static readonly string cacheName = "RealCityGUI";
+        public static readonly string cacheName = "MoreeconomicGUI";
 
         private static readonly float WIDTH = 800f;
 
@@ -585,33 +585,33 @@ namespace RealCity
             this.family_loss_money_num.text = string.Format("family_loss_num [{0}]]", comm_data.family_loss_money_num);
 
             //building
-            this.comm_profit.text = string.Format("commerical_profit [{0}]]", comm_data.comm_profit);
-            this.indu_profit.text = string.Format("industry_profit [{0}]]", comm_data.indu_profit);
-            this.food_profit.text = string.Format("food_profit [{0}]]", comm_data.food_profit);
-            this.petrol_profit.text = string.Format("petrol_profit [{0}]]", comm_data.petrol_profit);
-            this.coal_profit.text = string.Format("coal_profit [{0}]]", comm_data.coal_profit);
-            this.lumber_profit.text = string.Format("lumber_profit [{0}]]", comm_data.lumber_profit);
-            this.oil_profit.text = string.Format("oil_profit [{0}]]", comm_data.oil_profit);
-            this.ore_profit.text = string.Format("ore_profit [{0}]]", comm_data.ore_profit);
-            this.log_profit.text = string.Format("log_profit [{0}]]", comm_data.log_profit);
-            this.grain_profit.text = string.Format("grain_profit [{0}]]", comm_data.grain_profit);
-            this.all_comm_building_profit.text = string.Format("all_comm_building_profit num [{0}]]", comm_data.all_comm_building_profit);
-            this.all_comm_building_loss.text = string.Format("all_comm_building_loss num [{0}]]", comm_data.all_comm_building_loss);
-            this.all_industry_building_profit.text = string.Format("all_industry_building_profit num [{0}]]", comm_data.all_industry_building_profit);
-            this.all_industry_building_loss.text = string.Format("all_industry_building_loss num [{0}]]", comm_data.all_industry_building_loss);
-            this.all_foresty_building_profit.text = string.Format("all_foresty_building_profit num [{0}]]", comm_data.all_foresty_building_profit);
-            this.all_foresty_building_loss.text = string.Format("all_foresty_building_loss num [{0}]]", comm_data.all_foresty_building_loss);
-            this.all_farmer_building_profit.text = string.Format("all_farmer_building_profit num [{0}]]", comm_data.all_farmer_building_profit);
-            this.all_farmer_building_loss.text = string.Format("all_farmer_building_loss num [{0}]]", comm_data.all_farmer_building_loss);
-            this.all_oil_building_profit.text = string.Format("all_oil_building_profit num [{0}]]", comm_data.all_oil_building_profit);
-            this.all_oil_building_loss.text = string.Format("all_oil_building_loss num [{0}]]", comm_data.all_oil_building_loss);
-            this.all_ore_building_profit.text = string.Format("all_ore_building_profit num [{0}]]", comm_data.all_ore_building_profit);
-            this.all_ore_building_loss.text = string.Format("all_ore_building_loss num [{0}]]", comm_data.all_ore_building_loss);
-            this.all_buildings.text = string.Format("all_buildings num [{0}]]", comm_data.all_buildings);
-            this.total_cargo_vehical_time.text = string.Format("total_cargo_vehical_time [{0}]]", comm_data.total_cargo_vehical_time);
-            this.total_cargo_transfer_size.text = string.Format("total_cargo_transfer_size [{0}K]", (float)(comm_data.total_cargo_transfer_size/1000));
-            this.total_train_transfer_size.text = string.Format("total_train_transfer_size [{0}K]", (float)(comm_data.total_train_transfer_size / 1000));
-            this.total_ship_transfer_size.text = string.Format("total_ship_transfer_size [{0}K]", (float)(comm_data.total_ship_transfer_size / 1000));
+            this.comm_profit.text = string.Format("commerical_profit [{0}]]", pc_PrivateBuildingAI.comm_profit);
+            this.indu_profit.text = string.Format("industry_profit [{0}]]", pc_PrivateBuildingAI.indu_profit);
+            this.food_profit.text = string.Format("food_profit [{0}]]", pc_PrivateBuildingAI.food_profit);
+            this.petrol_profit.text = string.Format("petrol_profit [{0}]]", pc_PrivateBuildingAI.petrol_profit);
+            this.coal_profit.text = string.Format("coal_profit [{0}]]", pc_PrivateBuildingAI.coal_profit);
+            this.lumber_profit.text = string.Format("lumber_profit [{0}]]", pc_PrivateBuildingAI.lumber_profit);
+            this.oil_profit.text = string.Format("oil_profit [{0}]]", pc_PrivateBuildingAI.oil_profit);
+            this.ore_profit.text = string.Format("ore_profit [{0}]]", pc_PrivateBuildingAI.ore_profit);
+            this.log_profit.text = string.Format("log_profit [{0}]]", pc_PrivateBuildingAI.log_profit);
+            this.grain_profit.text = string.Format("grain_profit [{0}]]", pc_PrivateBuildingAI.grain_profit);
+            this.all_comm_building_profit.text = string.Format("all_comm_building_profit num [{0}]]", pc_PrivateBuildingAI.all_comm_building_profit);
+            this.all_comm_building_loss.text = string.Format("all_comm_building_loss num [{0}]]", pc_PrivateBuildingAI.all_comm_building_loss);
+            this.all_industry_building_profit.text = string.Format("all_industry_building_profit num [{0}]]", pc_PrivateBuildingAI.all_industry_building_profit);
+            this.all_industry_building_loss.text = string.Format("all_industry_building_loss num [{0}]]", pc_PrivateBuildingAI.all_industry_building_loss);
+            this.all_foresty_building_profit.text = string.Format("all_foresty_building_profit num [{0}]]", pc_PrivateBuildingAI.all_foresty_building_profit);
+            this.all_foresty_building_loss.text = string.Format("all_foresty_building_loss num [{0}]]", pc_PrivateBuildingAI.all_foresty_building_loss);
+            this.all_farmer_building_profit.text = string.Format("all_farmer_building_profit num [{0}]]", pc_PrivateBuildingAI.all_farmer_building_profit);
+            this.all_farmer_building_loss.text = string.Format("all_farmer_building_loss num [{0}]]", pc_PrivateBuildingAI.all_farmer_building_loss);
+            this.all_oil_building_profit.text = string.Format("all_oil_building_profit num [{0}]]", pc_PrivateBuildingAI.all_oil_building_profit);
+            this.all_oil_building_loss.text = string.Format("all_oil_building_loss num [{0}]]", pc_PrivateBuildingAI.all_oil_building_loss);
+            this.all_ore_building_profit.text = string.Format("all_ore_building_profit num [{0}]]", pc_PrivateBuildingAI.all_ore_building_profit);
+            this.all_ore_building_loss.text = string.Format("all_ore_building_loss num [{0}]]", pc_PrivateBuildingAI.all_ore_building_loss);
+            this.all_buildings.text = string.Format("all_buildings num [{0}]]", pc_PrivateBuildingAI.all_buildings);
+            this.total_cargo_vehical_time.text = string.Format("total_cargo_vehical_time [{0}]]", pc_PrivateBuildingAI.total_cargo_vehical_time);
+            this.total_cargo_transfer_size.text = string.Format("total_cargo_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_cargo_transfer_size/1000));
+            this.total_train_transfer_size.text = string.Format("total_train_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_train_transfer_size / 1000));
+            this.total_ship_transfer_size.text = string.Format("total_ship_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_ship_transfer_size / 1000));
             MoreeconomicGUI.isRefreshing = false;
         }
 

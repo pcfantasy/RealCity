@@ -28,34 +28,8 @@ namespace RealCity
         //public static long all_transport_fee = 0;                                 64   -------- 10
         //public static byte citizen_average_transport_fee = 0;                      4   -------- 11
         //fixed debug check value 110;                                               4   -------- 12
-        //in pc_ResidentAI
-        //public static uint precitizenid = 0;                                      13
-        //public static int family_count = 0;                                       14
-        //public static int family_profit_money_num = 0;                            15
-        //public static int family_loss_money_num = 0;                              16
-        //public static int citizen_salary_count = 0;                               17
-        //public static int citizen_outcome_count = 0;                              18
-        //public static int citizen_salary_tax_total = 0;                           19
-        //public static float temp_citizen_salary_tax_total = 0f;                      
-        //public static bool citizen_process_done = false;
-        //public static int Road = 0;
-        //public static int Electricity = 0;
-        //public static int Water = 0;
-        //public static int Beautification = 0;
-        //public static int Garbage = 0;
-        //public static int HealthCare = 0;
-        //public static int PoliceDepartment = 0;
-        //public static int Education = 0;
-        //public static int Monument = 0;
-        //public static int FireDepartment = 0;
-        //public static int PublicTransport_bus = 0;
-        //public static int PublicTransport_tram = 0;
-        //public static int PublicTransport_ship = 0;
-        //public static int PublicTransport_plane = 0;
-        //public static int PublicTransport_metro = 0;
-        //public static int PublicTransport_train = 0;
-        //public static int PublicTransport_taxi = 0;
-        public void save_float(ref int idex, float item)
+        
+        public static void save_float(ref int idex, float item)
         {
             int i;
             byte[] temp_data;
@@ -67,7 +41,7 @@ namespace RealCity
             }
         }
 
-        public void save_uint(ref int idex, uint item)
+        public static void save_uint(ref int idex, uint item)
         {
             int i;
             byte[] temp_data;
@@ -79,7 +53,7 @@ namespace RealCity
             }
         }
 
-        public void save_int(ref int idex, int item)
+        public static void save_int(ref int idex, int item)
         {
             int i;
             byte[] temp_data;
@@ -91,7 +65,7 @@ namespace RealCity
             }
         }
 
-        public void save_byte(ref int idex, byte item)
+        public static void save_byte(ref int idex, byte item)
         {
             int i;
             byte[] temp_data;
@@ -103,7 +77,7 @@ namespace RealCity
             }
         }
 
-        public void save_short(ref int idex, short item)
+        public static void save_short(ref int idex, short item)
         {
             int i;
             byte[] temp_data;
@@ -115,7 +89,7 @@ namespace RealCity
             }
         }
 
-        public void save_ushort(ref int idex, ushort item)
+        public static void save_ushort(ref int idex, ushort item)
         {
             int i;
             byte[] temp_data;
@@ -127,7 +101,7 @@ namespace RealCity
             }
         }
 
-        public void save_bool(ref int idex, bool item)
+        public static void save_bool(ref int idex, bool item)
         {
             int i;
             byte[] temp_data;
@@ -140,7 +114,7 @@ namespace RealCity
         }
 
 
-        public bool load_bool(ref int idex)
+        public static bool load_bool(ref int idex)
         {
             bool tmp;
             tmp = BitConverter.ToBoolean(load_data,idex);

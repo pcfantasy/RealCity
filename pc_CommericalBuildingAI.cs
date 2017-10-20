@@ -74,6 +74,8 @@ namespace RealCity
 
             switch (data.Info.m_class.m_subService)
             {
+                case ItemClass.SubService.CommercialEco:
+                    production_value = 0.9f; break;
                 case ItemClass.SubService.CommercialLeisure:
                     production_value = 1.8f; break;
                 case ItemClass.SubService.CommercialTourist:
@@ -83,11 +85,11 @@ namespace RealCity
             }
 
             float trade_tax = 0;
-            float trade_income = amountDelta * comm_data.comm_profit * production_value;
+            float trade_income = amountDelta * pc_PrivateBuildingAI.comm_profit * production_value;
             if (comm_data.building_money[buildingID] > 0)
             {
                 trade_tax = -trade_income * 0.1f;
-                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 100);
+                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             }
             comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(trade_income + trade_tax);
 

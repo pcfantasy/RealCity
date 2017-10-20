@@ -55,6 +55,12 @@ namespace RealCity
         public const byte comm_tou_education2 = 22;
         public const byte comm_tou_education3 = 33;
 
+        //commerial Eco
+        public const byte comm_eco_education0 = 14;
+        public const byte comm_eco_education1 = 15;
+        public const byte comm_eco_education2 = 17;
+        public const byte comm_eco_education3 = 22;
+
         //indus generic
         public const byte indus_gen_level1_education0 = 15;
         public const byte indus_gen_level2_education0 = 16;
@@ -97,10 +103,26 @@ namespace RealCity
         public const byte indus_ore_education3 = 26;
 
         //office
-        public const byte office_education0 = 15;
-        public const byte office_education1 = 22;
-        public const byte office_education2 = 30;
-        public const byte office_education3 = 40;
+        public const byte office_gen_level1_education0 = 15;
+        public const byte office_gen_level1_education1 = 21;
+        public const byte office_gen_level1_education2 = 26;
+        public const byte office_gen_level1_education3 = 32;
+
+        public const byte office_gen_level2_education0 = 15;
+        public const byte office_gen_level2_education1 = 21;
+        public const byte office_gen_level2_education2 = 27;
+        public const byte office_gen_level2_education3 = 36;
+
+        public const byte office_gen_level3_education0 = 15;
+        public const byte office_gen_level3_education1 = 22;
+        public const byte office_gen_level3_education2 = 30;
+        public const byte office_gen_level3_education3 = 40;
+
+        //office high tech
+        public const byte office_high_tech_education0 = 20;
+        public const byte office_high_tech_education1 = 24;
+        public const byte office_high_tech_education2 = 33;
+        public const byte office_high_tech_education3 = 47;
 
         //Road
         public const byte road_education0 = 14;
@@ -156,6 +178,12 @@ namespace RealCity
         public const byte Monument_education2 = 21;
         public const byte Monument_education3 = 28;
 
+        //Disaster
+        public const byte disaster_education0 = 23;
+        public const byte disaster_education1 = 24;
+        public const byte disaster_education2 = 30;
+        public const byte disaster_education3 = 35;
+
         //FireDepartment
         public const byte FireDepartment_education0 = 16;
         public const byte FireDepartment_education1 = 18;
@@ -204,6 +232,18 @@ namespace RealCity
         public const byte PublicTransport_metro_education2 = 20;
         public const byte PublicTransport_metro_education3 = 25;
 
+        //PublicTransport Monorail
+        public const byte PublicTransport_monorail_education0 = 14;
+        public const byte PublicTransport_monorail_education1 = 17;
+        public const byte PublicTransport_monorail_education2 = 21;
+        public const byte PublicTransport_monorail_education3 = 24;
+
+        //PublicTransport CableCar
+        public const byte PublicTransport_cablecar_education0 = 13;
+        public const byte PublicTransport_cablecar_education1 = 16;
+        public const byte PublicTransport_cablecar_education2 = 20;
+        public const byte PublicTransport_cablecar_education3 = 25;
+
         public static int citizen_count = 0;
         public static int family_count = 0;
         public static int citizen_salary_per_family = 0;
@@ -216,11 +256,21 @@ namespace RealCity
         public const byte resident_low_level3_rent = 19;
         public const byte resident_low_level4_rent = 25;
         public const byte resident_low_level5_rent = 35;
+        public const byte resident_low_eco_level1_rent = 11;
+        public const byte resident_low_eco_level2_rent = 15;
+        public const byte resident_low_eco_level3_rent = 20;
+        public const byte resident_low_eco_level4_rent = 26;
+        public const byte resident_low_eco_level5_rent = 36;
         public const byte resident_high_level1_rent = 8;
         public const byte resident_high_level2_rent = 11;
         public const byte resident_high_level3_rent = 15;
         public const byte resident_high_level4_rent = 20;
         public const byte resident_high_level5_rent = 26;
+        public const byte resident_high_eco_level1_rent = 9;
+        public const byte resident_high_eco_level2_rent = 12;
+        public const byte resident_high_eco_level3_rent = 16;
+        public const byte resident_high_eco_level4_rent = 21;
+        public const byte resident_high_eco_level5_rent = 27;
         //1.2.1 citizen outcome
         public static long citizen_outcome_per_family = 0;
         public static long citizen_outcome = 0;
@@ -249,50 +299,7 @@ namespace RealCity
 
         //2 building
         //economic_active_count
-        //2.1 building income
-        //2.1.1 profit and tranport cost
-        public static ushort resident_shopping_count = 0;
-        public static ushort resident_leisure_count = 0;
-        public static ushort shop_get_goods_from_local_count = 0;
-        public static ushort shop_get_goods_from_outside_count = 0;
-        public static ushort industy_goods_to_outside_count = 0;
-        public static ushort Grain_to_outside_count = 0;
-        public static ushort Grain_to_industy_count = 0;
-        public static ushort Grain_from_outside_count = 0;
-        public static ushort food_to_outside_count = 0;
-        public static ushort food_to_industy_count = 0;
-        public static ushort food_from_outside_count = 0;
-        public static ushort oil_to_outside_count = 0;
-        public static ushort oil_to_industy_count = 0;
-        public static ushort oil_from_outside_count = 0;
-        public static ushort Petrol_to_outside_count = 0;
-        public static ushort Petrol_to_industy_count = 0;
-        public static ushort Petrol_from_outside_count = 0;
-        public static ushort ore_to_outside_count = 0;
-        public static ushort ore_to_industy_count = 0;
-        public static ushort ore_from_outside_count = 0;
-        public static ushort coal_to_outside_count = 0;
-        public static ushort coal_to_industy_count = 0;
-        public static ushort coal_from_outside_count = 0;
-        public static ushort logs_to_outside_count = 0;
-        public static ushort logs_to_industy_count = 0;
-        public static ushort logs_from_outside_count = 0;
-        public static ushort lumber_to_outside_count = 0;
-        public static ushort lumber_to_industy_count = 0;
-        public static ushort lumber_from_outside_count = 0;
-        public static ushort visit_shopping_count = 0;
-        public static ushort visit_leisure_count = 0;
-
-        public static float comm_profit = 5;
-        public static float indu_profit = 5;
-        public static float food_profit = 5;
-        public static float petrol_profit = 5;
-        public static float coal_profit = 5;
-        public static float lumber_profit = 5;
-        public static float oil_profit = 5;
-        public static float ore_profit = 5;
-        public static float grain_profit = 5;
-        public static float log_profit = 5;
+        //move to buildingAI
 
 
         //2.2 building outcome
@@ -302,60 +309,55 @@ namespace RealCity
         public const byte resident_low_level4 = 25;
         public const byte resident_low_level5 = 35;
 
+        public const byte resident_low_eco_level1 = 8;
+        public const byte resident_low_eco_level2 = 12;
+        public const byte resident_low_eco_level3 = 17;
+        public const byte resident_low_eco_level4 = 23;
+        public const byte resident_low_eco_level5 = 30;
+
         public const byte resident_high_level1 = 50;
         public const byte resident_high_level2 = 70;
         public const byte resident_high_level3 = 110;
         public const byte resident_high_level4 = 140;
         public const byte resident_high_level5 = 180;
 
+        public const byte resident_high_eco_level1 = 25;
+        public const byte resident_high_eco_level2 = 35;
+        public const byte resident_high_eco_level3 = 55;
+        public const byte resident_high_eco_level4 = 70;
+        public const byte resident_high_eco_level5 = 90;
+
         public const byte comm_high_level1 = 110;
-        public const byte comm_high_level2 = 170;
-        public const byte comm_high_level3 = 220;
+        public const byte comm_high_level2 = 120;
+        public const byte comm_high_level3 = 130;
 
         public const byte comm_low_level1 = 80;
-        public const byte comm_low_level2 = 120;
-        public const byte comm_low_level3 = 160;
+        public const byte comm_low_level2 = 85;
+        public const byte comm_low_level3 = 90;
 
         public const byte comm_tourist = 160;
         public const byte comm_leisure = 230;
+        public const byte comm_eco = 30;
 
         public const byte indu_gen_level1 = 45;
-        public const byte indu_gen_level2 = 60;
-        public const byte indu_gen_level3 = 80;
+        public const byte indu_gen_level2 = 48;
+        public const byte indu_gen_level3 = 52;
 
         public const byte indu_forest = 30;
         public const byte indu_farm = 40;
         public const byte indu_oil = 80;
         public const byte indu_ore = 90;
 
-        public const byte office_low_levell = 180;
-        public const byte office_low_level2 = 210;
-        public const byte office_low_level3 = 250;
+        public const byte office_gen_levell = 180;
+        public const byte office_gen_level2 = 210;
+        public const byte office_gen_level3 = 250;
+
+        public const byte office_high_tech = 60;
 
 
         //2.3 process building 
         public static int[] building_money = new int[49152];
-        public static bool all_building_process_done;
-        public static ushort all_comm_building_profit = 0;
-        public static ushort all_industry_building_profit = 0;
-        public static ushort all_foresty_building_profit = 0;
-        public static ushort all_farmer_building_profit = 0;
-        public static ushort all_oil_building_profit = 0;
-        public static ushort all_ore_building_profit = 0;
-        public static ushort all_comm_building_loss = 0;
-        public static ushort all_industry_building_loss = 0;
-        public static ushort all_foresty_building_loss = 0;
-        public static ushort all_farmer_building_loss = 0;
-        public static ushort all_oil_building_loss = 0;
-        public static ushort all_ore_building_loss = 0;
-        public static ushort all_buildings = 0;
-        public static uint total_cargo_vehical_time = 0;
-        public static uint temp_total_cargo_vehical_time = 0;//temp use
-        public static uint temp_total_cargo_vehical_time_last = 0;//temp use
-        public static uint total_cargo_transfer_size = 0;
-        public static uint total_train_transfer_size = 0;
-        public static uint total_ship_transfer_size = 0;
-
+        //move to buildingAI
 
 
 
@@ -370,6 +372,7 @@ namespace RealCity
         public static int Education = 0;
         public static int Monument = 0;
         public static int FireDepartment = 0;
+        public static int Disaster = 0;
         public static int PublicTransport_bus = 0;
         public static int PublicTransport_tram = 0;
         public static int PublicTransport_ship = 0;
@@ -377,10 +380,13 @@ namespace RealCity
         public static int PublicTransport_plane = 0;
         public static int PublicTransport_metro = 0;
         public static int PublicTransport_taxi = 0;
+        public static int PublicTransport_cablecar = 0;
+        public static int PublicTransport_monorail = 0;
 
         //4 outside connection
         public static byte outside_situation_index = 0;
         //other in-game variable
+        public static byte update_money_count = 0;
 
     }
 }
