@@ -24,7 +24,7 @@ namespace RealCity
         public static int citizen_outcome_count = 0;
         public static int citizen_salary_tax_total = 0;
         public static float temp_citizen_salary_tax_total = 0f;
-        public static bool citizen_process_done = false;
+        //public static bool citizen_process_done = false;
         //govement salary outconme
         public static int Road =0;
         public static int Electricity =0;
@@ -46,6 +46,83 @@ namespace RealCity
         public static int PublicTransport_cablecar = 0;
         public static int PublicTransport_monorail = 0;
         public static int Disaster = 0;
+
+        public static byte[] save_data = new byte[110];
+        public static byte[] load_data = new byte[110];
+
+        public static void load()
+        {
+            int i = 0;
+            precitizenid = saveandrestore.load_uint(ref i, load_data);
+            family_count = saveandrestore.load_int(ref i, load_data);
+            family_very_profit_money_num = saveandrestore.load_ushort(ref i, load_data);
+            family_profit_money_num = saveandrestore.load_ushort(ref i, load_data);
+            family_loss_money_num = saveandrestore.load_ushort(ref i, load_data);
+            citizen_salary_count = saveandrestore.load_int(ref i, load_data);
+            citizen_outcome_count = saveandrestore.load_int(ref i, load_data);
+            citizen_salary_tax_total = saveandrestore.load_int(ref i, load_data);
+            temp_citizen_salary_tax_total = saveandrestore.load_float(ref i, load_data);
+
+            Road = saveandrestore.load_int(ref i, load_data);
+            Electricity = saveandrestore.load_int(ref i, load_data);
+            Water = saveandrestore.load_int(ref i, load_data);
+            Beautification = saveandrestore.load_int(ref i, load_data);
+            Garbage = saveandrestore.load_int(ref i, load_data);
+            HealthCare = saveandrestore.load_int(ref i, load_data);
+            PoliceDepartment = saveandrestore.load_int(ref i, load_data);
+            Education = saveandrestore.load_int(ref i, load_data);
+            Monument = saveandrestore.load_int(ref i, load_data);
+            FireDepartment = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_bus = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_tram = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_ship = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_plane = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_metro = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_train = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_taxi = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_cablecar = saveandrestore.load_int(ref i, load_data);
+            PublicTransport_monorail = saveandrestore.load_int(ref i, load_data);
+            Disaster = saveandrestore.load_int(ref i, load_data);
+        }
+
+        public static void save()
+        {
+            int i = 0;
+
+            //2*4 + 3*2 + 4*4 = 30
+            saveandrestore.save_uint(ref i, precitizenid, ref save_data);
+            saveandrestore.save_int(ref i, family_count, ref save_data);
+            saveandrestore.save_ushort(ref i, family_very_profit_money_num, ref save_data);
+            saveandrestore.save_ushort(ref i, family_profit_money_num, ref save_data);
+            saveandrestore.save_ushort(ref i, family_loss_money_num, ref save_data);
+            saveandrestore.save_int(ref i, citizen_salary_count, ref save_data);
+            saveandrestore.save_int(ref i, citizen_outcome_count, ref save_data);
+            saveandrestore.save_int(ref i, citizen_salary_tax_total, ref save_data);
+            saveandrestore.save_float(ref i, temp_citizen_salary_tax_total, ref save_data);
+
+            //20 * 4 = 80
+            saveandrestore.save_int(ref i, Road, ref save_data);
+            saveandrestore.save_int(ref i, Electricity, ref save_data);
+            saveandrestore.save_int(ref i, Water, ref save_data);
+            saveandrestore.save_int(ref i, Beautification, ref save_data);
+            saveandrestore.save_int(ref i, Garbage, ref save_data);
+            saveandrestore.save_int(ref i, HealthCare, ref save_data);
+            saveandrestore.save_int(ref i, PoliceDepartment, ref save_data);
+            saveandrestore.save_int(ref i, Education, ref save_data);
+            saveandrestore.save_int(ref i, Monument, ref save_data);
+            saveandrestore.save_int(ref i, FireDepartment, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_bus, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_tram, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_ship, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_plane, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_metro, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_train, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_taxi, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_cablecar, ref save_data);
+            saveandrestore.save_int(ref i, PublicTransport_monorail, ref save_data);
+            saveandrestore.save_int(ref i, Disaster, ref save_data);
+        }
+
 
         public int citizen_salary(uint citizen_id)
         {
@@ -638,7 +715,7 @@ namespace RealCity
             //DebugLog.LogToFileOnly("we go in now, pc_ResidentAI");
             if (precitizenid > homeID)
             {
-                citizen_process_done = true;
+                //citizen_process_done = true;
                 comm_data.family_count = family_count;
                 comm_data.family_profit_money_num = family_profit_money_num;
                 comm_data.family_loss_money_num = family_loss_money_num;
@@ -696,8 +773,13 @@ namespace RealCity
             }
             else if (precitizenid < homeID)
             {
-                citizen_process_done = false;
+                //citizen_process_done = false;
                 family_count++;
+            }
+
+            if(homeID > 524288)
+            {
+                DebugLog.LogToFileOnly("Error: citizen ID greater than 524288");
             }
 
             //here we caculate citizen income
@@ -801,10 +883,13 @@ namespace RealCity
             {
                 for (i = (precitizenid + 1); i < homeID; i++)
                 {
-                    comm_data.citizen_money[i] = 0;
-                    comm_data.citizen_loss_time_num[i] = 0;
-                    comm_data.citizen_profit_time_num[i] = 0;
-                    comm_data.citizen_very_profit_time_num[i] = 0;
+                    if ((comm_data.citizen_money[i] != 0) || (comm_data.citizen_loss_time_num[i] != 0) || (comm_data.citizen_profit_time_num[i] != 0) || (comm_data.citizen_very_profit_time_num[i] != 0))
+                    {
+                        comm_data.citizen_money[i] = 0;
+                        comm_data.citizen_loss_time_num[i] = 0;
+                        comm_data.citizen_profit_time_num[i] = 0;
+                        comm_data.citizen_very_profit_time_num[i] = 0;
+                    }
                 }
             }
             precitizenid = homeID;
@@ -892,8 +977,10 @@ namespace RealCity
 
         public void process_citizen_income_tax(uint homeID, float tax)
         {
-            Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[homeID];
-            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax+0.5f), building.Info.m_class.m_service, building.Info.m_class.m_subService, this.m_info.m_class.m_level, 112);
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
+            Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
+            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax+0.5f), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112);
         }
 
         // ResidentAI

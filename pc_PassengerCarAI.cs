@@ -30,6 +30,10 @@ namespace RealCity
         }
         public void get_vehicle_running_timing(ushort vehicleID, ref Vehicle vehicleData)
         {
+            if (vehicleID > 16384)
+            {
+                DebugLog.LogToFileOnly("Error: vehicle ID greater than 16384");
+            }
             BuildingManager instance = Singleton<BuildingManager>.instance;
             bool flag1 = instance.m_buildings.m_buffer[(int)vehicleData.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable);
 			bool flag2 = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable);
@@ -39,6 +43,7 @@ namespace RealCity
             }
             else
             {
+                //DebugLog.LogToFileOnly("finding a car, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
                 comm_data.temp_total_citizen_vehical_time = comm_data.temp_total_citizen_vehical_time + comm_data.vehical_transfer_time[vehicleID];
             }
         }

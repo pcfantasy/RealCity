@@ -42,8 +42,8 @@ namespace RealCity
         public static ushort lumber_to_outside_count = 0;
         public static ushort lumber_to_industy_count = 0;
         public static ushort lumber_from_outside_count = 0;
-        public static ushort visit_shopping_count = 0;
-        public static ushort visit_leisure_count = 0;
+        //public static ushort visit_shopping_count = 0;
+        //public static ushort visit_leisure_count = 0;
 
         public static float comm_profit = 5;
         public static float indu_profit = 5;
@@ -56,7 +56,6 @@ namespace RealCity
         public static float grain_profit = 5;
         public static float log_profit = 5;
 
-        public static bool all_building_process_done;
         public static ushort all_comm_building_profit = 0;
         public static ushort all_industry_building_profit = 0;
         public static ushort all_foresty_building_profit = 0;
@@ -78,9 +77,281 @@ namespace RealCity
         public static uint total_ship_transfer_size = 0;
 
         public static uint prebuidlingid = 0;
+        public static ushort resident_shopping_count_final = 0;
+        public static ushort resident_leisure_count_final = 0;
+        public static ushort shop_get_goods_from_local_count_final = 0;
+        public static ushort shop_get_goods_from_outside_count_final = 0;
+        public static ushort industy_goods_to_outside_count_final = 0;
+        public static ushort Grain_to_outside_count_final = 0;
+        public static ushort Grain_to_industy_count_final = 0;
+        public static ushort Grain_from_outside_count_final = 0;
+        public static ushort food_to_outside_count_final = 0;
+        public static ushort food_to_industy_count_final = 0;
+        public static ushort food_from_outside_count_final = 0;
+        public static ushort oil_to_outside_count_final = 0;
+        public static ushort oil_to_industy_count_final = 0;
+        public static ushort oil_from_outside_count_final = 0;
+        public static ushort Petrol_to_outside_count_final = 0;
+        public static ushort Petrol_to_industy_count_final = 0;
+        public static ushort Petrol_from_outside_count_final = 0;
+        public static ushort ore_to_outside_count_final = 0;
+        public static ushort ore_to_industy_count_final = 0;
+        public static ushort ore_from_outside_count_final = 0;
+        public static ushort coal_to_outside_count_final = 0;
+        public static ushort coal_to_industy_count_final = 0;
+        public static ushort coal_from_outside_count_final = 0;
+        public static ushort logs_to_outside_count_final = 0;
+        public static ushort logs_to_industy_count_final = 0;
+        public static ushort logs_from_outside_count_final = 0;
+        public static ushort lumber_to_outside_count_final = 0;
+        public static ushort lumber_to_industy_count_final = 0;
+        public static ushort lumber_from_outside_count_final = 0;
+        public static ushort all_comm_building_profit_final = 0;
+        public static ushort all_industry_building_profit_final = 0;
+        public static ushort all_foresty_building_profit_final = 0;
+        public static ushort all_farmer_building_profit_final = 0;
+        public static ushort all_oil_building_profit_final = 0;
+        public static ushort all_ore_building_profit_final = 0;
+        public static ushort all_comm_building_loss_final = 0;
+        public static ushort all_industry_building_loss_final = 0;
+        public static ushort all_foresty_building_loss_final = 0;
+        public static ushort all_farmer_building_loss_final = 0;
+        public static ushort all_oil_building_loss_final = 0;
+        public static ushort all_ore_building_loss_final = 0;
+        public static ushort all_buildings_final = 0;
         // PrivateBuildingAI
+
+        public static byte[] save_data = new byte[232];
+        public static byte[] load_data = new byte[232];
+
+        public static void load()
+        {
+            int i = 0;
+            resident_shopping_count = saveandrestore.load_ushort(ref i, load_data);
+            resident_leisure_count = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_count = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            industy_goods_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            Grain_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            Grain_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            Grain_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            food_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            food_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            food_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            oil_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            oil_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            oil_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            Petrol_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            Petrol_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            Petrol_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            ore_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            ore_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            ore_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            coal_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            coal_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            coal_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            logs_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            logs_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            logs_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            lumber_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            lumber_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
+            lumber_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+
+            comm_profit = saveandrestore.load_float(ref i, load_data);
+            indu_profit = saveandrestore.load_float(ref i, load_data);
+            food_profit = saveandrestore.load_float(ref i, load_data);
+            petrol_profit = saveandrestore.load_float(ref i, load_data);
+            coal_profit = saveandrestore.load_float(ref i, load_data);
+            oil_profit = saveandrestore.load_float(ref i, load_data);
+            ore_profit = saveandrestore.load_float(ref i, load_data);
+            grain_profit = saveandrestore.load_float(ref i, load_data);
+            log_profit = saveandrestore.load_float(ref i, load_data);
+
+            all_comm_building_profit = saveandrestore.load_ushort(ref i, load_data);
+            all_industry_building_profit = saveandrestore.load_ushort(ref i, load_data);
+            all_foresty_building_profit = saveandrestore.load_ushort(ref i, load_data);
+            all_farmer_building_profit = saveandrestore.load_ushort(ref i, load_data);
+            all_oil_building_profit = saveandrestore.load_ushort(ref i, load_data);
+            all_ore_building_profit = saveandrestore.load_ushort(ref i, load_data);
+            all_comm_building_loss = saveandrestore.load_ushort(ref i, load_data);
+            all_industry_building_loss = saveandrestore.load_ushort(ref i, load_data);
+            all_foresty_building_loss = saveandrestore.load_ushort(ref i, load_data);
+            all_farmer_building_loss = saveandrestore.load_ushort(ref i, load_data);
+            all_oil_building_loss = saveandrestore.load_ushort(ref i, load_data);
+            all_ore_building_loss = saveandrestore.load_ushort(ref i, load_data);
+            total_cargo_vehical_time = saveandrestore.load_uint(ref i, load_data);
+            temp_total_cargo_vehical_time = saveandrestore.load_uint(ref i, load_data);
+            temp_total_cargo_vehical_time_last = saveandrestore.load_uint(ref i, load_data);
+            total_cargo_transfer_size = saveandrestore.load_uint(ref i, load_data);
+            total_train_transfer_size = saveandrestore.load_uint(ref i, load_data);
+            total_ship_transfer_size = saveandrestore.load_uint(ref i, load_data);
+            prebuidlingid = saveandrestore.load_uint(ref i, load_data);
+
+            resident_shopping_count_final = saveandrestore.load_ushort(ref i, load_data);
+            resident_leisure_count_final = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_count_final = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            industy_goods_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            Grain_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            Grain_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            Grain_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            food_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            food_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            food_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            oil_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            oil_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            oil_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            Petrol_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            Petrol_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            Petrol_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            ore_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            ore_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            ore_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            coal_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            coal_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            coal_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            logs_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            logs_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            logs_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            lumber_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            lumber_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
+            lumber_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+
+            all_comm_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
+            all_industry_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
+            all_foresty_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
+            all_farmer_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
+            all_oil_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
+            all_ore_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
+            all_comm_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+            all_industry_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+            all_foresty_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+            all_farmer_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+            all_oil_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+            all_ore_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+
+        }
+
+
+        public static void save()
+        {
+            int i = 0;
+
+            //29 * 2 = 58
+            saveandrestore.save_ushort(ref i, resident_shopping_count, ref save_data);
+            saveandrestore.save_ushort(ref i, resident_leisure_count, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_count, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, industy_goods_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, Grain_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, Grain_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, Grain_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, food_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, food_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, food_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, oil_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, oil_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, oil_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, Petrol_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, Petrol_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, Petrol_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, ore_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, ore_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, ore_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, coal_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, coal_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, coal_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, logs_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, logs_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, logs_from_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, lumber_to_outside_count, ref save_data);
+            saveandrestore.save_ushort(ref i, lumber_to_industy_count, ref save_data);
+            saveandrestore.save_ushort(ref i, lumber_from_outside_count, ref save_data);
+
+            //10 * 4 = 40
+            saveandrestore.save_float(ref i, comm_profit, ref save_data);
+            saveandrestore.save_float(ref i, indu_profit, ref save_data);
+            saveandrestore.save_float(ref i, food_profit, ref save_data);
+            saveandrestore.save_float(ref i, petrol_profit, ref save_data);
+            saveandrestore.save_float(ref i, coal_profit, ref save_data);
+            saveandrestore.save_float(ref i, lumber_profit, ref save_data);
+            saveandrestore.save_float(ref i, oil_profit, ref save_data);
+            saveandrestore.save_float(ref i, ore_profit, ref save_data);
+            saveandrestore.save_float(ref i, grain_profit, ref save_data);
+            saveandrestore.save_float(ref i, log_profit, ref save_data);
+
+            //12*2 + 7*4 = 52
+            saveandrestore.save_ushort(ref i, all_comm_building_profit, ref save_data);
+            saveandrestore.save_ushort(ref i, all_industry_building_profit, ref save_data);
+            saveandrestore.save_ushort(ref i, all_foresty_building_profit, ref save_data);
+            saveandrestore.save_ushort(ref i, all_farmer_building_profit, ref save_data);
+            saveandrestore.save_ushort(ref i, all_oil_building_profit, ref save_data);
+            saveandrestore.save_ushort(ref i, all_ore_building_profit, ref save_data);
+            saveandrestore.save_ushort(ref i, all_comm_building_loss, ref save_data);
+            saveandrestore.save_ushort(ref i, all_industry_building_loss, ref save_data);
+            saveandrestore.save_ushort(ref i, all_foresty_building_loss, ref save_data);
+            saveandrestore.save_ushort(ref i, all_farmer_building_loss, ref save_data);
+            saveandrestore.save_ushort(ref i, all_oil_building_loss, ref save_data);
+            saveandrestore.save_ushort(ref i, all_ore_building_loss, ref save_data);
+            saveandrestore.save_uint(ref i, total_cargo_vehical_time, ref save_data);
+            saveandrestore.save_uint(ref i, temp_total_cargo_vehical_time, ref save_data);
+            saveandrestore.save_uint(ref i, temp_total_cargo_vehical_time_last, ref save_data);
+            saveandrestore.save_uint(ref i, total_cargo_transfer_size, ref save_data);
+            saveandrestore.save_uint(ref i, total_train_transfer_size, ref save_data);
+            saveandrestore.save_uint(ref i, total_ship_transfer_size, ref save_data);
+            saveandrestore.save_uint(ref i, prebuidlingid, ref save_data);
+
+            //58
+            saveandrestore.save_ushort(ref i, resident_shopping_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, resident_leisure_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, industy_goods_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, Grain_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, Grain_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, Grain_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, food_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, food_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, food_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, oil_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, oil_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, oil_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, Petrol_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, Petrol_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, Petrol_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, ore_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, ore_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, ore_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, coal_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, coal_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, coal_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, logs_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, logs_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, logs_from_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, lumber_to_outside_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, lumber_to_industy_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, lumber_from_outside_count_final, ref save_data);
+
+            //24
+            saveandrestore.save_ushort(ref i, all_comm_building_profit_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_industry_building_profit_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_foresty_building_profit_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_farmer_building_profit_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_oil_building_profit_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_ore_building_profit_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_comm_building_loss_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_industry_building_loss_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_foresty_building_loss_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_farmer_building_loss_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_oil_building_loss_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_ore_building_loss_final, ref save_data);
+        }
         protected void SimulationStepActive_1(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
+            if (buildingID > 49152)
+            {
+                DebugLog.LogToFileOnly("Error: buildingIDgreater than 49152");
+            }
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
             process_land_fee(buildingData, buildingID);
             caculate_employee_outcome(buildingData, buildingID);
@@ -114,15 +385,113 @@ namespace RealCity
                 buildingData.m_majorProblemTimer = 0;
             }
 
+            process_building_data_final(buildingID);
+            
+        }
+
+        public void process_building_data_final(ushort buildingID)
+        {
             int i;
             if (prebuidlingid < buildingID)
             {
                 for (i = (int)(prebuidlingid + 1); i < buildingID; i++)
                 {
-                    comm_data.building_money[i] = 0;
+                    if (comm_data.building_money[i] != 0)
+                    {
+                        comm_data.building_money[i] = 0;
+                    }
                 }
             }
+            else
+            {
+                //DebugLog.LogToFileOnly("caculate building final status, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
+                resident_shopping_count_final = resident_shopping_count;
+                resident_leisure_count_final = resident_leisure_count;
+                shop_get_goods_from_local_count_final = shop_get_goods_from_local_count;
+                shop_get_goods_from_outside_count_final = shop_get_goods_from_outside_count;
+                industy_goods_to_outside_count_final = industy_goods_to_outside_count;
+                Grain_to_outside_count_final = Grain_to_outside_count;
+                Grain_to_industy_count_final = Grain_to_industy_count;
+                Grain_from_outside_count_final = Grain_from_outside_count;
+                food_to_outside_count_final = food_to_outside_count;
+                food_to_industy_count_final = food_to_industy_count;
+                food_from_outside_count_final = food_from_outside_count;
+                oil_to_outside_count_final = oil_to_outside_count;
+                oil_to_industy_count_final = oil_to_industy_count;
+                oil_from_outside_count_final = oil_from_outside_count;
+                Petrol_to_outside_count_final = Petrol_to_outside_count;
+                Petrol_to_industy_count_final = Petrol_to_industy_count;
+                Petrol_from_outside_count_final = Petrol_from_outside_count;
+                ore_to_outside_count_final = ore_to_outside_count;
+                ore_to_industy_count_final = ore_to_industy_count;
+                ore_from_outside_count_final = ore_from_outside_count;
+                coal_to_outside_count_final = coal_to_outside_count;
+                coal_to_industy_count_final = coal_to_industy_count;
+                coal_from_outside_count_final = coal_from_outside_count;
+                logs_to_outside_count_final = logs_to_outside_count;
+                logs_to_industy_count_final = logs_to_industy_count;
+                logs_from_outside_count_final = logs_from_outside_count;
+                lumber_to_outside_count_final = lumber_to_outside_count;
+                lumber_to_industy_count_final = lumber_to_industy_count;
+                lumber_from_outside_count_final = lumber_from_outside_count;
+                all_farmer_building_profit_final = all_farmer_building_profit;
+                all_foresty_building_profit_final = all_foresty_building_profit;
+                all_oil_building_profit_final = all_oil_building_profit;
+                all_ore_building_profit_final = all_ore_building_profit;
+                all_industry_building_profit_final = all_industry_building_profit;
+                all_comm_building_profit_final = all_comm_building_profit;
+                all_farmer_building_loss_final = all_farmer_building_loss;
+                all_foresty_building_loss_final = all_foresty_building_loss;
+                all_oil_building_loss_final = all_oil_building_loss;
+                all_ore_building_loss_final = all_ore_building_loss;
+                all_industry_building_loss_final = all_industry_building_loss;
+                all_comm_building_loss_final = all_comm_building_loss;
+
+                all_buildings_final = 0;
+                all_farmer_building_profit = 0;
+                all_foresty_building_profit = 0;
+                all_oil_building_profit = 0;
+                all_ore_building_profit = 0;
+                all_industry_building_profit = 0;
+                all_comm_building_profit = 0;
+                all_farmer_building_loss = 0;
+                all_foresty_building_loss = 0;
+                all_oil_building_loss = 0;
+                all_ore_building_loss = 0;
+                all_industry_building_loss = 0;
+                all_comm_building_loss = 0;
+                resident_shopping_count = 0;
+                resident_leisure_count = 0;
+                shop_get_goods_from_local_count = 0;
+                shop_get_goods_from_outside_count = 0;
+                industy_goods_to_outside_count = 0;
+                Grain_to_outside_count = 0;
+                Grain_to_industy_count = 0;
+                Grain_from_outside_count = 0;
+                food_to_outside_count = 0;
+                food_to_industy_count = 0;
+                food_from_outside_count = 0;
+                oil_to_outside_count = 0;
+                oil_to_industy_count = 0;
+                oil_from_outside_count = 0;
+                Petrol_to_outside_count = 0;
+                Petrol_to_industy_count = 0;
+                Petrol_from_outside_count = 0;
+                ore_to_outside_count = 0;
+                ore_to_industy_count = 0;
+                ore_from_outside_count = 0;
+                coal_to_outside_count = 0;
+                coal_to_industy_count = 0;
+                coal_from_outside_count = 0;
+                logs_to_outside_count = 0;
+                logs_to_industy_count = 0;
+                logs_from_outside_count = 0;
+                lumber_to_outside_count = 0;
+                lumber_to_industy_count = 0;
+                lumber_from_outside_count = 0;
+            }
             prebuidlingid = buildingID;
+
         }
 
         //        public void building_status()
@@ -174,7 +543,7 @@ namespace RealCity
                         all_ore_building_profit = (ushort)(all_ore_building_profit + 1);
                         break;
                     case ItemClass.SubService.IndustrialGeneric:
-                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                        all_industry_building_profit = (ushort)(all_industry_building_profit + 1);
                         break;
                     case ItemClass.SubService.CommercialHigh:
                         all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
@@ -211,7 +580,7 @@ namespace RealCity
                         all_ore_building_loss = (ushort)(all_ore_building_loss + 1);
                         break;
                     case ItemClass.SubService.IndustrialGeneric:
-                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                        all_industry_building_loss = (ushort)(all_industry_building_loss + 1);
                         break;
                     case ItemClass.SubService.CommercialHigh:
                         all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
@@ -312,7 +681,7 @@ namespace RealCity
             {
                 num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
             }
-            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - num1;
+            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(num1/16 + 0.5f);
         }
 
         public void process_land_fee(Building building, ushort buildingID)
@@ -345,7 +714,7 @@ namespace RealCity
             num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
             int num2;
             num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
-            Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, this.m_info.m_class.m_level, num2 * 100);
+            Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
         }
 
         public void GetLandRent(out int incomeAccumulation)

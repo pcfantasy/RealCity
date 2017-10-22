@@ -28,7 +28,9 @@ namespace RealCity
     {
         public static UIView parentGuiView;
 
-        public static MoreeconomicGUI guiPanel;
+        public static MoreeconomicUI guiPanel;
+
+        public static RealCityUI guiPanel1;
 
         internal static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
@@ -60,22 +62,8 @@ namespace RealCity
 
         public void init_data()
         {
-            for (int i = 0; i < comm_data.building_money.Length; i++)
-            {
-                comm_data.building_money[i] = 0;
-            }
-            for (int i = 0; i < comm_data.vehical_transfer_time.Length; i++)
-            {
-                comm_data.vehical_transfer_time[i] = 0;
-            }
-            for (int i = 0; i < comm_data.vehical_last_transfer_flag.Length; i++)
-            {
-                comm_data.vehical_last_transfer_flag[i] = false;
-            }
-            for (int i = 0; i < comm_data.citizen_money.Length; i++)
-            {
-                comm_data.citizen_money[i] = 0;
-            }           
+            comm_data.data_init();
+            pc_EconomyManager.data_init();
         }
 
         public override void OnLevelUnloading()
@@ -97,7 +85,11 @@ namespace RealCity
             Loader.parentGuiView = UIView.GetAView();
             if (Loader.guiPanel == null)
             {
-                Loader.guiPanel = (MoreeconomicGUI)Loader.parentGuiView.AddUIComponent(typeof(MoreeconomicGUI));
+                Loader.guiPanel = (MoreeconomicUI)Loader.parentGuiView.AddUIComponent(typeof(MoreeconomicUI));
+            }
+            if (Loader.guiPanel1 == null)
+            {
+                Loader.guiPanel1 = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
             }
             Loader.isGuiRunning = true;
         }

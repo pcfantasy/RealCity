@@ -109,47 +109,385 @@ namespace RealCity
         public static float industy_gen_level3_trade_income = 0f;
 
         //citizen tax income
-        public static float[] citizen_tax_income_forui = new float[16];
+        public static int[] citizen_tax_income_forui = new int[17];
 
         //tourist for both citizen and tourist
-        public static float[] citizen_income_forui = new float[16];
-        public static float[] tourist_income_forui = new float[16];
+        public static int[] citizen_income_forui = new int[17];
+        public static int[] tourist_income_forui = new int[17];
 
         //land income
-        public static float[] resident_high_landincome_forui = new float[16];
-        public static float[] resident_low_landincome_forui = new float[16];
-        public static float[] resident_high_eco_landincome_forui = new float[16];
-        public static float[] resident_low_eco_landincome_forui = new float[16];
-        public static float[] comm_high_landincome_forui = new float[16];
-        public static float[] comm_low_landincome_forui = new float[16];
-        public static float[] comm_lei_landincome_forui = new float[16];
-        public static float[] comm_tourist_landincome_forui = new float[16];
-        public static float[] comm_eco_landincome_forui = new float[16];
-        public static float[] indu_high_landincome_forui = new float[16];
-        public static float[] indu_low_landincome_forui = new float[16];
-        public static float[] indu_farmer_landincome_forui = new float[16];
-        public static float[] indu_foresty_landincome_forui = new float[16];
-        public static float[] indu_oil_landincome_forui = new float[16];
-        public static float[] indu_ore_landincome_forui = new float[16];
-        public static float[] office_gen_landincome_forui = new float[16];
-        public static float[] office_high_tech_landincome_forui = new float[16];
+        public static int[] resident_high_landincome_forui = new int[17];
+        public static int[] resident_low_landincome_forui = new int[17];
+        public static int[] resident_high_eco_landincome_forui = new int[17];
+        public static int[] resident_low_eco_landincome_forui = new int[17];
+        public static int[] comm_high_landincome_forui = new int[17];
+        public static int[] comm_low_landincome_forui = new int[17];
+        public static int[] comm_lei_landincome_forui = new int[17];
+        public static int[] comm_tou_landincome_forui = new int[17];
+        public static int[] comm_eco_landincome_forui = new int[17];
+        public static int[] indu_gen_landincome_forui = new int[17];
+        public static int[] indu_farmer_landincome_forui = new int[17];
+        public static int[] indu_foresty_landincome_forui = new int[17];
+        public static int[] indu_oil_landincome_forui = new int[17];
+        public static int[] indu_ore_landincome_forui = new int[17];
+        public static int[] office_gen_landincome_forui = new int[17];
+        public static int[] office_high_tech_landincome_forui = new int[17];
 
         //trade income
-        public static float[] comm_high_tradeincome_forui = new float[16];
-        public static float[] comm_low_tradeincome_forui = new float[16];
-        public static float[] comm_lei_tradeincome_forui = new float[16];
-        public static float[] comm_tourist_tradeincome_forui = new float[16];
-        public static float[] comm_eco_tradeincome_forui = new float[16];
-        public static float[] indu_high_tradeincome_forui = new float[16];
-        public static float[] indu_low_tradeincome_forui = new float[16];
-        public static float[] indu_farmer_tradeincome_forui = new float[16];
-        public static float[] indu_foresty_tradeincome_forui = new float[16];
-        public static float[] indu_oil_tradeincome_forui = new float[16];
-        public static float[] indu_ore_tradeincome_forui = new float[16];
+        public static int[] comm_high_tradeincome_forui = new int[17];
+        public static int[] comm_low_tradeincome_forui = new int[17];
+        public static int[] comm_lei_tradeincome_forui = new int[17];
+        public static int[] comm_tou_tradeincome_forui = new int[17];
+        public static int[] comm_eco_tradeincome_forui = new int[17];
+        public static int[] indu_gen_tradeincome_forui = new int[17];
+        public static int[] indu_farmer_tradeincome_forui = new int[17];
+        public static int[] indu_foresty_tradeincome_forui = new int[17];
+        public static int[] indu_oil_tradeincome_forui = new int[17];
+        public static int[] indu_ore_tradeincome_forui = new int[17];
+
+        public static byte[] save_data = new byte[2382];
+        public static byte[] load_data = new byte[2382];
 
         //public income
 
+        public static void clean_current(int current_idex)
+        {
+            int i = current_idex;
+            citizen_tax_income_forui[i] = 0;
+            citizen_income_forui[i] = 0;
+            tourist_income_forui[i] = 0;
+            resident_high_landincome_forui[i] = 0;
+            resident_low_landincome_forui[i] = 0;
+            resident_high_eco_landincome_forui[i] = 0;
+            resident_low_eco_landincome_forui[i] = 0;
+            comm_high_landincome_forui[i] = 0;
+            comm_low_landincome_forui[i] = 0;
+            comm_lei_landincome_forui[i] = 0;
+            comm_tou_landincome_forui[i] = 0;
+            comm_eco_landincome_forui[i] = 0;
+            indu_gen_landincome_forui[i] = 0;
+            indu_farmer_landincome_forui[i] = 0;
+            indu_foresty_landincome_forui[i] = 0;
+            indu_oil_landincome_forui[i] = 0;
+            indu_ore_landincome_forui[i] = 0;
+            office_gen_landincome_forui[i] = 0;
+            office_high_tech_landincome_forui[i] = 0;
+            comm_high_tradeincome_forui[i] = 0;
+            comm_low_tradeincome_forui[i] = 0;
+            comm_lei_tradeincome_forui[i] = 0;
+            comm_tou_tradeincome_forui[i] = 0;
+            comm_eco_tradeincome_forui[i] = 0;
+            indu_gen_tradeincome_forui[i] = 0;
+            indu_farmer_tradeincome_forui[i] = 0;
+            indu_foresty_tradeincome_forui[i] = 0;
+            indu_oil_tradeincome_forui[i] = 0;
+            indu_ore_tradeincome_forui[i] = 0;
+        }
 
+        public static void data_init()
+        {
+            int i = 0;
+            for (i = 0; i < 17; i++)
+            {
+                citizen_tax_income_forui[i] = 0;
+                citizen_income_forui[i] = 0;
+                tourist_income_forui[i] = 0;
+                resident_high_landincome_forui[i] = 0;
+                resident_low_landincome_forui[i] = 0;
+                resident_high_eco_landincome_forui[i] = 0;
+                resident_low_eco_landincome_forui[i] = 0;
+                comm_high_landincome_forui[i] = 0;
+                comm_low_landincome_forui[i] = 0;
+                comm_lei_landincome_forui[i] = 0;
+                comm_tou_landincome_forui[i] = 0;
+                comm_eco_landincome_forui[i] = 0;
+                indu_gen_landincome_forui[i] = 0;
+                indu_farmer_landincome_forui[i] = 0;
+                indu_foresty_landincome_forui[i] = 0;
+                indu_oil_landincome_forui[i] = 0;
+                indu_ore_landincome_forui[i] = 0;
+                office_gen_landincome_forui[i] = 0;
+                office_high_tech_landincome_forui[i] = 0;
+                comm_high_tradeincome_forui[i] = 0;
+                comm_low_tradeincome_forui[i] = 0;
+                comm_lei_tradeincome_forui[i] = 0;
+                comm_tou_tradeincome_forui[i] = 0;
+                comm_eco_tradeincome_forui[i] = 0;
+                indu_gen_tradeincome_forui[i] = 0;
+                indu_farmer_tradeincome_forui[i] = 0;
+                indu_foresty_tradeincome_forui[i] = 0;
+                indu_oil_tradeincome_forui[i] = 0;
+                indu_ore_tradeincome_forui[i] = 0;
+           }
+        }
+
+        public static void load()
+        {
+            int i = 0;
+            Road = saveandrestore.load_float(ref i, load_data);
+            Electricity = saveandrestore.load_float(ref i, load_data);
+            Water = saveandrestore.load_float(ref i, load_data);
+            Beautification = saveandrestore.load_float(ref i, load_data);
+            Garbage = saveandrestore.load_float(ref i, load_data);
+            HealthCare = saveandrestore.load_float(ref i, load_data);
+            PoliceDepartment = saveandrestore.load_float(ref i, load_data);
+            Education = saveandrestore.load_float(ref i, load_data);
+            Monument = saveandrestore.load_float(ref i, load_data);
+            FireDepartment = saveandrestore.load_float(ref i, load_data);
+            PublicTransport = saveandrestore.load_float(ref i, load_data);
+            Policy_cost = saveandrestore.load_float(ref i, load_data);
+            Disaster = saveandrestore.load_float(ref i, load_data);
+
+
+            resident_low_level1_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level2_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level3_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level4_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level5_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level1_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level2_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level3_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level4_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level5_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level1_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level2_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level3_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level4_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level5_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level1_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level2_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level3_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level4_tax_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level5_tax_income = saveandrestore.load_float(ref i, load_data);
+
+            commerical_low_level1_income = saveandrestore.load_float(ref i, load_data);
+            commerical_low_level2_income = saveandrestore.load_float(ref i, load_data);
+            commerical_low_level3_income = saveandrestore.load_float(ref i, load_data);
+            commerical_high_level1_income = saveandrestore.load_float(ref i, load_data);
+            commerical_high_level2_income = saveandrestore.load_float(ref i, load_data);
+            commerical_high_level3_income = saveandrestore.load_float(ref i, load_data);
+            commerical_lei_income = saveandrestore.load_float(ref i, load_data);
+            commerical_tou_income = saveandrestore.load_float(ref i, load_data);
+            commerical_eco_income = saveandrestore.load_float(ref i, load_data);
+            industy_forest_income = saveandrestore.load_float(ref i, load_data);
+            industy_farm_income = saveandrestore.load_float(ref i, load_data);
+            industy_oil_income = saveandrestore.load_float(ref i, load_data);
+            industy_ore_income = saveandrestore.load_float(ref i, load_data);
+            industy_gen_level1_income = saveandrestore.load_float(ref i, load_data);
+            industy_gen_level2_income = saveandrestore.load_float(ref i, load_data);
+            industy_gen_level3_income = saveandrestore.load_float(ref i, load_data);
+            office_gen_level1_income = saveandrestore.load_float(ref i, load_data);
+            office_gen_level2_income = saveandrestore.load_float(ref i, load_data);
+            office_gen_level3_income = saveandrestore.load_float(ref i, load_data);
+            office_high_tech_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level1_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level2_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level3_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level4_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_level5_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level1_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level2_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level3_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level4_income = saveandrestore.load_float(ref i, load_data);
+            resident_low_eco_level5_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level1_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level2_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level3_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level4_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_level5_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level1_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level2_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level3_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level4_income = saveandrestore.load_float(ref i, load_data);
+            resident_high_eco_level5_income = saveandrestore.load_float(ref i, load_data);
+
+            commerical_low_level1_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_low_level2_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_low_level3_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_high_level1_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_high_level2_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_high_level3_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_lei_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_tou_trade_income = saveandrestore.load_float(ref i, load_data);
+            commerical_eco_trade_income = saveandrestore.load_float(ref i, load_data);
+            industy_forest_trade_income = saveandrestore.load_float(ref i, load_data);
+            industy_farm_trade_income = saveandrestore.load_float(ref i, load_data);
+            industy_oil_trade_income = saveandrestore.load_float(ref i, load_data);
+            industy_ore_trade_income = saveandrestore.load_float(ref i, load_data);
+            industy_gen_level1_trade_income = saveandrestore.load_float(ref i, load_data);
+            industy_gen_level2_trade_income = saveandrestore.load_float(ref i, load_data);
+            industy_gen_level3_trade_income = saveandrestore.load_float(ref i, load_data);
+
+            citizen_tax_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            citizen_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            tourist_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            resident_high_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            resident_low_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            resident_high_eco_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            resident_low_eco_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_high_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_low_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_lei_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_tou_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_eco_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_gen_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_farmer_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_foresty_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_oil_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_ore_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            office_gen_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            office_high_tech_landincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+
+            comm_high_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_low_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_lei_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_tou_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            comm_eco_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_gen_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_farmer_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_foresty_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_oil_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            indu_ore_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+        }
+
+        public static void save()
+        {
+            int i = 0;
+
+            //680+1292+64+160+80+52 = 2382
+            //13*4 = 52
+            saveandrestore.save_float(ref i, Road, ref save_data);
+            saveandrestore.save_float(ref i, Electricity, ref save_data);
+            saveandrestore.save_float(ref i, Water, ref save_data);
+            saveandrestore.save_float(ref i, Beautification, ref save_data);
+            saveandrestore.save_float(ref i, Garbage, ref save_data);
+            saveandrestore.save_float(ref i, HealthCare, ref save_data);
+            saveandrestore.save_float(ref i, PoliceDepartment, ref save_data);
+            saveandrestore.save_float(ref i, Education, ref save_data);
+            saveandrestore.save_float(ref i, Monument, ref save_data);
+            saveandrestore.save_float(ref i, FireDepartment, ref save_data);
+            saveandrestore.save_float(ref i, PoliceDepartment, ref save_data);
+            saveandrestore.save_float(ref i, Policy_cost, ref save_data);
+            saveandrestore.save_float(ref i, Disaster, ref save_data);
+
+
+            //20*4 = 80
+            saveandrestore.save_float(ref i, resident_low_level1_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level2_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level3_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level4_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level5_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level1_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level2_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level3_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level4_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level5_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level1_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level2_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level3_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level4_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level5_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level1_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level2_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level3_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level4_tax_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level5_tax_income, ref save_data);
+
+
+            //40*4 = 160
+            saveandrestore.save_float(ref i, commerical_low_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_low_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_low_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_high_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_high_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_high_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_lei_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_tou_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_eco_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_forest_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_farm_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_oil_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_ore_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_gen_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_gen_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_gen_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, office_gen_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, office_gen_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, office_gen_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, office_high_tech_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level4_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_level5_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level4_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_low_eco_level5_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level4_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_level5_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level1_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level2_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level3_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level4_income, ref save_data);
+            saveandrestore.save_float(ref i, resident_high_eco_level5_income, ref save_data);
+
+            //16*4 = 64
+            saveandrestore.save_float(ref i, commerical_low_level1_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_low_level2_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_low_level3_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_high_level1_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_high_level2_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_high_level3_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_lei_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_tou_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, commerical_eco_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_forest_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_farm_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_oil_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_ore_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_gen_level1_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_gen_level2_trade_income, ref save_data);
+            saveandrestore.save_float(ref i, industy_gen_level3_trade_income, ref save_data);
+
+
+            //19*4*17 = 1292
+            saveandrestore.save_ints(ref i, citizen_tax_income_forui, ref save_data);
+            saveandrestore.save_ints(ref i, citizen_income_forui, ref save_data);
+            saveandrestore.save_ints(ref i, tourist_income_forui, ref save_data);
+            saveandrestore.save_ints(ref i, resident_high_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, resident_low_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, resident_high_eco_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, resident_low_eco_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_high_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_low_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_lei_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_tou_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_eco_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_gen_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_farmer_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_foresty_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_oil_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_ore_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, office_gen_landincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, office_high_tech_landincome_forui, ref save_data);
+
+            //10*17*4 = 680
+            saveandrestore.save_ints(ref i, comm_high_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_low_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_lei_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_tou_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, comm_eco_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_gen_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_farmer_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_foresty_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_oil_tradeincome_forui, ref save_data);
+            saveandrestore.save_ints(ref i, indu_ore_tradeincome_forui, ref save_data);
+        }
 
         public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
         {
@@ -333,7 +671,7 @@ namespace RealCity
                 case ItemClass.SubService.ResidentialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_level1_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level1_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level1_tax_income > 1)
                         {
                             amount = (int)resident_high_level1_tax_income;
@@ -346,7 +684,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_level2_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level2_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level2_tax_income > 1)
                         {
                             amount = (int)resident_high_level2_tax_income;
@@ -359,7 +697,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_level3_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level3_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level3_tax_income > 1)
                         {
                             amount = (int)resident_high_level3_tax_income;
@@ -372,7 +710,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_level4_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level4_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level4_tax_income > 1)
                         {
                             amount = (int)resident_high_level4_tax_income;
@@ -385,7 +723,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_level5_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level5_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level5_tax_income > 1)
                         {
                             amount = (int)resident_high_level5_tax_income;
@@ -400,7 +738,7 @@ namespace RealCity
                 case ItemClass.SubService.ResidentialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_level1_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level1_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level1_tax_income > 1)
                         {
                             amount = (int)resident_low_level1_tax_income;
@@ -413,7 +751,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_level2_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level2_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level2_tax_income > 1)
                         {
                             amount = (int)resident_low_level2_tax_income;
@@ -426,7 +764,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_level3_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level3_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level3_tax_income > 1)
                         {
                             amount = (int)resident_low_level3_tax_income;
@@ -439,7 +777,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_level4_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level4_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level4_tax_income > 1)
                         {
                             amount = (int)resident_low_level4_tax_income;
@@ -452,7 +790,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_level5_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level5_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level5_tax_income > 1)
                         {
                             amount = (int)resident_low_level5_tax_income;
@@ -467,7 +805,7 @@ namespace RealCity
                 case ItemClass.SubService.ResidentialHighEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_eco_level1_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level1_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level1_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level1_tax_income;
@@ -480,7 +818,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_eco_level2_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level2_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level2_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level2_tax_income;
@@ -493,7 +831,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_eco_level3_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level3_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level3_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level3_tax_income;
@@ -506,7 +844,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_eco_level4_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level4_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level4_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level4_tax_income;
@@ -519,7 +857,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_eco_level5_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level5_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level5_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level5_tax_income;
@@ -534,7 +872,7 @@ namespace RealCity
                 case ItemClass.SubService.ResidentialLowEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_eco_level1_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level1_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level1_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level1_tax_income;
@@ -547,7 +885,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_eco_level2_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level2_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level2_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level2_tax_income;
@@ -560,7 +898,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_eco_level3_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level3_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level3_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level3_tax_income;
@@ -573,7 +911,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_eco_level4_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level4_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level4_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level4_tax_income;
@@ -586,7 +924,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_eco_level5_tax_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level5_tax_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level5_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level5_tax_income;
@@ -602,6 +940,7 @@ namespace RealCity
                     DebugLog.LogToFileOnly("find unknown  EXAddPrivateLandIncome building" + " building servise is" + service + " building subservise is" + subService + " buildlevelandtax is" + level + " " + taxRate);
                     break;
             }
+            citizen_tax_income_forui[comm_data.update_money_count] = citizen_tax_income_forui[comm_data.update_money_count] + amount;
             return amount;
         }
 
@@ -611,7 +950,7 @@ namespace RealCity
             switch (subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    industy_farm_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_farm_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (industy_farm_trade_income > 1)
                     {
                         amount = (int)industy_farm_trade_income;
@@ -621,9 +960,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_farmer_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    industy_forest_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_forest_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (industy_forest_trade_income > 1)
                     {
                         amount = (int)industy_forest_trade_income;
@@ -633,9 +973,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_foresty_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    industy_oil_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_oil_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (industy_oil_trade_income > 1)
                     {
                         amount = (int)industy_oil_trade_income;
@@ -645,9 +986,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_oil_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    industy_ore_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_ore_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (industy_ore_trade_income > 1)
                     {
                         amount = (int)industy_ore_trade_income;
@@ -657,11 +999,12 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_ore_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
                     if (level == ItemClass.Level.Level1)
                     {
-                        industy_gen_level1_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        industy_gen_level1_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (industy_gen_level1_trade_income > 1)
                         {
                             amount = (int)industy_gen_level1_trade_income;
@@ -674,7 +1017,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        industy_gen_level2_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        industy_gen_level2_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (industy_gen_level2_trade_income > 1)
                         {
                             amount = (int)industy_gen_level2_trade_income;
@@ -687,7 +1030,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        industy_gen_level3_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        industy_gen_level3_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (industy_gen_level3_trade_income > 1)
                         {
                             amount = (int)industy_gen_level3_trade_income;
@@ -698,11 +1041,12 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    indu_gen_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_high_level1_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_high_level1_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_high_level1_trade_income > 1)
                         {
                             amount = (int)commerical_high_level1_trade_income;
@@ -715,7 +1059,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_high_level2_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_high_level2_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_high_level2_trade_income > 1)
                         {
                             amount = (int)commerical_high_level2_trade_income;
@@ -728,7 +1072,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_high_level3_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_high_level3_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_high_level3_trade_income > 1)
                         {
                             amount = (int)commerical_high_level3_trade_income;
@@ -739,11 +1083,12 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    comm_high_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_low_level1_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_low_level1_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_low_level1_trade_income > 1)
                         {
                             amount = (int)commerical_low_level1_trade_income;
@@ -756,7 +1101,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_low_level2_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_low_level2_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_low_level2_trade_income > 1)
                         {
                             amount = (int)commerical_low_level2_trade_income;
@@ -769,7 +1114,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_low_level3_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_low_level3_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_low_level3_trade_income > 1)
                         {
                             amount = (int)commerical_low_level3_trade_income;
@@ -780,9 +1125,10 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    comm_low_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    commerical_lei_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    commerical_lei_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (commerical_lei_trade_income > 1)
                     {
                         amount = (int)commerical_lei_trade_income;
@@ -792,9 +1138,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    comm_lei_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    commerical_tou_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    commerical_tou_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (commerical_tou_trade_income > 1)
                     {
                         amount = (int)commerical_tou_trade_income;
@@ -804,9 +1151,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    comm_tou_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    commerical_eco_trade_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    commerical_eco_trade_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (commerical_eco_trade_income > 1)
                     {
                         amount = (int)commerical_eco_trade_income;
@@ -816,6 +1164,7 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    comm_eco_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 default:
                     DebugLog.LogToFileOnly("find unknown  EXAddPrivateTradeIncome building" + " building servise is" + service + " building subservise is" + subService + " buildlevelandtax is" + level + " " + taxRate);
@@ -829,7 +1178,7 @@ namespace RealCity
             switch (subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    industy_farm_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_farm_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if(industy_farm_income > 1)
                     {
                         amount = (int)industy_farm_income;
@@ -839,9 +1188,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_farmer_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    industy_forest_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_forest_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (industy_forest_income > 1)
                     {
                         amount = (int)industy_forest_income;
@@ -851,9 +1201,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_foresty_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    industy_oil_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_oil_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (industy_oil_income > 1)
                     {
                         amount = (int)industy_oil_income;
@@ -863,9 +1214,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_oil_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    industy_ore_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    industy_ore_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (industy_ore_income > 1)
                     {
                         amount = (int)industy_ore_income;
@@ -875,11 +1227,12 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    indu_ore_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
                     if (level == ItemClass.Level.Level1)
                     {
-                        industy_gen_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        industy_gen_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (industy_gen_level1_income > 1)
                         {
                             amount = (int)industy_gen_level1_income;
@@ -892,7 +1245,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        industy_gen_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        industy_gen_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (industy_gen_level2_income > 1)
                         {
                             amount = (int)industy_gen_level2_income;
@@ -905,7 +1258,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        industy_gen_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        industy_gen_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (industy_gen_level3_income > 1)
                         {
                             amount = (int)industy_gen_level3_income;
@@ -916,11 +1269,12 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    indu_gen_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_high_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_high_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_high_level1_income > 1)
                         {
                             amount = (int)commerical_high_level1_income;
@@ -933,7 +1287,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_high_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_high_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_high_level2_income > 1)
                         {
                             amount = (int)commerical_high_level2_income;
@@ -946,7 +1300,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_high_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_high_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_high_level3_income > 1)
                         {
                             amount = (int)commerical_high_level3_income;
@@ -957,11 +1311,12 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    comm_high_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_low_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_low_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_low_level1_income > 1)
                         {
                             amount = (int)commerical_low_level1_income;
@@ -974,7 +1329,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_low_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_low_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_low_level2_income > 1)
                         {
                             amount = (int)commerical_low_level2_income;
@@ -987,7 +1342,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_low_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        commerical_low_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (commerical_low_level3_income > 1)
                         {
                             amount = (int)commerical_low_level3_income;
@@ -998,9 +1353,10 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    comm_low_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    commerical_lei_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    commerical_lei_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (commerical_lei_income > 1)
                     {
                         amount = (int)commerical_lei_income;
@@ -1010,9 +1366,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    comm_lei_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    commerical_tou_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    commerical_tou_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (commerical_tou_income > 1)
                     {
                         amount = (int)commerical_tou_income;
@@ -1022,9 +1379,10 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    comm_tou_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    commerical_eco_income += amount * taxRate * _taxMultiplier / 1000000L;
+                    commerical_eco_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (commerical_eco_income > 1)
                     {
                         amount = (int)commerical_eco_income;
@@ -1034,11 +1392,12 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    comm_eco_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.ResidentialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level1_income > 1)
                         {
                             amount = (int)resident_high_level1_income;
@@ -1051,7 +1410,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level2_income > 1)
                         {
                             amount = (int)resident_high_level2_income;
@@ -1064,7 +1423,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level3_income > 1)
                         {
                             amount = (int)resident_high_level3_income;
@@ -1077,7 +1436,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_level4_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level4_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level4_income > 1)
                         {
                             amount = (int)resident_high_level4_income;
@@ -1090,7 +1449,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_level5_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_level5_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_level5_income > 1)
                         {
                             amount = (int)resident_high_level5_income;
@@ -1101,11 +1460,13 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    resident_high_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.ResidentialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
+                        //DebugLog.LogToFileOnly("find resident1");
                         if (resident_low_level1_income > 1)
                         {
                             amount = (int)resident_low_level1_income;
@@ -1118,7 +1479,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level2_income > 1)
                         {
                             amount = (int)resident_low_level2_income;
@@ -1131,7 +1492,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level3_income > 1)
                         {
                             amount = (int)resident_low_level3_income;
@@ -1144,7 +1505,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_level4_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level4_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level4_income > 1)
                         {
                             amount = (int)resident_low_level4_income;
@@ -1157,7 +1518,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_level5_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_level5_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_level5_income > 1)
                         {
                             amount = (int)resident_low_level5_income;
@@ -1168,11 +1529,12 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    resident_low_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.ResidentialHighEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_eco_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level1_income > 1)
                         {
                             amount = (int)resident_high_eco_level1_income;
@@ -1185,7 +1547,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_eco_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level2_income > 1)
                         {
                             amount = (int)resident_high_eco_level2_income;
@@ -1198,7 +1560,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_eco_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level3_income > 1)
                         {
                             amount = (int)resident_high_eco_level3_income;
@@ -1211,7 +1573,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_eco_level4_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level4_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level4_income > 1)
                         {
                             amount = (int)resident_high_eco_level4_income;
@@ -1224,7 +1586,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_eco_level5_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_high_eco_level5_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_high_eco_level5_income > 1)
                         {
                             amount = (int)resident_high_eco_level5_income;
@@ -1235,11 +1597,12 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    resident_high_eco_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.ResidentialLowEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_eco_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level1_income > 1)
                         {
                             amount = (int)resident_low_eco_level1_income;
@@ -1252,7 +1615,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_eco_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level2_income > 1)
                         {
                             amount = (int)resident_low_eco_level2_income;
@@ -1265,7 +1628,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_eco_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level3_income > 1)
                         {
                             amount = (int)resident_low_eco_level3_income;
@@ -1278,7 +1641,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_eco_level4_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level4_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level4_income > 1)
                         {
                             amount = (int)resident_low_eco_level4_income;
@@ -1291,7 +1654,7 @@ namespace RealCity
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_eco_level5_income += amount * taxRate * _taxMultiplier / 1000000L;
+                        resident_low_eco_level5_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                         if (resident_low_eco_level5_income > 1)
                         {
                             amount = (int)resident_low_eco_level5_income;
@@ -1302,11 +1665,12 @@ namespace RealCity
                             amount = 0;
                         }
                     }
+                    resident_low_eco_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                         if (level == ItemClass.Level.Level1)
                         {
-                            office_gen_level1_income += amount * taxRate * _taxMultiplier / 1000000L;
+                            office_gen_level1_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                             if (office_gen_level1_income > 1)
                             {
                                 amount = (int)office_gen_level1_income;
@@ -1319,7 +1683,7 @@ namespace RealCity
                         }
                         else if (level == ItemClass.Level.Level2)
                         {
-                            office_gen_level2_income += amount * taxRate * _taxMultiplier / 1000000L;
+                            office_gen_level2_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                             if (office_gen_level2_income > 1)
                             {
                                 amount = (int)office_gen_level2_income;
@@ -1332,7 +1696,7 @@ namespace RealCity
                         }
                         else if (level == ItemClass.Level.Level3)
                         {
-                            office_gen_level3_income += amount * taxRate * _taxMultiplier / 1000000L;
+                            office_gen_level3_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                             if (office_gen_level1_income > 1)
                             {
                                 amount = (int)office_gen_level3_income;
@@ -1343,9 +1707,10 @@ namespace RealCity
                                 amount = 0;
                             }
                         }
+                    office_gen_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.OfficeHightech:
-                    office_high_tech_income+= amount * taxRate * _taxMultiplier / 1000000L;
+                    office_high_tech_income+= (float)(amount * taxRate * _taxMultiplier) / 1000000L;
                     if (office_high_tech_income > 1)
                     {
                         amount = (int)office_high_tech_income;
@@ -1355,6 +1720,7 @@ namespace RealCity
                     {
                         amount = 0;
                     }
+                    office_high_tech_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 default:
                     DebugLog.LogToFileOnly("find unknown  EXAddPrivateLandIncome building" + " building servise is" + service + " building subservise is" + subService + " buildlevelandtax is" + level + " " + taxRate);
@@ -1373,7 +1739,7 @@ namespace RealCity
             if (taxRate == 112)
             {
                 //112 means personal income tax income
-                taxRate = 1;
+                taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPersonalTaxIncome(amount, service, subService, level, taxRate);
                 int num = ClassIndex(service, subService, level);
@@ -1386,9 +1752,10 @@ namespace RealCity
             }
             else if (taxRate == 111)
             {
-                taxRate = 1;
+                //111 means trade income
+                taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
-                amount = EXAddPersonalTaxIncome(amount, service, subService, level, taxRate);
+                amount = EXAddPrivateTradeIncome(amount, service, subService, level, taxRate);
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {

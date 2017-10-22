@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RealCityUI.cs" />
     <Compile Include="pc_PrivateBuildingAI.cs" />
     <Compile Include="pc_PassengerCarAI.cs" />
     <Compile Include="pc_EconomyManager.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="RedirectionHelper.cs" />
     <Compile Include="saveandrestore.cs" />
     <Compile Include="comm_data.cs" />
-    <Compile Include="Moreeconomic.cs" />
+    <Compile Include="MoreeconomicUI.cs" />
     <Compile Include="loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

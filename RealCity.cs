@@ -127,160 +127,183 @@ namespace RealCity
                 //DebugLog.LogToFileOnly(Singleton<SimulationManager>.instance.m_currentDayTimeHour.ToString());
                 //here we process income_tax and goverment_salary_expense 
                 //to make goverment_salary_expense the same with in game unit
+                comm_data.current_time = Singleton<SimulationManager>.instance.m_currentDayTimeHour;
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                 uint num2 = currentFrameIndex & 255u;
-                if (num2 == 255u)
+                //DebugLog.LogToFileOnly("OnUpdateMoneyAmount num2 = " + num2.ToString());
+                if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
                 {
-                    if (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount > 0)
-                    {
-                        ItemClass temp = new ItemClass();
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportBus;
-                        //use this to diff make in-game mantenance and goverment_salary_expense 
-                        temp.m_level = ItemClass.Level.Level1;
-                        if (comm_data.PublicTransport_bus != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_bus, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportTram;
-                        if (comm_data.PublicTransport_tram != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_tram, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportTrain;
-                        if (comm_data.PublicTransport_train != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_train, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportMetro;
-                        if (comm_data.PublicTransport_metro != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_metro, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
-                        if (comm_data.PublicTransport_taxi != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_taxi, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportPlane;
-                        if (comm_data.PublicTransport_plane != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_plane, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportShip;
-                        if (comm_data.PublicTransport_ship != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_ship, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
-                        if (comm_data.PublicTransport_cablecar != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_cablecar, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PublicTransport;
-                        temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
-                        if (comm_data.PublicTransport_monorail != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_monorail, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Road;
-                        temp.m_subService = ItemClass.SubService.None;
-                        if (comm_data.Road != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Road, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Water;
-                        if (comm_data.Water != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Water, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Education;
-                        if (comm_data.Education != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Education, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.HealthCare;
-                        if (comm_data.HealthCare != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.HealthCare, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.FireDepartment;
-                        if (comm_data.FireDepartment != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.FireDepartment, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Beautification;
-                        if (comm_data.Beautification != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Beautification, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Garbage;
-                        if (comm_data.Garbage != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Garbage, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Electricity;
-                        if (comm_data.Electricity != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Electricity, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Monument;
-                        if (comm_data.Monument != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Monument, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.PoliceDepartment;
-                        if (comm_data.PoliceDepartment != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PoliceDepartment, temp);
-                        }
-
-                        temp.m_service = ItemClass.Service.Disaster;
-                        if (comm_data.Disaster != 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Disaster, temp);
-                        }
-
-                        //discard this, because in 1.9.0-f5, no citizen income and tourist income showed in UI, combin them into residential building income
-                        //and show them in CTRL+R UI.
-                        //citizen income tax
-                        //if (comm_data.citizen_salary_tax_total != 0)
-                        //{
-                        //    temp = new ItemClass();
-                        //    temp.m_service = ItemClass.Service.Citizen;
-                        //    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.CitizenIncome, (int)(comm_data.citizen_salary_tax_total), temp);
-                        //}
-                    }
+                    citizen_status();
+                    vehicle_status();
+                    caculate_goverment_employee_outcome();
                     caculate_profit();
                     caculate_citizen_transport_fee();
-                }
+                    comm_data.is_updated = true;
+                    comm_data.update_money_count++;
+                    if (comm_data.update_money_count == 17)
+                    {
+                        comm_data.update_money_count = 0;
+                    }
+                    pc_EconomyManager.clean_current(comm_data.update_money_count);
+                    comm_data.prev_time = comm_data.current_time;
+                    //DebugLog.LogToFileOnly("update_money_count is " + comm_data.update_money_count.ToString());
+                 }
+                //if(num2 != 255u)
+                //{
+                //    comm_data.is_updated = false;
+                //}
                 return internalMoneyAmount;
             }
+
+            public void caculate_goverment_employee_outcome()
+            {
+                if (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount > 0)
+                {
+                    ItemClass temp = new ItemClass();
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportBus;
+                    //use this to diff make in-game mantenance and goverment_salary_expense 
+                    temp.m_level = ItemClass.Level.Level1;
+                    if (comm_data.PublicTransport_bus != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_bus, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportTram;
+                    if (comm_data.PublicTransport_tram != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_tram, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportTrain;
+                    if (comm_data.PublicTransport_train != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_train, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportMetro;
+                    if (comm_data.PublicTransport_metro != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_metro, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
+                    if (comm_data.PublicTransport_taxi != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_taxi, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportPlane;
+                    if (comm_data.PublicTransport_plane != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_plane, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportShip;
+                    if (comm_data.PublicTransport_ship != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_ship, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
+                    if (comm_data.PublicTransport_cablecar != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_cablecar, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PublicTransport;
+                    temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
+                    if (comm_data.PublicTransport_monorail != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_monorail, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Road;
+                    temp.m_subService = ItemClass.SubService.None;
+                    if (comm_data.Road != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Road, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Water;
+                    if (comm_data.Water != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Water, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Education;
+                    if (comm_data.Education != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Education, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.HealthCare;
+                    if (comm_data.HealthCare != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.HealthCare, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.FireDepartment;
+                    if (comm_data.FireDepartment != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.FireDepartment, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Beautification;
+                    if (comm_data.Beautification != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Beautification, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Garbage;
+                    if (comm_data.Garbage != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Garbage, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Electricity;
+                    if (comm_data.Electricity != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Electricity, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Monument;
+                    if (comm_data.Monument != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Monument, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.PoliceDepartment;
+                    if (comm_data.PoliceDepartment != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PoliceDepartment, temp);
+                    }
+
+                    temp.m_service = ItemClass.Service.Disaster;
+                    if (comm_data.Disaster != 0)
+                    {
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.Disaster, temp);
+                    }
+
+                    //discard this, because in 1.9.0-f5, no citizen income and tourist income showed in UI, combin them into residential building income
+                    //and show them in CTRL+R UI.
+                    //citizen income tax
+                    //if (comm_data.citizen_salary_tax_total != 0)
+                    //{
+                    //    temp = new ItemClass();
+                    //    temp.m_service = ItemClass.Service.Citizen;
+                    //    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.CitizenIncome, (int)(comm_data.citizen_salary_tax_total), temp);
+                    //}
+                }
+            }
+
 
             public void caculate_citizen_transport_fee()
             {
@@ -291,46 +314,71 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportBus;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.bus_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportTram;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.tram_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportMetro;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.metro_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportTrain;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.train_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.taxi_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportPlane;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.plane_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportShip;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.ship_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.monorail_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
+                temp1 = 0L;
+                temp2 = 0L;
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
+                RealCityUI.cablecar_income = temp2 / 16;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 //add vehicle transport_fee
@@ -384,35 +432,33 @@ namespace RealCity
 
             public void citizen_status()
             {
-                CitizenManager instance = Singleton<CitizenManager>.instance;
-                for (int i = 0; i < 65536; i = i + 1)
+                comm_data.citizen_count = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount;
+                /*CitizenManager instance = Singleton<CitizenManager>.instance;
+                for (int i = 0; i < 524288; i = i + 1)
                 {
-                    CitizenUnit citizen = instance.m_units.m_buffer[i];
-                    if (citizen.m_flags.IsFlagSet(CitizenUnit.Flags.Created))
+                    CitizenUnit citizenunit = instance.m_units.m_buffer[i];
+                    if (citizenunit.m_flags.IsFlagSet(CitizenUnit.Flags.Created))
                     {
-                        if(citizen.m_citizen0 != 0)
+                        int j;
+                        for (j = 0; j < 5; j++)
                         {
-                            comm_data.citizen_count = comm_data.citizen_count + 1;
-                        }
-                        if (citizen.m_citizen1 != 0)
-                        {
-                            comm_data.citizen_count = comm_data.citizen_count + 1;
-                        }
-                        if (citizen.m_citizen2 != 0)
-                        {
-                            comm_data.citizen_count = comm_data.citizen_count + 1;
-                        }
-                        if (citizen.m_citizen3 != 0)
-                        {
-                            comm_data.citizen_count = comm_data.citizen_count + 1;
-                        }
-                        if (citizen.m_citizen4 != 0)
-                        {
-                            comm_data.citizen_count = comm_data.citizen_count + 1;
+                            uint citizen = citizenunit.GetCitizen(j);
+                            if (citizen != 0u)
+                            {
+                                CitizenManager instance1 = Singleton<CitizenManager>.instance;
+                                CitizenInfo citizenInfo = instance1.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
+                                //DebugLog.LogToFileOnly("m_citizenAI is " + citizenInfo.m_citizenAI.GetType().ToString());
+                                if (citizenInfo.m_class.m_service == ItemClass.Service.Citizen)
+                                {
+                                    comm_data.citizen_count = comm_data.citizen_count + 1;
+                                }
+                            }
                         }
                     }
-                }
+                }*/
             }
+
+
 
 
             public void caculate_profit()
@@ -436,94 +482,94 @@ namespace RealCity
                 float good_export_ratio = 0;
                 float good_import_ratio = 0;
                 //lumber
-                if ((pc_PrivateBuildingAI.lumber_from_outside_count + pc_PrivateBuildingAI.lumber_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
                 {
-                    lumber_import_ratio = pc_PrivateBuildingAI.lumber_from_outside_count / (pc_PrivateBuildingAI.lumber_from_outside_count + pc_PrivateBuildingAI.lumber_to_industy_count);
+                    lumber_import_ratio = pc_PrivateBuildingAI.lumber_from_outside_count_final / (pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.lumber_to_outside_count + pc_PrivateBuildingAI.lumber_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
                 {
-                    lumber_export_ratio = pc_PrivateBuildingAI.lumber_from_outside_count / (pc_PrivateBuildingAI.lumber_to_outside_count + pc_PrivateBuildingAI.lumber_to_industy_count);
+                    lumber_export_ratio = pc_PrivateBuildingAI.lumber_from_outside_count_final / (pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
                 }
                 //food
-                if ((pc_PrivateBuildingAI.food_from_outside_count + pc_PrivateBuildingAI.food_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
                 {
-                    food_import_ratio = pc_PrivateBuildingAI.food_from_outside_count / (pc_PrivateBuildingAI.food_from_outside_count + pc_PrivateBuildingAI.food_to_industy_count);
+                    food_import_ratio = pc_PrivateBuildingAI.food_from_outside_count_final / (pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.food_to_outside_count + pc_PrivateBuildingAI.food_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
                 {
-                    food_export_ratio = pc_PrivateBuildingAI.food_from_outside_count / (pc_PrivateBuildingAI.food_to_outside_count + pc_PrivateBuildingAI.food_to_industy_count);
+                    food_export_ratio = pc_PrivateBuildingAI.food_from_outside_count_final / (pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
                 }
                 //petrol
-                if ((pc_PrivateBuildingAI.Petrol_from_outside_count + pc_PrivateBuildingAI.Petrol_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
                 {
-                    petrol_import_ratio = pc_PrivateBuildingAI.Petrol_from_outside_count / (pc_PrivateBuildingAI.Petrol_from_outside_count + pc_PrivateBuildingAI.Petrol_to_industy_count);
+                    petrol_import_ratio = pc_PrivateBuildingAI.Petrol_from_outside_count_final / (pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.Petrol_to_outside_count + pc_PrivateBuildingAI.Petrol_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
                 {
-                    petrol_export_ratio = pc_PrivateBuildingAI.Petrol_from_outside_count / (pc_PrivateBuildingAI.Petrol_to_outside_count + pc_PrivateBuildingAI.Petrol_to_industy_count);
+                    petrol_export_ratio = pc_PrivateBuildingAI.Petrol_from_outside_count_final / (pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
                 }
                 //coal
-                if ((pc_PrivateBuildingAI.coal_from_outside_count + pc_PrivateBuildingAI.coal_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
                 {
-                    coal_import_ratio = pc_PrivateBuildingAI.coal_from_outside_count / (pc_PrivateBuildingAI.coal_from_outside_count + pc_PrivateBuildingAI.coal_to_industy_count);
+                    coal_import_ratio = pc_PrivateBuildingAI.coal_from_outside_count_final / (pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.coal_to_outside_count + pc_PrivateBuildingAI.coal_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
                 {
-                    coal_export_ratio = pc_PrivateBuildingAI.coal_from_outside_count / (pc_PrivateBuildingAI.coal_to_outside_count + pc_PrivateBuildingAI.coal_to_industy_count);
+                    coal_export_ratio = pc_PrivateBuildingAI.coal_from_outside_count_final / (pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
                 }
                 //logs
-                if ((pc_PrivateBuildingAI.logs_from_outside_count + pc_PrivateBuildingAI.logs_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
                 {
-                    logs_import_ratio = pc_PrivateBuildingAI.logs_from_outside_count / (pc_PrivateBuildingAI.logs_from_outside_count + pc_PrivateBuildingAI.logs_to_industy_count);
+                    logs_import_ratio = pc_PrivateBuildingAI.logs_from_outside_count_final / (pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.logs_to_outside_count + pc_PrivateBuildingAI.logs_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
                 {
-                    logs_export_ratio = pc_PrivateBuildingAI.logs_from_outside_count / (pc_PrivateBuildingAI.logs_to_outside_count + pc_PrivateBuildingAI.logs_to_industy_count);
+                    logs_export_ratio = pc_PrivateBuildingAI.logs_from_outside_count_final / (pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
                 }
                 //grain
-                if ((pc_PrivateBuildingAI.Grain_from_outside_count + pc_PrivateBuildingAI.Grain_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
                 {
-                    grain_import_ratio = pc_PrivateBuildingAI.Grain_from_outside_count / (pc_PrivateBuildingAI.Grain_from_outside_count + pc_PrivateBuildingAI.Grain_to_industy_count);
+                    grain_import_ratio = pc_PrivateBuildingAI.Grain_from_outside_count_final / (pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.Grain_to_outside_count + pc_PrivateBuildingAI.Grain_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
                 {
-                    grain_export_ratio = pc_PrivateBuildingAI.Grain_from_outside_count / (pc_PrivateBuildingAI.Grain_to_outside_count + pc_PrivateBuildingAI.Grain_to_industy_count);
+                    grain_export_ratio = pc_PrivateBuildingAI.Grain_from_outside_count_final / (pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
                 }
                 //oil
-                if ((pc_PrivateBuildingAI.oil_from_outside_count + pc_PrivateBuildingAI.oil_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
                 {
-                    oil_import_ratio = pc_PrivateBuildingAI.oil_from_outside_count / (pc_PrivateBuildingAI.oil_from_outside_count + pc_PrivateBuildingAI.oil_to_industy_count);
+                    oil_import_ratio = pc_PrivateBuildingAI.oil_from_outside_count_final / (pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.oil_to_outside_count + pc_PrivateBuildingAI.oil_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
                 {
-                    oil_export_ratio = pc_PrivateBuildingAI.oil_from_outside_count / (pc_PrivateBuildingAI.oil_to_outside_count + pc_PrivateBuildingAI.oil_to_industy_count);
+                    oil_export_ratio = pc_PrivateBuildingAI.oil_from_outside_count_final / (pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
                 }
                 //ore
-                if ((pc_PrivateBuildingAI.ore_from_outside_count + pc_PrivateBuildingAI.ore_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
                 {
-                    ore_import_ratio = pc_PrivateBuildingAI.ore_from_outside_count / (pc_PrivateBuildingAI.ore_from_outside_count + pc_PrivateBuildingAI.ore_to_industy_count);
+                    ore_import_ratio = pc_PrivateBuildingAI.ore_from_outside_count_final / (pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.ore_to_outside_count + pc_PrivateBuildingAI.ore_to_industy_count) != 0)
+                if ((pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
                 {
-                    ore_export_ratio = pc_PrivateBuildingAI.ore_from_outside_count / (pc_PrivateBuildingAI.ore_to_outside_count + pc_PrivateBuildingAI.ore_to_industy_count);
+                    ore_export_ratio = pc_PrivateBuildingAI.ore_from_outside_count_final / (pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
                 }
                 //good
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
+                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final) != 0)
                 {
-                    good_import_ratio = pc_PrivateBuildingAI.shop_get_goods_from_outside_count / (pc_PrivateBuildingAI.shop_get_goods_from_local_count + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
+                    good_import_ratio = pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final / (pc_PrivateBuildingAI.shop_get_goods_from_local_count_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final);
                 }
 
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count + pc_PrivateBuildingAI.industy_goods_to_outside_count) != 0)
+                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)
                 {
-                    good_export_ratio = pc_PrivateBuildingAI.industy_goods_to_outside_count / (pc_PrivateBuildingAI.shop_get_goods_from_local_count + pc_PrivateBuildingAI.industy_goods_to_outside_count);
+                    good_export_ratio = pc_PrivateBuildingAI.industy_goods_to_outside_count_final / (pc_PrivateBuildingAI.shop_get_goods_from_local_count_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final);
                 }
 
                 pc_PrivateBuildingAI.comm_profit = 0.3f; //update later

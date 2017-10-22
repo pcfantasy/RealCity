@@ -12,142 +12,347 @@ namespace RealCity
 {
     public class saveandrestore : SerializableDataExtensionBase
     {
-        static byte[] save_data;
-        static byte[] load_data;
+        //static byte[] save_data;
+        //static byte[] load_data;
         private static ISerializableData _serializableData;
-        //in comm_data
-        //public static long citizen_outcome_per_family = 0;                        64   -------- 1
-        //public static long citizen_outcome = 0;                                   64   -------- 2   
-        //public static ushort[] vehical_transfer_time = new ushort[16384];         16   -------- 3
-        ////fixed debug check value 120;                                             4   -------- 4  
-        //public static bool[] vehical_last_transfer_flag = new bool[16384];         1   -------- 5
-        //public static uint temp_total_citizen_vehical_time = 0;//temp use         32   -------- 6
-        //public static uint temp_total_citizen_vehical_time_last = 0;//temp use    32   -------- 7
-        //public static uint total_citizen_vehical_time = 0;                        32   -------- 8
-        //public static long public_transport_fee = 0;                              64   -------- 9
-        //public static long all_transport_fee = 0;                                 64   -------- 10
-        //public static byte citizen_average_transport_fee = 0;                      4   -------- 11
-        //fixed debug check value 110;                                               4   -------- 12
-        
-        public static void save_float(ref int idex, float item)
+
+        public static void save_long(ref int idex, long item, ref byte[] container)
+        {
+            int i;
+            byte[] temp_data;
+            temp_data = BitConverter.GetBytes(item);
+            for (i = 0; i < temp_data.Length; i++)
+            {
+                container[idex + i] = temp_data[i];
+            }
+            idex = idex + temp_data.Length;
+        }
+
+        public static void save_float(ref int idex, float item, ref byte[] container)
         {
             int i;
             byte[] temp_data;
             temp_data = BitConverter.GetBytes(item);
             for(i = 0; i < temp_data.Length; i++)
             {
-                save_data[idex + i] = temp_data[i];
-                idex = idex + 1;
+                container[idex + i] = temp_data[i];
             }
+            idex = idex + temp_data.Length;
         }
 
-        public static void save_uint(ref int idex, uint item)
+        public static void save_uint(ref int idex, uint item, ref byte[] container)
         {
             int i;
             byte[] temp_data;
             temp_data = BitConverter.GetBytes(item);
             for (i = 0; i < temp_data.Length; i++)
             {
-                save_data[idex + i] = temp_data[i];
-                idex = idex + 1;
+                container[idex + i] = temp_data[i];
             }
+            idex = idex + temp_data.Length;
         }
 
-        public static void save_int(ref int idex, int item)
+        public static void save_int(ref int idex, int item, ref byte[] container)
         {
             int i;
             byte[] temp_data;
             temp_data = BitConverter.GetBytes(item);
             for (i = 0; i < temp_data.Length; i++)
             {
-                save_data[idex + i] = temp_data[i];
-                idex = idex + 1;
+                container[idex + i] = temp_data[i];
+            }
+            idex = idex + temp_data.Length;
+        }
+
+        public static void save_ints(ref int idex, int[] item, ref byte[] container)
+        {
+            int i; int j;
+            byte[] temp_data;
+            for (j = 0; j < item.Length; j++)
+            {
+                temp_data = BitConverter.GetBytes(item[j]);
+                for (i = 0; i < temp_data.Length; i++)
+                {
+                    container[idex + i] = temp_data[i];
+                }
+                idex = idex + temp_data.Length;
             }
         }
 
-        public static void save_byte(ref int idex, byte item)
+        public static void save_byte(ref int idex, byte item, ref byte[] container)
+        {
+            container[idex] = item;
+            idex = idex + 1;
+        }
+
+
+        public static void save_bytes(ref int idex, byte[] item, ref byte[] container)
+        {
+            int j;
+            for (j = 0; j < item.Length; j++)
+            {
+                container[idex + j] = item[j];
+            }
+            idex = idex + item.Length;
+        }
+
+        public static void save_shorts(ref int idex, short[] item, ref byte[] container)
+        {
+            int i; int j;
+            byte[] temp_data;
+            for (j = 0; j < item.Length; j++)
+            {
+                temp_data = BitConverter.GetBytes(item[j]);
+                for (i = 0; i < temp_data.Length; i++)
+                {
+                    container[idex + i] = temp_data[i];
+                }
+                idex = idex + temp_data.Length;
+            }
+        }
+
+        public static void save_short(ref int idex, short item, ref byte[] container)
         {
             int i;
             byte[] temp_data;
             temp_data = BitConverter.GetBytes(item);
             for (i = 0; i < temp_data.Length; i++)
             {
-                save_data[idex + i] = temp_data[i];
-                idex = idex + 1;
+                container[idex + i] = temp_data[i];
             }
+            idex = idex + temp_data.Length;
         }
 
-        public static void save_short(ref int idex, short item)
+        public static void save_ushort(ref int idex, ushort item, ref byte[] container)
         {
             int i;
             byte[] temp_data;
             temp_data = BitConverter.GetBytes(item);
             for (i = 0; i < temp_data.Length; i++)
             {
-                save_data[idex + i] = temp_data[i];
-                idex = idex + 1;
+                container[idex + i] = temp_data[i];
+            }
+            idex = idex + temp_data.Length;
+        }
+
+        public static void save_ushorts(ref int idex, ushort[] item, ref byte[] container)
+        {
+            int i; int j;
+            byte[] temp_data;
+            for (j = 0; j < item.Length; j++)
+            {
+                temp_data = BitConverter.GetBytes(item[j]);
+                for (i = 0; i < temp_data.Length; i++)
+                {
+                    container[idex + i] = temp_data[i];
+                }
+                idex = idex + temp_data.Length;
             }
         }
 
-        public static void save_ushort(ref int idex, ushort item)
+        public static void save_bool(ref int idex, bool item, ref byte[] container)
         {
             int i;
             byte[] temp_data;
             temp_data = BitConverter.GetBytes(item);
             for (i = 0; i < temp_data.Length; i++)
             {
-                save_data[idex + i] = temp_data[i];
-                idex = idex + 1;
+                container[idex + i] = temp_data[i];
             }
+            idex = idex + temp_data.Length;
         }
 
-        public static void save_bool(ref int idex, bool item)
+        public static void save_bools(ref int idex, bool[] item, ref byte[] container)
         {
-            int i;
+            int i; int j;
             byte[] temp_data;
-            temp_data = BitConverter.GetBytes(item);
-            for (i = 0; i < temp_data.Length; i++)
+            for (j = 0; j < item.Length; j++)
             {
-                save_data[idex + i] = temp_data[i];
-                idex = idex + 1;
+                temp_data = BitConverter.GetBytes(item[j]);
+                for (i = 0; i < temp_data.Length; i++)
+                {
+                    container[idex + i] = temp_data[i];
+                }
+                idex = idex + temp_data.Length;
             }
         }
 
 
-        public static bool load_bool(ref int idex)
+        public static bool load_bool(ref int idex, byte[] container)
         {
             bool tmp;
-            tmp = BitConverter.ToBoolean(load_data,idex);
+            tmp = BitConverter.ToBoolean(container, idex);
             idex = idex + 1;
+            return tmp;
+        }
+
+        public static bool[] load_bools(ref int idex, byte[] container, int length)
+        {
+            bool[] tmp = new bool[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = BitConverter.ToBoolean(container, idex);
+                idex = idex + 1;
+            }
+            return tmp;
+        }
+
+        public static int load_int(ref int idex, byte[] container)
+        {
+            int tmp;
+            tmp = BitConverter.ToInt32(container, idex);
+            idex = idex + 4;
+            return tmp;
+        }
+
+        public static int[] load_ints(ref int idex, byte[] container, int length)
+        {
+            int[] tmp = new int[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = BitConverter.ToInt32(container, idex);
+                idex = idex + 4;
+            }
+            return tmp;
+        }
+
+        public static float load_float(ref int idex, byte[] container)
+        {
+            float tmp;
+            tmp = BitConverter.ToSingle(container, idex);
+            idex = idex + 4;
+            return tmp;
+        }
+
+        public static float[] load_floats(ref int idex, byte[] container, int length)
+        {
+            float[] tmp = new float[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = BitConverter.ToSingle(container, idex);
+                idex = idex + 4;
+            }
+            return tmp;
+        }
+
+        public static uint load_uint(ref int idex, byte[] container)
+        {
+            uint tmp;
+            tmp = BitConverter.ToUInt32(container, idex);
+            idex = idex + 4;
+            return tmp;
+        }
+
+        public static uint[] load_uints(ref int idex, byte[] container, int length)
+        {
+            uint[] tmp = new uint[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = BitConverter.ToUInt32(container, idex);
+                idex = idex + 4;
+            }
+            return tmp;
+        }
+
+        public static ushort load_ushort(ref int idex, byte[] container)
+        {
+            ushort tmp;
+            tmp = BitConverter.ToUInt16(container, idex);
+            idex = idex + 2;
+            return tmp;
+        }
+
+        public static ushort[] load_ushorts(ref int idex, byte[] container, int length)
+        {
+            ushort[] tmp = new ushort[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = BitConverter.ToUInt16(container, idex);
+                idex = idex + 2;
+            }
+            return tmp;
+        }
+
+        public static short load_short(ref int idex, byte[] container)
+        {
+            short tmp;
+            tmp = BitConverter.ToInt16(container, idex);
+            idex = idex + 2;
+            return tmp;
+        }
+
+        public static short[] load_shorts(ref int idex, byte[] container, int length)
+        {
+            short[] tmp = new short[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = BitConverter.ToInt16(container, idex);
+                idex = idex + 2;
+            }
+            return tmp;
+        }
+
+        public static long load_long(ref int idex, byte[] container)
+        {
+            long tmp;
+            tmp = BitConverter.ToInt64(container, idex);
+            idex = idex + 8;
+            return tmp;
+        }
+
+        public static long[] load_longs(ref int idex, byte[] container, int length)
+        {
+            long[] tmp = new long[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = BitConverter.ToInt64(container, idex);
+                idex = idex + 8;
+            }
+            return tmp;
+        }
+
+        public static byte load_byte(ref int idex, byte[] container)
+        {
+            byte tmp;
+            tmp = container[idex];
+            idex = idex + 1;
+            return tmp;
+        }
+
+        public static byte[] load_bytes(ref int idex, byte[] container, int length)
+        {
+            byte[] tmp = new byte[length];
+            int i;
+            for (i = 0; i < length; i++)
+            {
+                tmp[i] = container[idex];
+                idex = idex + 1;
+            }
             return tmp;
         }
 
         public static void gather_save_data()
         {
-            //BitConverter.ToSingle();
-            //BitConverter.GetBytes((float)1);
-            //save_data[7] = (byte)((comm_data.last_bank_count >> 24) & 0xFF);
-            //save_data[6] = (byte)((comm_data.last_bank_count >> 16) & 0xFF);
-            //save_data[5] = (byte)((comm_data.last_bank_count >> 8) & 0xFF);
-            //save_data[4] = (byte)(comm_data.last_bank_count & 0xFF);
-            //save_data[3] = (byte)((comm_data.last_pop >> 24) & 0xFF);
-            //save_data[2] = (byte)((comm_data.last_pop >> 16) & 0xFF);
-            //save_data[1] = (byte)((comm_data.last_pop >> 8) & 0xFF);
-            //save_data[0] = (byte)(comm_data.last_pop & 0xFF);
+            pc_EconomyManager.save();
+            comm_data.save();
+            pc_ResidentAI.save();
+            pc_PrivateBuildingAI.save();
         }
 
-        public static void get_load_data()
-        {
-            //comm_data.last_pop = (int)((load_data[0] & 0xFF)
-            // | ((load_data[1] & 0xFF) << 8)
-            // | ((load_data[2] & 0xFF) << 16)
-            // | ((load_data[3] & 0xFF) << 24));
-
-            //comm_data.last_bank_count = (int)((load_data[4] & 0xFF)
-            // | ((load_data[5] & 0xFF) << 8)
-            // | ((load_data[6] & 0xFF) << 16)
-            // | ((load_data[7] & 0xFF) << 24));
-        }
+        //public static void get_load_data()
+        //{
+        //    pc_EconomyManager.load();
+        //    comm_data.load();
+        //    pc_ResidentAI.load();
+        //    pc_PrivateBuildingAI.load();
+        //}
 
         public override void OnCreated(ISerializableData serializableData)
         {
@@ -161,41 +366,60 @@ namespace RealCity
         public override void OnSaveData()
         {
             gather_save_data();
-            saveandrestore._serializableData.SaveData("real_city data", save_data);
+            saveandrestore._serializableData.SaveData("real_city pc_EconomyManager", pc_EconomyManager.save_data);
+            saveandrestore._serializableData.SaveData("real_city comm_data", comm_data.save_data);
+            saveandrestore._serializableData.SaveData("real_city pc_ResidentAI", pc_ResidentAI.save_data);
+            saveandrestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", pc_PrivateBuildingAI.save_data);
         }
 
         public override void OnLoadData()
         {
             init_data();
-            load_data = saveandrestore._serializableData.LoadData("real_city data");
-            if (load_data == null)
+            pc_EconomyManager.load_data = saveandrestore._serializableData.LoadData("real_city pc_EconomyManager");
+            if (pc_EconomyManager.load_data == null)
             {
-                DebugLog.LogToFileOnly("no save data, please check");
+                DebugLog.LogToFileOnly("no pc_EconomyManager save data, please check");
             }
             else
             {
-                get_load_data();
+                pc_EconomyManager.load();
+            }
+
+            comm_data.load_data = saveandrestore._serializableData.LoadData("real_city comm_data");
+            if (comm_data.load_data == null)
+            {
+                DebugLog.LogToFileOnly("no comm_data save data, please check");
+            }
+            else
+            {
+                comm_data.load();
+            }
+
+            pc_ResidentAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_ResidentAI");
+            if (pc_ResidentAI.load_data == null)
+            {
+                DebugLog.LogToFileOnly("no pc_ResidentAI save data, please check");
+            }
+            else
+            {
+                pc_ResidentAI.load();
+            }
+
+            pc_PrivateBuildingAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_PrivateBuildingAI");
+            if (pc_PrivateBuildingAI.load_data == null)
+            {
+                DebugLog.LogToFileOnly("no pc_PrivateBuildingAI save data, please check");
+            }
+            else
+            {
+                pc_PrivateBuildingAI.load();
             }
         }
 
         public void init_data()
         {
-            for (int i = 0; i < comm_data.building_money.Length; i++)
-            {
-                comm_data.building_money[i] = 0;
-            }
-            for (int i = 0; i < comm_data.vehical_transfer_time.Length; i++)
-            {
-                comm_data.vehical_transfer_time[i] = 0;
-            }
-            for (int i = 0; i < comm_data.vehical_last_transfer_flag.Length; i++)
-            {
-                comm_data.vehical_last_transfer_flag[i] = false;
-            }
-            for (int i = 0; i < comm_data.citizen_money.Length; i++)
-            {
-                comm_data.citizen_money[i] = 0;
-            }
+            comm_data.data_init();
+            pc_EconomyManager.data_init();           
         }
     }
 }
