@@ -742,11 +742,13 @@ namespace RealCity
 
             int num = 0;
             GetLandRent(out num);
+            int num2;
+            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
             if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
             {
                 num = 0;
             }
-                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - num;
+                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)((num*num2)/100);
 
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
@@ -760,8 +762,6 @@ namespace RealCity
                 num = num * 95 / 100;
             }
             num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
-            int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
             Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
         }
 

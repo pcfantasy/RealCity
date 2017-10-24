@@ -31,6 +31,7 @@ namespace RealCity
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
                     int num = -100;
+                    //process_tourism_income(citizenData);
                     info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num);
                     if (info.m_class.m_service == ItemClass.Service.Beautification)
                     {

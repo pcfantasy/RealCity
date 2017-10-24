@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="demand.cs" />
     <Compile Include="BuildingUI.cs" />
+    <Compile Include="pc_CargoTruckAI.cs" />
     <Compile Include="RealCityUI.cs" />
     <Compile Include="pc_PrivateBuildingAI.cs" />
     <Compile Include="pc_PassengerCarAI.cs" />

@@ -132,6 +132,7 @@ namespace RealCity
             guiPanel2.isEnabled = value;
             if (value)
             {
+                comm_data.current_buildingid = 0;
                 guiPanel2.Show();
             }
             else

@@ -18,7 +18,7 @@ namespace RealCity
         /// 
         // TransferManager
 
-        public static void Init()
+       /* public static void Init()
         {
             //DebugLog.Log("Init fake transfer manager");
             try
@@ -57,7 +57,7 @@ namespace RealCity
         private static TransferManager.TransferOffer[] _incomingOffers;
         private static ushort[] _incomingCount;
         private static int[] _incomingAmount;
-        private static bool _init;
+        private static bool _init;*/
         public static bool IsBuildingOutside(UnityEngine.Vector3 position)
         {
             if ((position.x < 8600) && (position.x > -8600) && (position.z < 8600) && (position.z > -8600))
@@ -292,7 +292,7 @@ namespace RealCity
         }
 
 
-        public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+/*        public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {
             // note: do NOT just use 
             //   DebugOutputPanel.AddMessage
@@ -390,6 +390,6 @@ namespace RealCity
                     break;
                 }//endif
             }//endfor
-        }//end public
+        }//end public*/
     }//end publi
 }//end naming space 

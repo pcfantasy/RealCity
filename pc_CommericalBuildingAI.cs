@@ -10,6 +10,21 @@ namespace RealCity
 {
     public class pc_CommercialBuildingAI : PrivateBuildingAI
     {
+        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        {
+            ItemClass @class = this.m_info.m_class;
+            int num = 0;
+            if (@class.m_subService == ItemClass.SubService.CommercialEco)
+            {
+                num = 50;
+            }
+            if (num != 0)
+            {
+                num = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
+            }
+            return num;
+        }
+
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             switch (material)

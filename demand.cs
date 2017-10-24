@@ -13,26 +13,15 @@ namespace RealCity
         {
             if (comm_data.citizen_count > 100)
             {
-                if (comm_data.family_weight_stable_low != 0)
+               uint medium_citizen = (uint)(comm_data.family_count - comm_data.family_weight_stable_high - comm_data.family_weight_stable_low);
+               if (medium_citizen < 0)
                 {
-                    if ((comm_data.family_weight_stable_high / comm_data.family_weight_stable_low) > 1)
-                    {
-                        //do nothing
-                    } else
-                    {
-                        originalDemand = (int)(((long)originalDemand * (long)comm_data.family_weight_stable_high) / (long)comm_data.family_weight_stable_low);
-                    }
+                    DebugLog.LogToFileOnly("should be wrong, medium_citizen < 0");
+                    medium_citizen = 0;
                 }
-                else
+                if (comm_data.family_count != 0)
                 {
-                    if (comm_data.family_weight_stable_high != 0)
-                    {
-                        //do nothing
-                    }
-                    else
-                    {
-                        DebugLog.LogToFileOnly("should be wrong, citizen count > 0, no weight num");
-                    }
+                    originalDemand = (int)((comm_data.family_weight_stable_high + medium_citizen / 2) * originalDemand) / comm_data.family_count;
                 }
             }
             else
