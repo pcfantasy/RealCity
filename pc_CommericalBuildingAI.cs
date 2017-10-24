@@ -94,5 +94,48 @@ namespace RealCity
             comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(trade_income + trade_tax);
 
         }
+
+        public override string GetLevelUpInfo(ushort buildingID, ref Building data, out float progress)
+        {
+            comm_data.current_buildingid = buildingID;
+            if ((data.m_problems & Notification.Problem.FatalProblem) != Notification.Problem.None)
+            {
+                progress = 0f;
+                return Locale.Get("LEVELUP_IMPOSSIBLE");
+            }
+            if (this.m_info.m_class.m_subService != ItemClass.SubService.CommercialLow && this.m_info.m_class.m_subService != ItemClass.SubService.CommercialHigh)
+            {
+                progress = 0f;
+                return Locale.Get("LEVELUP_SPECIAL_INDUSTRY");
+            }
+            if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+            {
+                progress = 0f;
+                return Locale.Get("LEVELUP_COMMERCIAL_HAPPY");
+            }
+            if (data.m_problems != Notification.Problem.None)
+            {
+                progress = 0f;
+                return Locale.Get("LEVELUP_DISTRESS");
+            }
+            if (data.m_levelUpProgress == 0)
+            {
+                return base.GetLevelUpInfo(buildingID, ref data, out progress);
+            }
+            if (data.m_levelUpProgress == 1)
+            {
+                progress = 0.933333337f;
+                return Locale.Get("LEVELUP_HIGHRISE_BAN");
+            }
+            int num = (int)((data.m_levelUpProgress & 15) - 1);
+            int num2 = (data.m_levelUpProgress >> 4) - 1;
+            if (num <= num2)
+            {
+                progress = (float)num * 0.06666667f;
+                return Locale.Get("LEVELUP_LOWWEALTH");
+            }
+            progress = (float)num2 * 0.06666667f;
+            return Locale.Get("LEVELUP_LOWLANDVALUE");
+        }
     }
 }

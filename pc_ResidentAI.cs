@@ -17,9 +17,9 @@ namespace RealCity
     {
         public static uint precitizenid = 0;
         public static int family_count = 0;
-        public static ushort family_very_profit_money_num = 0;
-        public static ushort family_profit_money_num = 0;
-        public static ushort family_loss_money_num = 0;
+        public static uint family_very_profit_money_num = 0;
+        public static uint family_profit_money_num = 0;
+        public static uint family_loss_money_num = 0;
         public static int citizen_salary_count = 0;
         public static int citizen_outcome_count = 0;
         public static int citizen_salary_tax_total = 0;
@@ -47,17 +47,20 @@ namespace RealCity
         public static int PublicTransport_monorail = 0;
         public static int Disaster = 0;
 
-        public static byte[] save_data = new byte[110];
-        public static byte[] load_data = new byte[110];
+        public static uint family_weight_stable_high;
+        public static uint family_weight_stable_low;
+
+        public static byte[] save_data = new byte[124];
+        public static byte[] load_data = new byte[124];
 
         public static void load()
         {
             int i = 0;
             precitizenid = saveandrestore.load_uint(ref i, load_data);
             family_count = saveandrestore.load_int(ref i, load_data);
-            family_very_profit_money_num = saveandrestore.load_ushort(ref i, load_data);
-            family_profit_money_num = saveandrestore.load_ushort(ref i, load_data);
-            family_loss_money_num = saveandrestore.load_ushort(ref i, load_data);
+            family_very_profit_money_num = saveandrestore.load_uint(ref i, load_data);
+            family_profit_money_num = saveandrestore.load_uint(ref i, load_data);
+            family_loss_money_num = saveandrestore.load_uint(ref i, load_data);
             citizen_salary_count = saveandrestore.load_int(ref i, load_data);
             citizen_outcome_count = saveandrestore.load_int(ref i, load_data);
             citizen_salary_tax_total = saveandrestore.load_int(ref i, load_data);
@@ -83,18 +86,21 @@ namespace RealCity
             PublicTransport_cablecar = saveandrestore.load_int(ref i, load_data);
             PublicTransport_monorail = saveandrestore.load_int(ref i, load_data);
             Disaster = saveandrestore.load_int(ref i, load_data);
+
+            family_weight_stable_high = saveandrestore.load_uint(ref i, load_data);
+            family_weight_stable_low = saveandrestore.load_uint(ref i, load_data);
         }
 
         public static void save()
         {
             int i = 0;
 
-            //2*4 + 3*2 + 4*4 = 30
+            //2*4 + 3*4 + 4*4 = 36
             saveandrestore.save_uint(ref i, precitizenid, ref save_data);
             saveandrestore.save_int(ref i, family_count, ref save_data);
-            saveandrestore.save_ushort(ref i, family_very_profit_money_num, ref save_data);
-            saveandrestore.save_ushort(ref i, family_profit_money_num, ref save_data);
-            saveandrestore.save_ushort(ref i, family_loss_money_num, ref save_data);
+            saveandrestore.save_uint(ref i, family_very_profit_money_num, ref save_data);
+            saveandrestore.save_uint(ref i, family_profit_money_num, ref save_data);
+            saveandrestore.save_uint(ref i, family_loss_money_num, ref save_data);
             saveandrestore.save_int(ref i, citizen_salary_count, ref save_data);
             saveandrestore.save_int(ref i, citizen_outcome_count, ref save_data);
             saveandrestore.save_int(ref i, citizen_salary_tax_total, ref save_data);
@@ -121,6 +127,10 @@ namespace RealCity
             saveandrestore.save_int(ref i, PublicTransport_cablecar, ref save_data);
             saveandrestore.save_int(ref i, PublicTransport_monorail, ref save_data);
             saveandrestore.save_int(ref i, Disaster, ref save_data);
+
+            //8
+            saveandrestore.save_uint(ref i, family_weight_stable_high, ref save_data);
+            saveandrestore.save_uint(ref i, family_weight_stable_low, ref save_data);
         }
 
 
@@ -336,9 +346,11 @@ namespace RealCity
                                         case Citizen.Education.OneSchool:
                                             num = num + (int)(comm_data.office_gen_level1_education1) + rand.Next(2); break;
                                         case Citizen.Education.TwoSchools:
-                                            num = num + (int)(comm_data.office_gen_level1_education2) + rand.Next(3); break;
+                                            num = num + (int)(comm_data.office_gen_level1_education2) + rand.Next(3);
+                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                                         case Citizen.Education.ThreeSchools:
-                                            num = num + (int)(comm_data.office_gen_level1_education3) + rand.Next(4); break;
+                                            num = num + (int)(comm_data.office_gen_level1_education3) + rand.Next(4);
+                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                                     }
                                     break;
                                 case ItemClass.Level.Level2:
@@ -349,9 +361,11 @@ namespace RealCity
                                         case Citizen.Education.OneSchool:
                                             num = num + (int)(comm_data.office_gen_level2_education1) + rand.Next(2); break;
                                         case Citizen.Education.TwoSchools:
-                                            num = num + (int)(comm_data.office_gen_level2_education2) + rand.Next(3); break;
+                                            num = num + (int)(comm_data.office_gen_level2_education2) + rand.Next(3);
+                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                                         case Citizen.Education.ThreeSchools:
-                                            num = num + (int)(comm_data.office_gen_level2_education3) + rand.Next(4); break;
+                                            num = num + (int)(comm_data.office_gen_level2_education3) + rand.Next(4);
+                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                                     }
                                     break;
                                 case ItemClass.Level.Level3:
@@ -362,9 +376,11 @@ namespace RealCity
                                         case Citizen.Education.OneSchool:
                                             num = num + (int)(comm_data.office_gen_level3_education1) + rand.Next(2); break;
                                         case Citizen.Education.TwoSchools:
-                                            num = num + (int)(comm_data.office_gen_level3_education2) + rand.Next(3); break;
+                                            num = num + (int)(comm_data.office_gen_level3_education2) + rand.Next(3);
+                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                                         case Citizen.Education.ThreeSchools:
-                                            num = num + (int)(comm_data.office_gen_level3_education3) + rand.Next(4); break;
+                                            num = num + (int)(comm_data.office_gen_level3_education3) + rand.Next(4);
+                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                                     }
                                     break;
                             }
@@ -377,9 +393,11 @@ namespace RealCity
                                 case Citizen.Education.OneSchool:
                                     num = num + (int)(comm_data.office_high_tech_education1) + rand.Next(2); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.office_high_tech_education2) + rand.Next(3); break;
+                                    num = num + (int)(comm_data.office_high_tech_education2) + rand.Next(3);
+                                    num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.office_high_tech_education3) + rand.Next(4); break;
+                                    num = num + (int)(comm_data.office_high_tech_education3) + rand.Next(4);
+                                    num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
                             }
                             break; //
                         case ItemClass.SubService.CommercialLeisure:
@@ -743,6 +761,8 @@ namespace RealCity
                 comm_data.HealthCare = HealthCare;
                 comm_data.Road = Road;
                 comm_data.FireDepartment = FireDepartment;
+                comm_data.family_weight_stable_high = family_weight_stable_high;
+                comm_data.family_weight_stable_low = family_weight_stable_low;
                 family_profit_money_num = 0;
                 family_loss_money_num = 0;
                 family_count = 0;
@@ -770,6 +790,8 @@ namespace RealCity
                 Beautification = 0;
                 Garbage = 0;
                 Monument = 0;
+                family_weight_stable_high = 0;
+                family_weight_stable_low = 0;
             }
             else if (precitizenid < homeID)
             {
@@ -853,26 +875,34 @@ namespace RealCity
             int outcomerate = 0;
             if (data.m_citizen0 != 0u)
             {
+                outcomerate = 0;
                 temp_num += GetOutcomeRate(data.m_citizen0, out outcomerate);
             }
             if (data.m_citizen1 != 0u)
             {
+                outcomerate = 0;
                 temp_num += GetOutcomeRate(data.m_citizen1, out outcomerate);
             }
             if (data.m_citizen2 != 0u)
             {
+                outcomerate = 0;
                 temp_num += GetOutcomeRate(data.m_citizen2, out outcomerate);
             }
             if (data.m_citizen3 != 0u)
             {
+                outcomerate = 0;
                 temp_num += GetOutcomeRate(data.m_citizen3, out outcomerate);
             }
             if (data.m_citizen4 != 0u)
             {
+                outcomerate = 0;
                 temp_num += GetOutcomeRate(data.m_citizen4, out outcomerate);
             }
 
-            citizen_outcome_count = citizen_outcome_count + temp_num;
+
+            //temp = education&sick   outcomerate = house rent(one family)
+            process_citizen_house_rent(homeID, outcomerate);
+            citizen_outcome_count = citizen_outcome_count + temp_num + outcomerate;
 
             //income - outcome
             temp_num = citizen_salary_current - (int)(tax+0.5f) - temp_num - comm_data.citizen_average_transport_fee;
@@ -941,7 +971,7 @@ namespace RealCity
 
             if ((comm_data.citizen_money[homeID] > 0) && (comm_data.citizen_very_profit_time_num[homeID] >= 200))
             {
-                comm_data.family_weight_stable_high = (ushort)(comm_data.family_weight_stable_high + 1);
+                family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
                 //change wealth to high
                 //try move family here (1、2、3 level house to 4-5 level house)
             }
@@ -965,7 +995,7 @@ namespace RealCity
 
             if (comm_data.citizen_money[homeID] < 0)
             {
-                comm_data.family_weight_stable_low = (ushort)(comm_data.family_weight_stable_low + 1);
+                family_weight_stable_low = (ushort)(family_weight_stable_low + 1);
             }
 
                 comm_data.citizen_money[homeID] = (short)(comm_data.citizen_money[homeID] - temp_num);
@@ -982,6 +1012,20 @@ namespace RealCity
             Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
             Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax+0.5f), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112);
         }
+
+        public void process_citizen_house_rent(uint homeID, int outcomerate)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
+            Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
+            DistrictManager instance2 = Singleton<DistrictManager>.instance;
+            byte district = instance2.GetDistrict(buildingdata.m_position);
+            DistrictPolicies.Taxation taxationPolicies = instance2.m_districts.m_buffer[(int)district].m_taxationPolicies;
+            int num2;
+            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
+            Singleton<EconomyManager>.instance.AddPrivateIncome(outcomerate, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, num2 * 100);
+        }
+
 
         // ResidentAI
         public void SimulationStep_1(uint homeID, ref CitizenUnit data)
@@ -1096,7 +1140,6 @@ namespace RealCity
             DistrictManager instance = Singleton<DistrictManager>.instance;
             byte district = instance.GetDistrict(instance1.m_buildings.m_buffer[instance2.m_citizens.m_buffer[citizen_id].m_homeBuilding].m_position);
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[(int)district].m_taxationPolicies;
-            byte family_num = instance1.m_buildings.m_buffer[instance2.m_citizens.m_buffer[citizen_id].m_homeBuilding].m_citizenCount;
             if (@class.m_subService == ItemClass.SubService.ResidentialLow)
             {
                 switch (@class.m_level)
@@ -1118,24 +1161,66 @@ namespace RealCity
                         break;
                 }
             }
+            else if (@class.m_subService == ItemClass.SubService.ResidentialLowEco)
+            {
+                switch (@class.m_level)
+                {
+                    case ItemClass.Level.Level1:
+                        incomeAccumulation = comm_data.resident_low_eco_level1_rent;
+                        break;
+                    case ItemClass.Level.Level2:
+                        incomeAccumulation = comm_data.resident_low_eco_level2_rent;
+                        break;
+                    case ItemClass.Level.Level3:
+                        incomeAccumulation = comm_data.resident_low_eco_level3_rent;
+                        break;
+                    case ItemClass.Level.Level4:
+                        incomeAccumulation = comm_data.resident_low_eco_level4_rent;
+                        break;
+                    case ItemClass.Level.Level5:
+                        incomeAccumulation = comm_data.resident_low_eco_level5_rent;
+                        break;
+                }
+            }
+            else if (@class.m_subService == ItemClass.SubService.ResidentialHigh)
+            {
+                switch (@class.m_level)
+                {
+                    case ItemClass.Level.Level1:
+                        incomeAccumulation = comm_data.resident_high_level1_rent;
+                        break;
+                    case ItemClass.Level.Level2:
+                        incomeAccumulation = comm_data.resident_high_level2_rent;
+                        break;
+                    case ItemClass.Level.Level3:
+                        incomeAccumulation = comm_data.resident_high_level3_rent;
+                        break;
+                    case ItemClass.Level.Level4:
+                        incomeAccumulation = comm_data.resident_high_level4_rent;
+                        break;
+                    case ItemClass.Level.Level5:
+                        incomeAccumulation = comm_data.resident_high_level5_rent;
+                        break;
+                }
+            }
             else
             {
                 switch (@class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        incomeAccumulation = comm_data.resident_low_level1_rent;
+                        incomeAccumulation = comm_data.resident_high_eco_level1_rent;
                         break;
                     case ItemClass.Level.Level2:
-                        incomeAccumulation = comm_data.resident_low_level1_rent;
+                        incomeAccumulation = comm_data.resident_high_eco_level2_rent;
                         break;
                     case ItemClass.Level.Level3:
-                        incomeAccumulation = comm_data.resident_low_level1_rent;
+                        incomeAccumulation = comm_data.resident_high_eco_level3_rent;
                         break;
                     case ItemClass.Level.Level4:
-                        incomeAccumulation = comm_data.resident_low_level1_rent;
+                        incomeAccumulation = comm_data.resident_high_eco_level4_rent;
                         break;
                     case ItemClass.Level.Level5:
-                        incomeAccumulation = comm_data.resident_low_level1_rent;
+                        incomeAccumulation = comm_data.resident_high_eco_level5_rent;
                         break;
                 }
             }
@@ -1149,9 +1234,10 @@ namespace RealCity
             {
                 temp = temp + 5;
             }
-
-            incomeAccumulation = (int)(incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
-            temp = temp + incomeAccumulation;
+            int num2;
+            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
+            incomeAccumulation = (int)(num2* incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
+            //temp = temp
             return temp;
         }
     }

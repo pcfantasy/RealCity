@@ -7,6 +7,8 @@ using ColossalFramework;
 using ColossalFramework.UI;
 using ICities;
 using UnityEngine;
+using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace RealCity
 {
@@ -32,6 +34,10 @@ namespace RealCity
 
         public static RealCityUI guiPanel1;
 
+        private static BuildingUI guiPanel2;
+
+        public static GameObject buildingWindowGameObject;
+
         internal static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
 
@@ -50,7 +56,7 @@ namespace RealCity
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.LoadMap || mode == LoadMode.NewMap)
                 {
                     ConstantsManager.LoadSettings();
-                    Loader.SetupGui();
+                    SetupGui();
                     if (mode == LoadMode.NewGame)
                     {
                         init_data();
@@ -70,7 +76,7 @@ namespace RealCity
         {
             if (RealCity.IsEnabled & Loader.isGuiRunning)
             {
-                Loader.RemoveGui();
+                RemoveGui();
             }
         }
 
@@ -79,27 +85,84 @@ namespace RealCity
             base.OnReleased();
         }
 
-        public static void SetupGui()
+        public void SetupGui()
         {
             Loader.parentGuiView = null;
             Loader.parentGuiView = UIView.GetAView();
+            //CTRL+M debug UI
             if (Loader.guiPanel == null)
             {
                 Loader.guiPanel = (MoreeconomicUI)Loader.parentGuiView.AddUIComponent(typeof(MoreeconomicUI));
             }
+            //CRTL+R game UI
             if (Loader.guiPanel1 == null)
             {
                 Loader.guiPanel1 = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
             }
+
+            //building UI
+            if (Loader.guiPanel2 == null)
+            {
+                Loader.guiPanel2 = (BuildingUI)Loader.parentGuiView.AddUIComponent(typeof(BuildingUI));
+            }
+            SetupBuidingGui();
+
             Loader.isGuiRunning = true;
         }
 
-        public static void RemoveGui()
+        public void SetupBuidingGui()
+        {
+            buildingWindowGameObject = new GameObject("buildingWindowObject");
+
+            var buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
+            if (buildingInfo == null)
+            {
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) ZonedBuildingWorldInfoPanel\nAvailable panels are:\n");
+            }
+            guiPanel2.transform.parent = buildingInfo.transform;
+            guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y / 3);
+            guiPanel2.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
+            guiPanel2.position = new Vector3(0, 12);
+            buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
+
+        }
+
+        void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
+        {
+            guiPanel2.isEnabled = value;
+            if (value)
+            {
+                guiPanel2.Show();
+            }
+            else
+            {
+                comm_data.current_buildingid = 0;
+                guiPanel2.Hide();
+            }
+        }
+
+
+        public void RemoveGui()
         {
             Loader.isGuiRunning = false;
             if (Loader.parentGuiView != null)
             {
                 Loader.parentGuiView = null;
+            }
+
+            bool flag2 = guiPanel2 != null;
+            if (flag2)
+            {
+                bool flag3 = guiPanel2.parent != null;
+                if (flag3)
+                {
+                    guiPanel2.parent.eventVisibilityChanged -= buildingInfo_eventVisibilityChanged;
+                }
+            }
+            bool flag4 = buildingWindowGameObject != null;
+            if (flag4)
+            {
+                UnityEngine.Object.Destroy(buildingWindowGameObject);
             }
         }
     }

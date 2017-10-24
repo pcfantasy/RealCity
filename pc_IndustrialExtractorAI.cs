@@ -3,6 +3,7 @@ using System.Reflection;
 using ColossalFramework;
 using ColossalFramework.Math;
 using UnityEngine;
+using ColossalFramework.Globalization;
 
 namespace RealCity
 {
@@ -100,6 +101,23 @@ namespace RealCity
                     break;
             }
         }
+
+        public override string GetLevelUpInfo(ushort buildingID, ref Building data, out float progress)
+        {
+            comm_data.current_buildingid = buildingID;
+            if ((data.m_problems & Notification.Problem.FatalProblem) != Notification.Problem.None)
+            {
+                progress = 0f;
+                return Locale.Get("LEVELUP_IMPOSSIBLE");
+            }
+            if (this.m_info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
+            {
+                progress = 0f;
+                return Locale.Get("LEVELUP_SPECIAL_INDUSTRY");
+            }
+            return base.GetLevelUpInfo(buildingID, ref data, out progress);
+        }
+
     }
 }
 

@@ -103,25 +103,25 @@ namespace RealCity
         public const byte indus_ore_education3 = 26;
 
         //office
-        public const byte office_gen_level1_education0 = 15;
-        public const byte office_gen_level1_education1 = 21;
-        public const byte office_gen_level1_education2 = 26;
+        public const byte office_gen_level1_education0 = 13;
+        public const byte office_gen_level1_education1 = 14;
+        public const byte office_gen_level1_education2 = 28;
         public const byte office_gen_level1_education3 = 32;
 
-        public const byte office_gen_level2_education0 = 15;
-        public const byte office_gen_level2_education1 = 21;
-        public const byte office_gen_level2_education2 = 27;
+        public const byte office_gen_level2_education0 = 14;
+        public const byte office_gen_level2_education1 = 15;
+        public const byte office_gen_level2_education2 = 30;
         public const byte office_gen_level2_education3 = 36;
 
         public const byte office_gen_level3_education0 = 15;
-        public const byte office_gen_level3_education1 = 22;
-        public const byte office_gen_level3_education2 = 30;
+        public const byte office_gen_level3_education1 = 16;
+        public const byte office_gen_level3_education2 = 32;
         public const byte office_gen_level3_education3 = 40;
 
         //office high tech
-        public const byte office_high_tech_education0 = 20;
-        public const byte office_high_tech_education1 = 24;
-        public const byte office_high_tech_education2 = 33;
+        public const byte office_high_tech_education0 = 16;
+        public const byte office_high_tech_education1 = 17;
+        public const byte office_high_tech_education2 = 34;
         public const byte office_high_tech_education3 = 47;
 
         //Road
@@ -251,26 +251,26 @@ namespace RealCity
         public static long citizen_salary_tax_total = 0;
 
         //1.2 citizen outcome
-        public const byte resident_low_level1_rent = 10;
-        public const byte resident_low_level2_rent = 14;
-        public const byte resident_low_level3_rent = 19;
-        public const byte resident_low_level4_rent = 25;
-        public const byte resident_low_level5_rent = 35;
-        public const byte resident_low_eco_level1_rent = 11;
-        public const byte resident_low_eco_level2_rent = 15;
-        public const byte resident_low_eco_level3_rent = 20;
-        public const byte resident_low_eco_level4_rent = 26;
-        public const byte resident_low_eco_level5_rent = 36;
-        public const byte resident_high_level1_rent = 8;
-        public const byte resident_high_level2_rent = 11;
-        public const byte resident_high_level3_rent = 15;
-        public const byte resident_high_level4_rent = 20;
-        public const byte resident_high_level5_rent = 26;
-        public const byte resident_high_eco_level1_rent = 9;
-        public const byte resident_high_eco_level2_rent = 12;
-        public const byte resident_high_eco_level3_rent = 16;
-        public const byte resident_high_eco_level4_rent = 21;
-        public const byte resident_high_eco_level5_rent = 27;
+        public const int resident_low_level1_rent = 100;
+        public const int resident_low_level2_rent = 140;
+        public const int resident_low_level3_rent = 190;
+        public const int resident_low_level4_rent = 250;
+        public const int resident_low_level5_rent = 350;
+        public const int resident_low_eco_level1_rent = 110;
+        public const int resident_low_eco_level2_rent = 150;
+        public const int resident_low_eco_level3_rent = 200;
+        public const int resident_low_eco_level4_rent = 260;
+        public const int resident_low_eco_level5_rent = 360;
+        public const int resident_high_level1_rent = 80;
+        public const int resident_high_level2_rent = 110;
+        public const int resident_high_level3_rent = 150;
+        public const int resident_high_level4_rent = 200;
+        public const int resident_high_level5_rent = 260;
+        public const int resident_high_eco_level1_rent = 90;
+        public const int resident_high_eco_level2_rent = 120;
+        public const int resident_high_eco_level3_rent = 160;
+        public const int resident_high_eco_level4_rent = 210;
+        public const int resident_high_eco_level5_rent = 270;
         //1.2.1 citizen outcome
         public static long citizen_outcome_per_family = 0;
         public static long citizen_outcome = 0;
@@ -303,19 +303,19 @@ namespace RealCity
 
 
         //2.2 building outcome
-        public const byte resident_low_level1 = 10;
-        public const byte resident_low_level2 = 14;
-        public const byte resident_low_level3 = 19;
-        public const byte resident_low_level4 = 25;
-        public const byte resident_low_level5 = 35;
+//        public const byte resident_low_level1 = 10;
+//        public const byte resident_low_level2 = 14;
+//        public const byte resident_low_level3 = 19;
+//        public const byte resident_low_level4 = 25;
+//        public const byte resident_low_level5 = 35;
 
-        public const byte resident_low_eco_level1 = 8;
-        public const byte resident_low_eco_level2 = 12;
-        public const byte resident_low_eco_level3 = 17;
-        public const byte resident_low_eco_level4 = 23;
-        public const byte resident_low_eco_level5 = 30;
+//        public const byte resident_low_eco_level1 = 8;
+//        public const byte resident_low_eco_level2 = 12;
+//        public const byte resident_low_eco_level3 = 17;
+//        public const byte resident_low_eco_level4 = 23;
+//        public const byte resident_low_eco_level5 = 30;
 
-        public const byte resident_high_level1 = 50;
+/*        public const byte resident_high_level1 = 50;
         public const byte resident_high_level2 = 70;
         public const byte resident_high_level3 = 110;
         public const byte resident_high_level4 = 140;
@@ -325,7 +325,7 @@ namespace RealCity
         public const byte resident_high_eco_level2 = 35;
         public const byte resident_high_eco_level3 = 55;
         public const byte resident_high_eco_level4 = 70;
-        public const byte resident_high_eco_level5 = 90;
+        public const byte resident_high_eco_level5 = 90;*/
 
         public const byte comm_high_level1 = 110;
         public const byte comm_high_level2 = 120;
@@ -390,6 +390,8 @@ namespace RealCity
         public static bool is_updated = false;
         public static float current_time = 0f;
         public static float prev_time = 0f;
+
+        public static ushort current_buildingid = 0;
 
         public static byte[] save_data = new byte[2867355];
         public static byte[] load_data = new byte[2867355];

@@ -119,10 +119,22 @@ namespace RealCity
         public static ushort all_oil_building_loss_final = 0;
         public static ushort all_ore_building_loss_final = 0;
         public static ushort all_buildings_final = 0;
+
+        public static ushort all_office_level1_building_num = 0;
+        public static ushort all_office_level2_building_num = 0;
+        public static ushort all_office_level3_building_num = 0;
+        public static ushort all_office_high_tech_building_num = 0;
+
+        public static ushort all_office_level1_building_num_final = 0;
+        public static ushort all_office_level2_building_num_final = 0;
+        public static ushort all_office_level3_building_num_final = 0;
+        public static ushort all_office_high_tech_building_num_final = 0;
+        public static float office_gen_salary_index = 0.5f;
+        public static float office_high_tech_salary_index = 0.5f;
         // PrivateBuildingAI
 
-        public static byte[] save_data = new byte[232];
-        public static byte[] load_data = new byte[232];
+        public static byte[] save_data = new byte[256];
+        public static byte[] load_data = new byte[256];
 
         public static void load()
         {
@@ -229,6 +241,20 @@ namespace RealCity
             all_farmer_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
             all_oil_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
             all_ore_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+
+            all_office_level1_building_num = saveandrestore.load_ushort(ref i, load_data);
+            all_office_level2_building_num = saveandrestore.load_ushort(ref i, load_data);
+            all_office_level3_building_num = saveandrestore.load_ushort(ref i, load_data);
+            all_office_high_tech_building_num = saveandrestore.load_ushort(ref i, load_data);
+
+            all_office_level1_building_num_final = saveandrestore.load_ushort(ref i, load_data);
+            all_office_level2_building_num_final = saveandrestore.load_ushort(ref i, load_data);
+            all_office_level3_building_num_final = saveandrestore.load_ushort(ref i, load_data);
+            all_office_high_tech_building_num_final = saveandrestore.load_ushort(ref i, load_data);
+
+            office_gen_salary_index = saveandrestore.load_float(ref i, load_data);
+            office_high_tech_salary_index = saveandrestore.load_float(ref i, load_data);
+
 
         }
 
@@ -345,6 +371,19 @@ namespace RealCity
             saveandrestore.save_ushort(ref i, all_farmer_building_loss_final, ref save_data);
             saveandrestore.save_ushort(ref i, all_oil_building_loss_final, ref save_data);
             saveandrestore.save_ushort(ref i, all_ore_building_loss_final, ref save_data);
+
+            //24
+            saveandrestore.save_ushort(ref i, all_office_level1_building_num, ref save_data);
+            saveandrestore.save_ushort(ref i, all_office_level2_building_num, ref save_data);
+            saveandrestore.save_ushort(ref i, all_office_level3_building_num, ref save_data);
+            saveandrestore.save_ushort(ref i, all_office_high_tech_building_num, ref save_data);
+            saveandrestore.save_ushort(ref i, all_office_level1_building_num_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_office_level2_building_num_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_office_level3_building_num_final, ref save_data);
+            saveandrestore.save_ushort(ref i, all_office_high_tech_building_num_final, ref save_data);
+            saveandrestore.save_float(ref i, office_gen_salary_index, ref save_data);
+            saveandrestore.save_float(ref i, office_high_tech_salary_index, ref save_data);
+
         }
         protected void SimulationStepActive_1(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
@@ -446,6 +485,10 @@ namespace RealCity
                 all_ore_building_loss_final = all_ore_building_loss;
                 all_industry_building_loss_final = all_industry_building_loss;
                 all_comm_building_loss_final = all_comm_building_loss;
+                all_office_high_tech_building_num_final = all_office_high_tech_building_num;
+                all_office_level1_building_num_final = all_office_level1_building_num;
+                all_office_level2_building_num_final = all_office_level2_building_num;
+                all_office_level3_building_num_final = all_office_level3_building_num;
 
                 all_buildings_final = 0;
                 all_farmer_building_profit = 0;
@@ -489,6 +532,11 @@ namespace RealCity
                 lumber_to_outside_count = 0;
                 lumber_to_industy_count = 0;
                 lumber_from_outside_count = 0;
+
+                all_office_level1_building_num = 0;
+                all_office_level2_building_num = 0;
+                all_office_level3_building_num = 0;
+                all_office_high_tech_building_num = 0;
             }
             prebuidlingid = buildingID;
 
@@ -726,19 +774,23 @@ namespace RealCity
             {
                 case ItemClass.SubService.OfficeHightech:
                     incomeAccumulation = comm_data.office_high_tech;
+                    all_office_high_tech_building_num++;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         incomeAccumulation = comm_data.office_gen_levell;
+                        all_office_level1_building_num++;
                     }
                     else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         incomeAccumulation = comm_data.office_gen_level2;
+                        all_office_level2_building_num++;
                     }
                     else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         incomeAccumulation = comm_data.office_gen_level3;
+                        all_office_level3_building_num++;
                     }
                     break;
                 case ItemClass.SubService.IndustrialFarming:
@@ -804,7 +856,7 @@ namespace RealCity
                 case ItemClass.SubService.CommercialEco:
                     incomeAccumulation = comm_data.comm_eco;
                     break;
-                case ItemClass.SubService.ResidentialHigh:
+                /*case ItemClass.SubService.ResidentialHigh:
                     if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         incomeAccumulation = comm_data.resident_high_level1;
@@ -891,7 +943,7 @@ namespace RealCity
                     {
                         incomeAccumulation = comm_data.resident_low_eco_level5;
                     }
-                    break;
+                    break;*/
                 default: break;
             }
         }
