@@ -98,7 +98,7 @@ namespace RealCity
                         trade_tax = -trade_income * 0.04f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(trade_income + trade_tax);
+                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Grain:
                     trade_tax = 0;
@@ -108,7 +108,7 @@ namespace RealCity
                         trade_tax = -trade_income * 0.04f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(trade_income + trade_tax);
+                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Oil:
                     trade_tax = 0;
@@ -118,7 +118,7 @@ namespace RealCity
                         trade_tax = -trade_income * 0.2f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(trade_income + trade_tax);
+                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Ore:
                     trade_tax = 0;
@@ -128,7 +128,7 @@ namespace RealCity
                         trade_tax = -trade_income * 0.15f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(trade_income + trade_tax);
+                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
                     break;
             }
         }

@@ -279,7 +279,7 @@ namespace RealCity
             this.citizen_outcome.name = "Moreeconomic_Text_6";
 
             this.public_transport_fee = base.AddUIComponent<UILabel>();
-            this.public_transport_fee.text =         string.Format("public_trans_fee [000]");
+            this.public_transport_fee.text =         string.Format("public_trans_fee [0000]");
             this.public_transport_fee.tooltip = "public_transport_fee";
             this.public_transport_fee.relativePosition = new Vector3(this.citizen_outcome.relativePosition.x + this.citizen_outcome.width + SPACING + 2f, this.citizen_outcome.relativePosition.y);
             this.public_transport_fee.autoSize = true;
@@ -288,7 +288,7 @@ namespace RealCity
             this.total_citizen_vehical_time = base.AddUIComponent<UILabel>();
             this.total_citizen_vehical_time.text =   string.Format("citizen_vehical_time [00000000]");
             this.total_citizen_vehical_time.tooltip = "total citizen_vehical_time";
-            this.total_citizen_vehical_time.relativePosition = new Vector3(this.public_transport_fee.relativePosition.x + this.public_transport_fee.width + SPACING, this.public_transport_fee.relativePosition.y);
+            this.total_citizen_vehical_time.relativePosition = new Vector3(this.public_transport_fee.relativePosition.x + this.public_transport_fee.width + SPACING + 2f, this.public_transport_fee.relativePosition.y);
             this.total_citizen_vehical_time.autoSize = true;
             this.total_citizen_vehical_time.name = "Moreeconomic_Text_8";
 

@@ -106,7 +106,7 @@ namespace RealCity
                 trade_tax = -trade_income * 0.1f;
                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             }
-            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(trade_income + trade_tax);
+            comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (short)(trade_income + trade_tax));
 
         }
 

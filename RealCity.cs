@@ -122,6 +122,10 @@ namespace RealCity
             //var destMethod22 = typeof(pc_CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             //RedirectionHelper.RedirectCalls(srcMethod22, destMethod22);
 
+            var srcMethod23 = typeof(VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
+            var destMethod23 = typeof(pc_VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
+            RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
+
 
         }
 
@@ -151,7 +155,7 @@ namespace RealCity
                 if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
                 {
                     citizen_status();
-                    vehicle_status();
+                    //vehicle_status();
                     caculate_goverment_employee_outcome();
                     caculate_profit();
                     caculate_citizen_transport_fee();
@@ -399,15 +403,11 @@ namespace RealCity
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 //add vehicle transport_fee
-                if (comm_data.temp_total_citizen_vehical_time >= comm_data.temp_total_citizen_vehical_time_last)
-                {
-                    comm_data.total_citizen_vehical_time = comm_data.temp_total_citizen_vehical_time - comm_data.temp_total_citizen_vehical_time_last;
-                } else
-                {
-                    comm_data.total_citizen_vehical_time = 4294967295 + comm_data.temp_total_citizen_vehical_time - comm_data.temp_total_citizen_vehical_time_last;
-                }
                 comm_data.temp_total_citizen_vehical_time_last = comm_data.temp_total_citizen_vehical_time;
-                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.total_citizen_vehical_time;
+                comm_data.temp_total_citizen_vehical_time = 0;
+
+
+                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last;
 
                 if (comm_data.citizen_count > 0)
                 {
@@ -419,30 +419,6 @@ namespace RealCity
                     {
                         comm_data.citizen_average_transport_fee = (byte)(comm_data.all_transport_fee / comm_data.citizen_count);
                     }
-                }
-            }
-
-            public void vehicle_status()
-            {
-                VehicleManager instance = Singleton<VehicleManager>.instance;
-                for (int i = 0; i < 16384; i = i + 1)
-                {
-                    Vehicle vehicle = instance.m_vehicles.m_buffer[i];
-                    if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
-                    {
-                        if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
-                        {
-                            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition))
-                            {
-                                comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
-                            }
-                        }
-                    }
-                    if ((comm_data.vehical_last_transfer_flag[i] == false) || (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition) == true))
-                    {
-                        comm_data.vehical_transfer_time[i] = 1;
-                    }
-                    comm_data.vehical_last_transfer_flag[i] = vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition);
                 }
             }
 
@@ -485,6 +461,24 @@ namespace RealCity
             public void citizen_status()
             {
                 comm_data.citizen_count = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount;
+
+                if (comm_data.citizen_count > 100)
+                {
+                    uint medium_citizen = (uint)(comm_data.family_count - comm_data.family_weight_stable_high - comm_data.family_weight_stable_low);
+                    if (medium_citizen < 0)
+                    {
+                        DebugLog.LogToFileOnly("should be wrong, medium_citizen < 0");
+                        medium_citizen = 0;
+                    }
+                    if (comm_data.family_count != 0)
+                    {
+                        comm_data.resident_consumption_rate = (float)((float)(comm_data.family_weight_stable_high + medium_citizen / 5) / (float)comm_data.family_count);
+                    }
+                }
+                else
+                {
+                    //do nothing
+                }
                 /*CitizenManager instance = Singleton<CitizenManager>.instance;
                 for (int i = 0; i < 524288; i = i + 1)
                 {

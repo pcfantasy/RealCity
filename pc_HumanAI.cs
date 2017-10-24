@@ -31,7 +31,7 @@ namespace RealCity
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
                     int num = -100;
-                    //process_tourism_income(citizenData);
+                    process_tourism_income(instanceID,citizenData);
                     info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num);
                     if (info.m_class.m_service == ItemClass.Service.Beautification)
                     {
@@ -53,6 +53,29 @@ namespace RealCity
                 this.SetSource(instanceID, ref citizenData, 0);
                 this.SetTarget(instanceID, ref citizenData, 0);
                 citizenData.Unspawn(instanceID);
+            }
+        }
+
+        public void process_tourism_income(ushort instanceID, CitizenInstance citizenData)
+        {
+            BuildingManager instance2 = Singleton<BuildingManager>.instance;
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
+            if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
+            {
+                int size = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width * instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Length;
+                int tourism_fee = (size - 25) * 5;
+                if (instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags == Citizen.Flags.Tourist)
+                {
+                    tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
+                }
+                else
+                {
+                    tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
+                }
+                DebugLog.LogToFileOnly("find a Beautification building width " + instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width.ToString());
             }
         }
     }

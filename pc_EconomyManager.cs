@@ -25,8 +25,8 @@ namespace RealCity
         public static float Policy_cost = 0f;
         public static float Disaster = 0f;
         //public static float citizen_tax_income = 0f;
-        //public static float citizen_income = 0f;
-        //public static float tourist_income = 0f;
+        public static float citizen_income = 0f;
+        public static float tourist_income = 0f;
 
 
         public static float resident_low_level1_tax_income = 0f;
@@ -945,6 +945,42 @@ namespace RealCity
         }
 
 
+        public int EXAddTourismIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
+        {
+            if (taxRate == 114)
+            {
+                taxRate = 100;
+                citizen_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
+                if (citizen_income > 1)
+                {
+                    amount = (int)citizen_income;
+                    citizen_income = citizen_income - (int)citizen_income;
+                }
+                else
+                {
+                    amount = 0;
+                }
+                citizen_income_forui[comm_data.update_money_count] += amount;
+            }
+            else
+            {
+                taxRate = 100;
+                tourist_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
+                if (tourist_income > 1)
+                {
+                    amount = (int)tourist_income;
+                    tourist_income = tourist_income - (int)tourist_income;
+                }
+                else
+                {
+                    amount = 0;
+                }
+                tourist_income_forui[comm_data.update_money_count] += amount;
+            }
+            return amount;
+        }
+
+
         public int EXAddPrivateTradeIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
             switch (subService)
@@ -1735,6 +1771,20 @@ namespace RealCity
             {
                 _init = true;
                 Init();
+            }
+            if (taxRate == 113|| taxRate == 114)
+            {
+                //113 means tourist tourism income // 114 means resident tourism income
+                //taxRate = 100;
+                Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
+                amount = EXAddTourismIncome(amount, service, subService, level, taxRate);
+                int num = ClassIndex(service, subService, level);
+                if (num != -1)
+                {
+                    _income[num * 17 + 16] += (long)amount;
+                }
+                _cashAmount += (long)amount;
+                _cashDelta += (long)amount;
             }
             if (taxRate == 112)
             {

@@ -913,12 +913,10 @@ namespace RealCity
             {
                 for (i = (precitizenid + 1); i < homeID; i++)
                 {
-                    if ((comm_data.citizen_money[i] != 0) || (comm_data.citizen_loss_time_num[i] != 0) || (comm_data.citizen_profit_time_num[i] != 0) || (comm_data.citizen_very_profit_time_num[i] != 0))
+                    if ((comm_data.citizen_money[i] != 0) ||(comm_data.citizen_profit_status[i] != 128))
                     {
                         comm_data.citizen_money[i] = 0;
-                        comm_data.citizen_loss_time_num[i] = 0;
-                        comm_data.citizen_profit_time_num[i] = 0;
-                        comm_data.citizen_very_profit_time_num[i] = 0;
+                        comm_data.citizen_profit_status[i] = 128;
                     }
                 }
             }
@@ -928,27 +926,20 @@ namespace RealCity
             if (temp_num <= 0)
             {
                 temp_num = rand.Next(5);
-                family_loss_money_num = (ushort)(family_loss_money_num + 1);
-                comm_data.citizen_loss_time_num[homeID] = (byte)(comm_data.citizen_loss_time_num[homeID] + 1);
-                comm_data.citizen_profit_time_num[homeID] = 0;
-                comm_data.citizen_very_profit_time_num[homeID] = 0;
+                family_loss_money_num = (uint)(family_loss_money_num + 1);
+                comm_data.citizen_profit_status[homeID]--;
                 //try_move_family to do here;
             }
             else if (temp_num > 30)
             {
                 temp_num = 20 + rand.Next(10);
-                family_very_profit_money_num = (ushort)(family_very_profit_money_num + 1);
-                comm_data.citizen_loss_time_num[homeID] = 0;
-                comm_data.citizen_profit_time_num[homeID] = (byte)(comm_data.citizen_profit_time_num[homeID] + 1);
-                comm_data.citizen_very_profit_time_num[homeID] = (byte)(comm_data.citizen_very_profit_time_num[homeID] + 1);
+                family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
+                comm_data.citizen_profit_status[homeID]++;
             }
             else
             {
                 temp_num = (temp_num - rand.Next(5) > 5 )? (temp_num - rand.Next(5)):5;
-                family_profit_money_num = (ushort)(family_profit_money_num + 1);
-                comm_data.citizen_loss_time_num[homeID] = 0;
-                comm_data.citizen_profit_time_num[homeID] = (byte)(comm_data.citizen_profit_time_num[homeID] + 1);
-                comm_data.citizen_very_profit_time_num[homeID] = 0;
+                family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
 
             if (comm_data.citizen_money[homeID] > 30000)
@@ -956,39 +947,35 @@ namespace RealCity
                 comm_data.citizen_money[homeID] = 30000;
             }
 
-            if(comm_data.citizen_profit_time_num[homeID] > 250)
+            if(comm_data.citizen_profit_status[homeID] > 250)
             {
-                comm_data.citizen_profit_time_num[homeID] = 250;
+                comm_data.citizen_profit_status[homeID] = 250;
             }
-            if (comm_data.citizen_very_profit_time_num[homeID] > 250)
+            if (comm_data.citizen_profit_status[homeID] < 5)
             {
-                comm_data.citizen_very_profit_time_num[homeID] = 250;
-            }
-            if (comm_data.citizen_loss_time_num[homeID] > 250)
-            {
-                comm_data.citizen_loss_time_num[homeID] = 250;
+                comm_data.citizen_profit_status[homeID] = 5;
             }
 
-            if ((comm_data.citizen_money[homeID] > 0) && (comm_data.citizen_very_profit_time_num[homeID] >= 200))
+            if ((comm_data.citizen_money[homeID] > 0) && (comm_data.citizen_profit_status[homeID] >= 230))
             {
                 family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
                 //change wealth to high
                 //try move family here (1、2、3 level house to 4-5 level house)
             }
-            else if ((comm_data.citizen_money[homeID] > 0) && (comm_data.citizen_profit_time_num[homeID] >= 200))
-            {
-                //change wealth to mediem
-            }else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_loss_time_num[homeID] >= 200))
+            else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_profit_status[homeID] <= 25))
             {
                 //change wealth to low
                 //try move family here try move family here (2-5 level house to 1 level house)
             }
-            else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_loss_time_num[homeID] >= 100))
+            else if (comm_data.citizen_money[homeID] > 0)
             {
-                //change wealth to low
-                //try move family here (4-5 level house to 2-3 level house)
+                //change wealth to medium if wealth is low
+                //just keep;
             }
-            else
+            else if (comm_data.citizen_money[homeID] <= 0)
+            {
+                //change wealth to medium if wealth is high
+            } else
             {
                 //just keep;
             }

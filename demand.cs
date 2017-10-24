@@ -13,16 +13,7 @@ namespace RealCity
         {
             if (comm_data.citizen_count > 100)
             {
-               uint medium_citizen = (uint)(comm_data.family_count - comm_data.family_weight_stable_high - comm_data.family_weight_stable_low);
-               if (medium_citizen < 0)
-                {
-                    DebugLog.LogToFileOnly("should be wrong, medium_citizen < 0");
-                    medium_citizen = 0;
-                }
-                if (comm_data.family_count != 0)
-                {
-                    originalDemand = (int)((comm_data.family_weight_stable_high + medium_citizen / 2) * originalDemand) / comm_data.family_count;
-                }
+               originalDemand = (int)(comm_data.resident_consumption_rate * originalDemand);
             }
             else
             {

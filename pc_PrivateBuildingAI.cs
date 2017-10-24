@@ -565,13 +565,13 @@ namespace RealCity
 
         public void limit_and_check_building_money(Building building, ushort buildingID)
         {
-            if (comm_data.building_money[buildingID] > 100000)
+            if (comm_data.building_money[buildingID] > 32000)
             {
-                comm_data.building_money[buildingID] = 100000;
+                comm_data.building_money[buildingID] = 32000;
             }
-            else if (comm_data.building_money[buildingID] < -100000)
+            else if (comm_data.building_money[buildingID] < -32000)
             {
-                comm_data.building_money[buildingID] = -100000;
+                comm_data.building_money[buildingID] = -32000;
             }
 
             if (comm_data.building_money[buildingID] > 0)
@@ -729,7 +729,7 @@ namespace RealCity
             {
                 num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
             }
-            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)(num1/16 + 0.5f);
+            comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(num1/16 + 0.5f));
         }
 
         public void process_land_fee(Building building, ushort buildingID)
@@ -748,7 +748,7 @@ namespace RealCity
             {
                 num = 0;
             }
-                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (int)((num*num2)/100);
+                comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)((num*num2)/100));
 
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {

@@ -607,12 +607,12 @@ namespace RealCity
             process_data();
             //citizen
             //this.citizen_count.text = string.Format("citizen_count [{0}]", comm_data.citizen_count);
-            this.citizen_tax_income_title.text = string.Format("1、City resident salary-tax income [{0}][{1}%]", citizen_tax_income_total, citizen_tax_income_percent*100);
+            this.citizen_tax_income_title.text = string.Format("1、City resident salary-tax income [{0}]  [{1}%]", citizen_tax_income_total, citizen_tax_income_percent*100);
             this.citizen_tax_income.text = string.Format("citizen salary-tax income [{0}]", citizen_tax_income_forui);
-            this.city_tourism_income_title.text = string.Format("2、City tourism income [{0}][{1}%]", city_tourism_income_total, city_tourism_income_percent*100) ;
+            this.city_tourism_income_title.text = string.Format("2、City tourism income [{0}]  [{1}%]", city_tourism_income_total, city_tourism_income_percent*100) ;
             this.citizen_income.text = string.Format("from resident [{0}]", citizen_income_forui);
             this.tourist_income.text = string.Format("from tourist [{0}]", tourist_income_forui);
-            this.land_income_title.text = string.Format("3、City land tax income [{0}][{1}%]", city_land_income_total, city_land_income_percent*100);
+            this.land_income_title.text = string.Format("3、City land tax income [{0}]  [{1}%]", city_land_income_total, city_land_income_percent*100);
             this.resident_high_landincome.text = string.Format("residential_high_landincome [{0}]", resident_high_landincome_forui);
             this.resident_low_landincome.text = string.Format("residential_low_landincome [{0}]", resident_low_landincome_forui);
             this.resident_high_eco_landincome.text = string.Format("residential_high_eco_landincome [{0}]", resident_high_eco_landincome_forui);
@@ -629,7 +629,7 @@ namespace RealCity
             this.indu_ore_landincome.text = string.Format("industrial_ore_landincome [{0}]", indu_ore_landincome_forui);
             this.office_gen_landincome.text = string.Format("office_general_landincome [{0}]", office_gen_landincome_forui);
             this.office_high_tech_landincome.text = string.Format("office_high_tech_landincome [{0}]", office_high_tech_landincome_forui); ;
-            this.trade_income_title.text = string.Format("4、City trade tax income [{0}][{1}%]", city_trade_income_total, city_trade_income_percent*100);
+            this.trade_income_title.text = string.Format("4、City trade tax income [{0}]  [{1}%]", city_trade_income_total, city_trade_income_percent*100);
             this.comm_high_tradeincome.text = string.Format("commerical_high_tradeincome [{0}]", comm_high_tradeincome_forui);
             this.comm_low_tradeincome.text = string.Format("commerical_low_tradeincome [{0}]", comm_low_tradeincome_forui);
             this.comm_lei_tradeincome.text = string.Format("commerical_leisure_tradeincome [{0}]", comm_lei_tradeincome_forui);
@@ -640,7 +640,7 @@ namespace RealCity
             this.indu_foresty_tradeincome.text = string.Format("industrial_forestry_tradeincome [{0}]", indu_foresty_tradeincome_forui);
             this.indu_oil_tradeincome.text = string.Format("industrial_oil_tradeincome [{0}]", indu_oil_tradeincome_forui);
             this.indu_ore_tradeincome.text = string.Format("industrial_ore_tradeincome [{0}]", indu_ore_tradeincome_forui);
-            this.public_transport_income_title.text = string.Format("5、City Public transport income [{0}][{1}%]", city_transport_income_total, city_transport_income_percent*100);
+            this.public_transport_income_title.text = string.Format("5、City Public transport income [{0}]  [{1}%]", city_transport_income_total, city_transport_income_percent*100);
             this.from_bus.text = string.Format("Bus [{0}]", bus_income);
             this.from_tram.text = string.Format("Tram [{0}]", tram_income);
             this.from_train.text = string.Format("Train [{0}]", train_income);
@@ -846,7 +846,7 @@ namespace RealCity
                 city_land_income_percent = city_land_income_total / all_total_income;
                 city_tourism_income_percent = city_tourism_income_total / all_total_income;
                 city_trade_income_percent = city_trade_income_total / all_total_income;
-                city_transport_income_percent = city_trade_income_total / all_total_income;
+                city_transport_income_percent = city_transport_income_total / all_total_income;
             }
         }
     }

@@ -276,7 +276,7 @@ namespace RealCity
         public static long citizen_outcome = 0;
         //1.2.2 transport fee  position.x unit(0.9m),in game, max distance (in x) is 18000m
         public static ushort[] vehical_transfer_time = new ushort[16384];
-        public static bool[] vehical_last_transfer_flag = new bool[16384];
+        //public static bool[] vehical_last_transfer_flag = new bool[16384];
         public static uint temp_total_citizen_vehical_time = 0;//temp use
         public static uint temp_total_citizen_vehical_time_last = 0;//temp use
         public static uint total_citizen_vehical_time = 0;
@@ -287,9 +287,9 @@ namespace RealCity
         //1.3 income-outcome
         //public static byte citizen_shopping_idex = 0;
         public static short[] citizen_money = new short[524288];
-        public static byte[] citizen_very_profit_time_num = new byte[524288];
-        public static byte[] citizen_profit_time_num = new byte[524288];
-        public static byte[] citizen_loss_time_num = new byte[524288];
+        //public static byte[] citizen_very_profit_time_num = new byte[524288];
+        public static byte[] citizen_profit_status = new byte[524288];
+        //public static byte[] citizen_loss_time_num = new byte[524288];
         public static uint family_profit_money_num = 0;
         public static uint family_loss_money_num = 0;
         public static uint family_very_profit_money_num = 0;
@@ -356,7 +356,7 @@ namespace RealCity
 
 
         //2.3 process building 
-        public static int[] building_money = new int[49152];
+        public static short[] building_money = new short[49152];
         //move to buildingAI
 
 
@@ -393,8 +393,14 @@ namespace RealCity
 
         public static ushort current_buildingid = 0;
 
-        public static byte[] save_data = new byte[2867355];
-        public static byte[] load_data = new byte[2867355];
+        //resident consumption rate, outside consumption rate
+        public static float resident_consumption_rate = 0.1f;
+        public static float outside_consumption_rate = 0.5f;
+        public static byte update_outside_count = 0;
+
+        //public static byte[] save_data = new byte[2867364];
+        public static byte[] save_data = new byte[1704100];
+        public static byte[] load_data = new byte[1704100];
 
         public static void data_init()
         {
@@ -406,16 +412,16 @@ namespace RealCity
             {
                 vehical_transfer_time[i] = 0;
             }
-            for (int i = 0; i < comm_data.vehical_last_transfer_flag.Length; i++)
-            {
-                vehical_last_transfer_flag[i] = false;
-            }
+            //for (int i = 0; i < comm_data.vehical_last_transfer_flag.Length; i++)
+            //{
+            //    vehical_last_transfer_flag[i] = false;
+            //}
             for (int i = 0; i < comm_data.citizen_money.Length; i++)
             {
                 citizen_money[i] = 0;
-                citizen_very_profit_time_num[i] = 0;
-                citizen_profit_time_num[i] = 0;
-                citizen_loss_time_num[i] = 0;
+                //citizen_very_profit_time_num[i] = 0;
+                citizen_profit_status[i] = 128;
+                //citizen_loss_time_num[i] = 0;
             }
         }
 
@@ -423,22 +429,22 @@ namespace RealCity
         {
             int i = 0;
 
-            // 2*8 + 2*16384 + 16384 + 3*4 + 2*8 = 49196
+            // 2*8 + 2*16384 + 16384 + 3*4 + 2*8 = 49196 - 16384
             saveandrestore.save_long(ref i, citizen_outcome_per_family, ref save_data);
             saveandrestore.save_long(ref i, citizen_outcome, ref save_data);
             saveandrestore.save_ushorts(ref i, vehical_transfer_time, ref save_data);
-            saveandrestore.save_bools(ref i, vehical_last_transfer_flag, ref save_data);
+            //saveandrestore.save_bools(ref i, vehical_last_transfer_flag, ref save_data);
             saveandrestore.save_uint(ref i, temp_total_citizen_vehical_time, ref save_data);
             saveandrestore.save_uint(ref i, temp_total_citizen_vehical_time_last, ref save_data);
             saveandrestore.save_uint(ref i, total_citizen_vehical_time, ref save_data);
             saveandrestore.save_long(ref i, public_transport_fee, ref save_data);
             saveandrestore.save_long(ref i, all_transport_fee, ref save_data);
 
-            // (3+2)*524288 = 2621440
+            // (1+2)*524288 = 1572864
             saveandrestore.save_shorts(ref i, citizen_money, ref save_data);
-            saveandrestore.save_bytes(ref i, citizen_very_profit_time_num, ref save_data);
-            saveandrestore.save_bytes(ref i, citizen_profit_time_num, ref save_data);
-            saveandrestore.save_bytes(ref i, citizen_loss_time_num, ref save_data);
+            //saveandrestore.save_bytes(ref i, citizen_very_profit_time_num, ref save_data);
+            saveandrestore.save_bytes(ref i, citizen_profit_status, ref save_data);
+            //saveandrestore.save_bytes(ref i, citizen_loss_time_num, ref save_data);
 
             //5*4 = 20
             saveandrestore.save_uint(ref i, family_profit_money_num, ref save_data);
@@ -447,8 +453,8 @@ namespace RealCity
             saveandrestore.save_uint(ref i, family_weight_stable_high, ref save_data);
             saveandrestore.save_uint(ref i, family_weight_stable_low, ref save_data);
 
-            //49152*4 = 196608
-            saveandrestore.save_ints(ref i, building_money, ref save_data);
+            //49152*2 = 196608/2 = 98304
+            saveandrestore.save_shorts(ref i, building_money, ref save_data);
 
             //20*4 = 80
             saveandrestore.save_int(ref i, Road, ref save_data);
@@ -478,6 +484,11 @@ namespace RealCity
             saveandrestore.save_bool(ref i, is_updated, ref save_data);
             saveandrestore.save_float(ref i, current_time, ref save_data);
             saveandrestore.save_float(ref i, prev_time, ref save_data);
+
+            //9
+            saveandrestore.save_float(ref i, resident_consumption_rate, ref save_data);
+            saveandrestore.save_float(ref i, outside_consumption_rate, ref save_data);
+            saveandrestore.save_byte(ref i, update_outside_count, ref save_data);
         }
 
         public static void load()
@@ -487,23 +498,23 @@ namespace RealCity
             citizen_outcome_per_family = saveandrestore.load_long(ref i, load_data);
             citizen_outcome = saveandrestore.load_long(ref i, load_data);
             vehical_transfer_time = saveandrestore.load_ushorts(ref i, load_data, vehical_transfer_time.Length);
-            vehical_last_transfer_flag = saveandrestore.load_bools(ref i, load_data, vehical_last_transfer_flag.Length);
+            //vehical_last_transfer_flag = saveandrestore.load_bools(ref i, load_data, vehical_last_transfer_flag.Length);
             temp_total_citizen_vehical_time = saveandrestore.load_uint(ref i, load_data);
             temp_total_citizen_vehical_time_last = saveandrestore.load_uint(ref i, load_data);
             total_citizen_vehical_time = saveandrestore.load_uint(ref i, load_data);
             public_transport_fee = saveandrestore.load_long(ref i, load_data);
             all_transport_fee = saveandrestore.load_long(ref i, load_data);
             citizen_money = saveandrestore.load_shorts(ref i, load_data, citizen_money.Length);
-            citizen_very_profit_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_very_profit_time_num.Length);
-            citizen_loss_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_loss_time_num.Length);
-            citizen_profit_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_profit_time_num.Length);
+            //citizen_very_profit_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_very_profit_time_num.Length);
+            //citizen_loss_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_loss_time_num.Length);
+            citizen_profit_status = saveandrestore.load_bytes(ref i, load_data, citizen_profit_status.Length);
             family_profit_money_num = saveandrestore.load_uint(ref i, load_data);
             family_loss_money_num = saveandrestore.load_uint(ref i, load_data);
             family_very_profit_money_num = saveandrestore.load_uint(ref i, load_data);
             family_weight_stable_high = saveandrestore.load_uint(ref i, load_data);
             family_weight_stable_low = saveandrestore.load_uint(ref i, load_data);
 
-            building_money = saveandrestore.load_ints(ref i, load_data, building_money.Length);
+            building_money = saveandrestore.load_shorts(ref i, load_data, building_money.Length);
 
             Road = saveandrestore.load_int(ref i, load_data);
             Electricity = saveandrestore.load_int(ref i, load_data);
@@ -529,6 +540,12 @@ namespace RealCity
             outside_situation_index = saveandrestore.load_byte(ref i, load_data);
             update_money_count = saveandrestore.load_byte(ref i, load_data);
             is_updated = saveandrestore.load_bool(ref i, load_data);
+
+            current_time = saveandrestore.load_float(ref i, load_data);
+            prev_time = saveandrestore.load_float(ref i, load_data);
+            resident_consumption_rate = saveandrestore.load_float(ref i, load_data);
+            outside_consumption_rate = saveandrestore.load_float(ref i, load_data);
+            update_outside_count = saveandrestore.load_byte(ref i, load_data);
         }
     }
 }
