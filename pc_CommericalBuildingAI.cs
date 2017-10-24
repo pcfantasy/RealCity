@@ -103,7 +103,7 @@ namespace RealCity
             float trade_income = amountDelta * pc_PrivateBuildingAI.comm_profit * production_value;
             if (comm_data.building_money[buildingID] > 0)
             {
-                trade_tax = -trade_income * 0.1f;
+                trade_tax = -trade_income * 0.17f;
                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             }
             comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (short)(trade_income + trade_tax));

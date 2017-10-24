@@ -78,13 +78,13 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    production_value = 0.05f; break;
+                    production_value = 0.5f; break;
                 case ItemClass.SubService.IndustrialForestry:
-                    production_value = 0.05f; break;
+                    production_value = 0.5f; break;
                 case ItemClass.SubService.IndustrialOil:
-                    production_value = 0.1f; break;
+                    production_value = 3f; break;
                 case ItemClass.SubService.IndustrialOre:
-                    production_value = 0.1f; break;
+                    production_value = 2f; break;
                 default:
                     production_value = 0f; break;
             }

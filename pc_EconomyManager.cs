@@ -145,8 +145,8 @@ namespace RealCity
         public static int[] indu_oil_tradeincome_forui = new int[17];
         public static int[] indu_ore_tradeincome_forui = new int[17];
 
-        public static byte[] save_data = new byte[2382];
-        public static byte[] load_data = new byte[2382];
+        public static byte[] save_data = new byte[2390];
+        public static byte[] load_data = new byte[2390];
 
         //public income
 
@@ -237,6 +237,8 @@ namespace RealCity
             PublicTransport = saveandrestore.load_float(ref i, load_data);
             Policy_cost = saveandrestore.load_float(ref i, load_data);
             Disaster = saveandrestore.load_float(ref i, load_data);
+            citizen_income = saveandrestore.load_float(ref i, load_data);
+            tourist_income = saveandrestore.load_float(ref i, load_data);
 
 
             resident_low_level1_tax_income = saveandrestore.load_float(ref i, load_data);
@@ -369,6 +371,8 @@ namespace RealCity
             saveandrestore.save_float(ref i, PoliceDepartment, ref save_data);
             saveandrestore.save_float(ref i, Policy_cost, ref save_data);
             saveandrestore.save_float(ref i, Disaster, ref save_data);
+            saveandrestore.save_float(ref i, citizen_income, ref save_data);
+            saveandrestore.save_float(ref i, tourist_income, ref save_data);
 
 
             //20*4 = 80

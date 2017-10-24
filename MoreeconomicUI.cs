@@ -17,13 +17,13 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 500f;
+        private static readonly float HEIGHT = 600f;
 
         private static readonly float HEADER = 40f;
 
-        private static readonly float SPACING = 15f;
+        private static readonly float SPACING = 17f;
 
-        private static readonly float SPACING22 = 22f;
+        private static readonly float SPACING22 = 23f;
 
         private ItemClass.Availability CurrentMode;
 
@@ -79,6 +79,9 @@ namespace RealCity
         private UILabel family_very_profit_num;
         private UILabel family_weight_stable_high;
         private UILabel family_weight_stable_low;
+
+        private UILabel resident_consumption_rate;
+        private UILabel tourist_consumption_rate;
 
         //2 building   27 element
         private UILabel m_secondline_building; //fixed title
@@ -140,6 +143,9 @@ namespace RealCity
         private UILabel total_cargo_transfer_size;
         private UILabel total_train_transfer_size;
         private UILabel total_ship_transfer_size;
+
+        private UILabel office_gen_salary_index;
+        private UILabel office_high_tech_salary_index;
 
 
         //3 goverment
@@ -238,7 +244,7 @@ namespace RealCity
             this.family_count = base.AddUIComponent<UILabel>();
             this.family_count.text =                 string.Format("family_count [0000000]");
             this.family_count.tooltip = "total family_count";
-            this.family_count.relativePosition = new Vector3(this.citizen_count.relativePosition.x + this.citizen_count.width + SPACING, this.citizen_count.relativePosition.y);
+            this.family_count.relativePosition = new Vector3(this.citizen_count.relativePosition.x + this.citizen_count.width + SPACING + 2f, this.citizen_count.relativePosition.y);
             this.family_count.autoSize = true;
             this.family_count.name = "Moreeconomic_Text_1";
 
@@ -260,14 +266,14 @@ namespace RealCity
             this.citizen_salary_tax_total = base.AddUIComponent<UILabel>();
             this.citizen_salary_tax_total.text =     string.Format("citizen_tax_total [000]");
             this.citizen_salary_tax_total.tooltip = "total citizen_salary_tax";
-            this.citizen_salary_tax_total.relativePosition = new Vector3(this.citizen_salary_total.relativePosition.x + this.citizen_salary_total.width + SPACING, this.citizen_salary_total.relativePosition.y);
+            this.citizen_salary_tax_total.relativePosition = new Vector3(this.citizen_salary_total.relativePosition.x + this.citizen_salary_total.width + SPACING + 2f, this.citizen_salary_total.relativePosition.y);
             this.citizen_salary_tax_total.autoSize = true;
             this.citizen_salary_tax_total.name = "Moreeconomic_Text_4";
 
             this.citizen_outcome_per_family = base.AddUIComponent<UILabel>();
             this.citizen_outcome_per_family.text =   string.Format("outcome_per_family [0000000000]");
             this.citizen_outcome_per_family.tooltip = "citizen_outcome_per_family";
-            this.citizen_outcome_per_family.relativePosition = new Vector3(this.citizen_salary_tax_total.relativePosition.x + this.citizen_salary_tax_total.width + SPACING, this.citizen_salary_tax_total.relativePosition.y);
+            this.citizen_outcome_per_family.relativePosition = new Vector3(this.citizen_salary_tax_total.relativePosition.x + this.citizen_salary_tax_total.width + SPACING + 2f, this.citizen_salary_tax_total.relativePosition.y);
             this.citizen_outcome_per_family.autoSize = true;
             this.citizen_outcome_per_family.name = "Moreeconomic_Text_5";
 
@@ -302,14 +308,14 @@ namespace RealCity
             this.family_loss_money_num = base.AddUIComponent<UILabel>();
             this.family_loss_money_num.text =        string.Format("family_loss_num [00000]");
             this.family_loss_money_num.tooltip = "family_loss_money_num";
-            this.family_loss_money_num.relativePosition = new Vector3(this.family_profit_money_num.relativePosition.x + this.family_profit_money_num.width + SPACING, this.family_profit_money_num.relativePosition.y);
+            this.family_loss_money_num.relativePosition = new Vector3(this.family_profit_money_num.relativePosition.x + this.family_profit_money_num.width + SPACING + 2f, this.family_profit_money_num.relativePosition.y);
             this.family_loss_money_num.autoSize = true;
             this.family_loss_money_num.name = "Moreeconomic_Text_10";
 
             this.family_very_profit_num = base.AddUIComponent<UILabel>();
             this.family_very_profit_num.text =       string.Format("family_very_profit_num [00000]");
             this.family_very_profit_num.tooltip = "family_very_profit_num";
-            this.family_very_profit_num.relativePosition = new Vector3(this.family_loss_money_num.relativePosition.x + this.family_loss_money_num.width + SPACING, this.family_loss_money_num.relativePosition.y);
+            this.family_very_profit_num.relativePosition = new Vector3(this.family_loss_money_num.relativePosition.x + this.family_loss_money_num.width + SPACING + 2f, this.family_loss_money_num.relativePosition.y);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.family_very_profit_num.autoSize = true;
             this.family_very_profit_num.name = "Moreeconomic_Text_11";
@@ -337,6 +343,22 @@ namespace RealCity
             this.citizen_average_transport_fee.autoSize = true;
             this.citizen_average_transport_fee.name = "Moreeconomic_Text_14";
 
+            this.resident_consumption_rate = base.AddUIComponent<UILabel>();
+            this.resident_consumption_rate.text = string.Format("resident_consumption_rate [000000]");
+            this.resident_consumption_rate.tooltip = "resident_consumption_rate";
+            this.resident_consumption_rate.relativePosition = new Vector3(SPACING, this.family_weight_stable_high.relativePosition.y + SPACING22);
+            //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
+            this.resident_consumption_rate.autoSize = true;
+            this.resident_consumption_rate.name = "Moreeconomic_Text_44";
+
+            this.tourist_consumption_rate = base.AddUIComponent<UILabel>();
+            this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [000000]");
+            this.tourist_consumption_rate.tooltip = "outside_consumption_rate";
+            this.tourist_consumption_rate.relativePosition = new Vector3(this.resident_consumption_rate.relativePosition.x + this.resident_consumption_rate.width + SPACING, this.resident_consumption_rate.relativePosition.y);
+            //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
+            this.tourist_consumption_rate.autoSize = true;
+            this.tourist_consumption_rate.name = "Moreeconomic_Text_45";
+
 
 
 
@@ -347,7 +369,7 @@ namespace RealCity
             this.m_secondline_building = base.AddUIComponent<UILabel>();
             this.m_secondline_building.text = "2、building status";
             this.m_secondline_building.tooltip = "N/A";
-            this.m_secondline_building.relativePosition = new Vector3(SPACING, this.citizen_average_transport_fee.relativePosition.y + SPACING22);
+            this.m_secondline_building.relativePosition = new Vector3(SPACING, this.resident_consumption_rate.relativePosition.y + SPACING22);
             this.m_secondline_building.autoSize = true;
 
             this.comm_profit = base.AddUIComponent<UILabel>();
@@ -535,9 +557,23 @@ namespace RealCity
             this.total_ship_transfer_size = base.AddUIComponent<UILabel>();
             this.total_ship_transfer_size.text = string.Format("ship_transfer_size [00000000]");
             this.total_ship_transfer_size.tooltip = "total_ship_transfer_size";
-            this.total_ship_transfer_size.relativePosition = new Vector3(this.total_train_transfer_size.relativePosition.x + this.total_train_transfer_size.width + SPACING, this.total_train_transfer_size.relativePosition.y);
+            this.total_ship_transfer_size.relativePosition = new Vector3(this.total_train_transfer_size.relativePosition.x + this.total_train_transfer_size.width + SPACING + 5f, this.total_train_transfer_size.relativePosition.y);
             this.total_ship_transfer_size.autoSize = true;
             this.total_ship_transfer_size.name = "Moreeconomic_Text_41";
+
+            this.office_gen_salary_index = base.AddUIComponent<UILabel>();
+            this.office_gen_salary_index.text = string.Format("office_gen_salary_index [0000000000]");
+            this.office_gen_salary_index.tooltip = "office_gen_salary_index";
+            this.office_gen_salary_index.relativePosition = new Vector3(SPACING, this.total_train_transfer_size.relativePosition.y + SPACING22);
+            this.office_gen_salary_index.autoSize = true;
+            this.office_gen_salary_index.name = "Moreeconomic_Text_42";
+
+            this.office_high_tech_salary_index = base.AddUIComponent<UILabel>();
+            this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [0000000000]");
+            this.office_high_tech_salary_index.tooltip = "office_high_tech_salary_index";
+            this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + this.office_gen_salary_index.width + SPACING, this.office_gen_salary_index.relativePosition.y);
+            this.office_high_tech_salary_index.autoSize = true;
+            this.office_high_tech_salary_index.name = "Moreeconomic_Text_42";
 
             //this.m_getfromBank = base.AddUIComponent<UIButton>();
             //this.m_getfromBank.size = new Vector2(160f, 24f);
@@ -604,14 +640,16 @@ namespace RealCity
             this.citizen_salary_tax_total.text = string.Format("citizen_tax_total [{0}]", comm_data.citizen_salary_tax_total);
             this.citizen_outcome_per_family.text = string.Format("outcome_per_family [{0}]", comm_data.citizen_outcome_per_family);
             this.citizen_outcome.text = string.Format("citizen_outcome [{0}]", comm_data.citizen_outcome);
-            this.total_citizen_vehical_time.text = string.Format("citizen_vehical_time [{0}]", comm_data.total_citizen_vehical_time);
-            this.public_transport_fee.text = string.Format("public_transport_fee [{0}]", comm_data.public_transport_fee);
+            this.total_citizen_vehical_time.text = string.Format("citizen_vehical_time [{0}]", comm_data.temp_total_citizen_vehical_time_last);
+            this.public_transport_fee.text = string.Format("public_trans_fee [{0}]", comm_data.public_transport_fee);
             this.citizen_average_transport_fee.text = string.Format("average_transport_fee [{0}]", comm_data.citizen_average_transport_fee);
             this.family_profit_money_num.text = string.Format("family_profit_num [{0}]", comm_data.family_profit_money_num);
             this.family_loss_money_num.text = string.Format("family_loss_num [{0}]", comm_data.family_loss_money_num);
             this.family_very_profit_num.text = string.Format("family_very_profit_num [{0}]", comm_data.family_very_profit_money_num);
             this.family_weight_stable_high.text = string.Format("weight_stable_high [{0}]", comm_data.family_weight_stable_high);
             this.family_weight_stable_low.text = string.Format("weight_stable_low [{0}]", comm_data.family_weight_stable_low);
+            this.resident_consumption_rate.text = string.Format("resident_consumption_rate [{0}]", comm_data.resident_consumption_rate);
+            this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [{0}]", comm_data.outside_consumption_rate);
 
             //building
             this.comm_profit.text = string.Format("commerical_profit [{0}]]", pc_PrivateBuildingAI.comm_profit);
@@ -641,6 +679,8 @@ namespace RealCity
             this.total_cargo_transfer_size.text = string.Format("total_cargo_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_cargo_transfer_size/1000));
             this.total_train_transfer_size.text = string.Format("total_train_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_train_transfer_size / 1000));
             this.total_ship_transfer_size.text = string.Format("total_ship_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_ship_transfer_size / 1000));
+            this.office_gen_salary_index.text = string.Format("office_gen_salary_index [{0}]]", pc_PrivateBuildingAI.office_gen_salary_index);
+            this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [{0}]]", pc_PrivateBuildingAI.office_high_tech_salary_index);
             isRefreshing = false;
         }
 

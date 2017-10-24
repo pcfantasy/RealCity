@@ -344,7 +344,7 @@ namespace RealCity
             comm_data.save();
             pc_ResidentAI.save();
             pc_PrivateBuildingAI.save();
-            pc_VehicleAI.save();
+            //pc_VehicleAI.save();
         }
 
         //public static void get_load_data()
@@ -371,7 +371,7 @@ namespace RealCity
             saveandrestore._serializableData.SaveData("real_city comm_data", comm_data.save_data);
             saveandrestore._serializableData.SaveData("real_city pc_ResidentAI", pc_ResidentAI.save_data);
             saveandrestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", pc_PrivateBuildingAI.save_data);
-            saveandrestore._serializableData.SaveData("real_city pc_VehicleAI", pc_VehicleAI.save_data);
+            //saveandrestore._serializableData.SaveData("real_city pc_VehicleAI", pc_VehicleAI.save_data);
         }
 
         public override void OnLoadData()
@@ -417,7 +417,7 @@ namespace RealCity
                 pc_PrivateBuildingAI.load();
             }
 
-            pc_VehicleAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_VehicleAI");
+            /*pc_VehicleAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_VehicleAI");
             if (pc_VehicleAI.load_data == null)
             {
                 DebugLog.LogToFileOnly("no pc_VehicleAI save data, please check");
@@ -425,7 +425,7 @@ namespace RealCity
             else
             {
                 pc_VehicleAI.load();
-            }
+            }*/
         }
 
         public void init_data()

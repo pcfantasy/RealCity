@@ -122,7 +122,7 @@ namespace RealCity
             guiPanel2.transform.parent = buildingInfo.transform;
             guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y / 3);
             guiPanel2.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-            guiPanel2.position = new Vector3(0, 12);
+            guiPanel2.position = new Vector3(0, 12 - buildingInfo.size.y/2);
             buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
 
         }

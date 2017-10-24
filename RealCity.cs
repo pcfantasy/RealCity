@@ -70,9 +70,9 @@ namespace RealCity
             var destMethod9 = typeof(pc_ResidentAI).GetMethod("SimulationStep_1", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType() }, null);
             RedirectionHelper.RedirectCalls(srcMethod9, destMethod9);
 
-            //var srcMethod10 = typeof(HumanAI).GetMethod("ArriveAtDestination", BindingFlags.NonPublic | BindingFlags.Instance);
-            //var destMethod10 = typeof(pc_HumanAI).GetMethod("ArriveAtDestination_1", BindingFlags.NonPublic | BindingFlags.Instance);
-            //RedirectionHelper.RedirectCalls(srcMethod10, destMethod10);
+            var srcMethod10 = typeof(HumanAI).GetMethod("ArriveAtDestination", BindingFlags.NonPublic | BindingFlags.Instance);
+            var destMethod10 = typeof(pc_HumanAI).GetMethod("ArriveAtDestination_1", BindingFlags.NonPublic | BindingFlags.Instance);
+            RedirectionHelper.RedirectCalls(srcMethod10, destMethod10);
 
             var srcMethod11 = typeof(EconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int),  typeof(ItemClass) }, null);
             var destMethod11 = typeof(pc_EconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
@@ -122,10 +122,9 @@ namespace RealCity
             //var destMethod22 = typeof(pc_CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             //RedirectionHelper.RedirectCalls(srcMethod22, destMethod22);
 
-            var srcMethod23 = typeof(VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
-            var destMethod23 = typeof(pc_VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
-            RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
-
+            //var srcMethod23 = typeof(VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
+            //var destMethod23 = typeof(pc_VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
+            //RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
 
         }
 
@@ -155,7 +154,7 @@ namespace RealCity
                 if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
                 {
                     citizen_status();
-                    //vehicle_status();
+                    vehicle_status();
                     caculate_goverment_employee_outcome();
                     caculate_profit();
                     caculate_citizen_transport_fee();
@@ -472,7 +471,7 @@ namespace RealCity
                     }
                     if (comm_data.family_count != 0)
                     {
-                        comm_data.resident_consumption_rate = (float)((float)(comm_data.family_weight_stable_high + medium_citizen / 5) / (float)comm_data.family_count);
+                        comm_data.resident_consumption_rate = (float)((float)(comm_data.family_weight_stable_high + medium_citizen / 10) / (float)comm_data.family_count);
                     }
                 }
                 else
@@ -502,6 +501,29 @@ namespace RealCity
                         }
                     }
                 }*/
+            }
+            public void vehicle_status()
+            {
+                VehicleManager instance = Singleton<VehicleManager>.instance;
+                for (int i = 0; i < 16384; i = i + 1)
+                {
+                    Vehicle vehicle = instance.m_vehicles.m_buffer[i];
+                    if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
+                    {
+                        if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
+                        {
+                            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition))
+                            {
+                                comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
+                            }
+                        }
+                    }
+                    if ((comm_data.vehical_last_transfer_flag[i] == false) || (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition) == true))
+                    {
+                        comm_data.vehical_transfer_time[i] = 1;
+                    }
+                    comm_data.vehical_last_transfer_flag[i] = vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition);
+                }
             }
 
             public void caculate_profit()
@@ -687,8 +709,8 @@ namespace RealCity
                     good_export_ratio = 1;
                 }
 
-                pc_PrivateBuildingAI.comm_profit = 0.99f; //update later
-                pc_PrivateBuildingAI.indu_profit = (float)(55f + 2f * (5f - good_export_ratio - food_import_ratio - lumber_import_ratio - petrol_import_ratio - coal_import_ratio))/100f;
+                pc_PrivateBuildingAI.comm_profit = 0.3f; //update later
+                pc_PrivateBuildingAI.indu_profit = (float)(5f + 2f * (5f - good_export_ratio - food_import_ratio - lumber_import_ratio - petrol_import_ratio - coal_import_ratio))/100f;
                 pc_PrivateBuildingAI.food_profit = (float)(5f + 5f * (2f - food_export_ratio - grain_import_ratio))/100f;
                 pc_PrivateBuildingAI.lumber_profit = (float)(5f + 5f * (2f - lumber_export_ratio - logs_import_ratio))/100f;
                 pc_PrivateBuildingAI.coal_profit = (float)(5f + 5f * (2f - coal_export_ratio - ore_import_ratio))/100f;

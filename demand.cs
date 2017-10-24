@@ -11,7 +11,7 @@ namespace RealCity
     {
         public override int OnCalculateResidentialDemand(int originalDemand)
         {
-            if (comm_data.citizen_count > 100)
+            if (comm_data.citizen_count > 500)
             {
                originalDemand = (int)(comm_data.resident_consumption_rate * originalDemand);
             }
