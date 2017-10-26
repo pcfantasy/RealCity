@@ -356,7 +356,7 @@ namespace RealCity
 
 
         //2.3 process building 
-        public static short[] building_money = new short[49152];
+        public static float[] building_money = new float[49152];
         //move to buildingAI
 
 
@@ -398,9 +398,13 @@ namespace RealCity
         public static float outside_consumption_rate = 0.5f;
         public static byte update_outside_count = 0;
 
+        //use it to decrease mantain fee in early game time
+        public static byte mantain_and_land_fee_decrease = 10;
+        //use it to decrease land income in early game time for industry and commerical
+
         //public static byte[] save_data = new byte[2867364];
-        public static byte[] save_data = new byte[1720484];
-        public static byte[] load_data = new byte[1720484];
+        public static byte[] save_data = new byte[1818789];
+        public static byte[] load_data = new byte[1818789];
 
         public static void data_init()
         {
@@ -453,8 +457,8 @@ namespace RealCity
             saveandrestore.save_uint(ref i, family_weight_stable_high, ref save_data);
             saveandrestore.save_uint(ref i, family_weight_stable_low, ref save_data);
 
-            //49152*2 = 196608/2 = 98304
-            saveandrestore.save_shorts(ref i, building_money, ref save_data);
+            //49152*2 = 196608
+            saveandrestore.save_floats(ref i, building_money, ref save_data);
 
             //20*4 = 80
             saveandrestore.save_int(ref i, Road, ref save_data);
@@ -485,10 +489,11 @@ namespace RealCity
             saveandrestore.save_float(ref i, current_time, ref save_data);
             saveandrestore.save_float(ref i, prev_time, ref save_data);
 
-            //9
+            //9+1
             saveandrestore.save_float(ref i, resident_consumption_rate, ref save_data);
             saveandrestore.save_float(ref i, outside_consumption_rate, ref save_data);
             saveandrestore.save_byte(ref i, update_outside_count, ref save_data);
+            saveandrestore.save_byte(ref i, mantain_and_land_fee_decrease, ref save_data);
         }
 
         public static void load()
@@ -514,7 +519,7 @@ namespace RealCity
             family_weight_stable_high = saveandrestore.load_uint(ref i, load_data);
             family_weight_stable_low = saveandrestore.load_uint(ref i, load_data);
 
-            building_money = saveandrestore.load_shorts(ref i, load_data, building_money.Length);
+            building_money = saveandrestore.load_floats(ref i, load_data, building_money.Length);
 
             Road = saveandrestore.load_int(ref i, load_data);
             Electricity = saveandrestore.load_int(ref i, load_data);
@@ -546,6 +551,7 @@ namespace RealCity
             resident_consumption_rate = saveandrestore.load_float(ref i, load_data);
             outside_consumption_rate = saveandrestore.load_float(ref i, load_data);
             update_outside_count = saveandrestore.load_byte(ref i, load_data);
+            mantain_and_land_fee_decrease = saveandrestore.load_byte(ref i, load_data);
         }
     }
 }

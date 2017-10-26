@@ -236,14 +236,14 @@ namespace RealCity
             this.citizen_tax_income_title = base.AddUIComponent<UILabel>();
             this.citizen_tax_income_title.text = "1、City resident salary-tax income [000000000000000]";
             this.citizen_tax_income_title.tooltip = "N/A";
-            this.citizen_tax_income_title.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
+            this.citizen_tax_income_title.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22 + 2f);
             this.citizen_tax_income_title.autoSize = true;
             this.citizen_tax_income_title.name = "Moreeconomic_Text_0";
 
             this.citizen_tax_income = base.AddUIComponent<UILabel>();
             this.citizen_tax_income.text =               string.Format("citizen salary-tax income [0000000]");
             this.citizen_tax_income.tooltip = "total citizen salary tax income";
-            this.citizen_tax_income.relativePosition = new Vector3(SPACING, this.citizen_tax_income_title.relativePosition.y + SPACING22);
+            this.citizen_tax_income.relativePosition = new Vector3(SPACING, this.citizen_tax_income_title.relativePosition.y + SPACING22 + 2f);
             this.citizen_tax_income.autoSize = true;
             this.citizen_tax_income.name = "Moreeconomic_Text_1";
 
@@ -251,14 +251,14 @@ namespace RealCity
             this.city_tourism_income_title = base.AddUIComponent<UILabel>();
             this.city_tourism_income_title.text = string.Format("2、City tourism income [000000000000000]");
             this.city_tourism_income_title.tooltip = "N/A";
-            this.city_tourism_income_title.relativePosition = new Vector3(SPACING, this.citizen_tax_income.relativePosition.y + SPACING22);
+            this.city_tourism_income_title.relativePosition = new Vector3(SPACING, this.citizen_tax_income.relativePosition.y + SPACING22 + 2f);
             this.city_tourism_income_title.autoSize = true;
             this.city_tourism_income_title.name = "Moreeconomic_Text_2";
 
             this.citizen_income = base.AddUIComponent<UILabel>();
             this.citizen_income.text =    string.Format("from resident [00000]");
             this.citizen_income.tooltip = "money from resident tourist";
-            this.citizen_income.relativePosition = new Vector3(SPACING, this.city_tourism_income_title.relativePosition.y + SPACING22);
+            this.citizen_income.relativePosition = new Vector3(SPACING, this.city_tourism_income_title.relativePosition.y + SPACING22 + 2f);
             this.citizen_income.autoSize = true;
             this.citizen_income.name = "Moreeconomic_Text_3";
 
@@ -273,14 +273,14 @@ namespace RealCity
             this.land_income_title = base.AddUIComponent<UILabel>();
             this.land_income_title.text =     string.Format("3、City land tax income [0000000000000]");
             this.land_income_title.tooltip = "total city land income";
-            this.land_income_title.relativePosition = new Vector3(SPACING, this.citizen_income.relativePosition.y + SPACING22);
+            this.land_income_title.relativePosition = new Vector3(SPACING, this.citizen_income.relativePosition.y + SPACING22 + 2f);
             this.land_income_title.autoSize = true;
             this.land_income_title.name = "Moreeconomic_Text_5";
 
             this.resident_high_landincome = base.AddUIComponent<UILabel>();
             this.resident_high_landincome.text =     string.Format("residential_high_landincome [0000000]");
             this.resident_high_landincome.tooltip = "residential_high_landincome";
-            this.resident_high_landincome.relativePosition = new Vector3(SPACING, this.land_income_title.relativePosition.y + SPACING22);
+            this.resident_high_landincome.relativePosition = new Vector3(SPACING, this.land_income_title.relativePosition.y + SPACING22 + 2f);
             this.resident_high_landincome.autoSize = true;
             this.resident_high_landincome.name = "Moreeconomic_Text_6";
 
@@ -393,14 +393,14 @@ namespace RealCity
             this.trade_income_title = base.AddUIComponent<UILabel>();
             this.trade_income_title.text = string.Format("4、City trade tax income [00000000000000]");
             this.trade_income_title.tooltip = "total city trade tax income";
-            this.trade_income_title.relativePosition = new Vector3(SPACING, this.office_gen_landincome.relativePosition.y + SPACING22);
+            this.trade_income_title.relativePosition = new Vector3(SPACING, this.office_gen_landincome.relativePosition.y + SPACING22 + 2f);
             this.trade_income_title.autoSize = true;
             this.trade_income_title.name = "Moreeconomic_Text_21";
 
             this.comm_high_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_high_tradeincome.text = string.Format("commerical_high_tradeincome [00000000]");
             this.comm_high_tradeincome.tooltip = "total commerical_high_tradeincome";
-            this.comm_high_tradeincome.relativePosition = new Vector3(SPACING, this.trade_income_title.relativePosition.y + SPACING22);
+            this.comm_high_tradeincome.relativePosition = new Vector3(SPACING, this.trade_income_title.relativePosition.y + SPACING22 + 2f);
             this.comm_high_tradeincome.autoSize = true;
             this.comm_high_tradeincome.name = "Moreeconomic_Text_22";
 
@@ -471,14 +471,14 @@ namespace RealCity
             this.public_transport_income_title = base.AddUIComponent<UILabel>();
             this.public_transport_income_title.text = "5、City Public transport income [0000000000000]";
             this.public_transport_income_title.tooltip = "N/A";
-            this.public_transport_income_title.relativePosition = new Vector3(SPACING, this.indu_oil_tradeincome.relativePosition.y + SPACING22);
+            this.public_transport_income_title.relativePosition = new Vector3(SPACING, this.indu_oil_tradeincome.relativePosition.y + SPACING22 + 2f);
             this.public_transport_income_title.autoSize = true;
             this.public_transport_income_title.name = "Moreeconomic_Text_32";
 
             this.from_bus = base.AddUIComponent<UILabel>();
             this.from_bus.text =            string.Format("Bus [000000000]");
             this.from_bus.tooltip = "Bus";
-            this.from_bus.relativePosition = new Vector3(SPACING, this.public_transport_income_title.relativePosition.y + SPACING22);
+            this.from_bus.relativePosition = new Vector3(SPACING, this.public_transport_income_title.relativePosition.y + SPACING22 + 2f);
             this.from_bus.autoSize = true;
             this.from_bus.name = "Moreeconomic_Text_33";
 
@@ -542,7 +542,7 @@ namespace RealCity
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
             this.all_total_income_ui.text = "6、City all total income [0000000000000]";
             this.all_total_income_ui.tooltip = "N/A";
-            this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.from_plane.relativePosition.y + SPACING22);
+            this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.from_plane.relativePosition.y + SPACING22 + 2f);
             this.all_total_income_ui.autoSize = true;
             this.all_total_income_ui.name = "Moreeconomic_Text_41";
 

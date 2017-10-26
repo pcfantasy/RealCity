@@ -40,6 +40,21 @@ namespace RealCity
             idex = idex + temp_data.Length;
         }
 
+        public static void save_floats(ref int idex, float[] item, ref byte[] container)
+        {
+            int i; int j;
+            byte[] temp_data;
+            for (j = 0; j < item.Length; j++)
+            {
+                temp_data = BitConverter.GetBytes(item[j]);
+                for (i = 0; i < temp_data.Length; i++)
+                {
+                    container[idex + i] = temp_data[i];
+                }
+                idex = idex + temp_data.Length;
+            }
+        }
+
         public static void save_uint(ref int idex, uint item, ref byte[] container)
         {
             int i;

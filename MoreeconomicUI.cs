@@ -354,7 +354,7 @@ namespace RealCity
             this.tourist_consumption_rate = base.AddUIComponent<UILabel>();
             this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [000000]");
             this.tourist_consumption_rate.tooltip = "outside_consumption_rate";
-            this.tourist_consumption_rate.relativePosition = new Vector3(this.resident_consumption_rate.relativePosition.x + this.resident_consumption_rate.width + SPACING, this.resident_consumption_rate.relativePosition.y);
+            this.tourist_consumption_rate.relativePosition = new Vector3(this.resident_consumption_rate.relativePosition.x + this.resident_consumption_rate.width + SPACING + 20f, this.resident_consumption_rate.relativePosition.y);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.tourist_consumption_rate.autoSize = true;
             this.tourist_consumption_rate.name = "Moreeconomic_Text_45";
@@ -571,7 +571,7 @@ namespace RealCity
             this.office_high_tech_salary_index = base.AddUIComponent<UILabel>();
             this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [0000000000]");
             this.office_high_tech_salary_index.tooltip = "office_high_tech_salary_index";
-            this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + this.office_gen_salary_index.width + SPACING, this.office_gen_salary_index.relativePosition.y);
+            this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + this.office_gen_salary_index.width + SPACING + 10f, this.office_gen_salary_index.relativePosition.y);
             this.office_high_tech_salary_index.autoSize = true;
             this.office_high_tech_salary_index.name = "Moreeconomic_Text_42";
 

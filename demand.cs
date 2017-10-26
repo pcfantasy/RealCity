@@ -11,9 +11,13 @@ namespace RealCity
     {
         public override int OnCalculateResidentialDemand(int originalDemand)
         {
+            float demand_idex = 0f;
+            
             if (comm_data.citizen_count > 500)
             {
-               originalDemand = (int)(comm_data.resident_consumption_rate * originalDemand);
+                demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
+                demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
+               originalDemand = (int)(originalDemand * demand_idex);
             }
             else
             {
@@ -28,13 +32,13 @@ namespace RealCity
             {
                 if (pc_PrivateBuildingAI.all_comm_building_loss_final != 0)
                 {
-                    if ((pc_PrivateBuildingAI.all_comm_building_profit_final / pc_PrivateBuildingAI.all_comm_building_loss_final) > 1)
+                    if ((pc_PrivateBuildingAI.all_comm_building_profit_final / pc_PrivateBuildingAI.all_comm_building_loss_final) >= 1)
                     {
                         //do nothing
                     }
                     else
                     {
-                        originalDemand = (int)(((long)originalDemand * (long)pc_PrivateBuildingAI.all_comm_building_profit_final) / (long)pc_PrivateBuildingAI.all_comm_building_loss_final);
+                        originalDemand = 0;// (int)(((long)originalDemand * (long)pc_PrivateBuildingAI.all_comm_building_profit_final) / (long)pc_PrivateBuildingAI.all_comm_building_loss_final);
                     }
                 }
                 else
@@ -76,13 +80,13 @@ namespace RealCity
             {
                 if (loss_building_num != 0)
                 {
-                    if ((profit_building_num / loss_building_num) > 1)
+                    if ((profit_building_num / loss_building_num) >= 1)
                     {
                         //do nothing
                     }
                     else
                     {
-                        originalDemand = (int)(((long)originalDemand * (long)profit_building_num) / (long)loss_building_num);
+                        originalDemand = 0;// (int)(((long)originalDemand * (long)profit_building_num) / (long)loss_building_num);
                     }
                 }
                 else

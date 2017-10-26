@@ -74,17 +74,26 @@ namespace RealCity
         }
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float production_value;
+            float production_value,final_profit;
+            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+            int aliveWorkerCount = 0;
+            int totalWorkerCount = 0;
+            base.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
+            float num = (float)aliveWorkerCount / 5f;
+            if (num < 1f)
+            {
+                num = 1f;
+            }
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    production_value = 0.5f; break;
+                    production_value = 0.5f * num; break;
                 case ItemClass.SubService.IndustrialForestry:
-                    production_value = 0.5f; break;
+                    production_value = 0.5f * num; ; break;
                 case ItemClass.SubService.IndustrialOil:
-                    production_value = 3f; break;
+                    production_value = 3f * num; ; break;
                 case ItemClass.SubService.IndustrialOre:
-                    production_value = 2f; break;
+                    production_value = 2f * num; ; break;
                 default:
                     production_value = 0f; break;
             }
@@ -92,43 +101,63 @@ namespace RealCity
             {
                 case TransferManager.TransferReason.Logs:
                     float trade_tax = 0;
-                    float trade_income = amountDelta * pc_PrivateBuildingAI.log_profit * production_value;
-                    if (comm_data.building_money[buildingID] > 0)
+                    final_profit = pc_PrivateBuildingAI.log_profit * production_value;
+                    if (final_profit > 0.9f)
                     {
-                        trade_tax = -trade_income * 0.04f;
+                        final_profit = 0.9f;
+                    }
+                    float trade_income = amountDelta * final_profit;
+                    if ((comm_data.building_money[buildingID] - trade_income) > 0)
+                    {
+                        trade_tax = -trade_income * 0.1f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
+                    comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Grain:
                     trade_tax = 0;
-                    trade_income = amountDelta * pc_PrivateBuildingAI.grain_profit * production_value;
-                    if (comm_data.building_money[buildingID] > 0)
+                    final_profit = pc_PrivateBuildingAI.grain_profit * production_value;
+                    if (final_profit > 0.9f)
                     {
-                        trade_tax = -trade_income * 0.04f;
+                        final_profit = 0.9f;
+                    }
+                    trade_income = amountDelta * final_profit;
+                    if ((comm_data.building_money[buildingID] - trade_income)> 0)
+                    {
+                        trade_tax = -trade_income * 0.1f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
+                    comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Oil:
                     trade_tax = 0;
-                    trade_income = amountDelta * pc_PrivateBuildingAI.oil_profit * production_value;
-                    if (comm_data.building_money[buildingID] > 0)
+                    final_profit = pc_PrivateBuildingAI.oil_profit * production_value;
+                    if (final_profit > 0.9f)
                     {
-                        trade_tax = -trade_income * 0.2f;
+                        final_profit = 0.9f;
+                    }
+                    trade_income = amountDelta * final_profit;
+                    if ((comm_data.building_money[buildingID] - trade_income)> 0)
+                    {
+                        trade_tax = -trade_income * 0.1f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
+                    comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Ore:
                     trade_tax = 0;
-                    trade_income = amountDelta * pc_PrivateBuildingAI.ore_profit * production_value;
-                    if (comm_data.building_money[buildingID] > 0)
+                    final_profit = pc_PrivateBuildingAI.ore_profit * production_value;
+                    if (final_profit > 0.9f)
                     {
-                        trade_tax = -trade_income * 0.15f;
+                        final_profit = 0.9f;
+                    }
+                    trade_income = amountDelta * final_profit;
+                    if ((comm_data.building_money[buildingID] - trade_income)> 0)
+                    {
+                        trade_tax = -trade_income * 0.1f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
-                    comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(trade_income + trade_tax));
+                    comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
             }
         }

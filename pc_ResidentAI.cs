@@ -137,7 +137,7 @@ namespace RealCity
         public int citizen_salary(uint citizen_id)
         {
             int num = 0;
-            System.Random rand = new System.Random((int)citizen_id);
+            System.Random rand = new System.Random();
             Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
             if (citizen_id != 0u)
             {
@@ -715,15 +715,16 @@ namespace RealCity
 
             if(comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
             {
-                if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Commercial)
+                num = (int)((float)num / 2 + 0.5f);
+                /*if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    num = num - rand.Next((int)(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel + 1));
+                    num = num /2;
                 }
 
                 if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
                     num = num - rand.Next((int)(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel + 1));
-                }
+                }*/
             }
             return num;
         }//public

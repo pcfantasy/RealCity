@@ -724,12 +724,21 @@ namespace RealCity
             }
             System.Random rand = new System.Random();
 
-            //add some benefit if building is profit
-            if ((num1 != 0) && (comm_data.building_money[buildingID] >= 0))
+            //add random value to match citizen salary
+            if (num1 != 0)
             {
                 num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
             }
-            comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)(num1/16 + 0.5f));
+
+            //money < 0, salary/2
+            if (comm_data.building_money[buildingID] < 0)
+            {
+                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 / 32;
+            }
+            else
+            {
+                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 / 16;
+            }
         }
 
         public void process_land_fee(Building building, ushort buildingID)
@@ -748,8 +757,12 @@ namespace RealCity
             {
                 num = 0;
             }
-                comm_data.building_money[buildingID] = (short)(comm_data.building_money[buildingID] - (int)((num*num2)/100));
+            num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
+            //num = num / comm_data.mantain_and_land_fee_decrease;
 
+            //do this to decrase land outcome in early game;
+            float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
+            comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2)/(100* idex));
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
                 if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
@@ -761,7 +774,7 @@ namespace RealCity
             {
                 num = num * 95 / 100;
             }
-            num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
+            
             Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
         }
 

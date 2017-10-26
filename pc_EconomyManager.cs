@@ -507,7 +507,7 @@ namespace RealCity
                 }
                 else
                 {
-                    coefficient = 1;
+                    coefficient = comm_data.mantain_and_land_fee_decrease;
                 }
                 switch (itemClass.m_service)
                 {
