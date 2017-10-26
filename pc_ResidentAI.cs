@@ -713,9 +713,10 @@ namespace RealCity
                 }//if (citizen_id != 0u)
             }
 
+            
             if(comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
             {
-                num = (int)((float)num / 2 + 0.5f);
+                num = (int)((float)num * comm_data.salary_idex / 2 + 0.5f);
                 /*if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
                     num = num /2;
@@ -725,6 +726,10 @@ namespace RealCity
                 {
                     num = num - rand.Next((int)(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel + 1));
                 }*/
+            }
+            else
+            {
+                num = (int)((float)num * comm_data.salary_idex + 0.5f);
             }
             return num;
         }//public
@@ -738,10 +743,13 @@ namespace RealCity
                 comm_data.family_count = family_count;
                 comm_data.family_profit_money_num = family_profit_money_num;
                 comm_data.family_loss_money_num = family_loss_money_num;
-                comm_data.citizen_salary_per_family = (int)((citizen_salary_count / family_count));
-                comm_data.citizen_outcome_per_family = (int)((citizen_outcome_count / family_count));
+                if (family_count != 0)
+                {
+                    comm_data.citizen_salary_per_family = (int)((citizen_salary_count / family_count));
+                    comm_data.citizen_outcome_per_family = (int)((citizen_outcome_count / family_count));
+                }
                 comm_data.citizen_outcome = citizen_outcome_count;
-                comm_data.citizen_salary_tax_total = citizen_salary_tax_total;
+                comm_data.citizen_salary_tax_total = citizen_salary_count;
                 comm_data.Monument = Monument;
                 comm_data.PublicTransport_bus = PublicTransport_bus;
                 comm_data.PublicTransport_tram = PublicTransport_tram;
@@ -854,7 +862,7 @@ namespace RealCity
             //0-10 10% 10-20 20% 20-30 30% >30 40%
             if (salary_per_family_member < 10)
             {
-                tax = tax* 0.1f;
+                tax = salary_per_family_member * 0.1f;
             }
             else if (salary_per_family_member >= 10 && salary_per_family_member <= 20)
             {

@@ -733,11 +733,11 @@ namespace RealCity
             //money < 0, salary/2
             if (comm_data.building_money[buildingID] < 0)
             {
-                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 / 32;
+                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 32;
             }
             else
             {
-                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 / 16;
+                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 16;
             }
         }
 
@@ -761,8 +761,8 @@ namespace RealCity
             //num = num / comm_data.mantain_and_land_fee_decrease;
 
             //do this to decrase land outcome in early game;
-            float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
-            comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2)/(100* idex));
+            //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
+            comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2)/100);
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
                 if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)

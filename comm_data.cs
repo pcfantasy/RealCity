@@ -251,26 +251,26 @@ namespace RealCity
         public static long citizen_salary_tax_total = 0;
 
         //1.2 citizen outcome
-        public const int resident_low_level1_rent = 100;
-        public const int resident_low_level2_rent = 140;
-        public const int resident_low_level3_rent = 190;
-        public const int resident_low_level4_rent = 250;
-        public const int resident_low_level5_rent = 350;
-        public const int resident_low_eco_level1_rent = 110;
-        public const int resident_low_eco_level2_rent = 150;
-        public const int resident_low_eco_level3_rent = 200;
-        public const int resident_low_eco_level4_rent = 260;
-        public const int resident_low_eco_level5_rent = 360;
-        public const int resident_high_level1_rent = 80;
-        public const int resident_high_level2_rent = 110;
-        public const int resident_high_level3_rent = 150;
-        public const int resident_high_level4_rent = 200;
-        public const int resident_high_level5_rent = 260;
-        public const int resident_high_eco_level1_rent = 90;
-        public const int resident_high_eco_level2_rent = 120;
-        public const int resident_high_eco_level3_rent = 160;
-        public const int resident_high_eco_level4_rent = 210;
-        public const int resident_high_eco_level5_rent = 270;
+        public const ushort resident_low_level1_rent = 100;
+        public const ushort resident_low_level2_rent = 140;
+        public const ushort resident_low_level3_rent = 190;
+        public const ushort resident_low_level4_rent = 250;
+        public const ushort resident_low_level5_rent = 350;
+        public const ushort resident_low_eco_level1_rent = 110;
+        public const ushort resident_low_eco_level2_rent = 150;
+        public const ushort resident_low_eco_level3_rent = 200;
+        public const ushort resident_low_eco_level4_rent = 260;
+        public const ushort resident_low_eco_level5_rent = 360;
+        public const ushort resident_high_level1_rent = 80;
+        public const ushort resident_high_level2_rent = 110;
+        public const ushort resident_high_level3_rent = 150;
+        public const ushort resident_high_level4_rent = 200;
+        public const ushort resident_high_level5_rent = 260;
+        public const ushort resident_high_eco_level1_rent = 90;
+        public const ushort resident_high_eco_level2_rent = 120;
+        public const ushort resident_high_eco_level3_rent = 160;
+        public const ushort resident_high_eco_level4_rent = 210;
+        public const ushort resident_high_eco_level5_rent = 270;
         //1.2.1 citizen outcome
         public static long citizen_outcome_per_family = 0;
         public static long citizen_outcome = 0;
@@ -331,17 +331,17 @@ namespace RealCity
         public const byte comm_high_level2 = 120;
         public const byte comm_high_level3 = 130;
 
-        public const byte comm_low_level1 = 80;
-        public const byte comm_low_level2 = 85;
-        public const byte comm_low_level3 = 90;
+        public const byte comm_low_level1 = 50;
+        public const byte comm_low_level2 = 75;
+        public const byte comm_low_level3 = 100;
 
         public const byte comm_tourist = 160;
         public const byte comm_leisure = 230;
         public const byte comm_eco = 30;
 
-        public const byte indu_gen_level1 = 45;
-        public const byte indu_gen_level2 = 48;
-        public const byte indu_gen_level3 = 52;
+        public const byte indu_gen_level1 = 35;
+        public const byte indu_gen_level2 = 50;
+        public const byte indu_gen_level3 = 70;
 
         public const byte indu_forest = 30;
         public const byte indu_farm = 40;
@@ -400,11 +400,12 @@ namespace RealCity
 
         //use it to decrease mantain fee in early game time
         public static byte mantain_and_land_fee_decrease = 10;
+        public static float salary_idex = 0.5f;
         //use it to decrease land income in early game time for industry and commerical
 
         //public static byte[] save_data = new byte[2867364];
-        public static byte[] save_data = new byte[1818789];
-        public static byte[] load_data = new byte[1818789];
+        public static byte[] save_data = new byte[1818793];
+        public static byte[] load_data = new byte[1818793];
 
         public static void data_init()
         {
@@ -494,6 +495,9 @@ namespace RealCity
             saveandrestore.save_float(ref i, outside_consumption_rate, ref save_data);
             saveandrestore.save_byte(ref i, update_outside_count, ref save_data);
             saveandrestore.save_byte(ref i, mantain_and_land_fee_decrease, ref save_data);
+
+            //4
+            saveandrestore.save_float(ref i, salary_idex, ref save_data);
         }
 
         public static void load()
@@ -552,6 +556,8 @@ namespace RealCity
             outside_consumption_rate = saveandrestore.load_float(ref i, load_data);
             update_outside_count = saveandrestore.load_byte(ref i, load_data);
             mantain_and_land_fee_decrease = saveandrestore.load_byte(ref i, load_data);
+
+            salary_idex = saveandrestore.load_float(ref i, load_data);
         }
     }
 }

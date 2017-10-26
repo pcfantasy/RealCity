@@ -13,4 +13,3 @@ C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Mono.Posix.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Mono.Security.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\RushHour.dll
-C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\RealCity.csprojResolveAssemblyReference.cache
