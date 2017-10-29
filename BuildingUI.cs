@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColossalFramework;
+﻿using System.Collections.Generic;
 using ColossalFramework.UI;
-using ICities;
 using UnityEngine;
-using System.Collections;
 
 namespace RealCity
 {

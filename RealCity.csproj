@@ -41,6 +41,12 @@
     <Reference Include="ColossalManaged">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
     </Reference>
+    <Reference Include="CSUtil.CameraControl">
+      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\583429740\CSUtil.CameraControl.dll</HintPath>
+    </Reference>
+    <Reference Include="CSUtil.Commons">
+      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\583429740\CSUtil.Commons.dll</HintPath>
+    </Reference>
     <Reference Include="ICities">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
     </Reference>
@@ -53,9 +59,6 @@
     <Reference Include="Mono.Security">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Mono.Security.dll</HintPath>
     </Reference>
-    <Reference Include="RushHour">
-      <HintPath>..\..\..\better public transport budget\RushHour.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -63,6 +66,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TMPE.CitiesGameBridge">
+      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\583429740\TMPE.CitiesGameBridge.dll</HintPath>
+    </Reference>
+    <Reference Include="TMPE.GenericGameBridge">
+      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\583429740\TMPE.GenericGameBridge.dll</HintPath>
+    </Reference>
+    <Reference Include="TrafficManager">
+      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\583429740\TrafficManager.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
@@ -74,7 +86,6 @@
     <Compile Include="demand.cs" />
     <Compile Include="BuildingUI.cs" />
     <Compile Include="pc_CargoTruckAI.cs" />
-    <Compile Include="pc_VehicleAI.cs" />
     <Compile Include="RealCityUI.cs" />
     <Compile Include="pc_PrivateBuildingAI.cs" />
     <Compile Include="pc_PassengerCarAI.cs" />

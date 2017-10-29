@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ColossalFramework;
 using ColossalFramework.UI;
-using ICities;
 using UnityEngine;
 using System.Collections;
 
@@ -321,15 +316,15 @@ namespace RealCity
             this.family_very_profit_num.name = "Moreeconomic_Text_11";
 
             this.family_weight_stable_high = base.AddUIComponent<UILabel>();
-            this.family_weight_stable_high.text =    string.Format("weight_stable_high [00000]");
-            this.family_weight_stable_high.tooltip = "family_weight_stable_high_num";
+            this.family_weight_stable_high.text =    string.Format("wealth_stable_high [00000]");
+            this.family_weight_stable_high.tooltip = "family_wealth_stable_high_num";
             this.family_weight_stable_high.relativePosition = new Vector3(SPACING, this.family_profit_money_num.relativePosition.y + SPACING22);
             this.family_weight_stable_high.autoSize = true;
             this.family_weight_stable_high.name = "Moreeconomic_Text_12";
 
             this.family_weight_stable_low = base.AddUIComponent<UILabel>();
-            this.family_weight_stable_low.text =     string.Format("weight_stable_low [00000]");
-            this.family_weight_stable_low.tooltip = "family_weight_stable_low";
+            this.family_weight_stable_low.text =     string.Format("wealth_stable_low [00000]");
+            this.family_weight_stable_low.tooltip = "family_wealth_stable_low";
             this.family_weight_stable_low.relativePosition = new Vector3(this.family_weight_stable_high.relativePosition.x + this.family_weight_stable_high.width + SPACING, this.family_weight_stable_high.relativePosition.y);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.family_weight_stable_low.autoSize = true;
@@ -646,10 +641,10 @@ namespace RealCity
             this.family_profit_money_num.text = string.Format("family_profit_num [{0}]", comm_data.family_profit_money_num);
             this.family_loss_money_num.text = string.Format("family_loss_num [{0}]", comm_data.family_loss_money_num);
             this.family_very_profit_num.text = string.Format("family_very_profit_num [{0}]", comm_data.family_very_profit_money_num);
-            this.family_weight_stable_high.text = string.Format("weight_stable_high [{0}]", comm_data.family_weight_stable_high);
-            this.family_weight_stable_low.text = string.Format("weight_stable_low [{0}]", comm_data.family_weight_stable_low);
-            this.resident_consumption_rate.text = string.Format("resident_consumption_rate [{0}]", comm_data.resident_consumption_rate);
-            this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [{0}]", comm_data.outside_consumption_rate);
+            this.family_weight_stable_high.text = string.Format("wealth_stable_high [{0}]", comm_data.family_weight_stable_high);
+            this.family_weight_stable_low.text = string.Format("wealth_stable_low [{0}]", comm_data.family_weight_stable_low);
+            this.resident_consumption_rate.text = string.Format("resident_consumption_rate [{0:N2}]", comm_data.resident_consumption_rate);
+            this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [{0:N2}]", comm_data.outside_consumption_rate);
 
             //building
             this.comm_profit.text = string.Format("commerical_profit [{0}]]", pc_PrivateBuildingAI.comm_profit);

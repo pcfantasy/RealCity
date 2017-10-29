@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ColossalFramework;
 using ColossalFramework.UI;
 using ICities;
-using UnityEngine;
 using System.Reflection;
-using ColossalFramework.Math;
 
 namespace RealCity
 {
@@ -125,6 +119,20 @@ namespace RealCity
             //var srcMethod23 = typeof(VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
             //var destMethod23 = typeof(pc_VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
             //RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
+
+
+            //private int GetCarProbability_1(ushort instanceID, ref CitizenInstance citizenData, Citizen.AgeGroup ageGroup)
+            //var srcMethod24 = typeof(ResidentAI).GetMethod("GetCarProbability", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(Citizen.AgeGroup) }, null);
+            //var destMethod24 = typeof(pc_ResidentAI).GetMethod("GetCarProbability_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(Citizen.AgeGroup) }, null);
+            //RedirectionHelper.RedirectCalls(srcMethod24, destMethod24);
+
+            var srcMethod25 = typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
+            var destMethod25 = typeof(pc_HumanAI).GetMethod("EnterVehicle_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod25, destMethod25);
+
+            var srcMethod26 = typeof(ResidentAI).GetMethod("StartPathFind", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
+            var destMethod26 = typeof(pc_ResidentAI_1).GetMethod("StartPathFind", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod26, destMethod26);
 
         }
 
@@ -336,7 +344,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportBus;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.bus_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -344,7 +352,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTram;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.tram_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -352,7 +360,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportMetro;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.metro_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -360,7 +368,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTrain;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.train_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -368,7 +376,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.taxi_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -376,7 +384,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportPlane;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.plane_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -384,7 +392,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportShip;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.ship_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -392,7 +400,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.monorail_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -400,24 +408,24 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.cablecar_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/100;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 //add vehicle transport_fee
                 comm_data.temp_total_citizen_vehical_time_last = comm_data.temp_total_citizen_vehical_time;
                 comm_data.temp_total_citizen_vehical_time = 0;
 
-
-                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last;
+                //* 16 to align with citizen refresh freq.
+                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last * 16;
 
                 if (comm_data.family_count > 0)
                 {
-                    if ((comm_data.all_transport_fee * 16 / comm_data.family_count) > 20)
+                    if ((comm_data.all_transport_fee / comm_data.family_count) > 40)
                     {
-                        comm_data.citizen_average_transport_fee = 20;
+                        comm_data.citizen_average_transport_fee = 40;
                     }
                     else
                     {
-                        comm_data.citizen_average_transport_fee = (byte)(comm_data.all_transport_fee * 16 / comm_data.family_count);
+                        comm_data.citizen_average_transport_fee = (byte)(comm_data.all_transport_fee / comm_data.family_count);
                     }
                 }
             }
@@ -518,17 +526,20 @@ namespace RealCity
                     {
                         if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
                         {
-                            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition))
+                            if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
                             {
                                 comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
                             }
+                            else
+                            {
+                                comm_data.vehical_transfer_time[i] = 0;
+                            }
                         }
                     }
-                    if ((comm_data.vehical_last_transfer_flag[i] == false) || (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition) == true))
+                    else
                     {
-                        comm_data.vehical_transfer_time[i] = 1;
+                        comm_data.vehical_transfer_time[i] = 0;
                     }
-                    comm_data.vehical_last_transfer_flag[i] = vehicle.m_flags.IsFlagSet(Vehicle.Flags.Transition);
                 }
             }
 

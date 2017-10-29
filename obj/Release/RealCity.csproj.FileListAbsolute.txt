@@ -12,4 +12,8 @@ C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\RealCity.pdb
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Mono.Posix.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Mono.Security.dll
-C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\RushHour.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\CSUtil.CameraControl.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\CSUtil.Commons.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\TMPE.CitiesGameBridge.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\TMPE.GenericGameBridge.dll
+C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\TrafficManager.dll

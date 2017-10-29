@@ -1,9 +1,4 @@
 ﻿using ColossalFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealCity
@@ -424,11 +419,11 @@ namespace RealCity
                 buildingData.m_majorProblemTimer = 0;
             }
 
-            process_building_data_final(buildingID);
-            
+            process_building_data_final(buildingID, ref buildingData);
+
         }
 
-        public void process_building_data_final(ushort buildingID)
+        public void process_building_data_final(ushort buildingID, ref Building buildingData)
         {
             int i;
             if (prebuidlingid < buildingID)
@@ -440,6 +435,21 @@ namespace RealCity
                         comm_data.building_money[i] = 0;
                     }
                 }
+
+                Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
+                //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                //{
+                    if (comm_data.building_money[i] < -5000)
+                    {
+                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
+                        //here we can let building down
+                    }
+                    else if (comm_data.building_money[i] < -1000)
+                    {
+                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
+                    }
+                    buildingData.m_problems = problem;
+               // }
             }
             else
             {

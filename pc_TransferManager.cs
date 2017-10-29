@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using ColossalFramework;
 
 namespace RealCity
@@ -68,14 +67,58 @@ namespace RealCity
             return true;
         }
 
-        public static bool IsCitizenOutside(UnityEngine.Vector3 position)
+        public static void process_shopping_and_entertainment(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
-            if ((position.x < 8600) && (position.x > -8600) && (position.z < 8600) && (position.z > -8600))
+            Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
+            uint citizen = offerIn.Citizen;
+            CitizenInfo citizenInfo = citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
+            ushort homeBuilding = citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+            BuildingManager instance2 = Singleton<BuildingManager>.instance;
+            uint homeid = citizens.m_buffer[citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+            //DebugLog.LogToFileOnly("check wether citizen is too poor and can not use car? homeid =" + homeid.ToString());
+            switch (material)
             {
-                return false;
-
+                case TransferManager.TransferReason.Shopping:
+                case TransferManager.TransferReason.ShoppingB:
+                case TransferManager.TransferReason.ShoppingC:
+                case TransferManager.TransferReason.ShoppingD:
+                case TransferManager.TransferReason.ShoppingE:
+                case TransferManager.TransferReason.ShoppingF:
+                case TransferManager.TransferReason.ShoppingG:
+                case TransferManager.TransferReason.ShoppingH:
+                case TransferManager.TransferReason.Entertainment:
+                case TransferManager.TransferReason.EntertainmentB:
+                case TransferManager.TransferReason.EntertainmentC:
+                case TransferManager.TransferReason.EntertainmentD:
+                    if (((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None) && comm_data.citizen_money[homeid] > 0)
+                    {
+                        if (citizenInfo != null)
+                        {
+                            offerOut.Amount = delta;
+                            citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
+                        }
+                    }
+                    else if ((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                    {
+                        if (citizenInfo != null)
+                        {
+                            offerOut.Amount = delta;
+                            citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
+                        }
+                    }
+                    else
+                    {
+                        //DebugLog.LogToFileOnly("citizen is too poor and wont go to shopping and entertainment");
+                    }
+                    break;
+                default:
+                    if (citizenInfo != null)
+                    {
+                        offerOut.Amount = delta;
+                        citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
+                    }
+                    break;
             }
-            return true;
         }
 
         private static void StartTransfer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
@@ -100,17 +143,22 @@ namespace RealCity
             }
             else if (active && offerIn.Citizen != 0u)
             {
-                Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
+                process_shopping_and_entertainment(manager, material, offerOut, offerIn, delta);
+/*Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
                 uint citizen = offerIn.Citizen;
                 CitizenInfo citizenInfo = citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
                 if (citizenInfo != null)
                 {
                     offerOut.Amount = delta;
                     citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
-                }
+                }*/
             }
             else if (active2 && offerOut.Citizen != 0u)
             {
+                if (material == TransferManager.TransferReason.Shopping || material == TransferManager.TransferReason.ShoppingB || material == TransferManager.TransferReason.Entertainment || material == TransferManager.TransferReason.EntertainmentB)
+                {
+                    DebugLog.LogToFileOnly("citizen offout shopping??");
+                }
                 Array32<Citizen> citizens2 = Singleton<CitizenManager>.instance.m_citizens;
                 uint citizen2 = offerOut.Citizen;
                 CitizenInfo citizenInfo2 = citizens2.m_buffer[(int)((UIntPtr)citizen2)].GetCitizenInfo(citizen2);
