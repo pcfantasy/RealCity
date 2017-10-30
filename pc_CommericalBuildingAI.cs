@@ -77,7 +77,7 @@ namespace RealCity
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             base.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            float num = (float)aliveWorkerCount /5f;
+            float num = (float)aliveWorkerCount / 6f;
             if (num < 1f)
             {
                 num = 1f;
@@ -97,7 +97,7 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialEco:
-                    production_value = 0.9f * num; break;
+                    production_value = 1f * num; break;
                 case ItemClass.SubService.CommercialLeisure:
                     production_value = 1.8f * num; break;
                 case ItemClass.SubService.CommercialTourist:
@@ -109,14 +109,14 @@ namespace RealCity
             float trade_tax = 0;
             float final_profit;
             final_profit = pc_PrivateBuildingAI.comm_profit * production_value;
-            if (final_profit > 0.9f)
+            if (final_profit > 0.95f)
             {
-                final_profit = 0.9f;
+                final_profit = 0.95f;
             }
             float trade_income = amountDelta * final_profit;
             if ((comm_data.building_money[buildingID] - trade_income)> 0)
             {
-                trade_tax = -trade_income * 0.2f;
+                trade_tax = -trade_income * 0.3f;
                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             }
             comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));

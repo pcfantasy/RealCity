@@ -112,9 +112,13 @@ namespace RealCity
             var destMethod21 = typeof(pc_IndustrialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
             RedirectionHelper.RedirectCalls(srcMethod21, destMethod21);
 
-            //var srcMethod22 = typeof(CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            //var destMethod22 = typeof(pc_CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            //RedirectionHelper.RedirectCalls(srcMethod22, destMethod22);
+            var srcMethod22 = typeof(CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var destMethod22 = typeof(pc_CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod22, destMethod22);
+
+            var srcMethod23 = typeof(CargoTruckAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var destMethod23 = typeof(pc_CargoTruckAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
 
             //var srcMethod23 = typeof(VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
             //var destMethod23 = typeof(pc_VehicleAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
@@ -192,7 +196,7 @@ namespace RealCity
                     temp.m_service = ItemClass.Service.PublicTransport;
                     temp.m_subService = ItemClass.SubService.PublicTransportBus;
                     //use this to diff make in-game mantenance and goverment_salary_expense 
-                    temp.m_level = ItemClass.Level.Level1;
+                    temp.m_layer = ItemClass.Layer.Markers;
                     if (comm_data.PublicTransport_bus != 0)
                     {
                         Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, comm_data.PublicTransport_bus, temp);
@@ -726,7 +730,7 @@ namespace RealCity
                     good_export_ratio = 1;
                 }
 
-                pc_PrivateBuildingAI.comm_profit = 0.3f; //update later
+                pc_PrivateBuildingAI.comm_profit = 0.2f; //update later
                 pc_PrivateBuildingAI.indu_profit = (float)(5f + 2f * (5f - good_export_ratio - food_import_ratio - lumber_import_ratio - petrol_import_ratio - coal_import_ratio))/100f;
                 pc_PrivateBuildingAI.food_profit = (float)(5f + 5f * (2f - food_export_ratio - grain_import_ratio))/100f;
                 pc_PrivateBuildingAI.lumber_profit = (float)(5f + 5f * (2f - lumber_export_ratio - logs_import_ratio))/100f;

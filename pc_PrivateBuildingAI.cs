@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using ColossalFramework.Math;
 using UnityEngine;
 
 namespace RealCity
@@ -389,7 +390,7 @@ namespace RealCity
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
             process_land_fee(buildingData, buildingID);
             caculate_employee_outcome(buildingData, buildingID);
-            limit_and_check_building_money(buildingData,buildingID);
+            limit_and_check_building_money(buildingData, buildingID);
             if ((buildingData.m_problems & Notification.Problem.MajorProblem) != Notification.Problem.None)
             {
                 if (buildingData.m_fireIntensity == 0)
@@ -439,17 +440,17 @@ namespace RealCity
                 Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
                 //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                 //{
-                    if (comm_data.building_money[i] < -5000)
-                    {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
-                        //here we can let building down
-                    }
-                    else if (comm_data.building_money[i] < -1000)
-                    {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
-                    }
-                    buildingData.m_problems = problem;
-               // }
+                if (comm_data.building_money[i] < -2000)
+                {
+                    problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
+                    //here we can let building down
+                }
+                else if (comm_data.building_money[i] < -500)
+                {
+                    problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
+                }
+                buildingData.m_problems = problem;
+                // }
             }
             else
             {
@@ -575,13 +576,13 @@ namespace RealCity
 
         public void limit_and_check_building_money(Building building, ushort buildingID)
         {
-            if (comm_data.building_money[buildingID] > 32000)
+            if (comm_data.building_money[buildingID] > 600000)
             {
-                comm_data.building_money[buildingID] = 32000;
+                comm_data.building_money[buildingID] = 600000;
             }
-            else if (comm_data.building_money[buildingID] < -32000)
+            else if (comm_data.building_money[buildingID] < -600000)
             {
-                comm_data.building_money[buildingID] = -32000;
+                comm_data.building_money[buildingID] = -600000;
             }
 
             if (comm_data.building_money[buildingID] > 0)
@@ -772,7 +773,7 @@ namespace RealCity
 
             //do this to decrase land outcome in early game;
             //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
-            comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2)/100);
+            comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
                 if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
@@ -784,7 +785,7 @@ namespace RealCity
             {
                 num = num * 95 / 100;
             }
-            
+
             Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
         }
 
@@ -820,7 +821,7 @@ namespace RealCity
                     incomeAccumulation = comm_data.indu_farm;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    incomeAccumulation =comm_data.indu_forest;
+                    incomeAccumulation = comm_data.indu_forest;
                     break;
                 case ItemClass.SubService.IndustrialOil:
                     incomeAccumulation = comm_data.indu_oil;

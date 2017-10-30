@@ -631,7 +631,7 @@ namespace RealCity
             this.citizen_count.text = string.Format("citizen_count [{0}]", comm_data.citizen_count);
             this.family_count.text = string.Format("family_count [{0}]", comm_data.family_count);
             this.citizen_salary_per_family.text = string.Format("citizen_salary_per_family [{0}]", comm_data.citizen_salary_per_family);
-            this.citizen_salary_total.text = string.Format("salary_total [{0}]", comm_data.citizen_salary_total + comm_data.citizen_salary_total);
+            this.citizen_salary_total.text = string.Format("salary_total [{0}]", comm_data.citizen_salary_total);
             this.citizen_salary_tax_total.text = string.Format("citizen_tax_total [{0}]", comm_data.citizen_salary_tax_total);
             this.citizen_outcome_per_family.text = string.Format("outcome_per_family [{0}]", comm_data.citizen_outcome_per_family);
             this.citizen_outcome.text = string.Format("citizen_outcome [{0}]", comm_data.citizen_outcome);

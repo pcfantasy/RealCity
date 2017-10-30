@@ -57,7 +57,7 @@ namespace RealCity
             uint homeid = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
 
             int num = 100;
-            if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None))
+            if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None))
             {
                 num = (comm_data.citizen_money[homeid] - num > 0) ? num : comm_data.citizen_money[homeid];
                 int num1 = -num;
@@ -113,7 +113,7 @@ namespace RealCity
                     int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[(int)num]);
                     if (ticketPrice != 0)
                     {
-                        ticketPrice = ticketPrice / comm_data.mantain_and_land_fee_decrease;
+                        ticketPrice = (int)(ticketPrice * comm_data.salary_idex);
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;

@@ -709,23 +709,25 @@ namespace RealCity
                 }//if (citizen_id != 0u)
             }
 
-
-            if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
+            if (citizen_id != 0u)
             {
-                num = (int)((float)num * comm_data.salary_idex / 2 + 0.5f);
-                /*if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Commercial)
+                if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
                 {
-                    num = num /2;
+                    num = (int)((float)num * comm_data.salary_idex / 2 + 0.5f);
+                    /*if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Commercial)
+                    {
+                        num = num /2;
+                    }
+
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Industrial)
+                    {
+                        num = num - rand.Next((int)(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel + 1));
+                    }*/
                 }
-
-                if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Industrial)
+                else
                 {
-                    num = num - rand.Next((int)(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel + 1));
-                }*/
-            }
-            else
-            {
-                num = (int)((float)num * comm_data.salary_idex + 0.5f);
+                    num = (int)((float)num * comm_data.salary_idex + 0.5f);
+                }
             }
             return num;
         }//public
@@ -745,27 +747,28 @@ namespace RealCity
                     comm_data.citizen_outcome_per_family = (int)((citizen_outcome_count / family_count));
                 }
                 comm_data.citizen_outcome = citizen_outcome_count;
-                comm_data.citizen_salary_tax_total = citizen_salary_count;
-                comm_data.Monument = Monument;
-                comm_data.PublicTransport_bus = PublicTransport_bus;
-                comm_data.PublicTransport_tram = PublicTransport_tram;
-                comm_data.PublicTransport_train = PublicTransport_train;
-                comm_data.PublicTransport_taxi = PublicTransport_taxi;
-                comm_data.PublicTransport_metro = PublicTransport_metro;
-                comm_data.PublicTransport_plane = PublicTransport_plane;
-                comm_data.PublicTransport_ship = PublicTransport_ship;
-                comm_data.PublicTransport_monorail = PublicTransport_monorail;
-                comm_data.PublicTransport_cablecar = PublicTransport_cablecar;
-                comm_data.Beautification = Beautification;
-                comm_data.Education = Education;
-                comm_data.Disaster = Disaster;
-                comm_data.PoliceDepartment = PoliceDepartment;
-                comm_data.Electricity = Electricity;
-                comm_data.Water = Water;
-                comm_data.Garbage = Garbage;
-                comm_data.HealthCare = HealthCare;
-                comm_data.Road = Road;
-                comm_data.FireDepartment = FireDepartment;
+                comm_data.citizen_salary_tax_total = citizen_salary_tax_total;
+                comm_data.citizen_salary_total = citizen_salary_count;
+                comm_data.Monument = (int)(Monument * comm_data.salary_idex);
+                comm_data.PublicTransport_bus = (int)(PublicTransport_bus * comm_data.salary_idex);
+                comm_data.PublicTransport_tram = (int)(PublicTransport_tram * comm_data.salary_idex);
+                comm_data.PublicTransport_train = (int)(PublicTransport_train * comm_data.salary_idex);
+                comm_data.PublicTransport_taxi = (int)(PublicTransport_taxi * comm_data.salary_idex);
+                comm_data.PublicTransport_metro = (int)(PublicTransport_metro * comm_data.salary_idex);
+                comm_data.PublicTransport_plane = (int)(PublicTransport_plane * comm_data.salary_idex);
+                comm_data.PublicTransport_ship = (int)(PublicTransport_ship * comm_data.salary_idex);
+                comm_data.PublicTransport_monorail = (int)(PublicTransport_monorail * comm_data.salary_idex);
+                comm_data.PublicTransport_cablecar = (int)(PublicTransport_cablecar * comm_data.salary_idex);
+                comm_data.Beautification = (int)(Beautification * comm_data.salary_idex);
+                comm_data.Education = (int)(Education * comm_data.salary_idex);
+                comm_data.Disaster = (int)(Disaster * comm_data.salary_idex);
+                comm_data.PoliceDepartment = (int)(PoliceDepartment * comm_data.salary_idex);
+                comm_data.Electricity = (int)(Electricity * comm_data.salary_idex);
+                comm_data.Water = (int)(Water * comm_data.salary_idex);
+                comm_data.Garbage = (int)(Garbage * comm_data.salary_idex);
+                comm_data.HealthCare = (int)(HealthCare * comm_data.salary_idex);
+                comm_data.Road = (int)(Road * comm_data.salary_idex);
+                comm_data.FireDepartment = (int)(FireDepartment * comm_data.salary_idex);
                 comm_data.family_weight_stable_high = family_weight_stable_high;
                 comm_data.family_weight_stable_low = family_weight_stable_low;
                 family_profit_money_num = 0;
@@ -812,10 +815,15 @@ namespace RealCity
             //here we caculate citizen income
             int temp_num;
             temp_num = citizen_salary(data.m_citizen0);
+            //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen1);
+            //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen2);
+            //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen3);
+            //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen4);
+            //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             //DebugLog.LogToFileOnly("Citzen " + homeID.ToString() + "salary is " + temp_num.ToString());
             citizen_salary_count = citizen_salary_count + temp_num;
             int citizen_salary_current = temp_num;
@@ -856,24 +864,28 @@ namespace RealCity
                 DebugLog.LogToFileOnly("temp_num == 0 in ResidentAI");
             }
             float tax = 0;
-            //0-10 10% 10-20 20% 20-30 30% >30 40%
-            if (salary_per_family_member < 10)
+            //0-10 10% 10-30 20% 30-60 30% 60-100 40% >100 50%
+            if (citizen_salary_current < 10)
             {
-                tax = salary_per_family_member * 0.1f;
+                tax = citizen_salary_current * 0.1f;
             }
-            else if (salary_per_family_member >= 10 && salary_per_family_member <= 20)
+            else if (citizen_salary_current >= 10 && citizen_salary_current <= 30)
             {
-                tax = (salary_per_family_member - 10) * 0.2f + 1f;
+                tax = (citizen_salary_current - 10) * 0.2f + 1f;
             }
-            else if (salary_per_family_member > 20 && salary_per_family_member <= 30)
+            else if (citizen_salary_current > 30 && citizen_salary_current <= 60)
             {
-                tax = (salary_per_family_member - 20) * 0.3f + 3f;
+                tax = (citizen_salary_current - 30) * 0.3f + 5f;
             }
-            else if (salary_per_family_member > 30)
+            else if (citizen_salary_current > 60 && citizen_salary_current <= 100)
             {
-                tax = (salary_per_family_member - 30) * 0.4f + 6f;
+                tax = (citizen_salary_current - 30) * 0.4f + 14f;
             }
-            temp_citizen_salary_tax_total = temp_citizen_salary_tax_total + tax;
+            else if (citizen_salary_current > 100)
+            {
+                tax = (citizen_salary_current - 100) * 0.5f + 30f;
+            }
+            temp_citizen_salary_tax_total = temp_citizen_salary_tax_total + (int)tax;
             citizen_salary_tax_total = (int)temp_citizen_salary_tax_total;
             process_citizen_income_tax(homeID, tax);
             //here we caculate outcome
@@ -924,22 +936,8 @@ namespace RealCity
             citizen_outcome_count = citizen_outcome_count + temp_num + outcomerate;
 
             //income - outcome
-            temp_num = citizen_salary_current - (int)(tax + 0.5f) - temp_num;// - comm_data.citizen_average_transport_fee;
+            temp_num = citizen_salary_current - (int)(tax) - temp_num - outcomerate;// - comm_data.citizen_average_transport_fee;
             comm_data.citizen_money[homeID] = (short)(comm_data.citizen_money[homeID] + temp_num);
-            //set other non-exist citizen status to 0
-            uint i;
-            if (precitizenid < homeID)
-            {
-                for (i = (precitizenid + 1); i < homeID; i++)
-                {
-                    if ((comm_data.citizen_money[i] != 0) || (comm_data.citizen_profit_status[i] != 128))
-                    {
-                        comm_data.citizen_money[i] = 0;
-                        comm_data.citizen_profit_status[i] = 128;
-                    }
-                }
-            }
-            precitizenid = homeID;
             //process citizen status
             System.Random rand = new System.Random();
             if (temp_num <= 0)
@@ -951,19 +949,24 @@ namespace RealCity
             }
             else if (temp_num > 30)
             {
-                temp_num = 20 + rand.Next(10);
+                temp_num = rand.Next(temp_num);
                 family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
                 comm_data.citizen_profit_status[homeID]++;
             }
             else
             {
-                temp_num = (temp_num - rand.Next(5) > 5) ? (temp_num - rand.Next(5)) : 5;
+                temp_num = rand.Next(temp_num);
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
 
-            if (comm_data.citizen_money[homeID] > 30000)
+            if (comm_data.citizen_money[homeID] > 32000)
             {
-                comm_data.citizen_money[homeID] = 30000;
+                comm_data.citizen_money[homeID] = 32000;
+            }
+
+            if (comm_data.citizen_money[homeID] < -32000)
+            {
+                comm_data.citizen_money[homeID] = -32000;
             }
 
             if (comm_data.citizen_profit_status[homeID] > 250)
@@ -976,7 +979,7 @@ namespace RealCity
             }
 
             ItemClass.Level home_level = Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building].Info.m_class.m_level;
-            if ((comm_data.citizen_money[homeID] > 0) && (comm_data.citizen_profit_status[homeID] >= 230))
+            if ((comm_data.citizen_money[homeID] >= 0) && (comm_data.citizen_profit_status[homeID] >= 230))
             {
                 family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
                 if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3))
@@ -1048,6 +1051,28 @@ namespace RealCity
             }
 
             comm_data.citizen_money[homeID] = (short)(comm_data.citizen_money[homeID] - temp_num);
+
+
+
+            //set other non-exist citizen status to 0
+            uint i;
+            if (precitizenid < homeID)
+            {
+                for (i = (precitizenid + 1); i < homeID; i++)
+                {
+                    if ((comm_data.citizen_money[i] != 0) || (comm_data.citizen_profit_status[i] != 128))
+                    {
+                        comm_data.citizen_money[i] = 0;
+                        comm_data.citizen_profit_status[i] = 128;
+                    }
+                }
+            }
+            /*if (comm_data.citizen_count == 0)
+            {
+                comm_data.citizen_money[homeID] = 0;
+                comm_data.citizen_profit_status[homeID] = 128;
+            }*/
+            precitizenid = homeID;
 
             //comm_data.citizen_shopping_idex = (byte)temp_num;
             return (byte)temp_num;
@@ -1135,7 +1160,7 @@ namespace RealCity
             CitizenManager instance = Singleton<CitizenManager>.instance;
             ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
             Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
-            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax + 0.5f), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112);
+            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112);
         }
 
         public void process_citizen_house_rent(uint homeID, int outcomerate)
@@ -1350,12 +1375,12 @@ namespace RealCity
                 }
             }
             int temp = 0;
-            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags == Citizen.Flags.Student)
+            if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
                 temp = temp + 5;
             }
 
-            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags == Citizen.Flags.Sick)
+            if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
             {
                 temp = temp + 5;
             }
@@ -1407,7 +1432,7 @@ namespace RealCity
                     instance.m_citizens.m_buffer[(int)((UIntPtr)citizenData.m_citizen)].SetVehicle(citizenData.m_citizen, 0, 0u);
                     return false;
                 }
-                else if (comm_data.citizen_money[homeid] <= 0)
+                else if (vehicle != 0 && (comm_data.citizen_money[homeid] <= 0))
                 {
                     VehicleInfo info1 = instance2.m_vehicles.m_buffer[(int)vehicle].Info;
                     if (info1 != null)
@@ -1428,7 +1453,7 @@ namespace RealCity
             {
                 VehicleInfo vehicleInfo;
                 vehicleInfo = CustomGetVehicleInfo(instanceID, ref citizenData, false);
-                if (comm_data.citizen_money[homeid] > 0)
+                if ((comm_data.citizen_money[homeid] >= 0) || ((citizenData.m_flags & CitizenInstance.Flags.BorrowCar) != CitizenInstance.Flags.None))
                 {
                     if (instance.m_citizens.m_buffer[citizen1].m_parkedVehicle != 0)
                     {

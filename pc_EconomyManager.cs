@@ -493,12 +493,12 @@ namespace RealCity
         public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
         {
             //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString());
-            // if(itemClass.m_level == ItemClass.Level.Level1) means mod added employee outcome
+            // if(itemClass.m_layer == ItemClass.Layer.Markers) means mod added employee outcome
             int temp;
             int coefficient;
             if (resource == EconomyManager.Resource.Maintenance)
             {
-                if(itemClass.m_level == ItemClass.Level.Level1)
+                if(itemClass.m_layer == ItemClass.Layer.Markers)
                 {
                     coefficient = 16;
                 }
@@ -514,7 +514,9 @@ namespace RealCity
                         {
                             temp = (int)Road;
                             Road = Road - (int)Road;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            if (coefficient == 1)
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.Garbage:
@@ -523,7 +525,8 @@ namespace RealCity
                         {
                             temp = (int)Garbage;
                             Garbage = Garbage - (int)Garbage;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.PoliceDepartment:
@@ -532,7 +535,8 @@ namespace RealCity
                         {
                             temp = (int)PoliceDepartment;
                             PoliceDepartment = PoliceDepartment - (int)PoliceDepartment;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.Beautification:
@@ -561,7 +565,8 @@ namespace RealCity
                         {
                             temp = (int)Education;
                             Education = Education - (int)Education;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.Electricity:
@@ -580,7 +585,8 @@ namespace RealCity
                         {
                             temp = (int)FireDepartment;
                             FireDepartment = FireDepartment - (int)FireDepartment;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.Monument:
@@ -589,7 +595,8 @@ namespace RealCity
                         {
                             temp = (int)Monument;
                             Monument = Monument - (int)Monument;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.HealthCare:
@@ -598,7 +605,8 @@ namespace RealCity
                         {
                             temp = (int)HealthCare;
                             HealthCare = HealthCare - (int)HealthCare;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.PublicTransport:
@@ -607,7 +615,8 @@ namespace RealCity
                         {
                             temp = (int)PublicTransport;
                             PublicTransport = PublicTransport - (int)PublicTransport;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     case ItemClass.Service.Disaster:
@@ -616,7 +625,8 @@ namespace RealCity
                         {
                             temp = (int)Disaster;
                             Disaster = Disaster - (int)Disaster;
-                            return Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
                         }
                         return amount;
                     default: break;
@@ -624,13 +634,14 @@ namespace RealCity
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
-                Policy_cost += (float)amount / 1;
+                Policy_cost += (float)amount / comm_data.mantain_and_land_fee_decrease;
                 //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString() + " " + amount.ToString());
                 if (Policy_cost > 1)
                 {
                     temp = (int)Policy_cost;
                     Policy_cost = Policy_cost - (int)Policy_cost;
-                    return Singleton<EconomyManager>.instance.FetchResource(resource, (int)temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                    Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                    return amount;
                 }
                 return amount;
             }

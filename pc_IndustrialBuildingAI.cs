@@ -137,7 +137,7 @@ namespace RealCity
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             base.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            float num = (float)aliveWorkerCount / 5f;
+            float num = (float)aliveWorkerCount / 6f;
             if (num < 1f)
             {
                 num = 1f;
@@ -145,11 +145,11 @@ namespace RealCity
             switch (data.Info.m_class.m_level)
             {
                 case ItemClass.Level.Level1:
-                    production_value = 2f * num; break;
+                    production_value = 1.5f * num; break;
                 case ItemClass.Level.Level2:
-                    production_value = 2.5f * num; break;
+                    production_value = 2f * num; break;
                 case ItemClass.Level.Level3:
-                    production_value = 3f * num; break;
+                    production_value = 2.5f * num; break;
                 default:
                     production_value = 0f; break;
             }
@@ -157,13 +157,13 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialOil:
-                    production_value = 0.5f * num; break;
+                    production_value = 1.2f * num; break;
                 case ItemClass.SubService.IndustrialOre:
-                    production_value = 0.5f * num; break;
+                    production_value = 1.2f * num; break;
                 case ItemClass.SubService.IndustrialForestry:
-                    production_value = 0.7f * num; break;
+                    production_value = 1.2f * num; break;
                 case ItemClass.SubService.IndustrialFarming:
-                    production_value = 0.8f * num; break;
+                    production_value = 1.2f * num; break;
                 default:
                     break;
             }
@@ -172,14 +172,14 @@ namespace RealCity
                 case TransferManager.TransferReason.Lumber:
                     float trade_tax = 0;
                     final_profit = pc_PrivateBuildingAI.lumber_profit * production_value;
-                    if (final_profit > 0.9f)
+                    if (final_profit > 0.95f)
                     {
-                        final_profit = 0.9f;
+                        final_profit = 0.95f;
                     }
                     float trade_income = amountDelta * final_profit;
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.2f;
+                        trade_tax = -trade_income * 0.3f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
@@ -194,7 +194,7 @@ namespace RealCity
                     trade_income = amountDelta * final_profit;
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.2f;
+                        trade_tax = -trade_income * 0.3f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
@@ -209,7 +209,7 @@ namespace RealCity
                     trade_income = amountDelta * final_profit;
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.2f;
+                        trade_tax = -trade_income * 0.3f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
@@ -224,7 +224,7 @@ namespace RealCity
                     trade_income = amountDelta * final_profit;
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.2f;
+                        trade_tax = -trade_income * 0.3f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
@@ -239,7 +239,7 @@ namespace RealCity
                     trade_income = amountDelta * final_profit;
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.2f;
+                        trade_tax = -trade_income * 0.3f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
