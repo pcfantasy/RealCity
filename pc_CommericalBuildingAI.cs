@@ -52,6 +52,11 @@ namespace RealCity
                         }
                         else
                         {
+                            if (material == TransferManager.TransferReason.Entertainment)
+                            {
+                                caculate_trade_income(buildingID, ref data, material, ref amountDelta);
+                                return;
+                            }
                             base.ModifyMaterialBuffer(buildingID, ref data, material, ref amountDelta);
                         }
                         return;

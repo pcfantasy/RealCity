@@ -510,12 +510,26 @@ namespace RealCity
                 Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
                 //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                 //{
-                if (comm_data.building_money[i] < -2000)
+                System.Random rand = new System.Random();
+                if (comm_data.building_money[i] < -7000)
+                {
+                    if (rand.Next(10) < 2)
+                    {
+                        buildingData.m_majorProblemTimer = 192;
+                        buildingData.m_flags &= ~Building.Flags.Active;
+                        buildingData.m_flags |= Building.Flags.Abandoned;
+                        buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
+                        base.RemovePeople(buildingID, ref buildingData, 100);
+                        this.BuildingDeactivated(buildingID, ref buildingData);
+                        Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
+                    }
+                }
+                if (comm_data.building_money[i] < -5000)
                 {
                     problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
                     //here we can let building down
                 }
-                else if (comm_data.building_money[i] < -1000)
+                else if (comm_data.building_money[i] < -3000)
                 {
                     problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
                 }
@@ -525,37 +539,40 @@ namespace RealCity
             else
             {
                 //DebugLog.LogToFileOnly("caculate building final status, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
-                resident_shopping_count_final = resident_shopping_count;
-                resident_leisure_count_final = resident_leisure_count;
-                shop_get_goods_from_local_count_level1_final = shop_get_goods_from_local_level1_count;
-                shop_get_goods_from_local_count_level2_final = shop_get_goods_from_local_level2_count;
-                shop_get_goods_from_local_count_level3_final = shop_get_goods_from_local_level3_count;
-                shop_get_goods_from_outside_count_final = shop_get_goods_from_outside_count;
-                industy_goods_to_outside_count_final = industy_goods_to_outside_count;
-                Grain_to_outside_count_final = Grain_to_outside_count;
-                Grain_to_industy_count_final = Grain_to_industy_count;
-                Grain_from_outside_count_final = Grain_from_outside_count;
-                food_to_outside_count_final = food_to_outside_count;
-                food_to_industy_count_final = food_to_industy_count;
-                food_from_outside_count_final = food_from_outside_count;
-                oil_to_outside_count_final = oil_to_outside_count;
-                oil_to_industy_count_final = oil_to_industy_count;
-                oil_from_outside_count_final = oil_from_outside_count;
-                Petrol_to_outside_count_final = Petrol_to_outside_count;
-                Petrol_to_industy_count_final = Petrol_to_industy_count;
-                Petrol_from_outside_count_final = Petrol_from_outside_count;
-                ore_to_outside_count_final = ore_to_outside_count;
-                ore_to_industy_count_final = ore_to_industy_count;
-                ore_from_outside_count_final = ore_from_outside_count;
-                coal_to_outside_count_final = coal_to_outside_count;
-                coal_to_industy_count_final = coal_to_industy_count;
-                coal_from_outside_count_final = coal_from_outside_count;
-                logs_to_outside_count_final = logs_to_outside_count;
-                logs_to_industy_count_final = logs_to_industy_count;
-                logs_from_outside_count_final = logs_from_outside_count;
-                lumber_to_outside_count_final = lumber_to_outside_count;
-                lumber_to_industy_count_final = lumber_to_industy_count;
-                lumber_from_outside_count_final = lumber_from_outside_count;
+                if (comm_data.update_outside_count == 63)
+                {
+                    resident_shopping_count_final = resident_shopping_count;
+                    resident_leisure_count_final = resident_leisure_count;
+                    shop_get_goods_from_local_count_level1_final = shop_get_goods_from_local_level1_count;
+                    shop_get_goods_from_local_count_level2_final = shop_get_goods_from_local_level2_count;
+                    shop_get_goods_from_local_count_level3_final = shop_get_goods_from_local_level3_count;
+                    shop_get_goods_from_outside_count_final = shop_get_goods_from_outside_count;
+                    industy_goods_to_outside_count_final = industy_goods_to_outside_count;
+                    Grain_to_outside_count_final = Grain_to_outside_count;
+                    Grain_to_industy_count_final = Grain_to_industy_count;
+                    Grain_from_outside_count_final = Grain_from_outside_count;
+                    food_to_outside_count_final = food_to_outside_count;
+                    food_to_industy_count_final = food_to_industy_count;
+                    food_from_outside_count_final = food_from_outside_count;
+                    oil_to_outside_count_final = oil_to_outside_count;
+                    oil_to_industy_count_final = oil_to_industy_count;
+                    oil_from_outside_count_final = oil_from_outside_count;
+                    Petrol_to_outside_count_final = Petrol_to_outside_count;
+                    Petrol_to_industy_count_final = Petrol_to_industy_count;
+                    Petrol_from_outside_count_final = Petrol_from_outside_count;
+                    ore_to_outside_count_final = ore_to_outside_count;
+                    ore_to_industy_count_final = ore_to_industy_count;
+                    ore_from_outside_count_final = ore_from_outside_count;
+                    coal_to_outside_count_final = coal_to_outside_count;
+                    coal_to_industy_count_final = coal_to_industy_count;
+                    coal_from_outside_count_final = coal_from_outside_count;
+                    logs_to_outside_count_final = logs_to_outside_count;
+                    logs_to_industy_count_final = logs_to_industy_count;
+                    logs_from_outside_count_final = logs_from_outside_count;
+                    lumber_to_outside_count_final = lumber_to_outside_count;
+                    lumber_to_industy_count_final = lumber_to_industy_count;
+                    lumber_from_outside_count_final = lumber_from_outside_count;
+                }
                 all_farmer_building_profit_final = all_farmer_building_profit;
                 all_foresty_building_profit_final = all_foresty_building_profit;
                 all_oil_building_profit_final = all_oil_building_profit;
@@ -586,37 +603,40 @@ namespace RealCity
                 all_ore_building_loss = 0;
                 all_industry_building_loss = 0;
                 all_comm_building_loss = 0;
-                resident_shopping_count = 0;
-                resident_leisure_count = 0;
-                shop_get_goods_from_local_level1_count = 0;
-                shop_get_goods_from_local_level2_count = 0;
-                shop_get_goods_from_local_level3_count = 0;
-                shop_get_goods_from_outside_count = 0;
-                industy_goods_to_outside_count = 0;
-                Grain_to_outside_count = 0;
-                Grain_to_industy_count = 0;
-                Grain_from_outside_count = 0;
-                food_to_outside_count = 0;
-                food_to_industy_count = 0;
-                food_from_outside_count = 0;
-                oil_to_outside_count = 0;
-                oil_to_industy_count = 0;
-                oil_from_outside_count = 0;
-                Petrol_to_outside_count = 0;
-                Petrol_to_industy_count = 0;
-                Petrol_from_outside_count = 0;
-                ore_to_outside_count = 0;
-                ore_to_industy_count = 0;
-                ore_from_outside_count = 0;
-                coal_to_outside_count = 0;
-                coal_to_industy_count = 0;
-                coal_from_outside_count = 0;
-                logs_to_outside_count = 0;
-                logs_to_industy_count = 0;
-                logs_from_outside_count = 0;
-                lumber_to_outside_count = 0;
-                lumber_to_industy_count = 0;
-                lumber_from_outside_count = 0;
+                if (comm_data.update_outside_count == 63)
+                {
+                    resident_shopping_count = 0;
+                    resident_leisure_count = 0;
+                    shop_get_goods_from_local_level1_count = 0;
+                    shop_get_goods_from_local_level2_count = 0;
+                    shop_get_goods_from_local_level3_count = 0;
+                    shop_get_goods_from_outside_count = 0;
+                    industy_goods_to_outside_count = 0;
+                    Grain_to_outside_count = 0;
+                    Grain_to_industy_count = 0;
+                    Grain_from_outside_count = 0;
+                    food_to_outside_count = 0;
+                    food_to_industy_count = 0;
+                    food_from_outside_count = 0;
+                    oil_to_outside_count = 0;
+                    oil_to_industy_count = 0;
+                    oil_from_outside_count = 0;
+                    Petrol_to_outside_count = 0;
+                    Petrol_to_industy_count = 0;
+                    Petrol_from_outside_count = 0;
+                    ore_to_outside_count = 0;
+                    ore_to_industy_count = 0;
+                    ore_from_outside_count = 0;
+                    coal_to_outside_count = 0;
+                    coal_to_industy_count = 0;
+                    coal_from_outside_count = 0;
+                    logs_to_outside_count = 0;
+                    logs_to_industy_count = 0;
+                    logs_from_outside_count = 0;
+                    lumber_to_outside_count = 0;
+                    lumber_to_industy_count = 0;
+                    lumber_from_outside_count = 0;
+                }
 
                 all_office_level1_building_num = 0;
                 all_office_level2_building_num = 0;
@@ -650,13 +670,13 @@ namespace RealCity
 
         public void limit_and_check_building_money(Building building, ushort buildingID)
         {
-            if (comm_data.building_money[buildingID] > 600000)
+            if (comm_data.building_money[buildingID] > 60000000)
             {
-                comm_data.building_money[buildingID] = 600000;
+                comm_data.building_money[buildingID] = 60000000;
             }
-            else if (comm_data.building_money[buildingID] < -600000)
+            else if (comm_data.building_money[buildingID] < -60000000)
             {
-                comm_data.building_money[buildingID] = -600000;
+                comm_data.building_money[buildingID] = -60000000;
             }
 
             if (comm_data.building_money[buildingID] > 0)
@@ -1101,6 +1121,7 @@ namespace RealCity
                 {
                     behaviour.m_efficiencyAccumulation = (int)((float)behaviour.m_efficiencyAccumulation * compensation_factor);
                 }
+
             }
         }
     }

@@ -386,14 +386,14 @@ namespace RealCity
             this.food_export_ratio = base.AddUIComponent<UILabel>();
             this.food_export_ratio.text =           string.Format("food_export_ratio [0000]");
             this.food_export_ratio.tooltip = "food_export_ratio";
-            this.food_export_ratio.relativePosition = new Vector3(this.good_export_ratio.relativePosition.x + this.good_export_ratio.width + SPACING, this.good_export_ratio.relativePosition.y);
+            this.food_export_ratio.relativePosition = new Vector3(this.good_export_ratio.relativePosition.x + this.good_export_ratio.width + SPACING + 10f, this.good_export_ratio.relativePosition.y);
             this.food_export_ratio.autoSize = true;
             this.food_export_ratio.name = "Moreeconomic_Text_16";
 
             this.petrol_export_ratio = base.AddUIComponent<UILabel>();
             this.petrol_export_ratio.text =         string.Format("petrol_export_ratio [000]");
             this.petrol_export_ratio.tooltip = "petrol_export_ratio";
-            this.petrol_export_ratio.relativePosition = new Vector3(this.food_export_ratio.relativePosition.x + this.food_export_ratio.width + SPACING, this.food_export_ratio.relativePosition.y);
+            this.petrol_export_ratio.relativePosition = new Vector3(this.food_export_ratio.relativePosition.x + this.food_export_ratio.width + SPACING + 10f, this.food_export_ratio.relativePosition.y);
             this.petrol_export_ratio.autoSize = true;
             this.petrol_export_ratio.name = "Moreeconomic_Text_17";
 
@@ -713,25 +713,25 @@ namespace RealCity
             this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [{0:N2}]", comm_data.outside_consumption_rate);
 
             //building
-            this.good_export_ratio.text = string.Format("good_export_ratio [{0}]]", pc_PrivateBuildingAI.good_export_ratio);
-            this.food_export_ratio.text = string.Format("food_export_ratio [{0}]]", pc_PrivateBuildingAI.food_export_ratio);
-            this.petrol_export_ratio.text = string.Format("petrol_export_ratio [{0}]]", pc_PrivateBuildingAI.petrol_export_ratio);
-            this.coal_export_ratio.text = string.Format("coal_export_ratio [{0}]]", pc_PrivateBuildingAI.coal_export_ratio);
-            this.lumber_export_ratio.text = string.Format("lumber_export_ratio [{0}]]", pc_PrivateBuildingAI.lumber_export_ratio);
-            this.oil_export_ratio.text = string.Format("oil_export_ratio [{0}]]", pc_PrivateBuildingAI.oil_export_ratio);
-            this.ore_export_ratio.text = string.Format("ore_export_ratio [{0}]]", pc_PrivateBuildingAI.ore_export_ratio);
-            this.log_export_ratio.text = string.Format("log_export_ratio [{0}]]", pc_PrivateBuildingAI.log_export_ratio);
-            this.grain_export_ratio.text = string.Format("grain_export_ratio [{0}]]", pc_PrivateBuildingAI.grain_export_ratio);
+            this.good_export_ratio.text = string.Format("good_export_ratio [{0:N2}]", pc_PrivateBuildingAI.good_export_ratio);
+            this.food_export_ratio.text = string.Format("food_export_ratio [{0:N2}]", pc_PrivateBuildingAI.food_export_ratio);
+            this.petrol_export_ratio.text = string.Format("petrol_export_ratio [{0:N2}]", pc_PrivateBuildingAI.petrol_export_ratio);
+            this.coal_export_ratio.text = string.Format("coal_export_ratio [{0:N2}]", pc_PrivateBuildingAI.coal_export_ratio);
+            this.lumber_export_ratio.text = string.Format("lumber_export_ratio [{0:N2}]", pc_PrivateBuildingAI.lumber_export_ratio);
+            this.oil_export_ratio.text = string.Format("oil_export_ratio [{0:N2}]", pc_PrivateBuildingAI.oil_export_ratio);
+            this.ore_export_ratio.text = string.Format("ore_export_ratio [{0:N2}]", pc_PrivateBuildingAI.ore_export_ratio);
+            this.log_export_ratio.text = string.Format("log_export_ratio [{0:N2}]", pc_PrivateBuildingAI.log_export_ratio);
+            this.grain_export_ratio.text = string.Format("grain_export_ratio [{0:N2}]", pc_PrivateBuildingAI.grain_export_ratio);
 
-            this.good_import_ratio.text = string.Format("good_import_ratio [{0}]]", pc_PrivateBuildingAI.good_import_ratio);
-            this.food_import_ratio.text = string.Format("food_import_ratio [{0}]]", pc_PrivateBuildingAI.food_import_ratio);
-            this.petrol_import_ratio.text = string.Format("petrol_import_ratio [{0}]]", pc_PrivateBuildingAI.petrol_import_ratio);
-            this.coal_import_ratio.text = string.Format("coal_import_ratio [{0}]]", pc_PrivateBuildingAI.coal_import_ratio);
-            this.lumber_import_ratio.text = string.Format("lumber_import_ratio [{0}]]", pc_PrivateBuildingAI.lumber_import_ratio);
-            this.oil_import_ratio.text = string.Format("oil_import_ratio [{0}]]", pc_PrivateBuildingAI.oil_import_ratio);
-            this.ore_import_ratio.text = string.Format("ore_import_ratio [{0}]]", pc_PrivateBuildingAI.ore_import_ratio);
-            this.log_import_ratio.text = string.Format("log_import_ratio [{0}]]", pc_PrivateBuildingAI.log_import_ratio);
-            this.grain_import_ratio.text = string.Format("grain_import_ratio [{0}]]", pc_PrivateBuildingAI.grain_import_ratio);
+            this.good_import_ratio.text = string.Format("good_import_ratio [{0:N2}]", pc_PrivateBuildingAI.good_import_ratio);
+            this.food_import_ratio.text = string.Format("food_import_ratio [{0:N2}]", pc_PrivateBuildingAI.food_import_ratio);
+            this.petrol_import_ratio.text = string.Format("petrol_import_ratio [{0:N2}]", pc_PrivateBuildingAI.petrol_import_ratio);
+            this.coal_import_ratio.text = string.Format("coal_import_ratio [{0:N2}]", pc_PrivateBuildingAI.coal_import_ratio);
+            this.lumber_import_ratio.text = string.Format("lumber_import_ratio [{0:N2}]", pc_PrivateBuildingAI.lumber_import_ratio);
+            this.oil_import_ratio.text = string.Format("oil_import_ratio [{0:N2}]", pc_PrivateBuildingAI.oil_import_ratio);
+            this.ore_import_ratio.text = string.Format("ore_import_ratio [{0:N2}]", pc_PrivateBuildingAI.ore_import_ratio);
+            this.log_import_ratio.text = string.Format("log_import_ratio [{0:N2}]", pc_PrivateBuildingAI.log_import_ratio);
+            this.grain_import_ratio.text = string.Format("grain_import_ratio [{0:N2}]", pc_PrivateBuildingAI.grain_import_ratio);
 
 
 

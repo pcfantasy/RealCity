@@ -713,7 +713,7 @@ namespace RealCity
             {
                 if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
                 {
-                    num = (int)((float)num * comm_data.salary_idex / 2 + 0.5f);
+                    num = (int)((float)num * comm_data.salary_idex / 1.5f + 0.5f);
                     /*if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding].Info.m_class.m_service == ItemClass.Service.Commercial)
                     {
                         num = num /2;
@@ -1421,7 +1421,7 @@ namespace RealCity
             Randomizer randomizer = new Randomizer(citizen1);
             if (citizenData.m_citizen != 0u)
             {
-                if (vehicle != 0 && (comm_data.citizen_money[homeid] > 0 || instance2.m_vehicles.m_buffer[vehicle].Info.m_vehicleType != VehicleInfo.VehicleType.Car))
+                if (vehicle != 0 && ((comm_data.citizen_money[homeid] > 0) || (instance2.m_vehicles.m_buffer[vehicle].Info.m_vehicleType != VehicleInfo.VehicleType.Car)))
                 {
                     VehicleInfo info = instance2.m_vehicles.m_buffer[(int)vehicle].Info;
                     if (info != null)
@@ -1477,6 +1477,7 @@ namespace RealCity
                         {
                             temp_parked_car = instance.m_citizens.m_buffer[citizen1].m_parkedVehicle;
                             instance.m_citizens.m_buffer[citizen1].m_parkedVehicle = 0;
+                            citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTaxi);
                             //DebugLog.LogToFileOnly("citizen too poor and do not want to use car and stay car near his home");
                             if (randomizer.Int32(100u) < 50)
                             {
