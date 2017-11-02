@@ -115,6 +115,7 @@ namespace RealCity
                 int num3 = Mathf.Max(num2 * 500 / consumptionDivider, num * 4);
                 int customBuffer = (int)data.m_customBuffer1;
                 amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
+                process_incoming(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
             }
             else if (material == this.GetOutgoingTransferReason())
@@ -130,117 +131,150 @@ namespace RealCity
             }
         }
 
-        public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float production_value, final_profit;
-            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-            int aliveWorkerCount = 0;
-            int totalWorkerCount = 0;
-            base.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            float num = (float)aliveWorkerCount / 6f;
-            if (num < 1f)
+            switch (material)
             {
-                num = 1f;
-            }
-            switch (data.Info.m_class.m_level)
-            {
-                case ItemClass.Level.Level1:
-                    production_value = 1.5f * num; break;
-                case ItemClass.Level.Level2:
-                    production_value = 2f * num; break;
-                case ItemClass.Level.Level3:
-                    production_value = 2.5f * num; break;
-                default:
-                    production_value = 0f; break;
-            }
-
-            switch (data.Info.m_class.m_subService)
-            {
-                case ItemClass.SubService.IndustrialOil:
-                    production_value = 1.2f * num; break;
-                case ItemClass.SubService.IndustrialOre:
-                    production_value = 1.2f * num; break;
-                case ItemClass.SubService.IndustrialForestry:
-                    production_value = 1.2f * num; break;
-                case ItemClass.SubService.IndustrialFarming:
-                    production_value = 1.2f * num; break;
-                default:
+                case TransferManager.TransferReason.Logs:
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.log_import_price - (1f - pc_PrivateBuildingAI.log_import_ratio) * 0.1f);
+                    break;
+                case TransferManager.TransferReason.Grain:
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.grain_import_price - (1f - pc_PrivateBuildingAI.grain_import_ratio) * 0.1f);
+                    break;
+                case TransferManager.TransferReason.Oil:
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f);
+                    break;
+                case TransferManager.TransferReason.Ore:
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.ore_import_price - (1f - pc_PrivateBuildingAI.ore_import_ratio) * 0.1f);
+                    break;
+                case TransferManager.TransferReason.Lumber:
+                    switch (data.Info.m_class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.3f);
+                            break;
+                        case ItemClass.Level.Level2:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - 0.1f - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.2f);
+                            break;
+                        case ItemClass.Level.Level3:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - 0.2f - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f);
+                            break;
+                    }
+                    break;
+                case TransferManager.TransferReason.Coal:
+                    switch (data.Info.m_class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.3f);
+                            break;
+                        case ItemClass.Level.Level2:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - 0.1f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.2f);
+                            break;
+                        case ItemClass.Level.Level3:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - 0.2f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f);
+                            break;
+                    }
+                    break;
+                case TransferManager.TransferReason.Food:
+                    switch (data.Info.m_class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.3f);
+                            break;
+                        case ItemClass.Level.Level2:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - 0.1f - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.2f);
+                            break;
+                        case ItemClass.Level.Level3:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - 0.2f - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.1f);
+                            break;
+                    }
+                    break;
+                case TransferManager.TransferReason.Petrol:
+                    switch (data.Info.m_class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.3f);
+                            break;
+                        case ItemClass.Level.Level2:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - 0.1f - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.2f);
+                            break;
+                        case ItemClass.Level.Level3:
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - 0.2f - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f);
+                            break;
+                    }
                     break;
             }
+        }
+
+
+
+        public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        {
             switch (material)
             {
                 case TransferManager.TransferReason.Lumber:
                     float trade_tax = 0;
-                    final_profit = pc_PrivateBuildingAI.lumber_profit * production_value;
-                    if (final_profit > 0.95f)
-                    {
-                        final_profit = 0.95f;
-                    }
-                    float trade_income = amountDelta * final_profit;
+                    float trade_income = (float)amountDelta * (pc_PrivateBuildingAI.lumber_export_price + (1f - pc_PrivateBuildingAI.lumber_export_ratio)*0.1f);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.3f;
+                        trade_tax = -trade_income * 0.2f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Food:
                     trade_tax = 0;
-                    final_profit = pc_PrivateBuildingAI.food_profit * production_value;
-                    if (final_profit > 0.9f)
-                    {
-                        final_profit = 0.9f;
-                    }
-                    trade_income = amountDelta * final_profit;
+                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.food_export_price + (1f - pc_PrivateBuildingAI.food_export_ratio) * 0.1f);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.3f;
+                        trade_tax = -trade_income * 0.2f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Petrol:
                     trade_tax = 0;
-                    final_profit = pc_PrivateBuildingAI.petrol_profit * production_value;
-                    if (final_profit > 0.9f)
-                    {
-                        final_profit = 0.9f;
-                    }
-                    trade_income = amountDelta * final_profit;
+                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.petrol_export_price + (1f - pc_PrivateBuildingAI.petrol_export_ratio) * 0.1f);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.3f;
+                        trade_tax = -trade_income * 0.2f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Coal:
                     trade_tax = 0;
-                    final_profit = pc_PrivateBuildingAI.coal_profit * production_value;
-                    if (final_profit > 0.9f)
-                    {
-                        final_profit = 0.9f;
-                    }
-                    trade_income = amountDelta * final_profit;
+                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.coal_export_price + (1f - pc_PrivateBuildingAI.coal_export_ratio) * 0.1f);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.3f;
+                        trade_tax = -trade_income * 0.2f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;
                 case TransferManager.TransferReason.Goods:
                     trade_tax = 0;
-                    final_profit = pc_PrivateBuildingAI.indu_profit * production_value;
-                    if (final_profit > 0.9f)
+                    switch (data.Info.m_class.m_level)
                     {
-                        final_profit = 0.9f;
+                        case ItemClass.Level.Level1:
+                            trade_income = (float)amountDelta * (pc_PrivateBuildingAI.good_export_price + (1f - pc_PrivateBuildingAI.good_export_ratio) * 0.5f) / 4f;
+                            trade_tax = -trade_income * 0.2f; break;
+                        case ItemClass.Level.Level2:
+                            trade_income = (float)amountDelta * (pc_PrivateBuildingAI.good_export_price + 0.1f + (1f - pc_PrivateBuildingAI.good_export_ratio) * 0.3f) / 4f;
+                            trade_tax = -trade_income * 0.25f; break;
+                        case ItemClass.Level.Level3:
+                            trade_income = (float)amountDelta * (pc_PrivateBuildingAI.good_export_price + 0.2f + (1f - pc_PrivateBuildingAI.good_export_ratio) * 0.1f) / 4f;
+                            trade_tax = -trade_income * 0.3f; break;
+                        default:
+                            trade_income = 0;break;
                     }
-                    trade_income = amountDelta * final_profit;
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.3f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+                    }
+                    else
+                    {
+                        trade_tax = 0f;
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
                     break;

@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 600f;
+        private static readonly float HEIGHT = 650f;
 
         private static readonly float HEADER = 40f;
 
@@ -91,16 +91,25 @@ namespace RealCity
         //public static float ore_profit = 5;
         //public static float grain_profit = 5;
         //public static float log_profit = 5;
-        private UILabel comm_profit;
-        private UILabel indu_profit;
-        private UILabel food_profit;
-        private UILabel petrol_profit;
-        private UILabel coal_profit;
-        private UILabel lumber_profit;
-        private UILabel oil_profit;
-        private UILabel ore_profit;
-        private UILabel log_profit;
-        private UILabel grain_profit;
+        private UILabel good_import_ratio;
+        private UILabel food_import_ratio;
+        private UILabel petrol_import_ratio;
+        private UILabel coal_import_ratio;
+        private UILabel lumber_import_ratio;
+        private UILabel oil_import_ratio;
+        private UILabel ore_import_ratio;
+        private UILabel log_import_ratio;
+        private UILabel grain_import_ratio;
+
+        private UILabel good_export_ratio;
+        private UILabel food_export_ratio;
+        private UILabel petrol_export_ratio;
+        private UILabel coal_export_ratio;
+        private UILabel lumber_export_ratio;
+        private UILabel oil_export_ratio;
+        private UILabel ore_export_ratio;
+        private UILabel log_export_ratio;
+        private UILabel grain_export_ratio;
 
         //2.2 building outcome
         //2.3 building money
@@ -367,80 +376,137 @@ namespace RealCity
             this.m_secondline_building.relativePosition = new Vector3(SPACING, this.resident_consumption_rate.relativePosition.y + SPACING22);
             this.m_secondline_building.autoSize = true;
 
-            this.comm_profit = base.AddUIComponent<UILabel>();
-            this.comm_profit.text =           string.Format("commerical_profit  [00000000]");
-            this.comm_profit.tooltip = "commerical_profit";
-            this.comm_profit.relativePosition = new Vector3(SPACING, this.m_secondline_building.relativePosition.y + SPACING22);
-            this.comm_profit.autoSize = true;
-            this.comm_profit.name = "Moreeconomic_Text_15";
+            this.good_export_ratio = base.AddUIComponent<UILabel>();
+            this.good_export_ratio.text =           string.Format("good_export_ratio  [000]");
+            this.good_export_ratio.tooltip = "good_export_ratio";
+            this.good_export_ratio.relativePosition = new Vector3(SPACING, this.m_secondline_building.relativePosition.y + SPACING22);
+            this.good_export_ratio.autoSize = true;
+            this.good_export_ratio.name = "Moreeconomic_Text_15";
 
-            this.indu_profit = base.AddUIComponent<UILabel>();
-            this.indu_profit.text =           string.Format("industry_profit [000000000]");
-            this.indu_profit.tooltip = "industry_profit";
-            this.indu_profit.relativePosition = new Vector3(this.comm_profit.relativePosition.x + this.comm_profit.width + SPACING, this.comm_profit.relativePosition.y);
-            this.indu_profit.autoSize = true;
-            this.indu_profit.name = "Moreeconomic_Text_16";
+            this.food_export_ratio = base.AddUIComponent<UILabel>();
+            this.food_export_ratio.text =           string.Format("food_export_ratio [0000]");
+            this.food_export_ratio.tooltip = "food_export_ratio";
+            this.food_export_ratio.relativePosition = new Vector3(this.good_export_ratio.relativePosition.x + this.good_export_ratio.width + SPACING, this.good_export_ratio.relativePosition.y);
+            this.food_export_ratio.autoSize = true;
+            this.food_export_ratio.name = "Moreeconomic_Text_16";
 
-            this.food_profit = base.AddUIComponent<UILabel>();
-            this.food_profit.text =           string.Format("food_profit [0000000000000]");
-            this.food_profit.tooltip = "food_profit";
-            this.food_profit.relativePosition = new Vector3(this.indu_profit.relativePosition.x + this.indu_profit.width + SPACING - 20f, this.indu_profit.relativePosition.y);
-            this.food_profit.autoSize = true;
-            this.food_profit.name = "Moreeconomic_Text_17";
+            this.petrol_export_ratio = base.AddUIComponent<UILabel>();
+            this.petrol_export_ratio.text =         string.Format("petrol_export_ratio [000]");
+            this.petrol_export_ratio.tooltip = "petrol_export_ratio";
+            this.petrol_export_ratio.relativePosition = new Vector3(this.food_export_ratio.relativePosition.x + this.food_export_ratio.width + SPACING, this.food_export_ratio.relativePosition.y);
+            this.petrol_export_ratio.autoSize = true;
+            this.petrol_export_ratio.name = "Moreeconomic_Text_17";
 
-            this.petrol_profit = base.AddUIComponent<UILabel>();
-            this.petrol_profit.text =         string.Format("petrol_profit [00000000000]");
-            this.petrol_profit.tooltip = "petrol_profit";
-            this.petrol_profit.relativePosition = new Vector3(SPACING, this.comm_profit.relativePosition.y + SPACING22);
-            this.petrol_profit.autoSize = true;
-            this.petrol_profit.name = "Moreeconomic_Text_18";
+            this.coal_export_ratio = base.AddUIComponent<UILabel>();
+            this.coal_export_ratio.text =           string.Format("coal_export_ratio [00000]");
+            this.coal_export_ratio.tooltip = "coal_export_ratio";
+            this.coal_export_ratio.relativePosition = new Vector3(SPACING, this.petrol_export_ratio.relativePosition.y + SPACING22);
+            this.coal_export_ratio.autoSize = true;
+            this.coal_export_ratio.name = "Moreeconomic_Text_18";
 
-            this.coal_profit = base.AddUIComponent<UILabel>();
-            this.coal_profit.text =           string.Format("coal_profit [00000000000000]");
-            this.coal_profit.tooltip = "coal_profit";
-            this.coal_profit.relativePosition = new Vector3(this.petrol_profit.relativePosition.x + this.petrol_profit.width + SPACING + 20f, this.petrol_profit.relativePosition.y);
-            this.coal_profit.autoSize = true;
-            this.coal_profit.name = "Moreeconomic_Text_19";
+            this.lumber_export_ratio = base.AddUIComponent<UILabel>();
+            this.lumber_export_ratio.text =         string.Format("lumber_export_ratio [000]");
+            this.lumber_export_ratio.tooltip = "lumber_export_ratio";
+            this.lumber_export_ratio.relativePosition = new Vector3(this.coal_export_ratio.relativePosition.x + this.coal_export_ratio.width + SPACING, this.coal_export_ratio.relativePosition.y);
+            this.lumber_export_ratio.autoSize = true;
+            this.lumber_export_ratio.name = "Moreeconomic_Text_19";
 
-            this.lumber_profit = base.AddUIComponent<UILabel>();
-            this.lumber_profit.text =         string.Format("lumber_profit [000000000000]");
-            this.lumber_profit.tooltip = "lumber_profit";
-            this.lumber_profit.relativePosition = new Vector3(this.coal_profit.relativePosition.x + this.coal_profit.width + SPACING, this.coal_profit.relativePosition.y);
-            this.lumber_profit.autoSize = true;
-            this.lumber_profit.name = "Moreeconomic_Text_20";
+            this.oil_export_ratio = base.AddUIComponent<UILabel>();
+            this.oil_export_ratio.text =            string.Format("oil_export_ratio [000000]");
+            this.oil_export_ratio.tooltip = "oil_export_ratio";
+            this.oil_export_ratio.relativePosition = new Vector3(this.lumber_export_ratio.relativePosition.x + this.lumber_export_ratio.width + SPACING, this.lumber_export_ratio.relativePosition.y);
+            this.oil_export_ratio.autoSize = true;
+            this.oil_export_ratio.name = "Moreeconomic_Text_20";
 
-            this.oil_profit = base.AddUIComponent<UILabel>();
-            this.oil_profit.text =            string.Format("oil_profit   [000000]");
-            this.oil_profit.tooltip = "oil_profit";
-            this.oil_profit.relativePosition = new Vector3(SPACING, this.petrol_profit.relativePosition.y + SPACING22);
-            this.oil_profit.autoSize = true;
-            this.oil_profit.name = "Moreeconomic_Text_21";
+            this.ore_export_ratio = base.AddUIComponent<UILabel>();
+            this.ore_export_ratio.text =            string.Format("ore_export_ratio [000000]");
+            this.ore_export_ratio.tooltip = "ore_export_ratio";
+            this.ore_export_ratio.relativePosition = new Vector3(SPACING, this.oil_export_ratio.relativePosition.y + SPACING22);
+            this.ore_export_ratio.autoSize = true;
+            this.ore_export_ratio.name = "Moreeconomic_Text_21";
 
-            this.ore_profit = base.AddUIComponent<UILabel>();
-            this.ore_profit.text =            string.Format("ore_profit  [0000000]");
-            this.ore_profit.tooltip = "ore_profit";
-            this.ore_profit.relativePosition = new Vector3(this.oil_profit.relativePosition.x + this.oil_profit.width + SPACING, this.oil_profit.relativePosition.y);
-            this.ore_profit.autoSize = true;
-            this.ore_profit.name = "Moreeconomic_Text_22";
+            this.log_export_ratio = base.AddUIComponent<UILabel>();
+            this.log_export_ratio.text =            string.Format("log_export_ratio [000000]");
+            this.log_export_ratio.tooltip = "log_export_ratio";
+            this.log_export_ratio.relativePosition = new Vector3(this.ore_export_ratio.relativePosition.x + this.ore_export_ratio.width + SPACING, this.ore_export_ratio.relativePosition.y);
+            this.log_export_ratio.autoSize = true;
+            this.log_export_ratio.name = "Moreeconomic_Text_22";
 
-            this.log_profit = base.AddUIComponent<UILabel>();
-            this.log_profit.text =            string.Format("log_profit  [0000000]");
-            this.log_profit.tooltip = "log_profit";
-            this.log_profit.relativePosition = new Vector3(this.ore_profit.relativePosition.x + this.ore_profit.width + SPACING, this.ore_profit.relativePosition.y);
-            this.log_profit.autoSize = true;
-            this.log_profit.name = "Moreeconomic_Text_23";
+            this.grain_export_ratio = base.AddUIComponent<UILabel>();
+            this.grain_export_ratio.text =          string.Format("grain_export_ratio [0000]");
+            this.grain_export_ratio.tooltip = "grain_export_ratio";
+            this.grain_export_ratio.relativePosition = new Vector3(this.log_export_ratio.relativePosition.x + this.log_export_ratio.width + SPACING, this.log_export_ratio.relativePosition.y);
+            this.grain_export_ratio.autoSize = true;
+            this.grain_export_ratio.name = "Moreeconomic_Text_23";
 
-            this.grain_profit = base.AddUIComponent<UILabel>();
-            this.grain_profit.text =          string.Format("grain_profit  [00000]");
-            this.grain_profit.tooltip = "grain_profit";
-            this.grain_profit.relativePosition = new Vector3(this.log_profit.relativePosition.x + this.log_profit.width + SPACING, this.log_profit.relativePosition.y);
-            this.grain_profit.autoSize = true;
-            this.grain_profit.name = "Moreeconomic_Text_24";
+            this.good_import_ratio = base.AddUIComponent<UILabel>();
+            this.good_import_ratio.text =           string.Format("good_import_ratio  [0000]");
+            this.good_import_ratio.tooltip = "good_import_ratio";
+            this.good_import_ratio.relativePosition = new Vector3(SPACING, this.grain_export_ratio.relativePosition.y + SPACING22);
+            this.good_import_ratio.autoSize = true;
+            this.good_import_ratio.name = "Moreeconomic_Text_65";
+
+            this.food_import_ratio = base.AddUIComponent<UILabel>();
+            this.food_import_ratio.text =           string.Format("food_import_ratio [00000]");
+            this.food_import_ratio.tooltip = "food_import_ratio";
+            this.food_import_ratio.relativePosition = new Vector3(this.good_import_ratio.relativePosition.x + this.good_import_ratio.width + SPACING, this.good_import_ratio.relativePosition.y);
+            this.food_import_ratio.autoSize = true;
+            this.food_import_ratio.name = "Moreeconomic_Text_66";
+
+            this.petrol_import_ratio = base.AddUIComponent<UILabel>();
+            this.petrol_import_ratio.text =         string.Format("petrol_import_ratio [000]");
+            this.petrol_import_ratio.tooltip = "petrol_import_ratio";
+            this.petrol_import_ratio.relativePosition = new Vector3(this.food_import_ratio.relativePosition.x + this.food_import_ratio.width + SPACING, this.food_import_ratio.relativePosition.y);
+            this.petrol_import_ratio.autoSize = true;
+            this.petrol_import_ratio.name = "Moreeconomic_Text_67";
+
+            this.coal_import_ratio = base.AddUIComponent<UILabel>();
+            this.coal_import_ratio.text =           string.Format("coal_import_ratio [00000]");
+            this.coal_import_ratio.tooltip = "coal_import_ratio";
+            this.coal_import_ratio.relativePosition = new Vector3(SPACING, this.petrol_import_ratio.relativePosition.y + SPACING22);
+            this.coal_import_ratio.autoSize = true;
+            this.coal_import_ratio.name = "Moreeconomic_Text_68";
+
+            this.lumber_import_ratio = base.AddUIComponent<UILabel>();
+            this.lumber_import_ratio.text =         string.Format("lumber_import_ratio [000]");
+            this.lumber_import_ratio.tooltip = "lumber_import_ratio";
+            this.lumber_import_ratio.relativePosition = new Vector3(this.coal_import_ratio.relativePosition.x + this.coal_import_ratio.width + SPACING, this.coal_import_ratio.relativePosition.y);
+            this.lumber_import_ratio.autoSize = true;
+            this.lumber_import_ratio.name = "Moreeconomic_Text_69";
+
+            this.oil_import_ratio = base.AddUIComponent<UILabel>();
+            this.oil_import_ratio.text =            string.Format("oil_import_ratio [000000]");
+            this.oil_import_ratio.tooltip = "oil_import_ratio";
+            this.oil_import_ratio.relativePosition = new Vector3(this.lumber_import_ratio.relativePosition.x + this.lumber_import_ratio.width + SPACING, this.lumber_import_ratio.relativePosition.y);
+            this.oil_import_ratio.autoSize = true;
+            this.oil_import_ratio.name = "Moreeconomic_Text_70";
+
+            this.ore_import_ratio = base.AddUIComponent<UILabel>();
+            this.ore_import_ratio.text =            string.Format("ore_import_ratio [000000]");
+            this.ore_import_ratio.tooltip = "ore_import_ratio";
+            this.ore_import_ratio.relativePosition = new Vector3(SPACING, this.oil_import_ratio.relativePosition.y + SPACING22);
+            this.ore_import_ratio.autoSize = true;
+            this.ore_import_ratio.name = "Moreeconomic_Text_71";
+
+            this.log_import_ratio = base.AddUIComponent<UILabel>();
+            this.log_import_ratio.text =            string.Format("log_import_ratio [000000]");
+            this.log_import_ratio.tooltip = "log_import_ratio";
+            this.log_import_ratio.relativePosition = new Vector3(this.ore_import_ratio.relativePosition.x + this.ore_import_ratio.width + SPACING, this.ore_import_ratio.relativePosition.y);
+            this.log_import_ratio.autoSize = true;
+            this.log_import_ratio.name = "Moreeconomic_Text_72";
+
+            this.grain_import_ratio = base.AddUIComponent<UILabel>();
+            this.grain_import_ratio.text =          string.Format("grain_import_ratio [00000]");
+            this.grain_import_ratio.tooltip = "grain_import_ratio";
+            this.grain_import_ratio.relativePosition = new Vector3(this.log_import_ratio.relativePosition.x + this.log_import_ratio.width + SPACING, this.log_import_ratio.relativePosition.y);
+            this.grain_import_ratio.autoSize = true;
+            this.grain_import_ratio.name = "Moreeconomic_Text_73";
+
 
             this.all_comm_building_profit = base.AddUIComponent<UILabel>();
             this.all_comm_building_profit.text =     string.Format("all_comm_building_profit num   [00000]");
             this.all_comm_building_profit.tooltip = "all_comm_building_profit num";
-            this.all_comm_building_profit.relativePosition = new Vector3(SPACING, this.oil_profit.relativePosition.y + SPACING22);
+            this.all_comm_building_profit.relativePosition = new Vector3(SPACING, this.grain_import_ratio.relativePosition.y + SPACING22);
             this.all_comm_building_profit.autoSize = true;
             this.all_comm_building_profit.name = "Moreeconomic_Text_25";
 
@@ -647,16 +713,28 @@ namespace RealCity
             this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [{0:N2}]", comm_data.outside_consumption_rate);
 
             //building
-            this.comm_profit.text = string.Format("commerical_profit [{0}]]", pc_PrivateBuildingAI.comm_profit);
-            this.indu_profit.text = string.Format("industry_profit [{0}]]", pc_PrivateBuildingAI.indu_profit);
-            this.food_profit.text = string.Format("food_profit [{0}]]", pc_PrivateBuildingAI.food_profit);
-            this.petrol_profit.text = string.Format("petrol_profit [{0}]]", pc_PrivateBuildingAI.petrol_profit);
-            this.coal_profit.text = string.Format("coal_profit [{0}]]", pc_PrivateBuildingAI.coal_profit);
-            this.lumber_profit.text = string.Format("lumber_profit [{0}]]", pc_PrivateBuildingAI.lumber_profit);
-            this.oil_profit.text = string.Format("oil_profit [{0}]]", pc_PrivateBuildingAI.oil_profit);
-            this.ore_profit.text = string.Format("ore_profit [{0}]]", pc_PrivateBuildingAI.ore_profit);
-            this.log_profit.text = string.Format("log_profit [{0}]]", pc_PrivateBuildingAI.log_profit);
-            this.grain_profit.text = string.Format("grain_profit [{0}]]", pc_PrivateBuildingAI.grain_profit);
+            this.good_export_ratio.text = string.Format("good_export_ratio [{0}]]", pc_PrivateBuildingAI.good_export_ratio);
+            this.food_export_ratio.text = string.Format("food_export_ratio [{0}]]", pc_PrivateBuildingAI.food_export_ratio);
+            this.petrol_export_ratio.text = string.Format("petrol_export_ratio [{0}]]", pc_PrivateBuildingAI.petrol_export_ratio);
+            this.coal_export_ratio.text = string.Format("coal_export_ratio [{0}]]", pc_PrivateBuildingAI.coal_export_ratio);
+            this.lumber_export_ratio.text = string.Format("lumber_export_ratio [{0}]]", pc_PrivateBuildingAI.lumber_export_ratio);
+            this.oil_export_ratio.text = string.Format("oil_export_ratio [{0}]]", pc_PrivateBuildingAI.oil_export_ratio);
+            this.ore_export_ratio.text = string.Format("ore_export_ratio [{0}]]", pc_PrivateBuildingAI.ore_export_ratio);
+            this.log_export_ratio.text = string.Format("log_export_ratio [{0}]]", pc_PrivateBuildingAI.log_export_ratio);
+            this.grain_export_ratio.text = string.Format("grain_export_ratio [{0}]]", pc_PrivateBuildingAI.grain_export_ratio);
+
+            this.good_import_ratio.text = string.Format("good_import_ratio [{0}]]", pc_PrivateBuildingAI.good_import_ratio);
+            this.food_import_ratio.text = string.Format("food_import_ratio [{0}]]", pc_PrivateBuildingAI.food_import_ratio);
+            this.petrol_import_ratio.text = string.Format("petrol_import_ratio [{0}]]", pc_PrivateBuildingAI.petrol_import_ratio);
+            this.coal_import_ratio.text = string.Format("coal_import_ratio [{0}]]", pc_PrivateBuildingAI.coal_import_ratio);
+            this.lumber_import_ratio.text = string.Format("lumber_import_ratio [{0}]]", pc_PrivateBuildingAI.lumber_import_ratio);
+            this.oil_import_ratio.text = string.Format("oil_import_ratio [{0}]]", pc_PrivateBuildingAI.oil_import_ratio);
+            this.ore_import_ratio.text = string.Format("ore_import_ratio [{0}]]", pc_PrivateBuildingAI.ore_import_ratio);
+            this.log_import_ratio.text = string.Format("log_import_ratio [{0}]]", pc_PrivateBuildingAI.log_import_ratio);
+            this.grain_import_ratio.text = string.Format("grain_import_ratio [{0}]]", pc_PrivateBuildingAI.grain_import_ratio);
+
+
+
             this.all_comm_building_profit.text = string.Format("all_comm_building_profit num [{0}]", pc_PrivateBuildingAI.all_comm_building_profit_final);
             this.all_comm_building_loss.text = string.Format("all_comm_building_loss num [{0}]", pc_PrivateBuildingAI.all_comm_building_loss_final);
             this.all_industry_building_profit.text = string.Format("all_industry_building_profit num [{0}]", pc_PrivateBuildingAI.all_industry_building_profit_final);

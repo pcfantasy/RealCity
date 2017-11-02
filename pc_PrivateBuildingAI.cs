@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
+using System;
 using UnityEngine;
 
 namespace RealCity
@@ -11,7 +12,9 @@ namespace RealCity
         //2.1.1 profit and tranport cost
         public static ushort resident_shopping_count = 0;
         public static ushort resident_leisure_count = 0;
-        public static ushort shop_get_goods_from_local_count = 0;
+        public static ushort shop_get_goods_from_local_level1_count = 0;
+        public static ushort shop_get_goods_from_local_level2_count = 0;
+        public static ushort shop_get_goods_from_local_level3_count = 0;
         public static ushort shop_get_goods_from_outside_count = 0;
         public static ushort industy_goods_to_outside_count = 0;
         public static ushort Grain_to_outside_count = 0;
@@ -41,16 +44,49 @@ namespace RealCity
         //public static ushort visit_shopping_count = 0;
         //public static ushort visit_leisure_count = 0;
 
-        public static float comm_profit = 5;
-        public static float indu_profit = 5;
-        public static float food_profit = 5;
-        public static float petrol_profit = 5;
-        public static float coal_profit = 5;
-        public static float lumber_profit = 5;
-        public static float oil_profit = 5;
-        public static float ore_profit = 5;
-        public static float grain_profit = 5;
-        public static float log_profit = 5;
+        public const float good_export_price = 1.5f;
+        public const float food_export_price = 0.5f;
+        public const float petrol_export_price = 0.5f;
+        public const float coal_export_price = 0.5f;
+        public const float lumber_export_price = 0.5f;
+        public const float oil_export_price = 0.1f;
+        public const float ore_export_price = 0.1f;
+        public const float grain_export_price = 0.1f;
+        public const float log_export_price = 0.1f;
+
+        public const float good_import_price = 2.6f;
+        public const float food_import_price = 0.9f;
+        public const float petrol_import_price = 0.9f;
+        public const float coal_import_price = 0.9f;
+        public const float lumber_import_price = 0.9f;
+        public const float oil_import_price = 0.3f;
+        public const float ore_import_price = 0.3f;
+        public const float grain_import_price = 0.3f;
+        public const float log_import_price = 0.3f;
+
+        public static float good_export_ratio = 1f;
+        public static float food_export_ratio = 1f;
+        public static float petrol_export_ratio = 1f;
+        public static float coal_export_ratio = 1f;
+        public static float lumber_export_ratio = 01f;
+        public static float oil_export_ratio = 1f;
+        public static float ore_export_ratio = 1f;
+        public static float grain_export_ratio = 1f;
+        public static float log_export_ratio = 1f;
+
+        public static float good_import_ratio = 1f;
+        public static float food_import_ratio = 1f;
+        public static float petrol_import_ratio = 1f;
+        public static float coal_import_ratio = 1f;
+        public static float lumber_import_ratio = 1f;
+        public static float oil_import_ratio = 1f;
+        public static float ore_import_ratio = 1f;
+        public static float grain_import_ratio = 1f;
+        public static float log_import_ratio = 1f;
+
+        public static float good_level2_ratio = 0f;
+        public static float good_level3_ratio = 0f;
+
 
         public static ushort all_comm_building_profit = 0;
         public static ushort all_industry_building_profit = 0;
@@ -75,7 +111,9 @@ namespace RealCity
         public static uint prebuidlingid = 0;
         public static ushort resident_shopping_count_final = 0;
         public static ushort resident_leisure_count_final = 0;
-        public static ushort shop_get_goods_from_local_count_final = 0;
+        public static ushort shop_get_goods_from_local_count_level1_final = 0;
+        public static ushort shop_get_goods_from_local_count_level2_final = 0;
+        public static ushort shop_get_goods_from_local_count_level3_final = 0;
         public static ushort shop_get_goods_from_outside_count_final = 0;
         public static ushort industy_goods_to_outside_count_final = 0;
         public static ushort Grain_to_outside_count_final = 0;
@@ -129,15 +167,17 @@ namespace RealCity
         public static float office_high_tech_salary_index = 0.5f;
         // PrivateBuildingAI
 
-        public static byte[] save_data = new byte[256];
-        public static byte[] load_data = new byte[256];
+        public static byte[] save_data = new byte[304];
+        public static byte[] load_data = new byte[304];
 
         public static void load()
         {
             int i = 0;
             resident_shopping_count = saveandrestore.load_ushort(ref i, load_data);
             resident_leisure_count = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_count = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_level1_count = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_level2_count = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_level3_count = saveandrestore.load_ushort(ref i, load_data);
             shop_get_goods_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
             industy_goods_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
             Grain_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
@@ -165,15 +205,28 @@ namespace RealCity
             lumber_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
             lumber_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
 
-            comm_profit = saveandrestore.load_float(ref i, load_data);
-            indu_profit = saveandrestore.load_float(ref i, load_data);
-            food_profit = saveandrestore.load_float(ref i, load_data);
-            petrol_profit = saveandrestore.load_float(ref i, load_data);
-            coal_profit = saveandrestore.load_float(ref i, load_data);
-            oil_profit = saveandrestore.load_float(ref i, load_data);
-            ore_profit = saveandrestore.load_float(ref i, load_data);
-            grain_profit = saveandrestore.load_float(ref i, load_data);
-            log_profit = saveandrestore.load_float(ref i, load_data);
+            good_export_ratio = saveandrestore.load_float(ref i, load_data);
+            food_export_ratio = saveandrestore.load_float(ref i, load_data);
+            lumber_export_ratio = saveandrestore.load_float(ref i, load_data);
+            coal_export_ratio = saveandrestore.load_float(ref i, load_data);
+            petrol_export_ratio = saveandrestore.load_float(ref i, load_data);
+            log_export_ratio = saveandrestore.load_float(ref i, load_data);
+            grain_export_ratio = saveandrestore.load_float(ref i, load_data);
+            oil_export_ratio = saveandrestore.load_float(ref i, load_data);
+            ore_export_ratio = saveandrestore.load_float(ref i, load_data);
+
+            good_import_ratio = saveandrestore.load_float(ref i, load_data);
+            food_import_ratio = saveandrestore.load_float(ref i, load_data);
+            lumber_import_ratio = saveandrestore.load_float(ref i, load_data);
+            coal_import_ratio = saveandrestore.load_float(ref i, load_data);
+            petrol_import_ratio = saveandrestore.load_float(ref i, load_data);
+            log_import_ratio = saveandrestore.load_float(ref i, load_data);
+            grain_import_ratio = saveandrestore.load_float(ref i, load_data);
+            oil_import_ratio = saveandrestore.load_float(ref i, load_data);
+            ore_import_ratio = saveandrestore.load_float(ref i, load_data);
+
+            good_level2_ratio = saveandrestore.load_float(ref i, load_data);
+            good_level3_ratio = saveandrestore.load_float(ref i, load_data);
 
             all_comm_building_profit = saveandrestore.load_ushort(ref i, load_data);
             all_industry_building_profit = saveandrestore.load_ushort(ref i, load_data);
@@ -197,7 +250,9 @@ namespace RealCity
 
             resident_shopping_count_final = saveandrestore.load_ushort(ref i, load_data);
             resident_leisure_count_final = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_count_final = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_count_level1_final = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_count_level2_final = saveandrestore.load_ushort(ref i, load_data);
+            shop_get_goods_from_local_count_level3_final = saveandrestore.load_ushort(ref i, load_data);
             shop_get_goods_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
             industy_goods_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
             Grain_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
@@ -259,10 +314,12 @@ namespace RealCity
         {
             int i = 0;
 
-            //29 * 2 = 58
+            //31 * 2 = 62
             saveandrestore.save_ushort(ref i, resident_shopping_count, ref save_data);
             saveandrestore.save_ushort(ref i, resident_leisure_count, ref save_data);
-            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_count, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_level1_count, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_level2_count, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_level3_count, ref save_data);
             saveandrestore.save_ushort(ref i, shop_get_goods_from_outside_count, ref save_data);
             saveandrestore.save_ushort(ref i, industy_goods_to_outside_count, ref save_data);
             saveandrestore.save_ushort(ref i, Grain_to_outside_count, ref save_data);
@@ -290,17 +347,28 @@ namespace RealCity
             saveandrestore.save_ushort(ref i, lumber_to_industy_count, ref save_data);
             saveandrestore.save_ushort(ref i, lumber_from_outside_count, ref save_data);
 
-            //10 * 4 = 40
-            saveandrestore.save_float(ref i, comm_profit, ref save_data);
-            saveandrestore.save_float(ref i, indu_profit, ref save_data);
-            saveandrestore.save_float(ref i, food_profit, ref save_data);
-            saveandrestore.save_float(ref i, petrol_profit, ref save_data);
-            saveandrestore.save_float(ref i, coal_profit, ref save_data);
-            saveandrestore.save_float(ref i, lumber_profit, ref save_data);
-            saveandrestore.save_float(ref i, oil_profit, ref save_data);
-            saveandrestore.save_float(ref i, ore_profit, ref save_data);
-            saveandrestore.save_float(ref i, grain_profit, ref save_data);
-            saveandrestore.save_float(ref i, log_profit, ref save_data);
+            //20 * 4 = 80
+            saveandrestore.save_float(ref i, good_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, food_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, lumber_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, coal_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, petrol_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, log_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, grain_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, oil_export_ratio, ref save_data);
+            saveandrestore.save_float(ref i, ore_export_ratio, ref save_data);
+
+            saveandrestore.save_float(ref i, good_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, food_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, lumber_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, coal_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, petrol_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, log_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, grain_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, oil_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, ore_import_ratio, ref save_data);
+            saveandrestore.save_float(ref i, good_level2_ratio, ref save_data);
+            saveandrestore.save_float(ref i, good_level3_ratio, ref save_data);
 
             //12*2 + 7*4 = 52
             saveandrestore.save_ushort(ref i, all_comm_building_profit, ref save_data);
@@ -326,7 +394,9 @@ namespace RealCity
             //58
             saveandrestore.save_ushort(ref i, resident_shopping_count_final, ref save_data);
             saveandrestore.save_ushort(ref i, resident_leisure_count_final, ref save_data);
-            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_count_final, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_count_level1_final, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_count_level2_final, ref save_data);
+            saveandrestore.save_ushort(ref i, shop_get_goods_from_local_count_level3_final, ref save_data);
             saveandrestore.save_ushort(ref i, shop_get_goods_from_outside_count_final, ref save_data);
             saveandrestore.save_ushort(ref i, industy_goods_to_outside_count_final, ref save_data);
             saveandrestore.save_ushort(ref i, Grain_to_outside_count_final, ref save_data);
@@ -445,7 +515,7 @@ namespace RealCity
                     problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
                     //here we can let building down
                 }
-                else if (comm_data.building_money[i] < -500)
+                else if (comm_data.building_money[i] < -1000)
                 {
                     problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
                 }
@@ -457,7 +527,9 @@ namespace RealCity
                 //DebugLog.LogToFileOnly("caculate building final status, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
                 resident_shopping_count_final = resident_shopping_count;
                 resident_leisure_count_final = resident_leisure_count;
-                shop_get_goods_from_local_count_final = shop_get_goods_from_local_count;
+                shop_get_goods_from_local_count_level1_final = shop_get_goods_from_local_level1_count;
+                shop_get_goods_from_local_count_level2_final = shop_get_goods_from_local_level2_count;
+                shop_get_goods_from_local_count_level3_final = shop_get_goods_from_local_level3_count;
                 shop_get_goods_from_outside_count_final = shop_get_goods_from_outside_count;
                 industy_goods_to_outside_count_final = industy_goods_to_outside_count;
                 Grain_to_outside_count_final = Grain_to_outside_count;
@@ -516,7 +588,9 @@ namespace RealCity
                 all_comm_building_loss = 0;
                 resident_shopping_count = 0;
                 resident_leisure_count = 0;
-                shop_get_goods_from_local_count = 0;
+                shop_get_goods_from_local_level1_count = 0;
+                shop_get_goods_from_local_level2_count = 0;
+                shop_get_goods_from_local_level3_count = 0;
                 shop_get_goods_from_outside_count = 0;
                 industy_goods_to_outside_count = 0;
                 Grain_to_outside_count = 0;
@@ -969,6 +1043,64 @@ namespace RealCity
                     }
                     break;*/
                 default: break;
+            }
+        }
+    }
+
+    public class pc_PrivateBuildingAI_1 : PrivateBuildingAI
+    {
+        protected void GetWorkBehaviour_1(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = buildingData.m_citizenUnits;
+            int num2 = 0;
+            while (num != 0u)
+            {
+                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
+                {
+                    instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenWorkBehaviour(ref behaviour, ref aliveCount, ref totalCount);
+                }
+                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                if (++num2 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+            //more works with more m_efficiencyAccumulation
+            //if alive count =0  and total cout > 1,then let alive count = 1 to let building product goods
+
+            if ( (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial) || (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial))
+            {
+                int num3;
+                int num4;
+                int num5;
+                int num6;
+                this.CalculateWorkplaceCount(new Randomizer((int)buildingID), buildingData.Width, buildingData.Length, out num3, out num4, out num5, out num6);
+                int workPlaceCount = num3 + num4 + num5 + num6;
+
+                if ((totalCount > 1) && (aliveCount == 0))
+                {
+                    aliveCount = 1;
+                }
+
+                if (workPlaceCount == 0)
+                {
+                    DebugLog.LogToFileOnly("find a building workplacecount == 0");
+                }
+
+                float compensation_factor = (float)(aliveCount + workPlaceCount) / (float)(aliveCount * 2f);
+
+                compensation_factor = ((float)(aliveCount + totalCount) / (float)(2f * totalCount)) * compensation_factor;
+
+                if ((totalCount / 5f) > 1f)
+                {
+                    behaviour.m_efficiencyAccumulation = (int)((float)behaviour.m_efficiencyAccumulation * compensation_factor * (float)totalCount / 5f);
+                }
+                else
+                {
+                    behaviour.m_efficiencyAccumulation = (int)((float)behaviour.m_efficiencyAccumulation * compensation_factor);
+                }
             }
         }
     }

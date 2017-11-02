@@ -59,7 +59,7 @@ namespace RealCity
             int num = 100;
             if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None))
             {
-                num = (comm_data.citizen_money[homeid] - num > 0) ? num : comm_data.citizen_money[homeid];
+                num = (comm_data.citizen_money[homeid] - num > 0f) ? num : (int)comm_data.citizen_money[homeid];
                 int num1 = -num;
                 info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num1);
                 comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] + num1);
@@ -85,7 +85,7 @@ namespace RealCity
                     if (comm_data.citizen_money[homeid] > 0)
                     {
                         //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
-                        tourism_fee = (comm_data.citizen_money[homeid] - tourism_fee > 0) ? tourism_fee : comm_data.citizen_money[homeid];
+                        tourism_fee = (comm_data.citizen_money[homeid] - tourism_fee > 0f) ? tourism_fee : (int)comm_data.citizen_money[homeid];
                         comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - tourism_fee);
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }

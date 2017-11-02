@@ -4,239 +4,239 @@
     {
         //1.  citizen
         //1.1 citizen salary
-        public const byte comm_high_level1_education0 = 21;
-        public const byte comm_high_level2_education0 = 26;
-        public const byte comm_high_level3_education0 = 36;
+        public const byte comm_high_level1_education0 = 70;
+        public const byte comm_high_level2_education0 = 80;
+        public const byte comm_high_level3_education0 = 100;
 
-        public const byte comm_high_level1_education1 = 25;
-        public const byte comm_high_level2_education1 = 31;
-        public const byte comm_high_level3_education1 = 40;
+        public const byte comm_high_level1_education1 = 75;
+        public const byte comm_high_level2_education1 = 85;
+        public const byte comm_high_level3_education1 = 105;
 
-        public const byte comm_high_level1_education2 = 31;
-        public const byte comm_high_level2_education2 = 37;
-        public const byte comm_high_level3_education2 = 49;
+        public const byte comm_high_level1_education2 = 85;
+        public const byte comm_high_level2_education2 = 95;
+        public const byte comm_high_level3_education2 = 115;
 
-        public const byte comm_high_level1_education3 = 41;
-        public const byte comm_high_level2_education3 = 49;
-        public const byte comm_high_level3_education3 = 62;
+        public const byte comm_high_level1_education3 = 90;
+        public const byte comm_high_level2_education3 = 110;
+        public const byte comm_high_level3_education3 = 130;
 
         //commerial low
-        public const byte comm_low_level1_education0 = 21;
-        public const byte comm_low_level2_education0 = 25;
-        public const byte comm_low_level3_education0 = 35;
+        public const byte comm_low_level1_education0 = 55;
+        public const byte comm_low_level2_education0 = 70;
+        public const byte comm_low_level3_education0 = 80;
 
-        public const byte comm_low_level1_education1 = 24;
-        public const byte comm_low_level2_education1 = 30;
-        public const byte comm_low_level3_education1 = 39;
+        public const byte comm_low_level1_education1 = 60;
+        public const byte comm_low_level2_education1 = 75;
+        public const byte comm_low_level3_education1 = 85;
 
-        public const byte comm_low_level1_education2 = 29;
-        public const byte comm_low_level2_education2 = 36;
-        public const byte comm_low_level3_education2 = 47;
+        public const byte comm_low_level1_education2 = 70;
+        public const byte comm_low_level2_education2 = 85;
+        public const byte comm_low_level3_education2 = 95;
 
-        public const byte comm_low_level1_education3 = 38;
-        public const byte comm_low_level2_education3 = 45;
-        public const byte comm_low_level3_education3 = 59;
+        public const byte comm_low_level1_education3 = 85;
+        public const byte comm_low_level2_education3 = 90;
+        public const byte comm_low_level3_education3 = 110;
 
         //commerial leisure
-        public const byte comm_lei_education0 = 36;
-        public const byte comm_lei_education1 = 40;
-        public const byte comm_lei_education2 = 46;
-        public const byte comm_lei_education3 = 48;
+        public const byte comm_lei_education0 = 70;
+        public const byte comm_lei_education1 = 75;
+        public const byte comm_lei_education2 = 85;
+        public const byte comm_lei_education3 = 100;
 
         //commerial Tourist
-        public const byte comm_tou_education0 = 37;
-        public const byte comm_tou_education1 = 39;
-        public const byte comm_tou_education2 = 47;
-        public const byte comm_tou_education3 = 62;
+        public const byte comm_tou_education0 = 80;
+        public const byte comm_tou_education1 = 85;
+        public const byte comm_tou_education2 = 95;
+        public const byte comm_tou_education3 = 110;
 
         //commerial Eco
-        public const byte comm_eco_education0 = 34;
-        public const byte comm_eco_education1 = 37;
-        public const byte comm_eco_education2 = 42;
-        public const byte comm_eco_education3 = 51;
+        public const byte comm_eco_education0 = 70;
+        public const byte comm_eco_education1 = 75;
+        public const byte comm_eco_education2 = 85;
+        public const byte comm_eco_education3 = 100;
 
         //indus generic
-        public const byte indus_gen_level1_education0 = 20;
-        public const byte indus_gen_level2_education0 = 24;
-        public const byte indus_gen_level3_education0 = 37;
+        public const byte indus_gen_level1_education0 = 45;
+        public const byte indus_gen_level2_education0 = 55;
+        public const byte indus_gen_level3_education0 = 70;
 
-        public const byte indus_gen_level1_education1 = 23;
-        public const byte indus_gen_level2_education1 = 30;
-        public const byte indus_gen_level3_education1 = 41;
+        public const byte indus_gen_level1_education1 = 50;
+        public const byte indus_gen_level2_education1 = 60;
+        public const byte indus_gen_level3_education1 = 75;
 
-        public const byte indus_gen_level1_education2 = 27;
-        public const byte indus_gen_level2_education2 = 36;
-        public const byte indus_gen_level3_education2 = 48;
+        public const byte indus_gen_level1_education2 = 60;
+        public const byte indus_gen_level2_education2 = 70;
+        public const byte indus_gen_level3_education2 = 85;
 
-        public const byte indus_gen_level1_education3 = 34;
-        public const byte indus_gen_level2_education3 = 45;
-        public const byte indus_gen_level3_education3 = 61;
+        public const byte indus_gen_level1_education3 = 75;
+        public const byte indus_gen_level2_education3 = 85;
+        public const byte indus_gen_level3_education3 = 90;
 
         //industrial farmer
         public const byte indus_far_education0 = 30;
-        public const byte indus_far_education1 = 33;
-        public const byte indus_far_education2 = 38;
-        public const byte indus_far_education3 = 45;
+        public const byte indus_far_education1 = 40;
+        public const byte indus_far_education2 = 50;
+        public const byte indus_far_education3 = 65;
 
         //industrial foerest
-        public const byte indus_for_education0 = 31;
-        public const byte indus_for_education1 = 34;
-        public const byte indus_for_education2 = 39;
-        public const byte indus_for_education3 = 47;
+        public const byte indus_for_education0 = 30;
+        public const byte indus_for_education1 = 40;
+        public const byte indus_for_education2 = 50;
+        public const byte indus_for_education3 = 65;
 
         //industrial oil
-        public const byte indus_oil_education0 = 42;
-        public const byte indus_oil_education1 = 45;
+        public const byte indus_oil_education0 = 30;
+        public const byte indus_oil_education1 = 40;
         public const byte indus_oil_education2 = 50;
-        public const byte indus_oil_education3 = 57;
+        public const byte indus_oil_education3 = 65;
 
         //industrial ore
-        public const byte indus_ore_education0 = 40;
-        public const byte indus_ore_education1 = 43;
-        public const byte indus_ore_education2 = 48;
-        public const byte indus_ore_education3 = 55;
+        public const byte indus_ore_education0 = 30;
+        public const byte indus_ore_education1 = 40;
+        public const byte indus_ore_education2 = 50;
+        public const byte indus_ore_education3 = 65;
 
         //office
-        public const byte office_gen_level1_education0 = 25;
-        public const byte office_gen_level1_education1 = 31;
-        public const byte office_gen_level1_education2 = 41;
-        public const byte office_gen_level1_education3 = 54;
+        public const byte office_gen_level1_education0 = 70;
+        public const byte office_gen_level1_education1 = 80;
+        public const byte office_gen_level1_education2 = 100;
+        public const byte office_gen_level1_education3 = 120;
 
-        public const byte office_gen_level2_education0 = 27;
-        public const byte office_gen_level2_education1 = 34;
-        public const byte office_gen_level2_education2 = 41;
-        public const byte office_gen_level2_education3 = 59;
+        public const byte office_gen_level2_education0 = 75;
+        public const byte office_gen_level2_education1 = 85;
+        public const byte office_gen_level2_education2 = 105;
+        public const byte office_gen_level2_education3 = 125;
 
-        public const byte office_gen_level3_education0 = 30;
-        public const byte office_gen_level3_education1 = 37;
-        public const byte office_gen_level3_education2 = 55;
-        public const byte office_gen_level3_education3 = 69;
+        public const byte office_gen_level3_education0 = 85;
+        public const byte office_gen_level3_education1 = 95;
+        public const byte office_gen_level3_education2 = 115;
+        public const byte office_gen_level3_education3 = 130;
 
         //office high tech
-        public const byte office_high_tech_education0 = 36;
-        public const byte office_high_tech_education1 = 39;
-        public const byte office_high_tech_education2 = 59;
-        public const byte office_high_tech_education3 = 76;
+        public const byte office_high_tech_education0 = 120;
+        public const byte office_high_tech_education1 = 125;
+        public const byte office_high_tech_education2 = 140;
+        public const byte office_high_tech_education3 = 155;
 
         //Road
-        public const byte road_education0 = 34;
-        public const byte road_education1 = 38;
-        public const byte road_education2 = 44;
-        public const byte road_education3 = 54;
+        public const byte road_education0 = 50;
+        public const byte road_education1 = 55;
+        public const byte road_education2 = 65;
+        public const byte road_education3 = 80;
 
         //Electricity
-        public const byte Electricity_education0 = 33;
-        public const byte Electricity_education1 = 37;
-        public const byte Electricity_education2 = 45;
-        public const byte Electricity_education3 = 56;
+        public const byte Electricity_education0 = 50;
+        public const byte Electricity_education1 = 55;
+        public const byte Electricity_education2 = 65;
+        public const byte Electricity_education3 = 80;
 
         //Water
-        public const byte Water_education0 = 32;
-        public const byte Water_education1 = 36;
-        public const byte Water_education2 = 42;
-        public const byte Water_education3 = 53;
+        public const byte Water_education0 = 50;
+        public const byte Water_education1 = 55;
+        public const byte Water_education2 = 65;
+        public const byte Water_education3 = 80;
 
         //Beautification
-        public const byte Beautification_education0 = 33;
-        public const byte Beautification_education1 = 37;
-        public const byte Beautification_education2 = 44;
-        public const byte Beautification_education3 = 53;
+        public const byte Beautification_education0 = 50;
+        public const byte Beautification_education1 = 55;
+        public const byte Beautification_education2 = 65;
+        public const byte Beautification_education3 = 80;
 
         //Garbage
-        public const byte Garbage_education0 = 35;
-        public const byte Garbage_education1 = 38;
-        public const byte Garbage_education2 = 43;
-        public const byte Garbage_education3 = 50;
+        public const byte Garbage_education0 = 50;
+        public const byte Garbage_education1 = 55;
+        public const byte Garbage_education2 = 65;
+        public const byte Garbage_education3 = 80;
 
         //HealthCare
-        public const byte HealthCare_education0 = 34;
-        public const byte HealthCare_education1 = 38;
-        public const byte HealthCare_education2 = 46;
-        public const byte HealthCare_education3 = 62;
+        public const byte HealthCare_education0 = 50;
+        public const byte HealthCare_education1 = 55;
+        public const byte HealthCare_education2 = 65;
+        public const byte HealthCare_education3 = 80;
 
         //PoliceDepartment
-        public const byte PoliceDepartment_education0 = 35;
-        public const byte PoliceDepartment_education1 = 39;
-        public const byte PoliceDepartment_education2 = 45;
-        public const byte PoliceDepartment_education3 = 55;
+        public const byte PoliceDepartment_education0 = 50;
+        public const byte PoliceDepartment_education1 = 55;
+        public const byte PoliceDepartment_education2 = 65;
+        public const byte PoliceDepartment_education3 = 80;
 
         //Education
-        public const byte Education_education0 = 32;
-        public const byte Education_education1 = 37;
-        public const byte Education_education2 = 45;
-        public const byte Education_education3 = 59;
+        public const byte Education_education0 = 50;
+        public const byte Education_education1 = 55;
+        public const byte Education_education2 = 65;
+        public const byte Education_education3 = 80;
 
         //Monument
-        public const byte Monument_education0 = 35;
-        public const byte Monument_education1 = 39;
-        public const byte Monument_education2 = 46;
-        public const byte Monument_education3 = 57;
+        public const byte Monument_education0 = 50;
+        public const byte Monument_education1 = 55;
+        public const byte Monument_education2 = 65;
+        public const byte Monument_education3 = 80;
 
         //Disaster
-        public const byte disaster_education0 = 43;
-        public const byte disaster_education1 = 46;
-        public const byte disaster_education2 = 55;
-        public const byte disaster_education3 = 64;
+        public const byte disaster_education0 = 50;
+        public const byte disaster_education1 = 55;
+        public const byte disaster_education2 = 65;
+        public const byte disaster_education3 = 80;
 
         //FireDepartment
-        public const byte FireDepartment_education0 = 36;
-        public const byte FireDepartment_education1 = 40;
-        public const byte FireDepartment_education2 = 46;
-        public const byte FireDepartment_education3 = 53;
+        public const byte FireDepartment_education0 = 50;
+        public const byte FireDepartment_education1 = 55;
+        public const byte FireDepartment_education2 = 65;
+        public const byte FireDepartment_education3 = 80;
 
         //PublicTransport bus
-        public const byte PublicTransport_bus_education0 = 37;
-        public const byte PublicTransport_bus_education1 = 40;
-        public const byte PublicTransport_bus_education2 = 45;
-        public const byte PublicTransport_bus_education3 = 51;
+        public const byte PublicTransport_bus_education0 = 50;
+        public const byte PublicTransport_bus_education1 = 55;
+        public const byte PublicTransport_bus_education2 = 65;
+        public const byte PublicTransport_bus_education3 = 80;
 
         //PublicTransport tram
-        public const byte PublicTransport_tram_education0 = 32;
-        public const byte PublicTransport_tram_education1 = 37;
-        public const byte PublicTransport_tram_education2 = 45;
-        public const byte PublicTransport_tram_education3 = 52;
+        public const byte PublicTransport_tram_education0 = 50;
+        public const byte PublicTransport_tram_education1 = 55;
+        public const byte PublicTransport_tram_education2 = 65;
+        public const byte PublicTransport_tram_education3 = 80;
 
         //PublicTransport train
-        public const byte PublicTransport_train_education0 = 35;
-        public const byte PublicTransport_train_education1 = 39;
-        public const byte PublicTransport_train_education2 = 45;
-        public const byte PublicTransport_train_education3 = 53;
+        public const byte PublicTransport_train_education0 = 50;
+        public const byte PublicTransport_train_education1 = 55;
+        public const byte PublicTransport_train_education2 = 65;
+        public const byte PublicTransport_train_education3 = 80;
 
         //PublicTransport taxi
-        public const byte PublicTransport_taxi_education0 = 38;
-        public const byte PublicTransport_taxi_education1 = 42;
-        public const byte PublicTransport_taxi_education2 = 47;
-        public const byte PublicTransport_taxi_education3 = 54;
+        public const byte PublicTransport_taxi_education0 = 50;
+        public const byte PublicTransport_taxi_education1 = 55;
+        public const byte PublicTransport_taxi_education2 = 65;
+        public const byte PublicTransport_taxi_education3 = 80;
 
         //PublicTransport ship
-        public const byte PublicTransport_ship_education0 = 32;
-        public const byte PublicTransport_ship_education1 = 35;
-        public const byte PublicTransport_ship_education2 = 40;
-        public const byte PublicTransport_ship_education3 = 47;
+        public const byte PublicTransport_ship_education0 = 50;
+        public const byte PublicTransport_ship_education1 = 55;
+        public const byte PublicTransport_ship_education2 = 65;
+        public const byte PublicTransport_ship_education3 = 80;
 
         //PublicTransport plane
-        public const byte PublicTransport_plane_education0 = 35;
-        public const byte PublicTransport_plane_education1 = 41;
-        public const byte PublicTransport_plane_education2 = 50;
-        public const byte PublicTransport_plane_education3 = 64;
+        public const byte PublicTransport_plane_education0 = 50;
+        public const byte PublicTransport_plane_education1 = 55;
+        public const byte PublicTransport_plane_education2 = 65;
+        public const byte PublicTransport_plane_education3 = 80;
 
         //PublicTransport metro
-        public const byte PublicTransport_metro_education0 = 33;
-        public const byte PublicTransport_metro_education1 = 38;
-        public const byte PublicTransport_metro_education2 = 45;
-        public const byte PublicTransport_metro_education3 = 54;
+        public const byte PublicTransport_metro_education0 = 50;
+        public const byte PublicTransport_metro_education1 = 55;
+        public const byte PublicTransport_metro_education2 = 65;
+        public const byte PublicTransport_metro_education3 = 80;
 
         //PublicTransport Monorail
-        public const byte PublicTransport_monorail_education0 = 34;
-        public const byte PublicTransport_monorail_education1 = 39;
-        public const byte PublicTransport_monorail_education2 = 46;
-        public const byte PublicTransport_monorail_education3 = 53;
+        public const byte PublicTransport_monorail_education0 = 50;
+        public const byte PublicTransport_monorail_education1 = 55;
+        public const byte PublicTransport_monorail_education2 = 65;
+        public const byte PublicTransport_monorail_education3 = 80;
 
         //PublicTransport CableCar
-        public const byte PublicTransport_cablecar_education0 = 33;
-        public const byte PublicTransport_cablecar_education1 = 38;
-        public const byte PublicTransport_cablecar_education2 = 45;
-        public const byte PublicTransport_cablecar_education3 = 54;
+        public const byte PublicTransport_cablecar_education0 = 50;
+        public const byte PublicTransport_cablecar_education1 = 55;
+        public const byte PublicTransport_cablecar_education2 = 65;
+        public const byte PublicTransport_cablecar_education3 = 80;
 
         public static int citizen_count = 0;
         public static int family_count = 0;
@@ -280,7 +280,7 @@
 
         //1.3 income-outcome
         //public static byte citizen_shopping_idex = 0;
-        public static short[] citizen_money = new short[524288];
+        public static float[] citizen_money = new float[524288];
         //public static byte[] citizen_very_profit_time_num = new byte[524288];
         public static byte[] citizen_profit_status = new byte[524288];
         //public static byte[] citizen_loss_time_num = new byte[524288];
@@ -398,8 +398,8 @@
         //use it to decrease land income in early game time for industry and commerical
 
         //public static byte[] save_data = new byte[2867364];
-        public static byte[] save_data = new byte[1818821];
-        public static byte[] load_data = new byte[1818821];
+        public static byte[] save_data = new byte[2867397];
+        public static byte[] load_data = new byte[2867397];
 
         public static void data_init()
         {
@@ -417,7 +417,7 @@
             }
             for (int i = 0; i < comm_data.citizen_money.Length; i++)
             {
-                citizen_money[i] = 0;
+                citizen_money[i] = 0f;
                 //citizen_very_profit_time_num[i] = 0;
                 citizen_profit_status[i] = 128;
                 //citizen_loss_time_num[i] = 0;
@@ -439,8 +439,8 @@
             saveandrestore.save_long(ref i, public_transport_fee, ref save_data);
             saveandrestore.save_long(ref i, all_transport_fee, ref save_data);
 
-            // (1+2)*524288 = 1572864
-            saveandrestore.save_shorts(ref i, citizen_money, ref save_data);
+            // (3+2)*524288 = 1572864 + 2*524288
+            saveandrestore.save_floats(ref i, citizen_money, ref save_data);
             //saveandrestore.save_bytes(ref i, citizen_very_profit_time_num, ref save_data);
             saveandrestore.save_bytes(ref i, citizen_profit_status, ref save_data);
             //saveandrestore.save_bytes(ref i, citizen_loss_time_num, ref save_data);
@@ -514,7 +514,7 @@
             total_citizen_vehical_time = saveandrestore.load_uint(ref i, load_data);
             public_transport_fee = saveandrestore.load_long(ref i, load_data);
             all_transport_fee = saveandrestore.load_long(ref i, load_data);
-            citizen_money = saveandrestore.load_shorts(ref i, load_data, citizen_money.Length);
+            citizen_money = saveandrestore.load_floats(ref i, load_data, citizen_money.Length);
             //citizen_very_profit_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_very_profit_time_num.Length);
             //citizen_loss_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_loss_time_num.Length);
             citizen_profit_status = saveandrestore.load_bytes(ref i, load_data, citizen_profit_status.Length);

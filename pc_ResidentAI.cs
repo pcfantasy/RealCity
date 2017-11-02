@@ -737,9 +737,11 @@ namespace RealCity
             //DebugLog.LogToFileOnly("we go in now, pc_ResidentAI");
             if (precitizenid > homeID)
             {
+                //DebugLog.LogToFileOnly("process once");
                 //citizen_process_done = true;
                 comm_data.family_count = family_count;
                 comm_data.family_profit_money_num = family_profit_money_num;
+                comm_data.family_very_profit_money_num = family_very_profit_money_num;
                 comm_data.family_loss_money_num = family_loss_money_num;
                 if (family_count != 0)
                 {
@@ -771,6 +773,7 @@ namespace RealCity
                 comm_data.FireDepartment = (int)(FireDepartment * comm_data.salary_idex);
                 comm_data.family_weight_stable_high = family_weight_stable_high;
                 comm_data.family_weight_stable_low = family_weight_stable_low;
+                family_very_profit_money_num = 0;
                 family_profit_money_num = 0;
                 family_loss_money_num = 0;
                 family_count = 0;
@@ -885,6 +888,7 @@ namespace RealCity
             {
                 tax = (citizen_salary_current - 100) * 0.5f + 30f;
             }
+
             temp_citizen_salary_tax_total = temp_citizen_salary_tax_total + (int)tax;
             citizen_salary_tax_total = (int)temp_citizen_salary_tax_total;
             process_citizen_income_tax(homeID, tax);
@@ -959,14 +963,14 @@ namespace RealCity
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
 
-            if (comm_data.citizen_money[homeID] > 32000)
+            if (comm_data.citizen_money[homeID] > 32000000f)
             {
-                comm_data.citizen_money[homeID] = 32000;
+                comm_data.citizen_money[homeID] = 32000000f;
             }
 
-            if (comm_data.citizen_money[homeID] < -32000)
+            if (comm_data.citizen_money[homeID] < -32000000f)
             {
-                comm_data.citizen_money[homeID] = -32000;
+                comm_data.citizen_money[homeID] = -32000000f;
             }
 
             if (comm_data.citizen_profit_status[homeID] > 250)
@@ -1173,7 +1177,7 @@ namespace RealCity
             DistrictPolicies.Taxation taxationPolicies = instance2.m_districts.m_buffer[(int)district].m_taxationPolicies;
             int num2;
             num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
-            Singleton<EconomyManager>.instance.AddPrivateIncome(outcomerate, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, num2 * 100);
+            Singleton<EconomyManager>.instance.AddPrivateIncome(outcomerate*100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, num2 * 100);
         }
 
 

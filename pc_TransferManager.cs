@@ -181,8 +181,23 @@ namespace RealCity
                     case TransferManager.TransferReason.Goods:
                         if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
                         {
-                            pc_PrivateBuildingAI.shop_get_goods_from_local_count++;
-                            break;
+                            if (info3.m_class.m_level == ItemClass.Level.Level1)
+                            {
+                                pc_PrivateBuildingAI.shop_get_goods_from_local_level1_count++;
+                            }
+                            else if (info3.m_class.m_level == ItemClass.Level.Level2)
+                            {
+                                pc_PrivateBuildingAI.shop_get_goods_from_local_level2_count++;
+                            }
+                            else if (info3.m_class.m_level == ItemClass.Level.Level3)
+                            {
+                                pc_PrivateBuildingAI.shop_get_goods_from_local_level3_count++;
+                            }
+                            else
+                            {
+                                DebugLog.LogToFileOnly("no possible level4 level5 level0 building " + info3.m_class.ToString());
+                            }
+                                break;
                         } else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position))) {
                             pc_PrivateBuildingAI.shop_get_goods_from_outside_count++;
                             break;

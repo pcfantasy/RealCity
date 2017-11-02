@@ -67,7 +67,7 @@ namespace RealCity
                     }
                     if (is_tourist == false)
                     {
-                        comm_data.citizen_money[vehicleData.m_citizenUnits] = (short)(comm_data.citizen_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID] * 16);
+                        comm_data.citizen_money[vehicleData.m_citizenUnits] = (short)(comm_data.citizen_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID]);
                     }
                 }
             }

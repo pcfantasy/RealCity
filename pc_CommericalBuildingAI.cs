@@ -47,6 +47,7 @@ namespace RealCity
                             int num3 = Mathf.Max(num2 * 500, num * 4);
                             int customBuffer = (int)data.m_customBuffer1;
                             amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
+                            process_incoming(buildingID, ref data, material, ref amountDelta);
                             data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
                         }
                         else
@@ -70,54 +71,104 @@ namespace RealCity
             data.m_outgoingProblemTimer = 0;
         }
 
-        public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float production_value;
-            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-            int aliveWorkerCount = 0;
-            int totalWorkerCount = 0;
-            base.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            float num = (float)aliveWorkerCount / 6f;
-            if (num < 1f)
+            float trade_income = 0;
+            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
             {
-                num = 1f;
+                switch (data.Info.m_class.m_level)
+                {
+                    case ItemClass.Level.Level1:
+                        trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f* pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                    case ItemClass.Level.Level2:
+                        trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.1f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                    case ItemClass.Level.Level3:
+                        trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                    default:
+                        trade_income = 0; break;
+                }
             }
-            switch (data.Info.m_class.m_level)
+            else if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLow)
             {
-                case ItemClass.Level.Level1:
-                    production_value = 1f * num; break;
-                case ItemClass.Level.Level2:
-                    production_value = 1.2f * num; break;
-                case ItemClass.Level.Level3:
-                    production_value = 1.5f * num; break;
-                default:
-                    production_value = 0f; break;
+                switch (data.Info.m_class.m_level)
+                {
+                    case ItemClass.Level.Level1:
+                        trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.3f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                    case ItemClass.Level.Level2:
+                        trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.4f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                    case ItemClass.Level.Level3:
+                        trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.5f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                    default:
+                        trade_income = 0; break;
+                }
             }
 
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialEco:
-                    production_value = 1f * num; break;
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    production_value = 1.8f * num; break;
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
                 case ItemClass.SubService.CommercialTourist:
-                    production_value = 2.0f * num; break;
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
                 default:
                     break;
             }
+            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income;
+        }
 
+
+        public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        {
             float trade_tax = 0;
-            float final_profit;
-            final_profit = pc_PrivateBuildingAI.comm_profit * production_value;
-            if (final_profit > 0.95f)
+            float trade_income = 0;
+            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
             {
-                final_profit = 0.95f;
+                switch (data.Info.m_class.m_level)
+                {
+                    case ItemClass.Level.Level1:
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                    case ItemClass.Level.Level2:
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                    case ItemClass.Level.Level3:
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                    default:
+                        trade_income = 0; break;
+                }
             }
-            float trade_income = amountDelta * final_profit;
-            if ((comm_data.building_money[buildingID] - trade_income)> 0)
+            else if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLow)
             {
-                trade_tax = -trade_income * 0.3f;
+                switch (data.Info.m_class.m_level)
+                {
+                    case ItemClass.Level.Level1:
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
+                    case ItemClass.Level.Level2:
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
+                    case ItemClass.Level.Level3:
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
+                    default:
+                        trade_income = 0; break;
+                }
+            }
+
+            switch (data.Info.m_class.m_subService)
+            {
+                case ItemClass.SubService.CommercialEco:
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.3f; break;
+                case ItemClass.SubService.CommercialLeisure:
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.5f; break;
+                case ItemClass.SubService.CommercialTourist:
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.5f; break;
+                default:
+                    break;
+            }
+            if ((comm_data.building_money[buildingID] - trade_income) > 0)
+            {
                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+            }
+            else
+            {
+                trade_tax = 0f;
             }
             comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
 
