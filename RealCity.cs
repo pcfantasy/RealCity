@@ -150,6 +150,22 @@ namespace RealCity
             var destMethod28 = typeof(pc_OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             RedirectionHelper.RedirectCalls(srcMethod28, destMethod28);
 
+            var srcMethod29 = typeof(ZoneManager).GetMethod("CalculateResidentialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] {typeof(District).MakeByRefType() }, null);
+            var destMethod29 = typeof(pc_ZoneManager).GetMethod("CalculateResidentialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] {typeof(District).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod29, destMethod29);
+
+            var srcMethod30 = typeof(ZoneManager).GetMethod("CalculateIncomingResidentDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            var destMethod30 = typeof(pc_ZoneManager).GetMethod("CalculateIncomingResidentDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod30, destMethod30);
+
+            var srcMethod31 = typeof(ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            var destMethod31 = typeof(pc_ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod31, destMethod31);
+
+            var srcMethod32 = typeof(ZoneManager).GetMethod("CalculateWorkplaceDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            var destMethod32 = typeof(pc_ZoneManager).GetMethod("CalculateWorkplaceDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod32, destMethod32);
+
         }
 
         public void OnDisabled()

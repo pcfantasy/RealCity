@@ -1,6 +1,5 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
-using RushHour.BuildingHandlers;
 using System;
 using UnityEngine;
 using System.Text.RegularExpressions;
@@ -989,23 +988,23 @@ namespace RealCity
             switch (subService)
             {
                 case ItemClass.SubService.OfficeHightech:
-                    incomeAccumulation = comm_data.office_high_tech;
+                    incomeAccumulation = (int)(comm_data.office_high_tech * office_high_tech_salary_index);
                     all_office_high_tech_building_num++;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = comm_data.office_gen_levell;
+                        incomeAccumulation = (int)(comm_data.office_gen_levell * office_gen_salary_index);
                         all_office_level1_building_num++;
                     }
                     else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = comm_data.office_gen_level2;
+                        incomeAccumulation = (int)(comm_data.office_gen_level2 * office_gen_salary_index);
                         all_office_level2_building_num++;
                     }
                     else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = comm_data.office_gen_level3;
+                        incomeAccumulation = (int)(comm_data.office_gen_level3 * office_gen_salary_index);
                         all_office_level3_building_num++;
                     }
                     break;
