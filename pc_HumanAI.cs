@@ -115,14 +115,14 @@ namespace RealCity
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
-                num = -rand.Next(1000);
+                num = -100;
                 info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num);
             }
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
                 int size = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width * instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Length;
-                int tourism_fee = size * 10;
+                int tourism_fee = size;
                 if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
                     //DebugLog.LogToFileOnly("tourist visit! " + instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width.ToString());
@@ -167,15 +167,18 @@ namespace RealCity
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;
                         uint homeid = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                        if ((comm_data.citizen_money[homeid] - ticketPrice) > 0)
+                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[instanceID].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - ticketPrice);
+                            if ((comm_data.citizen_money[homeid] - ticketPrice) > 0)
+                            {
+                                comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - ticketPrice);
+                            }
+                            else
+                            {
+                                ticketPrice = 0;
+                            }
                         }
-                        else
-                        {
-                            ticketPrice = 0;
-                        }
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * 10, info.m_class);
                     }
                 }
             }

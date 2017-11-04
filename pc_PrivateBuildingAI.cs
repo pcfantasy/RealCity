@@ -1,7 +1,9 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
+using RushHour.BuildingHandlers;
 using System;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace RealCity
 {
@@ -491,10 +493,122 @@ namespace RealCity
             }
 
             process_building_data_final(buildingID, ref buildingData);
+            process_addition_product(buildingID, ref buildingData);
 
         }
 
-        public void process_building_data_final(ushort buildingID, ref Building buildingData)
+        public void process_addition_product(ushort buildingID, ref Building buildingData)
+        {
+            Regex r = new Regex("IndustrialBuildingAI");
+
+            Match m = r.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
+            if (m.Success)
+            {
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                byte district = instance.GetDistrict(buildingData.m_position);
+                DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[(int)district].m_servicePolicies;
+                DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[(int)district].m_cityPlanningPolicies;
+                Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
+                int aliveWorkerCount = 0;
+                int totalWorkerCount = 0;
+                base.GetWorkBehaviour(buildingID, ref buildingData, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                TransferManager.TransferReason incomingTransferReason = pc_IndustrialBuildingAI.GetIncomingTransferReason(buildingData, buildingID);
+                TransferManager.TransferReason outgoingTransferReason = pc_IndustrialBuildingAI.GetOutgoingTransferReason(buildingData);
+                int width = buildingData.Width;
+                int length = buildingData.Length;
+                int production_capacity = pc_IndustrialBuildingAI.CalculateProductionCapacity(buildingData, new Randomizer((int)buildingID), width, length);
+                int num5 = 4000;
+                int num6 = 8000;
+                int consumptionDivider = pc_IndustrialBuildingAI.GetConsumptionDivider(buildingData);
+                int num8 = Mathf.Max(production_capacity * 500 / consumptionDivider, num5 * 4);
+                int num9 = production_capacity * 500;
+                int num10 = Mathf.Max(num9, num6 * 2);
+
+                int work_capacity = 1;
+                if (aliveWorkerCount != 0)
+                {
+                    work_capacity = (int)(((float)behaviourData.m_efficiencyAccumulation * (0.5f * (float)aliveWorkerCount + 0.5f * (float)totalWorkerCount)) / (float)aliveWorkerCount);
+                }
+                else
+                {
+                    work_capacity = (int)(60 * 0.5f * (float)totalWorkerCount);
+                }
+
+                int production_actually = 0;
+
+                float compensation_factor = 1f;
+                if ((width * length) != 0)
+                {
+                    compensation_factor = 16f / (float)(width * length);
+                    if (compensation_factor < 1f)
+                    {
+                        compensation_factor = 1f;
+                    }
+                }
+
+
+                float space_factor = 1f;
+
+                if (num10 != 0)
+                {
+                    space_factor  = (float)(num10 - buildingData.m_customBuffer2) / (float)num10;
+                }
+                production_actually = (int)((float)work_capacity * (float)production_capacity * compensation_factor * space_factor / 50f);
+                
+
+                int game_production = buildingData.m_customBuffer2 - comm_data.building_buffer2[buildingID];
+
+                if ((game_production > 1000) || (game_production < 0))
+                {
+                    //DebugLog.LogToFileOnly("may be first time progress or save data not correct, game_production = " + game_production.ToString() + "work_capacity = " + work_capacity.ToString() + "production_capacity =" + production_capacity.ToString());
+                }
+                else if(game_production == 0)
+                {
+                    //DebugLog.LogToFileOnly("game_production = 0 ??? ");
+                }
+                else
+                {
+                    if (game_production >= production_actually)
+                    {
+                        //DebugLog.LogToFileOnly("game_production great than production_actually, game_production= " + game_production.ToString() + "production_actually = " + production_actually.ToString());
+                        production_actually = 0;
+                    }
+                    else
+                    {
+                        production_actually = production_actually - game_production;
+                    }
+
+                    if (incomingTransferReason != TransferManager.TransferReason.None)
+                    {
+                        buildingData.m_customBuffer1 -= (ushort)((production_actually + consumptionDivider - 1) / consumptionDivider);
+                    }
+                    if (outgoingTransferReason != TransferManager.TransferReason.None)
+                    {
+                        if ((cityPlanningPolicies & DistrictPolicies.CityPlanning.IndustrySpace) != DistrictPolicies.CityPlanning.None)
+                        {
+                            buildingData.m_customBuffer2 = (ushort)Mathf.Min(num10, (int)buildingData.m_customBuffer2 + production_actually * 2);
+                        }
+                        else
+                        {
+                            buildingData.m_customBuffer2 += (ushort)production_actually;
+                        }
+                        IndustrialBuildingAI.ProductType productType = IndustrialBuildingAI.GetProductType(outgoingTransferReason);
+                        if (productType != IndustrialBuildingAI.ProductType.None)
+                        {
+                            StatisticsManager instance2 = Singleton<StatisticsManager>.instance;
+                            StatisticBase statisticBase = instance2.Acquire<StatisticArray>(StatisticType.GoodsProduced);
+                            statisticBase.Acquire<StatisticInt32>((int)productType, 5).Add(production_actually);
+                        }
+                    }
+                }
+                comm_data.building_buffer2[buildingID] = buildingData.m_customBuffer2;
+            }//m.sucess
+        }
+
+
+
+
+      public void process_building_data_final(ushort buildingID, ref Building buildingData)
         {
             int i;
             if (prebuidlingid < buildingID)
@@ -527,7 +641,6 @@ namespace RealCity
                 if (comm_data.building_money[i] < -5000)
                 {
                     problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
-                    //here we can let building down
                 }
                 else if (comm_data.building_money[i] < -3000)
                 {
@@ -646,27 +759,6 @@ namespace RealCity
             prebuidlingid = buildingID;
 
         }
-
-        //        public void building_status()
-        //        {
-        //            BuildingManager instance = Singleton<BuildingManager>.instance;
-        //            for (int i = 0; i < 49152; i = i + 1)
-        //            {
-        //                Building building = instance.m_buildings.m_buffer[i];
-        //                if (building.m_flags.IsFlagSet(Building.Flags.Created) && !building.m_flags.IsFlagSet(Building.Flags.Deleted) && !building.m_flags.IsFlagSet(Building.Flags.Untouchable))
-        //                {
-        //                    if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
-        //                    {
-        //                        caculate_employee_outcome(building, i);
-        //                        process_land_fee(building, i);
-        //                    }
-        //                    else if (building.Info.m_class.m_service == ItemClass.Service.Residential)
-        //                    {
-        //                        process_land_fee(building, i);
-        //                    }
-        //                }
-        //            }
-        //        }
 
         public void limit_and_check_building_money(Building building, ushort buildingID)
         {
@@ -835,14 +927,17 @@ namespace RealCity
                 num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
             }
 
-            //money < 0, salary/2
-            if (comm_data.building_money[buildingID] < 0)
+            //money < 0, salary/1.5f
+            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
             {
-                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 32;
-            }
-            else
-            {
-                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 16;
+                if (comm_data.building_money[buildingID] < 0)
+                {
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 24;
+                }
+                else
+                {
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 16;
+                }
             }
         }
 
@@ -867,7 +962,10 @@ namespace RealCity
 
             //do this to decrase land outcome in early game;
             //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
-            comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
+            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            {
+                comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
+            }
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
                 if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
@@ -974,154 +1072,7 @@ namespace RealCity
                 case ItemClass.SubService.CommercialEco:
                     incomeAccumulation = comm_data.comm_eco;
                     break;
-                /*case ItemClass.SubService.ResidentialHigh:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        incomeAccumulation = comm_data.resident_high_level1;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        incomeAccumulation = comm_data.resident_high_level2;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        incomeAccumulation = comm_data.resident_high_level3;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level4)
-                    {
-                        incomeAccumulation = comm_data.resident_high_level4;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
-                    {
-                        incomeAccumulation = comm_data.resident_high_level5;
-                    }
-                    break;
-                case ItemClass.SubService.ResidentialHighEco:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        incomeAccumulation = comm_data.resident_high_eco_level1;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        incomeAccumulation = comm_data.resident_high_eco_level2;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        incomeAccumulation = comm_data.resident_high_eco_level3;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level4)
-                    {
-                        incomeAccumulation = comm_data.resident_high_eco_level4;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
-                    {
-                        incomeAccumulation = comm_data.resident_high_eco_level5;
-                    }
-                    break;
-                case ItemClass.SubService.ResidentialLow:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        incomeAccumulation = comm_data.resident_low_level1;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        incomeAccumulation = comm_data.resident_low_level2;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        incomeAccumulation = comm_data.resident_low_level3;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
-                    {
-                        incomeAccumulation = comm_data.resident_low_level4;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
-                    {
-                        incomeAccumulation = comm_data.resident_low_level5;
-                    }
-                    break;
-                case ItemClass.SubService.ResidentialLowEco:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        incomeAccumulation = comm_data.resident_low_eco_level1;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        incomeAccumulation = comm_data.resident_low_eco_level2;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        incomeAccumulation = comm_data.resident_low_eco_level3;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
-                    {
-                        incomeAccumulation = comm_data.resident_low_eco_level4;
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level5)
-                    {
-                        incomeAccumulation = comm_data.resident_low_eco_level5;
-                    }
-                    break;*/
                 default: break;
-            }
-        }
-    }
-
-    public class pc_PrivateBuildingAI_1 : PrivateBuildingAI
-    {
-        protected void GetWorkBehaviour_1(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-        {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            while (num != 0u)
-            {
-                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
-                {
-                    instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenWorkBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                }
-                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-                if (++num2 > 524288)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
-            //more works with more m_efficiencyAccumulation
-            //if alive count =0  and total cout > 1,then let alive count = 1 to let building product goods
-
-            if ( (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial) || (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial))
-            {
-                int num3;
-                int num4;
-                int num5;
-                int num6;
-                this.CalculateWorkplaceCount(new Randomizer((int)buildingID), buildingData.Width, buildingData.Length, out num3, out num4, out num5, out num6);
-                int workPlaceCount = num3 + num4 + num5 + num6;
-
-                if ((totalCount > 1) && (aliveCount == 0))
-                {
-                    aliveCount = 1;
-                }
-
-                if (workPlaceCount == 0)
-                {
-                    DebugLog.LogToFileOnly("find a building workplacecount == 0");
-                }
-
-                float compensation_factor = (float)(aliveCount + workPlaceCount) / (float)(aliveCount * 2f);
-
-                compensation_factor = ((float)(aliveCount + totalCount) / (float)(2f * totalCount)) * compensation_factor;
-
-                if ((totalCount / 5f) > 1f)
-                {
-                    behaviour.m_efficiencyAccumulation = (int)((float)behaviour.m_efficiencyAccumulation * compensation_factor * (float)totalCount / 5f);
-                }
-                else
-                {
-                    behaviour.m_efficiencyAccumulation = (int)((float)behaviour.m_efficiencyAccumulation * compensation_factor);
-                }
-
             }
         }
     }

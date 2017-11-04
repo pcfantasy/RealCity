@@ -7,9 +7,9 @@ namespace RealCity
 {
     public class pc_IndustrialBuildingAI : PrivateBuildingAI
     {
-        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        public static int CalculateProductionCapacity(Building data, Randomizer r, int width, int length)
         {
-            ItemClass @class = this.m_info.m_class;
+            ItemClass @class = data.Info.m_class;
             int num;
             if (@class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {
@@ -37,9 +37,9 @@ namespace RealCity
             return num;
         }
 
-        private TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
+        public static TransferManager.TransferReason GetIncomingTransferReason(Building data, ushort buildingID)
         {
-            switch (this.m_info.m_class.m_subService)
+            switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:
                     return TransferManager.TransferReason.Logs;
@@ -69,9 +69,9 @@ namespace RealCity
             }
         }
 
-        private int GetConsumptionDivider()
+        public static int GetConsumptionDivider(Building data)
         {
-            switch (this.m_info.m_class.m_subService)
+            switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:
                     return 1;
@@ -86,9 +86,9 @@ namespace RealCity
             }
         }
 
-        private TransferManager.TransferReason GetOutgoingTransferReason()
+        public static TransferManager.TransferReason GetOutgoingTransferReason(Building data)
         {
-            switch (this.m_info.m_class.m_subService)
+            switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:
                     return TransferManager.TransferReason.Lumber;
@@ -105,25 +105,26 @@ namespace RealCity
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == this.GetIncomingTransferReason(buildingID))
+            if (material == GetIncomingTransferReason(data, buildingID))
             {
                 int width = data.Width;
                 int length = data.Length;
                 int num = 4000;
-                int num2 = this.CalculateProductionCapacity(new Randomizer((int)buildingID), width, length);
-                int consumptionDivider = this.GetConsumptionDivider();
+                int num2 = CalculateProductionCapacity(data,new Randomizer((int)buildingID), width, length);
+                int consumptionDivider = GetConsumptionDivider(data);
                 int num3 = Mathf.Max(num2 * 500 / consumptionDivider, num * 4);
                 int customBuffer = (int)data.m_customBuffer1;
                 amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                 process_incoming(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
             }
-            else if (material == this.GetOutgoingTransferReason())
+            else if (material == GetOutgoingTransferReason(data))
             {
                 int customBuffer2 = (int)data.m_customBuffer2;
                 amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
                 caculate_trade_income(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
+                comm_data.building_buffer2[buildingID] = (ushort)(customBuffer2 + amountDelta);
             }
             else
             {

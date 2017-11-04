@@ -44,6 +44,7 @@ namespace RealCity
                             int length = data.Length;
                             int num = 4000;
                             int num2 = this.CalculateVisitplaceCount(new Randomizer((int)buildingID), width, length);
+                            //DebugLog.LogToFileOnly("commerical visitplacecount is =  " + num2.ToString());
                             int num3 = Mathf.Max(num2 * 500, num * 4);
                             int customBuffer = (int)data.m_customBuffer1;
                             amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);

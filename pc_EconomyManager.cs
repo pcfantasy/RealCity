@@ -7,6 +7,9 @@ namespace RealCity
 {
     public class pc_EconomyManager
     {
+        //all income * 10 , other wise is too small for game
+        //all maintain fee / 10, otherwise it is too high for city
+        //that is , for in game maintain fee and policy cost, it is 1/100 unit compared with enonomic element of real city mode
         //because maintance and police cost is too small when use real city mod.
         public static float Road = 0f;
         public static float Electricity = 0f;
@@ -495,12 +498,12 @@ namespace RealCity
             //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString());
             // if(itemClass.m_layer == ItemClass.Layer.Markers) means mod added employee outcome
             int temp;
-            int coefficient;
+            float coefficient;
             if (resource == EconomyManager.Resource.Maintenance)
             {
                 if(itemClass.m_layer == ItemClass.Layer.Markers)
                 {
-                    coefficient = 16;
+                    coefficient = 1.6f;
                 }
                 else
                 {
@@ -953,6 +956,7 @@ namespace RealCity
                     break;
             }
             citizen_tax_income_forui[comm_data.update_money_count] = citizen_tax_income_forui[comm_data.update_money_count] + amount;
+            //DebugLog.LogToFileOnly("find citizen tax income amout = " + amount.ToString() + "update_money_count = " + comm_data.update_money_count.ToString() + "taxmultiplex = " + _taxMultiplier.ToString());
             return amount;
         }
 
@@ -1790,6 +1794,7 @@ namespace RealCity
                 //taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddTourismIncome(amount, service, subService, level, taxRate);
+                amount = amount * 10;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1804,6 +1809,7 @@ namespace RealCity
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPersonalTaxIncome(amount, service, subService, level, taxRate);
+                amount = amount * 10;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1818,6 +1824,7 @@ namespace RealCity
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPrivateTradeIncome(amount, service, subService, level, taxRate);
+                amount = amount * 10;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1831,6 +1838,7 @@ namespace RealCity
                 taxRate = taxRate / 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPrivateLandIncome(amount, service, subService, level, taxRate);
+                amount = amount * 10;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1843,6 +1851,10 @@ namespace RealCity
             {
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = (int)(((long)amount * (long)taxRate * (long)_taxMultiplier + 999999L) / 1000000L);
+                //amount = amount * 10;
+                //all income * 10 , other wise is too small for game
+                //all maintain fee / 10, otherwise it is too high for city
+                //that is , for in game maintain fee and policy cost, it is 1/100 unit compared with enonomic element of real city mode
                 //int num = ClassIndex(service, subService, level);
                 //if (num != -1)
                 //{
@@ -1927,6 +1939,7 @@ namespace RealCity
                 }
                 _income = income.GetValue(inst) as long[];
                 _taxMultiplier = (int)taxMultiplier.GetValue(inst);
+                //_taxMultiplier = 1000000;
                 _cashDelta = (long)cashDelta.GetValue(inst);
                 _cashAmount = (long)cashAmount.GetValue(inst);
                 if (_income == null)

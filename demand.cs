@@ -2,7 +2,7 @@
 
 namespace RealCity
 {
-    public class SuperDemandBase : DemandExtensionBase
+    public class RealCityDemandBase : DemandExtensionBase
     {
         public override int OnCalculateResidentialDemand(int originalDemand)
         {
@@ -27,12 +27,13 @@ namespace RealCity
             {
                 if (pc_PrivateBuildingAI.all_comm_building_loss_final != 0)
                 {
-                    if ((pc_PrivateBuildingAI.all_comm_building_profit_final / pc_PrivateBuildingAI.all_comm_building_loss_final) >= 1)
+                    if ((pc_PrivateBuildingAI.all_comm_building_profit_final / pc_PrivateBuildingAI.all_comm_building_loss_final) >= 1f)
                     {
                         //do nothing
                     }
                     else
                     {
+                        DebugLog.LogToFileOnly("not enough profit commerical building, demand = 0 now");
                         originalDemand = 0;// (int)(((long)originalDemand * (long)pc_PrivateBuildingAI.all_comm_building_profit_final) / (long)pc_PrivateBuildingAI.all_comm_building_loss_final);
                     }
                 }
@@ -75,7 +76,7 @@ namespace RealCity
             {
                 if (loss_building_num != 0)
                 {
-                    if ((profit_building_num / loss_building_num) >= 1)
+                    if ((profit_building_num / loss_building_num) >= 1f)
                     {
                         //do nothing
                     }

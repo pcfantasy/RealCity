@@ -59,6 +59,9 @@
     <Reference Include="Mono.Security">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Mono.Security.dll</HintPath>
     </Reference>
+    <Reference Include="RushHour">
+      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\605590542\RushHour.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -86,6 +89,7 @@
     <Compile Include="demand.cs" />
     <Compile Include="BuildingUI.cs" />
     <Compile Include="pc_CargoTruckAI.cs" />
+    <Compile Include="pc_OfficeBuildingAI.cs" />
     <Compile Include="RealCityUI.cs" />
     <Compile Include="pc_PrivateBuildingAI.cs" />
     <Compile Include="pc_PassengerCarAI.cs" />

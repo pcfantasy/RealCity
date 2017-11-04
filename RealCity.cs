@@ -3,6 +3,7 @@ using ColossalFramework;
 using ColossalFramework.UI;
 using ICities;
 using System.Reflection;
+using System.IO;
 
 namespace RealCity
 {
@@ -24,6 +25,9 @@ namespace RealCity
         public void OnEnabled()
         {
             RealCity.IsEnabled = true;
+            FileStream fs = File.Create("RealCity.txt");
+            fs.Close();
+
             var srcMethod = typeof(TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             var destMethod = typeof(pc_TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             RedirectionHelper.RedirectCalls(srcMethod, destMethod);
@@ -138,9 +142,13 @@ namespace RealCity
             var destMethod26 = typeof(pc_ResidentAI_1).GetMethod("StartPathFind", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
             RedirectionHelper.RedirectCalls(srcMethod26, destMethod26);
 
-            var srcMethod27 = typeof(CommonBuildingAI).GetMethod("GetWorkBehaviour", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Citizen.BehaviourData).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
-            var destMethod27 = typeof(pc_PrivateBuildingAI_1).GetMethod("GetWorkBehaviour_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Citizen.BehaviourData).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
-            RedirectionHelper.RedirectCalls(srcMethod27, destMethod27);
+            //var srcMethod27 = typeof(CommonBuildingAI).GetMethod("GetWorkBehaviour", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Citizen.BehaviourData).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
+            //var destMethod27 = typeof(pc_PrivateBuildingAI_1).GetMethod("GetWorkBehaviour_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Citizen.BehaviourData).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
+            //RedirectionHelper.RedirectCalls(srcMethod27, destMethod27);
+
+            var srcMethod28 = typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            var destMethod28 = typeof(pc_OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            RedirectionHelper.RedirectCalls(srcMethod28, destMethod28);
 
         }
 
@@ -353,7 +361,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportBus;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.bus_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -361,7 +369,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTram;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.tram_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -369,7 +377,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportMetro;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.metro_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -377,7 +385,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTrain;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.train_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -385,7 +393,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.taxi_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -393,7 +401,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportPlane;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.plane_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -401,7 +409,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportShip;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.ship_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -409,7 +417,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.monorail_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -417,14 +425,14 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.cablecar_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
 
                 //add vehicle transport_fee
                 comm_data.temp_total_citizen_vehical_time_last = comm_data.temp_total_citizen_vehical_time;
                 comm_data.temp_total_citizen_vehical_time = 0;
 
-                //* 16 to align with citizen refresh freq.
-                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last;
+                //assume that 1 time will cost 5fen car oil money
+                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last * 5;
 
                 if (comm_data.family_count > 0)
                 {
@@ -444,6 +452,9 @@ namespace RealCity
             {
                 int office_gen_num = pc_PrivateBuildingAI.all_office_level1_building_num_final + pc_PrivateBuildingAI.all_office_level2_building_num_final + pc_PrivateBuildingAI.all_office_level3_building_num_final;
                 int profit_building_num = 0;
+                int high_educated_data = 0;
+                int medium_educated_data = 0;
+                int low_educated_data = 0;
                 profit_building_num += pc_PrivateBuildingAI.all_farmer_building_profit_final;
                 profit_building_num += pc_PrivateBuildingAI.all_foresty_building_profit_final;
                 profit_building_num += pc_PrivateBuildingAI.all_oil_building_profit_final;
@@ -453,8 +464,10 @@ namespace RealCity
                 {
                     if (comm_data.citizen_count != 0)
                     {
-                        int high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
-                        pc_PrivateBuildingAI.office_gen_salary_index = (high_educated_data * profit_building_num) / (comm_data.citizen_count * office_gen_num);
+                        high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
+                        medium_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount;
+                        low_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount;
+                        pc_PrivateBuildingAI.office_gen_salary_index = ((high_educated_data + 0.5f * medium_educated_data + 0.25f * low_educated_data) * profit_building_num) / (comm_data.citizen_count * office_gen_num);
                     }
                 }
 
@@ -462,8 +475,10 @@ namespace RealCity
                 {
                     if (comm_data.citizen_count != 0)
                     {
-                        int high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
-                        pc_PrivateBuildingAI.office_high_tech_salary_index = (high_educated_data * pc_PrivateBuildingAI.all_office_level3_building_num_final) / (comm_data.citizen_count * pc_PrivateBuildingAI.all_office_high_tech_building_num_final);
+                        high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
+                        medium_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount;
+                        low_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount;
+                        pc_PrivateBuildingAI.office_high_tech_salary_index = ((high_educated_data + 0.5f * medium_educated_data + 0.25f * low_educated_data) * pc_PrivateBuildingAI.all_office_level3_building_num_final) / (comm_data.citizen_count * pc_PrivateBuildingAI.all_office_high_tech_building_num_final);
                     }
                 }
 
@@ -498,7 +513,7 @@ namespace RealCity
                 }
 
 
-                comm_data.mantain_and_land_fee_decrease = (byte)(490f / (float)(Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 20f));
+                comm_data.mantain_and_land_fee_decrease = 10;
                 comm_data.salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 50f) / 120f;
 
                 /*CitizenManager instance = Singleton<CitizenManager>.instance;

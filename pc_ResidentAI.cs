@@ -867,26 +867,26 @@ namespace RealCity
                 DebugLog.LogToFileOnly("temp_num == 0 in ResidentAI");
             }
             float tax = 0;
-            //0-10 10% 10-30 20% 30-60 30% 60-100 40% >100 50%
+            //0-10 10% 10-30 15% 30-60 20% 60-100 25% >100 30%
             if (citizen_salary_current < 10)
             {
                 tax = citizen_salary_current * 0.1f;
             }
             else if (citizen_salary_current >= 10 && citizen_salary_current <= 30)
             {
-                tax = (citizen_salary_current - 10) * 0.2f + 1f;
+                tax = (citizen_salary_current - 10) * 0.15f + 1f;
             }
             else if (citizen_salary_current > 30 && citizen_salary_current <= 60)
             {
-                tax = (citizen_salary_current - 30) * 0.3f + 5f;
+                tax = (citizen_salary_current - 30) * 0.20f + 4f;
             }
             else if (citizen_salary_current > 60 && citizen_salary_current <= 100)
             {
-                tax = (citizen_salary_current - 30) * 0.4f + 14f;
+                tax = (citizen_salary_current - 30) * 0.25f + 10f;
             }
             else if (citizen_salary_current > 100)
             {
-                tax = (citizen_salary_current - 100) * 0.5f + 30f;
+                tax = (citizen_salary_current - 100) * 0.3f + 20f;
             }
 
             temp_citizen_salary_tax_total = temp_citizen_salary_tax_total + (int)tax;
