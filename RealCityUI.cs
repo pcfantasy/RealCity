@@ -87,7 +87,13 @@ namespace RealCity
         private UILabel from_cable_car;
         private UILabel from_monorail;
 
-        //6、all total income
+        //6、goverment income
+        private UILabel goverment_income_title;
+        private UILabel road_income_title;
+        private UILabel garbage_income_title;
+        private UILabel cemetery_income_title;
+
+        //7、all total income
         private UILabel all_total_income_ui;
 
 
@@ -136,7 +142,13 @@ namespace RealCity
         public static double indu_oil_tradeincome_forui;
         public static double indu_ore_tradeincome_forui;
 
+        public static double garbage_income_forui;
+        public static double road_income_forui;
+        public static double cemetery_income_forui;
+
         //transport income
+        public static double city_playerbuilding_income_total;
+        public static double city_playerbuilding_income_percent;
         public static double city_transport_income_total;
         public static double city_transport_income_percent;
         public static double bus_income;
@@ -533,13 +545,42 @@ namespace RealCity
             this.from_monorail.autoSize = true;
             this.from_monorail.name = "Moreeconomic_Text_40";
 
+            //6、Public transport income
+            this.goverment_income_title = base.AddUIComponent<UILabel>();
+            this.goverment_income_title.text = "6、City Player Building income [0000000000000]";
+            this.goverment_income_title.tooltip = "N/A";
+            this.goverment_income_title.relativePosition = new Vector3(SPACING, this.from_plane.relativePosition.y + SPACING22);
+            this.goverment_income_title.autoSize = true;
+            this.goverment_income_title.name = "Moreeconomic_Text_41";
+
+            this.road_income_title = base.AddUIComponent<UILabel>();
+            this.road_income_title.text = string.Format("Road [0000000]");
+            this.road_income_title.tooltip = "Road";
+            this.road_income_title.relativePosition = new Vector3(SPACING, this.goverment_income_title.relativePosition.y + SPACING22);
+            this.road_income_title.autoSize = true;
+            this.road_income_title.name = "Moreeconomic_Text_42";
+
+            this.cemetery_income_title = base.AddUIComponent<UILabel>();
+            this.cemetery_income_title.text = string.Format("Cemetery [0000]");
+            this.cemetery_income_title.tooltip = "Cemetery";
+            this.cemetery_income_title.relativePosition = new Vector3(this.road_income_title.relativePosition.x + this.road_income_title.width + SPACING, this.road_income_title.relativePosition.y);
+            this.cemetery_income_title.autoSize = true;
+            this.cemetery_income_title.name = "Moreeconomic_Text_43";
+
+            this.garbage_income_title = base.AddUIComponent<UILabel>();
+            this.garbage_income_title.text = string.Format("Garbage [0000]");
+            this.garbage_income_title.tooltip = "Garbage";
+            this.garbage_income_title.relativePosition = new Vector3(this.cemetery_income_title.relativePosition.x + this.cemetery_income_title.width + SPACING, this.cemetery_income_title.relativePosition.y);
+            this.garbage_income_title.autoSize = true;
+            this.garbage_income_title.name = "Moreeconomic_Text_44";
+
             //6 all total
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
             this.all_total_income_ui.text = "6、City all total income [0000000000000]";
             this.all_total_income_ui.tooltip = "N/A";
-            this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.from_plane.relativePosition.y + SPACING22 + 2f);
+            this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.road_income_title.relativePosition.y + SPACING22 + 20f);
             this.all_total_income_ui.autoSize = true;
-            this.all_total_income_ui.name = "Moreeconomic_Text_41";
+            this.all_total_income_ui.name = "Moreeconomic_Text_45";
 
 
             //this.m_getfromBank = base.AddUIComponent<UIButton>();
@@ -645,7 +686,11 @@ namespace RealCity
             this.from_taxi.text = string.Format("Taxi [{0}]", taxi_income);
             this.from_cable_car.text = string.Format("Cablecar [{0}]", cablecar_income);
             this.from_monorail.text = string.Format("Monorail [{0}]", monorail_income);
-            this.all_total_income_ui.text = string.Format("6、City all total income [{0}]", all_total_income);
+            this.goverment_income_title.text = string.Format("6、City Player Building income [{0}]  [{1:N2}%]", city_playerbuilding_income_total, city_playerbuilding_income_percent * 100);
+            this.road_income_title.text = string.Format("Road [{0}]", road_income_forui);
+            this.cemetery_income_title.text = string.Format("Cemetety [{0}]", cemetery_income_forui);
+            this.garbage_income_title.text = string.Format("Garbage [{0}]", garbage_income_forui);
+            this.all_total_income_ui.text = string.Format("7、City all total income [{0}]", all_total_income);
 
 
 
@@ -671,6 +716,13 @@ namespace RealCity
 
         private void process_data()
         {
+            city_playerbuilding_income_total = 0;
+            city_playerbuilding_income_percent = 0;
+            road_income_forui = 0f;
+            cemetery_income_forui = 0f;
+            garbage_income_forui = 0f;
+
+
             citizen_tax_income_forui = 0;
             citizen_income_forui = 0;
             tourist_income_forui = 0;
@@ -715,35 +767,39 @@ namespace RealCity
 
             for (i = 0; i < 17; i++)
             {
-                citizen_tax_income_forui += (double)pc_EconomyManager.citizen_tax_income_forui[i] / 100;
-                citizen_income_forui+= (double)pc_EconomyManager.citizen_income_forui[i] / 100;
-                tourist_income_forui+= (double)pc_EconomyManager.tourist_income_forui[i] / 100;
-                resident_high_landincome_forui+= (double)pc_EconomyManager.resident_high_landincome_forui[i] / 100;
-                resident_low_landincome_forui+= (double)pc_EconomyManager.resident_low_landincome_forui[i] / 100;
-                resident_high_eco_landincome_forui+= (double)pc_EconomyManager.resident_high_eco_landincome_forui[i] / 100;
-                resident_low_eco_landincome_forui+= (double)pc_EconomyManager.resident_low_eco_landincome_forui[i] / 100;
-                comm_high_landincome_forui+= (double)pc_EconomyManager.comm_high_landincome_forui[i] / 100;
-                comm_low_landincome_forui+= (double)pc_EconomyManager.comm_low_landincome_forui[i] / 100;
-                comm_lei_landincome_forui+= (double)pc_EconomyManager.comm_lei_landincome_forui[i] / 100;
-                comm_tou_landincome_forui+= (double)pc_EconomyManager.comm_tou_landincome_forui[i] / 100;
-                comm_eco_landincome_forui+= (double)pc_EconomyManager.comm_eco_landincome_forui[i] / 100;
-                indu_gen_landincome_forui+= (double)pc_EconomyManager.indu_gen_landincome_forui[i] / 100;
-                indu_farmer_landincome_forui+= (double)pc_EconomyManager.indu_farmer_landincome_forui[i] / 100;
-                indu_foresty_landincome_forui+= (double)pc_EconomyManager.indu_foresty_landincome_forui[i] / 100;
-                indu_oil_landincome_forui+= (double)pc_EconomyManager.indu_oil_landincome_forui[i] / 100;
-                indu_ore_landincome_forui+= (double)pc_EconomyManager.indu_ore_landincome_forui[i] / 100;
-                office_gen_landincome_forui+= (double)pc_EconomyManager.office_gen_landincome_forui[i] / 100;
-                office_high_tech_landincome_forui+= (double)pc_EconomyManager.office_high_tech_landincome_forui[i] / 100;
-                comm_high_tradeincome_forui+= (double)pc_EconomyManager.comm_high_tradeincome_forui[i] / 100;
-                comm_low_tradeincome_forui+= (double)pc_EconomyManager.comm_low_tradeincome_forui[i] / 100;
-                comm_lei_tradeincome_forui+= (double)pc_EconomyManager.comm_lei_tradeincome_forui[i] / 100;
-                comm_tou_tradeincome_forui+= (double)pc_EconomyManager.comm_tou_tradeincome_forui[i] / 100;
-                comm_eco_tradeincome_forui+= (double)pc_EconomyManager.comm_eco_tradeincome_forui[i] / 100;
-                indu_gen_tradeincome_forui+= (double)pc_EconomyManager.indu_gen_tradeincome_forui[i] / 100;
-                indu_farmer_tradeincome_forui+= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[i] / 100;
-                indu_foresty_tradeincome_forui+= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[i] / 100;
-                indu_oil_tradeincome_forui+= (double)pc_EconomyManager.indu_oil_tradeincome_forui[i] / 100;
-                indu_ore_tradeincome_forui+= (double)pc_EconomyManager.indu_ore_tradeincome_forui[i] / 100;
+                citizen_tax_income_forui += (double)pc_EconomyManager.citizen_tax_income_forui[i] / 100f;
+                citizen_income_forui+= (double)pc_EconomyManager.citizen_income_forui[i] / 100f;
+                tourist_income_forui+= (double)pc_EconomyManager.tourist_income_forui[i] / 100f;
+                resident_high_landincome_forui+= (double)pc_EconomyManager.resident_high_landincome_forui[i] / 100f;
+                resident_low_landincome_forui+= (double)pc_EconomyManager.resident_low_landincome_forui[i] / 100f;
+                resident_high_eco_landincome_forui+= (double)pc_EconomyManager.resident_high_eco_landincome_forui[i] / 100f;
+                resident_low_eco_landincome_forui+= (double)pc_EconomyManager.resident_low_eco_landincome_forui[i] / 100f;
+                comm_high_landincome_forui+= (double)pc_EconomyManager.comm_high_landincome_forui[i] / 100f;
+                comm_low_landincome_forui+= (double)pc_EconomyManager.comm_low_landincome_forui[i] / 100f;
+                comm_lei_landincome_forui+= (double)pc_EconomyManager.comm_lei_landincome_forui[i] / 100f;
+                comm_tou_landincome_forui+= (double)pc_EconomyManager.comm_tou_landincome_forui[i] / 100f;
+                comm_eco_landincome_forui+= (double)pc_EconomyManager.comm_eco_landincome_forui[i] / 100f;
+                indu_gen_landincome_forui+= (double)pc_EconomyManager.indu_gen_landincome_forui[i] / 100f;
+                indu_farmer_landincome_forui+= (double)pc_EconomyManager.indu_farmer_landincome_forui[i] / 100f;
+                indu_foresty_landincome_forui+= (double)pc_EconomyManager.indu_foresty_landincome_forui[i] / 100f;
+                indu_oil_landincome_forui+= (double)pc_EconomyManager.indu_oil_landincome_forui[i] / 100f;
+                indu_ore_landincome_forui+= (double)pc_EconomyManager.indu_ore_landincome_forui[i] / 100f;
+                office_gen_landincome_forui+= (double)pc_EconomyManager.office_gen_landincome_forui[i] / 100f;
+                office_high_tech_landincome_forui+= (double)pc_EconomyManager.office_high_tech_landincome_forui[i] / 100f;
+                comm_high_tradeincome_forui+= (double)pc_EconomyManager.comm_high_tradeincome_forui[i] / 100f;
+                comm_low_tradeincome_forui+= (double)pc_EconomyManager.comm_low_tradeincome_forui[i] / 100f;
+                comm_lei_tradeincome_forui+= (double)pc_EconomyManager.comm_lei_tradeincome_forui[i] / 100f;
+                comm_tou_tradeincome_forui+= (double)pc_EconomyManager.comm_tou_tradeincome_forui[i] / 100f;
+                comm_eco_tradeincome_forui+= (double)pc_EconomyManager.comm_eco_tradeincome_forui[i] / 100f;
+                indu_gen_tradeincome_forui+= (double)pc_EconomyManager.indu_gen_tradeincome_forui[i] / 100f;
+                indu_farmer_tradeincome_forui+= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[i] / 100f;
+                indu_foresty_tradeincome_forui+= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[i] / 100f;
+                indu_oil_tradeincome_forui+= (double)pc_EconomyManager.indu_oil_tradeincome_forui[i] / 100f;
+                indu_ore_tradeincome_forui+= (double)pc_EconomyManager.indu_ore_tradeincome_forui[i] / 100f;
+
+                road_income_forui += (double)pc_EconomyManager.road_income_forui[i] / 100f;
+                cemetery_income_forui += (double)pc_EconomyManager.cemetery_income_forui[i] / 100f;
+                garbage_income_forui += (double)pc_EconomyManager.garbage_income_forui[i] / 100f;
             }
             //DebugLog.LogToFileOnly(pc_EconomyManager.resident_low_landincome_forui[0].ToString());
             //DebugLog.LogToFileOnly(pc_EconomyManager.resident_low_landincome_forui[1].ToString());
@@ -762,35 +818,39 @@ namespace RealCity
             //DebugLog.LogToFileOnly(pc_EconomyManager.resident_low_landincome_forui[14].ToString());
             //DebugLog.LogToFileOnly(pc_EconomyManager.resident_low_landincome_forui[15].ToString());
             //DebugLog.LogToFileOnly(pc_EconomyManager.resident_low_landincome_forui[16].ToString());
-            citizen_tax_income_forui -= (double)pc_EconomyManager.citizen_tax_income_forui[comm_data.update_money_count] / 100;
-            citizen_income_forui -= (double)pc_EconomyManager.citizen_income_forui[comm_data.update_money_count] / 100;
-            tourist_income_forui -= (double)pc_EconomyManager.tourist_income_forui[comm_data.update_money_count] / 100;
-            resident_high_landincome_forui -= (double)pc_EconomyManager.resident_high_landincome_forui[comm_data.update_money_count] / 100;
-            resident_low_landincome_forui -= (double)pc_EconomyManager.resident_low_landincome_forui[comm_data.update_money_count] / 100;
-            resident_high_eco_landincome_forui -= (double)pc_EconomyManager.resident_high_eco_landincome_forui[comm_data.update_money_count] / 100;
-            resident_low_eco_landincome_forui -= (double)pc_EconomyManager.resident_low_eco_landincome_forui[comm_data.update_money_count] / 100;
-            comm_high_landincome_forui -= (double)pc_EconomyManager.comm_high_landincome_forui[comm_data.update_money_count] / 100;
-            comm_low_landincome_forui -= (double)pc_EconomyManager.comm_low_landincome_forui[comm_data.update_money_count] / 100;
-            comm_lei_landincome_forui -= (double)pc_EconomyManager.comm_lei_landincome_forui[comm_data.update_money_count] / 100;
-            comm_tou_landincome_forui -= (double)pc_EconomyManager.comm_tou_landincome_forui[comm_data.update_money_count] / 100;
-            comm_eco_landincome_forui -= (double)pc_EconomyManager.comm_eco_landincome_forui[comm_data.update_money_count] / 100;
-            indu_gen_landincome_forui -= (double)pc_EconomyManager.indu_gen_landincome_forui[comm_data.update_money_count] / 100;
-            indu_farmer_landincome_forui -= (double)pc_EconomyManager.indu_farmer_landincome_forui[comm_data.update_money_count] / 100;
-            indu_foresty_landincome_forui -= (double)pc_EconomyManager.indu_foresty_landincome_forui[comm_data.update_money_count] / 100;
-            indu_oil_landincome_forui -= (double)pc_EconomyManager.indu_oil_landincome_forui[comm_data.update_money_count] / 100;
-            indu_ore_landincome_forui -= (double)pc_EconomyManager.indu_ore_landincome_forui[comm_data.update_money_count] / 100;
-            office_gen_landincome_forui -= (double)pc_EconomyManager.office_gen_landincome_forui[comm_data.update_money_count] / 100;
-            office_high_tech_landincome_forui -= (double)pc_EconomyManager.office_high_tech_landincome_forui[comm_data.update_money_count] / 100;
-            comm_high_tradeincome_forui -= (double)pc_EconomyManager.comm_high_tradeincome_forui[comm_data.update_money_count] / 100;
-            comm_low_tradeincome_forui -= (double)pc_EconomyManager.comm_low_tradeincome_forui[comm_data.update_money_count] / 100;
-            comm_lei_tradeincome_forui -= (double)pc_EconomyManager.comm_lei_tradeincome_forui[comm_data.update_money_count] / 100;
-            comm_tou_tradeincome_forui -= (double)pc_EconomyManager.comm_tou_tradeincome_forui[comm_data.update_money_count] / 100;
-            comm_eco_tradeincome_forui -= (double)pc_EconomyManager.comm_eco_tradeincome_forui[comm_data.update_money_count] / 100;
-            indu_gen_tradeincome_forui -= (double)pc_EconomyManager.indu_gen_tradeincome_forui[comm_data.update_money_count] / 100;
-            indu_farmer_tradeincome_forui -= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[comm_data.update_money_count] / 100;
-            indu_foresty_tradeincome_forui -= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[comm_data.update_money_count] / 100;
-            indu_oil_tradeincome_forui -= (double)pc_EconomyManager.indu_oil_tradeincome_forui[comm_data.update_money_count] / 100;
-            indu_ore_tradeincome_forui -= (double)pc_EconomyManager.indu_ore_tradeincome_forui[comm_data.update_money_count] / 100;
+            citizen_tax_income_forui -= (double)pc_EconomyManager.citizen_tax_income_forui[comm_data.update_money_count] / 100f;
+            citizen_income_forui -= (double)pc_EconomyManager.citizen_income_forui[comm_data.update_money_count] / 100f;
+            tourist_income_forui -= (double)pc_EconomyManager.tourist_income_forui[comm_data.update_money_count] / 100f;
+            resident_high_landincome_forui -= (double)pc_EconomyManager.resident_high_landincome_forui[comm_data.update_money_count] / 100f;
+            resident_low_landincome_forui -= (double)pc_EconomyManager.resident_low_landincome_forui[comm_data.update_money_count] / 100f;
+            resident_high_eco_landincome_forui -= (double)pc_EconomyManager.resident_high_eco_landincome_forui[comm_data.update_money_count] / 100f;
+            resident_low_eco_landincome_forui -= (double)pc_EconomyManager.resident_low_eco_landincome_forui[comm_data.update_money_count] / 100f;
+            comm_high_landincome_forui -= (double)pc_EconomyManager.comm_high_landincome_forui[comm_data.update_money_count] / 100f;
+            comm_low_landincome_forui -= (double)pc_EconomyManager.comm_low_landincome_forui[comm_data.update_money_count] / 100f;
+            comm_lei_landincome_forui -= (double)pc_EconomyManager.comm_lei_landincome_forui[comm_data.update_money_count] / 100f;
+            comm_tou_landincome_forui -= (double)pc_EconomyManager.comm_tou_landincome_forui[comm_data.update_money_count] / 100f;
+            comm_eco_landincome_forui -= (double)pc_EconomyManager.comm_eco_landincome_forui[comm_data.update_money_count] / 100f;
+            indu_gen_landincome_forui -= (double)pc_EconomyManager.indu_gen_landincome_forui[comm_data.update_money_count] / 100f;
+            indu_farmer_landincome_forui -= (double)pc_EconomyManager.indu_farmer_landincome_forui[comm_data.update_money_count] / 100f;
+            indu_foresty_landincome_forui -= (double)pc_EconomyManager.indu_foresty_landincome_forui[comm_data.update_money_count] / 100f;
+            indu_oil_landincome_forui -= (double)pc_EconomyManager.indu_oil_landincome_forui[comm_data.update_money_count] / 100f;
+            indu_ore_landincome_forui -= (double)pc_EconomyManager.indu_ore_landincome_forui[comm_data.update_money_count] / 100f;
+            office_gen_landincome_forui -= (double)pc_EconomyManager.office_gen_landincome_forui[comm_data.update_money_count] / 100f;
+            office_high_tech_landincome_forui -= (double)pc_EconomyManager.office_high_tech_landincome_forui[comm_data.update_money_count] / 100f;
+            comm_high_tradeincome_forui -= (double)pc_EconomyManager.comm_high_tradeincome_forui[comm_data.update_money_count] / 100f;
+            comm_low_tradeincome_forui -= (double)pc_EconomyManager.comm_low_tradeincome_forui[comm_data.update_money_count] / 100f;
+            comm_lei_tradeincome_forui -= (double)pc_EconomyManager.comm_lei_tradeincome_forui[comm_data.update_money_count] / 100f;
+            comm_tou_tradeincome_forui -= (double)pc_EconomyManager.comm_tou_tradeincome_forui[comm_data.update_money_count] / 100f;
+            comm_eco_tradeincome_forui -= (double)pc_EconomyManager.comm_eco_tradeincome_forui[comm_data.update_money_count] / 100f;
+            indu_gen_tradeincome_forui -= (double)pc_EconomyManager.indu_gen_tradeincome_forui[comm_data.update_money_count] / 100f;
+            indu_farmer_tradeincome_forui -= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[comm_data.update_money_count] / 100f;
+            indu_foresty_tradeincome_forui -= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[comm_data.update_money_count] / 100f;
+            indu_oil_tradeincome_forui -= (double)pc_EconomyManager.indu_oil_tradeincome_forui[comm_data.update_money_count] / 100f;
+            indu_ore_tradeincome_forui -= (double)pc_EconomyManager.indu_ore_tradeincome_forui[comm_data.update_money_count] / 100f;
+
+            road_income_forui -= (double)pc_EconomyManager.road_income_forui[comm_data.update_money_count] / 100f;
+            cemetery_income_forui -= (double)pc_EconomyManager.cemetery_income_forui[comm_data.update_money_count] / 100f;
+            garbage_income_forui -= (double)pc_EconomyManager.garbage_income_forui[comm_data.update_money_count] / 100f;
 
             citizen_tax_income_total += citizen_tax_income_forui;
             city_land_income_total += resident_high_landincome_forui;
@@ -833,7 +893,11 @@ namespace RealCity
             city_transport_income_total += cablecar_income;
             city_transport_income_total += monorail_income;
 
-            all_total_income = citizen_tax_income_total + city_land_income_total + city_tourism_income_total + city_trade_income_total + city_transport_income_total;
+            city_playerbuilding_income_total += road_income_forui;
+            city_playerbuilding_income_total += cemetery_income_forui;
+            city_playerbuilding_income_total += garbage_income_forui;
+
+            all_total_income = city_playerbuilding_income_total + citizen_tax_income_total + city_land_income_total + city_tourism_income_total + city_trade_income_total + city_transport_income_total;
 
             if (all_total_income != 0)
             {
@@ -842,6 +906,7 @@ namespace RealCity
                 city_tourism_income_percent = city_tourism_income_total / all_total_income;
                 city_trade_income_percent = city_trade_income_total / all_total_income;
                 city_transport_income_percent = city_transport_income_total / all_total_income;
+                city_playerbuilding_income_percent = city_playerbuilding_income_total / all_total_income;
             }
         }
     }

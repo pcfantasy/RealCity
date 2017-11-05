@@ -142,11 +142,6 @@ namespace RealCity
         private UILabel all_oil_building_loss;
         private UILabel all_ore_building_profit;
         private UILabel all_ore_building_loss;
-        private UILabel all_buildings;
-        private UILabel total_cargo_vehical_time;
-        private UILabel total_cargo_transfer_size;
-        private UILabel total_train_transfer_size;
-        private UILabel total_ship_transfer_size;
 
         private UILabel office_gen_salary_index;
         private UILabel office_high_tech_salary_index;
@@ -587,45 +582,10 @@ namespace RealCity
             this.all_ore_building_loss.autoSize = true;
             this.all_ore_building_loss.name = "Moreeconomic_Text_36";
 
-            this.all_buildings = base.AddUIComponent<UILabel>();
-            this.all_buildings.text =             string.Format("all_buildings num [00000000]");
-            this.all_buildings.tooltip = "all_buildings num";
-            this.all_buildings.relativePosition = new Vector3(SPACING, this.all_ore_building_profit.relativePosition.y + SPACING22);
-            this.all_buildings.autoSize = true;
-            this.all_buildings.name = "Moreeconomic_Text_37";
-
-            this.total_cargo_vehical_time = base.AddUIComponent<UILabel>();
-            this.total_cargo_vehical_time.text =  string.Format("cargo_running_time [0000000]");
-            this.total_cargo_vehical_time.tooltip = "total_cargo_vehical_time";
-            this.total_cargo_vehical_time.relativePosition = new Vector3(this.all_buildings.relativePosition.x + this.all_buildings.width + SPACING, this.all_buildings.relativePosition.y);
-            this.total_cargo_vehical_time.autoSize = true;
-            this.total_cargo_vehical_time.name = "Moreeconomic_Text_38";
-
-            this.total_cargo_transfer_size = base.AddUIComponent<UILabel>();
-            this.total_cargo_transfer_size.text = string.Format("cargo_transfer_size [000000]");
-            this.total_cargo_transfer_size.tooltip = "total_cargo_transfer_size";
-            this.total_cargo_transfer_size.relativePosition = new Vector3(this.total_cargo_vehical_time.relativePosition.x + this.total_cargo_vehical_time.width + SPACING, this.total_cargo_vehical_time.relativePosition.y);
-            this.total_cargo_transfer_size.autoSize = true;
-            this.total_cargo_transfer_size.name = "Moreeconomic_Text_39";
-
-            this.total_train_transfer_size = base.AddUIComponent<UILabel>();
-            this.total_train_transfer_size.text = string.Format("train_transfer_size [000000]");
-            this.total_train_transfer_size.tooltip = "total_train_transfer_size";
-            this.total_train_transfer_size.relativePosition = new Vector3(SPACING, this.all_buildings.relativePosition.y + SPACING22);
-            this.total_train_transfer_size.autoSize = true;
-            this.total_train_transfer_size.name = "Moreeconomic_Text_40";
-
-            this.total_ship_transfer_size = base.AddUIComponent<UILabel>();
-            this.total_ship_transfer_size.text = string.Format("ship_transfer_size [00000000]");
-            this.total_ship_transfer_size.tooltip = "total_ship_transfer_size";
-            this.total_ship_transfer_size.relativePosition = new Vector3(this.total_train_transfer_size.relativePosition.x + this.total_train_transfer_size.width + SPACING + 5f, this.total_train_transfer_size.relativePosition.y);
-            this.total_ship_transfer_size.autoSize = true;
-            this.total_ship_transfer_size.name = "Moreeconomic_Text_41";
-
             this.office_gen_salary_index = base.AddUIComponent<UILabel>();
             this.office_gen_salary_index.text = string.Format("office_gen_salary_index [0000000000]");
             this.office_gen_salary_index.tooltip = "office_gen_salary_index";
-            this.office_gen_salary_index.relativePosition = new Vector3(SPACING, this.total_train_transfer_size.relativePosition.y + SPACING22);
+            this.office_gen_salary_index.relativePosition = new Vector3(SPACING, this.all_ore_building_profit.relativePosition.y + SPACING22);
             this.office_gen_salary_index.autoSize = true;
             this.office_gen_salary_index.name = "Moreeconomic_Text_42";
 
@@ -747,11 +707,6 @@ namespace RealCity
             this.all_oil_building_loss.text = string.Format("all_oil_building_loss num [{0}]", pc_PrivateBuildingAI.all_oil_building_loss_final);
             this.all_ore_building_profit.text = string.Format("all_ore_building_profit num [{0}]", pc_PrivateBuildingAI.all_ore_building_profit_final);
             this.all_ore_building_loss.text = string.Format("all_ore_building_loss num [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
-            this.all_buildings.text = string.Format("all_buildings num [{0}]", pc_PrivateBuildingAI.all_buildings_final);
-            this.total_cargo_vehical_time.text = string.Format("total_cargo_vehical_time [{0}]", pc_PrivateBuildingAI.total_cargo_vehical_time);
-            this.total_cargo_transfer_size.text = string.Format("total_cargo_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_cargo_transfer_size/1000));
-            this.total_train_transfer_size.text = string.Format("total_train_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_train_transfer_size / 1000));
-            this.total_ship_transfer_size.text = string.Format("total_ship_transfer_size [{0}K]", (float)(pc_PrivateBuildingAI.total_ship_transfer_size / 1000));
             this.office_gen_salary_index.text = string.Format("office_gen_salary_index [{0}]", pc_PrivateBuildingAI.office_gen_salary_index);
             this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [{0}]", pc_PrivateBuildingAI.office_high_tech_salary_index);
             isRefreshing = false;

@@ -145,8 +145,18 @@ namespace RealCity
         public static int[] indu_oil_tradeincome_forui = new int[17];
         public static int[] indu_ore_tradeincome_forui = new int[17];
 
-        public static byte[] save_data = new byte[2390];
-        public static byte[] load_data = new byte[2390];
+        //govement income
+        public static float garbage_income = 0f;
+        public static float road_income = 0f;
+        public static float cemetery_income = 0f;
+        public static int[] garbage_income_forui = new int[17];
+        public static int[] road_income_forui = new int[17];
+        public static int[] cemetery_income_forui = new int[17];
+
+        //public static bool cemetery_income_forui = new int[17];
+
+        public static byte[] save_data = new byte[2606];
+        public static byte[] load_data = new byte[2606];
 
         //public income
 
@@ -182,6 +192,9 @@ namespace RealCity
             indu_foresty_tradeincome_forui[i] = 0;
             indu_oil_tradeincome_forui[i] = 0;
             indu_ore_tradeincome_forui[i] = 0;
+            garbage_income_forui[i] = 0;
+            cemetery_income_forui[i] = 0;
+            road_income_forui[i] = 0;
         }
 
         public static void data_init()
@@ -218,7 +231,10 @@ namespace RealCity
                 indu_foresty_tradeincome_forui[i] = 0;
                 indu_oil_tradeincome_forui[i] = 0;
                 indu_ore_tradeincome_forui[i] = 0;
-           }
+                road_income_forui[i] = 0;
+                cemetery_income_forui[i] = 0;
+                garbage_income_forui[i] = 0;
+            }
         }
 
         public static void load()
@@ -350,6 +366,14 @@ namespace RealCity
             indu_foresty_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
             indu_oil_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
             indu_ore_tradeincome_forui = saveandrestore.load_ints(ref i, load_data, 17);
+
+            road_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            cemetery_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            garbage_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+
+            road_income = saveandrestore.load_float(ref i, load_data);
+            cemetery_income = saveandrestore.load_float(ref i, load_data);
+            garbage_income = saveandrestore.load_float(ref i, load_data);
         }
 
         public static void save()
@@ -491,6 +515,16 @@ namespace RealCity
             saveandrestore.save_ints(ref i, indu_foresty_tradeincome_forui, ref save_data);
             saveandrestore.save_ints(ref i, indu_oil_tradeincome_forui, ref save_data);
             saveandrestore.save_ints(ref i, indu_ore_tradeincome_forui, ref save_data);
+
+            //3 * 17 * 4 = 204
+            saveandrestore.save_ints(ref i, road_income_forui, ref save_data);
+            saveandrestore.save_ints(ref i, cemetery_income_forui, ref save_data);
+            saveandrestore.save_ints(ref i, garbage_income_forui, ref save_data);
+
+            //3 * 4 = 12
+            saveandrestore.save_float(ref i, road_income, ref save_data);
+            saveandrestore.save_float(ref i, cemetery_income, ref save_data);
+            saveandrestore.save_float(ref i, garbage_income, ref save_data);
         }
 
         public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
@@ -507,7 +541,7 @@ namespace RealCity
                 }
                 else
                 {
-                    coefficient = 100f;
+                    coefficient = comm_data.mantain_and_land_fee_decrease;
                 }
                 switch (itemClass.m_service)
                 {
@@ -517,7 +551,6 @@ namespace RealCity
                         {
                             temp = (int)Road;
                             Road = Road - (int)Road;
-                            if (coefficient == 1)
                             Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
                             return amount;
                         }
@@ -637,7 +670,7 @@ namespace RealCity
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
-                Policy_cost += (float)amount / 100f;
+                Policy_cost += (float)amount / comm_data.mantain_and_land_fee_decrease;
                 //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString() + " " + amount.ToString());
                 if (Policy_cost > 1)
                 {
@@ -679,6 +712,60 @@ namespace RealCity
         //}
         //return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
         //}
+
+        public int EXAddGovermentIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
+        {
+            switch (service)
+            {
+                case ItemClass.Service.Garbage:
+                    garbage_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
+                    if (garbage_income > 1)
+                    {
+                        amount = (int)garbage_income;
+                        garbage_income = garbage_income - (int)garbage_income;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    garbage_income_forui[comm_data.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.HealthCare:
+                    cemetery_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
+                    if (cemetery_income > 1)
+                    {
+                        amount = (int)cemetery_income;
+                        cemetery_income = cemetery_income - (int)cemetery_income;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    cemetery_income_forui[comm_data.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.Road:
+                    road_income += (float)(amount * taxRate * _taxMultiplier) / 1000000L;
+                    if (road_income > 1)
+                    {
+                        amount = (int)road_income;
+                        road_income = road_income - (int)road_income;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    road_income_forui[comm_data.update_money_count] += amount;
+                    break;
+                default:
+                    amount = 0;
+                    DebugLog.LogToFileOnly("find unknown  EXAddGovermentIncome building" + " building servise is" + service + " building subservise is" + subService + " buildlevelandtax is" + level + " " + taxRate);
+                    break;
+            }
+            return amount;
+        }
+
+
+
         public int EXAddPersonalTaxIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
             switch (subService)
@@ -1219,6 +1306,7 @@ namespace RealCity
                     comm_eco_tradeincome_forui[comm_data.update_money_count] += amount;
                     break;
                 default:
+                    amount = 0;
                     DebugLog.LogToFileOnly("find unknown  EXAddPrivateTradeIncome building" + " building servise is" + service + " building subservise is" + subService + " buildlevelandtax is" + level + " " + taxRate);
                     break;
             }
@@ -1775,6 +1863,7 @@ namespace RealCity
                     office_high_tech_landincome_forui[comm_data.update_money_count] += amount;
                     break;
                 default:
+                    amount = 0;
                     DebugLog.LogToFileOnly("find unknown  EXAddPrivateLandIncome building" + " building servise is" + service + " building subservise is" + subService + " buildlevelandtax is" + level + " " + taxRate);
                     break;
             }
@@ -1788,7 +1877,22 @@ namespace RealCity
                 _init = true;
                 Init();
             }
-            if ((taxRate == 113) || (taxRate == 114))
+            if (taxRate == 115)
+            {
+                //115 means goverment income
+                taxRate = 100;
+                Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
+                amount = EXAddGovermentIncome(amount, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, taxRate);
+                //amount = amount;
+                int num = ClassIndex(service, subService, level);
+                if (num != -1)
+                {
+                    _income[num * 17 + 16] += (long)amount;
+                }
+                _cashAmount += (long)amount;
+                _cashDelta += (long)amount;
+            }
+            else if ((taxRate == 113) || (taxRate == 114))
             {
                 //113 means tourist tourism income // 114 means resident tourism income
                 //taxRate = 100;

@@ -130,23 +130,24 @@ namespace RealCity
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Lumber:
-                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.lumber_import_price - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f);
+                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.lumber_import_price - 0.2f - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f);
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Coal:
-                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.coal_import_price - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f);
+                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.coal_import_price - 0.2f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f);
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Food:
-                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.food_import_price - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.1f);
+                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.food_import_price - 0.2f - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.1f);
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Petrol:
-                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.petrol_import_price - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f);
+                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.petrol_import_price - 0.2f - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f);
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Goods:
-                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.good_import_price - (1f - pc_PrivateBuildingAI.good_import_ratio) * 0.1f);
+                                    //amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4
+                                    import_tax = num * 0.3f * ((pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4f);
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 default:
@@ -156,6 +157,50 @@ namespace RealCity
                         }
                     }
                 }
+
+                if ((info.m_class.m_service == ItemClass.Service.Electricity) || (info.m_class.m_service == ItemClass.Service.Water) || (info.m_class.m_service == ItemClass.Service.Disaster))
+                {
+                    import_tax = 0f;
+                    float product_value = 0f;
+                    switch ((TransferManager.TransferReason)data.m_transferType)
+                    {
+                        case TransferManager.TransferReason.Oil:
+                            product_value = num * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f);
+                            if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
+                            {
+                                import_tax = product_value * 0.3f;
+                                Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
+                            }
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            break;
+                        case TransferManager.TransferReason.Coal:
+                            product_value = num * (pc_PrivateBuildingAI.coal_import_price - 0.2f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f);
+                            if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
+                            {
+                                import_tax = product_value * 0.3f;
+                                Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
+                            }
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            break;
+                        case TransferManager.TransferReason.Goods:
+                            product_value = num * ((pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4f);
+                            if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
+                            {
+                                import_tax = product_value * 0.3f;
+                                Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
+                            }
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            break;
+                        default: DebugLog.LogToFileOnly("find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
+                    }
+                }
+                if ((building.m_flags.IsFlagSet(Building.Flags.Untouchable)) || (building1.m_flags.IsFlagSet(Building.Flags.Untouchable)))
+                {
+                    if (pc_OutsideConnectionAI.have_maintain_road_building)
+                    {
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(100, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    }
+                }
             }
             else
             {
@@ -163,63 +208,147 @@ namespace RealCity
             }
         }
 
-/*        private bool ArriveAtSource(ushort vehicleID, ref Vehicle data)
-        {
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
-            BuildingInfo info1 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-            if ((!instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable)) && (!instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable)))
-            {
-                DebugLog.LogToFileOnly("process_trade_tax_arrive_at_source, going in");
-                DebugLog.LogToFileOnly("we enter here, target building is " + info.m_class.ToString());
-                DebugLog.LogToFileOnly("we enter here, source building is " + info1.m_class.ToString());
-            }
-            if (data.m_sourceBuilding == 0)
-            {
-                Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
-                return true;
-            }
-            int num = 0;
-            if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
-            {
-                //process_trade_tax_arrive_at_source(vehicleID, ref data, num);
-                num = (int)data.m_transferSize;
-                info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-                info.m_buildingAI.ModifyMaterialBuffer(data.m_sourceBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
-                data.m_transferSize = (ushort)Mathf.Clamp((int)data.m_transferSize - num, 0, (int)data.m_transferSize);
-            }
-            this.RemoveSource(vehicleID, ref data);
-            Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
-            return true;
-        }
 
-        private void process_trade_tax_arrive_at_source(ushort vehicleID, ref Vehicle data, int num)
+
+        public override void SetSource(ushort vehicleID, ref Vehicle data, ushort sourceBuilding)
         {
-            num = (int)data.m_transferSize;
-            BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-            Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
-            Building building1 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];
-            info.m_buildingAI.ModifyMaterialBuffer(data.m_sourceBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
-            if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
+            this.RemoveSource(vehicleID, ref data);
+            data.m_sourceBuilding = sourceBuilding;
+            if (sourceBuilding != 0)
             {
-                if (!building1.m_flags.IsFlagSet(Building.Flags.Untouchable) & !(building1.Info.m_class.m_service == ItemClass.Service.Road))
+                BuildingManager instance = Singleton<BuildingManager>.instance;
+                BuildingInfo info = instance.m_buildings.m_buffer[(int)sourceBuilding].Info;
+                data.Unspawn(vehicleID);
+                Randomizer randomizer = new Randomizer((int)vehicleID);
+                Vector3 vector;
+                Vector3 vector2;
+                info.m_buildingAI.CalculateSpawnPosition(sourceBuilding, ref instance.m_buildings.m_buffer[(int)sourceBuilding], ref randomizer, this.m_info, out vector, out vector2);
+                Quaternion rotation = Quaternion.identity;
+                Vector3 forward = vector2 - vector;
+                if (forward.sqrMagnitude > 0.01f)
                 {
-                    if ((info.m_class.m_service == ItemClass.Service.Industrial) || (info.m_class.m_service == ItemClass.Service.Commercial))
+                    rotation = Quaternion.LookRotation(forward);
+                }
+                data.m_frame0 = new Vehicle.Frame(vector, rotation);
+                data.m_frame1 = data.m_frame0;
+                data.m_frame2 = data.m_frame0;
+                data.m_frame3 = data.m_frame0;
+                data.m_targetPos0 = vector;
+                data.m_targetPos0.w = 2f;
+                data.m_targetPos1 = vector2;
+                data.m_targetPos1.w = 2f;
+                data.m_targetPos2 = data.m_targetPos1;
+                data.m_targetPos3 = data.m_targetPos1;
+                if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+                {
+                    int num = Mathf.Min(0, (int)data.m_transferSize - this.m_cargoCapacity);
+                    info.m_buildingAI.ModifyMaterialBuffer(sourceBuilding, ref instance.m_buildings.m_buffer[(int)sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+                    process_gabarge_income(vehicleID, ref data, num);
+                    num = Mathf.Max(0, -num);
+                    data.m_transferSize += (ushort)num;
+                }
+                this.FrameDataUpdated(vehicleID, ref data, ref data.m_frame0);
+                instance.m_buildings.m_buffer[(int)sourceBuilding].AddOwnVehicle(vehicleID, ref data);
+                if ((instance.m_buildings.m_buffer[(int)sourceBuilding].m_flags & Building.Flags.IncomingOutgoing) != Building.Flags.None)
+                {
+                    if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
                     {
-                        DebugLog.LogToFileOnly("process_trade_tax_arrive_at_source, find a import trade size = " + num.ToString());
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 0.03), info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                        data.m_flags |= Vehicle.Flags.Importing;
+                    }
+                    else if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+                    {
+                        data.m_flags |= Vehicle.Flags.Exporting;
                     }
                 }
             }
         }
 
-        private void RemoveSource(ushort vehicleID, ref Vehicle data)
+        private void process_gabarge_income(ushort vehicleID, ref Vehicle data, int num)
         {
-            if (data.m_sourceBuilding != 0)
+            BuildingManager instance = Singleton<BuildingManager>.instance;
+            Building building = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];
+            if (building.Info.m_class.m_service == ItemClass.Service.Garbage)
             {
-                Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
-                data.m_sourceBuilding = 0;
+                float product_value = 0f;
+                switch ((TransferManager.TransferReason)data.m_transferType)
+                {
+                    case TransferManager.TransferReason.Lumber:
+                        product_value = num * (pc_PrivateBuildingAI.lumber_import_price - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)product_value, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialForestry, ItemClass.Level.Level3, 111);
+                        break;
+                    case TransferManager.TransferReason.Coal:
+                        product_value = num * (pc_PrivateBuildingAI.coal_import_price - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)product_value, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialOre, ItemClass.Level.Level3, 111);
+                        break;
+                    case TransferManager.TransferReason.Petrol:
+                        product_value = num * (pc_PrivateBuildingAI.petrol_import_price - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)product_value, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialOil, ItemClass.Level.Level3, 111);
+                        break;
+                    default: DebugLog.LogToFileOnly("find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
+                }
             }
-        }*/
+        }
+
+
+
+
+        /*        private bool ArriveAtSource(ushort vehicleID, ref Vehicle data)
+                {
+                    BuildingManager instance = Singleton<BuildingManager>.instance;
+                    BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
+                    BuildingInfo info1 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+                    if ((!instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable)) && (!instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable)))
+                    {
+                        DebugLog.LogToFileOnly("process_trade_tax_arrive_at_source, going in");
+                        DebugLog.LogToFileOnly("we enter here, target building is " + info.m_class.ToString());
+                        DebugLog.LogToFileOnly("we enter here, source building is " + info1.m_class.ToString());
+                    }
+                    if (data.m_sourceBuilding == 0)
+                    {
+                        Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                        return true;
+                    }
+                    int num = 0;
+                    if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+                    {
+                        //process_trade_tax_arrive_at_source(vehicleID, ref data, num);
+                        num = (int)data.m_transferSize;
+                        info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+                        info.m_buildingAI.ModifyMaterialBuffer(data.m_sourceBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+                        data.m_transferSize = (ushort)Mathf.Clamp((int)data.m_transferSize - num, 0, (int)data.m_transferSize);
+                    }
+                    this.RemoveSource(vehicleID, ref data);
+                    Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                    return true;
+                }
+
+                private void process_trade_tax_arrive_at_source(ushort vehicleID, ref Vehicle data, int num)
+                {
+                    num = (int)data.m_transferSize;
+                    BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+                    Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
+                    Building building1 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];
+                    info.m_buildingAI.ModifyMaterialBuffer(data.m_sourceBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+                    if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
+                    {
+                        if (!building1.m_flags.IsFlagSet(Building.Flags.Untouchable) & !(building1.Info.m_class.m_service == ItemClass.Service.Road))
+                        {
+                            if ((info.m_class.m_service == ItemClass.Service.Industrial) || (info.m_class.m_service == ItemClass.Service.Commercial))
+                            {
+                                DebugLog.LogToFileOnly("process_trade_tax_arrive_at_source, find a import trade size = " + num.ToString());
+                                Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 0.03), info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                            }
+                        }
+                    }
+                }*/
+
+                private void RemoveSource(ushort vehicleID, ref Vehicle data)
+                {
+                    if (data.m_sourceBuilding != 0)
+                    {
+                        Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                        data.m_sourceBuilding = 0;
+                    }
+                }
     }
 }

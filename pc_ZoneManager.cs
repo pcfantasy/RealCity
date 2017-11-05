@@ -100,7 +100,7 @@ namespace RealCity
                     }
                     else
                     {
-                        DebugLog.LogToFileOnly("not enough profit commerical building, demand = 0 now");
+                        //DebugLog.LogToFileOnly("not enough profit commerical building, demand = 0 now");
                         originalDemand = 0;// (int)(((long)originalDemand * (long)pc_PrivateBuildingAI.all_comm_building_profit_final) / (long)pc_PrivateBuildingAI.all_comm_building_loss_final);
                     }
                 }

@@ -86,6 +86,7 @@
     <Compile Include="BuildingUI.cs" />
     <Compile Include="pc_CargoTruckAI.cs" />
     <Compile Include="pc_OfficeBuildingAI.cs" />
+    <Compile Include="pc_OutsideConnectionAI.cs" />
     <Compile Include="pc_ZoneManager.cs" />
     <Compile Include="RealCityUI.cs" />
     <Compile Include="pc_PrivateBuildingAI.cs" />

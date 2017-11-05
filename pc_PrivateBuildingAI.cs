@@ -50,20 +50,20 @@ namespace RealCity
         public const float petrol_export_price = 0.5f;
         public const float coal_export_price = 0.5f;
         public const float lumber_export_price = 0.5f;
-        public const float oil_export_price = 0.1f;
-        public const float ore_export_price = 0.1f;
-        public const float grain_export_price = 0.1f;
-        public const float log_export_price = 0.1f;
+        public const float oil_export_price = 0.15f;
+        public const float ore_export_price = 0.15f;
+        public const float grain_export_price = 0.15f;
+        public const float log_export_price = 0.15f;
 
         public const float good_import_price = 2.6f;
         public const float food_import_price = 0.9f;
         public const float petrol_import_price = 0.9f;
         public const float coal_import_price = 0.9f;
         public const float lumber_import_price = 0.9f;
-        public const float oil_import_price = 0.3f;
-        public const float ore_import_price = 0.3f;
-        public const float grain_import_price = 0.3f;
-        public const float log_import_price = 0.3f;
+        public const float oil_import_price = 0.35f;
+        public const float ore_import_price = 0.35f;
+        public const float grain_import_price = 0.35f;
+        public const float log_import_price = 0.35f;
 
         public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
@@ -499,8 +499,10 @@ namespace RealCity
         public void process_addition_product(ushort buildingID, ref Building buildingData)
         {
             Regex r = new Regex("IndustrialBuildingAI");
+            Regex p = new Regex("IndustrialExtractorAI");
 
             Match m = r.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
+            Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
             if (m.Success)
             {
                 DistrictManager instance = Singleton<DistrictManager>.instance;

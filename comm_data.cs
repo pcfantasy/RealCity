@@ -393,12 +393,12 @@
         public static byte update_outside_count = 0;
 
         //use it to decrease mantain fee in early game time
-        public static byte mantain_and_land_fee_decrease = 10;
+        public static byte mantain_and_land_fee_decrease = 50;
         public static float salary_idex = 0.5f;
         //use it to decrease land income in early game time for industry and commerical
 
         //
-        public static ushort[] building_buffer1 = new ushort[49152];
+        public static ushort[] net_buffer1 = new ushort[49152];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -410,7 +410,7 @@
             for (int i = 0; i < comm_data.building_money.Length; i++)
             {
                 building_money[i] = 0;
-                building_buffer1[i] = 0;
+                net_buffer1[i] = 0;
                 building_buffer2[i] = 0;
             }
             for (int i = 0; i < comm_data.vehical_transfer_time.Length; i++)
@@ -506,7 +506,7 @@
             saveandrestore.save_long(ref i, citizen_salary_total, ref save_data);
             saveandrestore.save_long(ref i, citizen_salary_tax_total, ref save_data);
 
-            saveandrestore.save_ushorts(ref i, building_buffer1, ref save_data);
+            saveandrestore.save_ushorts(ref i, net_buffer1, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
 
@@ -577,7 +577,7 @@
             citizen_salary_total = saveandrestore.load_long(ref i, load_data);
             citizen_salary_tax_total = saveandrestore.load_long(ref i, load_data);
 
-            building_buffer1 = saveandrestore.load_ushorts(ref i, load_data,building_buffer1.Length);
+            net_buffer1 = saveandrestore.load_ushorts(ref i, load_data,net_buffer1.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);
         }
     }

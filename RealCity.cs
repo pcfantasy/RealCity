@@ -166,6 +166,21 @@ namespace RealCity
             var destMethod32 = typeof(pc_ZoneManager).GetMethod("CalculateWorkplaceDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
             RedirectionHelper.RedirectCalls(srcMethod32, destMethod32);
 
+            var srcMethod33 = typeof(CargoTruckAI).GetMethod("SetSource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort) }, null);
+            var destMethod33 = typeof(pc_CargoTruckAI).GetMethod("SetSource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort) }, null);
+            RedirectionHelper.RedirectCalls(srcMethod33, destMethod33);
+
+            var srcMethod34 = typeof(OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            var destMethod34 = typeof(pc_OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod34, destMethod34);
+
+            var srcMethod35 = typeof(OutsideConnectionAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
+            var destMethod35 = typeof(pc_OutsideConnectionAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
+            RedirectionHelper.RedirectCalls(srcMethod35, destMethod35);
+
+            var srcMethod36 = typeof(OutsideConnectionAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
+            var destMethod36 = typeof(pc_OutsideConnectionAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
+            RedirectionHelper.RedirectCalls(srcMethod36, destMethod36);
         }
 
         public void OnDisabled()
@@ -376,7 +391,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportBus;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.bus_income = temp2 / 100;
+                RealCityUI.bus_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
@@ -384,7 +399,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportTram;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.tram_income = temp2 / 100;
+                RealCityUI.tram_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
@@ -392,7 +407,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportMetro;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.metro_income = temp2 / 100;
+                RealCityUI.metro_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
@@ -400,7 +415,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportTrain;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.train_income = temp2 / 100;
+                RealCityUI.train_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 100;
 
                 temp1 = 0L;
@@ -408,7 +423,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.taxi_income = temp2 / 100;
+                RealCityUI.taxi_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
@@ -416,7 +431,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportPlane;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.plane_income = temp2 / 100;
+                RealCityUI.plane_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
@@ -424,7 +439,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportShip;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.ship_income = temp2 / 100;
+                RealCityUI.ship_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
@@ -432,7 +447,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.monorail_income = temp2 / 100;
+                RealCityUI.monorail_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
@@ -440,7 +455,7 @@ namespace RealCity
                 temp.m_service = ItemClass.Service.PublicTransport;
                 temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
-                RealCityUI.cablecar_income = temp2 / 100;
+                RealCityUI.cablecar_income = (double)temp2 / 100f;
                 comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 //add vehicle transport_fee
@@ -529,7 +544,7 @@ namespace RealCity
                 }
 
 
-                comm_data.mantain_and_land_fee_decrease = 1;
+                comm_data.mantain_and_land_fee_decrease = (byte)(1000f / (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 10f));
                 comm_data.salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 50f) / 120f;
 
                 /*CitizenManager instance = Singleton<CitizenManager>.instance;
