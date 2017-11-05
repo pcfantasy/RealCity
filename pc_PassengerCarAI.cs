@@ -67,8 +67,8 @@ namespace RealCity
                     }
                     if (is_tourist == false)
                     {
-                        //assume that 1 time will cost 5fen car oil money
-                        comm_data.citizen_money[vehicleData.m_citizenUnits] = (short)(comm_data.citizen_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID]*5);
+                        //assume that 1 time will cost 3fen car oil money
+                        comm_data.citizen_money[vehicleData.m_citizenUnits] = (short)(comm_data.citizen_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID] * 3 *comm_data.game_income_outcome_multiple);
                     }
                 }
             }

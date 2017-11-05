@@ -2,8 +2,12 @@
 {
     public class comm_data
     {
+
+        public const byte game_income_outcome_multiple = 10;
+
         //1.  citizen
         //1.1 citizen salary
+
         public const byte comm_high_level1_education0 = 70;
         public const byte comm_high_level2_education0 = 80;
         public const byte comm_high_level3_education0 = 100;

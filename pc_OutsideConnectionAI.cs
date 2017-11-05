@@ -115,7 +115,7 @@ namespace RealCity
                 if (rand.Next(100) < 20)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 0;
+                    offer.Priority = 7;
                     offer.Building = buildingID;
                     offer.Position = data.m_position;
                     offer.Amount = 1;

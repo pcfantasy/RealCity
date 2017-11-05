@@ -178,7 +178,7 @@ namespace RealCity
                                 ticketPrice = 0;
                             }
                         }
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice , info.m_class);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * comm_data.game_income_outcome_multiple, info.m_class);
                     }
                 }
             }
