@@ -946,20 +946,27 @@ namespace RealCity
             System.Random rand = new System.Random();
             if (temp_num <= 0)
             {
-                temp_num = rand.Next(5);
+                temp_num = rand.Next(5) + 1;
                 family_loss_money_num = (uint)(family_loss_money_num + 1);
                 comm_data.citizen_profit_status[homeID]--;
                 //try_move_family to do here;
             }
             else if (temp_num > 30)
             {
-                temp_num = rand.Next(temp_num);
+                temp_num = temp_num - rand.Next(5);
                 family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
                 comm_data.citizen_profit_status[homeID]++;
             }
             else
             {
-                temp_num = rand.Next(temp_num);
+                if (temp_num < 6)
+                {
+                    temp_num = rand.Next(5) + 1;
+                }
+                else
+                {
+                    temp_num = temp_num - rand.Next(5);
+                }
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
 

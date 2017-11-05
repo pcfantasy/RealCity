@@ -119,124 +119,124 @@
         public const byte office_high_tech_education3 = 155;
 
         //Road
-        public const byte road_education0 = 50;
-        public const byte road_education1 = 55;
-        public const byte road_education2 = 65;
-        public const byte road_education3 = 80;
+        public const byte road_education0 = 40;
+        public const byte road_education1 = 45;
+        public const byte road_education2 = 55;
+        public const byte road_education3 = 70;
 
         //Electricity
-        public const byte Electricity_education0 = 50;
-        public const byte Electricity_education1 = 55;
-        public const byte Electricity_education2 = 65;
-        public const byte Electricity_education3 = 80;
+        public const byte Electricity_education0 = 40;
+        public const byte Electricity_education1 = 45;
+        public const byte Electricity_education2 = 55;
+        public const byte Electricity_education3 = 70;
 
         //Water
-        public const byte Water_education0 = 50;
-        public const byte Water_education1 = 55;
-        public const byte Water_education2 = 65;
-        public const byte Water_education3 = 80;
+        public const byte Water_education0 = 40;
+        public const byte Water_education1 = 45;
+        public const byte Water_education2 = 55;
+        public const byte Water_education3 = 70;
 
         //Beautification
-        public const byte Beautification_education0 = 50;
-        public const byte Beautification_education1 = 55;
-        public const byte Beautification_education2 = 65;
-        public const byte Beautification_education3 = 80;
+        public const byte Beautification_education0 = 40;
+        public const byte Beautification_education1 = 45;
+        public const byte Beautification_education2 = 55;
+        public const byte Beautification_education3 = 70;
 
         //Garbage
-        public const byte Garbage_education0 = 50;
-        public const byte Garbage_education1 = 55;
-        public const byte Garbage_education2 = 65;
-        public const byte Garbage_education3 = 80;
+        public const byte Garbage_education0 = 40;
+        public const byte Garbage_education1 = 45;
+        public const byte Garbage_education2 = 55;
+        public const byte Garbage_education3 = 70;
 
         //HealthCare
-        public const byte HealthCare_education0 = 50;
-        public const byte HealthCare_education1 = 55;
-        public const byte HealthCare_education2 = 65;
-        public const byte HealthCare_education3 = 80;
+        public const byte HealthCare_education0 = 40;
+        public const byte HealthCare_education1 = 45;
+        public const byte HealthCare_education2 = 55;
+        public const byte HealthCare_education3 = 70;
 
         //PoliceDepartment
-        public const byte PoliceDepartment_education0 = 50;
-        public const byte PoliceDepartment_education1 = 55;
-        public const byte PoliceDepartment_education2 = 65;
-        public const byte PoliceDepartment_education3 = 80;
+        public const byte PoliceDepartment_education0 = 40;
+        public const byte PoliceDepartment_education1 = 45;
+        public const byte PoliceDepartment_education2 = 55;
+        public const byte PoliceDepartment_education3 = 70;
 
         //Education
-        public const byte Education_education0 = 50;
-        public const byte Education_education1 = 55;
-        public const byte Education_education2 = 65;
-        public const byte Education_education3 = 80;
+        public const byte Education_education0 = 40;
+        public const byte Education_education1 = 45;
+        public const byte Education_education2 = 55;
+        public const byte Education_education3 = 70;
 
         //Monument
-        public const byte Monument_education0 = 50;
-        public const byte Monument_education1 = 55;
-        public const byte Monument_education2 = 65;
-        public const byte Monument_education3 = 80;
+        public const byte Monument_education0 = 40;
+        public const byte Monument_education1 = 45;
+        public const byte Monument_education2 = 55;
+        public const byte Monument_education3 = 70;
 
         //Disaster
-        public const byte disaster_education0 = 50;
-        public const byte disaster_education1 = 55;
-        public const byte disaster_education2 = 65;
-        public const byte disaster_education3 = 80;
+        public const byte disaster_education0 = 40;
+        public const byte disaster_education1 = 45;
+        public const byte disaster_education2 = 55;
+        public const byte disaster_education3 = 70;
 
         //FireDepartment
-        public const byte FireDepartment_education0 = 50;
-        public const byte FireDepartment_education1 = 55;
-        public const byte FireDepartment_education2 = 65;
-        public const byte FireDepartment_education3 = 80;
+        public const byte FireDepartment_education0 = 40;
+        public const byte FireDepartment_education1 = 45;
+        public const byte FireDepartment_education2 = 55;
+        public const byte FireDepartment_education3 = 70;
 
         //PublicTransport bus
-        public const byte PublicTransport_bus_education0 = 50;
-        public const byte PublicTransport_bus_education1 = 55;
-        public const byte PublicTransport_bus_education2 = 65;
-        public const byte PublicTransport_bus_education3 = 80;
+        public const byte PublicTransport_bus_education0 = 40;
+        public const byte PublicTransport_bus_education1 = 45;
+        public const byte PublicTransport_bus_education2 = 55;
+        public const byte PublicTransport_bus_education3 = 70;
 
         //PublicTransport tram
-        public const byte PublicTransport_tram_education0 = 50;
-        public const byte PublicTransport_tram_education1 = 55;
-        public const byte PublicTransport_tram_education2 = 65;
-        public const byte PublicTransport_tram_education3 = 80;
+        public const byte PublicTransport_tram_education0 = 40;
+        public const byte PublicTransport_tram_education1 = 45;
+        public const byte PublicTransport_tram_education2 = 55;
+        public const byte PublicTransport_tram_education3 = 70;
 
         //PublicTransport train
-        public const byte PublicTransport_train_education0 = 50;
-        public const byte PublicTransport_train_education1 = 55;
-        public const byte PublicTransport_train_education2 = 65;
-        public const byte PublicTransport_train_education3 = 80;
+        public const byte PublicTransport_train_education0 = 40;
+        public const byte PublicTransport_train_education1 = 45;
+        public const byte PublicTransport_train_education2 = 55;
+        public const byte PublicTransport_train_education3 = 70;
 
         //PublicTransport taxi
-        public const byte PublicTransport_taxi_education0 = 50;
-        public const byte PublicTransport_taxi_education1 = 55;
-        public const byte PublicTransport_taxi_education2 = 65;
-        public const byte PublicTransport_taxi_education3 = 80;
+        public const byte PublicTransport_taxi_education0 = 40;
+        public const byte PublicTransport_taxi_education1 = 45;
+        public const byte PublicTransport_taxi_education2 = 55;
+        public const byte PublicTransport_taxi_education3 = 70;
 
         //PublicTransport ship
-        public const byte PublicTransport_ship_education0 = 50;
-        public const byte PublicTransport_ship_education1 = 55;
-        public const byte PublicTransport_ship_education2 = 65;
-        public const byte PublicTransport_ship_education3 = 80;
+        public const byte PublicTransport_ship_education0 = 40;
+        public const byte PublicTransport_ship_education1 = 45;
+        public const byte PublicTransport_ship_education2 = 55;
+        public const byte PublicTransport_ship_education3 = 70;
 
         //PublicTransport plane
-        public const byte PublicTransport_plane_education0 = 50;
-        public const byte PublicTransport_plane_education1 = 55;
-        public const byte PublicTransport_plane_education2 = 65;
-        public const byte PublicTransport_plane_education3 = 80;
+        public const byte PublicTransport_plane_education0 = 40;
+        public const byte PublicTransport_plane_education1 = 45;
+        public const byte PublicTransport_plane_education2 = 55;
+        public const byte PublicTransport_plane_education3 = 70;
 
         //PublicTransport metro
-        public const byte PublicTransport_metro_education0 = 50;
-        public const byte PublicTransport_metro_education1 = 55;
-        public const byte PublicTransport_metro_education2 = 65;
-        public const byte PublicTransport_metro_education3 = 80;
+        public const byte PublicTransport_metro_education0 = 40;
+        public const byte PublicTransport_metro_education1 = 45;
+        public const byte PublicTransport_metro_education2 = 55;
+        public const byte PublicTransport_metro_education3 = 70;
 
         //PublicTransport Monorail
-        public const byte PublicTransport_monorail_education0 = 50;
-        public const byte PublicTransport_monorail_education1 = 55;
-        public const byte PublicTransport_monorail_education2 = 65;
-        public const byte PublicTransport_monorail_education3 = 80;
+        public const byte PublicTransport_monorail_education0 = 40;
+        public const byte PublicTransport_monorail_education1 = 45;
+        public const byte PublicTransport_monorail_education2 = 55;
+        public const byte PublicTransport_monorail_education3 = 70;
 
         //PublicTransport CableCar
-        public const byte PublicTransport_cablecar_education0 = 50;
-        public const byte PublicTransport_cablecar_education1 = 55;
-        public const byte PublicTransport_cablecar_education2 = 65;
-        public const byte PublicTransport_cablecar_education3 = 80;
+        public const byte PublicTransport_cablecar_education0 = 40;
+        public const byte PublicTransport_cablecar_education1 = 45;
+        public const byte PublicTransport_cablecar_education2 = 55;
+        public const byte PublicTransport_cablecar_education3 = 70;
 
         public static int citizen_count = 0;
         public static int family_count = 0;

@@ -7,8 +7,8 @@ namespace RealCity
 {
     public class pc_EconomyManager
     {
-        //all income * 10 , other wise is too small for game
-        //all maintain fee / 10, otherwise it is too high for city
+        //all income * 100 , other wise is too small for game
+        //all maintain fee / 1, otherwise it is too high for city
         //that is , for in game maintain fee and policy cost, it is 1/100 unit compared with enonomic element of real city mode
         //because maintance and police cost is too small when use real city mod.
         public static float Road = 0f;
@@ -503,11 +503,11 @@ namespace RealCity
             {
                 if(itemClass.m_layer == ItemClass.Layer.Markers)
                 {
-                    coefficient = 1.6f;
+                    coefficient = 16f;
                 }
                 else
                 {
-                    coefficient = comm_data.mantain_and_land_fee_decrease;
+                    coefficient = 100f;
                 }
                 switch (itemClass.m_service)
                 {
@@ -637,7 +637,7 @@ namespace RealCity
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
-                Policy_cost += (float)amount / comm_data.mantain_and_land_fee_decrease;
+                Policy_cost += (float)amount / 100f;
                 //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString() + " " + amount.ToString());
                 if (Policy_cost > 1)
                 {
@@ -1788,13 +1788,13 @@ namespace RealCity
                 _init = true;
                 Init();
             }
-            if (taxRate == 113|| taxRate == 114)
+            if ((taxRate == 113) || (taxRate == 114))
             {
                 //113 means tourist tourism income // 114 means resident tourism income
                 //taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddTourismIncome(amount, service, subService, level, taxRate);
-                amount = amount * 10;
+                //amount = amount;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1803,13 +1803,13 @@ namespace RealCity
                 _cashAmount += (long)amount;
                 _cashDelta += (long)amount;
             }
-            if (taxRate == 112)
+            else if (taxRate == 112)
             {
                 //112 means personal income tax income
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPersonalTaxIncome(amount, service, subService, level, taxRate);
-                amount = amount * 10;
+                //amount = amount;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1824,7 +1824,7 @@ namespace RealCity
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPrivateTradeIncome(amount, service, subService, level, taxRate);
-                amount = amount * 10;
+                //amount = amount;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1838,7 +1838,7 @@ namespace RealCity
                 taxRate = taxRate / 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPrivateLandIncome(amount, service, subService, level, taxRate);
-                amount = amount * 10;
+                //amount = amount;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {

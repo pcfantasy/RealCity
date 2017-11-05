@@ -552,7 +552,7 @@ namespace RealCity
                 {
                     space_factor  = (float)(num10 - buildingData.m_customBuffer2) / (float)num10;
                 }
-                production_actually = (int)((float)work_capacity * (float)production_capacity * compensation_factor * space_factor / 50f);
+                production_actually = (int)((float)work_capacity * (float)production_capacity * compensation_factor * space_factor / 100f);
                 
 
                 int game_production = buildingData.m_customBuffer2 - comm_data.building_buffer2[buildingID];

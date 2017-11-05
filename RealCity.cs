@@ -377,7 +377,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportBus;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.bus_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2/10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -385,7 +385,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTram;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.tram_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -393,7 +393,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportMetro;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.metro_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -401,7 +401,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTrain;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.train_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 100;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -409,7 +409,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.taxi_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -417,7 +417,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportPlane;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.plane_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -425,7 +425,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportShip;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.ship_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -433,7 +433,7 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.monorail_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 temp1 = 0L;
                 temp2 = 0L;
@@ -441,14 +441,14 @@ namespace RealCity
                 temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
                 Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
                 RealCityUI.cablecar_income = temp2 / 100;
-                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2 / 10;
+                comm_data.public_transport_fee = comm_data.public_transport_fee + temp2;
 
                 //add vehicle transport_fee
                 comm_data.temp_total_citizen_vehical_time_last = comm_data.temp_total_citizen_vehical_time;
                 comm_data.temp_total_citizen_vehical_time = 0;
 
                 //assume that 1 time will cost 5fen car oil money
-                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last * 5;
+                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last*5;
 
                 if (comm_data.family_count > 0)
                 {
@@ -529,7 +529,7 @@ namespace RealCity
                 }
 
 
-                comm_data.mantain_and_land_fee_decrease = 10;
+                comm_data.mantain_and_land_fee_decrease = 1;
                 comm_data.salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 50f) / 120f;
 
                 /*CitizenManager instance = Singleton<CitizenManager>.instance;
