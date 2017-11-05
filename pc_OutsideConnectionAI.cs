@@ -112,10 +112,10 @@ namespace RealCity
             num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.HealthCare, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
             if (num != 0)
             {
-                if (rand.Next(100) < 20)
+                if (rand.Next(100) < 80)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 7;
+                    offer.Priority = 1 + rand.Next(6);
                     offer.Building = buildingID;
                     offer.Position = data.m_position;
                     offer.Amount = 1;
@@ -184,8 +184,9 @@ namespace RealCity
                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -0.05f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
             } else if (material == TransferManager.TransferReason.DeadMove)
             {
-                Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -10f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                //amountDelta = -20000;
+                amountDelta = -1;
+                //DebugLog.LogToFileOnly("starttransfer dead from outside to city, gather gabage");
+                Singleton<EconomyManager>.instance.AddPrivateIncome(amountDelta * -100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
             }
         }
     }

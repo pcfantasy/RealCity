@@ -162,12 +162,13 @@ namespace RealCity
                     int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[(int)num]);
                     if (ticketPrice != 0)
                     {
-                        ticketPrice = (int)(ticketPrice * comm_data.salary_idex);
+                        //ticketPrice = (int)(ticketPrice);
+                        //DebugLog.LogToFileOnly("ticketPrice pre = " + ticketPrice.ToString());
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;
                         uint homeid = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[instanceID].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
+                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
                             if ((comm_data.citizen_money[homeid] - ticketPrice) > 0)
                             {
@@ -178,7 +179,8 @@ namespace RealCity
                                 ticketPrice = 0;
                             }
                         }
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * comm_data.game_income_outcome_multiple, info.m_class);
+                        //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString());
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
                     }
                 }
             }
