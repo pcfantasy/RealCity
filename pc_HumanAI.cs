@@ -162,8 +162,7 @@ namespace RealCity
                     int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[(int)num]);
                     if (ticketPrice != 0)
                     {
-                        //ticketPrice = (int)(ticketPrice);
-                        //DebugLog.LogToFileOnly("ticketPrice pre = " + ticketPrice.ToString());
+                        //DebugLog.LogToFileOnly("EnterVehicle_1 ticketPrice pre = " + ticketPrice.ToString());
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;
@@ -180,7 +179,7 @@ namespace RealCity
                             }
                         }
                         //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString());
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * comm_data.game_income_outcome_multiple, info.m_class);
                     }
                 }
             }

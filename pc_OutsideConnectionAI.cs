@@ -112,7 +112,7 @@ namespace RealCity
             num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.HealthCare, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
             if (num != 0)
             {
-                if (rand.Next(100) < 80)
+                if (rand.Next(100) < 30)
                 {
                     offer = default(TransferManager.TransferOffer);
                     offer.Priority = 1 + rand.Next(6);
@@ -153,13 +153,14 @@ namespace RealCity
             }
             else if (material == TransferManager.TransferReason.DeadMove)
             {
-                VehicleInfo randomVehicleInfo2 = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level1);
+                VehicleInfo randomVehicleInfo2 = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level2);
                 if (randomVehicleInfo2 != null)
                 {
                     Array16<Vehicle> vehicles2 = Singleton<VehicleManager>.instance.m_vehicles;
                     ushort num2;
                     if (Singleton<VehicleManager>.instance.CreateVehicle(out num2, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo2, data.m_position, material, false, true))
                     {
+                        //DebugLog.LogToFileOnly("try transfer deadmove to city, itemclass = " + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_subService.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_level.ToString());
                         randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[(int)num2], buildingID);
                         randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[(int)num2], material, offer);
                     }

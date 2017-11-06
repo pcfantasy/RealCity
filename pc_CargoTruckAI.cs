@@ -170,8 +170,8 @@ namespace RealCity
                             {
                                 import_tax = product_value * 0.3f;
                                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
-                            }
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            }              
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value * comm_data.mantain_and_land_fee_decrease, info.m_class);
                             break;
                         case TransferManager.TransferReason.Coal:
                             product_value = num * (pc_PrivateBuildingAI.coal_import_price - 0.2f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f);
@@ -180,7 +180,7 @@ namespace RealCity
                                 import_tax = product_value * 0.3f;
                                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
                             }
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value * comm_data.mantain_and_land_fee_decrease, info.m_class);
                             break;
                         case TransferManager.TransferReason.Goods:
                             product_value = num * ((pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4f);
@@ -189,7 +189,8 @@ namespace RealCity
                                 import_tax = product_value * 0.3f;
                                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
                             }
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value * comm_data.mantain_and_land_fee_decrease, info.m_class);
                             break;
                         default: DebugLog.LogToFileOnly("find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                     }

@@ -531,6 +531,7 @@ namespace RealCity
         {
             //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString());
             // if(itemClass.m_layer == ItemClass.Layer.Markers) means mod added employee outcome
+            //if (itemClass.m_layer == ItemClass.Layer.ShipPaths) means mod added elecity and heat building oil and coal outcome
             int temp;
             float coefficient;
             if (resource == EconomyManager.Resource.Maintenance)
@@ -1895,8 +1896,10 @@ namespace RealCity
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount += (long)amount;
-                _cashDelta += (long)amount;
+                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
+                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
             }
             else if ((taxRate == 113) || (taxRate == 114))
             {
@@ -1910,8 +1913,10 @@ namespace RealCity
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount += (long)amount;
-                _cashDelta += (long)amount;
+                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
+                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
             }
             else if (taxRate == 112)
             {
@@ -1925,8 +1930,10 @@ namespace RealCity
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount += (long)amount;
-                _cashDelta += (long)amount;
+                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
+                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
             }
             else if (taxRate == 111)
             {
@@ -1940,8 +1947,10 @@ namespace RealCity
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount += (long)amount;
-                _cashDelta += (long)amount;
+                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
+                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
             }
             else if (taxRate >= 100)
             {
@@ -1954,8 +1963,10 @@ namespace RealCity
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount += (long)amount;
-                _cashDelta += (long)amount;
+                _cashAmount =(long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
+                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
             }
             else
             {
@@ -1973,6 +1984,7 @@ namespace RealCity
                 //_cashAmount += (long)amount;
                 //_cashDelta += (long)amount;
             }
+            //DebugLog.LogToFileOnly("cashamout = " + _cashAmount.ToString());
             return amount;
         }
 
@@ -2040,16 +2052,16 @@ namespace RealCity
                 var inst = Singleton<EconomyManager>.instance;
                 var income = typeof(EconomyManager).GetField("m_income", BindingFlags.NonPublic | BindingFlags.Instance);
                 var taxMultiplier = typeof(EconomyManager).GetField("m_taxMultiplier", BindingFlags.NonPublic | BindingFlags.Instance);
-                var cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
-                var cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+                cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
+                cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
                 if (inst == null)
                 {
                     DebugLog.LogToFileOnly("No instance of EconomyManager found!");
                     return;
                 }
                 _income = income.GetValue(inst) as long[];
-                _taxMultiplier = (int)taxMultiplier.GetValue(inst);
-                //_taxMultiplier = 1000000;
+                //_taxMultiplier = (int)taxMultiplier.GetValue(inst);
+                _taxMultiplier = 10000;
                 _cashDelta = (long)cashDelta.GetValue(inst);
                 _cashAmount = (long)cashAmount.GetValue(inst);
                 if (_income == null)
@@ -2062,7 +2074,8 @@ namespace RealCity
                 DebugLog.LogToFileOnly("EconomyManager Exception: " + ex.Message);
             }
         }
-
+        private static FieldInfo cashAmount;
+        private static FieldInfo cashDelta;
         private static int _taxMultiplier;
         private static long _cashDelta;
         private static long _cashAmount;
