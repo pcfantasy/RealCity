@@ -67,6 +67,8 @@ namespace RealCity
         private static bool _init = false;
 
         public static bool have_maintain_road_building = false;
+        public static bool have_garbage_building = false;
+        public static bool have_cemetry_building = false;
 
 
 
@@ -100,7 +102,7 @@ namespace RealCity
                 if (rand.Next(100) < 10)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 7;
+                    offer.Priority = 1 + rand.Next(6);
                     offer.Building = buildingID;
                     offer.Position = data.m_position;
                     offer.Amount = 1;
@@ -109,8 +111,8 @@ namespace RealCity
                 }
             }
 
-            num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.HealthCare, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
-            if (num != 0)
+            //num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.HealthCare, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
+            if (have_cemetry_building)
             {
                 if (rand.Next(100) < 30)
                 {
@@ -139,13 +141,13 @@ namespace RealCity
                 }
             }*/
 
-            num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.Road, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Untouchable);
+            /*num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.Road, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Untouchable);
             {
                 if (num != 0)
                 {
                     have_maintain_road_building = true;
                 }
-            }
+            }*/
         }
 
 
@@ -175,7 +177,7 @@ namespace RealCity
                     ushort num2;
                     if (Singleton<VehicleManager>.instance.CreateVehicle(out num2, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo2, data.m_position, material, false, true))
                     {
-                        //DebugLog.LogToFileOnly("try transfer deadmove to city, itemclass = " + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_subService.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_level.ToString());
+                        DebugLog.LogToFileOnly("try transfer deadmove to city, itemclass = " + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_subService.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_level.ToString());
                         randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[(int)num2], buildingID);
                         randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[(int)num2], material, offer);
                     }
@@ -211,16 +213,17 @@ namespace RealCity
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
+            System.Random rand = new System.Random();
             if (material == TransferManager.TransferReason.GarbageMove)
             {
                 //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
-                //amountDelta = -20000;
-                Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -0.05f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                amountDelta = -1000 * (rand.Next(19) + 1);
+                //Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -0.05f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
             } else if (material == TransferManager.TransferReason.DeadMove)
             {
-                amountDelta = -1;
+                amountDelta = -1 * (rand.Next(9) + 1);
                 //DebugLog.LogToFileOnly("starttransfer dead from outside to city, gather gabage");
-                Singleton<EconomyManager>.instance.AddPrivateIncome(amountDelta * -100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                //Singleton<EconomyManager>.instance.AddPrivateIncome(amountDelta * -100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
             }
         }
     }

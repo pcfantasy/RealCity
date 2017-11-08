@@ -953,19 +953,19 @@ namespace RealCity
             }
             else if (temp_num > 30)
             {
-                temp_num = temp_num - rand.Next(5);
+                temp_num = temp_num - rand.Next(15);
                 family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
                 comm_data.citizen_profit_status[homeID]++;
             }
             else
             {
-                if (temp_num < 6)
+                if (temp_num < 16)
                 {
                     temp_num = rand.Next(5) + 1;
                 }
                 else
                 {
-                    temp_num = temp_num - rand.Next(5);
+                    temp_num = temp_num - rand.Next(15);
                 }
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }

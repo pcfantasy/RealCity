@@ -178,7 +178,7 @@ namespace RealCity
                                 ticketPrice = 0;
                             }
                         }
-                        //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString());
+                        //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.citizen_money[homeid].ToString());
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * comm_data.game_income_outcome_multiple, info.m_class);
                     }
                 }

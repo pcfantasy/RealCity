@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 650f;
+        private static readonly float HEIGHT = 700f;
 
         private static readonly float HEADER = 40f;
 
@@ -145,6 +145,12 @@ namespace RealCity
 
         private UILabel office_gen_salary_index;
         private UILabel office_high_tech_salary_index;
+
+        private UILabel tip1;
+        private UILabel tip2;
+        private UILabel tip3;
+        private UILabel tip4;
+        private UILabel tip5;
 
 
         //3 goverment
@@ -596,6 +602,41 @@ namespace RealCity
             this.office_high_tech_salary_index.autoSize = true;
             this.office_high_tech_salary_index.name = "Moreeconomic_Text_42";
 
+            this.tip1 = base.AddUIComponent<UILabel>();
+            this.tip1.text = string.Format("tip1: [0000000000]");
+            this.tip1.tooltip = "tip1";
+            this.tip1.relativePosition = new Vector3(SPACING, this.office_gen_salary_index.relativePosition.y + SPACING22 + 10f);
+            this.tip1.autoSize = true;
+            this.tip1.name = "Moreeconomic_Text_43";
+
+            this.tip2 = base.AddUIComponent<UILabel>();
+            this.tip2.text = string.Format("tip2: [0000000000]");
+            this.tip2.tooltip = "tip2";
+            this.tip2.relativePosition = new Vector3(SPACING, this.tip1.relativePosition.y + SPACING22);
+            this.tip2.autoSize = true;
+            this.tip2.name = "Moreeconomic_Text_44";
+
+            this.tip3 = base.AddUIComponent<UILabel>();
+            this.tip3.text = string.Format("tip3: [0000000000]");
+            this.tip3.tooltip = "tip3";
+            this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
+            this.tip3.autoSize = true;
+            this.tip3.name = "Moreeconomic_Text_45";
+
+            this.tip4 = base.AddUIComponent<UILabel>();
+            this.tip4.text = string.Format("tip4: [0000000000]");
+            this.tip4.tooltip = "tip4";
+            this.tip4.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
+            this.tip4.autoSize = true;
+            this.tip4.name = "Moreeconomic_Text_46";
+
+            this.tip5 = base.AddUIComponent<UILabel>();
+            this.tip5.text = string.Format("tip5: [0000000000]");
+            this.tip5.tooltip = "tip5";
+            this.tip5.relativePosition = new Vector3(SPACING, this.tip4.relativePosition.y + SPACING22);
+            this.tip5.autoSize = true;
+            this.tip5.name = "Moreeconomic_Text_47";
+
             //this.m_getfromBank = base.AddUIComponent<UIButton>();
             //this.m_getfromBank.size = new Vector2(160f, 24f);
             //this.m_getfromBank.text = "Get 100K from Bank";
@@ -709,6 +750,12 @@ namespace RealCity
             this.all_ore_building_loss.text = string.Format("all_ore_building_loss num [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
             this.office_gen_salary_index.text = string.Format("office_gen_salary_index [{0}]", pc_PrivateBuildingAI.office_gen_salary_index);
             this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [{0}]", pc_PrivateBuildingAI.office_high_tech_salary_index);
+
+            this.tip1.text = string.Format("tip1: " + RealCity.tip1_message_forgui);
+            this.tip2.text = string.Format("tip2: " + RealCity.tip2_message_forgui);
+            this.tip3.text = string.Format("tip3: " + RealCity.tip3_message_forgui);
+            this.tip4.text = string.Format("tip4: " + RealCity.tip4_message_forgui);
+            this.tip5.text = string.Format("tip5: " + RealCity.tip5_message_forgui);
             isRefreshing = false;
         }
 

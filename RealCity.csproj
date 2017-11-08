@@ -84,7 +84,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildingUI.cs" />
+    <Compile Include="message.cs" />
     <Compile Include="pc_CargoTruckAI.cs" />
+    <Compile Include="pc_GarbageTruckAI.cs" />
+    <Compile Include="pc_HearseAI.cs" />
     <Compile Include="pc_OfficeBuildingAI.cs" />
     <Compile Include="pc_OutsideConnectionAI.cs" />
     <Compile Include="pc_TaxiAI.cs" />
