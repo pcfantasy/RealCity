@@ -401,8 +401,11 @@
         public static float salary_idex = 0.5f;
         //use it to decrease land income in early game time for industry and commerical
 
-        //
-        public static ushort[] net_buffer1 = new ushort[49152];
+
+        public static long temp_public_transport_fee = 0;
+        public static byte last_language = 255;
+        // reserved some for futher used
+        public static ushort[] reserved = new ushort[49143];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -414,8 +417,11 @@
             for (int i = 0; i < comm_data.building_money.Length; i++)
             {
                 building_money[i] = 0;
-                net_buffer1[i] = 0;
                 building_buffer2[i] = 0;
+            }
+            for (int i = 0; i < comm_data.reserved.Length; i++)
+            {
+                reserved[i] = 0;
             }
             for (int i = 0; i < comm_data.vehical_transfer_time.Length; i++)
             {
@@ -510,7 +516,10 @@
             saveandrestore.save_long(ref i, citizen_salary_total, ref save_data);
             saveandrestore.save_long(ref i, citizen_salary_tax_total, ref save_data);
 
-            saveandrestore.save_ushorts(ref i, net_buffer1, ref save_data);
+            saveandrestore.save_long(ref i, temp_public_transport_fee, ref save_data);
+            saveandrestore.save_byte(ref i, last_language, ref save_data);
+
+            saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
 
@@ -580,8 +589,10 @@
             citizen_salary_per_family = saveandrestore.load_int(ref i, load_data);
             citizen_salary_total = saveandrestore.load_long(ref i, load_data);
             citizen_salary_tax_total = saveandrestore.load_long(ref i, load_data);
+            temp_public_transport_fee = saveandrestore.load_long(ref i, load_data);
+            last_language = saveandrestore.load_byte(ref i, load_data);
 
-            net_buffer1 = saveandrestore.load_ushorts(ref i, load_data,net_buffer1.Length);
+            reserved = saveandrestore.load_ushorts(ref i, load_data,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);
         }
     }

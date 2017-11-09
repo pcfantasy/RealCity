@@ -5,20 +5,6 @@ using System.IO;
 
 namespace RealCity
 {
-    public class Settings
-    {
-        public bool LogInfoToFile = false;
-    }
-
-    public static class ConstantsManager
-    {
-        public static void LoadSettings()
-        {
-            Settings Settings;
-            Settings = new Settings();
-        }
-    }
-
     public class Loader : LoadingExtensionBase
     {
         public static UIView parentGuiView;
@@ -48,7 +34,6 @@ namespace RealCity
             {
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.LoadMap || mode == LoadMode.NewMap)
                 {
-                    ConstantsManager.LoadSettings();
                     SetupGui();
                     if (mode == LoadMode.NewGame)
                     {

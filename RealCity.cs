@@ -55,6 +55,8 @@ namespace RealCity
         public static string tip2_message = "";
         public static string tip3_message = "";
 
+        public static int language_idex = 0;
+
         public string Name
         {
             get { return "Real City Mod"; }
@@ -247,11 +249,19 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod28, state28);
         }
 
-        // public void OnSettingsUI(UIHelperBase helper)
-        // {
-        //     UIHelperBase group = helper.AddGroup("Check to enable income from excess capacity");
-        //     ExpmHolder.get().AddOptions(group);
-        // }
+
+        public void OnSettingsUI(UIHelperBase helper)
+        {
+            UIHelperBase group = helper.AddGroup("Language");
+            group.AddDropdown("Language Select", new string[] { "English", "简体中文(暂部分)"}, 0 , (index) => get_language_idex(index));
+        }
+
+        public void get_language_idex ( int index)
+        {
+            language_idex = index;
+            language.language_switch((byte)language_idex);
+            //DebugLog.LogToFileOnly("get_current language idex = " + language_idex.ToString());
+        }
 
 
         public class EconomyExtension : EconomyExtensionBase
@@ -275,6 +285,10 @@ namespace RealCity
                     caculate_profit();
                     caculate_citizen_transport_fee();
                     generate_tips();
+                    if ((language.current_language != comm_data.last_language) || (language.current_language == 255))
+                    {
+                        language.language_switch((byte)language_idex);
+                    }
                     comm_data.is_updated = true;
                     comm_data.update_money_count++;
                     if (comm_data.update_money_count == 17)
@@ -405,6 +419,7 @@ namespace RealCity
                 Random rand = new Random();
                 if (rand.Next(50) < 2)
                 {
+                    //DebugLog.LogToFileOnly("try_say_something" + message);
                     MessageManager ms = Singleton<MessageManager>.instance;
                     ms.QueueMessage(new Message(ms.GetRandomResidentID(), message));
                 }

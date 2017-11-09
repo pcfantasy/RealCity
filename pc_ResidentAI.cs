@@ -1464,7 +1464,7 @@ namespace RealCity
             {
                 VehicleInfo vehicleInfo;
                 vehicleInfo = CustomGetVehicleInfo(instanceID, ref citizenData, false);
-                if ((comm_data.citizen_money[homeid] >= 0) || ((citizenData.m_flags & CitizenInstance.Flags.BorrowCar) != CitizenInstance.Flags.None))
+                if ((comm_data.citizen_money[homeid] >= 300) || ((citizenData.m_flags & CitizenInstance.Flags.BorrowCar) != CitizenInstance.Flags.None))
                 {
                     if (instance.m_citizens.m_buffer[citizen1].m_parkedVehicle != 0)
                     {
@@ -1485,6 +1485,7 @@ namespace RealCity
                             temp_parked_car = instance.m_citizens.m_buffer[citizen1].m_parkedVehicle;
                             instance.m_citizens.m_buffer[citizen1].m_parkedVehicle = 0;
                             citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTaxi);
+                            citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTransport);
                             //DebugLog.LogToFileOnly("citizen too poor and do not want to use car and stay car near his home");
                             if (randomizer.Int32(100u) < 50)
                             {
@@ -1494,7 +1495,12 @@ namespace RealCity
                             {
                                 vehicleInfo = null;
                             }
-                        }                        
+                        } else
+                        {
+                            //not at home, can use his parked vehicle back, but no money to use taxi and transport
+                            citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTaxi);
+                            citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTransport);
+                        }                      
                     }
                     else
                     {
@@ -1506,6 +1512,9 @@ namespace RealCity
                         {
                             vehicleInfo = null;
                         }
+                        //no money to use taxi and transport
+                        citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTaxi);
+                        citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTransport);
                     }
                 }
                 BuildingInfo info2 = instance3.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;

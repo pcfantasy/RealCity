@@ -162,6 +162,7 @@ namespace RealCity
                     int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[(int)num]);
                     if (ticketPrice != 0)
                     {
+                        ticketPrice = (int)((float)ticketPrice * comm_data.salary_idex);
                         //DebugLog.LogToFileOnly("EnterVehicle_1 ticketPrice pre = " + ticketPrice.ToString());
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
