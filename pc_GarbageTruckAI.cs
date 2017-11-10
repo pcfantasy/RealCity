@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using ColossalFramework.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,56 @@ namespace RealCity
             {
                 data.m_transferSize += (ushort)Mathf.Max(0, -num);
             }
+
+
+            //Go back
+            if (data.m_sourceBuilding != 0 && (instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Outgoing)
+            {
+                BuildingInfo info2 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+                ushort num2 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
+                if (num2 != 0)
+                {
+                    instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                    data.m_sourceBuilding = num2;
+                    instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
+                }
+            }
+
+            //Turn around
+            if ((instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+            {
+                //DebugLog.LogToFileOnly("try turn around building = " + instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info.m_class.ToString());
+                ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position, 200f, info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
+                if (num3 != 0)
+                {
+                    data.Unspawn(vehicleID);
+                    BuildingInfo info3 = instance.m_buildings.m_buffer[(int)num3].Info;
+                    //DebugLog.LogToFileOnly("try turn around get outgoing building = " + info3.m_class.ToString());
+                    Randomizer randomizer = new Randomizer((int)vehicleID);
+                    Vector3 vector;
+                    Vector3 vector2;
+                    info3.m_buildingAI.CalculateSpawnPosition(num3, ref instance.m_buildings.m_buffer[(int)num3], ref randomizer, this.m_info, out vector, out vector2);
+                    Quaternion rotation = Quaternion.identity;
+                    Vector3 forward = vector2 - vector;
+                    if (forward.sqrMagnitude > 0.01f)
+                    {
+                        rotation = Quaternion.LookRotation(forward);
+                    }
+                    data.m_frame0 = new Vehicle.Frame(vector, rotation);
+                    data.m_frame1 = data.m_frame0;
+                    data.m_frame2 = data.m_frame0;
+                    data.m_frame3 = data.m_frame0;
+                    data.m_targetPos0 = vector;
+                    data.m_targetPos0.w = 2f;
+                    data.m_targetPos1 = vector2;
+                    data.m_targetPos1.w = 2f;
+                    data.m_targetPos2 = data.m_targetPos1;
+                    data.m_targetPos3 = data.m_targetPos1;
+                    this.FrameDataUpdated(vehicleID, ref data, ref data.m_frame0);
+                    this.SetTarget(vehicleID, ref data, 0);
+                    return false;
+                }
+            }
             this.SetTarget(vehicleID, ref data, 0);
             return false;
         }
@@ -47,13 +98,24 @@ namespace RealCity
             Building building = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];
             Building building1 = instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
-            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+            if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
             {
                 //DebugLog.LogToFileOnly("find garbage move in city, num =" + num.ToString() + "transfer_typ = " + data.m_transferType.ToString());
                 //info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+                if (building1.m_flags.IsFlagSet(Building.Flags.Untouchable))
+                {
+                    //DebugLog.LogToFileOnly("find garbage in city, num =" + num.ToString() + "building = " + building1.Info.m_class.ToString());
+                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * -0.1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                }
+            }
+
+            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+            {
+                //DebugLog.LogToFileOnly("find garbage from outside to city, num =" + num.ToString() + "transfer_typ = " + data.m_transferType.ToString());
+                //info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
                 if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
                 {
-                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 0.05f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 0.1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                 }
             }
         }

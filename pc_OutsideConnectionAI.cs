@@ -86,38 +86,146 @@ namespace RealCity
                 int budget = Singleton<EconomyManager>.instance.GetBudget(this.m_info.m_class);
                 int productionRate = OutsideConnectionAI.GetProductionRate(100, budget);
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, _cargoCapacity, _residentCapacity, _touristFactor0, _touristFactor1, _touristFactor2, _dummyTrafficReason, _dummyTrafficFactor);
+                process_outside_demand(buildingID, ref data);
                 Addotherconnectionoffers(buildingID, ref data);
+                caculate_outside_situation(buildingID, ref data);
             }
         }
 
-        public void Addotherconnectionoffers (ushort buildingID, ref Building data)
+
+
+        public void caculate_outside_situation (ushort buildingID, ref Building data)
+        {
+            if (comm_data.outside_pre_building < buildingID)
+            {
+                comm_data.outside_dead_count_temp += data.m_customBuffer1;
+                comm_data.outside_crime_count_temp += data.m_crimeBuffer;
+                comm_data.outside_sick_count_temp += data.m_customBuffer2;
+                comm_data.outside_garbage_count_temp += data.m_garbageBuffer;
+            }
+            else
+            {
+                comm_data.outside_dead_count = comm_data.outside_dead_count_temp;
+                comm_data.outside_garbage_count = comm_data.outside_garbage_count_temp;
+                comm_data.outside_sick_count = comm_data.outside_sick_count_temp;
+                comm_data.outside_crime_count = comm_data.outside_crime_count_temp;
+                comm_data.outside_dead_count_temp = 0;
+                comm_data.outside_crime_count_temp = 0;
+                comm_data.outside_sick_count_temp = 0;
+                comm_data.outside_garbage_count_temp = 0;
+            }
+
+            comm_data.outside_pre_building = buildingID;
+        }
+
+        public void process_outside_demand(ushort buildingID, ref Building data)
+        {
+            //garbage can existed on both incoming and outgoing outside building
+            //dead can only existed on outgoing building
+            //crime and sick can only existed on incoming building
+            //garbagebuffer
+            System.Random rand = new System.Random();
+            if (RealCity.garbage_connection)
+            {
+                data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
+            }
+            if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+            {
+                if (RealCity.crime_connection)
+                {
+                    data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 2);
+                }
+                //sick
+                if (RealCity.sick_connection)
+                {
+                    data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
+                }
+            }
+            else
+            {
+                //deadbuffer
+                if (RealCity.dead_connection)
+                {
+                    data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + (int)(rand.Next(60) / 50));
+                }
+            }
+
+            if (data.m_customBuffer1 > 65000)
+            {
+                data.m_customBuffer1 = 65000;
+            }
+
+            if (data.m_customBuffer2 > 65000)
+            {
+                data.m_customBuffer2 = 65000;
+            }
+
+            if (data.m_crimeBuffer > 65000)
+            {
+                data.m_crimeBuffer = 65000;
+            }
+
+            if (data.m_garbageBuffer > 65000)
+            {
+                data.m_garbageBuffer = 65000;
+            }
+        }
+
+
+
+        public void Addotherconnectionoffers(ushort buildingID, ref Building data)
         {
             System.Random rand = new System.Random();
 
             //gabarge
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-            ushort num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.Garbage, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
-            if (num != 0)
+
+            if (have_garbage_building && RealCity.garbage_connection)
             {
-                if (rand.Next(100) < 10)
+                if (data.m_garbageBuffer > 5000)
                 {
-                    offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + rand.Next(6);
-                    offer.Building = buildingID;
-                    offer.Position = data.m_position;
-                    offer.Amount = 1;
-                    offer.Active = true;
-                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+                    if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+                    {
+                        offer = default(TransferManager.TransferOffer);
+                        offer.Priority = 1 + data.m_garbageBuffer / 5000;
+                        if (offer.Priority > 7)
+                        {
+                            offer.Priority = 7;
+                        }
+                        offer.Building = buildingID;
+                        offer.Position = data.m_position;
+                        offer.Amount = 1;
+                        offer.Active = false;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                    }
+                    else
+                    {
+                        offer = default(TransferManager.TransferOffer);
+                        offer.Priority = 1 + data.m_garbageBuffer / 5000;
+                        if (offer.Priority > 7)
+                        {
+                            offer.Priority = 7;
+                        }
+                        offer.Building = buildingID;
+                        offer.Position = data.m_position;
+                        offer.Amount = 1;
+                        offer.Active = true;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+
+                    }
                 }
             }
 
-            //num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.HealthCare, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
-            if (have_cemetry_building)
+            if (have_cemetry_building && RealCity.dead_connection)
             {
-                if (rand.Next(100) < 30)
+                if (data.m_customBuffer1 > 10)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + rand.Next(6);
+                    offer.Priority = 1 + data.m_customBuffer1 / 5;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
                     offer.Building = buildingID;
                     offer.Position = data.m_position;
                     offer.Amount = 1;
@@ -125,29 +233,6 @@ namespace RealCity
                     Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
                 }
             }
-
-            /*num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.HealthCare, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
-            if (num != 0)
-            {
-                if (rand.Next(100) < 70)
-                {
-                    offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 7;
-                    offer.Building = buildingID;
-                    offer.Position = data.m_position;
-                    offer.Amount = 1;
-                    offer.Active = true;
-                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Crime, offer);
-                }
-            }*/
-
-            /*num = Singleton<BuildingManager>.instance.FindBuilding(data.m_position, 1000000000f, ItemClass.Service.Road, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Untouchable);
-            {
-                if (num != 0)
-                {
-                    have_maintain_road_building = true;
-                }
-            }*/
         }
 
 
@@ -213,17 +298,84 @@ namespace RealCity
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            System.Random rand = new System.Random();
-            if (material == TransferManager.TransferReason.GarbageMove)
+            if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
             {
-                //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
-                amountDelta = -1000 * (rand.Next(19) + 1);
-                //Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -0.05f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-            } else if (material == TransferManager.TransferReason.DeadMove)
+                if (material == TransferManager.TransferReason.Garbage)
+                {
+                    //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
+                    if (data.m_garbageBuffer < 0)
+                    {
+                        DebugLog.LogToFileOnly("garbarge < 0 in outside building, should be wrong");
+                        amountDelta = 0;
+                    } else
+                    {
+                        if (data.m_garbageBuffer + amountDelta <= 0)
+                        {
+                            amountDelta = -data.m_garbageBuffer;
+                        } else
+                        {
+                            
+                        }
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
+                    }                   
+                } else if (material == TransferManager.TransferReason.Sick)
+                {
+
+                } else if (material == TransferManager.TransferReason.Crime)
+                {
+
+                } else
+                {
+
+                }
+            }
+            else
             {
-                amountDelta = -1 * (rand.Next(9) + 1);
-                //DebugLog.LogToFileOnly("starttransfer dead from outside to city, gather gabage");
-                //Singleton<EconomyManager>.instance.AddPrivateIncome(amountDelta * -100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                if (material == TransferManager.TransferReason.GarbageMove)
+                {
+                    //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
+                    if (data.m_garbageBuffer < 0)
+                    {
+                        DebugLog.LogToFileOnly("garbarge < 0 in outside building, should be wrong");
+                        amountDelta = 0;
+                    }
+                    else
+                    {
+                        if (data.m_garbageBuffer + amountDelta <= 0)
+                        {
+                            amountDelta = -data.m_garbageBuffer;
+                        }
+                        else
+                        {
+
+                        }
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
+                    }
+                }
+                else if (material == TransferManager.TransferReason.DeadMove)
+                {
+                    if (data.m_customBuffer1 <= 0)
+                    {
+                        DebugLog.LogToFileOnly("dead <= 0 in outside building, should be wrong");
+                        amountDelta = 0;
+                    }
+                    else
+                    {
+                        if (data.m_customBuffer1 + amountDelta <= 0)
+                        {
+                            amountDelta = -data.m_customBuffer1;
+                        }
+                        else
+                        {
+
+                        }
+                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + amountDelta);
+                    }
+                }
+                else
+                {
+
+                }
             }
         }
     }

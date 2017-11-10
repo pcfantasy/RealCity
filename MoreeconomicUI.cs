@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 700f;
+        private static readonly float HEIGHT = 800f;
 
         private static readonly float HEADER = 40f;
 
@@ -146,6 +146,13 @@ namespace RealCity
         private UILabel office_gen_salary_index;
         private UILabel office_high_tech_salary_index;
 
+        //3.outside
+        private UILabel m_thirdline_outside; //fixed title
+        private UILabel m_outside_garbage;
+        private UILabel m_outside_dead;
+        private UILabel m_outside_crime;
+        private UILabel m_outside_sick;
+
         private UILabel tip1;
         private UILabel tip2;
         private UILabel tip3;
@@ -153,7 +160,6 @@ namespace RealCity
         private UILabel tip5;
 
 
-        //3 goverment
 
 
         private static bool isRefreshing = false;
@@ -180,7 +186,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 800), (float)(Loader.parentGuiView.fixedHeight / 2 - 350));
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 900), (float)(Loader.parentGuiView.fixedHeight / 2 - 350));
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -233,7 +239,7 @@ namespace RealCity
 
             //citizen
             this.m_firstline_citizen = base.AddUIComponent<UILabel>();
-            this.m_firstline_citizen.text = "1、citizen status";
+            this.m_firstline_citizen.text = "1、Citizen Status";
             this.m_firstline_citizen.tooltip = "N/A";
             this.m_firstline_citizen.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
             this.m_firstline_citizen.autoSize = true;
@@ -372,7 +378,7 @@ namespace RealCity
 
             //building
             this.m_secondline_building = base.AddUIComponent<UILabel>();
-            this.m_secondline_building.text = "2、building status";
+            this.m_secondline_building.text = "2、Building Status";
             this.m_secondline_building.tooltip = "N/A";
             this.m_secondline_building.relativePosition = new Vector3(SPACING, this.resident_consumption_rate.relativePosition.y + SPACING22);
             this.m_secondline_building.autoSize = true;
@@ -600,42 +606,77 @@ namespace RealCity
             this.office_high_tech_salary_index.tooltip = "office_high_tech_salary_index";
             this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + this.office_gen_salary_index.width + SPACING + 10f, this.office_gen_salary_index.relativePosition.y);
             this.office_high_tech_salary_index.autoSize = true;
-            this.office_high_tech_salary_index.name = "Moreeconomic_Text_42";
+            this.office_high_tech_salary_index.name = "Moreeconomic_Text_43";
+
+            this.m_thirdline_outside = base.AddUIComponent<UILabel>();
+            this.m_thirdline_outside.text = string.Format("Outside Situation");
+            this.m_thirdline_outside.tooltip = "Outside Situation";
+            this.m_thirdline_outside.relativePosition = new Vector3(SPACING, this.office_gen_salary_index.relativePosition.y + SPACING22);
+            this.m_thirdline_outside.autoSize = true;
+            this.m_thirdline_outside.name = "Moreeconomic_Text_44";
+
+            this.m_outside_garbage = base.AddUIComponent<UILabel>();
+            this.m_outside_garbage.text = string.Format("outside garbage [0000000]");
+            this.m_outside_garbage.tooltip = "outside total garbage";
+            this.m_outside_garbage.relativePosition = new Vector3(SPACING, this.m_thirdline_outside.relativePosition.y + SPACING22);
+            this.m_outside_garbage.autoSize = true;
+            this.m_outside_garbage.name = "Moreeconomic_Text_45";
+
+            this.m_outside_dead = base.AddUIComponent<UILabel>();
+            this.m_outside_dead.text =    string.Format("outside dead [000000]");
+            this.m_outside_dead.tooltip = "outside total dead";
+            this.m_outside_dead.relativePosition = new Vector3(this.m_outside_garbage.relativePosition.x + this.m_outside_garbage.width + SPACING, this.m_outside_garbage.relativePosition.y);
+            this.m_outside_dead.autoSize = true;
+            this.m_outside_dead.name = "Moreeconomic_Text_46";
+
+            this.m_outside_crime = base.AddUIComponent<UILabel>();
+            this.m_outside_crime.text = string.Format("outside crime [000000]");
+            this.m_outside_crime.tooltip = "outside total crime";
+            this.m_outside_crime.relativePosition = new Vector3(this.m_outside_dead.relativePosition.x + this.m_outside_dead.width + SPACING, this.m_outside_dead.relativePosition.y);
+            this.m_outside_crime.autoSize = true;
+            this.m_outside_crime.name = "Moreeconomic_Text_47";
+
+            this.m_outside_sick = base.AddUIComponent<UILabel>();
+            this.m_outside_sick.text = string.Format("outside sick [000000]");
+            this.m_outside_sick.tooltip = "outside total sick";
+            this.m_outside_sick.relativePosition = new Vector3(this.m_outside_crime.relativePosition.x + this.m_outside_crime.width + SPACING, this.m_outside_crime.relativePosition.y);
+            this.m_outside_sick.autoSize = true;
+            this.m_outside_sick.name = "Moreeconomic_Text_48";
 
             this.tip1 = base.AddUIComponent<UILabel>();
             this.tip1.text = string.Format("tip1: [0000000000]");
             this.tip1.tooltip = "tip1";
-            this.tip1.relativePosition = new Vector3(SPACING, this.office_gen_salary_index.relativePosition.y + SPACING22 + 10f);
+            this.tip1.relativePosition = new Vector3(SPACING, this.m_outside_garbage.relativePosition.y + SPACING22 + 10f);
             this.tip1.autoSize = true;
-            this.tip1.name = "Moreeconomic_Text_43";
+            this.tip1.name = "Moreeconomic_Text_49";
 
             this.tip2 = base.AddUIComponent<UILabel>();
             this.tip2.text = string.Format("tip2: [0000000000]");
             this.tip2.tooltip = "tip2";
             this.tip2.relativePosition = new Vector3(SPACING, this.tip1.relativePosition.y + SPACING22);
             this.tip2.autoSize = true;
-            this.tip2.name = "Moreeconomic_Text_44";
+            this.tip2.name = "Moreeconomic_Text_50";
 
             this.tip3 = base.AddUIComponent<UILabel>();
             this.tip3.text = string.Format("tip3: [0000000000]");
             this.tip3.tooltip = "tip3";
             this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
             this.tip3.autoSize = true;
-            this.tip3.name = "Moreeconomic_Text_45";
+            this.tip3.name = "Moreeconomic_Text_51";
 
             this.tip4 = base.AddUIComponent<UILabel>();
             this.tip4.text = string.Format("tip4: [0000000000]");
             this.tip4.tooltip = "tip4";
             this.tip4.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
             this.tip4.autoSize = true;
-            this.tip4.name = "Moreeconomic_Text_46";
+            this.tip4.name = "Moreeconomic_Text_52";
 
             this.tip5 = base.AddUIComponent<UILabel>();
             this.tip5.text = string.Format("tip5: [0000000000]");
             this.tip5.tooltip = "tip5";
             this.tip5.relativePosition = new Vector3(SPACING, this.tip4.relativePosition.y + SPACING22);
             this.tip5.autoSize = true;
-            this.tip5.name = "Moreeconomic_Text_47";
+            this.tip5.name = "Moreeconomic_Text_53";
 
             //this.m_getfromBank = base.AddUIComponent<UIButton>();
             //this.m_getfromBank.size = new Vector2(160f, 24f);
@@ -750,6 +791,11 @@ namespace RealCity
             this.all_ore_building_loss.text = string.Format("all_ore_building_loss num [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
             this.office_gen_salary_index.text = string.Format("office_gen_salary_index [{0}]", pc_PrivateBuildingAI.office_gen_salary_index);
             this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [{0}]", pc_PrivateBuildingAI.office_high_tech_salary_index);
+
+            this.m_outside_garbage.text = string.Format("outside garbage [{0}]", comm_data.outside_garbage_count);
+            this.m_outside_dead.text = string.Format("outside dead [{0}]", comm_data.outside_dead_count);
+            this.m_outside_sick.text = string.Format("outside sick [{0}]", comm_data.outside_sick_count);
+            this.m_outside_crime.text = string.Format("outside crime [{0}]", comm_data.outside_crime_count);
 
             this.tip1.text = string.Format("tip1: " + RealCity.tip1_message_forgui);
             this.tip2.text = string.Format("tip2: " + RealCity.tip2_message_forgui);

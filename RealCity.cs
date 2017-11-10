@@ -41,6 +41,11 @@ namespace RealCity
         public static RedirectCallsState state27;
         public static RedirectCallsState state28;
 
+        public static bool garbage_connection = true;
+        public static bool sick_connection = false;
+        public static bool dead_connection = true;
+        public static bool crime_connection = false;
+
         public byte tip1_citizen = 0;
         public byte tip2_building = 0;
         public byte tip3_outside = 0;
@@ -72,6 +77,8 @@ namespace RealCity
             RealCity.IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
+
+            language.language_switch((byte)language_idex);
 
             var srcMethod1 = typeof(TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             var destMethod1 = typeof(pc_TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
@@ -189,6 +196,7 @@ namespace RealCity
         public void OnDisabled()
         {
             RealCity.IsEnabled = false;
+            language.language_switch((byte)language_idex);
 
             var srcMethod1 = typeof(TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             var srcMethod2 = typeof(IndustrialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
@@ -252,17 +260,42 @@ namespace RealCity
 
         public void OnSettingsUI(UIHelperBase helper)
         {
-            UIHelperBase group = helper.AddGroup("Language");
-            group.AddDropdown("Language Select", new string[] { "English", "简体中文(暂部分)"}, 0 , (index) => get_language_idex(index));
+            UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
+            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文(暂部分)"}, language_idex, (index) => get_language_idex(index));
+
+            UIHelperBase group1 = helper.AddGroup(language.OptionUI[2]);
+            group1.AddCheckbox(language.OptionUI[3], true, (index) => get_garbage_connection(index));
+            group1.AddCheckbox(language.OptionUI[4], true, (index) => get_dead_connection(index));
+            group1.AddCheckbox(language.OptionUI[5], false, (index) => get_crime_connection(index));
+            group1.AddCheckbox(language.OptionUI[6], false, (index) => get_sick_connection(index));
         }
 
         public void get_language_idex ( int index)
         {
             language_idex = index;
             language.language_switch((byte)language_idex);
+            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
             //DebugLog.LogToFileOnly("get_current language idex = " + language_idex.ToString());
         }
 
+        public void get_garbage_connection(bool index)
+        {
+            garbage_connection = index;
+        }
+
+        public void get_dead_connection(bool index)
+        {
+            dead_connection = index;
+        }
+        public void get_crime_connection(bool index)
+        {
+            crime_connection = index;
+        }
+        public void get_sick_connection(bool index)
+        {
+            sick_connection = index;
+        }
 
         public class EconomyExtension : EconomyExtensionBase
         {
@@ -331,6 +364,12 @@ namespace RealCity
                             tip1_message_forgui = "Citizen too poor, try to provide more jobs and make building profit";
                         }
                     }
+                    else if (comm_data.citizen_salary_per_family < 30)
+                    {
+                        try_say_something("#RealCity Send thousands of resume, with nothing in my mailbox, no......");
+                        try_say_something("#RealCity I spent off my salary less than one day.");
+                        tip1_message_forgui = "Citizen too poor, try to provide more jobs and make building profit";
+                    }
                     else
                     {
                         try_say_something("#RealCity What a nice city, morning everyone");
@@ -348,7 +387,7 @@ namespace RealCity
                     else
                     {
                         try_say_something("#RealCity Heared of that shop below my house will close down");
-                        try_say_something("#RealCity I think therw are too many shop in our city");
+                        try_say_something("#RealCity I think there are too many shop in our city");
                         tip2_message_forgui = "most of commercial building is lossing money,";
                     }
                 }
@@ -417,7 +456,7 @@ namespace RealCity
             public void try_say_something(string message)
             {
                 Random rand = new Random();
-                if (rand.Next(50) < 2)
+                if (rand.Next(150) < 2)
                 {
                     //DebugLog.LogToFileOnly("try_say_something" + message);
                     MessageManager ms = Singleton<MessageManager>.instance;
@@ -861,7 +900,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.lumber_import_ratio = 1;
+                    //pc_PrivateBuildingAI.lumber_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
@@ -870,7 +909,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.lumber_export_ratio = 1;
+                    //pc_PrivateBuildingAI.lumber_export_ratio = 1;
                 }
                 //food
                 if ((pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
@@ -879,7 +918,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.food_import_ratio = 1;
+                    //pc_PrivateBuildingAI.food_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
@@ -888,7 +927,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.food_export_ratio = 1;
+                    //pc_PrivateBuildingAI.food_export_ratio = 1;
                 }
                 //petrol
                 if ((pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
@@ -897,7 +936,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.petrol_import_ratio = 1;
+                    //pc_PrivateBuildingAI.petrol_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
@@ -906,7 +945,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.petrol_export_ratio = 1;
+                    //pc_PrivateBuildingAI.petrol_export_ratio = 1;
                 }
                 //coal
                 if ((pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
@@ -915,7 +954,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.coal_import_ratio = 1f;
+                    //pc_PrivateBuildingAI.coal_import_ratio = 1f;
                 }
 
                 if ((pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
@@ -924,7 +963,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.coal_export_ratio = 1f;
+                    //pc_PrivateBuildingAI.coal_export_ratio = 1f;
                 }
                 //logs
                 if ((pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
@@ -933,7 +972,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.log_import_ratio = 1;
+                    //pc_PrivateBuildingAI.log_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
@@ -942,7 +981,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.log_export_ratio = 1;
+                    //pc_PrivateBuildingAI.log_export_ratio = 1;
                 }
                 //grain
                 if ((pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
@@ -951,7 +990,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.grain_import_ratio = 1;
+                    //pc_PrivateBuildingAI.grain_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
@@ -960,7 +999,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.grain_export_ratio = 1;
+                    //pc_PrivateBuildingAI.grain_export_ratio = 1;
                 }
                 //oil
                 if ((pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
@@ -969,7 +1008,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.oil_import_ratio = 1;
+                    //pc_PrivateBuildingAI.oil_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
@@ -978,7 +1017,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.oil_export_ratio = 1;
+                    //pc_PrivateBuildingAI.oil_export_ratio = 1;
                 }
                 //ore
                 if ((pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
@@ -987,7 +1026,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.ore_import_ratio = 1;
+                    //pc_PrivateBuildingAI.ore_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
@@ -996,7 +1035,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.ore_export_ratio = 1;
+                    //pc_PrivateBuildingAI.ore_export_ratio = 1;
                 }
                 //good
                 if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final  + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final) != 0)
@@ -1005,7 +1044,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.good_import_ratio = 1;
+                    //pc_PrivateBuildingAI.good_import_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)
@@ -1014,7 +1053,7 @@ namespace RealCity
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.good_export_ratio = 1;
+                    //pc_PrivateBuildingAI.good_export_ratio = 1;
                 }
 
                 if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)

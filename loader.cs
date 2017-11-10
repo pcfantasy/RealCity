@@ -2,6 +2,8 @@
 using ICities;
 using UnityEngine;
 using System.IO;
+using ColossalFramework;
+using System.Reflection;
 
 namespace RealCity
 {
@@ -98,7 +100,7 @@ namespace RealCity
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) ZonedBuildingWorldInfoPanel\nAvailable panels are:\n");
             }
             guiPanel2.transform.parent = buildingInfo.transform;
-            guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y / 2);
+            guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
             guiPanel2.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
             guiPanel2.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
             buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;

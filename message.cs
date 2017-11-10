@@ -49,8 +49,7 @@ namespace RealCity
             this.m_message = s.ReadSharedString();
             this.m_senderID = s.ReadUInt32();
             MessageManager ms = Singleton<MessageManager>.instance;
-
-            ms.DeleteMessage(new Message(m_senderID,m_message));
+            ms.DeleteMessage(new Message(m_senderID, m_message));
         }
 
         public override void AfterDeserialize(DataSerializer s)
