@@ -50,12 +50,12 @@ namespace RealCity
         private UILabel citizen_salary_tax_total;
 
 
-        //1.2 citizen outcome
-        //1.2.1 citizen outcome
-        //public static long citizen_outcome_per_family = 0;
-        //public static long citizen_outcome = 0;
-        private UILabel citizen_outcome_per_family;
-        private UILabel citizen_outcome;
+        //1.2 citizen expense
+        //1.2.1 citizen expense
+        //public static long citizen_expense_per_family = 0;
+        //public static long citizen_expense = 0;
+        private UILabel citizen_expense_per_family;
+        private UILabel citizen_expense;
 
         //1.2.2 transport fee
         //public static uint total_citizen_vehical_time = 0;
@@ -66,7 +66,7 @@ namespace RealCity
         private UILabel public_transport_fee;
         private UILabel citizen_average_transport_fee;
 
-        //1.3 income - outcome
+        //1.3 income - expense
         //public static int family_profit_money_num = 0;
         //public static int family_loss_money_num = 0;
         private UILabel family_profit_money_num;
@@ -111,7 +111,7 @@ namespace RealCity
         private UILabel log_export_ratio;
         private UILabel grain_export_ratio;
 
-        //2.2 building outcome
+        //2.2 building expense
         //2.3 building money
         //public static ushort all_comm_building_profit = 0;
         //public static ushort all_industry_building_profit = 0;
@@ -281,24 +281,24 @@ namespace RealCity
             this.citizen_salary_tax_total.autoSize = true;
             this.citizen_salary_tax_total.name = "Moreeconomic_Text_4";
 
-            this.citizen_outcome_per_family = base.AddUIComponent<UILabel>();
-            this.citizen_outcome_per_family.text =   string.Format("outcome_per_family [0000000000]");
-            this.citizen_outcome_per_family.tooltip = "citizen_outcome_per_family";
-            this.citizen_outcome_per_family.relativePosition = new Vector3(this.citizen_salary_tax_total.relativePosition.x + this.citizen_salary_tax_total.width + SPACING + 40f, this.citizen_salary_tax_total.relativePosition.y);
-            this.citizen_outcome_per_family.autoSize = true;
-            this.citizen_outcome_per_family.name = "Moreeconomic_Text_5";
+            this.citizen_expense_per_family = base.AddUIComponent<UILabel>();
+            this.citizen_expense_per_family.text =   string.Format("expense_per_family [0000000000]");
+            this.citizen_expense_per_family.tooltip = "citizen_expense_per_family";
+            this.citizen_expense_per_family.relativePosition = new Vector3(this.citizen_salary_tax_total.relativePosition.x + this.citizen_salary_tax_total.width + SPACING + 40f, this.citizen_salary_tax_total.relativePosition.y);
+            this.citizen_expense_per_family.autoSize = true;
+            this.citizen_expense_per_family.name = "Moreeconomic_Text_5";
 
-            this.citizen_outcome = base.AddUIComponent<UILabel>();
-            this.citizen_outcome.text =              string.Format("citizen_outcome [0000]");
-            this.citizen_outcome.tooltip = "total citizen_outcome";
-            this.citizen_outcome.relativePosition = new Vector3(SPACING, this.citizen_salary_total.relativePosition.y + SPACING22);
-            this.citizen_outcome.autoSize = true;
-            this.citizen_outcome.name = "Moreeconomic_Text_6";
+            this.citizen_expense = base.AddUIComponent<UILabel>();
+            this.citizen_expense.text =              string.Format("citizen_expense [0000]");
+            this.citizen_expense.tooltip = "total citizen_expense";
+            this.citizen_expense.relativePosition = new Vector3(SPACING, this.citizen_salary_total.relativePosition.y + SPACING22);
+            this.citizen_expense.autoSize = true;
+            this.citizen_expense.name = "Moreeconomic_Text_6";
 
             this.public_transport_fee = base.AddUIComponent<UILabel>();
             this.public_transport_fee.text =         string.Format("public_trans_fee [0000]");
             this.public_transport_fee.tooltip = "public_transport_fee";
-            this.public_transport_fee.relativePosition = new Vector3(this.citizen_outcome.relativePosition.x + this.citizen_outcome.width + SPACING + 30f, this.citizen_outcome.relativePosition.y);
+            this.public_transport_fee.relativePosition = new Vector3(this.citizen_expense.relativePosition.x + this.citizen_expense.width + SPACING + 30f, this.citizen_expense.relativePosition.y);
             this.public_transport_fee.autoSize = true;
             this.public_transport_fee.name = "Moreeconomic_Text_7";
 
@@ -312,7 +312,7 @@ namespace RealCity
             this.family_profit_money_num = base.AddUIComponent<UILabel>();
             this.family_profit_money_num.text =      string.Format("family_profit_num [000]");
             this.family_profit_money_num.tooltip = "total family_profit_money_num";
-            this.family_profit_money_num.relativePosition = new Vector3(SPACING, this.citizen_outcome.relativePosition.y + SPACING22);
+            this.family_profit_money_num.relativePosition = new Vector3(SPACING, this.citizen_expense.relativePosition.y + SPACING22);
             this.family_profit_money_num.autoSize = true;
             this.family_profit_money_num.name = "Moreeconomic_Text_9";
 
@@ -741,8 +741,8 @@ namespace RealCity
             this.citizen_salary_per_family.text = string.Format("citizen_salary_per_family [{0}]", comm_data.citizen_salary_per_family);
             this.citizen_salary_total.text = string.Format("salary_total [{0}]", comm_data.citizen_salary_total);
             this.citizen_salary_tax_total.text = string.Format("citizen_tax_total [{0}]", comm_data.citizen_salary_tax_total);
-            this.citizen_outcome_per_family.text = string.Format("outcome_per_family [{0}]", comm_data.citizen_outcome_per_family);
-            this.citizen_outcome.text = string.Format("citizen_outcome [{0}]", comm_data.citizen_outcome);
+            this.citizen_expense_per_family.text = string.Format("expense_per_family [{0}]", comm_data.citizen_expense_per_family);
+            this.citizen_expense.text = string.Format("citizen_expense [{0}]", comm_data.citizen_expense);
             this.total_citizen_vehical_time.text = string.Format("citizen_vehical_time [{0}]", comm_data.temp_total_citizen_vehical_time_last);
             this.public_transport_fee.text = string.Format("public_trans_fee [{0}]", comm_data.public_transport_fee);
             this.citizen_average_transport_fee.text = string.Format("average_transport_fee [{0}]", comm_data.citizen_average_transport_fee);

@@ -42,7 +42,7 @@ namespace RealCity
                                 { 
                                         comm_data.citizen_money[num2] = (short)(comm_data.citizen_money[num2] - num4);
                                 }
-                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4 * comm_data.game_income_outcome_multiple, this.m_info.m_class);
+                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4 * comm_data.game_income_expense_multiple, this.m_info.m_class);
                             }
                             num++;
                             if ((instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)

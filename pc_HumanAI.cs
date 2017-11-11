@@ -110,7 +110,7 @@ namespace RealCity
             {
                 num = (comm_data.citizen_money[homeid] - num > 0f) ? num : (int)comm_data.citizen_money[homeid];
                 int num1 = -num;
-                info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Entertainment, ref num1);
+                info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num1);
                 comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] + num1);
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
@@ -180,7 +180,7 @@ namespace RealCity
                             }
                         }
                         //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.citizen_money[homeid].ToString());
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * comm_data.game_income_outcome_multiple, info.m_class);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * comm_data.game_income_expense_multiple, info.m_class);
                     }
                 }
             }

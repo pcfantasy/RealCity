@@ -3,7 +3,7 @@
     public class comm_data
     {
 
-        public const byte game_income_outcome_multiple = 10;
+        public const byte game_income_expense_multiple = 10;
 
         //1.  citizen
         //1.1 citizen salary
@@ -248,7 +248,7 @@
         public static long citizen_salary_total = 0;
         public static long citizen_salary_tax_total = 0;
 
-        //1.2 citizen outcome
+        //1.2 citizen expense
         public const ushort resident_low_level1_rent = 300;
         public const ushort resident_low_level2_rent = 420;
         public const ushort resident_low_level3_rent = 570;
@@ -269,9 +269,9 @@
         public const ushort resident_high_eco_level3_rent = 480;
         public const ushort resident_high_eco_level4_rent = 630;
         public const ushort resident_high_eco_level5_rent = 810;
-        //1.2.1 citizen outcome
-        public static long citizen_outcome_per_family = 0;
-        public static long citizen_outcome = 0;
+        //1.2.1 citizen expense
+        public static long citizen_expense_per_family = 0;
+        public static long citizen_expense = 0;
         //1.2.2 transport fee  position.x unit(0.9m),in game, max distance (in x) is 18000m
         public static ushort[] vehical_transfer_time = new ushort[16384];
         public static bool[] vehical_last_transfer_flag = new bool[16384];
@@ -282,7 +282,7 @@
         public static long all_transport_fee = 0;
         public static byte citizen_average_transport_fee = 0;
 
-        //1.3 income-outcome
+        //1.3 income-expense
         //public static byte citizen_shopping_idex = 0;
         public static float[] citizen_money = new float[524288];
         //public static byte[] citizen_very_profit_time_num = new byte[524288];
@@ -300,7 +300,7 @@
         //move to buildingAI
 
 
-        //2.2 building outcome
+        //2.2 building expense
 //        public const byte resident_low_level1 = 10;
 //        public const byte resident_low_level2 = 14;
 //        public const byte resident_low_level3 = 19;
@@ -334,7 +334,7 @@
         public const byte comm_low_level3 = 100;
 
         public const byte comm_tourist = 160;
-        public const byte comm_leisure = 230;
+        public const byte comm_leisure = 180;
         public const byte comm_eco = 30;
 
         public const byte indu_gen_level1 = 35;
@@ -346,11 +346,11 @@
         public const byte indu_oil = 80;
         public const byte indu_ore = 90;
 
-        public const byte office_gen_levell = 180;
+        public const byte office_gen_levell = 190;
         public const byte office_gen_level2 = 210;
-        public const byte office_gen_level3 = 250;
+        public const byte office_gen_level3 = 240;
 
-        public const byte office_high_tech = 60;
+        public const byte office_high_tech = 255;
 
 
         //2.3 process building 
@@ -359,7 +359,7 @@
 
 
 
-        //3 govement outcome
+        //3 govement expense
         public static int Road = 0;
         public static int Electricity = 0;
         public static int Water = 0;
@@ -457,8 +457,8 @@
             int i = 0;
 
             // 2*8 + 2*16384 + 16384 + 3*4 + 2*8 = 49196
-            saveandrestore.save_long(ref i, citizen_outcome_per_family, ref save_data);
-            saveandrestore.save_long(ref i, citizen_outcome, ref save_data);
+            saveandrestore.save_long(ref i, citizen_expense_per_family, ref save_data);
+            saveandrestore.save_long(ref i, citizen_expense, ref save_data);
             saveandrestore.save_ushorts(ref i, vehical_transfer_time, ref save_data);
             saveandrestore.save_bools(ref i, vehical_last_transfer_flag, ref save_data);
             saveandrestore.save_uint(ref i, temp_total_citizen_vehical_time, ref save_data);
@@ -554,8 +554,8 @@
         {
             int i = 0;
 
-            citizen_outcome_per_family = saveandrestore.load_long(ref i, load_data);
-            citizen_outcome = saveandrestore.load_long(ref i, load_data);
+            citizen_expense_per_family = saveandrestore.load_long(ref i, load_data);
+            citizen_expense = saveandrestore.load_long(ref i, load_data);
             vehical_transfer_time = saveandrestore.load_ushorts(ref i, load_data, vehical_transfer_time.Length);
             vehical_last_transfer_flag = saveandrestore.load_bools(ref i, load_data, vehical_last_transfer_flag.Length);
             temp_total_citizen_vehical_time = saveandrestore.load_uint(ref i, load_data);

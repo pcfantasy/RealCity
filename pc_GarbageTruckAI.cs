@@ -60,7 +60,7 @@ namespace RealCity
                 ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position, 200f, info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
                 if (num3 != 0)
                 {
-                    data.Unspawn(vehicleID);
+                    //data.Unspawn(vehicleID);
                     BuildingInfo info3 = instance.m_buildings.m_buffer[(int)num3].Info;
                     //DebugLog.LogToFileOnly("try turn around get outgoing building = " + info3.m_class.ToString());
                     Randomizer randomizer = new Randomizer((int)vehicleID);
@@ -98,7 +98,8 @@ namespace RealCity
             Building building = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];
             Building building1 = instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
-            if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+            //move to outside modify matter.
+            /*if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
             {
                 //DebugLog.LogToFileOnly("find garbage move in city, num =" + num.ToString() + "transfer_typ = " + data.m_transferType.ToString());
                 //info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
@@ -107,7 +108,7 @@ namespace RealCity
                     //DebugLog.LogToFileOnly("find garbage in city, num =" + num.ToString() + "building = " + building1.Info.m_class.ToString());
                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * -0.1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                 }
-            }
+            }*/
 
             if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
             {

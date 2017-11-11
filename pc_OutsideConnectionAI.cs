@@ -307,26 +307,32 @@ namespace RealCity
                     {
                         DebugLog.LogToFileOnly("garbarge < 0 in outside building, should be wrong");
                         amountDelta = 0;
-                    } else
+                    }
+                    else
                     {
                         if (data.m_garbageBuffer + amountDelta <= 0)
                         {
                             amountDelta = -data.m_garbageBuffer;
-                        } else
+                        }
+                        else
                         {
-                            
+
                         }
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
-                    }                   
-                } else if (material == TransferManager.TransferReason.Sick)
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -0.1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    }
+                }
+                else if (material == TransferManager.TransferReason.Sick)
                 {
 
-                } else if (material == TransferManager.TransferReason.Crime)
+                }
+                else if (material == TransferManager.TransferReason.Crime)
                 {
 
-                } else
+                }
+                else
                 {
-
+                    //amountDelta = 0;
                 }
             }
             else
@@ -372,9 +378,31 @@ namespace RealCity
                         data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + amountDelta);
                     }
                 }
+                else if (material == TransferManager.TransferReason.Garbage)
+                {
+                    //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
+                    if (data.m_garbageBuffer < 0)
+                    {
+                        DebugLog.LogToFileOnly("garbarge < 0 in outside building, should be wrong");
+                        amountDelta = 0;
+                    }
+                    else
+                    {
+                        if (data.m_garbageBuffer + amountDelta <= 0)
+                        {
+                            amountDelta = -data.m_garbageBuffer;
+                        }
+                        else
+                        {
+
+                        }
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -0.1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    }
+                }
                 else
                 {
-
+                       //do nothing
                 }
             }
         }

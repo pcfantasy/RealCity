@@ -32,6 +32,54 @@ namespace RealCity
             "landrent",
             "landrent"};
 
+        public static string[] EconomicUI_English =
+        {
+            "economic Data",
+            "1、Citizen Status",
+            "citizen_count",
+            "total citizen_count",
+            "family_count",
+            "total family_count",
+            "citizen_salary_per_family",
+            "salary_total",
+            "total citizen_salary",
+            "citizen_tax_total",
+            "total_citizen_salary_tax",
+            "expense_per_family",
+            "citizen_expense_per_family",
+            "citizen_expense",
+            "total citizen_expense",
+            "public_trans_fee",
+            "public_transport_fee",
+            "citizen_vehical_time",
+            "total citizen_vehical_time",
+            "family_profit_num",
+            "total family_profit_money_num",
+            "family_loss_num",
+            "family_loss_money_num",
+            "family_very_profit_num",
+            "family_very_profit_num",
+            "wealth_stable_high",
+            "family_wealth_stable_high_num",
+            "wealth_stable_low",
+            "citizen_average_transport_fee",
+            "reserved",
+            "reserved",
+            "reserved",
+            "reserved",
+            "2、Building Status",
+            "good_export_ratio",
+            "good_export_ratio",
+            "food_export_ratio",
+            "food_export_ratio",
+            "petrol_export_ratio",
+            "petrol_export_ratio",
+            "coal_export_ratio",
+            "coal_export_ratio",
+
+
+        };
+
 
 
 

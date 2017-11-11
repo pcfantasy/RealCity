@@ -17,7 +17,7 @@ namespace RealCity
         public static uint family_profit_money_num = 0;
         public static uint family_loss_money_num = 0;
         public static int citizen_salary_count = 0;
-        public static int citizen_outcome_count = 0;
+        public static int citizen_expense_count = 0;
         public static int citizen_salary_tax_total = 0;
         public static float temp_citizen_salary_tax_total = 0f;
         //public static bool citizen_process_done = false;
@@ -58,7 +58,7 @@ namespace RealCity
             family_profit_money_num = saveandrestore.load_uint(ref i, load_data);
             family_loss_money_num = saveandrestore.load_uint(ref i, load_data);
             citizen_salary_count = saveandrestore.load_int(ref i, load_data);
-            citizen_outcome_count = saveandrestore.load_int(ref i, load_data);
+            citizen_expense_count = saveandrestore.load_int(ref i, load_data);
             citizen_salary_tax_total = saveandrestore.load_int(ref i, load_data);
             temp_citizen_salary_tax_total = saveandrestore.load_float(ref i, load_data);
 
@@ -98,7 +98,7 @@ namespace RealCity
             saveandrestore.save_uint(ref i, family_profit_money_num, ref save_data);
             saveandrestore.save_uint(ref i, family_loss_money_num, ref save_data);
             saveandrestore.save_int(ref i, citizen_salary_count, ref save_data);
-            saveandrestore.save_int(ref i, citizen_outcome_count, ref save_data);
+            saveandrestore.save_int(ref i, citizen_expense_count, ref save_data);
             saveandrestore.save_int(ref i, citizen_salary_tax_total, ref save_data);
             saveandrestore.save_float(ref i, temp_citizen_salary_tax_total, ref save_data);
 
@@ -746,9 +746,9 @@ namespace RealCity
                 if (family_count != 0)
                 {
                     comm_data.citizen_salary_per_family = (int)((citizen_salary_count / family_count));
-                    comm_data.citizen_outcome_per_family = (int)((citizen_outcome_count / family_count));
+                    comm_data.citizen_expense_per_family = (int)((citizen_expense_count / family_count));
                 }
-                comm_data.citizen_outcome = citizen_outcome_count;
+                comm_data.citizen_expense = citizen_expense_count;
                 comm_data.citizen_salary_tax_total = citizen_salary_tax_total;
                 comm_data.citizen_salary_total = citizen_salary_count;
                 comm_data.Monument = (int)(Monument * comm_data.salary_idex);
@@ -778,7 +778,7 @@ namespace RealCity
                 family_loss_money_num = 0;
                 family_count = 0;
                 citizen_salary_count = 0;
-                citizen_outcome_count = 0;
+                citizen_expense_count = 0;
                 citizen_salary_tax_total = 0;
                 temp_citizen_salary_tax_total = 0f;
                 PublicTransport_bus = 0;
@@ -892,9 +892,9 @@ namespace RealCity
             temp_citizen_salary_tax_total = temp_citizen_salary_tax_total + (int)tax;
             citizen_salary_tax_total = (int)temp_citizen_salary_tax_total;
             process_citizen_income_tax(homeID, tax);
-            //here we caculate outcome
+            //here we caculate expense
             temp_num = 0;
-            int outcomerate = 0;
+            int expenserate = 0;
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint num3 = 0u;
             int num4 = 0;
@@ -902,45 +902,45 @@ namespace RealCity
             {
                 num4++;
                 num3 = data.m_citizen4;
-                outcomerate = 0;
-                temp_num += GetOutcomeRate(data.m_citizen4, out outcomerate);
+                expenserate = 0;
+                temp_num += GetexpenseRate(data.m_citizen4, out expenserate);
             }
             if (data.m_citizen3 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen3;
-                outcomerate = 0;
-                temp_num += GetOutcomeRate(data.m_citizen3, out outcomerate);
+                expenserate = 0;
+                temp_num += GetexpenseRate(data.m_citizen3, out expenserate);
             }
             if (data.m_citizen2 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen2;
-                outcomerate = 0;
-                temp_num += GetOutcomeRate(data.m_citizen2, out outcomerate);
+                expenserate = 0;
+                temp_num += GetexpenseRate(data.m_citizen2, out expenserate);
             }
             if (data.m_citizen1 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen1;
-                outcomerate = 0;
-                temp_num += GetOutcomeRate(data.m_citizen1, out outcomerate);
+                expenserate = 0;
+                temp_num += GetexpenseRate(data.m_citizen1, out expenserate);
             }
             if (data.m_citizen0 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen0;
-                outcomerate = 0;
-                temp_num += GetOutcomeRate(data.m_citizen0, out outcomerate);
+                expenserate = 0;
+                temp_num += GetexpenseRate(data.m_citizen0, out expenserate);
             }
 
 
-            //temp = education&sick   outcomerate = house rent(one family)
-            process_citizen_house_rent(homeID, outcomerate);
-            citizen_outcome_count = citizen_outcome_count + temp_num + outcomerate;
+            //temp = education&sick   expenserate = house rent(one family)
+            process_citizen_house_rent(homeID, expenserate);
+            citizen_expense_count = citizen_expense_count + temp_num + expenserate;
 
-            //income - outcome
-            temp_num = citizen_salary_current - (int)(tax) - temp_num - outcomerate;// - comm_data.citizen_average_transport_fee;
+            //income - expense
+            temp_num = citizen_salary_current - (int)(tax) - temp_num - expenserate;// - comm_data.citizen_average_transport_fee;
             comm_data.citizen_money[homeID] = (short)(comm_data.citizen_money[homeID] + temp_num);
             //process citizen status
             System.Random rand = new System.Random();
@@ -1174,7 +1174,7 @@ namespace RealCity
             Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112);
         }
 
-        public void process_citizen_house_rent(uint homeID, int outcomerate)
+        public void process_citizen_house_rent(uint homeID, int expenserate)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
@@ -1184,7 +1184,7 @@ namespace RealCity
             DistrictPolicies.Taxation taxationPolicies = instance2.m_districts.m_buffer[(int)district].m_taxationPolicies;
             int num2;
             num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
-            Singleton<EconomyManager>.instance.AddPrivateIncome(outcomerate*100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, num2 * 100);
+            Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate*100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, num2 * 100);
         }
 
 
@@ -1292,7 +1292,7 @@ namespace RealCity
             }
         }
 
-        public int GetOutcomeRate(uint citizen_id, out int incomeAccumulation)
+        public int GetexpenseRate(uint citizen_id, out int incomeAccumulation)
         {
             BuildingManager instance1 = Singleton<BuildingManager>.instance;
             CitizenManager instance2 = Singleton<CitizenManager>.instance;

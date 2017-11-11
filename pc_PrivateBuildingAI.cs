@@ -460,7 +460,7 @@ namespace RealCity
             }
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
             process_land_fee(buildingData, buildingID);
-            caculate_employee_outcome(buildingData, buildingID);
+            caculate_employee_expense(buildingData, buildingID);
             limit_and_check_building_money(buildingData, buildingID);
             if ((buildingData.m_problems & Notification.Problem.MajorProblem) != Notification.Problem.None)
             {
@@ -846,7 +846,7 @@ namespace RealCity
         }
 
 
-        public void caculate_employee_outcome(Building building, ushort buildingID)
+        public void caculate_employee_expense(Building building, ushort buildingID)
         {
             int num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
@@ -961,7 +961,7 @@ namespace RealCity
             num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
             //num = num / comm_data.mantain_and_land_fee_decrease;
 
-            //do this to decrase land outcome in early game;
+            //do this to decrase land expense in early game;
             //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
             {

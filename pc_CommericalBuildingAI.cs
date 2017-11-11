@@ -133,11 +133,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.27f; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.32f; break;
                     default:
                         trade_income = 0; break;
                 }
@@ -147,11 +147,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.2f; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.22f; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
                     default:
                         trade_income = 0; break;
                 }
@@ -160,9 +160,9 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialEco:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.3f; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.35f; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.5f; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.4f; break;
                 case ItemClass.SubService.CommercialTourist:
                     trade_income = amountDelta; trade_tax = -trade_income * 0.5f; break;
                 default:
