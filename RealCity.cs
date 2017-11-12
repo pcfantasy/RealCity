@@ -5,6 +5,8 @@ using ICities;
 using System.Reflection;
 using System.IO;
 using System.Linq;
+using ColossalFramework.Math;
+using UnityEngine;
 
 namespace RealCity
 {
@@ -40,6 +42,9 @@ namespace RealCity
         public static RedirectCallsState state26;
         public static RedirectCallsState state27;
         public static RedirectCallsState state28;
+        public static RedirectCallsState state29;
+        public static RedirectCallsState state30;
+        public static RedirectCallsState state31;
 
         public static bool garbage_connection = true;
         public static bool sick_connection = false;
@@ -120,17 +125,17 @@ namespace RealCity
             var destMethod10 = typeof(pc_PassengerCarAI).GetMethod("ArriveAtDestination_1", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             state10 = RedirectionHelper.RedirectCalls(srcMethod10, destMethod10);
 
-            var srcMethod11 = typeof(IndustrialExtractorAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            var destMethod11 = typeof(pc_IndustrialExtractorAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            state11 = RedirectionHelper.RedirectCalls(srcMethod11, destMethod11);
+            //var srcMethod11 = typeof(IndustrialExtractorAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //var destMethod11 = typeof(pc_IndustrialExtractorAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //state11 = RedirectionHelper.RedirectCalls(srcMethod11, destMethod11);
 
-            var srcMethod12 = typeof(CommercialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            var destMethod12 = typeof(pc_CommercialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            state12 = RedirectionHelper.RedirectCalls(srcMethod12, destMethod12);
+            //var srcMethod12 = typeof(CommercialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //var destMethod12 = typeof(pc_CommercialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //state12 = RedirectionHelper.RedirectCalls(srcMethod12, destMethod12);
 
-            var srcMethod13 = typeof(IndustrialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            var destMethod13 = typeof(pc_IndustrialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            state13 = RedirectionHelper.RedirectCalls(srcMethod13, destMethod13);
+            //var srcMethod13 = typeof(IndustrialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //var destMethod13 = typeof(pc_IndustrialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //state13 = RedirectionHelper.RedirectCalls(srcMethod13, destMethod13);
 
             var srcMethod14 = typeof(CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             var destMethod14 = typeof(pc_CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
@@ -191,6 +196,21 @@ namespace RealCity
             var srcMethod28 = typeof(GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             var destMethod28 = typeof(pc_GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             state28 = RedirectionHelper.RedirectCalls(srcMethod28, destMethod28);
+
+            var srcMethod29 = typeof(BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
+            var destMethod29 = typeof(pc_BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
+            state29 = RedirectionHelper.RedirectCalls(srcMethod29, destMethod29);
+
+            var srcMethod30 = typeof(CitizenManager).GetMethod("CreateUnits", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
+            var destMethod30 = typeof(pc_CitizenManager).GetMethod("CreateUnits_1", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
+            state30 = RedirectionHelper.RedirectCalls(srcMethod30, destMethod30);
+
+            // BuildingManager
+            //public ushort FindBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
+            //public override void SimulationStep(ushort instanceID, ref CitizenInstance citizenData, ref CitizenInstance.Frame frameData, bool lodPhysics)
+            var srcMethod31 = typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
+            var destMethod31 = typeof(pc_ResidentAI_1).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
+            state31 = RedirectionHelper.RedirectCalls(srcMethod31, destMethod31);
         }
 
         public void OnDisabled()
@@ -208,9 +228,9 @@ namespace RealCity
             var srcMethod8 = typeof(EconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance);
             var srcMethod9 = typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
             var srcMethod10 = typeof(PassengerCarAI).GetMethod("ArriveAtDestination", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            var srcMethod11 = typeof(IndustrialExtractorAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            var srcMethod12 = typeof(CommercialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
-            var srcMethod13 = typeof(IndustrialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //var srcMethod11 = typeof(IndustrialExtractorAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //var srcMethod12 = typeof(CommercialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
+            //var srcMethod13 = typeof(IndustrialBuildingAI).GetMethod("GetLevelUpInfo", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(float).MakeByRefType() }, null);
             var srcMethod14 = typeof(CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             var srcMethod15 = typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
             var srcMethod16 = typeof(ResidentAI).GetMethod("StartPathFind", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
@@ -226,6 +246,9 @@ namespace RealCity
             var srcMethod26 = typeof(TaxiAI).GetMethod("UnloadPassengers", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransportPassengerData).MakeByRefType() }, null);
             var srcMethod27 = typeof(HearseAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             var srcMethod28 = typeof(GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var srcMethod29 = typeof(BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
+            var srcMethod30 = typeof(CitizenManager).GetMethod("CreateUnits", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
+            var srcMethod31 = typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -237,9 +260,9 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod8, state8);
             RedirectionHelper.RevertRedirect(srcMethod9, state9);
             RedirectionHelper.RevertRedirect(srcMethod10, state10);
-            RedirectionHelper.RevertRedirect(srcMethod11, state11);
-            RedirectionHelper.RevertRedirect(srcMethod12, state12);
-            RedirectionHelper.RevertRedirect(srcMethod13, state13);
+            //RedirectionHelper.RevertRedirect(srcMethod11, state11);
+            //RedirectionHelper.RevertRedirect(srcMethod12, state12);
+            //RedirectionHelper.RevertRedirect(srcMethod13, state13);
             RedirectionHelper.RevertRedirect(srcMethod14, state14);
             RedirectionHelper.RevertRedirect(srcMethod15, state15);
             RedirectionHelper.RevertRedirect(srcMethod16, state16);
@@ -255,13 +278,16 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod26, state26);
             RedirectionHelper.RevertRedirect(srcMethod27, state27);
             RedirectionHelper.RevertRedirect(srcMethod28, state28);
+            RedirectionHelper.RevertRedirect(srcMethod29, state29);
+            RedirectionHelper.RevertRedirect(srcMethod30, state30);
+            RedirectionHelper.RevertRedirect(srcMethod31, state31);
         }
 
 
         public void OnSettingsUI(UIHelperBase helper)
         {
             UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
-            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文(暂部分)"}, language_idex, (index) => get_language_idex(index));
+            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文(暂部分)"}, comm_data.last_language, (index) => get_language_idex(index));
 
             UIHelperBase group1 = helper.AddGroup(language.OptionUI[2]);
             group1.AddCheckbox(language.OptionUI[3], true, (index) => get_garbage_connection(index));
@@ -318,10 +344,10 @@ namespace RealCity
                     caculate_profit();
                     caculate_citizen_transport_fee();
                     generate_tips();
-                    if ((language.current_language != comm_data.last_language) || (language.current_language == 255))
+                    /*if ((language.current_language != comm_data.last_language) || (language.current_language == 255))
                     {
                         language.language_switch((byte)language_idex);
-                    }
+                    }*/
                     comm_data.is_updated = true;
                     comm_data.update_money_count++;
                     if (comm_data.update_money_count == 17)
@@ -347,33 +373,33 @@ namespace RealCity
                     {
                         if (comm_data.citizen_expense_per_family > 35)
                         {
-                            try_say_something("#RealCity anyone can help me pay my house rent? TT");
-                            try_say_something("#RealCity Can`t imagine house price in our city!!");
-                            try_say_something("#RealCity Just looking at the rent, I thought we were in New York.");
-                            tip1_message_forgui = "Citizen too poor, please decrease house tax";
+                            try_say_something(language.TipAndChirperMessage[0]);
+                            try_say_something(language.TipAndChirperMessage[1]);
+                            try_say_something(language.TipAndChirperMessage[2]);
+                            tip1_message_forgui = language.TipAndChirperMessage[3];
 
                         } else if (comm_data.citizen_average_transport_fee > 25)
                         {
-                            try_say_something("#RealCity More public transport!");
-                            try_say_something("#RealCity I eat my breakfast at home, and eat my lunch when I just arrived workplace.");
-                            tip1_message_forgui = "Citizen too poor, try to develop public transport and deal with traffic congestion";
+                            try_say_something(language.TipAndChirperMessage[4]);
+                            try_say_something(language.TipAndChirperMessage[5]);
+                            tip1_message_forgui = language.TipAndChirperMessage[6];
                         } else
                         {
-                            try_say_something("#RealCity Send thousands of resume, with nothing in my mailbox, no......");
-                            try_say_something("#RealCity I spent off my salary less than one day.");
-                            tip1_message_forgui = "Citizen too poor, try to provide more jobs and make building profit";
+                            try_say_something(language.TipAndChirperMessage[7]);
+                            try_say_something(language.TipAndChirperMessage[8]);
+                            tip1_message_forgui = language.TipAndChirperMessage[9];
                         }
                     }
                     else if (comm_data.citizen_salary_per_family < 30)
                     {
-                        try_say_something("#RealCity Send thousands of resume, with nothing in my mailbox, no......");
-                        try_say_something("#RealCity I spent off my salary less than one day.");
-                        tip1_message_forgui = "Citizen too poor, try to provide more jobs and make building profit";
+                        try_say_something(language.TipAndChirperMessage[7]);
+                        try_say_something(language.TipAndChirperMessage[8]);
+                        tip1_message_forgui = language.TipAndChirperMessage[9];
                     }
                     else
                     {
-                        try_say_something("#RealCity What a nice city, morning everyone");
-                        tip1_message_forgui = "Citizen seems ok";
+                        try_say_something(language.TipAndChirperMessage[10]);
+                        tip1_message_forgui = language.TipAndChirperMessage[11];
                     }
                 }
 
@@ -381,14 +407,14 @@ namespace RealCity
                 {
                     if (pc_PrivateBuildingAI.all_comm_building_profit_final >= pc_PrivateBuildingAI.all_comm_building_loss_final)
                     {
-                        try_say_something("#RealCity Wanna open a shop in our city, money money come on :)");
-                        tip2_message_forgui = "most of commercial building is profit,";
+                        try_say_something(language.TipAndChirperMessage[12]);
+                        tip2_message_forgui = language.TipAndChirperMessage[13];
                     }
                     else
                     {
-                        try_say_something("#RealCity Heared of that shop below my house will close down");
-                        try_say_something("#RealCity I think there are too many shop in our city");
-                        tip2_message_forgui = "most of commercial building is lossing money,";
+                        try_say_something(language.TipAndChirperMessage[14]);
+                        try_say_something(language.TipAndChirperMessage[15]);
+                        tip2_message_forgui = language.TipAndChirperMessage[16];
                     }
                 }
 
@@ -410,55 +436,55 @@ namespace RealCity
                 {
                     if (profit_building_num >= loss_building_num)
                     {
-                        try_say_something("#RealCity industrialization city, happy with our city");
-                        tip2_message_forgui += "most of industrial building is profit.";
+                        try_say_something(language.TipAndChirperMessage[17]);
+                        tip2_message_forgui += language.TipAndChirperMessage[18];
                     }
                     else
                     {
-                        try_say_something("#RealCity Two month with discount salary, what happened with my workplace");
-                        tip2_message_forgui += "most of industrial building is lossing money.";
+                        try_say_something(language.TipAndChirperMessage[19]);
+                        tip2_message_forgui += language.TipAndChirperMessage[20];
                     }
                 }
                 if (!pc_OutsideConnectionAI.have_maintain_road_building)
                 {
-                    try_say_something("#RealCity too many trucks though our city with noise and without any benefit!");
-                    tip3_message_forgui = "Can building road maintain building to earn road toll of feedthough truck";
+                    try_say_something(language.TipAndChirperMessage[21]);
+                    tip3_message_forgui = language.TipAndChirperMessage[22];
                 }
                 else
                 {
-                    try_say_something("#RealCity Road toll, nice idea, but please use these money to improve our life.");
-                    tip3_message_forgui = "Feedthough truck will give us road toll now, make traffic smooth to earn money";
+                    try_say_something(language.TipAndChirperMessage[23]);
+                    tip3_message_forgui = language.TipAndChirperMessage[24];
                 }
 
                 if (!pc_OutsideConnectionAI.have_garbage_building)
                 {
-                    try_say_something("#RealCity Neighbour city is full of garbage now, wish our city will not like that in the future");
-                    tip4_message_forgui = "Can building landfiller, our neighbour city is full of garbage now";
+                    try_say_something(language.TipAndChirperMessage[25]);
+                    tip4_message_forgui = language.TipAndChirperMessage[26];
                 }
                 else
                 {
-                    try_say_something("#RealCity Oh, I see a lot of garbage cars moving in, any deal with outside city!");
-                    tip4_message_forgui = "A lot of garbage cars are moving in, take care of your landfiller capacity";
+                    try_say_something(language.TipAndChirperMessage[27]);
+                    tip4_message_forgui = language.TipAndChirperMessage[28];
                 }
 
                 if (!pc_OutsideConnectionAI.have_cemetry_building)
                 {
-                    try_say_something("#RealCity Do you know what is the best selling of Neighbour city, it is presbyopic glasses haha...");
-                    tip5_message_forgui = "Can building cemetery ,neighbour city aging population is high and lack of cemetery";
+                    try_say_something(language.TipAndChirperMessage[29]);
+                    tip5_message_forgui = language.TipAndChirperMessage[30];
                 }
                 else
                 {
-                    try_say_something("#RealCity Cemetery price is higher than house in Neighbour city, they try to bury dead to our city");
-                    tip5_message_forgui = "A lot of hearse cars are moving in,take care of your cemetery capacity";
+                    try_say_something(language.TipAndChirperMessage[31]);
+                    tip5_message_forgui = language.TipAndChirperMessage[32];
                 }
             }
 
             public void try_say_something(string message)
             {
-                Random rand = new Random();
+                System.Random rand = new System.Random();
                 if (rand.Next(150) < 2)
                 {
-                    DebugLog.LogToFileOnly("try_say_something" + message);
+                    //DebugLog.LogToFileOnly("try_say_something" + message);
                     MessageManager ms = Singleton<MessageManager>.instance;
                     ms.QueueMessage(new Message(ms.GetRandomResidentID(), message));
                 }
@@ -1056,21 +1082,21 @@ namespace RealCity
                     //pc_PrivateBuildingAI.good_export_ratio = 1;
                 }
 
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)
+                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
                 {
-                    pc_PrivateBuildingAI.good_level2_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final);
+                    pc_PrivateBuildingAI.good_level2_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
                 } else
                 {
-                    pc_PrivateBuildingAI.good_level2_ratio = 0f;
+                    //pc_PrivateBuildingAI.good_level2_ratio = 0f;
                 }
 
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)
+                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
                 {
-                    pc_PrivateBuildingAI.good_level3_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final);
+                    pc_PrivateBuildingAI.good_level3_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.good_level3_ratio = 0f;
+                    //pc_PrivateBuildingAI.good_level3_ratio = 0f;
                 }
                 /*pc_PrivateBuildingAI.comm_profit = 0.2f; //update later
                 pc_PrivateBuildingAI.indu_profit = (float)(5f + 2f * (5f - good_export_ratio - food_import_ratio - lumber_import_ratio - petrol_import_ratio - coal_import_ratio))/100f;

@@ -164,8 +164,8 @@ namespace RealCity
                     float product_value = 0f;
                     switch ((TransferManager.TransferReason)data.m_transferType)
                     {
-                        case TransferManager.TransferReason.Oil:
-                            product_value = num * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f);
+                        case TransferManager.TransferReason.Petrol:
+                            product_value = num * (pc_PrivateBuildingAI.petrol_import_price - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f);
                             if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                             {
                                 import_tax = product_value * 0.3f;

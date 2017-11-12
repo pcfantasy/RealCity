@@ -28,6 +28,7 @@ namespace RealCity
         private UILabel aliveworkcount;
         private UILabel employfee;
         private UILabel landrent;
+        private UILabel net_asset;
 
         public override void Update()
         {
@@ -38,6 +39,7 @@ namespace RealCity
         public override void Start()
         {
             base.Start();
+            //DebugLog.LogToFileOnly("buildingUI start now");
             //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "Go to UI now");
             base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
@@ -108,25 +110,35 @@ namespace RealCity
             this.landrent.relativePosition = new Vector3(SPACING, this.employfee.relativePosition.y + SPACING22);
             this.landrent.autoSize = true;
             this.landrent.name = "Moreeconomic_Text_5";
+
+            this.net_asset = base.AddUIComponent<UILabel>();
+            this.net_asset.text = "net_asset [000000000000000]";
+            this.net_asset.tooltip = language.BuildingUI[13];
+            this.net_asset.relativePosition = new Vector3(SPACING, this.landrent.relativePosition.y + SPACING22);
+            this.net_asset.autoSize = true;
+            this.net_asset.name = "Moreeconomic_Text_5";
         }
 
         private void RefreshDisplayData()
         {
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
-            //DebugLog.LogToFileOnly("OnUpdateMoneyAmount num2 = " + num2.ToString());
+     
             if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
             {
+                //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.current_buildingid];
                 int aliveWorkerCount = 0;
                 int num = caculate_employee_outcome(buildingdata, comm_data.current_buildingid, out aliveWorkerCount);
                 int num1 = process_land_fee(buildingdata, comm_data.current_buildingid);
+                int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.current_buildingid, ref buildingdata);
                 this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.current_buildingid]);
                 this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                 this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
                 this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
                 this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
                 this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1/100f);
+                this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.current_buildingid] + asset);
             }
         }
 

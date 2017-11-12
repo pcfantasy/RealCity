@@ -456,7 +456,7 @@ namespace RealCity
         {
             if (buildingID > 49152)
             {
-                DebugLog.LogToFileOnly("Error: buildingIDgreater than 49152");
+                DebugLog.LogToFileOnly("Error: buildingID greater than 49152");
             }
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
             process_land_fee(buildingData, buildingID);
@@ -499,10 +499,10 @@ namespace RealCity
         public void process_addition_product(ushort buildingID, ref Building buildingData)
         {
             Regex r = new Regex("IndustrialBuildingAI");
-            Regex p = new Regex("IndustrialExtractorAI");
+            //Regex p = new Regex("IndustrialExtractorAI");
 
             Match m = r.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
-            Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
+            //Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
             if (m.Success)
             {
                 DistrictManager instance = Singleton<DistrictManager>.instance;
@@ -606,7 +606,47 @@ namespace RealCity
             }//m.sucess
         }
 
+        public static int process_building_asset(ushort buildingID, ref Building buildingData)
+        {
+            Regex p = new Regex("IndustrialExtractorAI");
+            Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
+            int asset = 0;
+            if (n.Success)
+            {
+                asset = (int)(buildingData.m_customBuffer1 * grain_export_price);
+            } else
+            {
+                if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                {
+                    asset = (int)((buildingData.m_customBuffer1 + buildingData.m_customBuffer2) * (good_export_price / 4f));
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price/4f));
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                }
+                else
+                {
 
+                }
+            }
+            return asset;
+        }
 
 
       public void process_building_data_final(ushort buildingID, ref Building buildingData)
@@ -622,11 +662,12 @@ namespace RealCity
                     }
                 }
 
+                int asset = process_building_asset(buildingID, ref buildingData);
                 Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
                 //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                 //{
                 System.Random rand = new System.Random();
-                if (comm_data.building_money[i] < -7000)
+                if ((comm_data.building_money[i] + asset) < -1000)
                 {
                     if (rand.Next(10) < 2)
                     {
@@ -639,11 +680,11 @@ namespace RealCity
                         Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
                     }
                 }
-                if (comm_data.building_money[i] < -5000)
+                if ((comm_data.building_money[i] + asset) < -500)
                 {
                     problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
                 }
-                else if (comm_data.building_money[i] < -3000)
+                else if ((comm_data.building_money[i] + asset) < 0)
                 {
                     problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
                 }

@@ -193,7 +193,7 @@ namespace RealCity
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
             this.m_title = base.AddUIComponent<UILabel>();
-            this.m_title.text = "economic Data";
+            this.m_title.text = language.EconomicUI[0];
             this.m_title.relativePosition = new Vector3(WIDTH / 2f - this.m_title.width / 2f - 25f, HEADER / 2f - this.m_title.height / 2f);
             this.m_title.textAlignment = UIHorizontalAlignment.Center;
             this.m_closeButton = base.AddUIComponent<UIButton>();
@@ -239,7 +239,7 @@ namespace RealCity
 
             //citizen
             this.m_firstline_citizen = base.AddUIComponent<UILabel>();
-            this.m_firstline_citizen.text = "1、Citizen Status";
+            this.m_firstline_citizen.text = language.EconomicUI[1];
             this.m_firstline_citizen.tooltip = "N/A";
             this.m_firstline_citizen.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
             this.m_firstline_citizen.autoSize = true;
@@ -247,28 +247,28 @@ namespace RealCity
             //data
             this.citizen_count = base.AddUIComponent<UILabel>();
             this.citizen_count.text =               string.Format("citizen_count [0000000]");
-            this.citizen_count.tooltip = "total citizen_count";
+            this.citizen_count.tooltip = language.EconomicUI[3];
             this.citizen_count.relativePosition = new Vector3(SPACING, this.m_firstline_citizen.relativePosition.y + SPACING22);
             this.citizen_count.autoSize = true;
             this.citizen_count.name = "Moreeconomic_Text_0";
 
             this.family_count = base.AddUIComponent<UILabel>();
             this.family_count.text =                 string.Format("family_count [0000000]");
-            this.family_count.tooltip = "total family_count";
+            this.family_count.tooltip = language.EconomicUI[5];
             this.family_count.relativePosition = new Vector3(this.citizen_count.relativePosition.x + this.citizen_count.width + SPACING + 30f, this.citizen_count.relativePosition.y);
             this.family_count.autoSize = true;
             this.family_count.name = "Moreeconomic_Text_1";
 
             this.citizen_salary_per_family = base.AddUIComponent<UILabel>();
             this.citizen_salary_per_family.text =    string.Format("citizen_salary_per_family [000]");
-            this.citizen_salary_per_family.tooltip = "citizen_salary_per_family";
+            this.citizen_salary_per_family.tooltip = language.EconomicUI[7];
             this.citizen_salary_per_family.relativePosition = new Vector3(this.family_count.relativePosition.x + this.family_count.width + SPACING + 30f, this.family_count.relativePosition.y);
             this.citizen_salary_per_family.autoSize = true;
             this.citizen_salary_per_family.name = "Moreeconomic_Text_2";
 
             this.citizen_salary_total = base.AddUIComponent<UILabel>();
             this.citizen_salary_total.text =         string.Format("salary_total [00000000]");
-            this.citizen_salary_total.tooltip = "total citizen_salary";
+            this.citizen_salary_total.tooltip = language.EconomicUI[9];
             this.citizen_salary_total.relativePosition = new Vector3(SPACING, this.citizen_count.relativePosition.y + SPACING22);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.citizen_salary_total.autoSize = true;
@@ -276,56 +276,56 @@ namespace RealCity
 
             this.citizen_salary_tax_total = base.AddUIComponent<UILabel>();
             this.citizen_salary_tax_total.text =     string.Format("citizen_tax_total [000]");
-            this.citizen_salary_tax_total.tooltip = "total citizen_salary_tax";
+            this.citizen_salary_tax_total.tooltip = language.EconomicUI[11];
             this.citizen_salary_tax_total.relativePosition = new Vector3(this.citizen_salary_total.relativePosition.x + this.citizen_salary_total.width + SPACING + 30f, this.citizen_salary_total.relativePosition.y);
             this.citizen_salary_tax_total.autoSize = true;
             this.citizen_salary_tax_total.name = "Moreeconomic_Text_4";
 
             this.citizen_expense_per_family = base.AddUIComponent<UILabel>();
             this.citizen_expense_per_family.text =   string.Format("expense_per_family [0000000000]");
-            this.citizen_expense_per_family.tooltip = "citizen_expense_per_family";
+            this.citizen_expense_per_family.tooltip = language.EconomicUI[13];
             this.citizen_expense_per_family.relativePosition = new Vector3(this.citizen_salary_tax_total.relativePosition.x + this.citizen_salary_tax_total.width + SPACING + 40f, this.citizen_salary_tax_total.relativePosition.y);
             this.citizen_expense_per_family.autoSize = true;
             this.citizen_expense_per_family.name = "Moreeconomic_Text_5";
 
             this.citizen_expense = base.AddUIComponent<UILabel>();
             this.citizen_expense.text =              string.Format("citizen_expense [0000]");
-            this.citizen_expense.tooltip = "total citizen_expense";
+            this.citizen_expense.tooltip = language.EconomicUI[15];
             this.citizen_expense.relativePosition = new Vector3(SPACING, this.citizen_salary_total.relativePosition.y + SPACING22);
             this.citizen_expense.autoSize = true;
             this.citizen_expense.name = "Moreeconomic_Text_6";
 
             this.public_transport_fee = base.AddUIComponent<UILabel>();
             this.public_transport_fee.text =         string.Format("public_trans_fee [0000]");
-            this.public_transport_fee.tooltip = "public_transport_fee";
+            this.public_transport_fee.tooltip = language.EconomicUI[17];
             this.public_transport_fee.relativePosition = new Vector3(this.citizen_expense.relativePosition.x + this.citizen_expense.width + SPACING + 30f, this.citizen_expense.relativePosition.y);
             this.public_transport_fee.autoSize = true;
             this.public_transport_fee.name = "Moreeconomic_Text_7";
 
             this.total_citizen_vehical_time = base.AddUIComponent<UILabel>();
             this.total_citizen_vehical_time.text =   string.Format("citizen_vehical_time [00000000]");
-            this.total_citizen_vehical_time.tooltip = "total citizen_vehical_time";
+            this.total_citizen_vehical_time.tooltip = language.EconomicUI[19];
             this.total_citizen_vehical_time.relativePosition = new Vector3(this.public_transport_fee.relativePosition.x + this.public_transport_fee.width + SPACING + 30f, this.public_transport_fee.relativePosition.y);
             this.total_citizen_vehical_time.autoSize = true;
             this.total_citizen_vehical_time.name = "Moreeconomic_Text_8";
 
             this.family_profit_money_num = base.AddUIComponent<UILabel>();
             this.family_profit_money_num.text =      string.Format("family_profit_num [000]");
-            this.family_profit_money_num.tooltip = "total family_profit_money_num";
+            this.family_profit_money_num.tooltip = language.EconomicUI[21];
             this.family_profit_money_num.relativePosition = new Vector3(SPACING, this.citizen_expense.relativePosition.y + SPACING22);
             this.family_profit_money_num.autoSize = true;
             this.family_profit_money_num.name = "Moreeconomic_Text_9";
 
             this.family_loss_money_num = base.AddUIComponent<UILabel>();
             this.family_loss_money_num.text =        string.Format("family_loss_num [00000]");
-            this.family_loss_money_num.tooltip = "family_loss_money_num";
+            this.family_loss_money_num.tooltip = language.EconomicUI[23];
             this.family_loss_money_num.relativePosition = new Vector3(this.family_profit_money_num.relativePosition.x + this.family_profit_money_num.width + SPACING + 22f, this.family_profit_money_num.relativePosition.y);
             this.family_loss_money_num.autoSize = true;
             this.family_loss_money_num.name = "Moreeconomic_Text_10";
 
             this.family_very_profit_num = base.AddUIComponent<UILabel>();
             this.family_very_profit_num.text =       string.Format("family_very_profit_num [00000]");
-            this.family_very_profit_num.tooltip = "family_very_profit_num";
+            this.family_very_profit_num.tooltip = language.EconomicUI[25];
             this.family_very_profit_num.relativePosition = new Vector3(this.family_loss_money_num.relativePosition.x + this.family_loss_money_num.width + SPACING + 20f, this.family_loss_money_num.relativePosition.y);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.family_very_profit_num.autoSize = true;
@@ -333,14 +333,14 @@ namespace RealCity
 
             this.family_weight_stable_high = base.AddUIComponent<UILabel>();
             this.family_weight_stable_high.text =    string.Format("wealth_stable_high [00000]");
-            this.family_weight_stable_high.tooltip = "family_wealth_stable_high_num";
+            this.family_weight_stable_high.tooltip = language.EconomicUI[27];
             this.family_weight_stable_high.relativePosition = new Vector3(SPACING, this.family_profit_money_num.relativePosition.y + SPACING22);
             this.family_weight_stable_high.autoSize = true;
             this.family_weight_stable_high.name = "Moreeconomic_Text_12";
 
             this.family_weight_stable_low = base.AddUIComponent<UILabel>();
             this.family_weight_stable_low.text =     string.Format("wealth_stable_low [00000]");
-            this.family_weight_stable_low.tooltip = "family_wealth_stable_low";
+            this.family_weight_stable_low.tooltip = language.EconomicUI[29];
             this.family_weight_stable_low.relativePosition = new Vector3(this.family_weight_stable_high.relativePosition.x + this.family_weight_stable_high.width + SPACING, this.family_weight_stable_high.relativePosition.y);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.family_weight_stable_low.autoSize = true;
@@ -348,7 +348,7 @@ namespace RealCity
 
             this.citizen_average_transport_fee = base.AddUIComponent<UILabel>();
             this.citizen_average_transport_fee.text = string.Format("average_transport_fee [000000]");
-            this.citizen_average_transport_fee.tooltip = "citizen_average_transport_fee";
+            this.citizen_average_transport_fee.tooltip = language.EconomicUI[31];
             this.citizen_average_transport_fee.relativePosition = new Vector3(this.family_weight_stable_low.relativePosition.x + this.family_weight_stable_low.width + SPACING, this.family_weight_stable_low.relativePosition.y);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.citizen_average_transport_fee.autoSize = true;
@@ -356,7 +356,7 @@ namespace RealCity
 
             this.resident_consumption_rate = base.AddUIComponent<UILabel>();
             this.resident_consumption_rate.text = string.Format("resident_consumption_rate [000000]");
-            this.resident_consumption_rate.tooltip = "resident_consumption_rate";
+            this.resident_consumption_rate.tooltip = language.EconomicUI[33];
             this.resident_consumption_rate.relativePosition = new Vector3(SPACING, this.family_weight_stable_high.relativePosition.y + SPACING22);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.resident_consumption_rate.autoSize = true;
@@ -364,7 +364,7 @@ namespace RealCity
 
             this.tourist_consumption_rate = base.AddUIComponent<UILabel>();
             this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [000000]");
-            this.tourist_consumption_rate.tooltip = "outside_consumption_rate";
+            this.tourist_consumption_rate.tooltip = language.EconomicUI[35];
             this.tourist_consumption_rate.relativePosition = new Vector3(this.resident_consumption_rate.relativePosition.x + this.resident_consumption_rate.width + SPACING + 20f, this.resident_consumption_rate.relativePosition.y);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.tourist_consumption_rate.autoSize = true;
@@ -378,133 +378,133 @@ namespace RealCity
 
             //building
             this.m_secondline_building = base.AddUIComponent<UILabel>();
-            this.m_secondline_building.text = "2、Building Status";
+            this.m_secondline_building.text = language.EconomicUI[36];
             this.m_secondline_building.tooltip = "N/A";
             this.m_secondline_building.relativePosition = new Vector3(SPACING, this.resident_consumption_rate.relativePosition.y + SPACING22);
             this.m_secondline_building.autoSize = true;
 
             this.good_export_ratio = base.AddUIComponent<UILabel>();
             this.good_export_ratio.text =           string.Format("good_export_ratio  [000]");
-            this.good_export_ratio.tooltip = "good_export_ratio";
+            this.good_export_ratio.tooltip = language.EconomicUI[38];
             this.good_export_ratio.relativePosition = new Vector3(SPACING, this.m_secondline_building.relativePosition.y + SPACING22);
             this.good_export_ratio.autoSize = true;
             this.good_export_ratio.name = "Moreeconomic_Text_15";
 
             this.food_export_ratio = base.AddUIComponent<UILabel>();
             this.food_export_ratio.text =           string.Format("food_export_ratio [0000]");
-            this.food_export_ratio.tooltip = "food_export_ratio";
+            this.food_export_ratio.tooltip = language.EconomicUI[40];
             this.food_export_ratio.relativePosition = new Vector3(this.good_export_ratio.relativePosition.x + this.good_export_ratio.width + SPACING + 10f, this.good_export_ratio.relativePosition.y);
             this.food_export_ratio.autoSize = true;
             this.food_export_ratio.name = "Moreeconomic_Text_16";
 
             this.petrol_export_ratio = base.AddUIComponent<UILabel>();
             this.petrol_export_ratio.text =         string.Format("petrol_export_ratio [000]");
-            this.petrol_export_ratio.tooltip = "petrol_export_ratio";
+            this.petrol_export_ratio.tooltip = language.EconomicUI[42];
             this.petrol_export_ratio.relativePosition = new Vector3(this.food_export_ratio.relativePosition.x + this.food_export_ratio.width + SPACING + 10f, this.food_export_ratio.relativePosition.y);
             this.petrol_export_ratio.autoSize = true;
             this.petrol_export_ratio.name = "Moreeconomic_Text_17";
 
             this.coal_export_ratio = base.AddUIComponent<UILabel>();
             this.coal_export_ratio.text =           string.Format("coal_export_ratio [00000]");
-            this.coal_export_ratio.tooltip = "coal_export_ratio";
+            this.coal_export_ratio.tooltip = language.EconomicUI[44];
             this.coal_export_ratio.relativePosition = new Vector3(SPACING, this.petrol_export_ratio.relativePosition.y + SPACING22);
             this.coal_export_ratio.autoSize = true;
             this.coal_export_ratio.name = "Moreeconomic_Text_18";
 
             this.lumber_export_ratio = base.AddUIComponent<UILabel>();
             this.lumber_export_ratio.text =         string.Format("lumber_export_ratio [000]");
-            this.lumber_export_ratio.tooltip = "lumber_export_ratio";
+            this.lumber_export_ratio.tooltip = language.EconomicUI[46];
             this.lumber_export_ratio.relativePosition = new Vector3(this.coal_export_ratio.relativePosition.x + this.coal_export_ratio.width + SPACING, this.coal_export_ratio.relativePosition.y);
             this.lumber_export_ratio.autoSize = true;
             this.lumber_export_ratio.name = "Moreeconomic_Text_19";
 
             this.oil_export_ratio = base.AddUIComponent<UILabel>();
             this.oil_export_ratio.text =            string.Format("oil_export_ratio [000000]");
-            this.oil_export_ratio.tooltip = "oil_export_ratio";
+            this.oil_export_ratio.tooltip = language.EconomicUI[48];
             this.oil_export_ratio.relativePosition = new Vector3(this.lumber_export_ratio.relativePosition.x + this.lumber_export_ratio.width + SPACING, this.lumber_export_ratio.relativePosition.y);
             this.oil_export_ratio.autoSize = true;
             this.oil_export_ratio.name = "Moreeconomic_Text_20";
 
             this.ore_export_ratio = base.AddUIComponent<UILabel>();
             this.ore_export_ratio.text =            string.Format("ore_export_ratio [000000]");
-            this.ore_export_ratio.tooltip = "ore_export_ratio";
+            this.ore_export_ratio.tooltip = language.EconomicUI[50];
             this.ore_export_ratio.relativePosition = new Vector3(SPACING, this.oil_export_ratio.relativePosition.y + SPACING22);
             this.ore_export_ratio.autoSize = true;
             this.ore_export_ratio.name = "Moreeconomic_Text_21";
 
             this.log_export_ratio = base.AddUIComponent<UILabel>();
             this.log_export_ratio.text =            string.Format("log_export_ratio [000000]");
-            this.log_export_ratio.tooltip = "log_export_ratio";
+            this.log_export_ratio.tooltip = language.EconomicUI[52];
             this.log_export_ratio.relativePosition = new Vector3(this.ore_export_ratio.relativePosition.x + this.ore_export_ratio.width + SPACING, this.ore_export_ratio.relativePosition.y);
             this.log_export_ratio.autoSize = true;
             this.log_export_ratio.name = "Moreeconomic_Text_22";
 
             this.grain_export_ratio = base.AddUIComponent<UILabel>();
             this.grain_export_ratio.text =          string.Format("grain_export_ratio [0000]");
-            this.grain_export_ratio.tooltip = "grain_export_ratio";
+            this.grain_export_ratio.tooltip = language.EconomicUI[54];
             this.grain_export_ratio.relativePosition = new Vector3(this.log_export_ratio.relativePosition.x + this.log_export_ratio.width + SPACING, this.log_export_ratio.relativePosition.y);
             this.grain_export_ratio.autoSize = true;
             this.grain_export_ratio.name = "Moreeconomic_Text_23";
 
             this.good_import_ratio = base.AddUIComponent<UILabel>();
             this.good_import_ratio.text =           string.Format("good_import_ratio  [0000]");
-            this.good_import_ratio.tooltip = "good_import_ratio";
+            this.good_import_ratio.tooltip = language.EconomicUI[56];
             this.good_import_ratio.relativePosition = new Vector3(SPACING, this.grain_export_ratio.relativePosition.y + SPACING22);
             this.good_import_ratio.autoSize = true;
             this.good_import_ratio.name = "Moreeconomic_Text_65";
 
             this.food_import_ratio = base.AddUIComponent<UILabel>();
             this.food_import_ratio.text =           string.Format("food_import_ratio [00000]");
-            this.food_import_ratio.tooltip = "food_import_ratio";
+            this.food_import_ratio.tooltip = language.EconomicUI[58];
             this.food_import_ratio.relativePosition = new Vector3(this.good_import_ratio.relativePosition.x + this.good_import_ratio.width + SPACING, this.good_import_ratio.relativePosition.y);
             this.food_import_ratio.autoSize = true;
             this.food_import_ratio.name = "Moreeconomic_Text_66";
 
             this.petrol_import_ratio = base.AddUIComponent<UILabel>();
             this.petrol_import_ratio.text =         string.Format("petrol_import_ratio [000]");
-            this.petrol_import_ratio.tooltip = "petrol_import_ratio";
+            this.petrol_import_ratio.tooltip = language.EconomicUI[60];
             this.petrol_import_ratio.relativePosition = new Vector3(this.food_import_ratio.relativePosition.x + this.food_import_ratio.width + SPACING, this.food_import_ratio.relativePosition.y);
             this.petrol_import_ratio.autoSize = true;
             this.petrol_import_ratio.name = "Moreeconomic_Text_67";
 
             this.coal_import_ratio = base.AddUIComponent<UILabel>();
             this.coal_import_ratio.text =           string.Format("coal_import_ratio [00000]");
-            this.coal_import_ratio.tooltip = "coal_import_ratio";
+            this.coal_import_ratio.tooltip = language.EconomicUI[62];
             this.coal_import_ratio.relativePosition = new Vector3(SPACING, this.petrol_import_ratio.relativePosition.y + SPACING22);
             this.coal_import_ratio.autoSize = true;
             this.coal_import_ratio.name = "Moreeconomic_Text_68";
 
             this.lumber_import_ratio = base.AddUIComponent<UILabel>();
             this.lumber_import_ratio.text =         string.Format("lumber_import_ratio [000]");
-            this.lumber_import_ratio.tooltip = "lumber_import_ratio";
+            this.lumber_import_ratio.tooltip = language.EconomicUI[64];
             this.lumber_import_ratio.relativePosition = new Vector3(this.coal_import_ratio.relativePosition.x + this.coal_import_ratio.width + SPACING, this.coal_import_ratio.relativePosition.y);
             this.lumber_import_ratio.autoSize = true;
             this.lumber_import_ratio.name = "Moreeconomic_Text_69";
 
             this.oil_import_ratio = base.AddUIComponent<UILabel>();
             this.oil_import_ratio.text =            string.Format("oil_import_ratio [000000]");
-            this.oil_import_ratio.tooltip = "oil_import_ratio";
+            this.oil_import_ratio.tooltip = language.EconomicUI[66];
             this.oil_import_ratio.relativePosition = new Vector3(this.lumber_import_ratio.relativePosition.x + this.lumber_import_ratio.width + SPACING, this.lumber_import_ratio.relativePosition.y);
             this.oil_import_ratio.autoSize = true;
             this.oil_import_ratio.name = "Moreeconomic_Text_70";
 
             this.ore_import_ratio = base.AddUIComponent<UILabel>();
             this.ore_import_ratio.text =            string.Format("ore_import_ratio [000000]");
-            this.ore_import_ratio.tooltip = "ore_import_ratio";
+            this.ore_import_ratio.tooltip = language.EconomicUI[68];
             this.ore_import_ratio.relativePosition = new Vector3(SPACING, this.oil_import_ratio.relativePosition.y + SPACING22);
             this.ore_import_ratio.autoSize = true;
             this.ore_import_ratio.name = "Moreeconomic_Text_71";
 
             this.log_import_ratio = base.AddUIComponent<UILabel>();
             this.log_import_ratio.text =            string.Format("log_import_ratio [000000]");
-            this.log_import_ratio.tooltip = "log_import_ratio";
+            this.log_import_ratio.tooltip = language.EconomicUI[70];
             this.log_import_ratio.relativePosition = new Vector3(this.ore_import_ratio.relativePosition.x + this.ore_import_ratio.width + SPACING, this.ore_import_ratio.relativePosition.y);
             this.log_import_ratio.autoSize = true;
             this.log_import_ratio.name = "Moreeconomic_Text_72";
 
             this.grain_import_ratio = base.AddUIComponent<UILabel>();
             this.grain_import_ratio.text =          string.Format("grain_import_ratio [00000]");
-            this.grain_import_ratio.tooltip = "grain_import_ratio";
+            this.grain_import_ratio.tooltip = language.EconomicUI[72];
             this.grain_import_ratio.relativePosition = new Vector3(this.log_import_ratio.relativePosition.x + this.log_import_ratio.width + SPACING, this.log_import_ratio.relativePosition.y);
             this.grain_import_ratio.autoSize = true;
             this.grain_import_ratio.name = "Moreeconomic_Text_73";
@@ -512,168 +512,168 @@ namespace RealCity
 
             this.all_comm_building_profit = base.AddUIComponent<UILabel>();
             this.all_comm_building_profit.text =     string.Format("all_comm_building_profit num   [00000]");
-            this.all_comm_building_profit.tooltip = "all_comm_building_profit num";
+            this.all_comm_building_profit.tooltip = language.EconomicUI[74];
             this.all_comm_building_profit.relativePosition = new Vector3(SPACING, this.grain_import_ratio.relativePosition.y + SPACING22);
             this.all_comm_building_profit.autoSize = true;
             this.all_comm_building_profit.name = "Moreeconomic_Text_25";
 
             this.all_comm_building_loss = base.AddUIComponent<UILabel>();
             this.all_comm_building_loss.text =       string.Format("all_comm_building_loss num   [0000000]");
-            this.all_comm_building_loss.tooltip = "all_comm_building_loss num";
+            this.all_comm_building_loss.tooltip = language.EconomicUI[76];
             this.all_comm_building_loss.relativePosition = new Vector3(this.all_comm_building_profit.relativePosition.x + this.all_comm_building_profit.width + SPACING, this.all_comm_building_profit.relativePosition.y);
             this.all_comm_building_loss.autoSize = true;
             this.all_comm_building_loss.name = "Moreeconomic_Text_26";
 
             this.all_industry_building_profit = base.AddUIComponent<UILabel>();
             this.all_industry_building_profit.text = string.Format("all_indust_building_profit num [00000]");
-            this.all_industry_building_profit.tooltip = "all_industry_building_profit";
+            this.all_industry_building_profit.tooltip = language.EconomicUI[78];
             this.all_industry_building_profit.relativePosition = new Vector3(SPACING, this.all_comm_building_profit.relativePosition.y + SPACING22);
             this.all_industry_building_profit.autoSize = true;
             this.all_industry_building_profit.name = "Moreeconomic_Text_27";
 
             this.all_industry_building_loss = base.AddUIComponent<UILabel>();
             this.all_industry_building_loss.text =   string.Format("all_industry_building_loss num [00000]");
-            this.all_industry_building_loss.tooltip = "all_industry_building_loss num";
+            this.all_industry_building_loss.tooltip = language.EconomicUI[80];
             this.all_industry_building_loss.relativePosition = new Vector3(this.all_industry_building_profit.relativePosition.x + this.all_industry_building_profit.width + SPACING + 10f , this.all_industry_building_profit.relativePosition.y);
             this.all_industry_building_loss.autoSize = true;
             this.all_industry_building_loss.name = "Moreeconomic_Text_28";
 
             this.all_foresty_building_profit = base.AddUIComponent<UILabel>();
             this.all_foresty_building_profit.text =  string.Format("all_foresty_building_profit num [00000]");
-            this.all_foresty_building_profit.tooltip = "all_foresty_building_profit num";
+            this.all_foresty_building_profit.tooltip = language.EconomicUI[82];
             this.all_foresty_building_profit.relativePosition = new Vector3(SPACING, this.all_industry_building_profit.relativePosition.y + SPACING22);
             this.all_foresty_building_profit.autoSize = true;
             this.all_foresty_building_profit.name = "Moreeconomic_Text_29";
 
             this.all_foresty_building_loss = base.AddUIComponent<UILabel>();
             this.all_foresty_building_loss.text =    string.Format("all_foresty_building_loss num  [000000]");
-            this.all_foresty_building_loss.tooltip = "all_foresty_building_loss num";
+            this.all_foresty_building_loss.tooltip = language.EconomicUI[84];
             this.all_foresty_building_loss.relativePosition = new Vector3(this.all_foresty_building_profit.relativePosition.x + this.all_foresty_building_profit.width + SPACING -10f , this.all_foresty_building_profit.relativePosition.y);
             this.all_foresty_building_loss.autoSize = true;
             this.all_foresty_building_loss.name = "Moreeconomic_Text_30";
 
             this.all_farmer_building_profit = base.AddUIComponent<UILabel>();
             this.all_farmer_building_profit.text =   string.Format("all_farmer_building_profit num  [00000]");
-            this.all_farmer_building_profit.tooltip = "all_farmer_building_profit num";
+            this.all_farmer_building_profit.tooltip = language.EconomicUI[86];
             this.all_farmer_building_profit.relativePosition = new Vector3(SPACING, this.all_foresty_building_profit.relativePosition.y + SPACING22);
             this.all_farmer_building_profit.autoSize = true;
             this.all_farmer_building_profit.name = "Moreeconomic_Text_31";
 
             this.all_farmer_building_loss = base.AddUIComponent<UILabel>();
             this.all_farmer_building_loss.text =     string.Format("all_farming_building_loss num  [000000]");
-            this.all_farmer_building_loss.tooltip = "all_farmer_building_loss num";
+            this.all_farmer_building_loss.tooltip = language.EconomicUI[88];
             this.all_farmer_building_loss.relativePosition = new Vector3(this.all_farmer_building_profit.relativePosition.x + this.all_farmer_building_profit.width + SPACING - 15f, this.all_farmer_building_profit.relativePosition.y);
             this.all_farmer_building_loss.autoSize = true;
             this.all_farmer_building_loss.name = "Moreeconomic_Text_32";
 
             this.all_oil_building_profit = base.AddUIComponent<UILabel>();
             this.all_oil_building_profit.text =      string.Format("all_oil_building_profit num  [00000000]");
-            this.all_oil_building_profit.tooltip = "all_oil_building_profit num";
+            this.all_oil_building_profit.tooltip = language.EconomicUI[90];
             this.all_oil_building_profit.relativePosition = new Vector3(SPACING, this.all_farmer_building_profit.relativePosition.y + SPACING22);
             this.all_oil_building_profit.autoSize = true;
             this.all_oil_building_profit.name = "Moreeconomic_Text_33";
 
             this.all_oil_building_loss = base.AddUIComponent<UILabel>();
             this.all_oil_building_loss.text =        string.Format("all_oil_building_loss num   [000000000]");
-            this.all_oil_building_loss.tooltip = "all_oil_building_loss num";
+            this.all_oil_building_loss.tooltip = language.EconomicUI[92];
             this.all_oil_building_loss.relativePosition = new Vector3(this.all_oil_building_profit.relativePosition.x + this.all_oil_building_profit.width + SPACING, this.all_oil_building_profit.relativePosition.y);
             this.all_oil_building_loss.autoSize = true;
             this.all_oil_building_loss.name = "Moreeconomic_Text_34";
 
             this.all_ore_building_profit = base.AddUIComponent<UILabel>();
             this.all_ore_building_profit.text =      string.Format("all_ore_building_profit num  [0000000]");
-            this.all_ore_building_profit.tooltip = "all_ore_building_profit num";
+            this.all_ore_building_profit.tooltip = language.EconomicUI[94];
             this.all_ore_building_profit.relativePosition = new Vector3(SPACING, this.all_oil_building_profit.relativePosition.y + SPACING22);
             this.all_ore_building_profit.autoSize = true;
             this.all_ore_building_profit.name = "Moreeconomic_Text_35";
 
             this.all_ore_building_loss = base.AddUIComponent<UILabel>();
             this.all_ore_building_loss.text =        string.Format("all_ore_building_loss num  [000000000]");
-            this.all_ore_building_loss.tooltip = "all_ore_building_loss num";
+            this.all_ore_building_loss.tooltip = language.EconomicUI[96];
             this.all_ore_building_loss.relativePosition = new Vector3(this.all_ore_building_profit.relativePosition.x + this.all_ore_building_profit.width + SPACING, this.all_ore_building_profit.relativePosition.y);
             this.all_ore_building_loss.autoSize = true;
             this.all_ore_building_loss.name = "Moreeconomic_Text_36";
 
             this.office_gen_salary_index = base.AddUIComponent<UILabel>();
             this.office_gen_salary_index.text = string.Format("office_gen_salary_index [0000000000]");
-            this.office_gen_salary_index.tooltip = "office_gen_salary_index";
+            this.office_gen_salary_index.tooltip = language.EconomicUI[98];
             this.office_gen_salary_index.relativePosition = new Vector3(SPACING, this.all_ore_building_profit.relativePosition.y + SPACING22);
             this.office_gen_salary_index.autoSize = true;
             this.office_gen_salary_index.name = "Moreeconomic_Text_42";
 
             this.office_high_tech_salary_index = base.AddUIComponent<UILabel>();
             this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [0000000000]");
-            this.office_high_tech_salary_index.tooltip = "office_high_tech_salary_index";
+            this.office_high_tech_salary_index.tooltip = language.EconomicUI[100];
             this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + this.office_gen_salary_index.width + SPACING + 10f, this.office_gen_salary_index.relativePosition.y);
             this.office_high_tech_salary_index.autoSize = true;
             this.office_high_tech_salary_index.name = "Moreeconomic_Text_43";
 
             this.m_thirdline_outside = base.AddUIComponent<UILabel>();
-            this.m_thirdline_outside.text = string.Format("Outside Situation");
-            this.m_thirdline_outside.tooltip = "Outside Situation";
+            this.m_thirdline_outside.text = string.Format(language.EconomicUI[101]);
+            this.m_thirdline_outside.tooltip = language.EconomicUI[102];
             this.m_thirdline_outside.relativePosition = new Vector3(SPACING, this.office_gen_salary_index.relativePosition.y + SPACING22);
             this.m_thirdline_outside.autoSize = true;
             this.m_thirdline_outside.name = "Moreeconomic_Text_44";
 
             this.m_outside_garbage = base.AddUIComponent<UILabel>();
             this.m_outside_garbage.text = string.Format("outside garbage [0000000]");
-            this.m_outside_garbage.tooltip = "outside total garbage";
+            this.m_outside_garbage.tooltip = language.EconomicUI[104];
             this.m_outside_garbage.relativePosition = new Vector3(SPACING, this.m_thirdline_outside.relativePosition.y + SPACING22);
             this.m_outside_garbage.autoSize = true;
             this.m_outside_garbage.name = "Moreeconomic_Text_45";
 
             this.m_outside_dead = base.AddUIComponent<UILabel>();
             this.m_outside_dead.text =    string.Format("outside dead [000000]");
-            this.m_outside_dead.tooltip = "outside total dead";
+            this.m_outside_dead.tooltip = language.EconomicUI[106];
             this.m_outside_dead.relativePosition = new Vector3(this.m_outside_garbage.relativePosition.x + this.m_outside_garbage.width + SPACING, this.m_outside_garbage.relativePosition.y);
             this.m_outside_dead.autoSize = true;
             this.m_outside_dead.name = "Moreeconomic_Text_46";
 
             this.m_outside_crime = base.AddUIComponent<UILabel>();
             this.m_outside_crime.text = string.Format("outside crime [000000]");
-            this.m_outside_crime.tooltip = "outside total crime";
+            this.m_outside_crime.tooltip = language.EconomicUI[108];
             this.m_outside_crime.relativePosition = new Vector3(this.m_outside_dead.relativePosition.x + this.m_outside_dead.width + SPACING, this.m_outside_dead.relativePosition.y);
             this.m_outside_crime.autoSize = true;
             this.m_outside_crime.name = "Moreeconomic_Text_47";
 
             this.m_outside_sick = base.AddUIComponent<UILabel>();
             this.m_outside_sick.text = string.Format("outside sick [000000]");
-            this.m_outside_sick.tooltip = "outside total sick";
+            this.m_outside_sick.tooltip = language.EconomicUI[110];
             this.m_outside_sick.relativePosition = new Vector3(this.m_outside_crime.relativePosition.x + this.m_outside_crime.width + SPACING, this.m_outside_crime.relativePosition.y);
             this.m_outside_sick.autoSize = true;
             this.m_outside_sick.name = "Moreeconomic_Text_48";
 
             this.tip1 = base.AddUIComponent<UILabel>();
             this.tip1.text = string.Format("tip1: [0000000000]");
-            this.tip1.tooltip = "tip1";
+            this.tip1.tooltip = language.EconomicUI[112];
             this.tip1.relativePosition = new Vector3(SPACING, this.m_outside_garbage.relativePosition.y + SPACING22 + 10f);
             this.tip1.autoSize = true;
             this.tip1.name = "Moreeconomic_Text_49";
 
             this.tip2 = base.AddUIComponent<UILabel>();
             this.tip2.text = string.Format("tip2: [0000000000]");
-            this.tip2.tooltip = "tip2";
+            this.tip2.tooltip = language.EconomicUI[114];
             this.tip2.relativePosition = new Vector3(SPACING, this.tip1.relativePosition.y + SPACING22);
             this.tip2.autoSize = true;
             this.tip2.name = "Moreeconomic_Text_50";
 
             this.tip3 = base.AddUIComponent<UILabel>();
             this.tip3.text = string.Format("tip3: [0000000000]");
-            this.tip3.tooltip = "tip3";
+            this.tip3.tooltip = language.EconomicUI[116];
             this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
             this.tip3.autoSize = true;
             this.tip3.name = "Moreeconomic_Text_51";
 
             this.tip4 = base.AddUIComponent<UILabel>();
             this.tip4.text = string.Format("tip4: [0000000000]");
-            this.tip4.tooltip = "tip4";
+            this.tip4.tooltip = language.EconomicUI[118];
             this.tip4.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
             this.tip4.autoSize = true;
             this.tip4.name = "Moreeconomic_Text_52";
 
             this.tip5 = base.AddUIComponent<UILabel>();
             this.tip5.text = string.Format("tip5: [0000000000]");
-            this.tip5.tooltip = "tip5";
+            this.tip5.tooltip = language.EconomicUI[120];
             this.tip5.relativePosition = new Vector3(SPACING, this.tip4.relativePosition.y + SPACING22);
             this.tip5.autoSize = true;
             this.tip5.name = "Moreeconomic_Text_53";
@@ -736,72 +736,72 @@ namespace RealCity
             //EconomyPanel instance = Singleton<EconomyPanel>.instance;
             isRefreshing = true;
             //citizen
-            this.citizen_count.text = string.Format("citizen_count [{0}]", comm_data.citizen_count);
-            this.family_count.text = string.Format("family_count [{0}]", comm_data.family_count);
-            this.citizen_salary_per_family.text = string.Format("citizen_salary_per_family [{0}]", comm_data.citizen_salary_per_family);
-            this.citizen_salary_total.text = string.Format("salary_total [{0}]", comm_data.citizen_salary_total);
-            this.citizen_salary_tax_total.text = string.Format("citizen_tax_total [{0}]", comm_data.citizen_salary_tax_total);
-            this.citizen_expense_per_family.text = string.Format("expense_per_family [{0}]", comm_data.citizen_expense_per_family);
-            this.citizen_expense.text = string.Format("citizen_expense [{0}]", comm_data.citizen_expense);
-            this.total_citizen_vehical_time.text = string.Format("citizen_vehical_time [{0}]", comm_data.temp_total_citizen_vehical_time_last);
-            this.public_transport_fee.text = string.Format("public_trans_fee [{0}]", comm_data.public_transport_fee);
-            this.citizen_average_transport_fee.text = string.Format("average_transport_fee [{0}]", comm_data.citizen_average_transport_fee);
-            this.family_profit_money_num.text = string.Format("family_profit_num [{0}]", comm_data.family_profit_money_num);
-            this.family_loss_money_num.text = string.Format("family_loss_num [{0}]", comm_data.family_loss_money_num);
-            this.family_very_profit_num.text = string.Format("family_very_profit_num [{0}]", comm_data.family_very_profit_money_num);
-            this.family_weight_stable_high.text = string.Format("wealth_stable_high [{0}]", comm_data.family_weight_stable_high);
-            this.family_weight_stable_low.text = string.Format("wealth_stable_low [{0}]", comm_data.family_weight_stable_low);
-            this.resident_consumption_rate.text = string.Format("resident_consumption_rate [{0:N2}]", comm_data.resident_consumption_rate);
-            this.tourist_consumption_rate.text = string.Format("outside_consumption_rate [{0:N2}]", comm_data.outside_consumption_rate);
+            this.citizen_count.text = string.Format(language.EconomicUI[2] + " [{0}]", comm_data.citizen_count);
+            this.family_count.text = string.Format(language.EconomicUI[4] + " [{0}]", comm_data.family_count);
+            this.citizen_salary_per_family.text = string.Format(language.EconomicUI[6] + " [{0}]", comm_data.citizen_salary_per_family);
+            this.citizen_salary_total.text = string.Format(language.EconomicUI[8] + " [{0}]", comm_data.citizen_salary_total);
+            this.citizen_salary_tax_total.text = string.Format(language.EconomicUI[10] + " [{0}]", comm_data.citizen_salary_tax_total);
+            this.citizen_expense_per_family.text = string.Format(language.EconomicUI[12] + " [{0}]", comm_data.citizen_expense_per_family);
+            this.citizen_expense.text = string.Format(language.EconomicUI[14] + " [{0}]", comm_data.citizen_expense);
+            this.public_transport_fee.text = string.Format(language.EconomicUI[16] + " [{0}]", comm_data.public_transport_fee);
+            this.total_citizen_vehical_time.text = string.Format(language.EconomicUI[18] + " [{0}]", comm_data.temp_total_citizen_vehical_time_last);
+            this.family_profit_money_num.text = string.Format(language.EconomicUI[20] + " [{0}]", comm_data.family_profit_money_num);
+            this.family_loss_money_num.text = string.Format(language.EconomicUI[22] + " [{0}]", comm_data.family_loss_money_num);
+            this.family_very_profit_num.text = string.Format(language.EconomicUI[24] + " [{0}]", comm_data.family_very_profit_money_num);
+            this.family_weight_stable_high.text = string.Format(language.EconomicUI[26] + " [{0}]", comm_data.family_weight_stable_high);
+            this.family_weight_stable_low.text = string.Format(language.EconomicUI[28] + " [{0}]", comm_data.family_weight_stable_low);
+            this.citizen_average_transport_fee.text = string.Format(language.EconomicUI[30] + " [{0}]", comm_data.citizen_average_transport_fee);
+            this.resident_consumption_rate.text = string.Format(language.EconomicUI[32] + " [{0:N2}]", comm_data.resident_consumption_rate);
+            this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N2}]", comm_data.outside_consumption_rate);
 
             //building
-            this.good_export_ratio.text = string.Format("good_export_ratio [{0:N2}]", pc_PrivateBuildingAI.good_export_ratio);
-            this.food_export_ratio.text = string.Format("food_export_ratio [{0:N2}]", pc_PrivateBuildingAI.food_export_ratio);
-            this.petrol_export_ratio.text = string.Format("petrol_export_ratio [{0:N2}]", pc_PrivateBuildingAI.petrol_export_ratio);
-            this.coal_export_ratio.text = string.Format("coal_export_ratio [{0:N2}]", pc_PrivateBuildingAI.coal_export_ratio);
-            this.lumber_export_ratio.text = string.Format("lumber_export_ratio [{0:N2}]", pc_PrivateBuildingAI.lumber_export_ratio);
-            this.oil_export_ratio.text = string.Format("oil_export_ratio [{0:N2}]", pc_PrivateBuildingAI.oil_export_ratio);
-            this.ore_export_ratio.text = string.Format("ore_export_ratio [{0:N2}]", pc_PrivateBuildingAI.ore_export_ratio);
-            this.log_export_ratio.text = string.Format("log_export_ratio [{0:N2}]", pc_PrivateBuildingAI.log_export_ratio);
-            this.grain_export_ratio.text = string.Format("grain_export_ratio [{0:N2}]", pc_PrivateBuildingAI.grain_export_ratio);
+            this.good_export_ratio.text = string.Format(language.EconomicUI[37] + " [{0:N2}]", pc_PrivateBuildingAI.good_export_ratio);
+            this.food_export_ratio.text = string.Format(language.EconomicUI[39] + " [{0:N2}]", pc_PrivateBuildingAI.food_export_ratio);
+            this.petrol_export_ratio.text = string.Format(language.EconomicUI[41] + " [{0:N2}]", pc_PrivateBuildingAI.petrol_export_ratio);
+            this.coal_export_ratio.text = string.Format(language.EconomicUI[43] + " [{0:N2}]", pc_PrivateBuildingAI.coal_export_ratio);
+            this.lumber_export_ratio.text = string.Format(language.EconomicUI[45] + " [{0:N2}]", pc_PrivateBuildingAI.lumber_export_ratio);
+            this.oil_export_ratio.text = string.Format(language.EconomicUI[47] + " [{0:N2}]", pc_PrivateBuildingAI.oil_export_ratio);
+            this.ore_export_ratio.text = string.Format(language.EconomicUI[49] + " [{0:N2}]", pc_PrivateBuildingAI.ore_export_ratio);
+            this.log_export_ratio.text = string.Format(language.EconomicUI[51] + " [{0:N2}]", pc_PrivateBuildingAI.log_export_ratio);
+            this.grain_export_ratio.text = string.Format(language.EconomicUI[53] + " [{0:N2}]", pc_PrivateBuildingAI.grain_export_ratio);
 
-            this.good_import_ratio.text = string.Format("good_import_ratio [{0:N2}]", pc_PrivateBuildingAI.good_import_ratio);
-            this.food_import_ratio.text = string.Format("food_import_ratio [{0:N2}]", pc_PrivateBuildingAI.food_import_ratio);
-            this.petrol_import_ratio.text = string.Format("petrol_import_ratio [{0:N2}]", pc_PrivateBuildingAI.petrol_import_ratio);
-            this.coal_import_ratio.text = string.Format("coal_import_ratio [{0:N2}]", pc_PrivateBuildingAI.coal_import_ratio);
-            this.lumber_import_ratio.text = string.Format("lumber_import_ratio [{0:N2}]", pc_PrivateBuildingAI.lumber_import_ratio);
-            this.oil_import_ratio.text = string.Format("oil_import_ratio [{0:N2}]", pc_PrivateBuildingAI.oil_import_ratio);
-            this.ore_import_ratio.text = string.Format("ore_import_ratio [{0:N2}]", pc_PrivateBuildingAI.ore_import_ratio);
-            this.log_import_ratio.text = string.Format("log_import_ratio [{0:N2}]", pc_PrivateBuildingAI.log_import_ratio);
-            this.grain_import_ratio.text = string.Format("grain_import_ratio [{0:N2}]", pc_PrivateBuildingAI.grain_import_ratio);
+            this.good_import_ratio.text = string.Format(language.EconomicUI[55] + " [{0:N2}]", pc_PrivateBuildingAI.good_import_ratio);
+            this.food_import_ratio.text = string.Format(language.EconomicUI[57] + " [{0:N2}]", pc_PrivateBuildingAI.food_import_ratio);
+            this.petrol_import_ratio.text = string.Format(language.EconomicUI[59] + " [{0:N2}]", pc_PrivateBuildingAI.petrol_import_ratio);
+            this.coal_import_ratio.text = string.Format(language.EconomicUI[61] + " [{0:N2}]", pc_PrivateBuildingAI.coal_import_ratio);
+            this.lumber_import_ratio.text = string.Format(language.EconomicUI[63] + " [{0:N2}]", pc_PrivateBuildingAI.lumber_import_ratio);
+            this.oil_import_ratio.text = string.Format(language.EconomicUI[65] + " [{0:N2}]", pc_PrivateBuildingAI.oil_import_ratio);
+            this.ore_import_ratio.text = string.Format(language.EconomicUI[67] + " [{0:N2}]", pc_PrivateBuildingAI.ore_import_ratio);
+            this.log_import_ratio.text = string.Format(language.EconomicUI[69] + " [{0:N2}]", pc_PrivateBuildingAI.log_import_ratio);
+            this.grain_import_ratio.text = string.Format(language.EconomicUI[71] + " [{0:N2}]", pc_PrivateBuildingAI.grain_import_ratio);
 
 
 
-            this.all_comm_building_profit.text = string.Format("all_comm_building_profit num [{0}]", pc_PrivateBuildingAI.all_comm_building_profit_final);
-            this.all_comm_building_loss.text = string.Format("all_comm_building_loss num [{0}]", pc_PrivateBuildingAI.all_comm_building_loss_final);
-            this.all_industry_building_profit.text = string.Format("all_industry_building_profit num [{0}]", pc_PrivateBuildingAI.all_industry_building_profit_final);
-            this.all_industry_building_loss.text = string.Format("all_industry_building_loss num [{0}]", pc_PrivateBuildingAI.all_industry_building_loss_final);
-            this.all_foresty_building_profit.text = string.Format("all_foresty_building_profit num [{0}]", pc_PrivateBuildingAI.all_foresty_building_profit_final);
-            this.all_foresty_building_loss.text = string.Format("all_foresty_building_loss num [{0}]", pc_PrivateBuildingAI.all_foresty_building_loss_final);
-            this.all_farmer_building_profit.text = string.Format("all_farmer_building_profit num [{0}]", pc_PrivateBuildingAI.all_farmer_building_profit_final);
-            this.all_farmer_building_loss.text = string.Format("all_farmer_building_loss num [{0}]", pc_PrivateBuildingAI.all_farmer_building_loss_final);
-            this.all_oil_building_profit.text = string.Format("all_oil_building_profit num [{0}]", pc_PrivateBuildingAI.all_oil_building_profit_final);
-            this.all_oil_building_loss.text = string.Format("all_oil_building_loss num [{0}]", pc_PrivateBuildingAI.all_oil_building_loss_final);
-            this.all_ore_building_profit.text = string.Format("all_ore_building_profit num [{0}]", pc_PrivateBuildingAI.all_ore_building_profit_final);
-            this.all_ore_building_loss.text = string.Format("all_ore_building_loss num [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
-            this.office_gen_salary_index.text = string.Format("office_gen_salary_index [{0}]", pc_PrivateBuildingAI.office_gen_salary_index);
-            this.office_high_tech_salary_index.text = string.Format("office_high_tech_salary_index [{0}]", pc_PrivateBuildingAI.office_high_tech_salary_index);
+            this.all_comm_building_profit.text = string.Format(language.EconomicUI[73] + " [{0}]", pc_PrivateBuildingAI.all_comm_building_profit_final);
+            this.all_comm_building_loss.text = string.Format(language.EconomicUI[75] + " [{0}]", pc_PrivateBuildingAI.all_comm_building_loss_final);
+            this.all_industry_building_profit.text = string.Format(language.EconomicUI[77] + " [{0}]", pc_PrivateBuildingAI.all_industry_building_profit_final);
+            this.all_industry_building_loss.text = string.Format(language.EconomicUI[79] + " [{0}]", pc_PrivateBuildingAI.all_industry_building_loss_final);
+            this.all_foresty_building_profit.text = string.Format(language.EconomicUI[81] + " [{0}]", pc_PrivateBuildingAI.all_foresty_building_profit_final);
+            this.all_foresty_building_loss.text = string.Format(language.EconomicUI[83] + " [{0}]", pc_PrivateBuildingAI.all_foresty_building_loss_final);
+            this.all_farmer_building_profit.text = string.Format(language.EconomicUI[85] + " [{0}]", pc_PrivateBuildingAI.all_farmer_building_profit_final);
+            this.all_farmer_building_loss.text = string.Format(language.EconomicUI[87] + " [{0}]", pc_PrivateBuildingAI.all_farmer_building_loss_final);
+            this.all_oil_building_profit.text = string.Format(language.EconomicUI[89] + " [{0}]", pc_PrivateBuildingAI.all_oil_building_profit_final);
+            this.all_oil_building_loss.text = string.Format(language.EconomicUI[91] + " [{0}]", pc_PrivateBuildingAI.all_oil_building_loss_final);
+            this.all_ore_building_profit.text = string.Format(language.EconomicUI[93] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_profit_final);
+            this.all_ore_building_loss.text = string.Format(language.EconomicUI[95] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
+            this.office_gen_salary_index.text = string.Format(language.EconomicUI[97] + " [{0}]", pc_PrivateBuildingAI.office_gen_salary_index);
+            this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[99] + " [{0}]", pc_PrivateBuildingAI.office_high_tech_salary_index);
 
-            this.m_outside_garbage.text = string.Format("outside garbage [{0}]", comm_data.outside_garbage_count);
-            this.m_outside_dead.text = string.Format("outside dead [{0}]", comm_data.outside_dead_count);
-            this.m_outside_sick.text = string.Format("outside sick [{0}]", comm_data.outside_sick_count);
-            this.m_outside_crime.text = string.Format("outside crime [{0}]", comm_data.outside_crime_count);
+            this.m_outside_garbage.text = string.Format(language.EconomicUI[103] + " [{0}]", comm_data.outside_garbage_count);
+            this.m_outside_dead.text = string.Format(language.EconomicUI[105] + " [{0}]", comm_data.outside_dead_count);
+            this.m_outside_sick.text = string.Format(language.EconomicUI[107] + " [{0}]", comm_data.outside_sick_count);
+            this.m_outside_crime.text = string.Format(language.EconomicUI[109] + " [{0}]", comm_data.outside_crime_count);
 
-            this.tip1.text = string.Format("tip1: " + RealCity.tip1_message_forgui);
-            this.tip2.text = string.Format("tip2: " + RealCity.tip2_message_forgui);
-            this.tip3.text = string.Format("tip3: " + RealCity.tip3_message_forgui);
-            this.tip4.text = string.Format("tip4: " + RealCity.tip4_message_forgui);
-            this.tip5.text = string.Format("tip5: " + RealCity.tip5_message_forgui);
+            this.tip1.text = string.Format(language.EconomicUI[111] + "  " + RealCity.tip1_message_forgui);
+            this.tip2.text = string.Format(language.EconomicUI[113] + "  " + RealCity.tip2_message_forgui);
+            this.tip3.text = string.Format(language.EconomicUI[115] + "  " + RealCity.tip3_message_forgui);
+            this.tip4.text = string.Format(language.EconomicUI[117] + "  " + RealCity.tip4_message_forgui);
+            this.tip5.text = string.Format(language.EconomicUI[119] + "  " + RealCity.tip5_message_forgui);
             isRefreshing = false;
         }
 

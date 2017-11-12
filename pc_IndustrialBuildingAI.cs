@@ -283,7 +283,7 @@ namespace RealCity
         }
 
         // IndustrialBuildingAI
-        public override string GetLevelUpInfo(ushort buildingID, ref Building data, out float progress)
+        /*public override string GetLevelUpInfo(ushort buildingID, ref Building data, out float progress)
         {
             comm_data.current_buildingid = buildingID;
             if ((data.m_problems & Notification.Problem.FatalProblem) != Notification.Problem.None)
@@ -319,6 +319,6 @@ namespace RealCity
             }
             progress = (float)num2 * 0.06666667f;
             return Locale.Get("LEVELUP_SERVICES_NEEDED");
-        }
+        }*/
     }
 }

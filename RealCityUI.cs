@@ -363,7 +363,7 @@ namespace RealCity
 
             this.indu_foresty_landincome = base.AddUIComponent<UILabel>();
             this.indu_foresty_landincome.text =   string.Format("industrial_foresty_landincome [000000000]");
-            this.indu_foresty_landincome.tooltip = "industry_profit";
+            this.indu_foresty_landincome.tooltip = "industrial_foresty_landincome";
             this.indu_foresty_landincome.relativePosition = new Vector3(this.indu_farmer_landincome.relativePosition.x + this.indu_farmer_landincome.width + SPACING, this.indu_farmer_landincome.relativePosition.y);
             this.indu_foresty_landincome.autoSize = true;
             this.indu_foresty_landincome.name = "Moreeconomic_Text_16";
@@ -455,7 +455,7 @@ namespace RealCity
 
             this.indu_foresty_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_foresty_tradeincome.text = string.Format("industrial_foresty_tradeincome [000000000]");
-            this.indu_foresty_tradeincome.tooltip = "industry_profit";
+            this.indu_foresty_tradeincome.tooltip = "industrial_foresty_tradeincome";
             this.indu_foresty_tradeincome.relativePosition = new Vector3(this.indu_farmer_tradeincome.relativePosition.x + this.indu_farmer_tradeincome.width + SPACING, this.indu_farmer_tradeincome.relativePosition.y);
             this.indu_foresty_tradeincome.autoSize = true;
             this.indu_foresty_tradeincome.name = "Moreeconomic_Text_29";

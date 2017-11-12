@@ -37,6 +37,7 @@ namespace RealCity
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.LoadMap || mode == LoadMode.NewMap)
                 {
                     SetupGui();
+                    language.language_switch(comm_data.last_language);
                     if (mode == LoadMode.NewGame)
                     {
                         init_data();
@@ -112,12 +113,13 @@ namespace RealCity
             guiPanel2.isEnabled = value;
             if (value)
             {
-                comm_data.current_buildingid = 0;
+                //DebugLog.LogToFileOnly("select building found!!!!!:\n");
+                //comm_data.current_buildingid = 0;
                 guiPanel2.Show();
             }
             else
             {
-                comm_data.current_buildingid = 0;
+                //comm_data.current_buildingid = 0;
                 guiPanel2.Hide();
             }
         }

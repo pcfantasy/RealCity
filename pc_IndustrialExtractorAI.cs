@@ -112,7 +112,7 @@ namespace RealCity
             comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
         }
 
-        public override string GetLevelUpInfo(ushort buildingID, ref Building data, out float progress)
+        /*public override string GetLevelUpInfo(ushort buildingID, ref Building data, out float progress)
         {
             comm_data.current_buildingid = buildingID;
             if ((data.m_problems & Notification.Problem.FatalProblem) != Notification.Problem.None)
@@ -126,7 +126,7 @@ namespace RealCity
                 return Locale.Get("LEVELUP_SPECIAL_INDUSTRY");
             }
             return base.GetLevelUpInfo(buildingID, ref data, out progress);
-        }
+        }*/
 
     }
 }

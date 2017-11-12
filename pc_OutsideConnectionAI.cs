@@ -125,7 +125,7 @@ namespace RealCity
             //crime and sick can only existed on incoming building
             //garbagebuffer
             System.Random rand = new System.Random();
-            if (RealCity.garbage_connection)
+            if (RealCity.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
             {
                 data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
             }
@@ -144,7 +144,7 @@ namespace RealCity
             else
             {
                 //deadbuffer
-                if (RealCity.dead_connection)
+                if (RealCity.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                 {
                     data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + (int)(rand.Next(60) / 50));
                 }
@@ -171,34 +171,43 @@ namespace RealCity
             }
         }
 
-
-
-        public void Addotherconnectionoffers(ushort buildingID, ref Building data)
+        public void Addgarbageoffers(ushort buildingID, ref Building data)
         {
-            System.Random rand = new System.Random();
-
-            //gabarge
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
 
             if (have_garbage_building && RealCity.garbage_connection)
             {
-                if (data.m_garbageBuffer > 5000)
+                if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+                    int num24 = (int)data.m_garbageBuffer;
+                    if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                     {
-                        offer = default(TransferManager.TransferOffer);
-                        offer.Priority = 1 + data.m_garbageBuffer / 5000;
-                        if (offer.Priority > 7)
+                        int num25 = 0;
+                        int num26 = 0;
+                        int num27 = 0;
+                        int num28 = 0;
+                        this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
+                        num24 -= num27 - num26;
+                        //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
+                        if (num24 >= 200)
                         {
-                            offer.Priority = 7;
+                            offer = default(TransferManager.TransferOffer);
+                            offer.Priority = num24 / 1000;
+                            if (offer.Priority > 7)
+                            {
+                                offer.Priority = 7;
+                            }
+                            offer.Building = buildingID;
+                            offer.Position = data.m_position;
+                            offer.Amount = 1;
+                            offer.Active = false;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
                         }
-                        offer.Building = buildingID;
-                        offer.Position = data.m_position;
-                        offer.Amount = 1;
-                        offer.Active = false;
-                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
                     }
-                    else
+                }
+                else
+                {
+                    if (data.m_garbageBuffer > 5000)
                     {
                         offer = default(TransferManager.TransferOffer);
                         offer.Priority = 1 + data.m_garbageBuffer / 5000;
@@ -211,10 +220,20 @@ namespace RealCity
                         offer.Amount = 1;
                         offer.Active = true;
                         Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
-
                     }
                 }
             }
+        }
+
+        public void Addotherconnectionoffers(ushort buildingID, ref Building data)
+        {
+            System.Random rand = new System.Random();
+
+            //gabarge
+            TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+
+            Addgarbageoffers(buildingID, ref data);
+
 
             if (have_cemetry_building && RealCity.dead_connection)
             {
@@ -381,7 +400,8 @@ namespace RealCity
                 else if (material == TransferManager.TransferReason.Garbage)
                 {
                     //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
-                    if (data.m_garbageBuffer < 0)
+                    amountDelta = 0;
+                    /*if (data.m_garbageBuffer < 0)
                     {
                         DebugLog.LogToFileOnly("garbarge < 0 in outside building, should be wrong");
                         amountDelta = 0;
@@ -398,7 +418,7 @@ namespace RealCity
                         }
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -0.1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                    }
+                    }*/
                 }
                 else
                 {
@@ -406,5 +426,36 @@ namespace RealCity
                 }
             }
         }
+
+        protected void CalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+        {
+            VehicleManager instance = Singleton<VehicleManager>.instance;
+            ushort num = data.m_guestVehicles;
+            int num2 = 0;
+            while (num != 0)
+            {
+                if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material)
+                {
+                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                    int a;
+                    int num3;
+                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                    cargo += Mathf.Min(a, num3);
+                    capacity += num3;
+                    count++;
+                    if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                    {
+                        outside++;
+                    }
+                }
+                num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
+                if (++num2 > 16384)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+        }
+
     }
 }
