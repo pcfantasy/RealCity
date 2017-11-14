@@ -21,6 +21,8 @@ namespace RealCity
 
         private UILabel m_HeaderDataText;
 
+        public static bool refesh_once = false;
+
         //1、citizen tax income
         private UILabel buildingmoney;
         private UILabel buildingincomebuffer;
@@ -29,6 +31,7 @@ namespace RealCity
         private UILabel employfee;
         private UILabel landrent;
         private UILabel net_asset;
+        //private UILabel alivevisitcount;
 
         public override void Update()
         {
@@ -44,7 +47,8 @@ namespace RealCity
             base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
             this.isInteractive = true;
-            this.BringToFront();
+            base.isVisible = true;
+            //this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.DoOnStartup();
@@ -117,6 +121,13 @@ namespace RealCity
             this.net_asset.relativePosition = new Vector3(SPACING, this.landrent.relativePosition.y + SPACING22);
             this.net_asset.autoSize = true;
             this.net_asset.name = "Moreeconomic_Text_5";
+
+            /*this.alivevisitcount = base.AddUIComponent<UILabel>();
+            this.alivevisitcount.text = "alivevisitcount [000000000000000]";
+            this.alivevisitcount.tooltip = language.BuildingUI[15];
+            this.alivevisitcount.relativePosition = new Vector3(SPACING, this.net_asset.relativePosition.y + SPACING22);
+            this.alivevisitcount.autoSize = true;
+            this.alivevisitcount.name = "Moreeconomic_Text_3";*/
         }
 
         private void RefreshDisplayData()
@@ -129,9 +140,14 @@ namespace RealCity
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.current_buildingid];
                 int aliveWorkerCount = 0;
-                int num = caculate_employee_outcome(buildingdata, comm_data.current_buildingid, out aliveWorkerCount);
+                int totalWorkerCount = 0;
+                int num = caculate_employee_outcome(buildingdata, comm_data.current_buildingid, out aliveWorkerCount, out totalWorkerCount);
                 int num1 = process_land_fee(buildingdata, comm_data.current_buildingid);
                 int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.current_buildingid, ref buildingdata);
+                //int alivecisitCount = 0;
+                //int totalvisitCount = 0;
+                //Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                //GetVisitBehaviour(comm_data.current_buildingid, ref buildingdata, ref behaviour, ref alivecisitCount, ref totalvisitCount);
                 this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.current_buildingid]);
                 this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                 this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
@@ -139,15 +155,18 @@ namespace RealCity
                 this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
                 this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1/100f);
                 this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.current_buildingid] + asset);
+                //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
+                BuildingUI.refesh_once = false;
             }
+
         }
 
-        public int caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount)
+        public int caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
         {
             int num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
             aliveWorkerCount = 0;
-            int totalWorkerCount = 0;
+            totalWorkerCount = 0;
             GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
             switch (building.Info.m_class.m_subService)
             {
@@ -249,6 +268,26 @@ namespace RealCity
                 if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
                 {
                     instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenWorkBehaviour(ref behaviour, ref aliveCount, ref totalCount);
+                }
+                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                if (++num2 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+        }
+
+        protected void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = buildingData.m_citizenUnits;
+            int num2 = 0;
+            while (num != 0u)
+            {
+                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Visit) != 0)
+                {
+                    instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
                 }
                 num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
                 if (++num2 > 524288)

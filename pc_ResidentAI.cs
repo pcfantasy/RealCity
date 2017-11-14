@@ -995,7 +995,7 @@ namespace RealCity
                 family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
                 if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3))
                 {
-                    if (rand.Next(20) < 20)
+                    if (rand.Next(100) < 2)
                     {
                         if (num3 != 0u)
                         {
@@ -1010,7 +1010,7 @@ namespace RealCity
             {
                 if ((home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
-                    if (rand.Next(20) < 20)
+                    if (rand.Next(100) < 2)
                     {
                         if (num3 != 0u)
                         {
@@ -1025,7 +1025,7 @@ namespace RealCity
             {
                 if (home_level == ItemClass.Level.Level1)
                 {
-                    if (rand.Next(50) < 50)
+                    if (rand.Next(100) < 2)
                     {
                         if (num3 != 0u)
                         {
@@ -1035,7 +1035,7 @@ namespace RealCity
                 }
                 else if ((home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
-                    if (rand.Next(50) < 50)
+                    if (rand.Next(100) < 2)
                     {
                         if (num3 != 0u)
                         {
@@ -1191,7 +1191,7 @@ namespace RealCity
             ushort num = FindNotSoCloseBuilding(building.m_position, 3000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
             if (num != 0)
             {
-                int num1 = -100;
+                int num1 = -300;
                 expr_18.m_buildings.m_buffer[(int)num].Info.m_buildingAI.ModifyMaterialBuffer(num, ref expr_18.m_buildings.m_buffer[(int)num], TransferManager.TransferReason.Shopping, ref num1);
                 ushort temp = (ushort)(-num1);
                 data.m_goods += temp;
@@ -1233,14 +1233,31 @@ namespace RealCity
                                 //for rush hour
                                 if (info.m_class.m_service == ItemClass.Service.Commercial)
                                 {
-                                    if (((num8 - num5) < (10f * maxDistance)) || ((num8 - num5) > (-10f * maxDistance)))
+                                    if (maxDistance == 3000f)
                                     {
-                                        if (building.m_buildings.m_buffer[(int)num6].m_customBuffer2 > 500)
+                                        if (building.m_buildings.m_buffer[(int)num6].m_customBuffer1 > 5000)
                                         {
-                                            if (instance2.m_randomizer.Int32(80u) < 40)
+                                            if (((num8 - num5) < (10f * maxDistance)) || ((num8 - num5) > (-10f * maxDistance)))
                                             {
-                                                result = num6;
-                                                num5 = num8;
+                                                if ((instance2.m_randomizer.Int32(80u) < 4) || (result == 0))
+                                                {
+                                                    result = num6;
+                                                    num5 = num8;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (building.m_buildings.m_buffer[(int)num6].m_customBuffer1 > 5000)
+                                        {
+                                            if (((num8 - num5) < (maxDistance * maxDistance)) || ((num8 - num5) > (-maxDistance * maxDistance)))
+                                            {
+                                                if ((instance2.m_randomizer.Int32(80u) < 40) || (result == 0))
+                                                {
+                                                    result = num6;
+                                                    num5 = num8;
+                                                }
                                             }
                                         }
                                     }
@@ -1323,13 +1340,13 @@ namespace RealCity
                 {
                     temp_num = 0; //not buy anything, so do not decrease money
                 }
-            } else
+            } else if (data.m_goods < 20000)
             { 
                 SimulationManager instance2 = Singleton<SimulationManager>.instance;
                 float currentDayTimeHour = instance2.m_currentDayTimeHour;
                 if (currentDayTimeHour > 20f || currentDayTimeHour < 4f)
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 10000)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 200)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
@@ -1574,7 +1591,6 @@ namespace RealCity
                     {
                         //DebugLog.LogToFileOnly("citizen too poor, and give up his car");
                         instance.m_citizens.m_buffer[(int)((UIntPtr)citizenData.m_citizen)].SetVehicle(citizenData.m_citizen, 0, 0u);
-                        instance2.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits = 0;
                         instance2.ReleaseVehicle(vehicle);
                     }
                     else
@@ -1830,11 +1846,11 @@ namespace RealCity
                 {
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-                    ushort num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 128f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
+                    ushort num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 80f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
                     if (homeBuilding != 0 && num != 0)
                     {
                         BuildingInfo info = instance2.m_buildings.m_buffer[(int)num].Info;
-                        int num2 = -100;
+                        int num2 = -300;
                         info.m_buildingAI.ModifyMaterialBuffer(num, ref instance2.m_buildings.m_buffer[(int)num], TransferManager.TransferReason.Shopping, ref num2);
                         uint containingUnit = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if (containingUnit != 0u)
@@ -1845,7 +1861,10 @@ namespace RealCity
                         }
                         Citizen[] expr_14A_cp_0 = instance.m_citizens.m_buffer;
                         UIntPtr expr_14A_cp_1 = (UIntPtr)citizen;
-                        expr_14A_cp_0[(int)expr_14A_cp_1].m_flags = (expr_14A_cp_0[(int)expr_14A_cp_1].m_flags & ~Citizen.Flags.NeedGoods);
+                        if (instance.m_units.m_buffer[containingUnit].m_goods > 20000)
+                        {
+                            expr_14A_cp_0[(int)expr_14A_cp_1].m_flags = (expr_14A_cp_0[(int)expr_14A_cp_1].m_flags & ~Citizen.Flags.NeedGoods);
+                        }
                     }
                 }
             }

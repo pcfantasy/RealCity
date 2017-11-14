@@ -50,20 +50,20 @@ namespace RealCity
         public const float petrol_export_price = 0.5f;
         public const float coal_export_price = 0.5f;
         public const float lumber_export_price = 0.5f;
-        public const float oil_export_price = 0.15f;
-        public const float ore_export_price = 0.15f;
-        public const float grain_export_price = 0.15f;
-        public const float log_export_price = 0.15f;
+        public const float oil_export_price = 0.25f;
+        public const float ore_export_price = 0.25f;
+        public const float grain_export_price = 0.25f;
+        public const float log_export_price = 0.25f;
 
         public const float good_import_price = 2.6f;
         public const float food_import_price = 0.9f;
         public const float petrol_import_price = 0.9f;
         public const float coal_import_price = 0.9f;
         public const float lumber_import_price = 0.9f;
-        public const float oil_import_price = 0.35f;
-        public const float ore_import_price = 0.35f;
-        public const float grain_import_price = 0.35f;
-        public const float log_import_price = 0.35f;
+        public const float oil_import_price = 0.4f;
+        public const float ore_import_price = 0.4f;
+        public const float grain_import_price = 0.4f;
+        public const float log_import_price = 0.4f;
 
         public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
@@ -554,7 +554,7 @@ namespace RealCity
                 {
                     space_factor  = (float)(num10 - buildingData.m_customBuffer2) / (float)num10;
                 }
-                production_actually = (int)((float)work_capacity * (float)production_capacity * compensation_factor * space_factor / 100f);
+                production_actually = (int)((float)work_capacity * (float)production_capacity * compensation_factor * space_factor / 80f);
                 
 
                 int game_production = buildingData.m_customBuffer2 - comm_data.building_buffer2[buildingID];

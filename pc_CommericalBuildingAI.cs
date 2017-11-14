@@ -70,10 +70,23 @@ namespace RealCity
                 amountDelta = 0;
             }
             //DebugLog.LogToFileOnly("we go in now, find a visit arrive in comm " + Environment.StackTrace);
-            int customBuffer2 = (int)data.m_customBuffer2;
-            amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
-            caculate_trade_income(buildingID, ref data, material, ref amountDelta);
-            data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
+            //try discount sale in customBuffer1
+            if (amountDelta != -300)
+            {
+                int customBuffer2 = (int)data.m_customBuffer2;
+                amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
+                caculate_trade_income(buildingID, ref data, material, ref amountDelta);
+                data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
+            } else
+            {
+                //DebugLog.LogToFileOnly("we do viture shopping, cost customBuffer1");
+                amountDelta = -100;
+                int customBuffer1 = (int)data.m_customBuffer1;
+                amountDelta = Mathf.Clamp(amountDelta, -customBuffer1, 0);
+                int temp_amount = (int)(amountDelta * 0.9f);
+                caculate_trade_income(buildingID, ref data, material, ref temp_amount);
+                data.m_customBuffer1 = (ushort)(customBuffer1 + amountDelta);
+            }
             data.m_outgoingProblemTimer = 0;
         }
 

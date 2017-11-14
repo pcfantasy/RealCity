@@ -15,7 +15,7 @@ namespace RealCity
 
         public static RealCityUI guiPanel1;
 
-        private static BuildingUI guiPanel2;
+        private BuildingUI guiPanel2;
 
         public static GameObject buildingWindowGameObject;
 
@@ -34,7 +34,7 @@ namespace RealCity
             Loader.CurrentLoadMode = mode;
             if (RealCity.IsEnabled)
             {
-                if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame || mode == LoadMode.LoadMap || mode == LoadMode.NewMap)
+                if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
                 {
                     SetupGui();
                     language.language_switch(comm_data.last_language);
@@ -82,10 +82,10 @@ namespace RealCity
             }
 
             //building UI
-            if (Loader.guiPanel2 == null)
-            {
-                Loader.guiPanel2 = (BuildingUI)Loader.parentGuiView.AddUIComponent(typeof(BuildingUI));
-            }
+            //if (Loader.guiPanel2 == null)
+            //{
+            //    Loader.guiPanel2 = (BuildingUI)Loader.parentGuiView.AddUIComponent(typeof(BuildingUI));
+            //}
             SetupBuidingGui();
 
             Loader.isGuiRunning = true;
@@ -94,6 +94,8 @@ namespace RealCity
         public void SetupBuidingGui()
         {
             buildingWindowGameObject = new GameObject("buildingWindowObject");
+            this.guiPanel2 = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
+
 
             var buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
             if (buildingInfo == null)
@@ -102,24 +104,27 @@ namespace RealCity
             }
             guiPanel2.transform.parent = buildingInfo.transform;
             guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
+            //guiPanel2.size = new Vector3(50,50);
             guiPanel2.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
             guiPanel2.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
+            //guiPanel2.position = new Vector3(0, 0);
             buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
 
         }
 
-        void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
+        public void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
             guiPanel2.isEnabled = value;
             if (value)
             {
                 //DebugLog.LogToFileOnly("select building found!!!!!:\n");
                 //comm_data.current_buildingid = 0;
+                BuildingUI.refesh_once = true;
                 guiPanel2.Show();
             }
             else
             {
-                //comm_data.current_buildingid = 0;
+                comm_data.current_buildingid = 0;
                 guiPanel2.Hide();
             }
         }

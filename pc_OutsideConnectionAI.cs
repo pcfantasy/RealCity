@@ -102,6 +102,10 @@ namespace RealCity
                 comm_data.outside_crime_count_temp += data.m_crimeBuffer;
                 comm_data.outside_sick_count_temp += data.m_customBuffer2;
                 comm_data.outside_garbage_count_temp += data.m_garbageBuffer;
+                if(data.Info.m_class.m_service != ItemClass.Service.Road)
+                {
+                    //DebugLog.LogToFileOnly("find unknow outside building = " + data.Info.m_class.ToString());
+                }
             }
             else
             {
@@ -125,49 +129,58 @@ namespace RealCity
             //crime and sick can only existed on incoming building
             //garbagebuffer
             System.Random rand = new System.Random();
-            if (RealCity.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+            if (data.Info.m_class.m_service == ItemClass.Service.Road)
             {
-                data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
-            }
-            if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
-            {
-                if (RealCity.crime_connection)
+                if (RealCity.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
-                    data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 2);
+                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
                 }
-                //sick
-                if (RealCity.sick_connection)
+                if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
+                    if (RealCity.crime_connection)
+                    {
+                        data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 2);
+                    }
+                    //sick
+                    if (RealCity.sick_connection)
+                    {
+                        data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
+                    }
                 }
-            }
-            else
-            {
-                //deadbuffer
-                if (RealCity.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                else
                 {
-                    data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + (int)(rand.Next(60) / 50));
+                    //deadbuffer
+                    if (RealCity.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                    {
+                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + (int)(rand.Next(60) / 50));
+                    }
                 }
-            }
 
-            if (data.m_customBuffer1 > 65000)
-            {
-                data.m_customBuffer1 = 65000;
-            }
+                if (data.m_customBuffer1 > 65000)
+                {
+                    data.m_customBuffer1 = 65000;
+                }
 
-            if (data.m_customBuffer2 > 65000)
-            {
-                data.m_customBuffer2 = 65000;
-            }
+                if (data.m_customBuffer2 > 65000)
+                {
+                    data.m_customBuffer2 = 65000;
+                }
 
-            if (data.m_crimeBuffer > 65000)
-            {
-                data.m_crimeBuffer = 65000;
-            }
+                if (data.m_crimeBuffer > 65000)
+                {
+                    data.m_crimeBuffer = 65000;
+                }
 
-            if (data.m_garbageBuffer > 65000)
+                if (data.m_garbageBuffer > 65000)
+                {
+                    data.m_garbageBuffer = 65000;
+                }
+            }else
             {
-                data.m_garbageBuffer = 65000;
+                data.m_garbageBuffer = 0;
+                data.m_crimeBuffer = 0;
+                data.m_customBuffer1 = 0;
+                data.m_customBuffer2 = 0;
             }
         }
 

@@ -37,7 +37,7 @@ namespace RealCity
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
             BuildingInfo info1 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
 
-            process_trade_tax_arrive_at_target(vehicleID, ref data, num);
+            process_trade_tax_arrive_at_target(vehicleID, ref data, ref num);
 
             if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
             {
@@ -94,7 +94,7 @@ namespace RealCity
             return false;
         }
 
-        private void process_trade_tax_arrive_at_target(ushort vehicleID, ref Vehicle data, int num)
+        private void process_trade_tax_arrive_at_target(ushort vehicleID, ref Vehicle data, ref int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
             Building building = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];

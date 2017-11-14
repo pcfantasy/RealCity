@@ -138,7 +138,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.citizen_money[homeid] > 1000f)
+                    if (comm_data.citizen_money[homeid] > 10000f)
                     {
                         //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
                         tourism_fee = (comm_data.citizen_money[homeid] - tourism_fee > 1000f) ? tourism_fee : 0;

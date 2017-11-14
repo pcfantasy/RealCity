@@ -33,6 +33,8 @@ namespace RealCity
             "landrent",
             "net_asset",
             "net_asset",
+            "alivevisitcount",
+            "alivevisitcount",
         };
 
         public static string[] EconomicUI_English =
@@ -309,7 +311,9 @@ namespace RealCity
             "土地费支出",
             "土地费支出",
             "公司净资产",
-            "公司净资产"};
+            "公司净资产",
+            "参观人数",
+            "参观人数",};
 
         public static string[] OptionUI_Chinese =
         {
@@ -336,10 +340,10 @@ namespace RealCity
             "居民总收入",
             "居民总纳税",
             "居民总所得税",
-            "每户消费",
-            "居民每户消费",
-            "居民消费",
-            "居民总消费",
+            "每户支出",
+            "居民每户支出",
+            "居民支出",
+            "居民总支出",
             "公共交通费用",
             "公共交通费用",
             "居民驾车时间",
