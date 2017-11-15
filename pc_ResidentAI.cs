@@ -946,27 +946,20 @@ namespace RealCity
             System.Random rand = new System.Random();
             if (temp_num <= 0)
             {
-                temp_num = rand.Next(5) + 1;
+                temp_num = rand.Next(5);
                 family_loss_money_num = (uint)(family_loss_money_num + 1);
                 comm_data.citizen_profit_status[homeID]--;
                 //try_move_family to do here;
             }
             else if (temp_num > 30)
             {
-                temp_num = temp_num - rand.Next(15);
+                temp_num = rand.Next(temp_num);
                 family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
                 comm_data.citizen_profit_status[homeID]++;
             }
             else
             {
-                if (temp_num < 16)
-                {
-                    temp_num = rand.Next(5) + 1;
-                }
-                else
-                {
-                    temp_num = temp_num - rand.Next(15);
-                }
+                temp_num = rand.Next(temp_num);
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
 
@@ -1188,7 +1181,23 @@ namespace RealCity
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
             BuildingManager expr_18 = Singleton<BuildingManager>.instance;
             Building building = expr_18.m_buildings.m_buffer[(int)data.m_building];
-            ushort num = FindNotSoCloseBuilding(building.m_position, 3000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
+            ushort num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
+            if (num == 0 || (Singleton<SimulationManager>.instance.m_randomizer.Int32(20) < 10))
+            {
+                int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
+                for (int i = 0; i < 5; i++)
+                {
+                    uint citizen = data.GetCitizen((num2 + i) % 5);
+                    if (citizen != 0u)
+                    {
+                        if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding != 0)
+                        {
+                            num = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 500f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created | Building.Flags.Active, Building.Flags.Deleted);
+                            break;
+                        }
+                    }
+                }
+            }
             if (num != 0)
             {
                 int num1 = -300;
@@ -1233,11 +1242,11 @@ namespace RealCity
                                 //for rush hour
                                 if (info.m_class.m_service == ItemClass.Service.Commercial)
                                 {
-                                    if (maxDistance == 3000f)
+                                    if (maxDistance == 2000f)
                                     {
                                         if (building.m_buildings.m_buffer[(int)num6].m_customBuffer1 > 5000)
                                         {
-                                            if (((num8 - num5) < (10f * maxDistance)) || ((num8 - num5) > (-10f * maxDistance)))
+                                            if (((num8 - num5) < (maxDistance * maxDistance)) || ((num8 - num5) > (maxDistance * maxDistance)) || (result == 0))
                                             {
                                                 if ((instance2.m_randomizer.Int32(80u) < 4) || (result == 0))
                                                 {
@@ -1569,7 +1578,7 @@ namespace RealCity
             Randomizer randomizer = new Randomizer(citizen1);
             if (citizenData.m_citizen != 0u)
             {
-                if (vehicle != 0 && ((comm_data.citizen_money[homeid] > 0) || (instance2.m_vehicles.m_buffer[vehicle].Info.m_vehicleType != VehicleInfo.VehicleType.Car)))
+                if (vehicle != 0 && ((comm_data.citizen_money[homeid] > 0) || (instance2.m_vehicles.m_buffer[vehicle].Info.m_vehicleType != VehicleInfo.VehicleType.Car || true)))
                 {
                     VehicleInfo info = instance2.m_vehicles.m_buffer[(int)vehicle].Info;
                     if (info != null)

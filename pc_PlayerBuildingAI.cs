@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RealCity
 {
-    public class PlayerBuildingAI : CommonBuildingAI
+    public class pc_PlayerBuildingAI : CommonBuildingAI
     {
 
     }

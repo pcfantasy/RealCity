@@ -85,6 +85,28 @@ namespace RealCity
             {
                 int budget = Singleton<EconomyManager>.instance.GetBudget(this.m_info.m_class);
                 int productionRate = OutsideConnectionAI.GetProductionRate(100, budget);
+                //Init();
+                //DebugLog.LogToFileOnly(_cargoCapacity.ToString() + _residentCapacity.ToString() + _dummyTrafficFactor.ToString() + _dummyTrafficReason.ToString());
+                //System.Random rand = new System.Random();
+                //int temp = rand.Next(4);
+
+                if (data.Info.m_class.m_service ==  ItemClass.Service.Road)
+                {
+                    _dummyTrafficReason = TransferManager.TransferReason.DummyCar;
+                }
+                else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportPlane)
+                {
+                    _dummyTrafficReason = TransferManager.TransferReason.DummyPlane;
+                }
+                else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportShip)
+                {
+                    _dummyTrafficReason = TransferManager.TransferReason.DummyShip;
+                }
+                else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportTrain)
+                {
+                    _dummyTrafficReason = TransferManager.TransferReason.DummyTrain;
+                }
+
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, _cargoCapacity, _residentCapacity, _touristFactor0, _touristFactor1, _touristFactor2, _dummyTrafficReason, _dummyTrafficFactor);
                 process_outside_demand(buildingID, ref data);
                 Addotherconnectionoffers(buildingID, ref data);

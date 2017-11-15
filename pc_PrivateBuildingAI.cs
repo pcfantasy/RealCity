@@ -813,6 +813,8 @@ namespace RealCity
                 comm_data.building_money[buildingID] = -60000000;
             }
 
+            int asset = process_building_asset(buildingID, ref building);
+
             if (comm_data.building_money[buildingID] > 0)
             {
                 switch (building.Info.m_class.m_subService)
@@ -879,6 +881,9 @@ namespace RealCity
                         all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
                         break;
                     case ItemClass.SubService.CommercialTourist:
+                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                        break;
+                    case ItemClass.SubService.CommercialEco:
                         all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
                         break;
                     default: break;

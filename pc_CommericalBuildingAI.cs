@@ -38,7 +38,7 @@ namespace RealCity
                 default:
                     if (material != TransferManager.TransferReason.Shopping)
                     {
-                        if (material == TransferManager.TransferReason.Goods)
+                        if (material == TransferManager.TransferReason.Goods || material == TransferManager.TransferReason.Food)
                         {
                             int width = data.Width;
                             int length = data.Length;
@@ -93,7 +93,7 @@ namespace RealCity
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_income = 0;
-            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
+            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLow)
             {
                 switch (data.Info.m_class.m_level)
                 {
@@ -107,7 +107,7 @@ namespace RealCity
                         trade_income = 0; break;
                 }
             }
-            else if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLow)
+            else if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
             {
                 switch (data.Info.m_class.m_level)
                 {
@@ -146,11 +146,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.27f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.23f; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.3f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.24f; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.32f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
                     default:
                         trade_income = 0; break;
                 }
@@ -162,9 +162,9 @@ namespace RealCity
                     case ItemClass.Level.Level1:
                         trade_income = amountDelta * 1; trade_tax = -trade_income * 0.2f; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.22f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.21f; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.22f; break;
                     default:
                         trade_income = 0; break;
                 }

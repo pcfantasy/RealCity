@@ -39,6 +39,14 @@ namespace RealCity
             base.Update();
         }
 
+        public override void Awake()
+        {
+            base.Awake();
+            //DebugLog.LogToFileOnly("buildingUI start now");
+            //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "Go to UI now");
+            this.DoOnStartup();
+        }
+
         public override void Start()
         {
             base.Start();
@@ -51,13 +59,12 @@ namespace RealCity
             //this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
-            this.DoOnStartup();
+            this.RefreshDisplayData();
         }
 
         private void DoOnStartup()
         {
-            this.ShowOnGui();
-            this.RefreshDisplayData();
+            this.ShowOnGui();            
         }
 
 

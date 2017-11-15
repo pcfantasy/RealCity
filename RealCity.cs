@@ -416,6 +416,9 @@ namespace RealCity
                         try_say_something(language.TipAndChirperMessage[15]);
                         tip2_message_forgui = language.TipAndChirperMessage[16];
                     }
+                } else
+                {
+                    tip2_message_forgui = "";
                 }
 
                 int profit_building_num = 0;
@@ -445,6 +448,11 @@ namespace RealCity
                         tip2_message_forgui += language.TipAndChirperMessage[20];
                     }
                 }
+                else
+                {
+                    tip2_message_forgui += "";
+                }
+
                 if (!pc_OutsideConnectionAI.have_maintain_road_building)
                 {
                     try_say_something(language.TipAndChirperMessage[21]);

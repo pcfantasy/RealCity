@@ -11,6 +11,8 @@ namespace RealCity
     {
         public static UIView parentGuiView;
 
+        public static UIPanel buildingInfo;
+
         public static MoreeconomicUI guiPanel;
 
         public static RealCityUI guiPanel1;
@@ -97,7 +99,7 @@ namespace RealCity
             this.guiPanel2 = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
 
 
-            var buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
+            buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
             if (buildingInfo == null)
             {
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) ZonedBuildingWorldInfoPanel\nAvailable panels are:\n");

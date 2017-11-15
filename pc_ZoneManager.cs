@@ -75,7 +75,7 @@ namespace RealCity
         {
             float demand_idex = 0f;
 
-            if ((comm_data.citizen_count > 500) && (comm_data.family_count != 0))
+            if ((comm_data.citizen_count > 1100) && (comm_data.family_count != 0))
             {
                 demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
                 demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
