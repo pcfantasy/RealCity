@@ -496,6 +496,54 @@ namespace RealCity
 
         }
 
+
+        public void process_addition_demand(ushort buildingID, ref Building buildingData)
+        {
+            Regex r = new Regex("IndustrialBuildingAI");
+            //Regex p = new Regex("IndustrialExtractorAI");
+
+            Match m = r.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
+            //Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
+            if (m.Success)
+            {
+                Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
+                int aliveWorkerCount = 0;
+                int totalWorkerCount = 0;
+                base.GetWorkBehaviour(buildingID, ref buildingData, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                TransferManager.TransferReason incomingTransferReason = pc_IndustrialBuildingAI.GetIncomingTransferReason(buildingData, buildingID);
+                TransferManager.TransferReason outgoingTransferReason = pc_IndustrialBuildingAI.GetOutgoingTransferReason(buildingData);
+                int width = buildingData.Width;
+                int length = buildingData.Length;
+                int production_capacity = pc_IndustrialBuildingAI.CalculateProductionCapacity(buildingData, new Randomizer((int)buildingID), width, length);
+                int num30 = 0;
+                int num31 = 0;
+                int num32 = 0;
+                int value2 = 0;
+                if (outgoingTransferReason != TransferManager.TransferReason.None)
+                {
+                    base.CalculateOwnVehicles(buildingID, ref buildingData, outgoingTransferReason, ref num30, ref num31, ref num32, ref value2);
+                    buildingData.m_tempExport = (byte)Mathf.Clamp(value2, (int)buildingData.m_tempExport, 255);
+                }
+
+                //add 3 more cars to industrial
+                if (buildingData.m_fireIntensity == 0 && outgoingTransferReason != TransferManager.TransferReason.None)
+                {
+                    int num35 = Mathf.Max(1, production_capacity / 6);
+                    int customBuffer = (int)buildingData.m_customBuffer2;
+                    if (customBuffer >= 8000 && (num30 < num35+3) && (num30 >= num35))
+                    {
+                        TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
+                        offer2.Priority = customBuffer * 8 / 8000;
+                        offer2.Building = buildingID;
+                        offer2.Position = buildingData.m_position;
+                        offer2.Amount = Mathf.Min(customBuffer / 8000, num35 + 3 - num30);
+                        offer2.Active = true;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(outgoingTransferReason, offer2);
+                    }
+                }
+            }
+        }
+
         public void process_addition_product(ushort buildingID, ref Building buildingData)
         {
             Regex r = new Regex("IndustrialBuildingAI");
@@ -603,6 +651,7 @@ namespace RealCity
                     }
                 }
                 comm_data.building_buffer2[buildingID] = buildingData.m_customBuffer2;
+                process_addition_demand(buildingID, ref buildingData);
             }//m.sucess
         }
 

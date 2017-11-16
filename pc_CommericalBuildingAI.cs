@@ -83,7 +83,7 @@ namespace RealCity
                 amountDelta = -100;
                 int customBuffer1 = (int)data.m_customBuffer1;
                 amountDelta = Mathf.Clamp(amountDelta, -customBuffer1, 0);
-                int temp_amount = (int)(amountDelta * 0.9f);
+                int temp_amount = (int)(amountDelta * 0.95f);
                 caculate_trade_income(buildingID, ref data, material, ref temp_amount);
                 data.m_customBuffer1 = (ushort)(customBuffer1 + amountDelta);
             }
@@ -146,11 +146,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.23f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.26f; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.24f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.28f; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.30f; break;
                     default:
                         trade_income = 0; break;
                 }
@@ -162,9 +162,9 @@ namespace RealCity
                     case ItemClass.Level.Level1:
                         trade_income = amountDelta * 1; trade_tax = -trade_income * 0.2f; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.21f; break;
-                    case ItemClass.Level.Level3:
                         trade_income = amountDelta * 1; trade_tax = -trade_income * 0.22f; break;
+                    case ItemClass.Level.Level3:
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.24f; break;
                     default:
                         trade_income = 0; break;
                 }

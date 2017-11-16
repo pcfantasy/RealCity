@@ -45,6 +45,7 @@ namespace RealCity
         public static RedirectCallsState state29;
         public static RedirectCallsState state30;
         public static RedirectCallsState state31;
+        public static RedirectCallsState state32;
 
         public static bool garbage_connection = true;
         public static bool sick_connection = false;
@@ -211,6 +212,11 @@ namespace RealCity
             var srcMethod31 = typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
             var destMethod31 = typeof(pc_ResidentAI_1).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
             state31 = RedirectionHelper.RedirectCalls(srcMethod31, destMethod31);
+
+            //public override void SetTarget(ushort vehicleID, ref Vehicle data, ushort targetBuilding)
+            //var srcMethod32 = typeof(CargoTruckAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort) }, null);
+            //var destMethod32 = typeof(pc_CargoTruckAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort) }, null);
+            //state32 = RedirectionHelper.RedirectCalls(srcMethod32, destMethod32);
         }
 
         public void OnDisabled()

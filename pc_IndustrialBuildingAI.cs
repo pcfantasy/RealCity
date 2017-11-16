@@ -259,13 +259,13 @@ namespace RealCity
                     {
                         case ItemClass.Level.Level1:
                             trade_income = (float)amountDelta * (pc_PrivateBuildingAI.good_export_price + (1f - pc_PrivateBuildingAI.good_export_ratio) * 0.5f) / 4f;
-                            trade_tax = -trade_income * 0.10f; break;
+                            trade_tax = -trade_income * 0.15f; break;
                         case ItemClass.Level.Level2:
                             trade_income = (float)amountDelta * (pc_PrivateBuildingAI.good_export_price + 0.1f + (1f - pc_PrivateBuildingAI.good_export_ratio) * 0.3f) / 4f;
-                            trade_tax = -trade_income * 0.15f; break;
+                            trade_tax = -trade_income * 0.20f; break;
                         case ItemClass.Level.Level3:
                             trade_income = (float)amountDelta * (pc_PrivateBuildingAI.good_export_price + 0.2f + (1f - pc_PrivateBuildingAI.good_export_ratio) * 0.1f) / 4f;
-                            trade_tax = -trade_income * 0.20f; break;
+                            trade_tax = -trade_income * 0.25f; break;
                         default:
                             trade_income = 0;break;
                     }

@@ -351,5 +351,124 @@ namespace RealCity
                         data.m_sourceBuilding = 0;
                     }
                 }
+
+
+        public override void SetTarget(ushort vehicleID, ref Vehicle data, ushort targetBuilding)
+        {
+            if (targetBuilding == data.m_targetBuilding)
+            {
+                if (data.m_path == 0u)
+                {
+                    if (!this.StartPathFind(vehicleID, ref data))
+                    {
+                        data.Unspawn(vehicleID);
+                    }
+                }
+                else
+                {
+                    DebugLog.LogToFileOnly("find data.m_path !=0  source_building adn targetbuilding is " + Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info.m_class.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)targetBuilding].Info.m_class.ToString());
+                    this.TrySpawn(vehicleID, ref data);
+                }
+            }
+            else
+            {
+                this.RemoveTarget(vehicleID, ref data);
+                data.m_targetBuilding = targetBuilding;
+                data.m_flags &= ~Vehicle.Flags.WaitingTarget;
+                data.m_waitCounter = 0;
+                if (targetBuilding != 0)
+                {
+                    Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)targetBuilding].AddGuestVehicle(vehicleID, ref data);
+                    if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)targetBuilding].m_flags & Building.Flags.IncomingOutgoing) != Building.Flags.None)
+                    {
+                        if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+                        {
+                            data.m_flags |= Vehicle.Flags.Exporting;
+                        }
+                        else if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+                        {
+                            data.m_flags |= Vehicle.Flags.Importing;
+                        }
+                    }
+                }
+                else
+                {
+                    if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+                    {
+                        if (data.m_transferSize > 0)
+                        {
+                            TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                            offer.Priority = 7;
+                            offer.Vehicle = vehicleID;
+                            if (data.m_sourceBuilding != 0)
+                            {
+                                offer.Position = (data.GetLastFramePosition() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position) * 0.5f;
+                            }
+                            else
+                            {
+                                offer.Position = data.GetLastFramePosition();
+                            }
+                            offer.Amount = 1;
+                            offer.Active = true;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer((TransferManager.TransferReason)data.m_transferType, offer);
+                            data.m_flags |= Vehicle.Flags.WaitingTarget;
+                        }
+                        else
+                        {
+                            data.m_flags |= Vehicle.Flags.GoingBack;
+                        }
+                    }
+                    if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+                    {
+                        if ((int)data.m_transferSize < this.m_cargoCapacity)
+                        {
+                            TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
+                            offer2.Priority = 7;
+                            offer2.Vehicle = vehicleID;
+                            if (data.m_sourceBuilding != 0)
+                            {
+                                offer2.Position = (data.GetLastFramePosition() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position) * 0.5f;
+                            }
+                            else
+                            {
+                                offer2.Position = data.GetLastFramePosition();
+                            }
+                            offer2.Amount = 1;
+                            offer2.Active = true;
+                            Singleton<TransferManager>.instance.AddIncomingOffer((TransferManager.TransferReason)data.m_transferType, offer2);
+                            data.m_flags |= Vehicle.Flags.WaitingTarget;
+                        }
+                        else
+                        {
+                            data.m_flags |= Vehicle.Flags.GoingBack;
+                        }
+                    }
+                }
+                if (data.m_cargoParent != 0)
+                {
+                    if (data.m_path != 0u)
+                    {
+                        if (data.m_path != 0u)
+                        {
+                            Singleton<PathManager>.instance.ReleasePath(data.m_path);
+                        }
+                        data.m_path = 0u;
+                    }
+                }
+                else if (!this.StartPathFind(vehicleID, ref data))
+                {
+                    data.Unspawn(vehicleID);
+                }
+            }
+        }
+
+        private void RemoveTarget(ushort vehicleID, ref Vehicle data)
+        {
+            if (data.m_targetBuilding != 0)
+            {
+                Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].RemoveGuestVehicle(vehicleID, ref data);
+                data.m_targetBuilding = 0;
+            }
+        }
     }
 }
