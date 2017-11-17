@@ -542,7 +542,7 @@ namespace RealCity
                 }
                 else
                 {
-                    coefficient = (float)comm_data.mantain_and_land_fee_decrease / (float)comm_data.game_income_expense_multiple;
+                    coefficient = (float)comm_data.game_maintain_fee_decrease;
                 }
                 switch (itemClass.m_service)
                 {
@@ -647,7 +647,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.PublicTransport:
-                        PublicTransport += (float)amount / coefficient;
+                        PublicTransport += (float)amount;
                         if (PublicTransport > 1)
                         {
                             temp = (int)PublicTransport;
@@ -671,7 +671,7 @@ namespace RealCity
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
-                Policy_cost += (float)amount * (float)comm_data.game_income_expense_multiple / (float)comm_data.mantain_and_land_fee_decrease;
+                Policy_cost += (float)amount / (float)comm_data.game_maintain_fee_decrease;
                 //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString() + " " + amount.ToString());
                 if (Policy_cost > 1)
                 {

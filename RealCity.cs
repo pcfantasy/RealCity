@@ -47,11 +47,6 @@ namespace RealCity
         public static RedirectCallsState state31;
         public static RedirectCallsState state32;
 
-        public static bool garbage_connection = true;
-        public static bool sick_connection = false;
-        public static bool dead_connection = true;
-        public static bool crime_connection = false;
-
         public byte tip1_citizen = 0;
         public byte tip2_building = 0;
         public byte tip3_outside = 0;
@@ -296,10 +291,14 @@ namespace RealCity
             group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文(暂部分)"}, comm_data.last_language, (index) => get_language_idex(index));
 
             UIHelperBase group1 = helper.AddGroup(language.OptionUI[2]);
-            group1.AddCheckbox(language.OptionUI[3], true, (index) => get_garbage_connection(index));
-            group1.AddCheckbox(language.OptionUI[4], true, (index) => get_dead_connection(index));
-            group1.AddCheckbox(language.OptionUI[5], false, (index) => get_crime_connection(index));
-            group1.AddCheckbox(language.OptionUI[6], false, (index) => get_sick_connection(index));
+            group1.AddCheckbox(language.OptionUI[3], comm_data.garbage_connection, (index) => get_garbage_connection(index));
+            group1.AddCheckbox(language.OptionUI[4], comm_data.dead_connection, (index) => get_dead_connection(index));
+            group1.AddCheckbox(language.OptionUI[5], comm_data.crime_connection, (index) => get_crime_connection(index));
+            group1.AddCheckbox(language.OptionUI[6], comm_data.sick_connection, (index) => get_sick_connection(index));
+
+            UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
+            group2.AddCheckbox(language.OptionUI[8], comm_data.is_help_resident, (index) => is_help_resident(index));
+            group2.AddCheckbox(language.OptionUI[9], comm_data.is_help_company, (index) => is_help_company(index));
         }
 
         public void get_language_idex ( int index)
@@ -311,22 +310,32 @@ namespace RealCity
             //DebugLog.LogToFileOnly("get_current language idex = " + language_idex.ToString());
         }
 
+        public void is_help_resident(bool index)
+        {
+            comm_data.is_help_resident = index;
+        }
+
+        public void is_help_company(bool index)
+        {
+            comm_data.is_help_company = index;
+        }
+
         public void get_garbage_connection(bool index)
         {
-            garbage_connection = index;
+            comm_data.garbage_connection = index;
         }
 
         public void get_dead_connection(bool index)
         {
-            dead_connection = index;
+            comm_data.dead_connection = index;
         }
         public void get_crime_connection(bool index)
         {
-            crime_connection = index;
+            comm_data.crime_connection = index;
         }
         public void get_sick_connection(bool index)
         {
-            sick_connection = index;
+            comm_data.sick_connection = index;
         }
 
         public class EconomyExtension : EconomyExtensionBase
@@ -443,7 +452,7 @@ namespace RealCity
 
                 if (profit_building_num + loss_building_num > 0)
                 {
-                    if (profit_building_num >= loss_building_num)
+                    if (profit_building_num < loss_building_num)
                     {
                         try_say_something(language.TipAndChirperMessage[17]);
                         tip2_message_forgui += language.TipAndChirperMessage[18];

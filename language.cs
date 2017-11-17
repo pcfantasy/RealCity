@@ -17,6 +17,9 @@ namespace RealCity
             "Accept Outside Dead Deal Demand",
             "Accept Outside Police Patrol Demand(not supported yet)",
             "Accept Outside First Aid Help Demand(not supported yet)",
+            "Special Policy",
+            "Resident basic living allowances",
+            "Supports for unprofitable company(not supported yet)"
         };
 
         public static string[] BuildingUI_English = { "Building Money",
@@ -51,7 +54,7 @@ namespace RealCity
             "total citizen_salary",
             "citizen_tax_total",
             "total_citizen_salary_tax",
-            "expense_per_family",
+            "fixed_expense_per_family",
             "citizen_expense_per_family",
             "citizen_expense",
             "total citizen_expense",
@@ -324,6 +327,9 @@ namespace RealCity
             "接受外部遗体处理的请求",
             "接受外部治安巡逻的请求(暂不支持)",
             "接受外部急救支援的请求(暂不支持)",
+            "城市特殊政策",
+            "居民低保",
+            "支援亏损企业(暂不支持)",
         };
 
         public static string[] EconomicUI_Chinese =
@@ -340,8 +346,8 @@ namespace RealCity
             "居民总收入",
             "居民总纳税",
             "居民总所得税",
-            "每户支出",
-            "居民每户支出",
+            "每户固定支出",
+            "居民每户固定支出",
             "居民支出",
             "居民总支出",
             "公共交通费用",

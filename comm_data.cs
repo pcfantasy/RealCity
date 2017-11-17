@@ -4,6 +4,7 @@
     {
 
         public const byte game_income_expense_multiple = 10;
+        public const byte game_maintain_fee_decrease = 3;
 
         //1.  citizen
         //1.1 citizen salary
@@ -416,8 +417,17 @@
         public static uint outside_garbage_count_temp = 0;
         public static uint outside_dead_count_temp = 0;
         public static ushort outside_pre_building = 0;
+
+
+        public static bool garbage_connection = false;
+        public static bool sick_connection = false;
+        public static bool dead_connection = false;
+        public static bool crime_connection = false;
+        public static bool is_help_resident = false;
+        public static bool is_help_company = false;
+
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49109];
+        public static ushort[] reserved = new ushort[49103];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -532,7 +542,7 @@
             saveandrestore.save_long(ref i, temp_public_transport_fee, ref save_data);
             saveandrestore.save_byte(ref i, last_language, ref save_data);
 
-            //32 + 2
+            //32 + 2 + 6
             saveandrestore.save_uint(ref i, outside_crime_count, ref save_data);
             saveandrestore.save_uint(ref i, outside_sick_count, ref save_data);
             saveandrestore.save_uint(ref i, outside_garbage_count, ref save_data);
@@ -543,6 +553,14 @@
             saveandrestore.save_uint(ref i, outside_dead_count_temp, ref save_data);
 
             saveandrestore.save_ushort(ref i, outside_pre_building, ref save_data);
+
+            saveandrestore.save_bool(ref i, sick_connection, ref save_data);
+            saveandrestore.save_bool(ref i, dead_connection, ref save_data);
+            saveandrestore.save_bool(ref i, crime_connection, ref save_data);
+            saveandrestore.save_bool(ref i, garbage_connection, ref save_data);
+            saveandrestore.save_bool(ref i, is_help_resident, ref save_data);
+            saveandrestore.save_bool(ref i, is_help_company, ref save_data);
+
 
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
@@ -628,6 +646,13 @@
             outside_dead_count_temp = saveandrestore.load_uint(ref i, load_data);
 
             outside_pre_building = saveandrestore.load_ushort(ref i, load_data);
+
+            sick_connection = saveandrestore.load_bool(ref i, load_data);
+            dead_connection = saveandrestore.load_bool(ref i, load_data);
+            crime_connection = saveandrestore.load_bool(ref i, load_data);
+            garbage_connection = saveandrestore.load_bool(ref i, load_data);
+            is_help_resident = saveandrestore.load_bool(ref i, load_data);
+            is_help_company = saveandrestore.load_bool(ref i, load_data);
 
             reserved = saveandrestore.load_ushorts(ref i, load_data,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);

@@ -39,7 +39,6 @@ namespace RealCity
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
                 {
                     SetupGui();
-                    language.language_switch(comm_data.last_language);
                     if (mode == LoadMode.NewGame)
                     {
                         init_data();

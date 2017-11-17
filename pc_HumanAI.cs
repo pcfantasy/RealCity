@@ -172,7 +172,7 @@ namespace RealCity
                     int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[(int)num]);
                     if (ticketPrice != 0)
                     {
-                        ticketPrice = (int)((float)ticketPrice * comm_data.salary_idex);
+                        ticketPrice = (int)((float)ticketPrice);
                         //DebugLog.LogToFileOnly("EnterVehicle_1 ticketPrice pre = " + ticketPrice.ToString());
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
@@ -180,9 +180,9 @@ namespace RealCity
                         uint homeid = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            if ((comm_data.citizen_money[homeid] - ticketPrice) > 0)
+                            if ((comm_data.citizen_money[homeid] - (ticketPrice/comm_data.game_income_expense_multiple)) > 0)
                             {
-                                comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - ticketPrice);
+                                comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - (ticketPrice / comm_data.game_income_expense_multiple));
                             }
                             else
                             {
@@ -190,7 +190,7 @@ namespace RealCity
                             }
                         }
                         //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.citizen_money[homeid].ToString());
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice * comm_data.game_income_expense_multiple, info.m_class);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
                     }
                 }
             }

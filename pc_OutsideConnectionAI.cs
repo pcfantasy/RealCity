@@ -153,18 +153,18 @@ namespace RealCity
             System.Random rand = new System.Random();
             if (data.Info.m_class.m_service == ItemClass.Service.Road)
             {
-                if (RealCity.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                if (comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
                     data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
                 }
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    if (RealCity.crime_connection)
+                    if (comm_data.crime_connection)
                     {
                         data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 2);
                     }
                     //sick
-                    if (RealCity.sick_connection)
+                    if (comm_data.sick_connection)
                     {
                         data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
                     }
@@ -172,7 +172,7 @@ namespace RealCity
                 else
                 {
                     //deadbuffer
-                    if (RealCity.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                    if (comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                     {
                         data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + (int)(rand.Next(60) / 50));
                     }
@@ -210,7 +210,7 @@ namespace RealCity
         {
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
 
-            if (have_garbage_building && RealCity.garbage_connection)
+            if (have_garbage_building && comm_data.garbage_connection)
             {
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
@@ -270,7 +270,7 @@ namespace RealCity
             Addgarbageoffers(buildingID, ref data);
 
 
-            if (have_cemetry_building && RealCity.dead_connection)
+            if (have_cemetry_building && comm_data.dead_connection)
             {
                 if (data.m_customBuffer1 > 10)
                 {
