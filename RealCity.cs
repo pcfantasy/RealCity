@@ -285,8 +285,116 @@ namespace RealCity
         }
 
 
+        public void SaveSetting()
+        {
+            //save langugae
+            FileStream fs = File.Create("RealCity_language.txt");
+            StreamWriter streamWriter = new StreamWriter(fs);
+            streamWriter.WriteLine(comm_data.last_language);
+            streamWriter.WriteLine(comm_data.garbage_connection);
+            streamWriter.WriteLine(comm_data.dead_connection);
+            streamWriter.WriteLine(comm_data.crime_connection);
+            streamWriter.WriteLine(comm_data.sick_connection);
+            streamWriter.WriteLine(comm_data.is_help_resident);
+            streamWriter.WriteLine(comm_data.is_help_company);
+            streamWriter.Flush();
+            fs.Close();
+        }
+
+        public void LoadSetting()
+        {
+            if (File.Exists("RealCity_language.txt"))
+            {
+                FileStream fs = new FileStream("RealCity_language.txt", FileMode.Open);
+                StreamReader sr = new StreamReader(fs);
+                string strLine = sr.ReadLine();
+
+                if (strLine == "1")
+                {
+                    comm_data.last_language = 1;
+                }
+                else
+                {
+                    comm_data.last_language = 0;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.garbage_connection = false;
+                }
+                else
+                {
+                    comm_data.garbage_connection = true;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.dead_connection = false;
+                }
+                else
+                {
+                    comm_data.dead_connection = true;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.crime_connection = false;
+                }
+                else
+                {
+                    comm_data.crime_connection = true;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.sick_connection = false;
+                }
+                else
+                {
+                    comm_data.sick_connection = true;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.is_help_resident = false;
+                }
+                else
+                {
+                    comm_data.is_help_resident = true;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.is_help_company = false;
+                }
+                else
+                {
+                    comm_data.is_help_company = true;
+                }
+
+                sr.Close();
+                fs.Close();
+            }
+        }
+
+
         public void OnSettingsUI(UIHelperBase helper)
         {
+
+            LoadSetting();
+            language.language_switch(comm_data.last_language);
             UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
             group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文(暂部分)"}, comm_data.last_language, (index) => get_language_idex(index));
 
@@ -299,12 +407,14 @@ namespace RealCity
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
             group2.AddCheckbox(language.OptionUI[8], comm_data.is_help_resident, (index) => is_help_resident(index));
             group2.AddCheckbox(language.OptionUI[9], comm_data.is_help_company, (index) => is_help_company(index));
+            SaveSetting();
         }
 
         public void get_language_idex ( int index)
         {
             language_idex = index;
             language.language_switch((byte)language_idex);
+            SaveSetting();
             MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
             method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
             //DebugLog.LogToFileOnly("get_current language idex = " + language_idex.ToString());
@@ -313,29 +423,35 @@ namespace RealCity
         public void is_help_resident(bool index)
         {
             comm_data.is_help_resident = index;
+            SaveSetting();
         }
 
         public void is_help_company(bool index)
         {
             comm_data.is_help_company = index;
+            SaveSetting();
         }
 
         public void get_garbage_connection(bool index)
         {
             comm_data.garbage_connection = index;
+            SaveSetting();
         }
 
         public void get_dead_connection(bool index)
         {
             comm_data.dead_connection = index;
+            SaveSetting();
         }
         public void get_crime_connection(bool index)
         {
             comm_data.crime_connection = index;
+            SaveSetting();
         }
         public void get_sick_connection(bool index)
         {
             comm_data.sick_connection = index;
+            SaveSetting();
         }
 
         public class EconomyExtension : EconomyExtensionBase
