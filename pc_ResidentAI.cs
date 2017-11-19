@@ -1023,6 +1023,8 @@ namespace RealCity
             process_citizen_house_rent(homeID, expenserate);
             citizen_expense_count = citizen_expense_count + temp_num + expenserate;
 
+            //DebugLog.LogToFileOnly(citizen_expense_count.ToString());
+
             //income - expense
             temp_num = citizen_salary_current - (int)(tax) - temp_num - expenserate;// - comm_data.citizen_average_transport_fee;
             comm_data.citizen_money[homeID] = (short)(comm_data.citizen_money[homeID] + temp_num);
@@ -1266,10 +1268,10 @@ namespace RealCity
             Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
             DistrictManager instance2 = Singleton<DistrictManager>.instance;
             byte district = instance2.GetDistrict(buildingdata.m_position);
-            DistrictPolicies.Taxation taxationPolicies = instance2.m_districts.m_buffer[(int)district].m_taxationPolicies;
-            int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
-            Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate*100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, num2 * 100);
+            //DistrictPolicies.Taxation taxationPolicies = instance2.m_districts.m_buffer[(int)district].m_taxationPolicies;
+            //int num2;
+            //num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
+            Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate*100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 100);
         }
 
 
@@ -1532,92 +1534,99 @@ namespace RealCity
             ItemClass @class = instance1.m_buildings.m_buffer[instance2.m_citizens.m_buffer[citizen_id].m_homeBuilding].Info.m_class;
             incomeAccumulation = 0;
             DistrictManager instance = Singleton<DistrictManager>.instance;
-            byte district = instance.GetDistrict(instance1.m_buildings.m_buffer[instance2.m_citizens.m_buffer[citizen_id].m_homeBuilding].m_position);
-            DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[(int)district].m_taxationPolicies;
-            if (@class.m_subService == ItemClass.SubService.ResidentialLow)
+            if (instance2.m_citizens.m_buffer[citizen_id].m_homeBuilding != 0)
             {
-                switch (@class.m_level)
+                byte district = instance.GetDistrict(instance1.m_buildings.m_buffer[instance2.m_citizens.m_buffer[citizen_id].m_homeBuilding].m_position);
+                DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[(int)district].m_taxationPolicies;
+                if (@class.m_subService == ItemClass.SubService.ResidentialLow)
                 {
-                    case ItemClass.Level.Level1:
-                        incomeAccumulation = comm_data.resident_low_level1_rent;
-                        break;
-                    case ItemClass.Level.Level2:
-                        incomeAccumulation = comm_data.resident_low_level2_rent;
-                        break;
-                    case ItemClass.Level.Level3:
-                        incomeAccumulation = comm_data.resident_low_level3_rent;
-                        break;
-                    case ItemClass.Level.Level4:
-                        incomeAccumulation = comm_data.resident_low_level4_rent;
-                        break;
-                    case ItemClass.Level.Level5:
-                        incomeAccumulation = comm_data.resident_low_level5_rent;
-                        break;
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = comm_data.resident_low_level1_rent;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = comm_data.resident_low_level2_rent;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = comm_data.resident_low_level3_rent;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = comm_data.resident_low_level4_rent;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = comm_data.resident_low_level5_rent;
+                            break;
+                    }
                 }
-            }
-            else if (@class.m_subService == ItemClass.SubService.ResidentialLowEco)
-            {
-                switch (@class.m_level)
+                else if (@class.m_subService == ItemClass.SubService.ResidentialLowEco)
                 {
-                    case ItemClass.Level.Level1:
-                        incomeAccumulation = comm_data.resident_low_eco_level1_rent;
-                        break;
-                    case ItemClass.Level.Level2:
-                        incomeAccumulation = comm_data.resident_low_eco_level2_rent;
-                        break;
-                    case ItemClass.Level.Level3:
-                        incomeAccumulation = comm_data.resident_low_eco_level3_rent;
-                        break;
-                    case ItemClass.Level.Level4:
-                        incomeAccumulation = comm_data.resident_low_eco_level4_rent;
-                        break;
-                    case ItemClass.Level.Level5:
-                        incomeAccumulation = comm_data.resident_low_eco_level5_rent;
-                        break;
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = comm_data.resident_low_eco_level1_rent;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = comm_data.resident_low_eco_level2_rent;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = comm_data.resident_low_eco_level3_rent;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = comm_data.resident_low_eco_level4_rent;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = comm_data.resident_low_eco_level5_rent;
+                            break;
+                    }
                 }
-            }
-            else if (@class.m_subService == ItemClass.SubService.ResidentialHigh)
-            {
-                switch (@class.m_level)
+                else if (@class.m_subService == ItemClass.SubService.ResidentialHigh)
                 {
-                    case ItemClass.Level.Level1:
-                        incomeAccumulation = comm_data.resident_high_level1_rent;
-                        break;
-                    case ItemClass.Level.Level2:
-                        incomeAccumulation = comm_data.resident_high_level2_rent;
-                        break;
-                    case ItemClass.Level.Level3:
-                        incomeAccumulation = comm_data.resident_high_level3_rent;
-                        break;
-                    case ItemClass.Level.Level4:
-                        incomeAccumulation = comm_data.resident_high_level4_rent;
-                        break;
-                    case ItemClass.Level.Level5:
-                        incomeAccumulation = comm_data.resident_high_level5_rent;
-                        break;
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = comm_data.resident_high_level1_rent;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = comm_data.resident_high_level2_rent;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = comm_data.resident_high_level3_rent;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = comm_data.resident_high_level4_rent;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = comm_data.resident_high_level5_rent;
+                            break;
+                    }
                 }
-            }
-            else
-            {
-                switch (@class.m_level)
+                else
                 {
-                    case ItemClass.Level.Level1:
-                        incomeAccumulation = comm_data.resident_high_eco_level1_rent;
-                        break;
-                    case ItemClass.Level.Level2:
-                        incomeAccumulation = comm_data.resident_high_eco_level2_rent;
-                        break;
-                    case ItemClass.Level.Level3:
-                        incomeAccumulation = comm_data.resident_high_eco_level3_rent;
-                        break;
-                    case ItemClass.Level.Level4:
-                        incomeAccumulation = comm_data.resident_high_eco_level4_rent;
-                        break;
-                    case ItemClass.Level.Level5:
-                        incomeAccumulation = comm_data.resident_high_eco_level5_rent;
-                        break;
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = comm_data.resident_high_eco_level1_rent;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = comm_data.resident_high_eco_level2_rent;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = comm_data.resident_high_eco_level3_rent;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = comm_data.resident_high_eco_level4_rent;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = comm_data.resident_high_eco_level5_rent;
+                            break;
+                    }
                 }
+                int num2;
+                num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
+                incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
             }
+
             int temp = 0;
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
@@ -1628,10 +1637,6 @@ namespace RealCity
             {
                 temp = temp + 5;
             }
-            int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
-            incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
-            //temp = temp
             return temp;
         }
 

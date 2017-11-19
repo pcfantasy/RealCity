@@ -381,6 +381,7 @@ namespace RealCity
             saveandrestore._serializableData.SaveData("real_city pc_ResidentAI", pc_ResidentAI.save_data);
             saveandrestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", pc_PrivateBuildingAI.save_data);
             //saveandrestore._serializableData.SaveData("real_city pc_VehicleAI", pc_VehicleAI.save_data);
+            RealCity.SaveSetting();
         }
 
         public override void OnLoadData()
@@ -425,6 +426,8 @@ namespace RealCity
             {
                 pc_PrivateBuildingAI.load();
             }
+
+            RealCity.LoadSetting();
 
             /*pc_VehicleAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_VehicleAI");
             if (pc_VehicleAI.load_data == null)
