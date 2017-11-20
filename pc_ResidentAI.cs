@@ -1631,11 +1631,13 @@ namespace RealCity
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
                 temp = temp + 5;
+                Singleton<EconomyManager>.instance.AddPrivateIncome(5, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
             }
 
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
             {
-                temp = temp + 5;
+                temp = temp + 10;
+                Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
             }
             return temp;
         }

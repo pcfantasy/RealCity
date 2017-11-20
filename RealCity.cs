@@ -68,6 +68,7 @@ namespace RealCity
             streamWriter.WriteLine(comm_data.sick_connection);
             streamWriter.WriteLine(comm_data.is_help_resident);
             streamWriter.WriteLine(comm_data.is_help_company);
+            streamWriter.WriteLine(comm_data.fire_connection);
             streamWriter.Flush();
             fs.Close();
         }
@@ -155,6 +156,17 @@ namespace RealCity
                     comm_data.is_help_company = true;
                 }
 
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.fire_connection = false;
+                }
+                else
+                {
+                    comm_data.fire_connection = true;
+                }
+
                 sr.Close();
                 fs.Close();
             }
@@ -174,6 +186,7 @@ namespace RealCity
             group1.AddCheckbox(language.OptionUI[4], comm_data.dead_connection, (index) => get_dead_connection(index));
             group1.AddCheckbox(language.OptionUI[5], comm_data.crime_connection, (index) => get_crime_connection(index));
             group1.AddCheckbox(language.OptionUI[6], comm_data.sick_connection, (index) => get_sick_connection(index));
+            group1.AddCheckbox(language.OptionUI[10], comm_data.fire_connection, (index) => get_fire_connection(index));
 
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
             group2.AddCheckbox(language.OptionUI[8], comm_data.is_help_resident, (index) => is_help_resident(index));
@@ -222,6 +235,12 @@ namespace RealCity
         public void get_sick_connection(bool index)
         {
             comm_data.sick_connection = index;
+            SaveSetting();
+        }
+
+        public void get_fire_connection(bool index)
+        {
+            comm_data.fire_connection = index;
             SaveSetting();
         }
 
@@ -676,12 +695,45 @@ namespace RealCity
                             {
                                 pc_OutsideConnectionAI.have_maintain_road_building = true;
                             }
+
+                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.PoliceDepartment)
+                            {
+                                pc_OutsideConnectionAI.have_police_building = true;
+                            }
+
+                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Road)
+                            {
+                                pc_OutsideConnectionAI.have_hospital_building = true;
+                            }
+
+
+                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.FireDepartment)
+                            {
+                                pc_OutsideConnectionAI.have_fire_building = true;
+                            }
+
+                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Commercial)
+                            {
+                                DebugLog.LogToFileOnly("angle and length" + instance.m_buildings.m_buffer[i].m_angle.ToString() + instance.m_buildings.m_buffer[i].m_length.ToString());
+                            }
+
+                            if (pc_OutsideConnectionAI.have_fire_building && pc_OutsideConnectionAI.have_hospital_building && pc_OutsideConnectionAI.have_garbage_building && pc_OutsideConnectionAI.have_maintain_road_building && pc_OutsideConnectionAI.have_cemetry_building && pc_OutsideConnectionAI.have_police_building)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
 
                 if (pc_OutsideConnectionAI.have_cemetry_building)
                 {
+                    //MessageManager ms = Singleton<MessageManager>.instance;
+                    //ms.QueueMessage(new Message(ms.GetRandomResidentID(), "we have cemetry now!"));
+                }
+
+                if (pc_OutsideConnectionAI.have_police_building)
+                {
+                    //DebugLog.LogToFileOnly("we have police now");
                     //MessageManager ms = Singleton<MessageManager>.instance;
                     //ms.QueueMessage(new Message(ms.GetRandomResidentID(), "we have cemetry now!"));
                 }

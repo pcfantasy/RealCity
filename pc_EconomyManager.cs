@@ -153,10 +153,17 @@ namespace RealCity
         public static int[] road_income_forui = new int[17];
         public static int[] cemetery_income_forui = new int[17];
 
+        public static float school_income = 0f;
+        public static float firestation_income = 0f;
+        public static float police_income = 0f;
+        public static int[] school_income_forui = new int[17];
+        public static int[] firestation_income_forui = new int[17];
+        public static int[] police_income_forui = new int[17];
+
         //public static bool cemetery_income_forui = new int[17];
 
-        public static byte[] save_data = new byte[2606];
-        public static byte[] load_data = new byte[2606];
+        public static byte[] save_data = new byte[2822];
+        public static byte[] load_data = new byte[2822];
 
         //public income
 
@@ -195,6 +202,9 @@ namespace RealCity
             garbage_income_forui[i] = 0;
             cemetery_income_forui[i] = 0;
             road_income_forui[i] = 0;
+            school_income_forui[i] = 0;
+            firestation_income_forui[i] = 0;
+            police_income_forui[i] = 0;
         }
 
         public static void data_init()
@@ -234,6 +244,9 @@ namespace RealCity
                 road_income_forui[i] = 0;
                 cemetery_income_forui[i] = 0;
                 garbage_income_forui[i] = 0;
+                school_income_forui[i] = 0;
+                firestation_income_forui[i] = 0;
+                police_income_forui[i] = 0;
             }
         }
 
@@ -374,6 +387,14 @@ namespace RealCity
             road_income = saveandrestore.load_float(ref i, load_data);
             cemetery_income = saveandrestore.load_float(ref i, load_data);
             garbage_income = saveandrestore.load_float(ref i, load_data);
+
+            police_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            firestation_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+            school_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
+
+            police_income = saveandrestore.load_float(ref i, load_data);
+            firestation_income = saveandrestore.load_float(ref i, load_data);
+            school_income = saveandrestore.load_float(ref i, load_data);
         }
 
         public static void save()
@@ -525,6 +546,16 @@ namespace RealCity
             saveandrestore.save_float(ref i, road_income, ref save_data);
             saveandrestore.save_float(ref i, cemetery_income, ref save_data);
             saveandrestore.save_float(ref i, garbage_income, ref save_data);
+
+            //3 * 17 * 4 = 204
+            saveandrestore.save_ints(ref i, police_income_forui, ref save_data);
+            saveandrestore.save_ints(ref i, firestation_income_forui, ref save_data);
+            saveandrestore.save_ints(ref i, school_income_forui, ref save_data);
+
+            //3 * 4 = 12
+            saveandrestore.save_float(ref i, police_income, ref save_data);
+            saveandrestore.save_float(ref i, firestation_income, ref save_data);
+            saveandrestore.save_float(ref i, school_income, ref save_data);
         }
 
         public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
@@ -557,7 +588,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Garbage:
-                        Garbage += (float)amount / coefficient;
+                        Garbage += (float)amount;
                         if (Garbage > 1)
                         {
                             temp = (int)Garbage;
@@ -567,7 +598,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.PoliceDepartment:
-                        PoliceDepartment += (float)amount / coefficient;
+                        PoliceDepartment += (float)amount;
                         if (PoliceDepartment > 1)
                         {
                             temp = (int)PoliceDepartment;
@@ -577,7 +608,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Beautification:
-                        Beautification += (float)amount / coefficient;
+                        Beautification += (float)amount;
                         if (Beautification > 1)
                         {
                             temp = (int)Beautification;
@@ -597,7 +628,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Education:
-                        Education += (float)amount / coefficient;
+                        Education += (float)amount;
                         if (Education > 1)
                         {
                             temp = (int)Education;
@@ -617,7 +648,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.FireDepartment:
-                        FireDepartment += (float)amount / coefficient;
+                        FireDepartment += (float)amount;
                         if (FireDepartment > 1)
                         {
                             temp = (int)FireDepartment;
@@ -627,7 +658,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Monument:
-                        Monument += amount / coefficient;
+                        Monument += amount;
                         if (Monument > 1)
                         {
                             temp = (int)Monument;
@@ -637,7 +668,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.HealthCare:
-                        HealthCare += (float)amount / coefficient;
+                        HealthCare += (float)amount;
                         if (HealthCare > 1)
                         {
                             temp = (int)HealthCare;
@@ -759,6 +790,46 @@ namespace RealCity
                         amount = 0;
                     }
                     road_income_forui[comm_data.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.PoliceDepartment:
+                    police_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
+                    if (police_income > 1)
+                    {
+                        amount = (int)police_income;
+                        police_income = police_income - (int)police_income;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    police_income_forui[comm_data.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.FireDepartment:
+                    firestation_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
+                    if (firestation_income > 1)
+                    {
+                        amount = (int)firestation_income;
+                        firestation_income = firestation_income - (int)firestation_income;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    firestation_income_forui[comm_data.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.Education:
+                    school_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
+                    //DebugLog.LogToFileOnly("school_income = " + school_income.ToString());
+                    if (school_income > 1)
+                    {
+                        amount = (int)school_income;
+                        school_income = school_income - (int)school_income;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    school_income_forui[comm_data.update_money_count] += amount;
                     break;
                 default:
                     amount = 0;

@@ -15,11 +15,12 @@ namespace RealCity
             "Outside Connection",
             "Accept Outside Garbage Deal Demand",
             "Accept Outside Dead Deal Demand",
-            "Accept Outside Police Patrol Demand(not supported yet)",
-            "Accept Outside First Aid Help Demand(not supported yet)",
+            "Accept Outside Police Patrol Demand",
+            "Accept Outside First Aid Help Demand",
             "Special Policy",
             "Resident basic living allowances",
-            "Supports for unprofitable company(not supported yet)"
+            "Supports for unprofitable company(not supported yet)",
+            "Accept Outside Fire inspection Help Demand"
         };
 
         public static string[] BuildingUI_English = { "Building Money",
@@ -43,7 +44,7 @@ namespace RealCity
         public static string[] EconomicUI_English =
         {
             "Economic Data",
-            "1、Citizen Status",
+            "1、Citizen Status(unit: fen)",
             "citizen_count",
             "total citizen_count",
             "family_count",
@@ -325,17 +326,18 @@ namespace RealCity
             "外部连接",
             "接受外部垃圾处理的请求",
             "接受外部遗体处理的请求",
-            "接受外部治安巡逻的请求(暂不支持)",
-            "接受外部急救支援的请求(暂不支持)",
+            "接受外部治安巡逻的请求",
+            "接受外部急救支援的请求",
             "城市特殊政策",
             "居民低保",
             "支援亏损企业(暂不支持)",
+            "接受外部消防安全检查的请求",
         };
 
         public static string[] EconomicUI_Chinese =
         {
             "经济数据",
-            "1、居民情况",
+            "1、居民情况(钱单位:分)",
             "居民人数",
             "居民总人数",
             "家庭户数",

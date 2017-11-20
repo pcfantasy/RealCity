@@ -3,8 +3,8 @@
     public class comm_data
     {
 
-        public const byte game_income_expense_multiple = 10;
-        public const byte game_maintain_fee_decrease = 3;
+        public const byte game_income_expense_multiple = 1;
+        public const byte game_maintain_fee_decrease = 100;
 
         //1.  citizen
         //1.1 citizen salary
@@ -423,6 +423,7 @@
         public static bool sick_connection = false;
         public static bool dead_connection = false;
         public static bool crime_connection = false;
+        public static bool fire_connection = false;
         public static bool is_help_resident = false;
         public static bool is_help_company = false;
 

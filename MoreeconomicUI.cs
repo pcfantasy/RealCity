@@ -740,10 +740,10 @@ namespace RealCity
             this.family_count.text = string.Format(language.EconomicUI[4] + " [{0}]", comm_data.family_count);
             this.citizen_salary_per_family.text = string.Format(language.EconomicUI[6] + " [{0}]", comm_data.citizen_salary_per_family);
             this.citizen_salary_total.text = string.Format(language.EconomicUI[8] + " [{0}]", comm_data.citizen_salary_total);
-            this.citizen_salary_tax_total.text = string.Format(language.EconomicUI[10] + " [{0}]", comm_data.citizen_salary_tax_total * comm_data.game_income_expense_multiple /100f);
+            this.citizen_salary_tax_total.text = string.Format(language.EconomicUI[10] + " [{0}]", comm_data.citizen_salary_tax_total * comm_data.game_income_expense_multiple);
             this.citizen_expense_per_family.text = string.Format(language.EconomicUI[12] + " [{0}]", comm_data.citizen_expense_per_family);
-            this.citizen_expense.text = string.Format(language.EconomicUI[14] + " [{0}]", comm_data.citizen_expense);
-            this.public_transport_fee.text = string.Format(language.EconomicUI[16] + " [{0}]", comm_data.public_transport_fee * comm_data.game_income_expense_multiple / 100f);
+            this.citizen_expense.text = string.Format(language.EconomicUI[14] + " [{0}]", comm_data.citizen_expense * comm_data.game_income_expense_multiple);
+            this.public_transport_fee.text = string.Format(language.EconomicUI[16] + " [{0}]", comm_data.public_transport_fee * comm_data.game_income_expense_multiple);
             this.total_citizen_vehical_time.text = string.Format(language.EconomicUI[18] + " [{0}]", comm_data.temp_total_citizen_vehical_time_last);
             this.family_profit_money_num.text = string.Format(language.EconomicUI[20] + " [{0}]", comm_data.family_profit_money_num);
             this.family_loss_money_num.text = string.Format(language.EconomicUI[22] + " [{0}]", comm_data.family_loss_money_num);

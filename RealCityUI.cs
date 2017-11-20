@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 700f;
+        private static readonly float HEIGHT = 750f;
 
         private static readonly float HEADER = 40f;
 
@@ -92,6 +92,9 @@ namespace RealCity
         private UILabel road_income_title;
         private UILabel garbage_income_title;
         private UILabel cemetery_income_title;
+        private UILabel police_income_title;
+        private UILabel firestation_income_title;
+        private UILabel school_income_title;
 
         //7、all total income
         private UILabel all_total_income_ui;
@@ -145,6 +148,10 @@ namespace RealCity
         public static double garbage_income_forui;
         public static double road_income_forui;
         public static double cemetery_income_forui;
+
+        public static double police_income_forui;
+        public static double firestation_income_forui;
+        public static double school_income_forui;
 
         //transport income
         public static double city_playerbuilding_income_total;
@@ -574,11 +581,32 @@ namespace RealCity
             this.garbage_income_title.autoSize = true;
             this.garbage_income_title.name = "Moreeconomic_Text_44";
 
+            this.police_income_title = base.AddUIComponent<UILabel>();
+            this.police_income_title.text = string.Format("Police [0000000]");
+            this.police_income_title.tooltip = "Police";
+            this.police_income_title.relativePosition = new Vector3(SPACING, this.road_income_title.relativePosition.y + SPACING22);
+            this.police_income_title.autoSize = true;
+            this.police_income_title.name = "Moreeconomic_Text_42";
+
+            this.school_income_title = base.AddUIComponent<UILabel>();
+            this.school_income_title.text = string.Format("School [0000]");
+            this.school_income_title.tooltip = "School";
+            this.school_income_title.relativePosition = new Vector3(this.police_income_title.relativePosition.x + this.police_income_title.width + SPACING, this.police_income_title.relativePosition.y);
+            this.school_income_title.autoSize = true;
+            this.school_income_title.name = "Moreeconomic_Text_43";
+
+            this.firestation_income_title = base.AddUIComponent<UILabel>();
+            this.firestation_income_title.text = string.Format("FireStation [0000]");
+            this.firestation_income_title.tooltip = "FireStation";
+            this.firestation_income_title.relativePosition = new Vector3(this.school_income_title.relativePosition.x + this.school_income_title.width + SPACING, this.school_income_title.relativePosition.y);
+            this.firestation_income_title.autoSize = true;
+            this.firestation_income_title.name = "Moreeconomic_Text_44";
+
             //6 all total
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
             this.all_total_income_ui.text = "6、City all total income [0000000000000]";
             this.all_total_income_ui.tooltip = "N/A";
-            this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.road_income_title.relativePosition.y + SPACING22 + 20f);
+            this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.firestation_income_title.relativePosition.y + SPACING22 + 20f);
             this.all_total_income_ui.autoSize = true;
             this.all_total_income_ui.name = "Moreeconomic_Text_45";
 
@@ -690,6 +718,9 @@ namespace RealCity
             this.road_income_title.text = string.Format("Road [{0}]", road_income_forui);
             this.cemetery_income_title.text = string.Format("Cemetety [{0}]", cemetery_income_forui);
             this.garbage_income_title.text = string.Format("Garbage [{0}]", garbage_income_forui);
+            this.police_income_title.text = string.Format("Police [{0}]",police_income_forui);
+            this.school_income_title.text = string.Format("School [{0}]", school_income_forui);
+            this.firestation_income_title.text = string.Format("FireStation [{0}]", firestation_income_forui);
             this.all_total_income_ui.text = string.Format("7、City all total income [{0}]", all_total_income);
 
 
@@ -800,6 +831,9 @@ namespace RealCity
                 road_income_forui += (double)pc_EconomyManager.road_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
                 cemetery_income_forui += (double)pc_EconomyManager.cemetery_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
                 garbage_income_forui += (double)pc_EconomyManager.garbage_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
+                police_income_forui += (double)pc_EconomyManager.police_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
+                school_income_forui += (double)pc_EconomyManager.school_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
+                firestation_income_forui += (double)pc_EconomyManager.firestation_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
             }
             //DebugLog.LogToFileOnly(pc_EconomyManager.resident_low_landincome_forui[0].ToString());
             //DebugLog.LogToFileOnly(pc_EconomyManager.resident_low_landincome_forui[1].ToString());
@@ -851,6 +885,9 @@ namespace RealCity
             road_income_forui -= (double)pc_EconomyManager.road_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
             cemetery_income_forui -= (double)pc_EconomyManager.cemetery_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
             garbage_income_forui -= (double)pc_EconomyManager.garbage_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
+            firestation_income_forui -= (double)pc_EconomyManager.firestation_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
+            police_income_forui -= (double)pc_EconomyManager.police_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
+            school_income_forui -= (double)pc_EconomyManager.school_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
 
             citizen_tax_income_total += citizen_tax_income_forui;
             city_land_income_total += resident_high_landincome_forui;
@@ -896,6 +933,9 @@ namespace RealCity
             city_playerbuilding_income_total += road_income_forui;
             city_playerbuilding_income_total += cemetery_income_forui;
             city_playerbuilding_income_total += garbage_income_forui;
+            city_playerbuilding_income_total += police_income_forui;
+            city_playerbuilding_income_total += firestation_income_forui;
+            city_playerbuilding_income_total += school_income_forui;
 
             all_total_income = city_playerbuilding_income_total + citizen_tax_income_total + city_land_income_total + city_tourism_income_total + city_trade_income_total + city_transport_income_total;
 
