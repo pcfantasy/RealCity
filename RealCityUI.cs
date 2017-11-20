@@ -256,7 +256,7 @@ namespace RealCity
 
             this.citizen_tax_income = base.AddUIComponent<UILabel>();
             this.citizen_tax_income.text =               string.Format("citizen salary-tax income [0000000]");
-            this.citizen_tax_income.tooltip = "total citizen salary tax income";
+            this.citizen_tax_income.tooltip = language.RealCityUI[2];
             this.citizen_tax_income.relativePosition = new Vector3(SPACING, this.citizen_tax_income_title.relativePosition.y + SPACING22 + 2f);
             this.citizen_tax_income.autoSize = true;
             this.citizen_tax_income.name = "Moreeconomic_Text_1";
@@ -271,14 +271,14 @@ namespace RealCity
 
             this.citizen_income = base.AddUIComponent<UILabel>();
             this.citizen_income.text =    string.Format("from resident [00000]");
-            this.citizen_income.tooltip = "money from resident tourist";
+            this.citizen_income.tooltip = language.RealCityUI[5];
             this.citizen_income.relativePosition = new Vector3(SPACING, this.city_tourism_income_title.relativePosition.y + SPACING22 + 2f);
             this.citizen_income.autoSize = true;
             this.citizen_income.name = "Moreeconomic_Text_3";
 
             this.tourist_income = base.AddUIComponent<UILabel>();
             this.tourist_income.text =    string.Format("from tourist [000000]");
-            this.tourist_income.tooltip = "total citizen_salary";
+            this.tourist_income.tooltip = language.RealCityUI[7];
             this.tourist_income.relativePosition = new Vector3(this.citizen_income.relativePosition.x + this.citizen_income.width + SPACING, this.citizen_income.relativePosition.y);
             this.tourist_income.autoSize = true;
             this.tourist_income.name = "Moreeconomic_Text_4";
@@ -286,119 +286,119 @@ namespace RealCity
             //3、City land tax income
             this.land_income_title = base.AddUIComponent<UILabel>();
             this.land_income_title.text =     string.Format("3、City land tax income [0000000000000]");
-            this.land_income_title.tooltip = "total city land income";
+            this.land_income_title.tooltip = language.RealCityUI[9];
             this.land_income_title.relativePosition = new Vector3(SPACING, this.citizen_income.relativePosition.y + SPACING22 + 2f);
             this.land_income_title.autoSize = true;
             this.land_income_title.name = "Moreeconomic_Text_5";
 
             this.resident_high_landincome = base.AddUIComponent<UILabel>();
             this.resident_high_landincome.text =     string.Format("residential_high_landincome [0000000]");
-            this.resident_high_landincome.tooltip = "residential_high_landincome";
+            this.resident_high_landincome.tooltip = language.RealCityUI[11];
             this.resident_high_landincome.relativePosition = new Vector3(SPACING, this.land_income_title.relativePosition.y + SPACING22 + 2f);
             this.resident_high_landincome.autoSize = true;
             this.resident_high_landincome.name = "Moreeconomic_Text_6";
 
             this.resident_low_landincome = base.AddUIComponent<UILabel>();
             this.resident_low_landincome.text =      string.Format("resident_low_landincome [000000000]");
-            this.resident_low_landincome.tooltip = "resident_low_landincome";
+            this.resident_low_landincome.tooltip = language.RealCityUI[13];
             this.resident_low_landincome.relativePosition = new Vector3(this.resident_high_landincome.relativePosition.x + this.resident_high_landincome.width + SPACING, this.resident_high_landincome.relativePosition.y);
             this.resident_low_landincome.autoSize = true;
             this.resident_low_landincome.name = "Moreeconomic_Text_7";
 
             this.resident_high_eco_landincome = base.AddUIComponent<UILabel>();
             this.resident_high_eco_landincome.text = string.Format("resident_high_eco_landincome [00000]");
-            this.resident_high_eco_landincome.tooltip = "total resident_high_eco_landincome";
+            this.resident_high_eco_landincome.tooltip = language.RealCityUI[15];
             this.resident_high_eco_landincome.relativePosition = new Vector3(SPACING, this.resident_high_landincome.relativePosition.y + SPACING22);
             this.resident_high_eco_landincome.autoSize = true;
             this.resident_high_eco_landincome.name = "Moreeconomic_Text_8";
 
             this.resident_low_eco_landincome = base.AddUIComponent<UILabel>();
             this.resident_low_eco_landincome.text =  string.Format("resident_low_eco_landincome [0000000]");
-            this.resident_low_eco_landincome.tooltip = "total resident_low_eco_landincome";
+            this.resident_low_eco_landincome.tooltip = language.RealCityUI[17];
             this.resident_low_eco_landincome.relativePosition = new Vector3(this.resident_high_eco_landincome.relativePosition.x + this.resident_high_eco_landincome.width + SPACING, this.resident_high_eco_landincome.relativePosition.y);
             this.resident_low_eco_landincome.autoSize = true;
             this.resident_low_eco_landincome.name = "Moreeconomic_Text_8";
 
             this.comm_high_landincome = base.AddUIComponent<UILabel>();
             this.comm_high_landincome.text =         string.Format("commerical_high_landincome [00000000]");
-            this.comm_high_landincome.tooltip = "total commerical_high_landincome";
+            this.comm_high_landincome.tooltip = language.RealCityUI[19];
             this.comm_high_landincome.relativePosition = new Vector3(SPACING, this.resident_high_eco_landincome.relativePosition.y + SPACING22);
             this.comm_high_landincome.autoSize = true;
             this.comm_high_landincome.name = "Moreeconomic_Text_9";
 
             this.comm_low_landincome = base.AddUIComponent<UILabel>();
             this.comm_low_landincome.text =          string.Format("commerical_low_landincome [000000000]");
-            this.comm_low_landincome.tooltip = "commerical_low_landincome";
+            this.comm_low_landincome.tooltip = language.RealCityUI[21];
             this.comm_low_landincome.relativePosition = new Vector3(this.comm_high_landincome.relativePosition.x + this.comm_high_landincome.width + SPACING, this.comm_high_landincome.relativePosition.y);
             this.comm_low_landincome.autoSize = true;
             this.comm_low_landincome.name = "Moreeconomic_Text_10";
 
             this.comm_eco_landincome = base.AddUIComponent<UILabel>();
             this.comm_eco_landincome.text =          string.Format("commerical_eco_landincome [000000000]");
-            this.comm_eco_landincome.tooltip = "commerical_eco_landincome";
+            this.comm_eco_landincome.tooltip = language.RealCityUI[23];
             this.comm_eco_landincome.relativePosition = new Vector3(SPACING, this.comm_high_landincome.relativePosition.y + SPACING22);
             this.comm_eco_landincome.autoSize = true;
             this.comm_eco_landincome.name = "Moreeconomic_Text_11";
 
             this.comm_tou_landincome = base.AddUIComponent<UILabel>();
             this.comm_tou_landincome.text =       string.Format("commerical_tourism_landincome [00000000]");
-            this.comm_tou_landincome.tooltip = "commerical_tourism_landincome";
+            this.comm_tou_landincome.tooltip = language.RealCityUI[25];
             this.comm_tou_landincome.relativePosition = new Vector3(this.comm_eco_landincome.relativePosition.x + this.comm_eco_landincome.width + SPACING, this.comm_eco_landincome.relativePosition.y);
             this.comm_tou_landincome.autoSize = true;
             this.comm_tou_landincome.name = "Moreeconomic_Text_12";
 
             this.comm_lei_landincome = base.AddUIComponent<UILabel>();
             this.comm_lei_landincome.text =       string.Format("commerical_leisure_landincome [000000000]");
-            this.comm_lei_landincome.tooltip = "commerical_leisure_landincome";
+            this.comm_lei_landincome.tooltip = language.RealCityUI[27];
             this.comm_lei_landincome.relativePosition = new Vector3(SPACING, this.comm_eco_landincome.relativePosition.y + SPACING22);
             this.comm_lei_landincome.autoSize = true;
             this.comm_lei_landincome.name = "Moreeconomic_Text_13";
 
             this.indu_gen_landincome = base.AddUIComponent<UILabel>();
             this.indu_gen_landincome.text =       string.Format("industrial_general_landincome [000000000]");
-            this.indu_gen_landincome.tooltip = "industrial_general_landincome";
+            this.indu_gen_landincome.tooltip = language.RealCityUI[29];
             this.indu_gen_landincome.relativePosition = new Vector3(this.comm_lei_landincome.relativePosition.x + this.comm_lei_landincome.width + SPACING, this.comm_lei_landincome.relativePosition.y);
             this.indu_gen_landincome.autoSize = true;
             this.indu_gen_landincome.name = "Moreeconomic_Text_14";
 
             this.indu_farmer_landincome = base.AddUIComponent<UILabel>();
             this.indu_farmer_landincome.text =    string.Format("industrial_farming_landincome  [00000000]");
-            this.indu_farmer_landincome.tooltip = "industrial_farming_landincome";
+            this.indu_farmer_landincome.tooltip = language.RealCityUI[31];
             this.indu_farmer_landincome.relativePosition = new Vector3(SPACING, this.comm_lei_landincome.relativePosition.y + SPACING22);
             this.indu_farmer_landincome.autoSize = true;
             this.indu_farmer_landincome.name = "Moreeconomic_Text_15";
 
             this.indu_foresty_landincome = base.AddUIComponent<UILabel>();
             this.indu_foresty_landincome.text =   string.Format("industrial_foresty_landincome [000000000]");
-            this.indu_foresty_landincome.tooltip = "industrial_foresty_landincome";
+            this.indu_foresty_landincome.tooltip = language.RealCityUI[33];
             this.indu_foresty_landincome.relativePosition = new Vector3(this.indu_farmer_landincome.relativePosition.x + this.indu_farmer_landincome.width + SPACING, this.indu_farmer_landincome.relativePosition.y);
             this.indu_foresty_landincome.autoSize = true;
             this.indu_foresty_landincome.name = "Moreeconomic_Text_16";
 
             this.indu_oil_landincome = base.AddUIComponent<UILabel>();
             this.indu_oil_landincome.text =       string.Format("industrial_oil_landincome [0000000000000]");
-            this.indu_oil_landincome.tooltip = "industrial_oil_landincome";
+            this.indu_oil_landincome.tooltip = language.RealCityUI[35];
             this.indu_oil_landincome.relativePosition = new Vector3(SPACING, this.indu_farmer_landincome.relativePosition.y + SPACING22);
             this.indu_oil_landincome.autoSize = true;
             this.indu_oil_landincome.name = "Moreeconomic_Text_17";
 
             this.indu_ore_landincome = base.AddUIComponent<UILabel>();
             this.indu_ore_landincome.text =       string.Format("industrial_ore_landincome [0000000000000]");
-            this.indu_ore_landincome.tooltip = "industrial_ore_landincome";
+            this.indu_ore_landincome.tooltip = language.RealCityUI[37];
             this.indu_ore_landincome.relativePosition = new Vector3(this.indu_oil_landincome.relativePosition.x + this.indu_oil_landincome.width + SPACING, this.indu_oil_landincome.relativePosition.y);
             this.indu_ore_landincome.autoSize = true;
             this.indu_ore_landincome.name = "Moreeconomic_Text_18";
             
             this.office_gen_landincome = base.AddUIComponent<UILabel>();
             this.office_gen_landincome.text =       string.Format("office_general_landincome [0000000000000]");
-            this.office_gen_landincome.tooltip = "office_general_landincome";
+            this.office_gen_landincome.tooltip = language.RealCityUI[39];
             this.office_gen_landincome.relativePosition = new Vector3(SPACING, this.indu_oil_landincome.relativePosition.y + SPACING22);
             this.office_gen_landincome.autoSize = true;
             this.office_gen_landincome.name = "Moreeconomic_Text_19";
 
             this.office_high_tech_landincome = base.AddUIComponent<UILabel>();
             this.office_high_tech_landincome.text = string.Format("office_high_tech_landincome [00000000000]");
-            this.office_high_tech_landincome.tooltip = "office_high_tech_landincome";
+            this.office_high_tech_landincome.tooltip = language.RealCityUI[41];
             this.office_high_tech_landincome.relativePosition = new Vector3(this.office_gen_landincome.relativePosition.x + this.office_gen_landincome.width + SPACING, this.office_gen_landincome.relativePosition.y);
             this.office_high_tech_landincome.autoSize = true;
             this.office_high_tech_landincome.name = "Moreeconomic_Text_20";
@@ -406,77 +406,77 @@ namespace RealCity
             //4、City trade tax income
             this.trade_income_title = base.AddUIComponent<UILabel>();
             this.trade_income_title.text = string.Format("4、City trade tax income [00000000000000]");
-            this.trade_income_title.tooltip = "total city trade tax income";
+            this.trade_income_title.tooltip = language.RealCityUI[43];
             this.trade_income_title.relativePosition = new Vector3(SPACING, this.office_gen_landincome.relativePosition.y + SPACING22 + 2f);
             this.trade_income_title.autoSize = true;
             this.trade_income_title.name = "Moreeconomic_Text_21";
 
             this.comm_high_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_high_tradeincome.text = string.Format("commerical_high_tradeincome [00000000]");
-            this.comm_high_tradeincome.tooltip = "total commerical_high_tradeincome";
+            this.comm_high_tradeincome.tooltip = language.RealCityUI[45];
             this.comm_high_tradeincome.relativePosition = new Vector3(SPACING, this.trade_income_title.relativePosition.y + SPACING22 + 2f);
             this.comm_high_tradeincome.autoSize = true;
             this.comm_high_tradeincome.name = "Moreeconomic_Text_22";
 
             this.comm_low_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_low_tradeincome.text = string.Format("commerical_low_tradeincome [000000000]");
-            this.comm_low_tradeincome.tooltip = "commerical_low_tradeincome";
+            this.comm_low_tradeincome.tooltip = language.RealCityUI[47];
             this.comm_low_tradeincome.relativePosition = new Vector3(this.comm_high_tradeincome.relativePosition.x + this.comm_high_tradeincome.width + SPACING, this.comm_high_tradeincome.relativePosition.y);
             this.comm_low_tradeincome.autoSize = true;
             this.comm_low_tradeincome.name = "Moreeconomic_Text_23";
 
             this.comm_eco_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_eco_tradeincome.text = string.Format("commerical_eco_tradeincome [000000000]");
-            this.comm_eco_tradeincome.tooltip = "commerical_eco_tradeincome";
+            this.comm_eco_tradeincome.tooltip = language.RealCityUI[49];
             this.comm_eco_tradeincome.relativePosition = new Vector3(SPACING, this.comm_high_tradeincome.relativePosition.y + SPACING22);
             this.comm_eco_tradeincome.autoSize = true;
             this.comm_eco_tradeincome.name = "Moreeconomic_Text_24";
 
             this.comm_tou_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_tou_tradeincome.text = string.Format("commerical_tourism_tradeincome [00000000]");
-            this.comm_tou_tradeincome.tooltip = "commerical_tourism_tradeincome";
+            this.comm_tou_tradeincome.tooltip = language.RealCityUI[51];
             this.comm_tou_tradeincome.relativePosition = new Vector3(this.comm_eco_tradeincome.relativePosition.x + this.comm_eco_tradeincome.width + SPACING, this.comm_eco_tradeincome.relativePosition.y);
             this.comm_tou_tradeincome.autoSize = true;
             this.comm_tou_tradeincome.name = "Moreeconomic_Text_25";
 
             this.comm_lei_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_lei_tradeincome.text = string.Format("commerical_leisure_tradeincome [000000000]");
-            this.comm_lei_tradeincome.tooltip = "commerical_leisure_tradeincome";
+            this.comm_lei_tradeincome.tooltip = language.RealCityUI[53];
             this.comm_lei_tradeincome.relativePosition = new Vector3(SPACING, this.comm_eco_tradeincome.relativePosition.y + SPACING22);
             this.comm_lei_tradeincome.autoSize = true;
             this.comm_lei_tradeincome.name = "Moreeconomic_Text_26";
 
             this.indu_gen_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_gen_tradeincome.text = string.Format("industrial_general_tradeincome [000000000]");
-            this.indu_gen_tradeincome.tooltip = "industrial_general_tradeincome";
+            this.indu_gen_tradeincome.tooltip = language.RealCityUI[55];
             this.indu_gen_tradeincome.relativePosition = new Vector3(this.comm_lei_tradeincome.relativePosition.x + this.comm_lei_tradeincome.width + SPACING, this.comm_lei_tradeincome.relativePosition.y);
             this.indu_gen_tradeincome.autoSize = true;
             this.indu_gen_tradeincome.name = "Moreeconomic_Text_27";
 
             this.indu_farmer_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_farmer_tradeincome.text = string.Format("industrial_farming_tradeincome  [00000000]");
-            this.indu_farmer_tradeincome.tooltip = "industrial_farming_tradeincome";
+            this.indu_farmer_tradeincome.tooltip = language.RealCityUI[57];
             this.indu_farmer_tradeincome.relativePosition = new Vector3(SPACING, this.comm_lei_tradeincome.relativePosition.y + SPACING22);
             this.indu_farmer_tradeincome.autoSize = true;
             this.indu_farmer_tradeincome.name = "Moreeconomic_Text_28";
 
             this.indu_foresty_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_foresty_tradeincome.text = string.Format("industrial_foresty_tradeincome [000000000]");
-            this.indu_foresty_tradeincome.tooltip = "industrial_foresty_tradeincome";
+            this.indu_foresty_tradeincome.tooltip = language.RealCityUI[59];
             this.indu_foresty_tradeincome.relativePosition = new Vector3(this.indu_farmer_tradeincome.relativePosition.x + this.indu_farmer_tradeincome.width + SPACING, this.indu_farmer_tradeincome.relativePosition.y);
             this.indu_foresty_tradeincome.autoSize = true;
             this.indu_foresty_tradeincome.name = "Moreeconomic_Text_29";
 
             this.indu_oil_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_oil_tradeincome.text = string.Format("industrial_oil_tradeincome [0000000000000]");
-            this.indu_oil_tradeincome.tooltip = "industrial_oil_tradeincome";
+            this.indu_oil_tradeincome.tooltip = language.RealCityUI[61];
             this.indu_oil_tradeincome.relativePosition = new Vector3(SPACING, this.indu_farmer_tradeincome.relativePosition.y + SPACING22);
             this.indu_oil_tradeincome.autoSize = true;
             this.indu_oil_tradeincome.name = "Moreeconomic_Text_30";
 
             this.indu_ore_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_ore_tradeincome.text = string.Format("industrial_ore_tradeincome [0000000000000]");
-            this.indu_ore_tradeincome.tooltip = "industrial_ore_tradeincome";
+            this.indu_ore_tradeincome.tooltip = language.RealCityUI[63];
             this.indu_ore_tradeincome.relativePosition = new Vector3(this.indu_oil_tradeincome.relativePosition.x + this.indu_oil_tradeincome.width + SPACING, this.indu_oil_tradeincome.relativePosition.y);
             this.indu_ore_tradeincome.autoSize = true;
             this.indu_ore_tradeincome.name = "Moreeconomic_Text_31";
@@ -491,63 +491,63 @@ namespace RealCity
 
             this.from_bus = base.AddUIComponent<UILabel>();
             this.from_bus.text =            string.Format("Bus [000000000]");
-            this.from_bus.tooltip = "Bus";
+            this.from_bus.tooltip = language.RealCityUI[66];
             this.from_bus.relativePosition = new Vector3(SPACING, this.public_transport_income_title.relativePosition.y + SPACING22 + 2f);
             this.from_bus.autoSize = true;
             this.from_bus.name = "Moreeconomic_Text_33";
 
             this.from_tram = base.AddUIComponent<UILabel>();
             this.from_tram.text =           string.Format("Tram [00000000]");
-            this.from_tram.tooltip = "Tram";
+            this.from_tram.tooltip = language.RealCityUI[68];
             this.from_tram.relativePosition = new Vector3(this.from_bus.relativePosition.x + this.from_bus.width + SPACING, this.from_bus.relativePosition.y);
             this.from_tram.autoSize = true;
             this.from_tram.name = "Moreeconomic_Text_33";
 
             this.from_metro = base.AddUIComponent<UILabel>();
             this.from_metro.text =          string.Format("Metro [0000000]");
-            this.from_metro.tooltip = "Metro";
+            this.from_metro.tooltip = language.RealCityUI[70];
             this.from_metro.relativePosition = new Vector3(this.from_tram.relativePosition.x + this.from_tram.width + SPACING, this.from_tram.relativePosition.y);
             this.from_metro.autoSize = true;
             this.from_metro.name = "Moreeconomic_Text_34";
 
             this.from_train = base.AddUIComponent<UILabel>();
             this.from_train.text =          string.Format("Train [0000000]");
-            this.from_train.tooltip = "Train";
+            this.from_train.tooltip = language.RealCityUI[72];
             this.from_train.relativePosition = new Vector3(SPACING, this.from_bus.relativePosition.y + SPACING22);
             this.from_train.autoSize = true;
             this.from_train.name = "Moreeconomic_Text_35";
 
             this.from_ship = base.AddUIComponent<UILabel>();
             this.from_ship.text =           string.Format("Ship [00000000]");
-            this.from_ship.tooltip = "Ship";
+            this.from_ship.tooltip = language.RealCityUI[74];
             this.from_ship.relativePosition = new Vector3(this.from_train.relativePosition.x + this.from_train.width + SPACING, this.from_train.relativePosition.y);
             this.from_ship.autoSize = true;
             this.from_ship.name = "Moreeconomic_Text_36";
 
             this.from_taxi = base.AddUIComponent<UILabel>();
             this.from_taxi.text =           string.Format("Taxi [00000000]");
-            this.from_taxi.tooltip = "Taxi";
+            this.from_taxi.tooltip = language.RealCityUI[76];
             this.from_taxi.relativePosition = new Vector3(this.from_ship.relativePosition.x + this.from_ship.width + SPACING, this.from_ship.relativePosition.y);
             this.from_taxi.autoSize = true;
             this.from_taxi.name = "Moreeconomic_Text_37";
 
             this.from_plane = base.AddUIComponent<UILabel>();
             this.from_plane.text =    string.Format("Plane [0000000]");
-            this.from_plane.tooltip = "Plane";
+            this.from_plane.tooltip = language.RealCityUI[78];
             this.from_plane.relativePosition = new Vector3(SPACING, this.from_train.relativePosition.y + SPACING22);
             this.from_plane.autoSize = true;
             this.from_plane.name = "Moreeconomic_Text_38";
 
             this.from_cable_car = base.AddUIComponent<UILabel>();
             this.from_cable_car.text = string.Format("Cablecar [0000]");
-            this.from_cable_car.tooltip = "Cablecar";
+            this.from_cable_car.tooltip = language.RealCityUI[80];
             this.from_cable_car.relativePosition = new Vector3(this.from_plane.relativePosition.x + this.from_plane.width + SPACING, this.from_plane.relativePosition.y);
             this.from_cable_car.autoSize = true;
             this.from_cable_car.name = "Moreeconomic_Text_39";
 
             this.from_monorail = base.AddUIComponent<UILabel>();
             this.from_monorail.text =  string.Format("Monorail [0000]");
-            this.from_monorail.tooltip = "Monorail";
+            this.from_monorail.tooltip = language.RealCityUI[82];
             this.from_monorail.relativePosition = new Vector3(this.from_cable_car.relativePosition.x + this.from_cable_car.width + SPACING, this.from_cable_car.relativePosition.y);
             this.from_monorail.autoSize = true;
             this.from_monorail.name = "Moreeconomic_Text_40";
@@ -555,49 +555,49 @@ namespace RealCity
             //6、Public transport income
             this.goverment_income_title = base.AddUIComponent<UILabel>();
             this.goverment_income_title.text = "6、City Player Building income [0000000000000]";
-            this.goverment_income_title.tooltip = "N/A";
+            this.goverment_income_title.tooltip = language.RealCityUI[84];
             this.goverment_income_title.relativePosition = new Vector3(SPACING, this.from_plane.relativePosition.y + SPACING22);
             this.goverment_income_title.autoSize = true;
             this.goverment_income_title.name = "Moreeconomic_Text_41";
 
             this.road_income_title = base.AddUIComponent<UILabel>();
             this.road_income_title.text = string.Format("Road [0000000]");
-            this.road_income_title.tooltip = "Road";
+            this.road_income_title.tooltip = language.RealCityUI[86];
             this.road_income_title.relativePosition = new Vector3(SPACING, this.goverment_income_title.relativePosition.y + SPACING22);
             this.road_income_title.autoSize = true;
             this.road_income_title.name = "Moreeconomic_Text_42";
 
             this.cemetery_income_title = base.AddUIComponent<UILabel>();
             this.cemetery_income_title.text = string.Format("Cemetery [0000]");
-            this.cemetery_income_title.tooltip = "Cemetery";
+            this.cemetery_income_title.tooltip = language.RealCityUI[88];
             this.cemetery_income_title.relativePosition = new Vector3(this.road_income_title.relativePosition.x + this.road_income_title.width + SPACING, this.road_income_title.relativePosition.y);
             this.cemetery_income_title.autoSize = true;
             this.cemetery_income_title.name = "Moreeconomic_Text_43";
 
             this.garbage_income_title = base.AddUIComponent<UILabel>();
             this.garbage_income_title.text = string.Format("Garbage [0000]");
-            this.garbage_income_title.tooltip = "Garbage";
+            this.garbage_income_title.tooltip = language.RealCityUI[90];
             this.garbage_income_title.relativePosition = new Vector3(this.cemetery_income_title.relativePosition.x + this.cemetery_income_title.width + SPACING, this.cemetery_income_title.relativePosition.y);
             this.garbage_income_title.autoSize = true;
             this.garbage_income_title.name = "Moreeconomic_Text_44";
 
             this.police_income_title = base.AddUIComponent<UILabel>();
             this.police_income_title.text = string.Format("Police [0000000]");
-            this.police_income_title.tooltip = "Police";
+            this.police_income_title.tooltip = language.RealCityUI[92];
             this.police_income_title.relativePosition = new Vector3(SPACING, this.road_income_title.relativePosition.y + SPACING22);
             this.police_income_title.autoSize = true;
             this.police_income_title.name = "Moreeconomic_Text_42";
 
             this.school_income_title = base.AddUIComponent<UILabel>();
             this.school_income_title.text = string.Format("School [0000]");
-            this.school_income_title.tooltip = "School";
+            this.school_income_title.tooltip = language.RealCityUI[94];
             this.school_income_title.relativePosition = new Vector3(this.police_income_title.relativePosition.x + this.police_income_title.width + SPACING, this.police_income_title.relativePosition.y);
             this.school_income_title.autoSize = true;
             this.school_income_title.name = "Moreeconomic_Text_43";
 
             this.firestation_income_title = base.AddUIComponent<UILabel>();
             this.firestation_income_title.text = string.Format("FireStation [0000]");
-            this.firestation_income_title.tooltip = "FireStation";
+            this.firestation_income_title.tooltip = language.RealCityUI[96];
             this.firestation_income_title.relativePosition = new Vector3(this.school_income_title.relativePosition.x + this.school_income_title.width + SPACING, this.school_income_title.relativePosition.y);
             this.firestation_income_title.autoSize = true;
             this.firestation_income_title.name = "Moreeconomic_Text_44";
@@ -609,38 +609,6 @@ namespace RealCity
             this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.firestation_income_title.relativePosition.y + SPACING22 + 20f);
             this.all_total_income_ui.autoSize = true;
             this.all_total_income_ui.name = "Moreeconomic_Text_45";
-
-
-            //this.m_getfromBank = base.AddUIComponent<UIButton>();
-            //this.m_getfromBank.size = new Vector2(160f, 24f);
-            //this.m_getfromBank.text = "Get 100K from Bank";
-            //this.m_getfromBank.tooltip = "Get 100K from Bank, if Bank do not have enough money, this is useless";
-            //this.m_getfromBank.textScale = 0.875f;
-            //this.m_getfromBank.normalBgSprite = "ButtonMenu";
-            //this.m_getfromBank.hoveredBgSprite = "ButtonMenuHovered";
-            //this.m_getfromBank.pressedBgSprite = "ButtonMenuPressed";
-            //this.m_getfromBank.disabledBgSprite = "ButtonMenuDisabled";
-            //this.m_getfromBank.relativePosition = new Vector3(SPACING, this.m_deadcount.relativePosition.y + SPACING22);
-            //this.m_getfromBank.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-            //{
-            //    //Caculate.GetData(true, false);
-            //};
-
-            //this.m_add2Bank = base.AddUIComponent<UIButton>();
-            //this.m_add2Bank.size = new Vector2(160f, 24f);
-            //this.m_add2Bank.text = "Add 100K to Bank";
-            //this.m_add2Bank.tooltip = "Add 100K to Bank, if You do not have enough money, dont do this!!";
-            //this.m_add2Bank.textScale = 0.875f;
-            //this.m_add2Bank.normalBgSprite = "ButtonMenu";
-            //this.m_add2Bank.hoveredBgSprite = "ButtonMenuHovered";
-            //this.m_add2Bank.pressedBgSprite = "ButtonMenuPressed";
-            //this.m_add2Bank.disabledBgSprite = "ButtonMenuDisabled";
-            //this.m_add2Bank.relativePosition = this.m_getfromBank.relativePosition + new Vector3(this.m_getfromBank.width + SPACING * 2f, 0);
-            //this.m_add2Bank.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-            //{
-            //    //Caculate.GetData(false, true);
-            //};
-        }
 
 
         private IEnumerator RefreshDisplayDataWrapper()
@@ -670,58 +638,58 @@ namespace RealCity
             isRefreshing = true;
             process_data();
             //citizen
-            //this.citizen_count.text = string.Format("citizen_count [{0}]", comm_data.citizen_count);
-            this.citizen_tax_income_title.text = string.Format("1、City resident salary-tax income [{0}]  [{1:N2}%]", citizen_tax_income_total, citizen_tax_income_percent*100);
-            this.citizen_tax_income.text = string.Format("citizen salary-tax income [{0}]", citizen_tax_income_forui);
-            this.city_tourism_income_title.text = string.Format("2、City tourism income [{0}]  [{1:N2}%]", city_tourism_income_total, city_tourism_income_percent*100) ;
-            this.citizen_income.text = string.Format("from resident [{0}]", citizen_income_forui);
-            this.tourist_income.text = string.Format("from tourist [{0}]", tourist_income_forui);
-            this.land_income_title.text = string.Format("3、City land tax income [{0}]  [{1:N2}%]", city_land_income_total, city_land_income_percent*100);
-            this.resident_high_landincome.text = string.Format("residential_high_landincome [{0}]", resident_high_landincome_forui);
-            this.resident_low_landincome.text = string.Format("residential_low_landincome [{0}]", resident_low_landincome_forui);
-            this.resident_high_eco_landincome.text = string.Format("residential_high_eco_landincome [{0}]", resident_high_eco_landincome_forui);
-            this.resident_low_eco_landincome.text = string.Format("residential_low_eco_landincome [{0}]", resident_low_eco_landincome_forui);
-            this.comm_high_landincome.text = string.Format("commerical_high_landincome [{0}]", comm_high_landincome_forui);
-            this.comm_low_landincome.text = string.Format("commerical_low_landincome [{0}]", comm_low_landincome_forui);
-            this.comm_lei_landincome.text = string.Format("commerical_leisure_landincome [{0}]", comm_lei_landincome_forui);
-            this.comm_tou_landincome.text = string.Format("commerical_tourist_landincome [{0}]", comm_tou_landincome_forui);
-            this.comm_eco_landincome.text = string.Format("commerical_eco_landincome [{0}]", comm_eco_landincome_forui);
-            this.indu_gen_landincome.text = string.Format("industrial_general_landincome [{0}]", indu_gen_landincome_forui);
-            this.indu_farmer_landincome.text = string.Format("industrial_farmeing_landincome [{0}]", indu_farmer_landincome_forui);
-            this.indu_foresty_landincome.text = string.Format("industrial_forestry_landincome [{0}]", indu_foresty_landincome_forui);
-            this.indu_oil_landincome.text = string.Format("industrial_oil_landincome [{0}]", indu_oil_landincome_forui);
-            this.indu_ore_landincome.text = string.Format("industrial_ore_landincome [{0}]", indu_ore_landincome_forui);
-            this.office_gen_landincome.text = string.Format("office_general_landincome [{0}]", office_gen_landincome_forui);
-            this.office_high_tech_landincome.text = string.Format("office_high_tech_landincome [{0}]", office_high_tech_landincome_forui); ;
-            this.trade_income_title.text = string.Format("4、City trade tax income [{0}]  [{1:N2}%]", city_trade_income_total, city_trade_income_percent*100);
-            this.comm_high_tradeincome.text = string.Format("commerical_high_tradeincome [{0}]", comm_high_tradeincome_forui);
-            this.comm_low_tradeincome.text = string.Format("commerical_low_tradeincome [{0}]", comm_low_tradeincome_forui);
-            this.comm_lei_tradeincome.text = string.Format("commerical_leisure_tradeincome [{0}]", comm_lei_tradeincome_forui);
-            this.comm_tou_tradeincome.text = string.Format("commerical_tourist_tradeincome [{0}]", comm_tou_tradeincome_forui);
-            this.comm_eco_tradeincome.text = string.Format("commerical_eco_tradeincome [{0}]", comm_eco_tradeincome_forui);
-            this.indu_gen_tradeincome.text = string.Format("industrial_general_tradeincome [{0}]", indu_gen_tradeincome_forui);
-            this.indu_farmer_tradeincome.text = string.Format("industrial_farmeing_tradeincome [{0}]", indu_farmer_tradeincome_forui);
-            this.indu_foresty_tradeincome.text = string.Format("industrial_forestry_tradeincome [{0}]", indu_foresty_tradeincome_forui);
-            this.indu_oil_tradeincome.text = string.Format("industrial_oil_tradeincome [{0}]", indu_oil_tradeincome_forui);
-            this.indu_ore_tradeincome.text = string.Format("industrial_ore_tradeincome [{0}]", indu_ore_tradeincome_forui);
-            this.public_transport_income_title.text = string.Format("5、City Public transport income [{0}]  [{1:N2}%]", city_transport_income_total, city_transport_income_percent*100);
-            this.from_bus.text = string.Format("Bus [{0}]", bus_income);
-            this.from_tram.text = string.Format("Tram [{0}]", tram_income);
-            this.from_train.text = string.Format("Train [{0}]", train_income);
-            this.from_ship.text = string.Format("Ship [{0}]", ship_income);
-            this.from_plane.text = string.Format("Plane [{0}]", plane_income);
-            this.from_metro.text = string.Format("Metro [{0}]", metro_income);
-            this.from_taxi.text = string.Format("Taxi [{0}]", taxi_income);
-            this.from_cable_car.text = string.Format("Cablecar [{0}]", cablecar_income);
-            this.from_monorail.text = string.Format("Monorail [{0}]", monorail_income);
-            this.goverment_income_title.text = string.Format("6、City Player Building income [{0}]  [{1:N2}%]", city_playerbuilding_income_total, city_playerbuilding_income_percent * 100);
-            this.road_income_title.text = string.Format("Road [{0}]", road_income_forui);
-            this.cemetery_income_title.text = string.Format("Cemetety [{0}]", cemetery_income_forui);
-            this.garbage_income_title.text = string.Format("Garbage [{0}]", garbage_income_forui);
-            this.police_income_title.text = string.Format("Police [{0}]",police_income_forui);
-            this.school_income_title.text = string.Format("School [{0}]", school_income_forui);
-            this.firestation_income_title.text = string.Format("FireStation [{0}]", firestation_income_forui);
-            this.all_total_income_ui.text = string.Format("7、City all total income [{0}]", all_total_income);
+            //this.citizen_count.text = string.Format(language.RealCityUI[0] + " [{0}]", comm_data.citizen_count);
+            this.citizen_tax_income_title.text = string.Format(language.RealCityUI[0] + " [{0}]  [{1:N2}%]", citizen_tax_income_total, citizen_tax_income_percent*100);
+            this.citizen_tax_income.text = string.Format(language.RealCityUI[1] + " [{0}]", citizen_tax_income_forui);
+            this.city_tourism_income_title.text = string.Format(language.RealCityUI[3] + " [{0}]  [{1:N2}%]", city_tourism_income_total, city_tourism_income_percent*100) ;
+            this.citizen_income.text = string.Format(language.RealCityUI[4] + " [{0}]", citizen_income_forui);
+            this.tourist_income.text = string.Format(language.RealCityUI[6] + " [{0}]", tourist_income_forui);
+            this.land_income_title.text = string.Format(language.RealCityUI[8] + " [{0}]  [{1:N2}%]", city_land_income_total, city_land_income_percent*100);
+            this.resident_high_landincome.text = string.Format(language.RealCityUI[10] + " [{0}]", resident_high_landincome_forui);
+            this.resident_low_landincome.text = string.Format(language.RealCityUI[12] + " [{0}]", resident_low_landincome_forui);
+            this.resident_high_eco_landincome.text = string.Format(language.RealCityUI[14] + " [{0}]", resident_high_eco_landincome_forui);
+            this.resident_low_eco_landincome.text = string.Format(language.RealCityUI[16] + " [{0}]", resident_low_eco_landincome_forui);
+            this.comm_high_landincome.text = string.Format(language.RealCityUI[18] + " [{0}]", comm_high_landincome_forui);
+            this.comm_low_landincome.text = string.Format(language.RealCityUI[20] + " [{0}]", comm_low_landincome_forui);
+            this.comm_lei_landincome.text = string.Format(language.RealCityUI[22] + " [{0}]", comm_lei_landincome_forui);
+            this.comm_tou_landincome.text = string.Format(language.RealCityUI[24] + " [{0}]", comm_tou_landincome_forui);
+            this.comm_eco_landincome.text = string.Format(language.RealCityUI[26] + " [{0}]", comm_eco_landincome_forui);
+            this.indu_gen_landincome.text = string.Format(language.RealCityUI[28] + " [{0}]", indu_gen_landincome_forui);
+            this.indu_farmer_landincome.text = string.Format(language.RealCityUI[30] + " [{0}]", indu_farmer_landincome_forui);
+            this.indu_foresty_landincome.text = string.Format(language.RealCityUI[32] + " [{0}]", indu_foresty_landincome_forui);
+            this.indu_oil_landincome.text = string.Format(language.RealCityUI[34] + " [{0}]", indu_oil_landincome_forui);
+            this.indu_ore_landincome.text = string.Format(language.RealCityUI[36] + " [{0}]", indu_ore_landincome_forui);
+            this.office_gen_landincome.text = string.Format(language.RealCityUI[38] + " [{0}]", office_gen_landincome_forui);
+            this.office_high_tech_landincome.text = string.Format(language.RealCityUI[40] + " [{0}]", office_high_tech_landincome_forui); ;
+            this.trade_income_title.text = string.Format(language.RealCityUI[42] + " [{0}]  [{1:N2}%]", city_trade_income_total, city_trade_income_percent*100);
+            this.comm_high_tradeincome.text = string.Format(language.RealCityUI[44] + " [{0}]", comm_high_tradeincome_forui);
+            this.comm_low_tradeincome.text = string.Format(language.RealCityUI[46] + " [{0}]", comm_low_tradeincome_forui);
+            this.comm_lei_tradeincome.text = string.Format(language.RealCityUI[48] + " [{0}]", comm_lei_tradeincome_forui);
+            this.comm_tou_tradeincome.text = string.Format(language.RealCityUI[50] + " [{0}]", comm_tou_tradeincome_forui);
+            this.comm_eco_tradeincome.text = string.Format(language.RealCityUI[52] + " [{0}]", comm_eco_tradeincome_forui);
+            this.indu_gen_tradeincome.text = string.Format(language.RealCityUI[54] + " [{0}]", indu_gen_tradeincome_forui);
+            this.indu_farmer_tradeincome.text = string.Format(language.RealCityUI[56] + " [{0}]", indu_farmer_tradeincome_forui);
+            this.indu_foresty_tradeincome.text = string.Format(language.RealCityUI[58] + " [{0}]", indu_foresty_tradeincome_forui);
+            this.indu_oil_tradeincome.text = string.Format(language.RealCityUI[60] + " [{0}]", indu_oil_tradeincome_forui);
+            this.indu_ore_tradeincome.text = string.Format(language.RealCityUI[62] + " [{0}]", indu_ore_tradeincome_forui);
+            this.public_transport_income_title.text = string.Format(language.RealCityUI[63] + " [{0}]  [{1:N2}%]", city_transport_income_total, city_transport_income_percent*100);
+            this.from_bus.text = string.Format(language.RealCityUI[65] + " [{0}]", bus_income);
+            this.from_tram.text = string.Format(language.RealCityUI[67] + " [{0}]", tram_income);
+            this.from_train.text = string.Format(language.RealCityUI[69] + " [{0}]", train_income);
+            this.from_ship.text = string.Format(language.RealCityUI[71] + " [{0}]", ship_income);
+            this.from_plane.text = string.Format(language.RealCityUI[73] + " [{0}]", plane_income);
+            this.from_metro.text = string.Format(language.RealCityUI[75] + " [{0}]", metro_income);
+            this.from_taxi.text = string.Format(language.RealCityUI[77] + " [{0}]", taxi_income);
+            this.from_cable_car.text = string.Format(language.RealCityUI[79] + " [{0}]", cablecar_income);
+            this.from_monorail.text = string.Format(language.RealCityUI[81] + " [{0}]", monorail_income);
+            this.goverment_income_title.text = string.Format(language.RealCityUI[83] + " [{0}]  [{1:N2}%]", city_playerbuilding_income_total, city_playerbuilding_income_percent * 100);
+            this.road_income_title.text = string.Format(language.RealCityUI[85] + " [{0}]", road_income_forui);
+            this.cemetery_income_title.text = string.Format(language.RealCityUI[87] + " [{0}]", cemetery_income_forui);
+            this.garbage_income_title.text = string.Format(language.RealCityUI[89] + " [{0}]", garbage_income_forui);
+            this.police_income_title.text = string.Format(language.RealCityUI[91] + " [{0}]",police_income_forui);
+            this.school_income_title.text = string.Format(language.RealCityUI[93] + " [{0}]", school_income_forui);
+            this.firestation_income_title.text = string.Format(language.RealCityUI[95] + " [{0}]", firestation_income_forui);
+            this.all_total_income_ui.text = string.Format(language.RealCityUI[97] + " [{0}]", all_total_income);
 
 
 
