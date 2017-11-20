@@ -164,12 +164,17 @@ namespace RealCity
         public static ushort all_office_level2_building_num_final = 0;
         public static ushort all_office_level3_building_num_final = 0;
         public static ushort all_office_high_tech_building_num_final = 0;
-        public static float office_gen_salary_index = 0.5f;
-        public static float office_high_tech_salary_index = 0.5f;
+        public static long grater_than_20000_profit_building_money = 0;
+        public static long grater_than_20000_profit_building_money_final = 0;
+        public static ushort grater_than_20000_profit_building_num = 0;
+        public static ushort grater_than_20000_profit_building_num_final = 0;
+        public static long bouns_money = 0;
+        //public static float office_gen_salary_index = 0.5f;
+        //public static float office_high_tech_salary_index = 0.5f;
         // PrivateBuildingAI
 
-        public static byte[] save_data = new byte[304];
-        public static byte[] load_data = new byte[304];
+        public static byte[] save_data = new byte[324];
+        public static byte[] load_data = new byte[324];
 
         public static void load()
         {
