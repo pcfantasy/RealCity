@@ -11,7 +11,7 @@ namespace RealCity
 {
     public class pc_FireTruckAI:FireTruckAI
     {
-        private bool ArriveAtTarget(ushort vehicleID, ref Vehicle data)
+        public bool ArriveAtTarget(ushort vehicleID, ref Vehicle data)
         {
             if (data.m_targetBuilding == 0)
             {
@@ -26,7 +26,7 @@ namespace RealCity
                 var instance = Singleton<BuildingManager>.instance;
                 if ((instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    //DebugLog.LogToFileOnly("try turn around building = " + instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info.m_class.ToString());
+                    DebugLog.LogToFileOnly("try turn around building = " + instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info.m_class.ToString());
                     ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position, 200f, info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
                     if (num3 != 0)
                     {
@@ -72,12 +72,12 @@ namespace RealCity
                         this.CreateFireman(vehicleID, ref data, Citizen.AgePhase.Adult0);
                     }
                 }
-                data.m_flags |= Vehicle.Flags.Stopped;
             }
+            data.m_flags |= Vehicle.Flags.Stopped;
             return false;
         }
 
-        private void CreateFireman(ushort vehicleID, ref Vehicle data, Citizen.AgePhase agePhase)
+        public void CreateFireman(ushort vehicleID, ref Vehicle data, Citizen.AgePhase agePhase)
         {
             SimulationManager instance = Singleton<SimulationManager>.instance;
             CitizenManager instance2 = Singleton<CitizenManager>.instance;
@@ -131,6 +131,5 @@ namespace RealCity
                 //base.StartTransfer(vehicleID, ref data, material, offer);
             }
         }
-
     }
 }

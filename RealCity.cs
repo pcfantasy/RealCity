@@ -59,7 +59,7 @@ namespace RealCity
         public static void SaveSetting()
         {
             //save langugae
-            FileStream fs = File.Create("RealCity_language.txt");
+            FileStream fs = File.Create("RealCity_setting.txt");
             StreamWriter streamWriter = new StreamWriter(fs);
             streamWriter.WriteLine(comm_data.last_language);
             streamWriter.WriteLine(comm_data.garbage_connection);
@@ -69,15 +69,16 @@ namespace RealCity
             streamWriter.WriteLine(comm_data.is_help_resident);
             streamWriter.WriteLine(comm_data.is_help_company);
             streamWriter.WriteLine(comm_data.fire_connection);
+            streamWriter.WriteLine(comm_data.road_connection);
             streamWriter.Flush();
             fs.Close();
         }
 
         public static void LoadSetting()
         {
-            if (File.Exists("RealCity_language.txt"))
+            if (File.Exists("RealCity_setting.txt"))
             {
-                FileStream fs = new FileStream("RealCity_language.txt", FileMode.Open);
+                FileStream fs = new FileStream("RealCity_setting.txt", FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
                 string strLine = sr.ReadLine();
 
@@ -167,6 +168,15 @@ namespace RealCity
                     comm_data.fire_connection = true;
                 }
 
+                if (strLine == "False")
+                {
+                    comm_data.road_connection = false;
+                }
+                else
+                {
+                    comm_data.road_connection = true;
+                }
+
                 sr.Close();
                 fs.Close();
             }
@@ -187,6 +197,7 @@ namespace RealCity
             group1.AddCheckbox(language.OptionUI[5], comm_data.crime_connection, (index) => get_crime_connection(index));
             group1.AddCheckbox(language.OptionUI[6], comm_data.sick_connection, (index) => get_sick_connection(index));
             group1.AddCheckbox(language.OptionUI[10], comm_data.fire_connection, (index) => get_fire_connection(index));
+            group1.AddCheckbox(language.OptionUI[11], comm_data.road_connection, (index) => get_road_connection(index));
 
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
             group2.AddCheckbox(language.OptionUI[8], comm_data.is_help_resident, (index) => is_help_resident(index));
@@ -241,6 +252,12 @@ namespace RealCity
         public void get_fire_connection(bool index)
         {
             comm_data.fire_connection = index;
+            SaveSetting();
+        }
+
+        public void get_road_connection(bool index)
+        {
+            comm_data.road_connection = index;
             SaveSetting();
         }
 
@@ -712,10 +729,10 @@ namespace RealCity
                                 pc_OutsideConnectionAI.have_fire_building = true;
                             }
 
-                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Commercial)
-                            {
-                                DebugLog.LogToFileOnly("angle and length" + instance.m_buildings.m_buffer[i].m_angle.ToString() + instance.m_buildings.m_buffer[i].m_length.ToString());
-                            }
+                            //if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Commercial)
+                            //{
+                                //DebugLog.LogToFileOnly("angle and length" + instance.m_buildings.m_buffer[i].m_angle.ToString() + instance.m_buildings.m_buffer[i].m_length.ToString());
+                            //}
 
                             if (pc_OutsideConnectionAI.have_fire_building && pc_OutsideConnectionAI.have_hospital_building && pc_OutsideConnectionAI.have_garbage_building && pc_OutsideConnectionAI.have_maintain_road_building && pc_OutsideConnectionAI.have_cemetry_building && pc_OutsideConnectionAI.have_police_building)
                             {
@@ -756,7 +773,7 @@ namespace RealCity
                         high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
                         medium_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount;
                         low_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount;
-                        pc_PrivateBuildingAI.office_gen_salary_index = ((2.5f * high_educated_data + 1.5f * medium_educated_data + 0.5f * low_educated_data) * profit_building_num) / (comm_data.citizen_count * office_gen_num);
+                        //pc_PrivateBuildingAI.office_gen_salary_index = ((2.5f * high_educated_data + 1.5f * medium_educated_data + 0.5f * low_educated_data) * profit_building_num) / (comm_data.citizen_count * office_gen_num);
                     }
                 }
 
@@ -767,15 +784,15 @@ namespace RealCity
                         high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
                         medium_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount;
                         low_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount;
-                        pc_PrivateBuildingAI.office_high_tech_salary_index = ((2.5f * high_educated_data + 1.5f * medium_educated_data + 0.5f * low_educated_data) * pc_PrivateBuildingAI.all_office_level3_building_num_final) / (comm_data.citizen_count * pc_PrivateBuildingAI.all_office_high_tech_building_num_final);
+                        //pc_PrivateBuildingAI.office_high_tech_salary_index = ((2.5f * high_educated_data + 1.5f * medium_educated_data + 0.5f * low_educated_data) * pc_PrivateBuildingAI.all_office_level3_building_num_final) / (comm_data.citizen_count * pc_PrivateBuildingAI.all_office_high_tech_building_num_final);
                     }
                 }
 
-                pc_PrivateBuildingAI.office_high_tech_salary_index = (pc_PrivateBuildingAI.office_high_tech_salary_index > 1) ? 1 : pc_PrivateBuildingAI.office_high_tech_salary_index;
-                pc_PrivateBuildingAI.office_high_tech_salary_index = (pc_PrivateBuildingAI.office_high_tech_salary_index < 0.1f) ? 0.1f : pc_PrivateBuildingAI.office_high_tech_salary_index;
+                //pc_PrivateBuildingAI.office_high_tech_salary_index = (pc_PrivateBuildingAI.office_high_tech_salary_index > 1) ? 1 : pc_PrivateBuildingAI.office_high_tech_salary_index;
+                //pc_PrivateBuildingAI.office_high_tech_salary_index = (pc_PrivateBuildingAI.office_high_tech_salary_index < 0.1f) ? 0.1f : pc_PrivateBuildingAI.office_high_tech_salary_index;
 
-                pc_PrivateBuildingAI.office_gen_salary_index = (pc_PrivateBuildingAI.office_gen_salary_index > 1) ? 1 : pc_PrivateBuildingAI.office_gen_salary_index;
-                pc_PrivateBuildingAI.office_gen_salary_index = (pc_PrivateBuildingAI.office_gen_salary_index < 0.1f) ? 0.1f : pc_PrivateBuildingAI.office_gen_salary_index;
+                //pc_PrivateBuildingAI.office_gen_salary_index = (pc_PrivateBuildingAI.office_gen_salary_index > 1) ? 1 : pc_PrivateBuildingAI.office_gen_salary_index;
+                //pc_PrivateBuildingAI.office_gen_salary_index = (pc_PrivateBuildingAI.office_gen_salary_index < 0.1f) ? 0.1f : pc_PrivateBuildingAI.office_gen_salary_index;
             }
 
 

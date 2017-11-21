@@ -43,11 +43,14 @@ namespace RealCity
         public static int PublicTransport_monorail = 0;
         public static int Disaster = 0;
 
-        public static uint family_weight_stable_high;
-        public static uint family_weight_stable_low;
+        public static uint family_weight_stable_high = 0;
+        public static uint family_weight_stable_low = 0;
 
-        public static byte[] save_data = new byte[124];
-        public static byte[] load_data = new byte[124];
+        public static long citizen_goods_temp = 0;
+        public static long citizen_goods = 0;
+
+        public static byte[] save_data = new byte[140];
+        public static byte[] load_data = new byte[140];
 
         public static void load()
         {
@@ -85,6 +88,9 @@ namespace RealCity
 
             family_weight_stable_high = saveandrestore.load_uint(ref i, load_data);
             family_weight_stable_low = saveandrestore.load_uint(ref i, load_data);
+
+            citizen_goods = saveandrestore.load_long(ref i, load_data);
+            citizen_goods_temp = saveandrestore.load_long(ref i, load_data);
         }
 
         public static void save()
@@ -127,6 +133,10 @@ namespace RealCity
             //8
             saveandrestore.save_uint(ref i, family_weight_stable_high, ref save_data);
             saveandrestore.save_uint(ref i, family_weight_stable_low, ref save_data);
+
+            //16
+            saveandrestore.save_long(ref i, citizen_goods, ref save_data);
+            saveandrestore.save_long(ref i, citizen_goods_temp, ref save_data);
         }
 
 
@@ -345,10 +355,10 @@ namespace RealCity
                                             num = num + (int)(comm_data.office_gen_level1_education1) + rand.Next(2); break;
                                         case Citizen.Education.TwoSchools:
                                             num = num + (int)(comm_data.office_gen_level1_education2) + rand.Next(3);
-                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                            num = (int)(num); break;
                                         case Citizen.Education.ThreeSchools:
                                             num = num + (int)(comm_data.office_gen_level1_education3) + rand.Next(4);
-                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                            num = (int)(num); break;
                                     }
                                     break;
                                 case ItemClass.Level.Level2:
@@ -360,10 +370,10 @@ namespace RealCity
                                             num = num + (int)(comm_data.office_gen_level2_education1) + rand.Next(2); break;
                                         case Citizen.Education.TwoSchools:
                                             num = num + (int)(comm_data.office_gen_level2_education2) + rand.Next(3);
-                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                            num = (int)(num); break;
                                         case Citizen.Education.ThreeSchools:
                                             num = num + (int)(comm_data.office_gen_level2_education3) + rand.Next(4);
-                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                            num = (int)(num); break;
                                     }
                                     break;
                                 case ItemClass.Level.Level3:
@@ -375,10 +385,10 @@ namespace RealCity
                                             num = num + (int)(comm_data.office_gen_level3_education1) + rand.Next(2); break;
                                         case Citizen.Education.TwoSchools:
                                             num = num + (int)(comm_data.office_gen_level3_education2) + rand.Next(3);
-                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                            num = (int)(num); break;
                                         case Citizen.Education.ThreeSchools:
                                             num = num + (int)(comm_data.office_gen_level3_education3) + rand.Next(4);
-                                            num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                            num = (int)(num); break;
                                     }
                                     break;
                             }
@@ -392,10 +402,10 @@ namespace RealCity
                                     num = num + (int)(comm_data.office_high_tech_education1) + rand.Next(2); break;
                                 case Citizen.Education.TwoSchools:
                                     num = num + (int)(comm_data.office_high_tech_education2) + rand.Next(3);
-                                    num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                    num = (int)(num); break;
                                 case Citizen.Education.ThreeSchools:
                                     num = num + (int)(comm_data.office_high_tech_education3) + rand.Next(4);
-                                    num = (int)(num * pc_PrivateBuildingAI.office_gen_salary_index); break;
+                                    num = (int)(num); break;
                             }
                             break; //
                         case ItemClass.SubService.CommercialLeisure:
@@ -851,6 +861,7 @@ namespace RealCity
                 comm_data.FireDepartment = (int)(FireDepartment * comm_data.salary_idex);
                 comm_data.family_weight_stable_high = family_weight_stable_high;
                 comm_data.family_weight_stable_low = family_weight_stable_low;
+                citizen_goods = citizen_goods_temp;
                 family_very_profit_money_num = 0;
                 family_profit_money_num = 0;
                 family_loss_money_num = 0;
@@ -881,11 +892,13 @@ namespace RealCity
                 Monument = 0;
                 family_weight_stable_high = 0;
                 family_weight_stable_low = 0;
+                citizen_goods_temp = 0;
             }
             else if (precitizenid < homeID)
             {
                 //citizen_process_done = false;
                 family_count++;
+                citizen_goods_temp += data.m_goods;
             }
 
             if (homeID > 524288)

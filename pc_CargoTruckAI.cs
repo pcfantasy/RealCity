@@ -195,13 +195,13 @@ namespace RealCity
                         default: DebugLog.LogToFileOnly("find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                     }
                 }
-                if ((building.m_flags.IsFlagSet(Building.Flags.Untouchable)) || (building1.m_flags.IsFlagSet(Building.Flags.Untouchable)))
+                /*if ((building.m_flags.IsFlagSet(Building.Flags.Untouchable)) || (building1.m_flags.IsFlagSet(Building.Flags.Untouchable)))
                 {
                     if (pc_OutsideConnectionAI.have_maintain_road_building)
                     {
                         Singleton<EconomyManager>.instance.AddPrivateIncome(100, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
-                }
+                }*/
             }
             else
             {

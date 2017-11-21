@@ -20,7 +20,8 @@ namespace RealCity
             "Special Policy",
             "Resident basic living allowances",
             "Supports for unprofitable company(not supported yet)",
-            "Accept Outside Fire inspection Help Demand"
+            "Accept Outside Fire inspection Help Demand",
+            "Accept Outside Road maintanance Demand"
         };
 
         public static string[] BuildingUI_English = { "Building Money",
@@ -154,6 +155,10 @@ namespace RealCity
             "outside total dead",
             "outside crime",
             "outside total crime",
+            "outside road",
+            "outside total road maintenance",
+            "outside fire",
+            "outside total fire check",
             "tip1",
             "tip1",
             "tip2",
@@ -211,9 +216,9 @@ namespace RealCity
             "total citizen salary tax income",
             "2、City tourism income",
             "from resident",
-            "money from resident tourist",
+            "money from resident tourism",
             "from tourist",
-            "total citizen_salary",
+            "money from tourist tourism",
             "3、City land tax income",
             "total city land income",
             "residential_high_landincome",
@@ -290,13 +295,20 @@ namespace RealCity
             "Monorail",
             "Monorail",
             "6、City Player Building income",
+            "Player Building income",
             "Road",
             "Road",
             "Cemetery",
             "Cemetery",
             "Garbage",
             "Garbage",
-            "6、City all total income",
+            "police",
+            "police",
+            "school",
+            "school",
+            "firestation",
+            "firestation",
+            "7、City all total income",
         };
 
 
@@ -332,6 +344,7 @@ namespace RealCity
             "居民低保",
             "支援亏损企业(暂不支持)",
             "接受外部消防安全检查的请求",
+            "接受外部道路维护的请求",
         };
 
         public static string[] EconomicUI_Chinese =
@@ -447,6 +460,10 @@ namespace RealCity
             "城市外部总病人",
             "城市外部罪犯",
             "城市外部总罪犯",
+            "城市外部道路维修",
+            "城市外部道路维修",
+            "城市外部火情",
+            "城市外部火情",
             "提示1",
             "提示1",
             "提示2",
@@ -583,12 +600,19 @@ namespace RealCity
             "单轨",
             "单轨",
             "6、城市外部收入",
+            "城市外部收入",
             "道路",
             "道路",
             "公墓",
             "公墓",
             "垃圾",
             "垃圾",
+            "警察局",
+            "警察局",
+            "学校",
+            "学校",
+            "消防局",
+            "消防局",
             "7、城市总收入",
         };
 
@@ -621,6 +645,10 @@ namespace RealCity
                 {
                     TipAndChirperMessage[i] = TipAndChirperMessage_Chinese[i];
                 }
+                for (int i = 0; i < RealCityUI_English.Length; i++)
+                {
+                    RealCityUI[i] = RealCityUI_Chinese[i];
+                }
                 current_language = 1;
             }
             else if (language == 0)
@@ -640,6 +668,10 @@ namespace RealCity
                 for (int i = 0; i < TipAndChirperMessage_English.Length; i++)
                 {
                     TipAndChirperMessage[i] = TipAndChirperMessage_English[i];
+                }
+                for (int i = 0; i < RealCityUI_English.Length; i++)
+                {
+                    RealCityUI[i] = RealCityUI_English[i];
                 }
                 current_language = 0;
             }
@@ -661,6 +693,10 @@ namespace RealCity
                 for (int i = 0; i < TipAndChirperMessage_English.Length; i++)
                 {
                     TipAndChirperMessage[i] = TipAndChirperMessage_English[i];
+                }
+                for (int i = 0; i < RealCityUI_English.Length; i++)
+                {
+                    RealCityUI[i] = RealCityUI_English[i];
                 }
                 current_language = 0;
             }

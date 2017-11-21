@@ -148,9 +148,9 @@ namespace RealCity
             if (tax_benefit > 1f)
             {
                 tax_benefit = 1f;
-            } else if (tax_benefit < 0.5f)
+            } else if (tax_benefit < 0.2f)
             {
-                tax_benefit = 0.5f;
+                tax_benefit = 0.2f;
             }
             return tax_benefit;
         }
@@ -192,11 +192,11 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialEco:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.35f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.3f * tax_benefit; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.4f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.35f * tax_benefit; break;
                 case ItemClass.SubService.CommercialTourist:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.5f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.35f * tax_benefit; break;
                 default:
                     break;
             }

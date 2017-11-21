@@ -424,11 +424,17 @@
         public static bool dead_connection = false;
         public static bool crime_connection = false;
         public static bool fire_connection = false;
+        public static bool road_connection = false;
         public static bool is_help_resident = false;
         public static bool is_help_company = false;
 
+        public static uint outside_road_count_temp = 0;
+        public static uint outside_firestation_count_temp = 0;
+        public static uint outside_road_count = 0;
+        public static uint outside_firestation_count = 0;
+
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49103];
+        public static ushort[] reserved = new ushort[49086];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -561,7 +567,12 @@
             saveandrestore.save_bool(ref i, garbage_connection, ref save_data);
             saveandrestore.save_bool(ref i, is_help_resident, ref save_data);
             saveandrestore.save_bool(ref i, is_help_company, ref save_data);
+            saveandrestore.save_bool(ref i, road_connection, ref save_data);
 
+            saveandrestore.save_uint(ref i, outside_road_count, ref save_data);
+            saveandrestore.save_uint(ref i, outside_firestation_count, ref save_data);
+            saveandrestore.save_uint(ref i, outside_road_count_temp, ref save_data);
+            saveandrestore.save_uint(ref i, outside_firestation_count_temp, ref save_data);
 
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
@@ -654,6 +665,13 @@
             garbage_connection = saveandrestore.load_bool(ref i, load_data);
             is_help_resident = saveandrestore.load_bool(ref i, load_data);
             is_help_company = saveandrestore.load_bool(ref i, load_data);
+            road_connection = saveandrestore.load_bool(ref i, load_data);
+
+            outside_road_count = saveandrestore.load_uint(ref i, load_data);
+            outside_firestation_count = saveandrestore.load_uint(ref i, load_data);
+
+            outside_road_count_temp = saveandrestore.load_uint(ref i, load_data);
+            outside_firestation_count_temp = saveandrestore.load_uint(ref i, load_data);
 
             reserved = saveandrestore.load_ushorts(ref i, load_data,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);
