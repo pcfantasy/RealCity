@@ -5,6 +5,8 @@
 
         public const byte game_income_expense_multiple = 1;
         public const byte game_maintain_fee_decrease = 100;
+        public const byte game_maintain_fee_decrease2 = 10;
+        public const byte game_maintain_fee_decrease3 = 5;
 
         //1.  citizen
         //1.1 citizen salary
@@ -102,7 +104,7 @@
         public const byte indus_ore_education3 = 40;
 
         //office
-        public const byte office_gen_level1_education0 = 70;
+        /*public const byte office_gen_level1_education0 = 70;
         public const byte office_gen_level1_education1 = 80;
         public const byte office_gen_level1_education2 = 100;
         public const byte office_gen_level1_education3 = 120;
@@ -121,7 +123,7 @@
         public const byte office_high_tech_education0 = 120;
         public const byte office_high_tech_education1 = 125;
         public const byte office_high_tech_education2 = 140;
-        public const byte office_high_tech_education3 = 155;
+        public const byte office_high_tech_education3 = 155;*/
 
         //Road
         public const byte road_education0 = 40;

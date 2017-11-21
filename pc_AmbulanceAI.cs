@@ -20,7 +20,7 @@ namespace RealCity
             }
             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
             {
-                int num = -3;
+                int num = Mathf.Min(0, (int)data.m_transferSize - this.m_patientCapacity);
                 BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
                 info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
                 var instance = Singleton<BuildingManager>.instance;

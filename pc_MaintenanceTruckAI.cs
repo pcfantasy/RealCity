@@ -20,7 +20,8 @@ namespace RealCity
             if ((data.m_flags & Vehicle.Flags.Exporting) != (Vehicle.Flags)0)
             {
                 data.m_flags &= ~Vehicle.Flags.Exporting;
-                int num = -3;
+                int num = Mathf.Min(0, (int)data.m_transferSize - this.m_maintenanceCapacity);
+                //DebugLog.LogToFileOnly("this.m_maintenanceCapacity = " + this.m_maintenanceCapacity.ToString());
                 BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
                 info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
                 var instance = Singleton<BuildingManager>.instance;
@@ -54,6 +55,7 @@ namespace RealCity
                         data.m_targetPos2 = data.m_targetPos1;
                         data.m_targetPos3 = data.m_targetPos1;
                         this.FrameDataUpdated(vehicleID, ref data, ref data.m_frame0);
+                        this.RemoveTarget(vehicleID, ref data);
                         this.SetTarget(vehicleID, ref data, 0);
                         return false;
                     }
@@ -133,6 +135,20 @@ namespace RealCity
                 return this.StartPathFind(vehicleID, ref vehicleData, vehicleData.m_targetPos3, endPos2);
             }
             return false;
+        }
+
+
+        private bool CheckTargetSegment(ushort vehicleID, ref Vehicle vehicleData)
+        {
+            if ((vehicleData.m_flags & Vehicle.Flags.Exporting) != (Vehicle.Flags)0)
+            {
+                return true;
+            }
+            else
+            {
+                NetManager instance = Singleton<NetManager>.instance;
+                return vehicleData.m_targetBuilding < 36864 && (instance.m_segments.m_buffer[(int)vehicleData.m_targetBuilding].m_flags & (NetSegment.Flags.Created | NetSegment.Flags.Deleted)) == NetSegment.Flags.Created && instance.m_segments.m_buffer[(int)vehicleData.m_targetBuilding].m_condition < 192;
+            }
         }
     }
 }

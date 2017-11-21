@@ -20,19 +20,19 @@ namespace RealCity
             }
             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
             {
-                int num = -3;
+                int num = Mathf.Min(0, (int)data.m_transferSize - this.m_fireFightingRate);
                 BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
                 info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
                 var instance = Singleton<BuildingManager>.instance;
                 if ((instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    DebugLog.LogToFileOnly("try turn around building = " + instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info.m_class.ToString());
+                    //DebugLog.LogToFileOnly("try turn around building = " + instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info.m_class.ToString());
                     ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position, 200f, info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
                     if (num3 != 0)
                     {
                         //data.Unspawn(vehicleID);
                         BuildingInfo info3 = instance.m_buildings.m_buffer[(int)num3].Info;
-                        DebugLog.LogToFileOnly("firetruck try turn around get outgoing building = " + info3.m_class.ToString());
+                        //DebugLog.LogToFileOnly("firetruck try turn around get outgoing building = " + info3.m_class.ToString());
                         Randomizer randomizer = new Randomizer((int)vehicleID);
                         Vector3 vector;
                         Vector3 vector2;

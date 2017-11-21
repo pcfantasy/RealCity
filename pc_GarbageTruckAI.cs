@@ -116,7 +116,7 @@ namespace RealCity
                 //info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
                 if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
                 {
-                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 0.1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 1f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                 }
             }
         }

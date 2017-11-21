@@ -974,18 +974,14 @@ namespace RealCity
             }
 
 
-            if (comm_data.building_money[buildingID] > 20000)
+            if (comm_data.building_money[buildingID] > 50000)
             {
                 if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
                 {
                     greater_than_20000_profit_building_num++;
-                    greater_than_20000_profit_building_money += (long)(comm_data.building_money[buildingID] - 20000);
+                    greater_than_20000_profit_building_money += (long)(comm_data.building_money[buildingID] - 50000);
+                    comm_data.building_money[buildingID] = 50000f;
                 }
-            }
-
-            if (all_office_level1_building_num_final + all_office_level1_building_num_final + all_office_level3_building_num_final + all_office_high_tech_building_num_final > 0)
-            {
-                float office_money = greater_than_20000_profit_building_money_final / (all_office_level1_building_num_final + all_office_level1_building_num_final + all_office_level3_building_num_final + all_office_high_tech_building_num_final);
             }
 
             if (building.Info.m_class.m_service == ItemClass.Service.Office)
@@ -996,27 +992,27 @@ namespace RealCity
                     {
                         if (all_office_level1_building_num_final > 0)
                         {
-                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.1f / all_office_level1_building_num_final;
+                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.05f / all_office_level1_building_num_final;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         if (all_office_level2_building_num_final > 0)
                         {
-                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.2f / all_office_level2_building_num_final;
+                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.1f / all_office_level2_building_num_final;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         if (all_office_level3_building_num_final > 0)
                         {
-                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.3f / all_office_level3_building_num_final;
+                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.15f / all_office_level3_building_num_final;
                         }
                     }
                 }
                 else if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
                 {
-                    comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.4f / all_office_high_tech_building_num_final;
+                    comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.2f / all_office_high_tech_building_num_final;
                 }
             }
         }

@@ -66,6 +66,7 @@ namespace RealCity
         public static RedirectCallsState state37;
         public static RedirectCallsState state38;
         public static RedirectCallsState state39;
+        public static RedirectCallsState state40;
 
         public override void OnCreated(ILoading loading)
         {
@@ -369,6 +370,10 @@ namespace RealCity
             var destMethod39 = typeof(pc_MaintenanceTruckAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             state39 = RedirectionHelper.RedirectCalls(srcMethod39, destMethod39);
 
+            var srcMethod40 = typeof(MaintenanceTruckAI).GetMethod("CheckTargetSegment", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var destMethod40 = typeof(pc_MaintenanceTruckAI).GetMethod("CheckTargetSegment", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            state40 = RedirectionHelper.RedirectCalls(srcMethod40, destMethod40);
+
         }
 
         public void revert_detour()
@@ -412,6 +417,7 @@ namespace RealCity
             var srcMethod37 = typeof(AmbulanceAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             var srcMethod38 = typeof(MaintenanceTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             var srcMethod39 = typeof(MaintenanceTruckAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
+            var srcMethod40 = typeof(MaintenanceTruckAI).GetMethod("CheckTargetSegment", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -452,6 +458,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod37, state37);
             RedirectionHelper.RevertRedirect(srcMethod38, state38);
             RedirectionHelper.RevertRedirect(srcMethod39, state39);
+            RedirectionHelper.RevertRedirect(srcMethod40, state40);
         }
     }
 }

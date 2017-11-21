@@ -189,7 +189,7 @@ namespace RealCity
             LoadSetting();
             language.language_switch(comm_data.last_language);
             UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
-            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文(暂部分)"}, comm_data.last_language, (index) => get_language_idex(index));
+            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文"}, comm_data.last_language, (index) => get_language_idex(index));
 
             UIHelperBase group1 = helper.AddGroup(language.OptionUI[2]);
             group1.AddCheckbox(language.OptionUI[3], comm_data.garbage_connection, (index) => get_garbage_connection(index));

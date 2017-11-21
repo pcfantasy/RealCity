@@ -573,7 +573,20 @@ namespace RealCity
                 }
                 else
                 {
-                    coefficient = (float)comm_data.game_maintain_fee_decrease;
+                    if ((itemClass.m_service == ItemClass.Service.Road) && pc_OutsideConnectionAI.have_maintain_road_building)
+                    {
+                        coefficient = (float)comm_data.game_maintain_fee_decrease2;
+                    }
+                    else if ((itemClass.m_service == ItemClass.Service.Education) || (itemClass.m_service == ItemClass.Service.Monument) || (itemClass.m_service == ItemClass.Service.Beautification))
+                    {
+                        coefficient = (float)comm_data.game_maintain_fee_decrease2;
+                    } else if ((itemClass.m_service == ItemClass.Service.Garbage) || (itemClass.m_service == ItemClass.Service.FireDepartment) || (itemClass.m_service == ItemClass.Service.PoliceDepartment) || (itemClass.m_service == ItemClass.Service.HealthCare))
+                    {
+                        coefficient = (float)comm_data.game_maintain_fee_decrease3;
+                    } else
+                    {
+                        coefficient = (float)comm_data.game_maintain_fee_decrease;
+                    }
                 }
                 switch (itemClass.m_service)
                 {
@@ -588,7 +601,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Garbage:
-                        Garbage += (float)amount;
+                        Garbage += (float)amount / coefficient;
                         if (Garbage > 1)
                         {
                             temp = (int)Garbage;
@@ -598,7 +611,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.PoliceDepartment:
-                        PoliceDepartment += (float)amount;
+                        PoliceDepartment += (float)amount / coefficient;
                         if (PoliceDepartment > 1)
                         {
                             temp = (int)PoliceDepartment;
@@ -608,7 +621,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Beautification:
-                        Beautification += (float)amount;
+                        Beautification += (float)amount / coefficient;
                         if (Beautification > 1)
                         {
                             temp = (int)Beautification;
@@ -628,7 +641,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Education:
-                        Education += (float)amount;
+                        Education += (float)amount / coefficient;
                         if (Education > 1)
                         {
                             temp = (int)Education;
@@ -648,7 +661,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.FireDepartment:
-                        FireDepartment += (float)amount;
+                        FireDepartment += (float)amount / coefficient;
                         if (FireDepartment > 1)
                         {
                             temp = (int)FireDepartment;
@@ -658,7 +671,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Monument:
-                        Monument += amount;
+                        Monument += amount / coefficient;
                         if (Monument > 1)
                         {
                             temp = (int)Monument;
@@ -668,7 +681,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.HealthCare:
-                        HealthCare += (float)amount;
+                        HealthCare += (float)amount / coefficient;
                         if (HealthCare > 1)
                         {
                             temp = (int)HealthCare;
@@ -678,7 +691,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.PublicTransport:
-                        PublicTransport += (float)amount;
+                        PublicTransport += (float)amount / coefficient;
                         if (PublicTransport > 1)
                         {
                             temp = (int)PublicTransport;

@@ -195,13 +195,24 @@ namespace RealCity
                         default: DebugLog.LogToFileOnly("find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                     }
                 }
-                /*if ((building.m_flags.IsFlagSet(Building.Flags.Untouchable)) || (building1.m_flags.IsFlagSet(Building.Flags.Untouchable)))
-                {
-                    if (pc_OutsideConnectionAI.have_maintain_road_building)
-                    {
-                        Singleton<EconomyManager>.instance.AddPrivateIncome(100, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                    }
-                }*/
+                //if ((building.m_flags.IsFlagSet(Building.Flags.Untouchable)) || (building1.m_flags.IsFlagSet(Building.Flags.Untouchable)))
+                //{
+                    //if (pc_OutsideConnectionAI.have_maintain_road_building)
+                    //{
+                        //DebugLog.LogToFileOnly("add road condition");
+                        //Singleton<EconomyManager>.instance.AddPrivateIncome(100, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        //if (((building1.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming) && (building1.Info.m_class.m_service == ItemClass.Service.Road))
+                        //{
+                            //DebugLog.LogToFileOnly("add road condition1");
+                            //building1.m_waterBuffer += 10;
+                            //DebugLog.LogToFileOnly("add road condition2 building1.m_waterBuffer = " + building1.m_waterBuffer.ToString() + "building ID = " + data.m_targetBuilding.ToString());
+                            //if (building1.m_waterBuffer > 65000)
+                            //{
+                                //building1.m_waterBuffer = 65000;
+                            //}
+                        //}
+                    //}
+                //}
             }
             else
             {

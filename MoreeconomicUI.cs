@@ -655,7 +655,7 @@ namespace RealCity
             this.m_outside_firestation = base.AddUIComponent<UILabel>();
             this.m_outside_firestation.text = string.Format("outside fire [00000]");
             this.m_outside_firestation.tooltip = language.EconomicUI[114];
-            this.m_outside_firestation.relativePosition = new Vector3(this.m_outside_road.relativePosition.x + this.m_outside_road.width + SPACING, this.m_outside_road.relativePosition.y);
+            this.m_outside_firestation.relativePosition = new Vector3(this.m_outside_road.relativePosition.x + this.m_outside_road.width + SPACING + 40f, this.m_outside_road.relativePosition.y);
             this.m_outside_firestation.autoSize = true;
             this.m_outside_firestation.name = "Moreeconomic_Text_48";
 
@@ -770,7 +770,7 @@ namespace RealCity
             this.resident_consumption_rate.text = string.Format(language.EconomicUI[32] + " [{0}]", pc_ResidentAI.citizen_goods);
             if (comm_data.family_count != 0)
             {
-                this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0}]", (pc_ResidentAI.citizen_goods / comm_data.family_count) - 20000);
+                this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N3}%]", (float)(pc_ResidentAI.citizen_goods / (comm_data.family_count * 200f)) );
             }
 
             //building
@@ -808,8 +808,8 @@ namespace RealCity
             this.all_oil_building_loss.text = string.Format(language.EconomicUI[91] + " [{0}]", pc_PrivateBuildingAI.all_oil_building_loss_final);
             this.all_ore_building_profit.text = string.Format(language.EconomicUI[93] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_profit_final);
             this.all_ore_building_loss.text = string.Format(language.EconomicUI[95] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
-            this.office_gen_salary_index.text = string.Format(language.EconomicUI[97] + " [{0}]", 0);
-            this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[99] + " [{0}]", 0);
+            this.office_gen_salary_index.text = string.Format(language.EconomicUI[97] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_num_final);
+            this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[99] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_money_final);
 
             this.m_outside_garbage.text = string.Format(language.EconomicUI[103] + " [{0}]", comm_data.outside_garbage_count);
             this.m_outside_dead.text = string.Format(language.EconomicUI[105] + " [{0}]", comm_data.outside_dead_count);
@@ -818,11 +818,11 @@ namespace RealCity
             this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0}]", comm_data.outside_road_count);
             this.m_outside_firestation.text = string.Format(language.EconomicUI[113] + " [{0}]", comm_data.outside_firestation_count);
 
-            this.tip1.text = string.Format(language.EconomicUI[111] + "  " + RealCity.tip1_message_forgui);
-            this.tip2.text = string.Format(language.EconomicUI[113] + "  " + RealCity.tip2_message_forgui);
-            this.tip3.text = string.Format(language.EconomicUI[115] + "  " + RealCity.tip3_message_forgui);
-            this.tip4.text = string.Format(language.EconomicUI[117] + "  " + RealCity.tip4_message_forgui);
-            this.tip5.text = string.Format(language.EconomicUI[119] + "  " + RealCity.tip5_message_forgui);
+            this.tip1.text = string.Format(language.EconomicUI[115] + "  " + RealCity.tip1_message_forgui);
+            this.tip2.text = string.Format(language.EconomicUI[117] + "  " + RealCity.tip2_message_forgui);
+            this.tip3.text = string.Format(language.EconomicUI[119] + "  " + RealCity.tip3_message_forgui);
+            this.tip4.text = string.Format(language.EconomicUI[121] + "  " + RealCity.tip4_message_forgui);
+            this.tip5.text = string.Format(language.EconomicUI[123] + "  " + RealCity.tip5_message_forgui);
             isRefreshing = false;
         }
 

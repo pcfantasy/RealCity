@@ -180,7 +180,7 @@ namespace RealCity
                         uint homeid = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            if ((comm_data.citizen_money[homeid] - (ticketPrice/comm_data.game_income_expense_multiple)) > 0)
+                            if ((comm_data.citizen_money[homeid] - (ticketPrice/comm_data.game_maintain_fee_decrease)) > 0)
                             {
                                 comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - (ticketPrice / comm_data.game_income_expense_multiple));
                             }
@@ -190,7 +190,7 @@ namespace RealCity
                             }
                         }
                         //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.citizen_money[homeid].ToString());
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice/ comm_data.game_maintain_fee_decrease, info.m_class);
                     }
                 }
             }

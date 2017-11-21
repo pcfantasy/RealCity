@@ -605,16 +605,13 @@ namespace RealCity
                     switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service)
                     {
                         case ItemClass.Service.Office:
-                            switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                            int aliveworkcount = 0;
+                            int totalworkcount = 0;
+                            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
+                            if (totalworkcount != 0)
                             {
-                                case Citizen.Education.Uneducated:
-                                    num = (int)(comm_data.building_money[work_building] * 0.1f); break;
-                                case Citizen.Education.OneSchool:
-                                    num = (int)(comm_data.building_money[work_building] * 0.2f); break;
-                                case Citizen.Education.TwoSchools:
-                                    num = (int)(comm_data.building_money[work_building] * 0.3f); break;
-                                case Citizen.Education.ThreeSchools:
-                                    num = (int)(comm_data.building_money[work_building] * 0.4f); break;
+                                num = (int)(comm_data.building_money[work_building] / totalworkcount);
                             }
                             comm_data.building_money[work_building] -= num;
                             break;                           
@@ -813,7 +810,11 @@ namespace RealCity
                         DebugLog.LogToFileOnly("find unknown citizen workbuilding" + " building servise is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service + " building subservice is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService);
                     }
 
-                    if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office)
+                    {
+                        //num = num;
+                    } 
+                    else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
                     {
                         num = (int)((float)num * comm_data.salary_idex / 1.5f + 0.5f);
                     }
@@ -1049,7 +1050,8 @@ namespace RealCity
             process_citizen_house_rent(homeID, expenserate);
             citizen_expense_count = citizen_expense_count + temp_num + expenserate;
 
-            //DebugLog.LogToFileOnly(citizen_expense_count.ToString());
+            //DebugLog.LogToFileOnly("temp_num = " + temp_num.ToString());
+            //DebugLog.LogToFileOnly("expenserate = " + expenserate.ToString());
 
             //income - expense
             temp_num = citizen_salary_current - (int)(tax) - temp_num - expenserate;// - comm_data.citizen_average_transport_fee;
@@ -1655,6 +1657,9 @@ namespace RealCity
                 if (comm_data.citizen_money[homeid] > 0)
                 {
                     incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
+                } else
+                {
+                    incomeAccumulation = 0;
                 }
             }
 
