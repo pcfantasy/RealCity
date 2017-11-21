@@ -343,7 +343,7 @@ namespace RealCity
                                     num = num + (int)(comm_data.indus_ore_education3) + rand.Next(4); break;
                             }
                             break; //
-                        case ItemClass.SubService.OfficeGeneric:
+                        /*case ItemClass.SubService.OfficeGeneric:
                             switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_level)
                             {
                                 case ItemClass.Level.Level1:
@@ -407,7 +407,7 @@ namespace RealCity
                                     num = num + (int)(comm_data.office_high_tech_education3) + rand.Next(4);
                                     num = (int)(num); break;
                             }
-                            break; //
+                            break; //*/
                         case ItemClass.SubService.CommercialLeisure:
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
@@ -604,6 +604,20 @@ namespace RealCity
                     }
                     switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service)
                     {
+                        case ItemClass.Service.Office:
+                            switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                            {
+                                case Citizen.Education.Uneducated:
+                                    num = (int)(comm_data.building_money[work_building] * 0.1f); break;
+                                case Citizen.Education.OneSchool:
+                                    num = (int)(comm_data.building_money[work_building] * 0.2f); break;
+                                case Citizen.Education.TwoSchools:
+                                    num = (int)(comm_data.building_money[work_building] * 0.3f); break;
+                                case Citizen.Education.ThreeSchools:
+                                    num = (int)(comm_data.building_money[work_building] * 0.4f); break;
+                            }
+                            comm_data.building_money[work_building] -= num;
+                            break;                           
                         case ItemClass.Service.Disaster:
                             if (budget == 0)
                             {
@@ -1000,37 +1014,36 @@ namespace RealCity
                 num4++;
                 num3 = data.m_citizen4;
                 expenserate = 0;
-                temp_num += GetexpenseRate(data.m_citizen4, out expenserate);
+                temp_num += GetexpenseRate(homeID, data.m_citizen4, out expenserate);
             }
             if (data.m_citizen3 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen3;
                 expenserate = 0;
-                temp_num += GetexpenseRate(data.m_citizen3, out expenserate);
+                temp_num += GetexpenseRate(homeID, data.m_citizen3, out expenserate);
             }
             if (data.m_citizen2 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen2;
                 expenserate = 0;
-                temp_num += GetexpenseRate(data.m_citizen2, out expenserate);
+                temp_num += GetexpenseRate(homeID, data.m_citizen2, out expenserate);
             }
             if (data.m_citizen1 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen1;
                 expenserate = 0;
-                temp_num += GetexpenseRate(data.m_citizen1, out expenserate);
+                temp_num += GetexpenseRate(homeID, data.m_citizen1, out expenserate);
             }
             if (data.m_citizen0 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].Dead)
             {
                 num4++;
                 num3 = data.m_citizen0;
                 expenserate = 0;
-                temp_num += GetexpenseRate(data.m_citizen0, out expenserate);
+                temp_num += GetexpenseRate(homeID, data.m_citizen0, out expenserate);
             }
-
 
             //temp = education&sick   expenserate = house rent(one family)
             process_citizen_house_rent(homeID, expenserate);
@@ -1050,7 +1063,7 @@ namespace RealCity
                 comm_data.citizen_profit_status[homeID]--;
                 //try_move_family to do here;
             }
-            else if (temp_num > 30)
+            else if (temp_num > 80)
             {
                 temp_num = rand.Next(temp_num);
                 family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
@@ -1061,6 +1074,8 @@ namespace RealCity
                 temp_num = rand.Next(temp_num);
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
+
+            temp_num = (temp_num > 100) ? 100 : temp_num;
 
             if (comm_data.citizen_money[homeID] > 32000000f)
             {
@@ -1082,7 +1097,7 @@ namespace RealCity
             }
 
             ItemClass.Level home_level = Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building].Info.m_class.m_level;
-            if ((comm_data.citizen_money[homeID] >= 0) && (comm_data.citizen_profit_status[homeID] >= 230))
+            if ((comm_data.citizen_money[homeID] >= 10000) && (comm_data.citizen_profit_status[homeID] >= 230))
             {
                 family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
                 if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3))
@@ -1540,7 +1555,7 @@ namespace RealCity
             }
         }
 
-        public int GetexpenseRate(uint citizen_id, out int incomeAccumulation)
+        public int GetexpenseRate(uint homeid, uint citizen_id, out int incomeAccumulation)
         {
             BuildingManager instance1 = Singleton<BuildingManager>.instance;
             CitizenManager instance2 = Singleton<CitizenManager>.instance;
@@ -1637,20 +1652,29 @@ namespace RealCity
                 }
                 int num2;
                 num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
-                incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
+                if (comm_data.citizen_money[homeid] > 0)
+                {
+                    incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
+                }
             }
 
             int temp = 0;
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
-                temp = temp + 5;
-                Singleton<EconomyManager>.instance.AddPrivateIncome(5, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                if (comm_data.citizen_money[homeid] > 0)
+                {
+                    temp = temp + 5;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(5, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                }
             }
 
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
             {
-                temp = temp + 10;
-                Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                if (comm_data.citizen_money[homeid] > 0)
+                {
+                    temp = temp + 10;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                }
             }
             return temp;
         }

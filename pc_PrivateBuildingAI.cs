@@ -994,8 +994,29 @@ namespace RealCity
                 {
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-
+                        if (all_office_level1_building_num_final > 0)
+                        {
+                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.1f / all_office_level1_building_num_final;
+                        }
                     }
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        if (all_office_level2_building_num_final > 0)
+                        {
+                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.2f / all_office_level2_building_num_final;
+                        }
+                    }
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        if (all_office_level3_building_num_final > 0)
+                        {
+                            comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.3f / all_office_level3_building_num_final;
+                        }
+                    }
+                }
+                else if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
+                {
+                    comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.4f / all_office_high_tech_building_num_final;
                 }
             }
         }
@@ -1122,7 +1143,7 @@ namespace RealCity
 
             //do this to decrase land expense in early game;
             //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
-            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
             {
                 comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
             }
