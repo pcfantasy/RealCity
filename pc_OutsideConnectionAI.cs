@@ -163,29 +163,29 @@ namespace RealCity
             System.Random rand = new System.Random();
             if (data.Info.m_class.m_service == ItemClass.Service.Road)
             {
-                if (comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                if (have_garbage_building && comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
                     data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
                 }
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    if (comm_data.crime_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
+                    if (have_police_building && comm_data.crime_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
                     {
                         data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 1);
                     }
                     //sick
-                    if (comm_data.sick_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                    if (have_hospital_building && comm_data.sick_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                     {
                         data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
                     }
                     //fire
-                    if (comm_data.fire_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.FireDepartment))
+                    if (have_fire_building && comm_data.fire_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.FireDepartment))
                     {
                         data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + 1);
                         data.m_fireIntensity = 250;
                     }
                     //road maintain
-                    if (comm_data.road_connection && have_maintain_road_building)
+                    if (have_maintain_road_building && comm_data.road_connection && have_maintain_road_building)
                     {
                         data.m_waterBuffer = (ushort)(data.m_waterBuffer + 200);
                     }
@@ -193,7 +193,7 @@ namespace RealCity
                 else
                 {
                     //deadbuffer
-                    if (comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                    if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                     {
                         data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 1);
                     }
