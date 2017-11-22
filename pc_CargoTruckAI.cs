@@ -122,11 +122,11 @@ namespace RealCity
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Oil:
-                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f);
+                                    import_tax = num * 0.5f * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f);
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Ore:
-                                    import_tax = num * 0.3f * (pc_PrivateBuildingAI.ore_import_price - (1f - pc_PrivateBuildingAI.ore_import_ratio) * 0.1f);
+                                    import_tax = num * 0.5f * (pc_PrivateBuildingAI.ore_import_price - (1f - pc_PrivateBuildingAI.ore_import_ratio) * 0.1f);
                                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
                                     break;
                                 case TransferManager.TransferReason.Lumber:

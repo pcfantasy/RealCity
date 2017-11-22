@@ -47,21 +47,21 @@ namespace RealCity
 
         public const float good_export_price = 1.5f;
         public const float food_export_price = 0.5f;
-        public const float petrol_export_price = 0.5f;
-        public const float coal_export_price = 0.5f;
+        public const float petrol_export_price = 1f;
+        public const float coal_export_price = 1f;
         public const float lumber_export_price = 0.5f;
-        public const float oil_export_price = 0.25f;
-        public const float ore_export_price = 0.25f;
+        public const float oil_export_price = 0.5f;
+        public const float ore_export_price = 0.5f;
         public const float grain_export_price = 0.25f;
         public const float log_export_price = 0.25f;
 
-        public const float good_import_price = 2.6f;
-        public const float food_import_price = 0.9f;
-        public const float petrol_import_price = 0.9f;
+        public const float good_import_price = 2.7f;
+        public const float food_import_price = 1.8f;
+        public const float petrol_import_price = 1.8f;
         public const float coal_import_price = 0.9f;
         public const float lumber_import_price = 0.9f;
-        public const float oil_import_price = 0.4f;
-        public const float ore_import_price = 0.4f;
+        public const float oil_import_price = 0.8f;
+        public const float ore_import_price = 0.8f;
         public const float grain_import_price = 0.4f;
         public const float log_import_price = 0.4f;
 
