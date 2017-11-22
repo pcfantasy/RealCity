@@ -815,7 +815,10 @@ namespace RealCity
             this.m_outside_dead.text = string.Format(language.EconomicUI[105] + " [{0}]", comm_data.outside_dead_count);
             this.m_outside_sick.text = string.Format(language.EconomicUI[107] + " [{0}]", comm_data.outside_sick_count);
             this.m_outside_crime.text = string.Format(language.EconomicUI[109] + " [{0}]", comm_data.outside_crime_count);
-            this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0}]", comm_data.outside_road_count);
+            if (comm_data.outside_road_num_final != 0)
+            {
+                this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0:N2}%]", (100f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 650f)));
+            }
             this.m_outside_firestation.text = string.Format(language.EconomicUI[113] + " [{0}]", comm_data.outside_firestation_count);
 
             this.tip1.text = string.Format(language.EconomicUI[115] + "  " + RealCity.tip1_message_forgui);

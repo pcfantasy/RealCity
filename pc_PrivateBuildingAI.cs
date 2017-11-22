@@ -56,9 +56,9 @@ namespace RealCity
         public const float log_export_price = 0.25f;
 
         public const float good_import_price = 2.7f;
-        public const float food_import_price = 1.8f;
+        public const float food_import_price = 0.9f;
         public const float petrol_import_price = 1.8f;
-        public const float coal_import_price = 0.9f;
+        public const float coal_import_price = 1.8f;
         public const float lumber_import_price = 0.9f;
         public const float oil_import_price = 0.8f;
         public const float ore_import_price = 0.8f;
@@ -695,7 +695,8 @@ namespace RealCity
                 }
                 else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                 {
-                    asset = (int)(buildingData.m_customBuffer1 * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price/4f));
+                    // 90%*0.5 + 10% * 1 =  
+                    asset = (int)(buildingData.m_customBuffer1 * 0.55f + buildingData.m_customBuffer2 * (good_export_price/4f));
                 }
                 else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                 {
@@ -1265,5 +1266,48 @@ namespace RealCity
                 default: break;
             }
         }
+
+        protected void CalculateGuestVehicles_1(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+        {
+            VehicleManager instance = Singleton<VehicleManager>.instance;
+            ushort num = data.m_guestVehicles;
+            int num2 = 0;            
+            while (num != 0)
+            {
+                if (((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material) || is_general_industry(buildingID, data, material))
+                {
+                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                    int a;
+                    int num3;
+                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                    cargo += Mathf.Min(a, num3);
+                    capacity += num3;
+                    count++;
+                    if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                    {
+                        outside++;
+                    }
+                }
+                num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
+                if (++num2 > 16384)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+        }
+
+        public bool is_general_industry (ushort buildingID, Building data, TransferManager.TransferReason material)
+        {
+            if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+            {
+                if ((material == TransferManager.TransferReason.Lumber) || (material == TransferManager.TransferReason.Food) || (material == TransferManager.TransferReason.Coal) || (material == TransferManager.TransferReason.Petrol))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

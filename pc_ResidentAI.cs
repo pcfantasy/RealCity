@@ -1677,7 +1677,7 @@ namespace RealCity
 
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
             {
-                if (comm_data.citizen_money[homeid] > 0)
+                if ((comm_data.citizen_money[homeid] > 0) && pc_OutsideConnectionAI.have_hospital_building)
                 {
                     temp = temp + 10;
                     Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);

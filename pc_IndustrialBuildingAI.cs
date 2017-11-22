@@ -37,6 +37,55 @@ namespace RealCity
             return num;
         }
 
+
+        public TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
+        {
+            switch (this.m_info.m_class.m_subService)
+            {
+                case ItemClass.SubService.IndustrialForestry:
+                    return TransferManager.TransferReason.Logs;
+                case ItemClass.SubService.IndustrialFarming:
+                    return TransferManager.TransferReason.Grain;
+                case ItemClass.SubService.IndustrialOil:
+                    return TransferManager.TransferReason.Oil;
+                case ItemClass.SubService.IndustrialOre:
+                    return TransferManager.TransferReason.Ore;
+                default:
+                    {
+                        System.Random rand = new System.Random();
+                        switch (rand.Next(19))
+                        {
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                                return TransferManager.TransferReason.Lumber;
+                            case 9:
+                            case 10:
+                            case 11:
+                            case 12:
+                            case 13:
+                            case 14:
+                            case 15:
+                            case 16:
+                            case 17:
+                                return TransferManager.TransferReason.Food;
+                            case 18:
+                                return TransferManager.TransferReason.Petrol;
+                            case 19:
+                                return TransferManager.TransferReason.Coal;
+                            default:
+                                return TransferManager.TransferReason.None;
+                        }
+                    }
+            }
+        }
+
         public static TransferManager.TransferReason GetIncomingTransferReason(Building data, ushort buildingID)
         {
             switch (data.Info.m_class.m_subService)
@@ -103,9 +152,37 @@ namespace RealCity
             }
         }
 
+        public override void BuildingDeactivated(ushort buildingID, ref Building data)
+        {
+            TransferManager.TransferReason incomingTransferReason = this.GetIncomingTransferReason(buildingID);
+            if (incomingTransferReason != TransferManager.TransferReason.None)
+            {
+                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                offer.Building = buildingID;
+                if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                {
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Lumber, offer);
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Food, offer);
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Petrol, offer);
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Coal, offer);
+                } else
+                {
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(incomingTransferReason, offer);
+                }
+            }
+            TransferManager.TransferReason outgoingTransferReason = GetOutgoingTransferReason(data);
+            if (outgoingTransferReason != TransferManager.TransferReason.None)
+            {
+                TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
+                offer2.Building = buildingID;
+                Singleton<TransferManager>.instance.RemoveOutgoingOffer(outgoingTransferReason, offer2);
+            }
+            base.BuildingDeactivated(buildingID, ref data);
+        }
+
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == GetIncomingTransferReason(data, buildingID))
+            if ((material ==  TransferManager.TransferReason.Lumber) || (material == TransferManager.TransferReason.Logs) || (material == TransferManager.TransferReason.Petrol) || (material == TransferManager.TransferReason.Oil) || (material == TransferManager.TransferReason.Coal) || (material == TransferManager.TransferReason.Ore) || (material == TransferManager.TransferReason.Grain) || (material == TransferManager.TransferReason.Food))
             {
                 int width = data.Width;
                 int length = data.Length;

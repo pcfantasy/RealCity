@@ -162,8 +162,8 @@ namespace RealCity
 
         //public static bool cemetery_income_forui = new int[17];
 
-        public static byte[] save_data = new byte[2822];
-        public static byte[] load_data = new byte[2822];
+        public static byte[] save_data = new byte[2768];
+        public static byte[] load_data = new byte[2768];
 
         //public income
 
@@ -348,6 +348,8 @@ namespace RealCity
             industy_gen_level1_trade_income = saveandrestore.load_float(ref i, load_data);
             industy_gen_level2_trade_income = saveandrestore.load_float(ref i, load_data);
             industy_gen_level3_trade_income = saveandrestore.load_float(ref i, load_data);
+            // 97*4 = 388
+            // 35*4*17 = 2768
 
             citizen_tax_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
             citizen_income_forui = saveandrestore.load_ints(ref i, load_data, 17);
@@ -404,7 +406,7 @@ namespace RealCity
             int i = 0;
 
             //680+1292+64+160+80+52 = 2382
-            //13*4 = 52
+            //15*4 = 60
             saveandrestore.save_float(ref i, Road, ref save_data);
             saveandrestore.save_float(ref i, Electricity, ref save_data);
             saveandrestore.save_float(ref i, Water, ref save_data);

@@ -718,7 +718,7 @@ namespace RealCity
                                 pc_OutsideConnectionAI.have_police_building = true;
                             }
 
-                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Road)
+                            if ((instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.HealthCare) && (instance.m_buildings.m_buffer[i].Info.m_class.m_level == ItemClass.Level.Level1))
                             {
                                 pc_OutsideConnectionAI.have_hospital_building = true;
                             }

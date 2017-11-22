@@ -435,13 +435,16 @@
         public static uint outside_road_count = 0;
         public static uint outside_firestation_count = 0;
 
+        public static ushort outside_road_num = 0;
+        public static ushort outside_road_num_final = 0;
+
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49086];
+        public static ushort[] reserved = new ushort[49082];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
-        public static byte[] save_data = new byte[3064005];
-        public static byte[] load_data = new byte[3064005];
+        public static byte[] save_data = new byte[3063935];
+        public static byte[] load_data = new byte[3063935];
 
         public static void data_init()
         {
@@ -551,7 +554,7 @@
             saveandrestore.save_long(ref i, temp_public_transport_fee, ref save_data);
             saveandrestore.save_byte(ref i, last_language, ref save_data);
 
-            //32 + 2 + 6
+            //32 + 2 + 7 + 16 + 4 = 61
             saveandrestore.save_uint(ref i, outside_crime_count, ref save_data);
             saveandrestore.save_uint(ref i, outside_sick_count, ref save_data);
             saveandrestore.save_uint(ref i, outside_garbage_count, ref save_data);
@@ -575,6 +578,9 @@
             saveandrestore.save_uint(ref i, outside_firestation_count, ref save_data);
             saveandrestore.save_uint(ref i, outside_road_count_temp, ref save_data);
             saveandrestore.save_uint(ref i, outside_firestation_count_temp, ref save_data);
+
+            saveandrestore.save_ushort(ref i, outside_road_num, ref save_data);
+            saveandrestore.save_ushort(ref i, outside_road_num_final, ref save_data);
 
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
@@ -675,7 +681,10 @@
             outside_road_count_temp = saveandrestore.load_uint(ref i, load_data);
             outside_firestation_count_temp = saveandrestore.load_uint(ref i, load_data);
 
-            reserved = saveandrestore.load_ushorts(ref i, load_data,reserved.Length);
+            outside_road_num = saveandrestore.load_ushort(ref i, load_data);
+            outside_road_num_final = saveandrestore.load_ushort(ref i, load_data);
+
+            reserved = saveandrestore.load_ushorts(ref i, load_data ,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);
 
             DebugLog.LogToFileOnly("save_data in comm_data is " + i.ToString());

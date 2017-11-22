@@ -129,10 +129,12 @@ namespace RealCity
                 comm_data.outside_garbage_count_temp += data.m_garbageBuffer;
                 comm_data.outside_firestation_count_temp += data.m_electricityBuffer;
                 comm_data.outside_road_count_temp += data.m_waterBuffer;
-                //DebugLog.LogToFileOnly("add road condition3 building1.m_waterBuffer = " + data.m_waterBuffer.ToString() + "buildingID = " + buildingID.ToString());
-                if (data.Info.m_class.m_service != ItemClass.Service.Road)
+                if (data.Info.m_class.m_service == ItemClass.Service.Road)
                 {
-                    //DebugLog.LogToFileOnly("find unknow outside building = " + data.Info.m_class.ToString());
+                    if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+                    {
+                        comm_data.outside_road_num++;
+                    }
                 }
             }
             else
@@ -143,12 +145,14 @@ namespace RealCity
                 comm_data.outside_crime_count = comm_data.outside_crime_count_temp;
                 comm_data.outside_firestation_count = comm_data.outside_firestation_count_temp;
                 comm_data.outside_road_count = comm_data.outside_road_count_temp;
+                comm_data.outside_road_num_final = comm_data.outside_road_num;
                 comm_data.outside_dead_count_temp = 0;
                 comm_data.outside_crime_count_temp = 0;
                 comm_data.outside_sick_count_temp = 0;
                 comm_data.outside_garbage_count_temp = 0;
                 comm_data.outside_firestation_count_temp = 0;
                 comm_data.outside_road_count_temp = 0;
+                comm_data.outside_road_num = 0;
             }
 
             comm_data.outside_pre_building = buildingID;
