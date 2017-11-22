@@ -165,7 +165,7 @@ namespace RealCity
             {
                 if (comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
-                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
+                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 300);
                 }
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
@@ -195,7 +195,7 @@ namespace RealCity
                     //deadbuffer
                     if (comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                     {
-                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 1);
+                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 4);
                     }
                 }
 
@@ -327,10 +327,10 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Crime, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Addpoliceoffers " + data.m_crimeBuffer.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_crimeBuffer - num27 + num26) > 10)
+                if ((data.m_crimeBuffer - (num27 - num26) * 100) > 10)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_crimeBuffer - num27 + num26) / 5;
+                    offer.Priority = 1 + (data.m_crimeBuffer - (num27 - num26) * 100) / 5;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;
@@ -355,10 +355,10 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.RoadMaintenance, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Road offers " + data.m_waterBuffer.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_waterBuffer - num27 + num26) > 10)
+                if ((data.m_waterBuffer - (num27 - num26) * 100) > 10)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_waterBuffer - num27 + num26) / 5;
+                    offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;
@@ -383,10 +383,10 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Fire, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Addfireoffers " + data.m_electricityBuffer.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_electricityBuffer - num27 + num26) > 10)
+                if ((data.m_electricityBuffer - (num27 - num26) * 100) > 10)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_electricityBuffer - num27 + num26) / 5;
+                    offer.Priority = 1 + (data.m_electricityBuffer - (num27 - num26) * 100) / 5;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;
@@ -411,10 +411,10 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Sick, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Addsickoffers " + data.m_customBuffer2.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_customBuffer2 - num27 + num26)  > 10)
+                if ((data.m_customBuffer2 - (num27 - num26) * 100)  > 10)
                 {
                     offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_customBuffer2 - num27 + num26) / 5;
+                    offer.Priority = 1 + (data.m_customBuffer2 - (num27 - num26) * 100) / 5;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;

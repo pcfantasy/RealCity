@@ -24,7 +24,7 @@ namespace RealCity
 
         public static GameObject buildingWindowGameObject;
 
-        internal static LoadMode CurrentLoadMode;
+        public static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
 
         public static RedirectCallsState state1;
@@ -84,6 +84,7 @@ namespace RealCity
                 {
                     SetupGui();
                     detour();
+                    DebugLog.LogToFileOnly("OnLevelLoaded");
                     if (mode == LoadMode.NewGame)
                     {
                         init_data();

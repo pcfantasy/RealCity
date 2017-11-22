@@ -387,44 +387,48 @@ namespace RealCity
         public override void OnLoadData()
         {
             init_data();
-            pc_EconomyManager.load_data = saveandrestore._serializableData.LoadData("real_city pc_EconomyManager");
-            if (pc_EconomyManager.load_data == null)
+            //DebugLog.LogToFileOnly("OnLoadData");
+            if (true) //Loader.CurrentLoadMode == LoadMode.LoadGame)
             {
-                DebugLog.LogToFileOnly("no pc_EconomyManager save data, please check");
-            }
-            else
-            {
-                pc_EconomyManager.load();
-            }
+                pc_EconomyManager.load_data = saveandrestore._serializableData.LoadData("real_city pc_EconomyManager");
+                if (pc_EconomyManager.load_data == null)
+                {
+                    DebugLog.LogToFileOnly("no pc_EconomyManager save data, please check");
+                }
+                else
+                {
+                    pc_EconomyManager.load();
+                }
 
-            comm_data.load_data = saveandrestore._serializableData.LoadData("real_city comm_data");
-            if (comm_data.load_data == null)
-            {
-                DebugLog.LogToFileOnly("no comm_data save data, please check");
-            }
-            else
-            {
-                comm_data.load();
-            }
+                comm_data.load_data = saveandrestore._serializableData.LoadData("real_city comm_data");
+                if (comm_data.load_data == null)
+                {
+                    DebugLog.LogToFileOnly("no comm_data save data, please check");
+                }
+                else
+                {
+                    comm_data.load();
+                }
 
-            pc_ResidentAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_ResidentAI");
-            if (pc_ResidentAI.load_data == null)
-            {
-                DebugLog.LogToFileOnly("no pc_ResidentAI save data, please check");
-            }
-            else
-            {
-                pc_ResidentAI.load();
-            }
+                pc_ResidentAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_ResidentAI");
+                if (pc_ResidentAI.load_data == null)
+                {
+                    DebugLog.LogToFileOnly("no pc_ResidentAI save data, please check");
+                }
+                else
+                {
+                    pc_ResidentAI.load();
+                }
 
-            pc_PrivateBuildingAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_PrivateBuildingAI");
-            if (pc_PrivateBuildingAI.load_data == null)
-            {
-                DebugLog.LogToFileOnly("no pc_PrivateBuildingAI save data, please check");
-            }
-            else
-            {
-                pc_PrivateBuildingAI.load();
+                pc_PrivateBuildingAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_PrivateBuildingAI");
+                if (pc_PrivateBuildingAI.load_data == null)
+                {
+                    DebugLog.LogToFileOnly("no pc_PrivateBuildingAI save data, please check");
+                }
+                else
+                {
+                    pc_PrivateBuildingAI.load();
+                }
             }
 
             RealCity.LoadSetting();

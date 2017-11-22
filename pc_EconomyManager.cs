@@ -395,6 +395,8 @@ namespace RealCity
             police_income = saveandrestore.load_float(ref i, load_data);
             firestation_income = saveandrestore.load_float(ref i, load_data);
             school_income = saveandrestore.load_float(ref i, load_data);
+
+            DebugLog.LogToFileOnly("save_data in EM is " + i.ToString());
         }
 
         public static void save()

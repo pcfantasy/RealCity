@@ -173,8 +173,8 @@ namespace RealCity
         //public static float office_high_tech_salary_index = 0.5f;
         // PrivateBuildingAI
 
-        public static byte[] save_data = new byte[324];
-        public static byte[] load_data = new byte[324];
+        public static byte[] save_data = new byte[316];
+        public static byte[] load_data = new byte[316];
 
         public static void load()
         {
@@ -309,8 +309,15 @@ namespace RealCity
             all_office_level3_building_num_final = saveandrestore.load_ushort(ref i, load_data);
             all_office_high_tech_building_num_final = saveandrestore.load_ushort(ref i, load_data);
 
+            greater_than_20000_profit_building_money = saveandrestore.load_long(ref i, load_data);
+            greater_than_20000_profit_building_money_final = saveandrestore.load_long(ref i, load_data);
+            greater_than_20000_profit_building_num = saveandrestore.load_ushort(ref i, load_data);
+            greater_than_20000_profit_building_num_final = saveandrestore.load_ushort(ref i, load_data);
+
             //office_gen_salary_index = saveandrestore.load_float(ref i, load_data);
             //office_high_tech_salary_index = saveandrestore.load_float(ref i, load_data);
+
+            DebugLog.LogToFileOnly("save_data in private building is " + i.ToString());
 
 
         }
@@ -444,7 +451,7 @@ namespace RealCity
             saveandrestore.save_ushort(ref i, all_oil_building_loss_final, ref save_data);
             saveandrestore.save_ushort(ref i, all_ore_building_loss_final, ref save_data);
 
-            //24
+            //20 + 20
             saveandrestore.save_ushort(ref i, all_office_level1_building_num, ref save_data);
             saveandrestore.save_ushort(ref i, all_office_level2_building_num, ref save_data);
             saveandrestore.save_ushort(ref i, all_office_level3_building_num, ref save_data);
@@ -455,6 +462,11 @@ namespace RealCity
             saveandrestore.save_ushort(ref i, all_office_high_tech_building_num_final, ref save_data);
             //saveandrestore.save_float(ref i, office_gen_salary_index, ref save_data);
             //saveandrestore.save_float(ref i, office_high_tech_salary_index, ref save_data);
+
+            saveandrestore.save_long(ref i, greater_than_20000_profit_building_money, ref save_data);
+            saveandrestore.save_long(ref i, greater_than_20000_profit_building_money_final, ref save_data);
+            saveandrestore.save_ushort(ref i, greater_than_20000_profit_building_num, ref save_data);
+            saveandrestore.save_ushort(ref i, greater_than_20000_profit_building_num_final, ref save_data);
 
         }
         protected void SimulationStepActive_1(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
@@ -840,6 +852,7 @@ namespace RealCity
                 all_ore_building_loss = 0;
                 all_industry_building_loss = 0;
                 all_comm_building_loss = 0;
+                greater_than_20000_profit_building_money = 0;
                 greater_than_20000_profit_building_num = 0;
                 if (comm_data.update_outside_count == 63)
                 {

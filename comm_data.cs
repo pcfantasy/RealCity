@@ -677,6 +677,8 @@
 
             reserved = saveandrestore.load_ushorts(ref i, load_data,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);
+
+            DebugLog.LogToFileOnly("save_data in comm_data is " + i.ToString());
         }
     }
 }

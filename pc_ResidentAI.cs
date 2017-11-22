@@ -91,6 +91,8 @@ namespace RealCity
 
             citizen_goods = saveandrestore.load_long(ref i, load_data);
             citizen_goods_temp = saveandrestore.load_long(ref i, load_data);
+
+            DebugLog.LogToFileOnly("save_data in residentAI is " + i.ToString());
         }
 
         public static void save()
