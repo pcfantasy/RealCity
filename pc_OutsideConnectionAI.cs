@@ -171,16 +171,40 @@ namespace RealCity
                 {
                     data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 300);
                 }
+                else if (RealCity.update_once)
+                {
+                    data.m_garbageBuffer = 0;
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Building = buildingID;
+                    Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                    Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+                }
+
+
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
                     if (have_police_building && comm_data.crime_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
                     {
                         data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 1);
                     }
+                    else if (RealCity.update_once)
+                    {
+                        data.m_crimeBuffer = 0;
+                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                        offer.Building = buildingID;
+                        Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Crime, offer);
+                    }
                     //sick
                     if (have_hospital_building && comm_data.sick_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                     {
                         data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
+                    }
+                    else if (RealCity.update_once)
+                    {
+                        data.m_customBuffer2 = 0;
+                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                        offer.Building = buildingID;
+                        Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Sick, offer);
                     }
                     //fire
                     if (have_fire_building && comm_data.fire_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.FireDepartment))
@@ -188,10 +212,25 @@ namespace RealCity
                         data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + 1);
                         data.m_fireIntensity = 250;
                     }
+                    else if (RealCity.update_once)
+                    {
+                        data.m_electricityBuffer = 0;
+                        data.m_fireIntensity = 0;
+                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                        offer.Building = buildingID;
+                        Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Fire, offer);
+                    }
                     //road maintain
                     if (have_maintain_road_building && comm_data.road_connection && have_maintain_road_building)
                     {
                         data.m_waterBuffer = (ushort)(data.m_waterBuffer + 200);
+                    }
+                    else if (RealCity.update_once)
+                    {
+                        data.m_waterBuffer = 0;
+                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                        offer.Building = buildingID;
+                        Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
                     }
                 }
                 else
@@ -199,13 +238,20 @@ namespace RealCity
                     //deadbuffer
                     if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                     {
-                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 4);
+                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 1);
+                    }
+                    else if (RealCity.update_once)
+                    {
+                        data.m_customBuffer1 = 0;
+                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                        offer.Building = buildingID;
+                        Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
                     }
                 }
 
-                if (data.m_customBuffer1 > 65000)
+                if (data.m_customBuffer1 > 64)
                 {
-                    data.m_customBuffer1 = 65000;
+                    data.m_customBuffer1 = 64;
                 }
 
                 if (data.m_customBuffer2 > 65000)

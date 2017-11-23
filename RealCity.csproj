@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HumanUI.cs" />
     <Compile Include="BuildingUI.cs" />
     <Compile Include="language.cs" />
     <Compile Include="message.cs" />
@@ -99,7 +100,6 @@
     <Compile Include="pc_PlayerBuildingAI.cs" />
     <Compile Include="pc_PoliceCarAI.cs" />
     <Compile Include="pc_TaxiAI.cs" />
-    <Compile Include="pc_BuildingWorldInfoPanel.cs" />
     <Compile Include="pc_ZoneManager.cs" />
     <Compile Include="RealCityUI.cs" />
     <Compile Include="pc_PrivateBuildingAI.cs" />

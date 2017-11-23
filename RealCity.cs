@@ -14,6 +14,7 @@ namespace RealCity
     public class RealCity : IUserMod
     {
         public static bool IsEnabled = false;
+        public static bool update_once = false;
 
         public byte tip1_citizen = 0;
         public byte tip2_building = 0;
@@ -282,6 +283,20 @@ namespace RealCity
                     caculate_profit();
                     caculate_citizen_transport_fee();
                     generate_tips();
+
+                    //initialize building ui again
+
+                    Loader.guiPanel2.transform.parent = Loader.buildingInfo.transform;
+                    Loader.guiPanel2.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
+                    Loader.guiPanel2.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
+                    Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
+
+                    //initialize human ui again
+                    Loader.guiPanel3.transform.parent = Loader.HumanInfo.transform;
+                    Loader.guiPanel3.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                    Loader.guiPanel3.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
+                    Loader.guiPanel3.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+
                     /*if ((language.current_language != comm_data.last_language) || (language.current_language == 255))
                     {
                         language.language_switch((byte)language_idex);
@@ -689,9 +704,13 @@ namespace RealCity
             public void building_status()
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
+                update_once = false;
                 pc_OutsideConnectionAI.have_maintain_road_building = false;
                 pc_OutsideConnectionAI.have_garbage_building = false;
                 pc_OutsideConnectionAI.have_cemetry_building = false;
+                pc_OutsideConnectionAI.have_police_building = false;
+                pc_OutsideConnectionAI.have_fire_building = false;
+                pc_OutsideConnectionAI.have_hospital_building = false;
                 checked
                 {
                     for (int i = 0; i < instance.m_buildings.m_buffer.Count<Building>(); i++)
@@ -754,6 +773,8 @@ namespace RealCity
                     //MessageManager ms = Singleton<MessageManager>.instance;
                     //ms.QueueMessage(new Message(ms.GetRandomResidentID(), "we have cemetry now!"));
                 }
+
+                update_once = true;
 
 
                 int office_gen_num = pc_PrivateBuildingAI.all_office_level1_building_num_final + pc_PrivateBuildingAI.all_office_level2_building_num_final + pc_PrivateBuildingAI.all_office_level3_building_num_final;

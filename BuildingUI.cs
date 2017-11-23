@@ -142,26 +142,27 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
      
-            if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
+            if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || BuildingUI.refesh_once || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
-                Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.current_buildingid];
+                comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+                Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
                 int aliveWorkerCount = 0;
                 int totalWorkerCount = 0;
-                int num = caculate_employee_outcome(buildingdata, comm_data.current_buildingid, out aliveWorkerCount, out totalWorkerCount);
-                int num1 = process_land_fee(buildingdata, comm_data.current_buildingid);
-                int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.current_buildingid, ref buildingdata);
+                int num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
+                int num1 = process_land_fee(buildingdata, comm_data.last_buildingid);
+                int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);
                 //int alivecisitCount = 0;
                 //int totalvisitCount = 0;
                 //Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                 //GetVisitBehaviour(comm_data.current_buildingid, ref buildingdata, ref behaviour, ref alivecisitCount, ref totalvisitCount);
-                this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.current_buildingid]);
+                this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
                 this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                 this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
                 this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
                 this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
                 this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1/100f);
-                this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.current_buildingid] + asset);
+                this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
                 //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
                 BuildingUI.refesh_once = false;
             }

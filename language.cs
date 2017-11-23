@@ -38,8 +38,8 @@ namespace RealCity
             "landrent",
             "net_asset",
             "net_asset",
-            "alivevisitcount",
-            "alivevisitcount",
+            "Resident Money",
+            "Only show resident money",
         };
 
         public static string[] EconomicUI_English =
@@ -328,10 +328,10 @@ namespace RealCity
             "土地费支出",
             "公司净资产",
             "公司净资产",
-            "参观人数",
-            "参观人数",};
+            "居民存款",
+            "居民存款",};
 
-        public static string[] OptionUI_Chinese =
+    public static string[] OptionUI_Chinese =
         {
             "语言",
             "语言选择",

@@ -771,6 +771,9 @@ namespace RealCity
             if (comm_data.family_count != 0)
             {
                 this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N3}%]", (float)(pc_ResidentAI.citizen_goods / (comm_data.family_count * 200f)) );
+            } else
+            {
+                this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N3}%]", 0);
             }
 
             //building
@@ -818,6 +821,10 @@ namespace RealCity
             if (comm_data.outside_road_num_final != 0)
             {
                 this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0:N2}%]", (100f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 650f)));
+            }
+            else
+            {
+                this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0:N2}%]", 0);
             }
             this.m_outside_firestation.text = string.Format(language.EconomicUI[113] + " [{0}]", comm_data.outside_firestation_count);
 

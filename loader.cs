@@ -16,13 +16,19 @@ namespace RealCity
 
         public static UIPanel buildingInfo;
 
+        public static UIPanel HumanInfo;
+
         public static MoreeconomicUI guiPanel;
 
         public static RealCityUI guiPanel1;
 
-        private BuildingUI guiPanel2;
+        public static BuildingUI guiPanel2;
+
+        public static HumanUI guiPanel3;
 
         public static GameObject buildingWindowGameObject;
+
+        public static GameObject HumanWindowGameObject;
 
         public static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
@@ -55,7 +61,7 @@ namespace RealCity
         public static RedirectCallsState state26;
         public static RedirectCallsState state27;
         public static RedirectCallsState state28;
-        public static RedirectCallsState state29;
+        //public static RedirectCallsState state29;
         public static RedirectCallsState state30;
         public static RedirectCallsState state31;
         public static RedirectCallsState state32;
@@ -144,6 +150,7 @@ namespace RealCity
             //    Loader.guiPanel2 = (BuildingUI)Loader.parentGuiView.AddUIComponent(typeof(BuildingUI));
             //}
             SetupBuidingGui();
+            SetupHumanGui();
 
             Loader.isGuiRunning = true;
         }
@@ -151,7 +158,7 @@ namespace RealCity
         public void SetupBuidingGui()
         {
             buildingWindowGameObject = new GameObject("buildingWindowObject");
-            this.guiPanel2 = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
+            guiPanel2 = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
 
 
             buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
@@ -166,7 +173,24 @@ namespace RealCity
             guiPanel2.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
             //guiPanel2.position = new Vector3(0, 0);
             buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
+        }
 
+        public void SetupHumanGui()
+        {
+            HumanWindowGameObject = new GameObject("HumanWindowGameObject");
+            guiPanel3 = (HumanUI)HumanWindowGameObject.AddComponent(typeof(HumanUI));
+
+
+            HumanInfo = UIView.Find<UIPanel>("(Library) CitizenWorldInfoPanel");
+            if (HumanInfo == null)
+            {
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) LivingCreatureWorldInfoPanel\nAvailable panels are:\n");
+            }
+            guiPanel3.transform.parent = HumanInfo.transform;
+            guiPanel3.size = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
+            guiPanel3.baseBuildingWindow = HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
+            guiPanel3.position = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
+            HumanInfo.eventVisibilityChanged += HumanInfo_eventVisibilityChanged;
         }
 
         public void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
@@ -181,8 +205,23 @@ namespace RealCity
             }
             else
             {
-                comm_data.current_buildingid = 0;
+                //comm_data.current_buildingid = 0;
                 guiPanel2.Hide();
+            }
+        }
+
+
+        public void HumanInfo_eventVisibilityChanged(UIComponent component, bool value)
+        {
+            guiPanel3.isEnabled = value;
+            if (value)
+            {
+                BuildingUI.refesh_once = true;
+                guiPanel3.Show();
+            }
+            else
+            {
+                guiPanel3.Hide();
             }
         }
 
@@ -195,19 +234,30 @@ namespace RealCity
                 Loader.parentGuiView = null;
             }
 
-            bool flag2 = guiPanel2 != null;
-            if (flag2)
+            //remove buildingUI
+            if (guiPanel2 != null)
             {
-                bool flag3 = guiPanel2.parent != null;
-                if (flag3)
+                if (guiPanel2.parent != null)
                 {
                     guiPanel2.parent.eventVisibilityChanged -= buildingInfo_eventVisibilityChanged;
                 }
             }
-            bool flag4 = buildingWindowGameObject != null;
-            if (flag4)
+            if (buildingWindowGameObject != null)
             {
                 UnityEngine.Object.Destroy(buildingWindowGameObject);
+            }
+
+            //remove HumanUI
+            if (guiPanel3 != null)
+            {
+                if (guiPanel3.parent != null)
+                {
+                    guiPanel3.parent.eventVisibilityChanged -= HumanInfo_eventVisibilityChanged;
+                }
+            }
+            if (HumanWindowGameObject != null)
+            {
+                UnityEngine.Object.Destroy(HumanWindowGameObject);
             }
         }
 
@@ -326,9 +376,9 @@ namespace RealCity
             var destMethod28 = typeof(pc_GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             state28 = RedirectionHelper.RedirectCalls(srcMethod28, destMethod28);
 
-            var srcMethod29 = typeof(BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
-            var destMethod29 = typeof(pc_BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
-            state29 = RedirectionHelper.RedirectCalls(srcMethod29, destMethod29);
+            //var srcMethod29 = typeof(BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
+            //var destMethod29 = typeof(pc_BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
+            //state29 = RedirectionHelper.RedirectCalls(srcMethod29, destMethod29);
 
             var srcMethod30 = typeof(CitizenManager).GetMethod("CreateUnits", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
             var destMethod30 = typeof(pc_CitizenManager).GetMethod("CreateUnits_1", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
@@ -424,7 +474,7 @@ namespace RealCity
             var srcMethod26 = typeof(TaxiAI).GetMethod("UnloadPassengers", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransportPassengerData).MakeByRefType() }, null);
             var srcMethod27 = typeof(HearseAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             var srcMethod28 = typeof(GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            var srcMethod29 = typeof(BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
+            //var srcMethod29 = typeof(BuildingWorldInfoPanel).GetMethod("GetName", BindingFlags.NonPublic | BindingFlags.Instance);
             var srcMethod30 = typeof(CitizenManager).GetMethod("CreateUnits", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
             var srcMethod31 = typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
 
@@ -469,7 +519,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod26, state26);
             RedirectionHelper.RevertRedirect(srcMethod27, state27);
             RedirectionHelper.RevertRedirect(srcMethod28, state28);
-            RedirectionHelper.RevertRedirect(srcMethod29, state29);
+            //RedirectionHelper.RevertRedirect(srcMethod29, state29);
             RedirectionHelper.RevertRedirect(srcMethod30, state30);
             RedirectionHelper.RevertRedirect(srcMethod31, state31);
             //RedirectionHelper.RevertRedirect(srcMethod32, state32);

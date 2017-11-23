@@ -392,7 +392,8 @@
         public static float current_time = 0f;
         public static float prev_time = 0f;
 
-        public static ushort current_buildingid = 0;
+        public static ushort last_buildingid = 0;
+        public static uint last_citizenid = 0;
 
         //resident consumption rate, outside consumption rate
         public static float resident_consumption_rate = 0.1f;
