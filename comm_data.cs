@@ -5,27 +5,29 @@
 
         public const byte game_income_expense_multiple = 1;
         public const byte game_maintain_fee_decrease = 100;
-        public const byte game_maintain_fee_decrease2 = 10;
-        public const byte game_maintain_fee_decrease3 = 5;
+        public const byte game_maintain_fee_decrease2 = 1;
+        public const byte game_maintain_fee_decrease3 = 1;
+
+        public const int ConsumptionDivider = 20;
 
         //1.  citizen
         //1.1 citizen salary
 
-        public const byte comm_high_level1_education0 = 70;
-        public const byte comm_high_level2_education0 = 80;
-        public const byte comm_high_level3_education0 = 100;
+        public const byte comm_high_level1_education0 = 50;
+        public const byte comm_high_level2_education0 = 65;
+        public const byte comm_high_level3_education0 = 75;
 
-        public const byte comm_high_level1_education1 = 75;
-        public const byte comm_high_level2_education1 = 85;
-        public const byte comm_high_level3_education1 = 105;
+        public const byte comm_high_level1_education1 = 55;
+        public const byte comm_high_level2_education1 = 70;
+        public const byte comm_high_level3_education1 = 80;
 
-        public const byte comm_high_level1_education2 = 85;
-        public const byte comm_high_level2_education2 = 95;
-        public const byte comm_high_level3_education2 = 115;
+        public const byte comm_high_level1_education2 = 65;
+        public const byte comm_high_level2_education2 = 80;
+        public const byte comm_high_level3_education2 = 90;
 
-        public const byte comm_high_level1_education3 = 90;
-        public const byte comm_high_level2_education3 = 110;
-        public const byte comm_high_level3_education3 = 130;
+        public const byte comm_high_level1_education3 = 80;
+        public const byte comm_high_level2_education3 = 85;
+        public const byte comm_high_level3_education3 = 105;
 
         //commerial low
         public const byte comm_low_level1_education0 = 55;
@@ -42,7 +44,7 @@
 
         public const byte comm_low_level1_education3 = 85;
         public const byte comm_low_level2_education3 = 90;
-        public const byte comm_low_level3_education3 = 110;
+        public const byte comm_low_level3_education3 = 100;
 
         //commerial leisure
         public const byte comm_lei_education0 = 70;
@@ -80,28 +82,28 @@
         public const byte indus_gen_level3_education3 = 80;
 
         //industrial farmer
-        public const byte indus_far_education0 = 25;
-        public const byte indus_far_education1 = 30;
-        public const byte indus_far_education2 = 35;
-        public const byte indus_far_education3 = 40;
+        public const byte indus_far_education0 = 70;
+        public const byte indus_far_education1 = 75;
+        public const byte indus_far_education2 = 80;
+        public const byte indus_far_education3 = 85;
 
         //industrial foerest
-        public const byte indus_for_education0 = 25;
-        public const byte indus_for_education1 = 30;
-        public const byte indus_for_education2 = 35;
-        public const byte indus_for_education3 = 40;
+        public const byte indus_for_education0 = 75;
+        public const byte indus_for_education1 = 80;
+        public const byte indus_for_education2 = 85;
+        public const byte indus_for_education3 = 90;
 
         //industrial oil
-        public const byte indus_oil_education0 = 50;
-        public const byte indus_oil_education1 = 55;
-        public const byte indus_oil_education2 = 60;
-        public const byte indus_oil_education3 = 65;
+        public const byte indus_oil_education0 = 100;
+        public const byte indus_oil_education1 = 105;
+        public const byte indus_oil_education2 = 110;
+        public const byte indus_oil_education3 = 115;
 
         //industrial ore
-        public const byte indus_ore_education0 = 50;
-        public const byte indus_ore_education1 = 55;
-        public const byte indus_ore_education2 = 60;
-        public const byte indus_ore_education3 = 65;
+        public const byte indus_ore_education0 = 95;
+        public const byte indus_ore_education1 = 100;
+        public const byte indus_ore_education2 = 105;
+        public const byte indus_ore_education3 = 110;
 
         //office
         /*public const byte office_gen_level1_education0 = 70;
@@ -328,9 +330,9 @@
         public const byte resident_high_eco_level4 = 70;
         public const byte resident_high_eco_level5 = 90;*/
 
-        public const byte comm_high_level1 = 110;
-        public const byte comm_high_level2 = 120;
-        public const byte comm_high_level3 = 130;
+        public const byte comm_high_level1 = 40;
+        public const byte comm_high_level2 = 60;
+        public const byte comm_high_level3 = 80;
 
         public const byte comm_low_level1 = 50;
         public const byte comm_low_level2 = 75;
@@ -344,8 +346,8 @@
         public const byte indu_gen_level2 = 50;
         public const byte indu_gen_level3 = 70;
 
-        public const byte indu_forest = 30;
-        public const byte indu_farm = 40;
+        public const byte indu_forest = 60;
+        public const byte indu_farm = 80;
         public const byte indu_oil = 120;
         public const byte indu_ore = 120;
 

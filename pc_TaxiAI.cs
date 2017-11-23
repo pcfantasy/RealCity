@@ -40,9 +40,9 @@ namespace RealCity
                                 BuildingManager instance4 = Singleton<BuildingManager>.instance;
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                                 { 
-                                        comm_data.citizen_money[num2] = (short)(comm_data.citizen_money[num2] - num4);
+                                        comm_data.citizen_money[num2] = (short)(comm_data.citizen_money[num2] - num4 / comm_data.game_maintain_fee_decrease3);
                                 }
-                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4 * comm_data.game_income_expense_multiple, this.m_info.m_class);
+                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4 / comm_data.game_maintain_fee_decrease3, this.m_info.m_class);
                             }
                             num++;
                             if ((instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)

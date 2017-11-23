@@ -611,9 +611,9 @@ namespace RealCity
                             int totalworkcount1 = 0;
                             Citizen.BehaviourData behaviour1 = default(Citizen.BehaviourData);
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
-                            if (totalworkcount1 != 0)
+                            if (aliveworkcount1 != 0)
                             {
-                                num = (int)(comm_data.building_money[work_building] / totalworkcount1);
+                                num = (int)(comm_data.building_money[work_building] / aliveworkcount1);
                             }
                             comm_data.building_money[work_building] -= num;
                             break;                           

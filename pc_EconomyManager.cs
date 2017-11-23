@@ -581,7 +581,7 @@ namespace RealCity
                     {
                         coefficient = (float)comm_data.game_maintain_fee_decrease2;
                     }
-                    else if ((itemClass.m_service == ItemClass.Service.Education) || (itemClass.m_service == ItemClass.Service.Monument) || (itemClass.m_service == ItemClass.Service.Beautification))
+                    else if ((itemClass.m_service == ItemClass.Service.Education) || (itemClass.m_service == ItemClass.Service.Monument) || (itemClass.m_service == ItemClass.Service.Beautification) || (itemClass.m_service == ItemClass.Service.PublicTransport))
                     {
                         coefficient = (float)comm_data.game_maintain_fee_decrease2;
                     } else if ((itemClass.m_service == ItemClass.Service.Garbage) || (itemClass.m_service == ItemClass.Service.FireDepartment) || (itemClass.m_service == ItemClass.Service.PoliceDepartment) || (itemClass.m_service == ItemClass.Service.HealthCare))
