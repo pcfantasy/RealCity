@@ -990,11 +990,14 @@ namespace RealCity
 
             if (comm_data.building_money[buildingID] > 50000)
             {
-                if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+                if ((building.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh) || (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLow) || (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric))
                 {
-                    greater_than_20000_profit_building_num++;
-                    greater_than_20000_profit_building_money += (long)(comm_data.building_money[buildingID] - 50000);
-                    comm_data.building_money[buildingID] = 50000f;
+                    if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        greater_than_20000_profit_building_num++;
+                        greater_than_20000_profit_building_money += (long)(comm_data.building_money[buildingID] - 50000);
+                        comm_data.building_money[buildingID] = 50000f;
+                    }
                 }
             }
 
@@ -1297,7 +1300,7 @@ namespace RealCity
             }
         }
 
-        public bool is_general_industry (ushort buildingID, Building data, TransferManager.TransferReason material)
+        public static bool is_general_industry (ushort buildingID, Building data, TransferManager.TransferReason material)
         {
             if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {

@@ -182,7 +182,7 @@ namespace RealCity
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if ((material ==  TransferManager.TransferReason.Lumber) || (material == TransferManager.TransferReason.Logs) || (material == TransferManager.TransferReason.Petrol) || (material == TransferManager.TransferReason.Oil) || (material == TransferManager.TransferReason.Coal) || (material == TransferManager.TransferReason.Ore) || (material == TransferManager.TransferReason.Grain) || (material == TransferManager.TransferReason.Food))
+            if (material == GetIncomingTransferReason(data ,buildingID) || pc_PrivateBuildingAI.is_general_industry(buildingID, data , material))
             {
                 int width = data.Width;
                 int length = data.Length;
