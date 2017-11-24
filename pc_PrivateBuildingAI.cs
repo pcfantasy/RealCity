@@ -704,15 +704,15 @@ namespace RealCity
                 }
                 else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
                 {
-                    asset = (int)(buildingData.m_customBuffer1 * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                    asset = (int)(buildingData.m_customBuffer1 * grain_export_price + buildingData.m_customBuffer2 * food_export_price);
                 }
                 else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
                 {
-                    asset = (int)(buildingData.m_customBuffer1 * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                    asset = (int)(buildingData.m_customBuffer1 * oil_export_price + buildingData.m_customBuffer2 * petrol_export_price);
                 }
                 else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
                 {
-                    asset = (int)(buildingData.m_customBuffer1 * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                    asset = (int)(buildingData.m_customBuffer1 * ore_export_price + buildingData.m_customBuffer2 * coal_export_price);
                 }
                 else
                 {
@@ -1124,7 +1124,7 @@ namespace RealCity
                 {
                     comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 24f;
                 }
-                else if (comm_data.building_money[buildingID] > 1000)
+                else if (comm_data.building_money[buildingID] > 200 * totalWorkerCount)
                 {
                     comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 12f;
                 }

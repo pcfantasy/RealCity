@@ -169,6 +169,14 @@ namespace RealCity
             "tip4",
             "tip5",
             "tip5",
+            "tip6",
+            "tip6",
+            "tip7",
+            "tip7",
+            "tip8",
+            "tip8",
+            "tip9",
+            "tip9",
         };
 
 
@@ -195,9 +203,9 @@ namespace RealCity
         "#RealCity Two months with discount salary, what happened with my workplace",
         "most of industrial buildings are lossing money.",
         "#RealCity Too many trucks through our city with noise but without any benefits!",
-        "Can build road maintain buildings to earn road toll of feedthrough truck",
-        "#RealCity Road toll, nice idea, but please use the money to improve our life.",
-        "Feedthrough trucks will give us road toll now, make traffic smooth to earn money",
+        "Build road maintain buildings to earn money and let more cargotrucks to bring in demand",
+        "#RealCity .",
+        "We are sending trucks to maintain outside road now",
         "#RealCity Neighbour city is full of garbage now, wish our city will not like that in the future",
         "Can build landfiller, our neighbour city is full of garbage now",
         "#RealCity Oh, I see a lot of garbage cars moving in, any deals with outside city!",
@@ -206,6 +214,19 @@ namespace RealCity
         "Can building cemetery ,neighbour city aging population is high and lack of cemetery",
         "#RealCity Cemetery price is higher than house in Neighbour city, they try to bury dead to our city",
         "A lot of hearse cars are moving in,take care of your cemetery capacity",
+        "#RealCity  ",
+        "Can build hospital, our neighbour city need first aid help",
+        "#RealCity  ",
+        "Sending ambulance to outside for first aid help now",
+        "#RealCity  ",
+        "Can build firestation, our neighbour city need Fire inspection Help",
+        "#RealCity  ",
+        "Sending firetruck to outside for Fire inspection Help now",
+        "#RealCity  ",
+        "Can build policestation, our neighbour city need Police Patrol Help",
+        "#RealCity  ",
+        "Sending policecar to outside for Police Patrol Help now",
+        "In earlier game, can use outside hospital and firestation for help.",
         };
 
 
@@ -511,6 +532,19 @@ namespace RealCity
         "可以建造更多公墓，邻市老年人很多且墓地不足。",
         "#真实城市 邻市的墓地价格比房价还贵，他们都把遗体运到我们市来埋葬。",
         "许多灵柩车正将遗体运到本市，控制好墓地的容量。",
+        "#真实城市 ",
+        "可以建造医院，邻市需要急救车支援。",
+        "#真实城市 ",
+        "正在派出急救车去邻市进行急救支援。",
+        "#真实城市 ",
+        "可以建造消防局，邻市需要消防车进行消防检查。",
+        "#真实城市 ",
+        "正在派出消防车去邻市进行消防检查。",
+        "#真实城市 ",
+        "可以建造警察局，邻市需要警车进行巡逻。",
+        "#真实城市 ",
+        "正在派出警车去邻市进行巡逻。",
+        "城市发展初期，医院和消防请让外部帮助。",
         };
 
 
