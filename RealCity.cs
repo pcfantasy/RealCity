@@ -25,10 +25,14 @@ namespace RealCity
         public static string tip3_message_forgui = "";
         public static string tip4_message_forgui = "";
         public static string tip5_message_forgui = "";
+        public static string tip6_message_forgui = "";
+        public static string tip7_message_forgui = "";
+        public static string tip8_message_forgui = "";
+        public static string tip9_message_forgui = "";
 
-        public static string tip1_message = "";
-        public static string tip2_message = "";
-        public static string tip3_message = "";
+        //public static string tip1_message = "";
+        //public static string tip2_message = "";
+        //public static string tip3_message = "";
 
         public static int language_idex = 0;
 
@@ -438,6 +442,42 @@ namespace RealCity
                     try_say_something(language.TipAndChirperMessage[31]);
                     tip5_message_forgui = language.TipAndChirperMessage[32];
                 }
+
+                if (!pc_OutsideConnectionAI.have_hospital_building)
+                {
+                    try_say_something(language.TipAndChirperMessage[33]);
+                    tip6_message_forgui = language.TipAndChirperMessage[34];
+                }
+                else
+                {
+                    try_say_something(language.TipAndChirperMessage[35]);
+                    tip6_message_forgui = language.TipAndChirperMessage[36];
+                }
+
+                if (!pc_OutsideConnectionAI.have_fire_building)
+                {
+                    try_say_something(language.TipAndChirperMessage[37]);
+                    tip7_message_forgui = language.TipAndChirperMessage[38];
+                }
+                else
+                {
+                    try_say_something(language.TipAndChirperMessage[39]);
+                    tip7_message_forgui = language.TipAndChirperMessage[40];
+                }
+
+                if (!pc_OutsideConnectionAI.have_police_building)
+                {
+                    try_say_something(language.TipAndChirperMessage[41]);
+                    tip8_message_forgui = language.TipAndChirperMessage[42];
+                }
+                else
+                {
+                    try_say_something(language.TipAndChirperMessage[43]);
+                    tip8_message_forgui = language.TipAndChirperMessage[44];
+                }
+
+
+                tip9_message_forgui = language.TipAndChirperMessage[45];
             }
 
             public void try_say_something(string message)

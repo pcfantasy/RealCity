@@ -789,5 +789,165 @@ namespace RealCity
             }
         }
 
+        protected void CalculateOwnVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+        {
+            VehicleManager instance = Singleton<VehicleManager>.instance;
+            ushort num = data.m_ownVehicles;
+            int num2 = 0;
+            while (num != 0)
+            {
+                if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material)
+                {
+                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                    int a;
+                    int num3;
+                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                    cargo += Mathf.Min(a, num3);
+                    capacity += num3;
+                    count++;
+                    if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                    {
+                        outside++;
+                    }
+                }
+                num = instance.m_vehicles.m_buffer[(int)num].m_nextOwnVehicle;
+                if (++num2 > 16384)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+        }
+
+
+
+
+
+
+        protected void ProduceHospitalGoods(ushort buildingID, ref Building buildingData)
+        {
+            int num = productionRate * this.GetHealthcareAccumulation() / 100;
+            if (num != 0)
+            {
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.HealthCare, num, buildingData.m_position, this.m_healthCareRadius);
+            }
+            int curingRate = this.GetCuringRate();
+            int num2 = (curingRate * productionRate * 100 + this.m_patientCapacity - 1) / this.m_patientCapacity;
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num3 = buildingData.m_citizenUnits;
+            int num4 = 0;
+            int num5 = 0;
+            int num6 = 0;
+            while (num3 != 0u)
+            {
+                uint nextUnit = instance.m_units.m_buffer[(int)((UIntPtr)num3)].m_nextUnit;
+                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num3)].m_flags & CitizenUnit.Flags.Visit) != 0)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        uint citizen = instance.m_units.m_buffer[(int)((UIntPtr)num3)].GetCitizen(i);
+                        if (citizen != 0u)
+                        {
+                            if (instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Dead)
+                            {
+                                if (instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation == Citizen.Location.Visit)
+                                {
+                                    instance.ReleaseCitizen(citizen);
+                                }
+                            }
+                            else if (instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Sick)
+                            {
+                                if (instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation == Citizen.Location.Visit)
+                                {
+                                    if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10000u) < num2 && Singleton<SimulationManager>.instance.m_randomizer.Int32(32u) == 0)
+                                    {
+                                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Sick = false;
+                                        num6++;
+                                    }
+                                    else
+                                    {
+                                        num5++;
+                                    }
+                                }
+                                else
+                                {
+                                    num5++;
+                                }
+                            }
+                        }
+                    }
+                }
+                num3 = nextUnit;
+                if (++num4 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+            behaviour.m_sickCount += num5;
+            buildingData.m_tempExport = (byte)Mathf.Min((int)buildingData.m_tempExport + num6, 255);
+            DistrictManager instance2 = Singleton<DistrictManager>.instance;
+            byte district = instance2.GetDistrict(buildingData.m_position);
+            District[] expr_26A_cp_0_cp_0 = instance2.m_districts.m_buffer;
+            byte expr_26A_cp_0_cp_1 = district;
+            expr_26A_cp_0_cp_0[(int)expr_26A_cp_0_cp_1].m_productionData.m_tempHealCapacity = expr_26A_cp_0_cp_0[(int)expr_26A_cp_0_cp_1].m_productionData.m_tempHealCapacity + (uint)this.m_patientCapacity;
+            int num7 = 0;
+            int num8 = 0;
+            int num9 = 0;
+            int num10 = 0;
+            base.CalculateOwnVehicles(buildingID, ref buildingData, TransferManager.TransferReason.Sick, ref num7, ref num8, ref num9, ref num10);
+            int num11 = this.m_patientCapacity - num5 - num9;
+            int num12 = (productionRate * this.m_ambulanceCount + 99) / 100;
+            if (num11 >= 1)
+            {
+                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                offer.Building = buildingID;
+                offer.Position = buildingData.m_position;
+                if (num7 < num12)
+                {
+                    offer.Priority = 7;
+                    offer.Amount = Mathf.Min(num11, num12 - num7);
+                    offer.Active = true;
+                }
+                else
+                {
+                    offer.Priority = 1;
+                    offer.Amount = num11;
+                    offer.Active = false;
+                }
+                Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Sick, offer);
+            }
+        }
+
+
+
+        // FireStationAI
+        protected void ProduceFireGoods(ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
+        {
+            base.ProduceGoods(buildingID, ref buildingData, ref frameData, productionRate, ref behaviour, aliveWorkerCount, totalWorkerCount, workPlaceCount, aliveVisitorCount, totalVisitorCount, visitPlaceCount);
+            int num = productionRate * this.m_fireDepartmentAccumulation / 100;
+            if (num != 0)
+            {
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.FireDepartment, num, buildingData.m_position, this.m_fireDepartmentRadius);
+            }
+            //base.HandleDead(buildingID, ref buildingData, ref behaviour, totalWorkerCount);
+            int num2 = 0;
+            int num3 = 0;
+            int num4 = 0;
+            int num5 = 0;
+            this.CalculateOwnVehicles(buildingID, ref buildingData, TransferManager.TransferReason.Fire, ref num2, ref num3, ref num4, ref num5);
+            int num6 = (productionRate * this.m_fireTruckCount + 99) / 100;
+            if (num2 < num6)
+            {
+                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                offer.Priority = (num6 - num2) * 3 / num6;
+                offer.Building = buildingID;
+                offer.Position = buildingData.m_position;
+                offer.Amount = num6 - num2;
+                offer.Active = true;
+                Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Fire, offer);
+            }
+        }
+
     }
 }
