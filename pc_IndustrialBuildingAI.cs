@@ -143,13 +143,13 @@ namespace RealCity
             switch (this.m_info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:
-                    ConsumptionDivider = 1; break;
+                    ConsumptionDivider = comm_data.ConsumptionDivider; break;
                 case ItemClass.SubService.IndustrialFarming:
-                    ConsumptionDivider = 1; break;
+                    ConsumptionDivider = comm_data.ConsumptionDivider; break;
                 case ItemClass.SubService.IndustrialOil:
-                    ConsumptionDivider = 1; break;
+                    ConsumptionDivider = comm_data.ConsumptionDivider; break;
                 case ItemClass.SubService.IndustrialOre:
-                    ConsumptionDivider = 1; break;
+                    ConsumptionDivider = comm_data.ConsumptionDivider; break;
                 default:
                     ConsumptionDivider = comm_data.ConsumptionDivider; break;
             }
@@ -187,6 +187,11 @@ namespace RealCity
             }
 
             ConsumptionDivider = ConsumptionDivider * final_idex;
+
+            if (ConsumptionDivider < 1f)
+            {
+                ConsumptionDivider = 1f;
+            }
 
 
             return ConsumptionDivider;

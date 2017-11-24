@@ -57,7 +57,7 @@ namespace RealCity
             ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
             uint homeid = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
 
-            int num = 1000;
+            int num = 100;
             TransferManager.TransferReason temp_transfer_reason = TransferManager.TransferReason.None;
 
             switch (instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info.m_class.m_subService)
@@ -122,7 +122,7 @@ namespace RealCity
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
-                num = -1000;
+                num = -100;
                 info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num);
             }
 

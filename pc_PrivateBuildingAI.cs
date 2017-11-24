@@ -46,30 +46,30 @@ namespace RealCity
         //public static ushort visit_leisure_count = 0;
 
         public const float good_export_price = 1.5f;
-        public const float food_export_price = 2f;
-        public const float petrol_export_price = 4.5f;
-        public const float coal_export_price = 5f;
-        public const float lumber_export_price = 2.5f;
-        public const float oil_export_price = 2.5f;
-        public const float ore_export_price = 2.25f;
-        public const float grain_export_price = 1f;
-        public const float log_export_price = 1.25f;       
+        public const float food_export_price = 0.1f * comm_data.ConsumptionDivider;
+        public const float petrol_export_price = 0.225f * comm_data.ConsumptionDivider;
+        public const float coal_export_price = 0.25f * comm_data.ConsumptionDivider;
+        public const float lumber_export_price = 0.125f * comm_data.ConsumptionDivider;
+        public const float oil_export_price = 0.125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float ore_export_price = 0.1125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
 
         public const float good_import_price = 2.7f;
-        public const float food_import_price = 3.6f;
-        public const float petrol_import_price = 9f;
-        public const float coal_import_price = 8.1f;
-        public const float lumber_import_price = 4.5f;
-        public const float oil_import_price = 8f;
-        public const float ore_import_price = 7.2f;
-        public const float grain_import_price = 1.6f;
-        public const float log_import_price = 2f;
+        public const float food_import_price = 0.18f * comm_data.ConsumptionDivider;
+        public const float petrol_import_price = 0.45f * comm_data.ConsumptionDivider;
+        public const float coal_import_price = 0.405f * comm_data.ConsumptionDivider;
+        public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider;
+        public const float oil_import_price = 0.4f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float ore_import_price = 0.36f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
 
         public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
         public static float petrol_export_ratio = 1f;
         public static float coal_export_ratio = 1f;
-        public static float lumber_export_ratio = 01f;
+        public static float lumber_export_ratio = 1f;
         public static float oil_export_ratio = 1f;
         public static float ore_export_ratio = 1f;
         public static float grain_export_ratio = 1f;

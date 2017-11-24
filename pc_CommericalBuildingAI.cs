@@ -23,6 +23,11 @@ namespace RealCity
             return num;
         }
 
+        private TransferManager.TransferReason GetIncomingTransferReason()
+        {
+            return  TransferManager.TransferReason.Goods;
+        }
+
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             switch (material)
@@ -38,7 +43,7 @@ namespace RealCity
                 default:
                     if (material != TransferManager.TransferReason.Shopping)
                     {
-                        if (material == TransferManager.TransferReason.Goods || material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Petrol)
+                        if (material == TransferManager.TransferReason.Goods)
                         {
                             int width = data.Width;
                             int length = data.Length;

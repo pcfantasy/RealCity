@@ -8,7 +8,7 @@
         public const byte game_maintain_fee_decrease2 = 1;
         public const byte game_maintain_fee_decrease3 = 1;
 
-        public const int ConsumptionDivider = 20;
+        public const float ConsumptionDivider = 10f;
 
         //1.  citizen
         //1.1 citizen salary

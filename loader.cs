@@ -78,6 +78,7 @@ namespace RealCity
         public static RedirectCallsState state43;
         public static RedirectCallsState state44;
         public static RedirectCallsState state45;
+        public static RedirectCallsState state46;
 
         public override void OnCreated(ILoading loading)
         {
@@ -455,6 +456,10 @@ namespace RealCity
             var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
             var destMethod45 = typeof(pc_PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
             state45 = RedirectionHelper.RedirectCalls(srcMethod45, destMethod45);
+
+            var srcMethod46 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            var destMethod46 = typeof(pc_CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            state46 = RedirectionHelper.RedirectCalls(srcMethod46, destMethod46);
         }
 
         public void revert_detour()
@@ -506,6 +511,7 @@ namespace RealCity
             //protected override void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
             var srcMethod44 = typeof(IndustrialBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
             var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
+            var srcMethod46 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -552,6 +558,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod43, state43);
             RedirectionHelper.RevertRedirect(srcMethod44, state44);
             RedirectionHelper.RevertRedirect(srcMethod45, state45);
+            RedirectionHelper.RevertRedirect(srcMethod46, state46);
         }
     }
 }
