@@ -607,13 +607,13 @@ namespace RealCity
                     switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service)
                     {
                         case ItemClass.Service.Office:
-                            int aliveworkcount = 0;
-                            int totalworkcount = 0;
-                            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
-                            if (totalworkcount != 0)
+                            int aliveworkcount1 = 0;
+                            int totalworkcount1 = 0;
+                            Citizen.BehaviourData behaviour1 = default(Citizen.BehaviourData);
+                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
+                            if (aliveworkcount1 != 0)
                             {
-                                num = (int)(comm_data.building_money[work_building] / totalworkcount);
+                                num = (int)(comm_data.building_money[work_building] / aliveworkcount1);
                             }
                             comm_data.building_money[work_building] -= num;
                             break;                           
@@ -812,6 +812,12 @@ namespace RealCity
                         DebugLog.LogToFileOnly("find unknown citizen workbuilding" + " building servise is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service + " building subservice is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService);
                     }
 
+
+                    int aliveworkcount = 0;
+                    int totalworkcount = 0;
+                    Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                    BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
+
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office)
                     {
                         //num = num;
@@ -820,7 +826,7 @@ namespace RealCity
                     {
                         num = (int)((float)num * comm_data.salary_idex / 1.5f + 0.5f);
                     }
-                    else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 1000)
+                    else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 1000 + aliveworkcount*200)
                     {
                         num = (int)((float)num * comm_data.salary_idex * 1.33f + 0.5f);
                     }

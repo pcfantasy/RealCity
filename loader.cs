@@ -76,6 +76,8 @@ namespace RealCity
         public static RedirectCallsState state41;
         public static RedirectCallsState state42;
         public static RedirectCallsState state43;
+        public static RedirectCallsState state44;
+        public static RedirectCallsState state45;
 
         public override void OnCreated(ILoading loading)
         {
@@ -442,6 +444,17 @@ namespace RealCity
             var destMethod43 = typeof(pc_PrivateBuildingAI).GetMethod("CalculateGuestVehicles_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
             state43 = RedirectionHelper.RedirectCalls(srcMethod43, destMethod43);
 
+            //var srcMethod44 = typeof(IndustrialBuildingAI).GetMethod("GetConsumptionDivider", BindingFlags.NonPublic | BindingFlags.Instance);
+            //var destMethod44 = typeof(pc_IndustrialBuildingAI).GetMethod("GetConsumptionDivider", BindingFlags.NonPublic | BindingFlags.Instance);
+            //state44 = RedirectionHelper.RedirectCalls(srcMethod44, destMethod44);
+
+            var srcMethod44 = typeof(IndustrialBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
+            var destMethod44 = typeof(pc_IndustrialBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
+            state44 = RedirectionHelper.RedirectCalls(srcMethod44, destMethod44);
+
+            var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
+            var destMethod45 = typeof(pc_PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
+            state45 = RedirectionHelper.RedirectCalls(srcMethod45, destMethod45);
         }
 
         public void revert_detour()
@@ -490,6 +503,9 @@ namespace RealCity
             var srcMethod43 = typeof(CommonBuildingAI).GetMethod("CalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
             var srcMethod42 = typeof(IndustrialBuildingAI).GetMethod("BuildingDeactivated", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
 
+            //protected override void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
+            var srcMethod44 = typeof(IndustrialBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
+            var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -534,6 +550,8 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod41, state41);
             RedirectionHelper.RevertRedirect(srcMethod42, state42);
             RedirectionHelper.RevertRedirect(srcMethod43, state43);
+            RedirectionHelper.RevertRedirect(srcMethod44, state44);
+            RedirectionHelper.RevertRedirect(srcMethod45, state45);
         }
     }
 }
