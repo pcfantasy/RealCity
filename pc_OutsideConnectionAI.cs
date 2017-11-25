@@ -163,7 +163,7 @@ namespace RealCity
                         if (comm_data.building_money[buildingID] == 70000000f)
                         {
                             ProduceHospitalGoods(buildingID, num3, ref data, ref instance.m_buildings.m_buffer[num3]);
-                            ProduceFireGoods(buildingID, num3, ref data, ref instance.m_buildings.m_buffer[num3]);
+                            //ProduceFireGoods(buildingID, num3, ref data, ref instance.m_buildings.m_buffer[num3]);
                             ProducePoliceGoods(buildingID, num3, ref data, ref instance.m_buildings.m_buffer[num3]);
                             // add connection
                         }
@@ -947,7 +947,7 @@ namespace RealCity
                                     {
                                         instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Sick = false;
                                         instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_visitBuilding = buildingID1;
-                                        DebugLog.LogToFileOnly("sick man is ok now, switch to buildingID1 to let him go");
+                                        //DebugLog.LogToFileOnly("sick man is ok now, switch to buildingID1 to let him go");
                                         num6++;
                                     }
                                     else
@@ -994,7 +994,7 @@ namespace RealCity
             int num11 = m_patientCapacity - num5 - num9 - num19;
             int num12 = (100 * m_ambulanceCount + 99) / 100;
 
-            if (comm_data.hospitalhelp)
+            if (comm_data.hospitalhelp && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
             {
                 if (num11 >= 1)
                 {
@@ -1118,7 +1118,7 @@ namespace RealCity
                                             UIntPtr expr_310_cp_1 = (UIntPtr)citizen;
                                             expr_310_cp_0[(int)expr_310_cp_1].m_flags = (expr_310_cp_0[(int)expr_310_cp_1].m_flags & ~Citizen.Flags.Evacuating);
                                             humanAI.StartMoving(citizen, ref instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)], buildingID1, homeBuilding);
-                                            DebugLog.LogToFileOnly("crime man is ok now, switch to buildingID1 to let him go");
+                                            //DebugLog.LogToFileOnly("crime man is ok now, switch to buildingID1 to let him go");
                                         }
                                     }
                                     if (instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation != Citizen.Location.Visit && instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_visitBuilding == buildingID)
@@ -1167,7 +1167,7 @@ namespace RealCity
 
             int num18 = (100 * m_policeCarCount + 99) / 100;
             comm_data.outside_police_car += (ushort)(num10 + num14);
-            if (comm_data.policehelp)
+            if (comm_data.policehelp && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
             {
                 if ((num10 + num14) < num18)
                 {

@@ -386,17 +386,19 @@ namespace RealCity
                     generate_tips();
 
                     //initialize building ui again
+                    if (comm_data.update_outside_count == 16)
+                    {
+                        Loader.guiPanel2.transform.parent = Loader.buildingInfo.transform;
+                        Loader.guiPanel2.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
+                        Loader.guiPanel2.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
+                        Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
 
-                    Loader.guiPanel2.transform.parent = Loader.buildingInfo.transform;
-                    Loader.guiPanel2.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
-                    Loader.guiPanel2.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-                    Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
-
-                    //initialize human ui again
-                    Loader.guiPanel3.transform.parent = Loader.HumanInfo.transform;
-                    Loader.guiPanel3.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
-                    Loader.guiPanel3.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
-                    Loader.guiPanel3.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                        //initialize human ui again
+                        Loader.guiPanel3.transform.parent = Loader.HumanInfo.transform;
+                        Loader.guiPanel3.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                        Loader.guiPanel3.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
+                        Loader.guiPanel3.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                    }
 
                     /*if ((language.current_language != comm_data.last_language) || (language.current_language == 255))
                     {
@@ -540,36 +542,36 @@ namespace RealCity
                     tip5_message_forgui = language.TipAndChirperMessage[32];
                 }
 
-                if (!pc_OutsideConnectionAI.have_hospital_building && (comm_data.sick_connection))
+                if (!pc_OutsideConnectionAI.have_hospital_building || (!comm_data.sick_connection))
                 {
-                    try_say_something(language.TipAndChirperMessage[33]);
+                    //try_say_something(language.TipAndChirperMessage[33]);
                     tip6_message_forgui = language.TipAndChirperMessage[34];
                 }
                 else
                 {
-                    try_say_something(language.TipAndChirperMessage[35]);
+                    //try_say_something(language.TipAndChirperMessage[35]);
                     tip6_message_forgui = language.TipAndChirperMessage[36];
                 }
 
                 if (!pc_OutsideConnectionAI.have_fire_building && (comm_data.fire_connection))
                 {
-                    try_say_something(language.TipAndChirperMessage[37]);
+                    //try_say_something(language.TipAndChirperMessage[37]);
                     tip7_message_forgui = language.TipAndChirperMessage[38];
                 }
                 else
                 {
-                    try_say_something(language.TipAndChirperMessage[39]);
+                    //try_say_something(language.TipAndChirperMessage[39]);
                     tip7_message_forgui = language.TipAndChirperMessage[40];
                 }
 
-                if (!pc_OutsideConnectionAI.have_police_building && (comm_data.crime_connection))
+                if (!pc_OutsideConnectionAI.have_police_building || (!comm_data.crime_connection))
                 {
-                    try_say_something(language.TipAndChirperMessage[41]);
+                    //try_say_something(language.TipAndChirperMessage[41]);
                     tip8_message_forgui = language.TipAndChirperMessage[42];
                 }
                 else
                 {
-                    try_say_something(language.TipAndChirperMessage[43]);
+                    //try_say_something(language.TipAndChirperMessage[43]);
                     tip8_message_forgui = language.TipAndChirperMessage[44];
                 }
 

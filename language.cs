@@ -239,7 +239,7 @@ namespace RealCity
         "Can build policestation, our neighbour city need Police Patrol Help",
         "#RealCity  ",
         "Sending policecar to outside for Police Patrol Help now",
-        "In earlier game, can use outside hospital policestation and firestation for help.",
+        "In earlier game, can use outside hospital and policestation for help.",
         };
 
 
@@ -578,7 +578,7 @@ namespace RealCity
         "可以建造警察局，邻市需要警车进行巡逻。",
         "#真实城市 ",
         "正在派出警车去邻市进行巡逻。",
-        "城市发展初期，医院、消防和警务请让外部帮助。",
+        "城市发展初期，医院和警务请让外部帮助。",
         };
 
 
