@@ -399,7 +399,7 @@
 
         //resident consumption rate, outside consumption rate
         public static float resident_consumption_rate = 0.1f;
-        public static float outside_consumption_rate = 0.5f;
+        public static float outside_consumption_rate = 1f;
         public static byte update_outside_count = 0;
 
         //use it to decrease mantain fee in early game time
@@ -433,6 +433,10 @@
         public static bool is_help_resident = false;
         public static bool is_help_company = false;
 
+        public static bool firehelp = false;
+        public static bool hospitalhelp = false;
+        public static bool policehelp = false;
+
         public static uint outside_road_count_temp = 0;
         public static uint outside_firestation_count_temp = 0;
         public static uint outside_road_count = 0;
@@ -440,6 +444,12 @@
 
         public static ushort outside_road_num = 0;
         public static ushort outside_road_num_final = 0;
+
+        public static long outside_patient = 0;
+        public static ushort outside_ambulance_car = 0;
+        public static long outside_crime = 0;
+        public static ushort outside_police_car = 0;
+        public static ushort firetruck = 0;
 
         // reserved some for futher used
         public static ushort[] reserved = new ushort[49082];

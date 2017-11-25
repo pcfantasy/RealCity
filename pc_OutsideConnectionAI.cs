@@ -25,6 +25,29 @@ namespace RealCity
 
         public static int m_dummyTrafficFactor = 1000;
 
+        public static int m_patientCapacity = 200;
+
+        public static int m_healthCareAccumulation = 200;
+
+        public static float m_healthCareRadius = 800f;
+
+        public static int m_curingRate = 20;
+
+        public static int m_ambulanceCount = 20;
+
+        public static int m_fireDepartmentAccumulation = 200;
+
+        public static int m_fireTruckCount = 20;
+
+        public static float m_fireDepartmentRadius = 1000f;
+
+        public static int m_policeDepartmentAccumulation = 200;
+        public static int m_jailCapacity = 40;
+        public static float m_policeDepartmentRadius = 1000f;
+        public static int m_sentenceWeeks = 15;
+        public static int m_policeCarCount = 20;
+
+
         /*public static void Init()
         {
             //DebugLog.Log("Init fake transfer manager");
@@ -111,13 +134,45 @@ namespace RealCity
                 }
                 m_dummyTrafficFactor = rand.Next(800) + 200;
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
+                caculate_outside_situation(buildingID, ref data);
                 process_outside_demand(buildingID, ref data);
                 Addotherconnectionoffers(buildingID, ref data);
-                caculate_outside_situation(buildingID, ref data);
+                Addotherconnectionservice(buildingID, ref data);
             }
         }
 
 
+        public void Addotherconnectionservice(ushort buildingID, ref Building data)
+        {
+            if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+            {
+                if (data.Info.m_class.m_service == ItemClass.Service.Road)
+                {
+                    BuildingManager instance = Singleton<BuildingManager>.instance;
+                    ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[buildingID].m_position, 200f, data.Info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
+                    if (num3 != 0)
+                    {
+                        if (comm_data.building_money[buildingID] == 70000000f)
+                        {
+                            ProduceHospitalGoods(buildingID, num3, ref data, ref instance.m_buildings.m_buffer[num3]);
+                            ProduceFireGoods(buildingID, num3, ref data, ref instance.m_buildings.m_buffer[num3]);
+                            ProducePoliceGoods(buildingID, num3, ref data, ref instance.m_buildings.m_buffer[num3]);
+                            // add connection
+                        }
+
+
+                        if (comm_data.building_money[buildingID] != 70000000f)
+                        {
+                            // create unit for building
+                            //Singleton<CitizenManager>.instance.CreateUnits(out data.m_citizenUnits, ref Singleton<SimulationManager>.instance.m_randomizer, num3, 0, 0, 0, m_patientCapacity, 0, 0);
+                            Singleton<CitizenManager>.instance.CreateUnits(out data.m_citizenUnits, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, 0, 0, m_patientCapacity + m_jailCapacity, 0, 0);
+                            comm_data.building_money[buildingID] = 70000000f;
+                        }
+                    }
+                }
+            } 
+
+        }
 
         public void caculate_outside_situation (ushort buildingID, ref Building data)
         {
@@ -129,6 +184,7 @@ namespace RealCity
                 comm_data.outside_garbage_count_temp += data.m_garbageBuffer;
                 comm_data.outside_firestation_count_temp += data.m_electricityBuffer;
                 comm_data.outside_road_count_temp += data.m_waterBuffer;
+                //DebugLog.LogToFileOnly("data.m_waterBuffer = " + data.m_waterBuffer.ToString());
                 if (data.Info.m_class.m_service == ItemClass.Service.Road)
                 {
                     if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
@@ -153,6 +209,11 @@ namespace RealCity
                 comm_data.outside_firestation_count_temp = 0;
                 comm_data.outside_road_count_temp = 0;
                 comm_data.outside_road_num = 0;
+                comm_data.outside_patient = 0;
+                comm_data.outside_ambulance_car = 0;
+                comm_data.outside_crime = 0;
+                comm_data.outside_police_car = 0;
+                comm_data.firetruck = 0;
             }
 
             comm_data.outside_pre_building = buildingID;
@@ -171,7 +232,7 @@ namespace RealCity
                 {
                     data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 300);
                 }
-                else if (RealCity.update_once)
+                else if (RealCity.update_once && (data.m_garbageBuffer != 0))
                 {
                     data.m_garbageBuffer = 0;
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -183,11 +244,11 @@ namespace RealCity
 
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    if (have_police_building && comm_data.crime_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
+                    if (have_police_building && comm_data.crime_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment) && (!comm_data.policehelp))
                     {
                         data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 1);
                     }
-                    else if (RealCity.update_once)
+                    else if (RealCity.update_once && (data.m_crimeBuffer != 0))
                     {
                         data.m_crimeBuffer = 0;
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -195,11 +256,11 @@ namespace RealCity
                         Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Crime, offer);
                     }
                     //sick
-                    if (have_hospital_building && comm_data.sick_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                    if (have_hospital_building && comm_data.sick_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare) && (!comm_data.hospitalhelp))
                     {
                         data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
                     }
-                    else if (RealCity.update_once)
+                    else if (RealCity.update_once && (data.m_customBuffer2 != 0))
                     {
                         data.m_customBuffer2 = 0;
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -207,12 +268,12 @@ namespace RealCity
                         Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Sick, offer);
                     }
                     //fire
-                    if (have_fire_building && comm_data.fire_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.FireDepartment))
+                    if (have_fire_building && comm_data.fire_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.FireDepartment) && (!comm_data.firehelp))
                     {
                         data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + 1);
                         data.m_fireIntensity = 250;
                     }
-                    else if (RealCity.update_once)
+                    else if (RealCity.update_once && (data.m_electricityBuffer != 0))
                     {
                         data.m_electricityBuffer = 0;
                         data.m_fireIntensity = 0;
@@ -225,9 +286,9 @@ namespace RealCity
                     {
                         data.m_waterBuffer = (ushort)(data.m_waterBuffer + 200);
                     }
-                    else if (RealCity.update_once)
+                    else if (RealCity.update_once && (data.m_waterBuffer != 31000))
                     {
-                        data.m_waterBuffer = 0;
+                        data.m_waterBuffer = 31000;
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                         offer.Building = buildingID;
                         Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
@@ -240,7 +301,7 @@ namespace RealCity
                     {
                         data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 1);
                     }
-                    else if (RealCity.update_once)
+                    else if (RealCity.update_once && (data.m_customBuffer1 != 0))
                     {
                         data.m_customBuffer1 = 0;
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -524,41 +585,51 @@ namespace RealCity
                     }
                 }
             }
-            /*else if (material == TransferManager.TransferReason.Crime)
+            else if (material == TransferManager.TransferReason.Crime)
             {
-                VehicleInfo randomVehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level2);
+                VehicleInfo randomVehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level1);
                 if (randomVehicleInfo != null)
                 {
                     Array16<Vehicle> vehicles = Singleton<VehicleManager>.instance.m_vehicles;
                     ushort num;
-                    DebugLog.LogToFileOnly("try transfer Crime to city, itemclass = " + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_subService.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_level.ToString());
+                    //DebugLog.LogToFileOnly("try help fire for city");
                     if (Singleton<VehicleManager>.instance.CreateVehicle(out num, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo, data.m_position, material, true, false))
                     {
                         randomVehicleInfo.m_vehicleAI.SetSource(num, ref vehicles.m_buffer[(int)num], buildingID);
                         randomVehicleInfo.m_vehicleAI.StartTransfer(num, ref vehicles.m_buffer[(int)num], material, offer);
-                        vehicles.m_buffer[(int)num].m_transferSize = 1;
-                        vehicles.m_buffer[(int)num].m_flags |= Vehicle.Flags.GoingBack;
-                        vehicles.m_buffer[(int)num].m_flags |= Vehicle.Flags.Emergency2;
                     }
                 }
-            } else if (material == TransferManager.TransferReason.Sick)
+            }
+            else if (material == TransferManager.TransferReason.Fire)
             {
-                VehicleInfo randomVehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service, Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_subService, Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_level);
+                VehicleInfo randomVehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.FireDepartment, ItemClass.SubService.None, ItemClass.Level.Level1);
                 if (randomVehicleInfo != null)
                 {
                     Array16<Vehicle> vehicles = Singleton<VehicleManager>.instance.m_vehicles;
                     ushort num;
-                    DebugLog.LogToFileOnly("try transfer Sick to city, itemclass = " + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_subService.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_level.ToString());
+                    //DebugLog.LogToFileOnly("try help fire for city");
                     if (Singleton<VehicleManager>.instance.CreateVehicle(out num, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo, data.m_position, material, true, false))
                     {
                         randomVehicleInfo.m_vehicleAI.SetSource(num, ref vehicles.m_buffer[(int)num], buildingID);
                         randomVehicleInfo.m_vehicleAI.StartTransfer(num, ref vehicles.m_buffer[(int)num], material, offer);
-                        vehicles.m_buffer[(int)num].m_transferSize = 1;
-                        vehicles.m_buffer[(int)num].m_flags |= Vehicle.Flags.GoingBack;
-                        vehicles.m_buffer[(int)num].m_flags |= Vehicle.Flags.Emergency2;
                     }
                 }
-            }*/
+            }
+            else if (material == TransferManager.TransferReason.Sick)
+            {
+                VehicleInfo randomVehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                if (randomVehicleInfo != null)
+                {
+                    Array16<Vehicle> vehicles = Singleton<VehicleManager>.instance.m_vehicles;
+                    ushort num;
+                    //DebugLog.LogToFileOnly("try transfer patient outof city");
+                    if (Singleton<VehicleManager>.instance.CreateVehicle(out num, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo, data.m_position, material, true, false))
+                    {
+                        randomVehicleInfo.m_vehicleAI.SetSource(num, ref vehicles.m_buffer[(int)num], buildingID);
+                        randomVehicleInfo.m_vehicleAI.StartTransfer(num, ref vehicles.m_buffer[(int)num], material, offer);
+                    }
+                }
+            }
             else
             {
                 if (!OutsideConnectionAI.StartConnectionTransfer(buildingID, ref data, material, offer, m_touristFactor0, m_touristFactor1, m_touristFactor2))
@@ -597,46 +668,51 @@ namespace RealCity
                 }
                 else if (material == TransferManager.TransferReason.Crime)
                 {
-                    if (data.m_crimeBuffer < 0)
+                    if (amountDelta < 0)
                     {
-                        DebugLog.LogToFileOnly("crime < 0 in outside building, should be wrong");
-                        amountDelta = 0;
-                    }
-                    else
-                    {
-                        if (data.m_crimeBuffer + amountDelta * 100 <= 0)
+                        if (data.m_crimeBuffer < 0)
                         {
-                            amountDelta = -data.m_crimeBuffer / 100 ;
+                            DebugLog.LogToFileOnly("crime < 0 in outside building, should be wrong");
+                            amountDelta = 0;
                         }
                         else
                         {
+                            if (data.m_crimeBuffer + amountDelta * 100 <= 0)
+                            {
+                                amountDelta = -data.m_crimeBuffer / 100;
+                            }
+                            else
+                            {
 
+                            }
+                            data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + amountDelta * 100);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -40000f), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
-                        data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + amountDelta * 100);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -40000f), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else if (material == TransferManager.TransferReason.Sick)
                 {
-                    if (data.m_customBuffer2 < 0)
+                    if (amountDelta < 0)
                     {
-                        DebugLog.LogToFileOnly("sick < 0 in outside building, should be wrong");
-                        amountDelta = 0;
-                    }
-                    else
-                    {
-                        if (data.m_customBuffer2 + amountDelta * 100 <= 0)
+                        if (data.m_customBuffer2 < 0)
                         {
-                            amountDelta = -data.m_customBuffer2 / 100;
+                            DebugLog.LogToFileOnly("sick < 0 in outside building, should be wrong");
+                            amountDelta = 0;
                         }
                         else
                         {
+                            if (data.m_customBuffer2 + amountDelta * 100 <= 0)
+                            {
+                                amountDelta = -data.m_customBuffer2 / 100;
+                            }
+                            else
+                            {
 
+                            }
+                            data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + amountDelta * 100);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -40000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
-                        data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + amountDelta * 100);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -40000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
-
                 }
                 else if (material == TransferManager.TransferReason.Fire)
                 {
@@ -824,15 +900,15 @@ namespace RealCity
 
 
 
-        protected void ProduceHospitalGoods(ushort buildingID, ref Building buildingData)
+        protected void ProduceHospitalGoods(ushort buildingID, ushort buildingID1, ref Building buildingData, ref Building buildingData1)
         {
-            int num = productionRate * this.GetHealthcareAccumulation() / 100;
+            int num = 100 * m_healthCareAccumulation / 200;
             if (num != 0)
             {
-                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.HealthCare, num, buildingData.m_position, this.m_healthCareRadius);
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.HealthCare, num, buildingData1.m_position, m_healthCareRadius);
             }
-            int curingRate = this.GetCuringRate();
-            int num2 = (curingRate * productionRate * 100 + this.m_patientCapacity - 1) / this.m_patientCapacity;
+            int curingRate = m_curingRate;
+            int num2 = (curingRate * 100 * 100 + m_patientCapacity - 1) / m_patientCapacity;
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint num3 = buildingData.m_citizenUnits;
             int num4 = 0;
@@ -862,6 +938,8 @@ namespace RealCity
                                     if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10000u) < num2 && Singleton<SimulationManager>.instance.m_randomizer.Int32(32u) == 0)
                                     {
                                         instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Sick = false;
+                                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_visitBuilding = buildingID1;
+                                        DebugLog.LogToFileOnly("sick man is ok now, switch to buildingID1 to let him go");
                                         num6++;
                                     }
                                     else
@@ -884,51 +962,64 @@ namespace RealCity
                     break;
                 }
             }
-            behaviour.m_sickCount += num5;
+            comm_data.outside_patient += num5;
             buildingData.m_tempExport = (byte)Mathf.Min((int)buildingData.m_tempExport + num6, 255);
             DistrictManager instance2 = Singleton<DistrictManager>.instance;
             byte district = instance2.GetDistrict(buildingData.m_position);
             District[] expr_26A_cp_0_cp_0 = instance2.m_districts.m_buffer;
             byte expr_26A_cp_0_cp_1 = district;
-            expr_26A_cp_0_cp_0[(int)expr_26A_cp_0_cp_1].m_productionData.m_tempHealCapacity = expr_26A_cp_0_cp_0[(int)expr_26A_cp_0_cp_1].m_productionData.m_tempHealCapacity + (uint)this.m_patientCapacity;
+            expr_26A_cp_0_cp_0[(int)expr_26A_cp_0_cp_1].m_productionData.m_tempHealCapacity = expr_26A_cp_0_cp_0[(int)expr_26A_cp_0_cp_1].m_productionData.m_tempHealCapacity + (uint)m_patientCapacity;
             int num7 = 0;
             int num8 = 0;
             int num9 = 0;
             int num10 = 0;
-            base.CalculateOwnVehicles(buildingID, ref buildingData, TransferManager.TransferReason.Sick, ref num7, ref num8, ref num9, ref num10);
-            int num11 = this.m_patientCapacity - num5 - num9;
-            int num12 = (productionRate * this.m_ambulanceCount + 99) / 100;
-            if (num11 >= 1)
+            this.CalculateOwnVehicles(buildingID, ref buildingData, TransferManager.TransferReason.Sick, ref num7, ref num8, ref num9, ref num10);
+
+            int num17 = 0;
+            int num18 = 0;
+            int num19 = 0;
+            int num20 = 0;
+            this.CalculateOwnVehicles(buildingID1, ref buildingData1, TransferManager.TransferReason.Sick, ref num17, ref num18, ref num19, ref num20);
+
+            comm_data.outside_ambulance_car += (ushort)(num7 + num17);
+
+            int num11 = m_patientCapacity - num5 - num9 - num19;
+            int num12 = (100 * m_ambulanceCount + 99) / 100;
+
+            if (comm_data.hospitalhelp)
             {
-                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                offer.Building = buildingID;
-                offer.Position = buildingData.m_position;
-                if (num7 < num12)
+                if (num11 >= 1)
                 {
-                    offer.Priority = 7;
-                    offer.Amount = Mathf.Min(num11, num12 - num7);
-                    offer.Active = true;
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Position = buildingData.m_position;
+                    if ((num7 + num17) < num12)
+                    {
+                        offer.Building = buildingID1;
+                        offer.Priority = 7;
+                        offer.Amount = Mathf.Min(num11, num12 - num7 - num17);
+                        offer.Active = true;
+                    }
+                    else
+                    {
+                        offer.Building = buildingID;
+                        offer.Priority = 1;
+                        offer.Amount = num11;
+                        offer.Active = false;
+                    }
+                    Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Sick, offer);
                 }
-                else
-                {
-                    offer.Priority = 1;
-                    offer.Amount = num11;
-                    offer.Active = false;
-                }
-                Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Sick, offer);
             }
         }
 
 
 
         // FireStationAI
-        protected void ProduceFireGoods(ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
+        protected void ProduceFireGoods(ushort buildingID, ushort buildingID1, ref Building buildingData, ref Building buildingData1)
         {
-            base.ProduceGoods(buildingID, ref buildingData, ref frameData, productionRate, ref behaviour, aliveWorkerCount, totalWorkerCount, workPlaceCount, aliveVisitorCount, totalVisitorCount, visitPlaceCount);
-            int num = productionRate * this.m_fireDepartmentAccumulation / 100;
+            int num = 100 * m_fireDepartmentAccumulation / 100;
             if (num != 0)
             {
-                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.FireDepartment, num, buildingData.m_position, this.m_fireDepartmentRadius);
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.FireDepartment, num, buildingData1.m_position, m_fireDepartmentRadius);
             }
             //base.HandleDead(buildingID, ref buildingData, ref behaviour, totalWorkerCount);
             int num2 = 0;
@@ -936,18 +1027,151 @@ namespace RealCity
             int num4 = 0;
             int num5 = 0;
             this.CalculateOwnVehicles(buildingID, ref buildingData, TransferManager.TransferReason.Fire, ref num2, ref num3, ref num4, ref num5);
-            int num6 = (productionRate * this.m_fireTruckCount + 99) / 100;
-            if (num2 < num6)
+
+            int num12 = 0;
+            int num13 = 0;
+            int num14 = 0;
+            int num15 = 0;
+            this.CalculateOwnVehicles(buildingID1, ref buildingData1, TransferManager.TransferReason.Fire, ref num12, ref num13, ref num14, ref num15);
+
+            int num6 = (100 * m_fireTruckCount + 99) / 100;
+
+            //comm_data.firetruck += (ushort)(num2 + num12);
+            if (comm_data.firehelp)
             {
-                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                offer.Priority = (num6 - num2) * 3 / num6;
-                offer.Building = buildingID;
-                offer.Position = buildingData.m_position;
-                offer.Amount = num6 - num2;
-                offer.Active = true;
-                Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Fire, offer);
+                if ((num2 + num12) < num6)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = (num6 - num2 - num12) * 3 / num6;
+                    offer.Building = buildingID1;
+                    offer.Position = buildingData1.m_position;
+                    offer.Amount = num6 - num2 - num12;
+                    offer.Active = true;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Fire, offer);
+                }
             }
         }
 
+
+
+        protected void ProducePoliceGoods(ushort buildingID, ushort buildingID1, ref Building buildingData, ref Building buildingData1)
+        {
+            DistrictManager instance = Singleton<DistrictManager>.instance;
+            byte district = instance.GetDistrict(buildingData.m_position);
+            DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[(int)district].m_servicePolicies;
+            int num2 = 100 * m_policeDepartmentAccumulation / 100;
+            if (num2 != 0)
+            {
+                Singleton<ImmaterialResourceManager>.instance.AddResource(ImmaterialResourceManager.Resource.PoliceDepartment, num2, buildingData1.m_position, m_policeDepartmentRadius);
+            }
+            int num4 = m_sentenceWeeks;
+            int num5 = 1000000 / Mathf.Max(1, num4 * 16);
+            CitizenManager instance2 = Singleton<CitizenManager>.instance;
+            uint num6 = buildingData.m_citizenUnits;
+            int num7 = 0;
+            int num8 = 0;
+            int num9 = 0;
+            while (num6 != 0u)
+            {
+                uint nextUnit = instance2.m_units.m_buffer[(int)((UIntPtr)num6)].m_nextUnit;
+                if ((ushort)(instance2.m_units.m_buffer[(int)((UIntPtr)num6)].m_flags & CitizenUnit.Flags.Visit) != 0)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        uint citizen = instance2.m_units.m_buffer[(int)((UIntPtr)num6)].GetCitizen(i);
+                        if (citizen != 0u)
+                        {
+                            //rush hour bug??
+                            if (!instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Sick)
+                            {
+                                instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested = true;
+                            }
+                            //DebugLog.LogToFileOnly("citizenID is in jail = " + citizen.ToString() + instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Dead.ToString() + instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested.ToString() + instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation.ToString());
+                            if (!instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Dead && instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested && instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation == Citizen.Location.Visit)
+                            {
+                                //DebugLog.LogToFileOnly("citizenID is in jail and Arrested = " + citizen.ToString());
+                                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(1000000u) < num5)
+                                {
+                                    instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested = false;
+                                    //DebugLog.LogToFileOnly("crime man is ok now, Evacuating him");
+                                    ushort instance3 = instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
+                                    if (instance3 != 0)
+                                    {
+                                        instance2.ReleaseCitizenInstance(instance3);
+                                    }
+                                    ushort homeBuilding = instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+                                    if (homeBuilding != 0)
+                                    {
+                                        CitizenInfo citizenInfo = instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
+                                        HumanAI humanAI = citizenInfo.m_citizenAI as HumanAI;
+                                        if (humanAI != null)
+                                        {
+                                            Citizen[] expr_310_cp_0 = instance2.m_citizens.m_buffer;
+                                            UIntPtr expr_310_cp_1 = (UIntPtr)citizen;
+                                            expr_310_cp_0[(int)expr_310_cp_1].m_flags = (expr_310_cp_0[(int)expr_310_cp_1].m_flags & ~Citizen.Flags.Evacuating);
+                                            humanAI.StartMoving(citizen, ref instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)], buildingID1, homeBuilding);
+                                            DebugLog.LogToFileOnly("crime man is ok now, switch to buildingID1 to let him go");
+                                        }
+                                    }
+                                    if (instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation != Citizen.Location.Visit && instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_visitBuilding == buildingID)
+                                    {
+                                        instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetVisitplace(citizen, 0, 0u);
+                                    }
+                                }
+                                num8++;
+                            }
+                            num7++;
+                        }
+                    }
+                }
+                num6 = nextUnit;
+                if (++num9 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+
+            comm_data.outside_crime += num8;
+            //comm_data.firetruck += (ushort)num7;
+            //DebugLog.LogToFileOnly("comm_data.outside_crime = " + comm_data.outside_crime.ToString());
+            if (m_jailCapacity != 0)
+            {
+                District[] expr_41D_cp_0_cp_0 = instance.m_districts.m_buffer;
+                byte expr_41D_cp_0_cp_1 = district;
+                expr_41D_cp_0_cp_0[(int)expr_41D_cp_0_cp_1].m_productionData.m_tempCriminalAmount = expr_41D_cp_0_cp_0[(int)expr_41D_cp_0_cp_1].m_productionData.m_tempCriminalAmount + (uint)num8;
+                District[] expr_441_cp_0_cp_0 = instance.m_districts.m_buffer;
+                byte expr_441_cp_0_cp_1 = district;
+                expr_441_cp_0_cp_0[(int)expr_441_cp_0_cp_1].m_productionData.m_tempCriminalCapacity = expr_441_cp_0_cp_0[(int)expr_441_cp_0_cp_1].m_productionData.m_tempCriminalCapacity + (uint)m_jailCapacity;
+            }
+            int num10 = 0;
+            int num11 = 0;
+            int num12 = 0;
+            int num13 = 0;
+            int num14 = 0;
+            int num15 = 0;
+            int num16 = 0;
+            int num17 = 0;
+
+            CalculateOwnVehicles(buildingID, ref buildingData, TransferManager.TransferReason.Crime, ref num10, ref num11, ref num12, ref num13);
+            CalculateOwnVehicles(buildingID1, ref buildingData1, TransferManager.TransferReason.Crime, ref num14, ref num15, ref num16, ref num17);
+
+
+            int num18 = (100 * m_policeCarCount + 99) / 100;
+            comm_data.outside_police_car += (ushort)(num10 + num14);
+            if (comm_data.policehelp)
+            {
+                if ((num10 + num14) < num18)
+                {
+                    TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
+                    offer2.Priority = 2 - num10 - num14;
+                    offer2.Building = buildingID1;
+                    offer2.Position = buildingData1.m_position;
+                    offer2.Amount = 1;
+                    offer2.Active = true;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Crime, offer2);
+                }
+            }
+        }
     }
 }

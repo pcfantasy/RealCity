@@ -60,8 +60,8 @@ namespace RealCity
         public const float petrol_import_price = 0.45f * comm_data.ConsumptionDivider;
         public const float coal_import_price = 0.405f * comm_data.ConsumptionDivider;
         public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider;
-        public const float oil_import_price = 0.4f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-        public const float ore_import_price = 0.36f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float oil_import_price = 0.16f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float ore_import_price = 0.144f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
         public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
         public const float log_import_price = 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
 
@@ -730,9 +730,13 @@ namespace RealCity
             {
                 for (i = (int)(prebuidlingid + 1); i < buildingID; i++)
                 {
-                    if (comm_data.building_money[i] != 0)
+                    //70000000f is a flag for outside building
+                    if (comm_data.building_money[i] != 70000000f)
                     {
-                        comm_data.building_money[i] = 0;
+                        if (comm_data.building_money[i] != 0)
+                        {
+                            comm_data.building_money[i] = 0;
+                        }
                     }
                 }
 
@@ -1268,12 +1272,12 @@ namespace RealCity
                     break;
                 default: break;
             }
-            Regex p = new Regex("IndustrialExtractorAI");
+            /*Regex p = new Regex("IndustrialExtractorAI");
             Match n = p.Match(this.m_info.m_buildingAI.ToString());
             if (n.Success)
             {
                 incomeAccumulation = incomeAccumulation * 10;
-            }
+            }*/
         }
 
         protected void CalculateGuestVehicles_1(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)

@@ -51,6 +51,8 @@ namespace RealCity
             RealCity.IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
+            LoadSetting();
+            SaveSetting();
             language.language_switch((byte)language_idex);
         }
 
@@ -75,6 +77,9 @@ namespace RealCity
             streamWriter.WriteLine(comm_data.is_help_company);
             streamWriter.WriteLine(comm_data.fire_connection);
             streamWriter.WriteLine(comm_data.road_connection);
+            streamWriter.WriteLine(comm_data.hospitalhelp);
+            streamWriter.WriteLine(comm_data.firehelp);
+            streamWriter.WriteLine(comm_data.policehelp);
             streamWriter.Flush();
             fs.Close();
         }
@@ -173,6 +178,8 @@ namespace RealCity
                     comm_data.fire_connection = true;
                 }
 
+                strLine = sr.ReadLine();
+
                 if (strLine == "False")
                 {
                     comm_data.road_connection = false;
@@ -182,6 +189,38 @@ namespace RealCity
                     comm_data.road_connection = true;
                 }
 
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.hospitalhelp = false;
+                }
+                else
+                {
+                    comm_data.hospitalhelp = true;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False" || true)
+                {
+                    comm_data.firehelp = false;
+                }
+                else
+                {
+                    comm_data.firehelp = true;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.policehelp = false;
+                }
+                else
+                {
+                    comm_data.policehelp = true;
+                }
                 sr.Close();
                 fs.Close();
             }
@@ -203,6 +242,9 @@ namespace RealCity
             group1.AddCheckbox(language.OptionUI[6], comm_data.sick_connection, (index) => get_sick_connection(index));
             group1.AddCheckbox(language.OptionUI[10], comm_data.fire_connection, (index) => get_fire_connection(index));
             group1.AddCheckbox(language.OptionUI[11], comm_data.road_connection, (index) => get_road_connection(index));
+            //group1.AddCheckbox(language.OptionUI[12], comm_data.firehelp, (index) => outsidefirehelp(index));
+            group1.AddCheckbox(language.OptionUI[13], comm_data.hospitalhelp, (index) => outsidehospitalhelp(index));
+            group1.AddCheckbox(language.OptionUI[14], comm_data.policehelp, (index) => outsidepolicehelp(index));
 
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
             group2.AddCheckbox(language.OptionUI[8], comm_data.is_help_resident, (index) => is_help_resident(index));
@@ -246,24 +288,79 @@ namespace RealCity
         public void get_crime_connection(bool index)
         {
             comm_data.crime_connection = index;
+            if (comm_data.crime_connection)
+            {
+                comm_data.policehelp = false;
+            }
             SaveSetting();
+            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
         public void get_sick_connection(bool index)
         {
             comm_data.sick_connection = index;
+            if (comm_data.sick_connection)
+            {
+                comm_data.hospitalhelp = false;
+            }
             SaveSetting();
+            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
 
         public void get_fire_connection(bool index)
         {
             comm_data.fire_connection = index;
+            if (comm_data.fire_connection)
+            {
+                comm_data.firehelp = false;
+            }
             SaveSetting();
+            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
 
         public void get_road_connection(bool index)
         {
             comm_data.road_connection = index;
             SaveSetting();
+        }
+
+        public void outsidehospitalhelp(bool index)
+        {
+            comm_data.hospitalhelp = index;
+            if (comm_data.hospitalhelp)
+            {
+                comm_data.sick_connection = false;
+            }
+            SaveSetting();
+            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+        }
+
+        public void outsidefirehelp (bool index)
+        {
+            comm_data.firehelp = index;
+            if (comm_data.firehelp)
+            {
+                comm_data.fire_connection = false;
+            }
+            SaveSetting();
+            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+        }
+
+        public void outsidepolicehelp(bool index)
+        {
+            comm_data.policehelp = index;
+
+            if (comm_data.policehelp)
+            {
+                comm_data.crime_connection = false;
+            }
+            SaveSetting();
+            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
 
         public class EconomyExtension : EconomyExtensionBase
@@ -412,12 +509,12 @@ namespace RealCity
 
                 if (!pc_OutsideConnectionAI.have_maintain_road_building)
                 {
-                    try_say_something(language.TipAndChirperMessage[21]);
+                    //try_say_something(language.TipAndChirperMessage[21]);
                     tip3_message_forgui = language.TipAndChirperMessage[22];
                 }
                 else
                 {
-                    try_say_something(language.TipAndChirperMessage[23]);
+                    //try_say_something(language.TipAndChirperMessage[23]);
                     tip3_message_forgui = language.TipAndChirperMessage[24];
                 }
 

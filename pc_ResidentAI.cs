@@ -1674,16 +1674,16 @@ namespace RealCity
             int temp = 0;
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
-                if (comm_data.citizen_money[homeid] > 0)
+                if (comm_data.citizen_money[homeid] > 0 && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags.IsFlagSet(Citizen.Flags.Education2)))
                 {
-                    temp = temp + 5;
-                    Singleton<EconomyManager>.instance.AddPrivateIncome(5, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    temp = temp + 10;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                 }
             }
 
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
             {
-                if ((comm_data.citizen_money[homeid] > 0) && pc_OutsideConnectionAI.have_hospital_building)
+                if ((comm_data.citizen_money[homeid] > 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                 {
                     temp = temp + 10;
                     Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);

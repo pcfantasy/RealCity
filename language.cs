@@ -21,7 +21,10 @@ namespace RealCity
             "Resident basic living allowances",
             "Supports for unprofitable company(not supported yet)",
             "Accept Outside Fire inspection Help Demand",
-            "Accept Outside Road maintanance Demand"
+            "Accept Outside Road maintanance Demand",
+            "Accept Outside Fire Help(will not go outside for Fire inspection Help Demand)",            
+            "Accept Outside Hospital Help(will not go outside for First Aid Help Demand)",
+            "Accept Outside Police Help(will not go outside for Police Patrol Demand)",
         };
 
         public static string[] BuildingUI_English = { "Building Money",
@@ -159,6 +162,16 @@ namespace RealCity
             "outside total road condition",
             "outside fire",
             "outside total fire check",
+            "outside hospital compacity",
+            "outside hospital compacity",
+            "outside ambulance car num",
+            "outside ambulance car num",
+            "outside jail compacity",
+            "outside jail compacity",
+            "outside policecar num",
+            "outside policecar num",
+            "outside firetruck num",
+            "outside firetruck num",
             "tip1",
             "tip1",
             "tip2",
@@ -226,7 +239,7 @@ namespace RealCity
         "Can build policestation, our neighbour city need Police Patrol Help",
         "#RealCity  ",
         "Sending policecar to outside for Police Patrol Help now",
-        "In earlier game, can use outside hospital and firestation for help.",
+        "In earlier game, can use outside hospital policestation and firestation for help.",
         };
 
 
@@ -366,6 +379,9 @@ namespace RealCity
             "支援亏损企业(暂不支持)",
             "接受外部消防安全检查的请求",
             "接受外部道路维护的请求",
+            "接受外部消防帮助(就不会去外部消防检查)",
+            "接受外部医院服务(就不会去外部参与急救)",
+            "接受外部警务帮助(就不会去外部治安巡逻)",
         };
 
         public static string[] EconomicUI_Chinese =
@@ -485,6 +501,16 @@ namespace RealCity
             "城市外部道路状况",
             "城市外部火情",
             "城市外部火情",
+            "外部医院容量",
+            "外部医院容量",
+            "外部救护车",
+            "外部救护车",
+            "外部监狱容量",
+            "外部监狱容量",
+            "外部警车",
+            "外部警车",
+            "外部救火车",
+            "外部救火车",
             "提示1",
             "提示1",
             "提示2",
@@ -495,6 +521,14 @@ namespace RealCity
             "提示4",
             "提示5",
             "提示5",
+            "提示6",
+            "提示6",
+            "提示7",
+            "提示7",
+            "提示8",
+            "提示8",
+            "提示9",
+            "提示9",
         };
 
 
@@ -544,7 +578,7 @@ namespace RealCity
         "可以建造警察局，邻市需要警车进行巡逻。",
         "#真实城市 ",
         "正在派出警车去邻市进行巡逻。",
-        "城市发展初期，医院和消防请让外部帮助。",
+        "城市发展初期，医院、消防和警务请让外部帮助。",
         };
 
 

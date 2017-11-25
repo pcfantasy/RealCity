@@ -21,6 +21,14 @@ namespace RealCity
             {
                 result = result / 2;
             }
+
+            /*if (this.m_info.m_class.m_service == ItemClass.Service.Education)
+            {
+                if (this.m_info.m_class.m_level != ItemClass.Level.Level3)
+                {
+                    result = result / 10;
+                }
+            }*/
             Singleton<EconomyManager>.instance.m_EconomyWrapper.OnGetMaintenanceCost(ref result, this.m_info.m_class.m_service, this.m_info.m_class.m_subService, this.m_info.m_class.m_level);
             return result;
         }

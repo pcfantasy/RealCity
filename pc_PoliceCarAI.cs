@@ -61,6 +61,23 @@ namespace RealCity
             }
             else
             {
+                if ((data.m_sourceBuilding != 0) && Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                {
+                    var instance1 = Singleton<BuildingManager>.instance;
+                    //DebugLog.LogToFileOnly("try turn around get income hospital building = ");
+                    BuildingInfo info2 = instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Outgoing))
+                    {
+                        ushort num20 = instance1.FindBuilding(instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
+                        if (num20 != 0)
+                        {
+                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                            data.m_sourceBuilding = num20;
+                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
+                        }
+                    }
+                }
+
                 if (this.m_info.m_class.m_level >= ItemClass.Level.Level4)
                 {
                     this.ArrestCriminals(vehicleID, ref data, data.m_targetBuilding);
@@ -111,6 +128,7 @@ namespace RealCity
                             return;
                         }
                         instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested = true;
+                        //DebugLog.LogToFileOnly("arresting citizenID = " + citizen.ToString());
                         ushort instance3 = instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
                         if (instance3 != 0)
                         {
@@ -156,6 +174,107 @@ namespace RealCity
                         instance2.ReleaseCitizen(num);
                     }
                 }
+            }
+        }
+
+        private bool ArriveAtSource(ushort vehicleID, ref Vehicle data)
+        {
+            if (data.m_sourceBuilding == 0)
+            {
+                Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                return true;
+            }
+            int transferSize = (int)data.m_transferSize;
+            BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+            info.m_buildingAI.ModifyMaterialBuffer(data.m_sourceBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref transferSize);
+            data.m_transferSize = (ushort)Mathf.Clamp((int)data.m_transferSize - transferSize, 0, (int)data.m_transferSize);
+            this.UnloadCriminals(vehicleID, ref data);
+            this.RemoveSource(vehicleID, ref data);
+            return true;
+        }
+
+        private void UnloadCriminals(ushort vehicleID, ref Vehicle data)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = data.m_citizenUnits;
+            int num2 = 0;
+            int num3 = 0;
+            while (num != 0u)
+            {
+                uint nextUnit = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                for (int i = 0; i < 5; i++)
+                {
+                    uint citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizen(i);
+                    if (citizen != 0u && instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation == Citizen.Location.Moving && instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested)
+                    {
+                        ushort instance2 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
+                        if (instance2 != 0)
+                        {
+                            instance.ReleaseCitizenInstance(instance2);
+                        }
+                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetVisitplace(citizen, data.m_sourceBuilding, 0u);
+                        if (instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_visitBuilding != 0)
+                        {
+                            instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation = Citizen.Location.Visit;
+                            //DebugLog.LogToFileOnly("arrest success citizenID = " + citizen.ToString());
+                            if (this.m_info.m_class.m_level >= ItemClass.Level.Level4)
+                            {
+                                this.SpawnPrisoner(vehicleID, ref data, citizen);
+                            }
+                        }
+                        else
+                        {
+                            DebugLog.LogToFileOnly("arrest fail citizenID = " + citizen.ToString());
+                            instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation = Citizen.Location.Home;
+                            instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested = false;
+                            num3++;
+                        }
+                    }
+                }
+                num = nextUnit;
+                if (++num2 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+            data.m_transferSize = 0;
+            if (num3 != 0 && data.m_sourceBuilding != 0)
+            {
+                BuildingManager instance3 = Singleton<BuildingManager>.instance;
+                DistrictManager instance4 = Singleton<DistrictManager>.instance;
+                byte district = instance4.GetDistrict(instance3.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position);
+                District[] expr_212_cp_0_cp_0 = instance4.m_districts.m_buffer;
+                byte expr_212_cp_0_cp_1 = district;
+                expr_212_cp_0_cp_0[(int)expr_212_cp_0_cp_1].m_productionData.m_tempCriminalExtra = expr_212_cp_0_cp_0[(int)expr_212_cp_0_cp_1].m_productionData.m_tempCriminalExtra + (uint)num3;
+            }
+        }
+
+        private void RemoveSource(ushort vehicleID, ref Vehicle data)
+        {
+            if (data.m_sourceBuilding != 0)
+            {
+                Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                data.m_sourceBuilding = 0;
+            }
+        }
+
+        private void SpawnPrisoner(ushort vehicleID, ref Vehicle data, uint citizen)
+        {
+            if (data.m_sourceBuilding == 0)
+            {
+                return;
+            }
+            SimulationManager instance = Singleton<SimulationManager>.instance;
+            CitizenManager instance2 = Singleton<CitizenManager>.instance;
+            Citizen.Gender gender = Citizen.GetGender(citizen);
+            CitizenInfo groupCitizenInfo = instance2.GetGroupCitizenInfo(ref instance.m_randomizer, this.m_info.m_class.m_service, gender, Citizen.SubCulture.Generic, Citizen.AgePhase.Young0);
+            ushort num;
+            if (groupCitizenInfo != null && instance2.CreateCitizenInstance(out num, ref instance.m_randomizer, groupCitizenInfo, citizen))
+            {
+                Vector3 randomDoorPosition = data.GetRandomDoorPosition(ref instance.m_randomizer, VehicleInfo.DoorType.Exit);
+                groupCitizenInfo.m_citizenAI.SetCurrentVehicle(num, ref instance2.m_instances.m_buffer[(int)num], 0, 0u, randomDoorPosition);
+                groupCitizenInfo.m_citizenAI.SetTarget(num, ref instance2.m_instances.m_buffer[(int)num], data.m_sourceBuilding);
             }
         }
     }

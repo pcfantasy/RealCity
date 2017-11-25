@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 800f;
+        private static readonly float HEIGHT = 1000f;
 
         private static readonly float HEADER = 40f;
 
@@ -155,18 +155,23 @@ namespace RealCity
         private UILabel m_outside_road;
         private UILabel m_outside_firestation;
 
+        private UILabel m_hospital;
+        private UILabel m_ambulance;
+        private UILabel m_policestation;
+        private UILabel m_policecar;
+
+        private UILabel m_firetruck;
+
         private UILabel tip1;
         private UILabel tip2;
         private UILabel tip3;
         private UILabel tip4;
         private UILabel tip5;
+        private UILabel tip6;
+        private UILabel tip7;
+        private UILabel tip8;
+        private UILabel tip9;
 
-
-
-
-        private static bool isRefreshing = false;
-
-        private bool CoDisplayRefreshEnabled;
 
         public override void Update()
         {
@@ -175,6 +180,7 @@ namespace RealCity
                 this.ProcessVisibility();
                 DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "ctrl+M found");
             }
+            this.RefreshDisplayData();
             base.Update();
         }
 
@@ -217,7 +223,7 @@ namespace RealCity
             this.ShowOnGui();
             //this.PopulateControlContainers();
 
-            base.StartCoroutine(this.RefreshDisplayDataWrapper());
+            //base.StartCoroutine(this.RefreshDisplayDataWrapper());
             this.RefreshDisplayData();
         }
 
@@ -659,40 +665,103 @@ namespace RealCity
             this.m_outside_firestation.autoSize = true;
             this.m_outside_firestation.name = "Moreeconomic_Text_48";
 
+            this.m_hospital = base.AddUIComponent<UILabel>();
+            this.m_hospital.text = string.Format("outside hospital capacity [00000]");
+            this.m_hospital.tooltip = language.EconomicUI[116];
+            this.m_hospital.relativePosition = new Vector3(SPACING, this.m_outside_road.relativePosition.y + SPACING22);
+            this.m_hospital.autoSize = true;
+            this.m_hospital.name = "Moreeconomic_Text_48";
+
+            this.m_ambulance = base.AddUIComponent<UILabel>();
+            this.m_ambulance.text = string.Format("outside ambulance [00000]");
+            this.m_ambulance.tooltip = language.EconomicUI[118];
+            this.m_ambulance.relativePosition = new Vector3(this.m_hospital.relativePosition.x + this.m_hospital.width + SPACING, this.m_hospital.relativePosition.y);
+            this.m_ambulance.autoSize = true;
+            this.m_ambulance.name = "Moreeconomic_Text_48";
+
+            this.m_policestation = base.AddUIComponent<UILabel>();
+            this.m_policestation.text = string.Format("outside policestation capacity [00000]");
+            this.m_policestation.tooltip = language.EconomicUI[120];
+            this.m_policestation.relativePosition = new Vector3(SPACING, this.m_hospital.relativePosition.y + SPACING22);
+            this.m_policestation.autoSize = true;
+            this.m_policestation.name = "Moreeconomic_Text_48";
+
+            this.m_policecar = base.AddUIComponent<UILabel>();
+            this.m_policecar.text = string.Format("outside policecar num [00000]");
+            this.m_policecar.tooltip = language.EconomicUI[122];
+            this.m_policecar.relativePosition = new Vector3(this.m_policestation.relativePosition.x + this.m_policestation.width + SPACING, this.m_policestation.relativePosition.y);
+            this.m_policecar.autoSize = true;
+            this.m_policecar.name = "Moreeconomic_Text_48";
+
+            this.m_firetruck = base.AddUIComponent<UILabel>();
+            this.m_firetruck.text = string.Format("m_firetruck [00000]");
+            this.m_firetruck.tooltip = language.EconomicUI[124];
+            this.m_firetruck.relativePosition = new Vector3(this.m_policecar.relativePosition.x + this.m_policecar.width + SPACING, this.m_policecar.relativePosition.y);
+            this.m_firetruck.autoSize = true;
+            this.m_firetruck.name = "Moreeconomic_Text_48";
+
             this.tip1 = base.AddUIComponent<UILabel>();
             this.tip1.text = string.Format("tip1: [0000000000]");
-            this.tip1.tooltip = language.EconomicUI[112];
-            this.tip1.relativePosition = new Vector3(SPACING, this.m_outside_road.relativePosition.y + SPACING22 + 10f);
+            this.tip1.tooltip = language.EconomicUI[126];
+            this.tip1.relativePosition = new Vector3(SPACING, this.m_policestation.relativePosition.y + SPACING22 + 10f);
             this.tip1.autoSize = true;
             this.tip1.name = "Moreeconomic_Text_49";
 
             this.tip2 = base.AddUIComponent<UILabel>();
             this.tip2.text = string.Format("tip2: [0000000000]");
-            this.tip2.tooltip = language.EconomicUI[114];
+            this.tip2.tooltip = language.EconomicUI[128];
             this.tip2.relativePosition = new Vector3(SPACING, this.tip1.relativePosition.y + SPACING22);
             this.tip2.autoSize = true;
             this.tip2.name = "Moreeconomic_Text_50";
 
             this.tip3 = base.AddUIComponent<UILabel>();
             this.tip3.text = string.Format("tip3: [0000000000]");
-            this.tip3.tooltip = language.EconomicUI[116];
+            this.tip3.tooltip = language.EconomicUI[130];
             this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
             this.tip3.autoSize = true;
             this.tip3.name = "Moreeconomic_Text_51";
 
             this.tip4 = base.AddUIComponent<UILabel>();
             this.tip4.text = string.Format("tip4: [0000000000]");
-            this.tip4.tooltip = language.EconomicUI[118];
+            this.tip4.tooltip = language.EconomicUI[132];
             this.tip4.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
             this.tip4.autoSize = true;
             this.tip4.name = "Moreeconomic_Text_52";
 
             this.tip5 = base.AddUIComponent<UILabel>();
             this.tip5.text = string.Format("tip5: [0000000000]");
-            this.tip5.tooltip = language.EconomicUI[120];
+            this.tip5.tooltip = language.EconomicUI[134];
             this.tip5.relativePosition = new Vector3(SPACING, this.tip4.relativePosition.y + SPACING22);
             this.tip5.autoSize = true;
             this.tip5.name = "Moreeconomic_Text_53";
+
+            this.tip6 = base.AddUIComponent<UILabel>();
+            this.tip6.text = string.Format("tip6: [0000000000]");
+            this.tip6.tooltip = language.EconomicUI[136];
+            this.tip6.relativePosition = new Vector3(SPACING, this.tip5.relativePosition.y + SPACING22);
+            this.tip6.autoSize = true;
+            this.tip6.name = "Moreeconomic_Text_50";
+
+            this.tip7 = base.AddUIComponent<UILabel>();
+            this.tip7.text = string.Format("tip7: [0000000000]");
+            this.tip7.tooltip = language.EconomicUI[138];
+            this.tip7.relativePosition = new Vector3(SPACING, this.tip6.relativePosition.y + SPACING22);
+            this.tip7.autoSize = true;
+            this.tip7.name = "Moreeconomic_Text_51";
+
+            this.tip8 = base.AddUIComponent<UILabel>();
+            this.tip8.text = string.Format("tip8: [0000000000]");
+            this.tip8.tooltip = language.EconomicUI[140];
+            this.tip8.relativePosition = new Vector3(SPACING, this.tip7.relativePosition.y + SPACING22);
+            this.tip8.autoSize = true;
+            this.tip8.name = "Moreeconomic_Text_52";
+
+            this.tip9 = base.AddUIComponent<UILabel>();
+            this.tip9.text = string.Format("tip9: [0000000000]");
+            this.tip9.tooltip = language.EconomicUI[142];
+            this.tip9.relativePosition = new Vector3(SPACING, this.tip8.relativePosition.y + SPACING22);
+            this.tip9.autoSize = true;
+            this.tip9.name = "Moreeconomic_Text_53";
 
             //this.m_getfromBank = base.AddUIComponent<UIButton>();
             //this.m_getfromBank.size = new Vector2(160f, 24f);
@@ -726,7 +795,7 @@ namespace RealCity
         }
 
 
-        private IEnumerator RefreshDisplayDataWrapper()
+        /*private IEnumerator RefreshDisplayDataWrapper()
         {
             if (this.CoDisplayRefreshEnabled)
             {
@@ -745,95 +814,111 @@ namespace RealCity
 
             }
             yield break;
-        }
+        }*/
 
         private void RefreshDisplayData()
         {
             //EconomyPanel instance = Singleton<EconomyPanel>.instance;
-            isRefreshing = true;
-            //citizen
-            this.citizen_count.text = string.Format(language.EconomicUI[2] + " [{0}]", comm_data.citizen_count);
-            this.family_count.text = string.Format(language.EconomicUI[4] + " [{0}]", comm_data.family_count);
-            this.citizen_salary_per_family.text = string.Format(language.EconomicUI[6] + " [{0}]", comm_data.citizen_salary_per_family);
-            this.citizen_salary_total.text = string.Format(language.EconomicUI[8] + " [{0}]", comm_data.citizen_salary_total);
-            this.citizen_salary_tax_total.text = string.Format(language.EconomicUI[10] + " [{0}]", comm_data.citizen_salary_tax_total * comm_data.game_income_expense_multiple);
-            this.citizen_expense_per_family.text = string.Format(language.EconomicUI[12] + " [{0}]", comm_data.citizen_expense_per_family);
-            this.citizen_expense.text = string.Format(language.EconomicUI[14] + " [{0}]", comm_data.citizen_expense * comm_data.game_income_expense_multiple);
-            this.public_transport_fee.text = string.Format(language.EconomicUI[16] + " [{0}]", comm_data.public_transport_fee * comm_data.game_income_expense_multiple);
-            this.total_citizen_vehical_time.text = string.Format(language.EconomicUI[18] + " [{0}]", comm_data.temp_total_citizen_vehical_time_last);
-            this.family_profit_money_num.text = string.Format(language.EconomicUI[20] + " [{0}]", comm_data.family_profit_money_num);
-            this.family_loss_money_num.text = string.Format(language.EconomicUI[22] + " [{0}]", comm_data.family_loss_money_num);
-            this.family_very_profit_num.text = string.Format(language.EconomicUI[24] + " [{0}]", comm_data.family_very_profit_money_num);
-            this.family_weight_stable_high.text = string.Format(language.EconomicUI[26] + " [{0}]", comm_data.family_weight_stable_high);
-            this.family_weight_stable_low.text = string.Format(language.EconomicUI[28] + " [{0}]", comm_data.family_weight_stable_low);
-            this.citizen_average_transport_fee.text = string.Format(language.EconomicUI[30] + " [{0}]", comm_data.citizen_average_transport_fee);
-            this.resident_consumption_rate.text = string.Format(language.EconomicUI[32] + " [{0}]", pc_ResidentAI.citizen_goods);
-            if (comm_data.family_count != 0)
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            uint num2 = currentFrameIndex & 255u;
+
+            if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
             {
-                this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N3}%]", (float)(pc_ResidentAI.citizen_goods / (comm_data.family_count * 200f)) );
-            } else
-            {
-                this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N3}%]", 0);
+                //citizen
+                this.citizen_count.text = string.Format(language.EconomicUI[2] + " [{0}]", comm_data.citizen_count);
+                this.family_count.text = string.Format(language.EconomicUI[4] + " [{0}]", comm_data.family_count);
+                this.citizen_salary_per_family.text = string.Format(language.EconomicUI[6] + " [{0}]", comm_data.citizen_salary_per_family);
+                this.citizen_salary_total.text = string.Format(language.EconomicUI[8] + " [{0}]", comm_data.citizen_salary_total);
+                this.citizen_salary_tax_total.text = string.Format(language.EconomicUI[10] + " [{0}]", comm_data.citizen_salary_tax_total * comm_data.game_income_expense_multiple);
+                this.citizen_expense_per_family.text = string.Format(language.EconomicUI[12] + " [{0}]", comm_data.citizen_expense_per_family);
+                this.citizen_expense.text = string.Format(language.EconomicUI[14] + " [{0}]", comm_data.citizen_expense * comm_data.game_income_expense_multiple);
+                this.public_transport_fee.text = string.Format(language.EconomicUI[16] + " [{0}]", comm_data.public_transport_fee * comm_data.game_income_expense_multiple);
+                this.total_citizen_vehical_time.text = string.Format(language.EconomicUI[18] + " [{0}]", comm_data.temp_total_citizen_vehical_time_last);
+                this.family_profit_money_num.text = string.Format(language.EconomicUI[20] + " [{0}]", comm_data.family_profit_money_num);
+                this.family_loss_money_num.text = string.Format(language.EconomicUI[22] + " [{0}]", comm_data.family_loss_money_num);
+                this.family_very_profit_num.text = string.Format(language.EconomicUI[24] + " [{0}]", comm_data.family_very_profit_money_num);
+                this.family_weight_stable_high.text = string.Format(language.EconomicUI[26] + " [{0}]", comm_data.family_weight_stable_high);
+                this.family_weight_stable_low.text = string.Format(language.EconomicUI[28] + " [{0}]", comm_data.family_weight_stable_low);
+                this.citizen_average_transport_fee.text = string.Format(language.EconomicUI[30] + " [{0}]", comm_data.citizen_average_transport_fee);
+                this.resident_consumption_rate.text = string.Format(language.EconomicUI[32] + " [{0}]", pc_ResidentAI.citizen_goods);
+                if (comm_data.family_count != 0)
+                {
+                    this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N3}%]", (float)(pc_ResidentAI.citizen_goods / (comm_data.family_count * 200f)));
+                }
+                else
+                {
+                    this.tourist_consumption_rate.text = string.Format(language.EconomicUI[34] + " [{0:N3}%]", 0);
+                }
+
+                //building
+                this.good_export_ratio.text = string.Format(language.EconomicUI[37] + " [{0:N2}]", pc_PrivateBuildingAI.good_export_ratio);
+                this.food_export_ratio.text = string.Format(language.EconomicUI[39] + " [{0:N2}]", pc_PrivateBuildingAI.food_export_ratio);
+                this.petrol_export_ratio.text = string.Format(language.EconomicUI[41] + " [{0:N2}]", pc_PrivateBuildingAI.petrol_export_ratio);
+                this.coal_export_ratio.text = string.Format(language.EconomicUI[43] + " [{0:N2}]", pc_PrivateBuildingAI.coal_export_ratio);
+                this.lumber_export_ratio.text = string.Format(language.EconomicUI[45] + " [{0:N2}]", pc_PrivateBuildingAI.lumber_export_ratio);
+                this.oil_export_ratio.text = string.Format(language.EconomicUI[47] + " [{0:N2}]", pc_PrivateBuildingAI.oil_export_ratio);
+                this.ore_export_ratio.text = string.Format(language.EconomicUI[49] + " [{0:N2}]", pc_PrivateBuildingAI.ore_export_ratio);
+                this.log_export_ratio.text = string.Format(language.EconomicUI[51] + " [{0:N2}]", pc_PrivateBuildingAI.log_export_ratio);
+                this.grain_export_ratio.text = string.Format(language.EconomicUI[53] + " [{0:N2}]", pc_PrivateBuildingAI.grain_export_ratio);
+
+                this.good_import_ratio.text = string.Format(language.EconomicUI[55] + " [{0:N2}]", pc_PrivateBuildingAI.good_import_ratio);
+                this.food_import_ratio.text = string.Format(language.EconomicUI[57] + " [{0:N2}]", pc_PrivateBuildingAI.food_import_ratio);
+                this.petrol_import_ratio.text = string.Format(language.EconomicUI[59] + " [{0:N2}]", pc_PrivateBuildingAI.petrol_import_ratio);
+                this.coal_import_ratio.text = string.Format(language.EconomicUI[61] + " [{0:N2}]", pc_PrivateBuildingAI.coal_import_ratio);
+                this.lumber_import_ratio.text = string.Format(language.EconomicUI[63] + " [{0:N2}]", pc_PrivateBuildingAI.lumber_import_ratio);
+                this.oil_import_ratio.text = string.Format(language.EconomicUI[65] + " [{0:N2}]", pc_PrivateBuildingAI.oil_import_ratio);
+                this.ore_import_ratio.text = string.Format(language.EconomicUI[67] + " [{0:N2}]", pc_PrivateBuildingAI.ore_import_ratio);
+                this.log_import_ratio.text = string.Format(language.EconomicUI[69] + " [{0:N2}]", pc_PrivateBuildingAI.log_import_ratio);
+                this.grain_import_ratio.text = string.Format(language.EconomicUI[71] + " [{0:N2}]", pc_PrivateBuildingAI.grain_import_ratio);
+
+
+
+                this.all_comm_building_profit.text = string.Format(language.EconomicUI[73] + " [{0}]", pc_PrivateBuildingAI.all_comm_building_profit_final);
+                this.all_comm_building_loss.text = string.Format(language.EconomicUI[75] + " [{0}]", pc_PrivateBuildingAI.all_comm_building_loss_final);
+                this.all_industry_building_profit.text = string.Format(language.EconomicUI[77] + " [{0}]", pc_PrivateBuildingAI.all_industry_building_profit_final);
+                this.all_industry_building_loss.text = string.Format(language.EconomicUI[79] + " [{0}]", pc_PrivateBuildingAI.all_industry_building_loss_final);
+                this.all_foresty_building_profit.text = string.Format(language.EconomicUI[81] + " [{0}]", pc_PrivateBuildingAI.all_foresty_building_profit_final);
+                this.all_foresty_building_loss.text = string.Format(language.EconomicUI[83] + " [{0}]", pc_PrivateBuildingAI.all_foresty_building_loss_final);
+                this.all_farmer_building_profit.text = string.Format(language.EconomicUI[85] + " [{0}]", pc_PrivateBuildingAI.all_farmer_building_profit_final);
+                this.all_farmer_building_loss.text = string.Format(language.EconomicUI[87] + " [{0}]", pc_PrivateBuildingAI.all_farmer_building_loss_final);
+                this.all_oil_building_profit.text = string.Format(language.EconomicUI[89] + " [{0}]", pc_PrivateBuildingAI.all_oil_building_profit_final);
+                this.all_oil_building_loss.text = string.Format(language.EconomicUI[91] + " [{0}]", pc_PrivateBuildingAI.all_oil_building_loss_final);
+                this.all_ore_building_profit.text = string.Format(language.EconomicUI[93] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_profit_final);
+                this.all_ore_building_loss.text = string.Format(language.EconomicUI[95] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
+                this.office_gen_salary_index.text = string.Format(language.EconomicUI[97] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_num_final);
+                this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[99] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_money_final);
+
+                this.m_outside_garbage.text = string.Format(language.EconomicUI[103] + " [{0}]", comm_data.outside_garbage_count);
+                this.m_outside_dead.text = string.Format(language.EconomicUI[105] + " [{0}]", comm_data.outside_dead_count);
+                this.m_outside_sick.text = string.Format(language.EconomicUI[107] + " [{0}]", comm_data.outside_sick_count);
+                this.m_outside_crime.text = string.Format(language.EconomicUI[109] + " [{0}]", comm_data.outside_crime_count);
+                if (comm_data.outside_road_num_final != 0)
+                {
+                    this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0:N2}%]", (100f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 650f)));
+                }
+                else
+                {
+                    this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0:N2}%]", 0);
+                }
+                this.m_outside_firestation.text = string.Format(language.EconomicUI[113] + " [{0}]", comm_data.outside_firestation_count);
+
+                this.m_hospital.text = string.Format(language.EconomicUI[115] + " [{0}/{1}]", comm_data.outside_patient ,comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_patientCapacity);
+                this.m_ambulance.text = string.Format(language.EconomicUI[117] + " [{0}/{1}]", comm_data.outside_ambulance_car , comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_ambulanceCount);
+                this.m_policestation.text = string.Format(language.EconomicUI[119] + " [{0}/{1}]", comm_data.outside_crime, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_jailCapacity);
+                this.m_policecar.text = string.Format(language.EconomicUI[121] + " [{0}/{1}]", comm_data.outside_police_car, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_policeCarCount);
+
+                this.m_firetruck.text = string.Format(language.EconomicUI[123] + " [{0}/{1}]", comm_data.firetruck, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_fireTruckCount);
+
+                this.tip1.text = string.Format(language.EconomicUI[125] + "  " + RealCity.tip1_message_forgui);
+                this.tip2.text = string.Format(language.EconomicUI[127] + "  " + RealCity.tip2_message_forgui);
+                this.tip3.text = string.Format(language.EconomicUI[129] + "  " + RealCity.tip3_message_forgui);
+                this.tip4.text = string.Format(language.EconomicUI[131] + "  " + RealCity.tip4_message_forgui);
+                this.tip5.text = string.Format(language.EconomicUI[133] + "  " + RealCity.tip5_message_forgui);
+                this.tip6.text = string.Format(language.EconomicUI[135] + "  " + RealCity.tip6_message_forgui);
+                this.tip7.text = string.Format(language.EconomicUI[137] + "  " + RealCity.tip7_message_forgui);
+                this.tip8.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip8_message_forgui);
+                this.tip9.text = string.Format(language.EconomicUI[141] + "  " + RealCity.tip9_message_forgui);
             }
-
-            //building
-            this.good_export_ratio.text = string.Format(language.EconomicUI[37] + " [{0:N2}]", pc_PrivateBuildingAI.good_export_ratio);
-            this.food_export_ratio.text = string.Format(language.EconomicUI[39] + " [{0:N2}]", pc_PrivateBuildingAI.food_export_ratio);
-            this.petrol_export_ratio.text = string.Format(language.EconomicUI[41] + " [{0:N2}]", pc_PrivateBuildingAI.petrol_export_ratio);
-            this.coal_export_ratio.text = string.Format(language.EconomicUI[43] + " [{0:N2}]", pc_PrivateBuildingAI.coal_export_ratio);
-            this.lumber_export_ratio.text = string.Format(language.EconomicUI[45] + " [{0:N2}]", pc_PrivateBuildingAI.lumber_export_ratio);
-            this.oil_export_ratio.text = string.Format(language.EconomicUI[47] + " [{0:N2}]", pc_PrivateBuildingAI.oil_export_ratio);
-            this.ore_export_ratio.text = string.Format(language.EconomicUI[49] + " [{0:N2}]", pc_PrivateBuildingAI.ore_export_ratio);
-            this.log_export_ratio.text = string.Format(language.EconomicUI[51] + " [{0:N2}]", pc_PrivateBuildingAI.log_export_ratio);
-            this.grain_export_ratio.text = string.Format(language.EconomicUI[53] + " [{0:N2}]", pc_PrivateBuildingAI.grain_export_ratio);
-
-            this.good_import_ratio.text = string.Format(language.EconomicUI[55] + " [{0:N2}]", pc_PrivateBuildingAI.good_import_ratio);
-            this.food_import_ratio.text = string.Format(language.EconomicUI[57] + " [{0:N2}]", pc_PrivateBuildingAI.food_import_ratio);
-            this.petrol_import_ratio.text = string.Format(language.EconomicUI[59] + " [{0:N2}]", pc_PrivateBuildingAI.petrol_import_ratio);
-            this.coal_import_ratio.text = string.Format(language.EconomicUI[61] + " [{0:N2}]", pc_PrivateBuildingAI.coal_import_ratio);
-            this.lumber_import_ratio.text = string.Format(language.EconomicUI[63] + " [{0:N2}]", pc_PrivateBuildingAI.lumber_import_ratio);
-            this.oil_import_ratio.text = string.Format(language.EconomicUI[65] + " [{0:N2}]", pc_PrivateBuildingAI.oil_import_ratio);
-            this.ore_import_ratio.text = string.Format(language.EconomicUI[67] + " [{0:N2}]", pc_PrivateBuildingAI.ore_import_ratio);
-            this.log_import_ratio.text = string.Format(language.EconomicUI[69] + " [{0:N2}]", pc_PrivateBuildingAI.log_import_ratio);
-            this.grain_import_ratio.text = string.Format(language.EconomicUI[71] + " [{0:N2}]", pc_PrivateBuildingAI.grain_import_ratio);
-
-
-
-            this.all_comm_building_profit.text = string.Format(language.EconomicUI[73] + " [{0}]", pc_PrivateBuildingAI.all_comm_building_profit_final);
-            this.all_comm_building_loss.text = string.Format(language.EconomicUI[75] + " [{0}]", pc_PrivateBuildingAI.all_comm_building_loss_final);
-            this.all_industry_building_profit.text = string.Format(language.EconomicUI[77] + " [{0}]", pc_PrivateBuildingAI.all_industry_building_profit_final);
-            this.all_industry_building_loss.text = string.Format(language.EconomicUI[79] + " [{0}]", pc_PrivateBuildingAI.all_industry_building_loss_final);
-            this.all_foresty_building_profit.text = string.Format(language.EconomicUI[81] + " [{0}]", pc_PrivateBuildingAI.all_foresty_building_profit_final);
-            this.all_foresty_building_loss.text = string.Format(language.EconomicUI[83] + " [{0}]", pc_PrivateBuildingAI.all_foresty_building_loss_final);
-            this.all_farmer_building_profit.text = string.Format(language.EconomicUI[85] + " [{0}]", pc_PrivateBuildingAI.all_farmer_building_profit_final);
-            this.all_farmer_building_loss.text = string.Format(language.EconomicUI[87] + " [{0}]", pc_PrivateBuildingAI.all_farmer_building_loss_final);
-            this.all_oil_building_profit.text = string.Format(language.EconomicUI[89] + " [{0}]", pc_PrivateBuildingAI.all_oil_building_profit_final);
-            this.all_oil_building_loss.text = string.Format(language.EconomicUI[91] + " [{0}]", pc_PrivateBuildingAI.all_oil_building_loss_final);
-            this.all_ore_building_profit.text = string.Format(language.EconomicUI[93] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_profit_final);
-            this.all_ore_building_loss.text = string.Format(language.EconomicUI[95] + " [{0}]", pc_PrivateBuildingAI.all_ore_building_loss_final);
-            this.office_gen_salary_index.text = string.Format(language.EconomicUI[97] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_num_final);
-            this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[99] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_money_final);
-
-            this.m_outside_garbage.text = string.Format(language.EconomicUI[103] + " [{0}]", comm_data.outside_garbage_count);
-            this.m_outside_dead.text = string.Format(language.EconomicUI[105] + " [{0}]", comm_data.outside_dead_count);
-            this.m_outside_sick.text = string.Format(language.EconomicUI[107] + " [{0}]", comm_data.outside_sick_count);
-            this.m_outside_crime.text = string.Format(language.EconomicUI[109] + " [{0}]", comm_data.outside_crime_count);
-            if (comm_data.outside_road_num_final != 0)
-            {
-                this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0:N2}%]", (100f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 650f)));
-            }
-            else
-            {
-                this.m_outside_road.text = string.Format(language.EconomicUI[111] + " [{0:N2}%]", 0);
-            }
-            this.m_outside_firestation.text = string.Format(language.EconomicUI[113] + " [{0}]", comm_data.outside_firestation_count);
-
-            this.tip1.text = string.Format(language.EconomicUI[115] + "  " + RealCity.tip1_message_forgui);
-            this.tip2.text = string.Format(language.EconomicUI[117] + "  " + RealCity.tip2_message_forgui);
-            this.tip3.text = string.Format(language.EconomicUI[119] + "  " + RealCity.tip3_message_forgui);
-            this.tip4.text = string.Format(language.EconomicUI[121] + "  " + RealCity.tip4_message_forgui);
-            this.tip5.text = string.Format(language.EconomicUI[123] + "  " + RealCity.tip5_message_forgui);
-            isRefreshing = false;
         }
 
         private void ProcessVisibility()
@@ -841,11 +926,11 @@ namespace RealCity
             if (!base.isVisible)
             {
                 base.Show();
-                if (!this.CoDisplayRefreshEnabled)
-                {
-                    base.StartCoroutine(this.RefreshDisplayDataWrapper());
-                    return;
-                }
+                //if (!this.CoDisplayRefreshEnabled)
+                //{
+                //    base.StartCoroutine(this.RefreshDisplayDataWrapper());
+                //    return;
+                //}
             }
             else
             {
