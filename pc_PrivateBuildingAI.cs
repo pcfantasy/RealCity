@@ -45,26 +45,26 @@ namespace RealCity
         //public static ushort visit_shopping_count = 0;
         //public static ushort visit_leisure_count = 0;
 
-        public const float good_export_price = 1.5f;
-        public const float food_export_price = 0.1f * comm_data.ConsumptionDivider;
-        public const float petrol_export_price = 0.225f * comm_data.ConsumptionDivider;
-        public const float coal_export_price = 0.25f * comm_data.ConsumptionDivider;
-        public const float lumber_export_price = 0.125f * comm_data.ConsumptionDivider;
-        public const float oil_export_price = 0.125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-        public const float ore_export_price = 0.1125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
+        public const float good_export_price = 1.6f;
+        public const float food_export_price = 0.1f * comm_data.ConsumptionDivider;    //org 0.5 *comm_data.ConsumptionDivider /5
+        public const float petrol_export_price = 0.225f * comm_data.ConsumptionDivider;  // org 0.5 *comm_data.ConsumptionDivider /2.22f
+        public const float coal_export_price = 0.25f * comm_data.ConsumptionDivider; // org 0.5 *comm_data.ConsumptionDivider /2f
+        public const float lumber_export_price = 0.125f * comm_data.ConsumptionDivider; // org 0.5 *comm_data.ConsumptionDivider /4f
+        public const float oil_export_price = 0.125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2
+        public const float ore_export_price = 0.1125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.22f
+        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4
 
         public const float good_import_price = 2.7f;
-        public const float food_import_price = 0.18f * comm_data.ConsumptionDivider;
-        public const float petrol_import_price = 0.45f * comm_data.ConsumptionDivider;
-        public const float coal_import_price = 0.405f * comm_data.ConsumptionDivider;
-        public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider;
-        public const float oil_import_price = 0.16f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-        public const float ore_import_price = 0.144f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;
-
+        public const float food_import_price = 0.18f * comm_data.ConsumptionDivider;  // 0.9
+        public const float petrol_import_price = 0.45f * comm_data.ConsumptionDivider; //0.9
+        public const float coal_import_price = 0.405f * comm_data.ConsumptionDivider; //0.9
+        public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider; //0.9
+        public const float oil_import_price = 0.16f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;  //0.4
+        public const float ore_import_price = 0.144f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider; //0.4
+        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider; //0.4
+        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider; //0.4
+         
         public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
         public static float petrol_export_ratio = 1f;

@@ -74,34 +74,36 @@ namespace RealCity
         {
             float trade_income = 0;
             float trade_tax = 0f;
-            switch (data.Info.m_class.m_subService)
+            //DebugLog.LogToFileOnly(data.Info.m_class.m_subService.ToString() + "money = " + trade_tax.ToString());
+            switch (material)
             {
-                case ItemClass.SubService.IndustrialFarming:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.grain_export_price + (1f - pc_PrivateBuildingAI.grain_export_ratio) * 0.1f);
+                case TransferManager.TransferReason.Grain:
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.grain_export_price + (1f - pc_PrivateBuildingAI.grain_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider / 5f);
                     if ((comm_data.building_money[buildingID] - trade_income) > 0)
                     {
                         trade_tax = -trade_income * 0.45f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     break;
-                case ItemClass.SubService.IndustrialForestry:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.log_export_price + (1f - pc_PrivateBuildingAI.log_export_ratio) * 0.1f);
+                case TransferManager.TransferReason.Logs:
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.log_export_price + (1f - pc_PrivateBuildingAI.log_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider / 4f);
+                    if ((comm_data.building_money[buildingID] - trade_income) > 0)
+                    {
+                        trade_tax = -trade_income * 0.45f;
+                        //DebugLog.LogToFileOnly(data.Info.m_class.m_subService.ToString() + "money = " + trade_tax.ToString());
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+                    }
+                    break;
+                case TransferManager.TransferReason.Oil:
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.oil_export_price + (1f - pc_PrivateBuildingAI.oil_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider / 2f);
                     if ((comm_data.building_money[buildingID] - trade_income) > 0)
                     {
                         trade_tax = -trade_income * 0.45f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     break;
-                case ItemClass.SubService.IndustrialOil:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.oil_export_price + (1f - pc_PrivateBuildingAI.oil_export_ratio) * 0.1f);
-                    if ((comm_data.building_money[buildingID] - trade_income) > 0)
-                    {
-                        trade_tax = -trade_income * 0.45f;
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
-                    }
-                    break;
-                case ItemClass.SubService.IndustrialOre:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.ore_export_price + (1f - pc_PrivateBuildingAI.ore_export_ratio) * 0.1f);
+                case TransferManager.TransferReason.Ore:
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.ore_export_price + (1f - pc_PrivateBuildingAI.ore_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider / 2.22f);
                     if ((comm_data.building_money[buildingID] - trade_income) > 0)
                     {
                         trade_tax = -trade_income * 0.45f;

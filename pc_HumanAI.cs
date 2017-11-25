@@ -47,32 +47,35 @@ namespace RealCity
             }
         }
 
-        public void process_tourism_income(ushort instanceID, CitizenInstance citizenData)
+
+        public static TransferManager.TransferReason get_shopping_reason(ushort buildingID)
         {
-            System.Random rand = new System.Random();
             BuildingManager instance2 = Singleton<BuildingManager>.instance;
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint citizen = citizenData.m_citizen;
-            BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
-            ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-            uint homeid = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-
-            int num = 100;
             TransferManager.TransferReason temp_transfer_reason = TransferManager.TransferReason.None;
+            System.Random rand = new System.Random();
+            int aliveWorkCount = 0;
+            int totalWorkCount = 0;
+            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+            BuildingUI.GetWorkBehaviour(buildingID, ref instance2.m_buildings.m_buffer[(int)buildingID], ref behaviour, ref aliveWorkCount, ref totalWorkCount);
 
-            switch (instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info.m_class.m_subService)
+            if (aliveWorkCount > 40)
+            {
+                aliveWorkCount = 40;
+            }
+            switch (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialLow:
-                    if(rand.Next(100) < 2)
+                    if (rand.Next(100) < (aliveWorkCount *2))
                     {
                         temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    } else
+                    }
+                    else
                     {
                         temp_transfer_reason = TransferManager.TransferReason.Shopping;
                     }
                     break;
                 case ItemClass.SubService.CommercialHigh:
-                    if (rand.Next(100) < 4)
+                    if (rand.Next(100) < (aliveWorkCount * 2))
                     {
                         temp_transfer_reason = TransferManager.TransferReason.Entertainment;
                     }
@@ -103,8 +106,22 @@ namespace RealCity
                     break;
                 default: temp_transfer_reason = TransferManager.TransferReason.Shopping; break;
             }
+            return temp_transfer_reason;
+        }
+
+        public void process_tourism_income(ushort instanceID, CitizenInstance citizenData)
+        {
+            BuildingManager instance2 = Singleton<BuildingManager>.instance;
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint citizen = citizenData.m_citizen;
+            BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
+            ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+            uint homeid = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+
+            int num = 100;
 
 
+            TransferManager.TransferReason temp_transfer_reason = get_shopping_reason(citizenData.m_targetBuilding);
 
             if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None))
             {

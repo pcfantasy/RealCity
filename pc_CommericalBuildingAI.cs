@@ -88,7 +88,8 @@ namespace RealCity
                 amountDelta = -100;
                 int customBuffer1 = (int)data.m_customBuffer1;
                 amountDelta = Mathf.Clamp(amountDelta, -customBuffer1, 0);
-                int temp_amount = (int)(amountDelta * 0.95f);
+                float employee_benefit = caculate_employee_benefit(buildingID, ref data);
+                int temp_amount = (int)(amountDelta * (0.8f + employee_benefit));
                 caculate_trade_income(buildingID, ref data, material, ref temp_amount);
                 data.m_customBuffer1 = (ushort)(customBuffer1 + amountDelta);
             }
@@ -160,6 +161,20 @@ namespace RealCity
             return tax_benefit;
         }
 
+        public float caculate_employee_benefit(ushort buildingID, ref Building data)
+        {
+            int aliveWorkCount = 0;
+            int totalWorkCount = 0;
+            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+            BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+            float employee_benefit = aliveWorkCount / 100f;
+            if (employee_benefit > 0.2f)
+            {
+                employee_benefit = 0.2f;
+            }
+            return employee_benefit;
+        }
+
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_tax = 0;
@@ -170,11 +185,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.21f * tax_benefit; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.15f * tax_benefit; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.23f * tax_benefit; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.17f * tax_benefit; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f * tax_benefit; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.19f * tax_benefit; break;
                     default:
                         trade_income = 0; break;
                 }

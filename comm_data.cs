@@ -8,7 +8,7 @@
         public const byte game_maintain_fee_decrease2 = 1;
         public const byte game_maintain_fee_decrease3 = 1;
 
-        public const float ConsumptionDivider = 10f;
+        public const float ConsumptionDivider = 8f;
 
         //1.  citizen
         //1.1 citizen salary
@@ -65,21 +65,21 @@
         public const byte comm_eco_education3 = 100;
 
         //indus generic
-        public const byte indus_gen_level1_education0 = 35;
-        public const byte indus_gen_level2_education0 = 45;
-        public const byte indus_gen_level3_education0 = 60;
+        public const byte indus_gen_level1_education0 = 25;
+        public const byte indus_gen_level2_education0 = 30;
+        public const byte indus_gen_level3_education0 = 35;
 
-        public const byte indus_gen_level1_education1 = 40;
-        public const byte indus_gen_level2_education1 = 50;
-        public const byte indus_gen_level3_education1 = 65;
+        public const byte indus_gen_level1_education1 = 30;
+        public const byte indus_gen_level2_education1 = 35;
+        public const byte indus_gen_level3_education1 = 40;
 
-        public const byte indus_gen_level1_education2 = 50;
-        public const byte indus_gen_level2_education2 = 60;
-        public const byte indus_gen_level3_education2 = 75;
+        public const byte indus_gen_level1_education2 = 40;
+        public const byte indus_gen_level2_education2 = 45;
+        public const byte indus_gen_level3_education2 = 50;
 
-        public const byte indus_gen_level1_education3 = 65;
-        public const byte indus_gen_level2_education3 = 75;
-        public const byte indus_gen_level3_education3 = 80;
+        public const byte indus_gen_level1_education3 = 50;
+        public const byte indus_gen_level2_education3 = 55;
+        public const byte indus_gen_level3_education3 = 60;
 
         //industrial farmer
         public const byte indus_far_education0 = 70;

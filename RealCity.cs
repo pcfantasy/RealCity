@@ -507,7 +507,7 @@ namespace RealCity
                     tip2_message_forgui += "";
                 }
 
-                if (!pc_OutsideConnectionAI.have_maintain_road_building)
+                if (!pc_OutsideConnectionAI.have_maintain_road_building && (comm_data.road_connection))
                 {
                     //try_say_something(language.TipAndChirperMessage[21]);
                     tip3_message_forgui = language.TipAndChirperMessage[22];
@@ -518,7 +518,7 @@ namespace RealCity
                     tip3_message_forgui = language.TipAndChirperMessage[24];
                 }
 
-                if (!pc_OutsideConnectionAI.have_garbage_building)
+                if (!pc_OutsideConnectionAI.have_garbage_building && (comm_data.garbage_connection))
                 {
                     try_say_something(language.TipAndChirperMessage[25]);
                     tip4_message_forgui = language.TipAndChirperMessage[26];
@@ -529,7 +529,7 @@ namespace RealCity
                     tip4_message_forgui = language.TipAndChirperMessage[28];
                 }
 
-                if (!pc_OutsideConnectionAI.have_cemetry_building)
+                if (!pc_OutsideConnectionAI.have_cemetry_building && (comm_data.dead_connection))
                 {
                     try_say_something(language.TipAndChirperMessage[29]);
                     tip5_message_forgui = language.TipAndChirperMessage[30];
@@ -540,7 +540,7 @@ namespace RealCity
                     tip5_message_forgui = language.TipAndChirperMessage[32];
                 }
 
-                if (!pc_OutsideConnectionAI.have_hospital_building)
+                if (!pc_OutsideConnectionAI.have_hospital_building && (comm_data.sick_connection))
                 {
                     try_say_something(language.TipAndChirperMessage[33]);
                     tip6_message_forgui = language.TipAndChirperMessage[34];
@@ -551,7 +551,7 @@ namespace RealCity
                     tip6_message_forgui = language.TipAndChirperMessage[36];
                 }
 
-                if (!pc_OutsideConnectionAI.have_fire_building)
+                if (!pc_OutsideConnectionAI.have_fire_building && (comm_data.fire_connection))
                 {
                     try_say_something(language.TipAndChirperMessage[37]);
                     tip7_message_forgui = language.TipAndChirperMessage[38];
@@ -562,7 +562,7 @@ namespace RealCity
                     tip7_message_forgui = language.TipAndChirperMessage[40];
                 }
 
-                if (!pc_OutsideConnectionAI.have_police_building)
+                if (!pc_OutsideConnectionAI.have_police_building && (comm_data.crime_connection))
                 {
                     try_say_something(language.TipAndChirperMessage[41]);
                     tip8_message_forgui = language.TipAndChirperMessage[42];

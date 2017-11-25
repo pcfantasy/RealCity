@@ -1195,6 +1195,7 @@ namespace RealCity
                     break;
                 case ItemClass.SubService.IndustrialForestry:
                     industy_forest_trade_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
+                    //DebugLog.LogToFileOnly("industy_forest_trade_income = " + industy_forest_trade_income.ToString() + " " + amount.ToString());
                     if (industy_forest_trade_income > 1)
                     {
                         amount = (int)industy_forest_trade_income;
@@ -1968,6 +1969,10 @@ namespace RealCity
             {
                 _init = true;
                 Init();
+            }
+            if (amount < 0)
+            {
+                DebugLog.LogToFileOnly("income < 0 error: class =" + service.ToString() + subService.ToString() + level.ToString());
             }
             if (taxRate == 115)
             {

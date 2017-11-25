@@ -139,7 +139,7 @@ namespace RealCity
             loss_building_num += pc_PrivateBuildingAI.all_ore_building_loss_final;
             loss_building_num += pc_PrivateBuildingAI.all_industry_building_loss_final;
 
-            if ((profit_building_num + loss_building_num) > 10)
+            if ((profit_building_num + loss_building_num) > 20)
             {
                 if (loss_building_num != 0)
                 {

@@ -11,7 +11,7 @@ namespace RealCity
 {
     public class pc_OutsideConnectionAI : BuildingAI
     {
-        public static int m_cargoCapacity = 20;
+        public static int m_cargoCapacity = 40;
 
         public static int m_residentCapacity = 1000;
 
@@ -133,6 +133,14 @@ namespace RealCity
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyTrain;
                 }
                 m_dummyTrafficFactor = rand.Next(800) + 200;
+                if (comm_data.outside_road_num_final != 0)
+                {
+                    m_cargoCapacity = (int)((1f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 65000f)) * 40);
+                    //DebugLog.LogToFileOnly("m_cargoCapacity = " + m_cargoCapacity.ToString());
+                } else
+                {
+                    m_cargoCapacity = 20;
+                }
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
                 caculate_outside_situation(buildingID, ref data);
                 process_outside_demand(buildingID, ref data);
@@ -286,9 +294,9 @@ namespace RealCity
                     {
                         data.m_waterBuffer = (ushort)(data.m_waterBuffer + 200);
                     }
-                    else if (RealCity.update_once && (data.m_waterBuffer != 31000))
+                    else if (RealCity.update_once && (data.m_waterBuffer != 32500))
                     {
-                        data.m_waterBuffer = 31000;
+                        data.m_waterBuffer = 32500;
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                         offer.Building = buildingID;
                         Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);

@@ -693,12 +693,12 @@ namespace RealCity
             this.m_policecar.autoSize = true;
             this.m_policecar.name = "Moreeconomic_Text_48";
 
-            this.m_firetruck = base.AddUIComponent<UILabel>();
-            this.m_firetruck.text = string.Format("m_firetruck [00000]");
-            this.m_firetruck.tooltip = language.EconomicUI[124];
-            this.m_firetruck.relativePosition = new Vector3(this.m_policecar.relativePosition.x + this.m_policecar.width + SPACING, this.m_policecar.relativePosition.y);
-            this.m_firetruck.autoSize = true;
-            this.m_firetruck.name = "Moreeconomic_Text_48";
+            //this.m_firetruck = base.AddUIComponent<UILabel>();
+            //this.m_firetruck.text = string.Format("m_firetruck [00000]");
+            //this.m_firetruck.tooltip = language.EconomicUI[124];
+            //this.m_firetruck.relativePosition = new Vector3(this.m_policecar.relativePosition.x + this.m_policecar.width + SPACING, this.m_policecar.relativePosition.y);
+            //this.m_firetruck.autoSize = true;
+            //this.m_firetruck.name = "Moreeconomic_Text_48";
 
             this.tip1 = base.AddUIComponent<UILabel>();
             this.tip1.text = string.Format("tip1: [0000000000]");
@@ -907,7 +907,7 @@ namespace RealCity
                 this.m_policestation.text = string.Format(language.EconomicUI[119] + " [{0}/{1}]", comm_data.outside_crime, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_jailCapacity);
                 this.m_policecar.text = string.Format(language.EconomicUI[121] + " [{0}/{1}]", comm_data.outside_police_car, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_policeCarCount);
 
-                this.m_firetruck.text = string.Format(language.EconomicUI[123] + " [{0}/{1}]", comm_data.firetruck, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_fireTruckCount);
+                //this.m_firetruck.text = string.Format(language.EconomicUI[123] + " [{0}/{1}]", comm_data.firetruck, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_fireTruckCount);
 
                 this.tip1.text = string.Format(language.EconomicUI[125] + "  " + RealCity.tip1_message_forgui);
                 this.tip2.text = string.Format(language.EconomicUI[127] + "  " + RealCity.tip2_message_forgui);
