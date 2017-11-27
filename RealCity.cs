@@ -233,7 +233,7 @@ namespace RealCity
             LoadSetting();
             language.language_switch(comm_data.last_language);
             UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
-            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文"}, comm_data.last_language, (index) => get_language_idex(index));
+            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文" }, comm_data.last_language, (index) => get_language_idex(index));
 
             UIHelperBase group1 = helper.AddGroup(language.OptionUI[2]);
             group1.AddCheckbox(language.OptionUI[3], comm_data.garbage_connection, (index) => get_garbage_connection(index));
@@ -252,7 +252,7 @@ namespace RealCity
             SaveSetting();
         }
 
-        public void get_language_idex ( int index)
+        public void get_language_idex(int index)
         {
             language_idex = index;
             language.language_switch((byte)language_idex);
@@ -338,7 +338,7 @@ namespace RealCity
             method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
 
-        public void outsidefirehelp (bool index)
+        public void outsidefirehelp(bool index)
         {
             comm_data.firehelp = index;
             if (comm_data.firehelp)
@@ -385,25 +385,6 @@ namespace RealCity
                     caculate_citizen_transport_fee();
                     generate_tips();
 
-                    //initialize building ui again
-                    if (comm_data.update_outside_count == 16)
-                    {
-                        Loader.guiPanel2.transform.parent = Loader.buildingInfo.transform;
-                        Loader.guiPanel2.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
-                        Loader.guiPanel2.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-                        Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
-
-                        //initialize human ui again
-                        Loader.guiPanel3.transform.parent = Loader.HumanInfo.transform;
-                        Loader.guiPanel3.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
-                        Loader.guiPanel3.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
-                        Loader.guiPanel3.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
-                    }
-
-                    /*if ((language.current_language != comm_data.last_language) || (language.current_language == 255))
-                    {
-                        language.language_switch((byte)language_idex);
-                    }*/
                     comm_data.is_updated = true;
                     comm_data.update_money_count++;
                     if (comm_data.update_money_count == 17)
@@ -413,7 +394,7 @@ namespace RealCity
                     pc_EconomyManager.clean_current(comm_data.update_money_count);
                     comm_data.prev_time = comm_data.current_time;
                     //DebugLog.LogToFileOnly("update_money_count is " + comm_data.update_money_count.ToString());
-                 }
+                }
                 //if(num2 != 255u)
                 //{
                 //    comm_data.is_updated = false;
@@ -434,12 +415,14 @@ namespace RealCity
                             try_say_something(language.TipAndChirperMessage[2]);
                             tip1_message_forgui = language.TipAndChirperMessage[3];
 
-                        } else if (comm_data.citizen_average_transport_fee > 25)
+                        }
+                        else if (comm_data.citizen_average_transport_fee > 25)
                         {
                             try_say_something(language.TipAndChirperMessage[4]);
                             try_say_something(language.TipAndChirperMessage[5]);
                             tip1_message_forgui = language.TipAndChirperMessage[6];
-                        } else
+                        }
+                        else
                         {
                             try_say_something(language.TipAndChirperMessage[7]);
                             try_say_something(language.TipAndChirperMessage[8]);
@@ -472,7 +455,8 @@ namespace RealCity
                         try_say_something(language.TipAndChirperMessage[15]);
                         tip2_message_forgui = language.TipAndChirperMessage[16];
                     }
-                } else
+                }
+                else
                 {
                     tip2_message_forgui = "";
                 }
@@ -889,7 +873,7 @@ namespace RealCity
 
                             //if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Commercial)
                             //{
-                                //DebugLog.LogToFileOnly("angle and length" + instance.m_buildings.m_buffer[i].m_angle.ToString() + instance.m_buildings.m_buffer[i].m_length.ToString());
+                            //DebugLog.LogToFileOnly("angle and length" + instance.m_buildings.m_buffer[i].m_angle.ToString() + instance.m_buildings.m_buffer[i].m_length.ToString());
                             //}
 
                             if (pc_OutsideConnectionAI.have_fire_building && pc_OutsideConnectionAI.have_hospital_building && pc_OutsideConnectionAI.have_garbage_building && pc_OutsideConnectionAI.have_maintain_road_building && pc_OutsideConnectionAI.have_cemetry_building && pc_OutsideConnectionAI.have_police_building)
@@ -1035,7 +1019,7 @@ namespace RealCity
 
             public void caculate_profit()
             {
-                if(comm_data.update_outside_count > 64)
+                if (comm_data.update_outside_count > 64)
                 {
                     comm_data.update_outside_count = 0;
                 }
@@ -1203,7 +1187,7 @@ namespace RealCity
                     //pc_PrivateBuildingAI.ore_export_ratio = 1;
                 }
                 //good
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final  + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final) != 0)
+                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final) != 0)
                 {
                     pc_PrivateBuildingAI.good_import_ratio = (float)pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final);
                 }
@@ -1224,7 +1208,8 @@ namespace RealCity
                 if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
                 {
                     pc_PrivateBuildingAI.good_level2_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
-                } else
+                }
+                else
                 {
                     //pc_PrivateBuildingAI.good_level2_ratio = 0f;
                 }
@@ -1249,6 +1234,18 @@ namespace RealCity
                 pc_PrivateBuildingAI.oil_profit = (float)(5f + 10f * (1f - oil_export_ratio))/100f;
                 pc_PrivateBuildingAI.ore_profit = (float)(5f + 10f * (1f - ore_export_ratio))/100f;*/
 
+            }
+        }
+
+        public class ThreadingRealCityStatsMod : ThreadingExtensionBase
+        {
+            public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
+            {
+                if (!(Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment)) && (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount <= 1100))
+                {
+                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount = 1100;
+                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_tempCount = 1100;
+                }
             }
         }
     }

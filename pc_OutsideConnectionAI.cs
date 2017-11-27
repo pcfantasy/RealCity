@@ -116,7 +116,7 @@ namespace RealCity
                 System.Random rand = new System.Random();
                 //int temp = rand.Next(4);
 
-                if (data.Info.m_class.m_service ==  ItemClass.Service.Road)
+                if (data.Info.m_class.m_service == ItemClass.Service.Road)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyCar;
                 }
@@ -178,11 +178,11 @@ namespace RealCity
                         }
                     }
                 }
-            } 
+            }
 
         }
 
-        public void caculate_outside_situation (ushort buildingID, ref Building data)
+        public void caculate_outside_situation(ushort buildingID, ref Building data)
         {
             if (comm_data.outside_pre_building < buildingID)
             {
@@ -367,20 +367,100 @@ namespace RealCity
             {
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    int num24 = (int)data.m_garbageBuffer;
-                    if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                    int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
+                    SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                    if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                     {
-                        int num25 = 0;
-                        int num26 = 0;
-                        int num27 = 0;
-                        int num28 = 0;
-                        this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
-                        num24 -= num27 - num26;
-                        //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
-                        if (num24 >= 200)
+                        if (instance1.m_randomizer.Int32(128u) == 0)
+                        {
+                            DebugLog.LogToFileOnly("outside connection is not good for car in for garbageoffers");
+                            int num24 = (int)data.m_garbageBuffer;
+                            if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                            {
+                                int num25 = 0;
+                                int num26 = 0;
+                                int num27 = 0;
+                                int num28 = 0;
+                                this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
+                                num24 -= num27 - num26;
+                                //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
+                                if (num24 >= 200)
+                                {
+                                    offer = default(TransferManager.TransferOffer);
+                                    offer.Priority = num24 / 1000;
+                                    if (offer.Priority > 7)
+                                    {
+                                        offer.Priority = 7;
+                                    }
+                                    offer.Building = buildingID;
+                                    offer.Position = data.m_position;
+                                    offer.Amount = 1;
+                                    offer.Active = false;
+                                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int num24 = (int)data.m_garbageBuffer;
+                        if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                        {
+                            int num25 = 0;
+                            int num26 = 0;
+                            int num27 = 0;
+                            int num28 = 0;
+                            this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
+                            num24 -= num27 - num26;
+                            //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
+                            if (num24 >= 200)
+                            {
+                                offer = default(TransferManager.TransferOffer);
+                                offer.Priority = num24 / 1000;
+                                if (offer.Priority > 7)
+                                {
+                                    offer.Priority = 7;
+                                }
+                                offer.Building = buildingID;
+                                offer.Position = data.m_position;
+                                offer.Amount = 1;
+                                offer.Active = false;
+                                Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    int car_valid_path = TickPathfindStatus(ref data.m_teens, ref data.m_serviceProblemTimer);
+                    SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                    if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
+                    {
+                        if (instance1.m_randomizer.Int32(128u) == 0)
+                        {
+                            DebugLog.LogToFileOnly("outside connection is not good for car out for garbagemoveoffers");
+                            if (data.m_garbageBuffer > 5000)
+                            {
+                                offer = default(TransferManager.TransferOffer);
+                                offer.Priority = 1 + data.m_garbageBuffer / 5000;
+                                if (offer.Priority > 7)
+                                {
+                                    offer.Priority = 7;
+                                }
+                                offer.Building = buildingID;
+                                offer.Position = data.m_position;
+                                offer.Amount = 1;
+                                offer.Active = true;
+                                Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (data.m_garbageBuffer > 5000)
                         {
                             offer = default(TransferManager.TransferOffer);
-                            offer.Priority = num24 / 1000;
+                            offer.Priority = 1 + data.m_garbageBuffer / 5000;
                             if (offer.Priority > 7)
                             {
                                 offer.Priority = 7;
@@ -388,26 +468,9 @@ namespace RealCity
                             offer.Building = buildingID;
                             offer.Position = data.m_position;
                             offer.Amount = 1;
-                            offer.Active = false;
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                            offer.Active = true;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
                         }
-                    }
-                }
-                else
-                {
-                    if (data.m_garbageBuffer > 5000)
-                    {
-                        offer = default(TransferManager.TransferOffer);
-                        offer.Priority = 1 + data.m_garbageBuffer / 5000;
-                        if (offer.Priority > 7)
-                        {
-                            offer.Priority = 7;
-                        }
-                        offer.Building = buildingID;
-                        offer.Position = data.m_position;
-                        offer.Amount = 1;
-                        offer.Active = true;
-                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
                     }
                 }
             }
@@ -418,19 +481,44 @@ namespace RealCity
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
             if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
             {
-                if (data.m_customBuffer1 > 10)
+                int car_valid_path = TickPathfindStatus(ref data.m_teens, ref data.m_serviceProblemTimer);
+                SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                 {
-                    offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + data.m_customBuffer1 / 5;
-                    if (offer.Priority > 7)
+                    if (instance1.m_randomizer.Int32(128u) == 0)
                     {
-                        offer.Priority = 7;
+                        DebugLog.LogToFileOnly("outside connection is not good for car out for deadmoveoffers");
+                        if (data.m_customBuffer1 > 10)
+                        {
+                            offer = default(TransferManager.TransferOffer);
+                            offer.Priority = 1 + data.m_customBuffer1 / 5;
+                            if (offer.Priority > 7)
+                            {
+                                offer.Priority = 7;
+                            }
+                            offer.Building = buildingID;
+                            offer.Position = data.m_position;
+                            offer.Amount = 1;
+                            offer.Active = true;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
+                        }
                     }
-                    offer.Building = buildingID;
-                    offer.Position = data.m_position;
-                    offer.Amount = 1;
-                    offer.Active = true;
-                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
+                } else
+                {
+                    if (data.m_customBuffer1 > 10)
+                    {
+                        offer = default(TransferManager.TransferOffer);
+                        offer.Priority = 1 + data.m_customBuffer1 / 5;
+                        if (offer.Priority > 7)
+                        {
+                            offer.Priority = 7;
+                        }
+                        offer.Building = buildingID;
+                        offer.Position = data.m_position;
+                        offer.Amount = 1;
+                        offer.Active = true;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
+                    }
                 }
             }
         }
@@ -446,19 +534,45 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Crime, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Addpoliceoffers " + data.m_crimeBuffer.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_crimeBuffer - (num27 - num26) * 100) > 10)
+                int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
+                SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                 {
-                    offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_crimeBuffer - (num27 - num26) * 100) / 5;
-                    if (offer.Priority > 7)
+                    if (instance1.m_randomizer.Int32(128u) == 0)
                     {
-                        offer.Priority = 7;
+                        DebugLog.LogToFileOnly("outside connection is not good for car in for crimeoffers");
+                        if ((data.m_crimeBuffer - (num27 - num26) * 100) > 10)
+                        {
+                            offer = default(TransferManager.TransferOffer);
+                            offer.Priority = 1 + (data.m_crimeBuffer - (num27 - num26) * 100) / 5;
+                            if (offer.Priority > 7)
+                            {
+                                offer.Priority = 7;
+                            }
+                            offer.Building = buildingID;
+                            offer.Position = data.m_position;
+                            offer.Amount = 1;
+                            offer.Active = false;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Crime, offer);
+                        }
                     }
-                    offer.Building = buildingID;
-                    offer.Position = data.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Crime, offer);
+                }
+                else
+                {
+                    if ((data.m_crimeBuffer - (num27 - num26) * 100) > 10)
+                    {
+                        offer = default(TransferManager.TransferOffer);
+                        offer.Priority = 1 + (data.m_crimeBuffer - (num27 - num26) * 100) / 5;
+                        if (offer.Priority > 7)
+                        {
+                            offer.Priority = 7;
+                        }
+                        offer.Building = buildingID;
+                        offer.Position = data.m_position;
+                        offer.Amount = 1;
+                        offer.Active = false;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Crime, offer);
+                    }
                 }
             }
         }
@@ -474,19 +588,44 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.RoadMaintenance, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Road offers " + data.m_waterBuffer.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_waterBuffer - (num27 - num26) * 100) > 10)
+                int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
+                SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                 {
-                    offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
-                    if (offer.Priority > 7)
+                    if (instance1.m_randomizer.Int32(128u) == 0)
                     {
-                        offer.Priority = 7;
+                        DebugLog.LogToFileOnly("outside connection is not good for car in for roadoffers");
+                        if ((data.m_waterBuffer - (num27 - num26) * 100) > 10)
+                        {
+                            offer = default(TransferManager.TransferOffer);
+                            offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
+                            if (offer.Priority > 7)
+                            {
+                                offer.Priority = 7;
+                            }
+                            offer.Building = buildingID;
+                            offer.Position = data.m_position;
+                            offer.Amount = 1;
+                            offer.Active = false;
+                            Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
+                        }
                     }
-                    offer.Building = buildingID;
-                    offer.Position = data.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
+                } else
+                {
+                    if ((data.m_waterBuffer - (num27 - num26) * 100) > 10)
+                    {
+                        offer = default(TransferManager.TransferOffer);
+                        offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
+                        if (offer.Priority > 7)
+                        {
+                            offer.Priority = 7;
+                        }
+                        offer.Building = buildingID;
+                        offer.Position = data.m_position;
+                        offer.Amount = 1;
+                        offer.Active = false;
+                        Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
+                    }
                 }
             }
         }
@@ -502,19 +641,44 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Fire, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Addfireoffers " + data.m_electricityBuffer.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_electricityBuffer - (num27 - num26) * 100) > 10)
+                int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
+                SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                 {
-                    offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_electricityBuffer - (num27 - num26) * 100) / 5;
-                    if (offer.Priority > 7)
+                    if (instance1.m_randomizer.Int32(128u) == 0)
                     {
-                        offer.Priority = 7;
+                        DebugLog.LogToFileOnly("outside connection is not good for car in for fireoffers");
+                        if ((data.m_electricityBuffer - (num27 - num26) * 100) > 10)
+                        {
+                            offer = default(TransferManager.TransferOffer);
+                            offer.Priority = 1 + (data.m_electricityBuffer - (num27 - num26) * 100) / 5;
+                            if (offer.Priority > 7)
+                            {
+                                offer.Priority = 7;
+                            }
+                            offer.Building = buildingID;
+                            offer.Position = data.m_position;
+                            offer.Amount = 1;
+                            offer.Active = false;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Fire, offer);
+                        }
                     }
-                    offer.Building = buildingID;
-                    offer.Position = data.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Fire, offer);
+                } else
+                {
+                    if ((data.m_electricityBuffer - (num27 - num26) * 100) > 10)
+                    {
+                        offer = default(TransferManager.TransferOffer);
+                        offer.Priority = 1 + (data.m_electricityBuffer - (num27 - num26) * 100) / 5;
+                        if (offer.Priority > 7)
+                        {
+                            offer.Priority = 7;
+                        }
+                        offer.Building = buildingID;
+                        offer.Position = data.m_position;
+                        offer.Amount = 1;
+                        offer.Active = false;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Fire, offer);
+                    }
                 }
             }
         }
@@ -530,19 +694,44 @@ namespace RealCity
                 int num28 = 0;
                 this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Sick, ref num25, ref num26, ref num27, ref num28);
                 //DebugLog.LogToFileOnly("Addsickoffers " + data.m_customBuffer2.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                if ((data.m_customBuffer2 - (num27 - num26) * 100)  > 10)
+                int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
+                SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                 {
-                    offer = default(TransferManager.TransferOffer);
-                    offer.Priority = 1 + (data.m_customBuffer2 - (num27 - num26) * 100) / 5;
-                    if (offer.Priority > 7)
+                    if (instance1.m_randomizer.Int32(128u) == 0)
                     {
-                        offer.Priority = 7;
+                        DebugLog.LogToFileOnly("outside connection is not good for car in for sickoffers");
+                        if ((data.m_customBuffer2 - (num27 - num26) * 100) > 10)
+                        {
+                            offer = default(TransferManager.TransferOffer);
+                            offer.Priority = 1 + (data.m_customBuffer2 - (num27 - num26) * 100) / 5;
+                            if (offer.Priority > 7)
+                            {
+                                offer.Priority = 7;
+                            }
+                            offer.Building = buildingID;
+                            offer.Position = data.m_position;
+                            offer.Amount = 1;
+                            offer.Active = false;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Sick, offer);
+                        }
                     }
-                    offer.Building = buildingID;
-                    offer.Position = data.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Sick, offer);
+                } else
+                {
+                    if ((data.m_customBuffer2 - (num27 - num26) * 100) > 10)
+                    {
+                        offer = default(TransferManager.TransferOffer);
+                        offer.Priority = 1 + (data.m_customBuffer2 - (num27 - num26) * 100) / 5;
+                        if (offer.Priority > 7)
+                        {
+                            offer.Priority = 7;
+                        }
+                        offer.Building = buildingID;
+                        offer.Position = data.m_position;
+                        offer.Amount = 1;
+                        offer.Active = false;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Sick, offer);
+                    }
                 }
             }
         }
@@ -552,12 +741,20 @@ namespace RealCity
             System.Random rand = new System.Random();
 
             //gabarge
-            Addgarbageoffers(buildingID, ref data);
-            Adddeadoffers(buildingID, ref data);
-            Addpoliceoffers(buildingID, ref data);
-            Addfireoffers(buildingID, ref data);
-            Addsickoffers(buildingID, ref data);
-            Addroadoffers(buildingID, ref data);
+            if (data.Info.m_class.m_service == ItemClass.Service.Road)
+            {
+                Addgarbageoffers(buildingID, ref data);
+                if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+                {
+                    Addpoliceoffers(buildingID, ref data);
+                    Addfireoffers(buildingID, ref data);
+                    Addsickoffers(buildingID, ref data);
+                    Addroadoffers(buildingID, ref data);
+                } else
+                {
+                    Adddeadoffers(buildingID, ref data);
+                }
+            }
         }
 
 
@@ -838,7 +1035,7 @@ namespace RealCity
                 }
                 else
                 {
-                       //do nothing
+                    //do nothing
                 }
             }
         }
@@ -994,25 +1191,64 @@ namespace RealCity
             int num11 = m_patientCapacity - num5 - num9 - num19;
             int num12 = (100 * m_ambulanceCount + 99) / 100;
 
+            SimulationManager instance1 = Singleton<SimulationManager>.instance;
+            int car_valid_path = TickPathfindStatus(ref buildingData1.m_teens, ref buildingData1.m_serviceProblemTimer);
+            int human_valid_path = TickPathfindStatus(ref buildingData.m_workerProblemTimer, ref buildingData.m_taxProblemTimer);
+
             if (comm_data.hospitalhelp && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
             {
                 if (num11 >= 1)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                     offer.Position = buildingData.m_position;
-                    if ((num7 + num17) < num12)
+                    if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                     {
-                        offer.Building = buildingID1;
-                        offer.Priority = 7;
-                        offer.Amount = Mathf.Min(num11, num12 - num7 - num17);
-                        offer.Active = true;
+                        if (instance1.m_randomizer.Int32(128u) == 0)
+                        {
+                            DebugLog.LogToFileOnly("outside connection is not good for car out for ProducehospitalGoods");
+                            if ((num7 + num17) < num12)
+                            {
+                                offer.Building = buildingID1;
+                                offer.Priority = 7;
+                                offer.Amount = Mathf.Min(num11, num12 - num7 - num17);
+                                offer.Active = true;
+                            }
+                        }
                     }
                     else
                     {
-                        offer.Building = buildingID;
-                        offer.Priority = 1;
-                        offer.Amount = num11;
-                        offer.Active = false;
+                        if ((num7 + num17) < num12)
+                        {
+                            offer.Building = buildingID1;
+                            offer.Priority = 7;
+                            offer.Amount = Mathf.Min(num11, num12 - num7 - num17);
+                            offer.Active = true;
+                        }
+                    }
+
+                    if (human_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
+                    {
+                        if (instance1.m_randomizer.Int32(128u) == 0)
+                        {
+                            DebugLog.LogToFileOnly("outside connection is not good for human in for ProducehospitalGoods");
+                            if ((num7 + num17) >= num12)
+                            {
+                                offer.Building = buildingID;
+                                offer.Priority = 1;
+                                offer.Amount = num11;
+                                offer.Active = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((num7 + num17) >= num12)
+                        {
+                            offer.Building = buildingID;
+                            offer.Priority = 1;
+                            offer.Amount = num11;
+                            offer.Active = false;
+                        }
                     }
                     Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Sick, offer);
                 }
@@ -1022,7 +1258,7 @@ namespace RealCity
 
 
         // FireStationAI
-        protected void ProduceFireGoods(ushort buildingID, ushort buildingID1, ref Building buildingData, ref Building buildingData1)
+        /*protected void ProduceFireGoods(ushort buildingID, ushort buildingID1, ref Building buildingData, ref Building buildingData1)
         {
             int num = 100 * m_fireDepartmentAccumulation / 100;
             if (num != 0)
@@ -1058,7 +1294,7 @@ namespace RealCity
                     Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Fire, offer);
                 }
             }
-        }
+        }*/
 
 
 
@@ -1167,19 +1403,62 @@ namespace RealCity
 
             int num18 = (100 * m_policeCarCount + 99) / 100;
             comm_data.outside_police_car += (ushort)(num10 + num14);
-            if (comm_data.policehelp && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
+
+
+            SimulationManager instance1 = Singleton<SimulationManager>.instance;
+            int car_valid_path = TickPathfindStatus(ref buildingData1.m_teens, ref buildingData1.m_serviceProblemTimer);
+            if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
             {
-                if ((num10 + num14) < num18)
+                DebugLog.LogToFileOnly("outside connection is not good for ProducePoliceGoods");
+                if (instance1.m_randomizer.Int32(16u) == 0)
                 {
-                    TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
-                    offer2.Priority = 2 - num10 - num14;
-                    offer2.Building = buildingID1;
-                    offer2.Position = buildingData1.m_position;
-                    offer2.Amount = 1;
-                    offer2.Active = true;
-                    Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Crime, offer2);
+                    if (comm_data.policehelp && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
+                    {
+                        if ((num10 + num14) < num18)
+                        {
+                            TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
+                            offer2.Priority = 2 - num10 - num14;
+                            offer2.Building = buildingID1;
+                            offer2.Position = buildingData1.m_position;
+                            offer2.Amount = 1;
+                            offer2.Active = true;
+                            Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Crime, offer2);
+                        }
+                    }
+                }
+            } else
+            {
+                if (comm_data.policehelp && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
+                {
+                    if ((num10 + num14) < num18)
+                    {
+                        TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
+                        offer2.Priority = 2 - num10 - num14;
+                        offer2.Building = buildingID1;
+                        offer2.Position = buildingData1.m_position;
+                        offer2.Amount = 1;
+                        offer2.Active = true;
+                        Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.Crime, offer2);
+                    }
                 }
             }
+        }
+
+
+        private static int TickPathfindStatus(ref byte success, ref byte failure)
+        {
+            int result = ((int)success << 8) / Mathf.Max(1, (int)(success + failure));
+            if (success > failure)
+            {
+                success = (byte)(success + 1 >> 1);
+                failure = (byte)(failure >> 1);
+            }
+            else
+            {
+                success = (byte)(success >> 1);
+                failure = (byte)(failure + 1 >> 1);
+            }
+            return result;
         }
     }
 }

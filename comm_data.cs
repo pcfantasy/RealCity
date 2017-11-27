@@ -4,12 +4,15 @@
     {
 
         public const byte game_income_expense_multiple = 1;
-        public const byte game_maintain_fee_decrease = 100;
+        public const byte game_maintain_fee_decrease = 1;
         public const byte game_maintain_fee_decrease2 = 1;
         public const byte game_maintain_fee_decrease3 = 1;
 
-        public const float ConsumptionDivider = 8f;
+        public const float ConsumptionDivider = 20f;
+        public const float ConsumptionDivider1 = 4f;
 
+
+        public static bool try_unlock_farmer = true;
         //1.  citizen
         //1.1 citizen salary
 
@@ -65,45 +68,45 @@
         public const byte comm_eco_education3 = 100;
 
         //indus generic
-        public const byte indus_gen_level1_education0 = 25;
-        public const byte indus_gen_level2_education0 = 30;
-        public const byte indus_gen_level3_education0 = 35;
+        public const byte indus_gen_level1_education0 = 35;
+        public const byte indus_gen_level2_education0 = 40;
+        public const byte indus_gen_level3_education0 = 45;
 
-        public const byte indus_gen_level1_education1 = 30;
-        public const byte indus_gen_level2_education1 = 35;
-        public const byte indus_gen_level3_education1 = 40;
+        public const byte indus_gen_level1_education1 = 40;
+        public const byte indus_gen_level2_education1 = 45;
+        public const byte indus_gen_level3_education1 = 50;
 
-        public const byte indus_gen_level1_education2 = 40;
-        public const byte indus_gen_level2_education2 = 45;
-        public const byte indus_gen_level3_education2 = 50;
+        public const byte indus_gen_level1_education2 = 50;
+        public const byte indus_gen_level2_education2 = 55;
+        public const byte indus_gen_level3_education2 = 60;
 
-        public const byte indus_gen_level1_education3 = 50;
-        public const byte indus_gen_level2_education3 = 55;
-        public const byte indus_gen_level3_education3 = 60;
+        public const byte indus_gen_level1_education3 = 60;
+        public const byte indus_gen_level2_education3 = 65;
+        public const byte indus_gen_level3_education3 = 70;
 
         //industrial farmer
-        public const byte indus_far_education0 = 70;
-        public const byte indus_far_education1 = 75;
-        public const byte indus_far_education2 = 80;
-        public const byte indus_far_education3 = 85;
+        public const byte indus_far_education0 = 35;
+        public const byte indus_far_education1 = 40;
+        public const byte indus_far_education2 = 45;
+        public const byte indus_far_education3 = 50;
 
         //industrial foerest
-        public const byte indus_for_education0 = 75;
-        public const byte indus_for_education1 = 80;
-        public const byte indus_for_education2 = 85;
-        public const byte indus_for_education3 = 90;
+        public const byte indus_for_education0 = 35;
+        public const byte indus_for_education1 = 40;
+        public const byte indus_for_education2 = 45;
+        public const byte indus_for_education3 = 50;
 
         //industrial oil
-        public const byte indus_oil_education0 = 100;
-        public const byte indus_oil_education1 = 105;
-        public const byte indus_oil_education2 = 110;
-        public const byte indus_oil_education3 = 115;
+        public const byte indus_oil_education0 = 35;
+        public const byte indus_oil_education1 = 40;
+        public const byte indus_oil_education2 = 45;
+        public const byte indus_oil_education3 = 50;
 
         //industrial ore
-        public const byte indus_ore_education0 = 95;
-        public const byte indus_ore_education1 = 100;
-        public const byte indus_ore_education2 = 105;
-        public const byte indus_ore_education3 = 110;
+        public const byte indus_ore_education0 = 35;
+        public const byte indus_ore_education1 = 40;
+        public const byte indus_ore_education2 = 45;
+        public const byte indus_ore_education3 = 50;
 
         //office
         /*public const byte office_gen_level1_education0 = 70;

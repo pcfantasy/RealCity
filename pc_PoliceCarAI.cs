@@ -60,23 +60,7 @@ namespace RealCity
                 }
             }
             else
-            {
-                if ((data.m_sourceBuilding != 0) && Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
-                {
-                    var instance1 = Singleton<BuildingManager>.instance;
-                    //DebugLog.LogToFileOnly("try turn around get income hospital building = ");
-                    BuildingInfo info2 = instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Outgoing))
-                    {
-                        ushort num20 = instance1.FindBuilding(instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
-                        if (num20 != 0)
-                        {
-                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
-                            data.m_sourceBuilding = num20;
-                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
-                        }
-                    }
-                }
+            { 
 
                 if (this.m_info.m_class.m_level >= ItemClass.Level.Level4)
                 {
@@ -88,6 +72,27 @@ namespace RealCity
                     int num = -this.m_crimeCapacity;
                     BuildingInfo info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
                     info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+
+                    if ((data.m_sourceBuilding != 0) && Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                    {
+                        var instance1 = Singleton<BuildingManager>.instance;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(num * -1f * comm_data.game_maintain_fee_decrease), this.m_info.m_class);
+                        //DebugLog.LogToFileOnly("try turn around get income hospital building = ");
+                        BuildingInfo info2 = instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Outgoing))
+                        {
+                            ushort num20 = instance1.FindBuilding(instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
+                            if (num20 != 0)
+                            {
+                                instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                                data.m_sourceBuilding = num20;
+                                instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
+                            }
+                        }
+                    }
+
+
+
                     if ((data.m_flags & Vehicle.Flags.Emergency2) != (Vehicle.Flags)0)
                     {
                         this.ArrestCriminals(vehicleID, ref data, data.m_targetBuilding);

@@ -81,6 +81,7 @@ namespace RealCity
         public static RedirectCallsState state46;
         //public static RedirectCallsState state47;
         public static RedirectCallsState state48;
+        public static RedirectCallsState state49;
 
         public override void OnCreated(ILoading loading)
         {
@@ -203,6 +204,10 @@ namespace RealCity
             guiPanel2.isEnabled = value;
             if (value)
             {
+                Loader.guiPanel2.transform.parent = Loader.buildingInfo.transform;
+                Loader.guiPanel2.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
+                Loader.guiPanel2.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
+                Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
                 //DebugLog.LogToFileOnly("select building found!!!!!:\n");
                 //comm_data.current_buildingid = 0;
                 BuildingUI.refesh_once = true;
@@ -221,7 +226,12 @@ namespace RealCity
             guiPanel3.isEnabled = value;
             if (value)
             {
-                BuildingUI.refesh_once = true;
+                //initialize human ui again
+                Loader.guiPanel3.transform.parent = Loader.HumanInfo.transform;
+                Loader.guiPanel3.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                Loader.guiPanel3.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
+                Loader.guiPanel3.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                HumanUI.refesh_once = true;
                 guiPanel3.Show();
             }
             else
@@ -470,6 +480,10 @@ namespace RealCity
             var srcMethod48 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort) }, null);
             var destMethod48 = typeof(pc_ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort) }, null);
             state48 = RedirectionHelper.RedirectCalls(srcMethod48, destMethod48);
+
+            //var srcMethod49 = typeof(BuildingAI).GetMethod("CheckUnlocking", BindingFlags.Public | BindingFlags.Instance);
+            //var destMethod49 = typeof(pc_BuildingAI).GetMethod("CheckUnlocking_1", BindingFlags.Public | BindingFlags.Instance);
+            //state49 = RedirectionHelper.RedirectCalls(srcMethod49, destMethod49);
         }
 
         public void revert_detour()
@@ -524,6 +538,7 @@ namespace RealCity
             var srcMethod46 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             var srcMethod48 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort) }, null);
             //var srcMethod47 = typeof(PoliceCarAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            //var srcMethod49 = typeof(BuildingAI).GetMethod("CheckUnlocking", BindingFlags.Public | BindingFlags.Instance);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -573,6 +588,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod46, state46);
             //RedirectionHelper.RevertRedirect(srcMethod47, state47);
             RedirectionHelper.RevertRedirect(srcMethod48, state48);
+            //RedirectionHelper.RevertRedirect(srcMethod49, state49);
         }
     }
 }

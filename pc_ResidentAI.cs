@@ -3,6 +3,7 @@ using ColossalFramework;
 using UnityEngine;
 using ColossalFramework.Math;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace RealCity
 {
@@ -454,13 +455,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_bus_education0) + rand.Next(1); PublicTransport_bus += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_bus_education0) + rand.Next(1); PublicTransport_bus += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_bus_education1) + rand.Next(2); PublicTransport_bus += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_bus_education1) + rand.Next(2); PublicTransport_bus += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_bus_education2) + rand.Next(3); PublicTransport_bus += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_bus_education2) + rand.Next(3); PublicTransport_bus += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_bus_education3) + rand.Next(4); PublicTransport_bus += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_bus_education3) + rand.Next(4); PublicTransport_bus += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportTram:
@@ -471,13 +472,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_tram_education0) + rand.Next(1); PublicTransport_tram += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_tram_education0) + rand.Next(1); PublicTransport_tram += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_tram_education1) + rand.Next(2); PublicTransport_tram += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_tram_education1) + rand.Next(2); PublicTransport_tram += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_tram_education2) + rand.Next(3); PublicTransport_tram += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_tram_education2) + rand.Next(3); PublicTransport_tram += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_tram_education3) + rand.Next(4); PublicTransport_tram += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_tram_education3) + rand.Next(4); PublicTransport_tram += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportTrain:
@@ -488,13 +489,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_train_education0) + rand.Next(1); PublicTransport_train += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_train_education0) + rand.Next(1); PublicTransport_train += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_train_education1) + rand.Next(2); PublicTransport_train += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_train_education1) + rand.Next(2); PublicTransport_train += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_train_education2) + rand.Next(3); PublicTransport_train += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_train_education2) + rand.Next(3); PublicTransport_train += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_train_education3) + rand.Next(4); PublicTransport_train += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_train_education3) + rand.Next(4); PublicTransport_train += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportTaxi:
@@ -505,13 +506,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_taxi_education0) + rand.Next(1); PublicTransport_taxi += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_taxi_education0) + rand.Next(1); PublicTransport_taxi += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_taxi_education1) + rand.Next(2); PublicTransport_taxi += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_taxi_education1) + rand.Next(2); PublicTransport_taxi += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_taxi_education2) + rand.Next(3); PublicTransport_taxi += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_taxi_education2) + rand.Next(3); PublicTransport_taxi += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_taxi_education3) + rand.Next(4); PublicTransport_taxi += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_taxi_education3) + rand.Next(4); PublicTransport_taxi += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportShip:
@@ -522,13 +523,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_ship_education0) + rand.Next(1); PublicTransport_ship += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_ship_education0) + rand.Next(1); PublicTransport_ship += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_ship_education1) + rand.Next(2); PublicTransport_ship += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_ship_education1) + rand.Next(2); PublicTransport_ship += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_ship_education2) + rand.Next(3); PublicTransport_ship += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_ship_education2) + rand.Next(3); PublicTransport_ship += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_ship_education3) + rand.Next(4); PublicTransport_ship += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_ship_education3) + rand.Next(4); PublicTransport_ship += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportMetro:
@@ -539,13 +540,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_metro_education0) + rand.Next(1); PublicTransport_metro += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_metro_education0) + rand.Next(1); PublicTransport_metro += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_metro_education1) + rand.Next(2); PublicTransport_metro += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_metro_education1) + rand.Next(2); PublicTransport_metro += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_metro_education2) + rand.Next(3); PublicTransport_metro += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_metro_education2) + rand.Next(3); PublicTransport_metro += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_metro_education3) + rand.Next(4); PublicTransport_metro += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_metro_education3) + rand.Next(4); PublicTransport_metro += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportPlane:
@@ -556,13 +557,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_plane_education0) + rand.Next(1); PublicTransport_plane += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_plane_education0) + rand.Next(1); PublicTransport_plane += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_plane_education1) + rand.Next(2); PublicTransport_plane += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_plane_education1) + rand.Next(2); PublicTransport_plane += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_plane_education2) + rand.Next(3); PublicTransport_plane += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_plane_education2) + rand.Next(3); PublicTransport_plane += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_plane_education3) + rand.Next(4); PublicTransport_plane += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_plane_education3) + rand.Next(4); PublicTransport_plane += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportCableCar:
@@ -573,13 +574,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_cablecar_education0) + rand.Next(1); PublicTransport_cablecar += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_cablecar_education0) + rand.Next(1); PublicTransport_cablecar += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_cablecar_education1) + rand.Next(2); PublicTransport_cablecar += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_cablecar_education1) + rand.Next(2); PublicTransport_cablecar += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_cablecar_education2) + rand.Next(3); PublicTransport_cablecar += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_cablecar_education2) + rand.Next(3); PublicTransport_cablecar += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_cablecar_education3) + rand.Next(4); PublicTransport_cablecar += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_cablecar_education3) + rand.Next(4); PublicTransport_cablecar += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.SubService.PublicTransportMonorail:
@@ -590,13 +591,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PublicTransport_monorail_education0) + rand.Next(1); PublicTransport_monorail += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_monorail_education0) + rand.Next(1); PublicTransport_monorail += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PublicTransport_monorail_education1) + rand.Next(2); PublicTransport_monorail += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_monorail_education1) + rand.Next(2); PublicTransport_monorail += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PublicTransport_monorail_education2) + rand.Next(3); PublicTransport_monorail += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_monorail_education2) + rand.Next(3); PublicTransport_monorail += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PublicTransport_monorail_education3) + rand.Next(4); PublicTransport_monorail += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PublicTransport_monorail_education3) + rand.Next(4); PublicTransport_monorail += (int)(num * budget / 100f); break;
                             }
                             break; //
                         default: break;
@@ -613,7 +614,7 @@ namespace RealCity
                                 num = (int)(comm_data.building_money[work_building] / aliveworkcount1);
                             }
                             comm_data.building_money[work_building] -= num;
-                            break;                           
+                            break;
                         case ItemClass.Service.Disaster:
                             if (budget == 0)
                             {
@@ -622,13 +623,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.disaster_education0) + rand.Next(1); Disaster += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.disaster_education0) + rand.Next(1); Disaster += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.disaster_education1) + rand.Next(2); Disaster += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.disaster_education1) + rand.Next(2); Disaster += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.disaster_education2) + rand.Next(3); Disaster += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.disaster_education2) + rand.Next(3); Disaster += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.disaster_education3) + rand.Next(4); Disaster += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.disaster_education3) + rand.Next(4); Disaster += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.PoliceDepartment:
@@ -639,13 +640,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.PoliceDepartment_education0) + rand.Next(1); PoliceDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PoliceDepartment_education0) + rand.Next(1); PoliceDepartment += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.PoliceDepartment_education1) + rand.Next(2); PoliceDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PoliceDepartment_education1) + rand.Next(2); PoliceDepartment += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.PoliceDepartment_education2) + rand.Next(3); PoliceDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PoliceDepartment_education2) + rand.Next(3); PoliceDepartment += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.PoliceDepartment_education3) + rand.Next(4); PoliceDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.PoliceDepartment_education3) + rand.Next(4); PoliceDepartment += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.Education:
@@ -656,13 +657,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.Education_education0) + rand.Next(1); Education += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Education_education0) + rand.Next(1); Education += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.Education_education1) + rand.Next(2); Education += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Education_education1) + rand.Next(2); Education += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.Education_education2) + rand.Next(3); Education += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Education_education2) + rand.Next(3); Education += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.Education_education3) + rand.Next(4); Education += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Education_education3) + rand.Next(4); Education += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.Road:
@@ -673,13 +674,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.road_education0) + rand.Next(1); Road += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.road_education0) + rand.Next(1); Road += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.road_education1) + rand.Next(2); Road += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.road_education1) + rand.Next(2); Road += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.road_education2) + rand.Next(3); Road += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.road_education2) + rand.Next(3); Road += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.road_education3) + rand.Next(4); Road += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.road_education3) + rand.Next(4); Road += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.Garbage:
@@ -690,13 +691,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.Garbage_education0) + rand.Next(1); Garbage += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Garbage_education0) + rand.Next(1); Garbage += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.Garbage_education1) + rand.Next(2); Garbage += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Garbage_education1) + rand.Next(2); Garbage += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.Garbage_education2) + rand.Next(3); Garbage += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Garbage_education2) + rand.Next(3); Garbage += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.Garbage_education3) + rand.Next(4); Garbage += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Garbage_education3) + rand.Next(4); Garbage += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.HealthCare:
@@ -707,13 +708,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.HealthCare_education0) + rand.Next(1); HealthCare += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.HealthCare_education0) + rand.Next(1); HealthCare += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.HealthCare_education1) + rand.Next(2); HealthCare += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.HealthCare_education1) + rand.Next(2); HealthCare += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.HealthCare_education2) + rand.Next(3); HealthCare += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.HealthCare_education2) + rand.Next(3); HealthCare += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.HealthCare_education3) + rand.Next(4); HealthCare += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.HealthCare_education3) + rand.Next(4); HealthCare += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.Beautification:
@@ -724,13 +725,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.Beautification_education0) + rand.Next(1); Beautification += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Beautification_education0) + rand.Next(1); Beautification += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.Beautification_education1) + rand.Next(2); Beautification += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Beautification_education1) + rand.Next(2); Beautification += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.Beautification_education2) + rand.Next(3); Beautification += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Beautification_education2) + rand.Next(3); Beautification += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.Beautification_education3) + rand.Next(4); Beautification += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Beautification_education3) + rand.Next(4); Beautification += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.Monument:
@@ -741,13 +742,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.Monument_education0) + rand.Next(1); Monument += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Monument_education0) + rand.Next(1); Monument += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.Monument_education1) + rand.Next(2); Monument += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Monument_education1) + rand.Next(2); Monument += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.Monument_education2) + rand.Next(3); Monument += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Monument_education2) + rand.Next(3); Monument += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.Monument_education3) + rand.Next(4); Monument += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Monument_education3) + rand.Next(4); Monument += (int)(num * budget / 100f); break;
                             }
                             break;
                         case ItemClass.Service.Water:
@@ -758,13 +759,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.Water_education0) + rand.Next(1); Water += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Water_education0) + rand.Next(1); Water += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.Water_education1) + rand.Next(2); Water += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Water_education1) + rand.Next(2); Water += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.Water_education2) + rand.Next(3); Water += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Water_education2) + rand.Next(3); Water += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.Water_education3) + rand.Next(4); Water += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Water_education3) + rand.Next(4); Water += (int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.Electricity:
@@ -775,13 +776,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.Electricity_education0) + rand.Next(1); Electricity = +(int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Electricity_education0) + rand.Next(1); Electricity = +(int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.Electricity_education1) + rand.Next(2); Electricity = +(int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Electricity_education1) + rand.Next(2); Electricity = +(int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.Electricity_education2) + rand.Next(3); Electricity = +(int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Electricity_education2) + rand.Next(3); Electricity = +(int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.Electricity_education3) + rand.Next(4); Electricity = +(int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.Electricity_education3) + rand.Next(4); Electricity = +(int)(num * budget / 100f); break;
                             }
                             break; //
                         case ItemClass.Service.FireDepartment:
@@ -792,13 +793,13 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.FireDepartment_education0) + rand.Next(1); FireDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.FireDepartment_education0) + rand.Next(1); FireDepartment += (int)(num * budget / 100f); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.FireDepartment_education1) + rand.Next(2); FireDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.FireDepartment_education1) + rand.Next(2); FireDepartment += (int)(num * budget / 100f); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.FireDepartment_education2) + rand.Next(3); FireDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.FireDepartment_education2) + rand.Next(3); FireDepartment += (int)(num * budget / 100f); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.FireDepartment_education3) + rand.Next(4); FireDepartment += (int)(num * budget/100f); break;
+                                    num = num + (int)(comm_data.FireDepartment_education3) + rand.Next(4); FireDepartment += (int)(num * budget / 100f); break;
                             }
                             break; //
                         default:
@@ -818,12 +819,13 @@ namespace RealCity
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office)
                     {
                         //num = num;
-                    } 
+                    }
                     else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
                     {
-                        num = (int)((float)num * comm_data.salary_idex / 1.5f + 0.5f);
+                        //num = (int)((float)num * comm_data.salary_idex / 1.5f + 0.5f);
+                        num = 0;
                     }
-                    else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 1000 + aliveworkcount*200)
+                    else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 1000 + aliveworkcount * 200)
                     {
                         num = (int)((float)num * comm_data.salary_idex * 1.33f + 0.5f);
                     }
@@ -835,6 +837,36 @@ namespace RealCity
                     {
                         num = (int)((float)num * comm_data.salary_idex + 0.5f);
                     }
+
+                    if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial))
+                    {
+
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Width * Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Length <= 12)
+                        {
+                            num = (int)(num / 1.1f);
+                        }
+
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Width * Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Length <= 9)
+                        {
+                            num = (int)(num / 1.1f);
+                        }
+
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Width * Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Length <= 6)
+                        {
+                            num = (int)(num / 1.1f);
+                        }
+
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Width * Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Length <= 4)
+                        {
+                            num = (int)(num / 1.1f);
+                        }
+
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Width * Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Length <= 2)
+                        {
+                            num = (int)(num / 1.1f);
+                        }
+                    }
+
                 }
            }//if (citizen_id != 0u)
             return num;

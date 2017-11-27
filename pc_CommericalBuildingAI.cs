@@ -212,11 +212,11 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialEco:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.3f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.15f * tax_benefit; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.35f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.15f * tax_benefit; break;
                 case ItemClass.SubService.CommercialTourist:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.35f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.15f * tax_benefit; break;
                 default:
                     break;
             }

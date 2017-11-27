@@ -4,6 +4,7 @@ using UnityEngine;
 using ColossalFramework;
 using System;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace RealCity
 {
@@ -251,12 +252,41 @@ namespace RealCity
                 num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
             }
 
+            if (building.Info.m_class.m_service == ItemClass.Service.Commercial || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            {
+                if (building.Width * building.Length <= 12)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 9)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 6)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 4)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 2)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+            }
+
             //money < 0, salary/1.5f
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
             {
                 if (comm_data.building_money[buildingID] < 0)
                 {
-                    num1 =  (int)((float)num1 * comm_data.salary_idex / 24f);
+                    //num1 =  (int)((float)num1 * comm_data.salary_idex / 24f);
+                    num1 = 0;
                 }
                 else
                 {

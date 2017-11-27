@@ -160,7 +160,7 @@ namespace RealCity
         private UILabel m_policestation;
         private UILabel m_policecar;
 
-        private UILabel m_firetruck;
+        //private UILabel m_firetruck;
 
         private UILabel tip1;
         private UILabel tip2;

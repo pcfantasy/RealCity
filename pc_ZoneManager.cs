@@ -75,7 +75,7 @@ namespace RealCity
         {
             float demand_idex = 0f;
 
-            if ((comm_data.citizen_count > 1100) && (comm_data.family_count != 0))
+            if ((comm_data.citizen_count > 2000) && (comm_data.family_count != 0))
             {
                 demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
                 demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
@@ -139,7 +139,7 @@ namespace RealCity
             loss_building_num += pc_PrivateBuildingAI.all_ore_building_loss_final;
             loss_building_num += pc_PrivateBuildingAI.all_industry_building_loss_final;
 
-            if ((profit_building_num + loss_building_num) > 20)
+            if ((profit_building_num + loss_building_num) > 100)
             {
                 if (loss_building_num != 0)
                 {

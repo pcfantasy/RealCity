@@ -47,23 +47,23 @@ namespace RealCity
 
         public const float good_export_price = 1.6f;
         public const float food_export_price = 0.1f * comm_data.ConsumptionDivider;    //org 0.5 *comm_data.ConsumptionDivider /5
-        public const float petrol_export_price = 0.225f * comm_data.ConsumptionDivider;  // org 0.5 *comm_data.ConsumptionDivider /2.22f
-        public const float coal_export_price = 0.25f * comm_data.ConsumptionDivider; // org 0.5 *comm_data.ConsumptionDivider /2f
+        public const float petrol_export_price = 0.25f * comm_data.ConsumptionDivider;  // org 0.5 *comm_data.ConsumptionDivider /2.5f
+        public const float coal_export_price = 0.2f * comm_data.ConsumptionDivider; // org 0.5 *comm_data.ConsumptionDivider /2f
         public const float lumber_export_price = 0.125f * comm_data.ConsumptionDivider; // org 0.5 *comm_data.ConsumptionDivider /4f
-        public const float oil_export_price = 0.125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2
-        public const float ore_export_price = 0.1125f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.22f
-        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
-        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4
+        public const float oil_export_price = 0.125f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2
+        public const float ore_export_price = 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.5f
+        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4
 
         public const float good_import_price = 2.7f;
         public const float food_import_price = 0.18f * comm_data.ConsumptionDivider;  // 0.9
         public const float petrol_import_price = 0.45f * comm_data.ConsumptionDivider; //0.9
-        public const float coal_import_price = 0.405f * comm_data.ConsumptionDivider; //0.9
+        public const float coal_import_price = 0.36f * comm_data.ConsumptionDivider; //0.9
         public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider; //0.9
-        public const float oil_import_price = 0.16f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider;  //0.4
-        public const float ore_import_price = 0.144f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider; //0.4
-        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider; //0.4
-        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider * comm_data.ConsumptionDivider; //0.4
+        public const float oil_import_price = 0.2f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;  //0.4
+        public const float ore_import_price = 0.16f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider; //0.4
+        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider; //0.4
          
         public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
@@ -686,7 +686,21 @@ namespace RealCity
             int asset = 0;
             if (n.Success)
             {
-                asset = (int)(buildingData.m_customBuffer1 * grain_export_price);
+                if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * log_export_price);
+                } else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * grain_export_price);
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * oil_export_price);
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
+                {
+                    asset = (int)(buildingData.m_customBuffer1 * ore_export_price);
+                }
             } else
             {
                 if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
@@ -696,7 +710,7 @@ namespace RealCity
                 else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                 {
                     // 90%*0.5 + 10% * 1 =  
-                    asset = (int)(buildingData.m_customBuffer1 * 0.55f + buildingData.m_customBuffer2 * (good_export_price/4f));
+                    asset = (int)(buildingData.m_customBuffer1 * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price/4f));
                 }
                 else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                 {
@@ -994,9 +1008,9 @@ namespace RealCity
 
             if (comm_data.building_money[buildingID] > 50000)
             {
-                if ((building.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh) || (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLow) || (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric))
+                if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
                 {
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                    if ((building.Width * building.Length) >= 12)
                     {
                         greater_than_20000_profit_building_num++;
                         greater_than_20000_profit_building_money += (long)(comm_data.building_money[buildingID] - 50000);
@@ -1122,11 +1136,39 @@ namespace RealCity
             }
 
             //money < 0, salary/1.5f   money > 1000 salary * 1.33f
+            if (building.Info.m_class.m_service == ItemClass.Service.Commercial || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            {
+                if (building.Width * building.Length <= 12)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 9)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 6)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 4)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+
+                if (building.Width * building.Length <= 2)
+                {
+                    num1 = (int)(num1 / 1.1f);
+                }
+            }
+
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
             {
                 if (comm_data.building_money[buildingID] < 0)
                 {
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 24f;
+                    //comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 24f;
                 }
                 else if (comm_data.building_money[buildingID] > 200 * totalWorkerCount)
                 {
@@ -1137,6 +1179,7 @@ namespace RealCity
                     comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * comm_data.salary_idex / 16f;
                 }
             }
+
         }
 
         public void process_land_fee(Building building, ushort buildingID)

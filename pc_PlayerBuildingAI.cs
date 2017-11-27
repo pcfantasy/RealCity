@@ -13,14 +13,14 @@ namespace RealCity
         public override int GetMaintenanceCost()
         {
             int result = this.m_maintenanceCost * 100;
-            Regex r = new Regex("CargoStationAI");
+            /*Regex r = new Regex("CargoStationAI");
             Regex p = new Regex("CargoHarborAI");
             Match m = r.Match(this.m_info.m_buildingAI.ToString());
             Match n = p.Match(this.m_info.m_buildingAI.ToString());
             if (m.Success || n.Success)
             {
                 result = result / 2;
-            }
+            }*/
 
             /*if (this.m_info.m_class.m_service == ItemClass.Service.Education)
             {
