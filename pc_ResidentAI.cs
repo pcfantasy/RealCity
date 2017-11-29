@@ -1099,16 +1099,17 @@ namespace RealCity
 
             //sick insurance 10%  
             //endowment & unemployed 10%
+            //some is paid by company
             float insurance = 0;
             if (comm_data.is_help_resident)
             {
-                insurance = 0.2f * citizen_salary_current;
+                insurance = 0.5f * citizen_salary_current;
                 comm_data.city_insurance_account += 0.2f * citizen_salary_current;
                 citizen_salary_current = 0.8f * citizen_salary_current;
             }
             else
             {
-                insurance = 0.1f * citizen_salary_current;
+                insurance = 0.2f * citizen_salary_current;
                 comm_data.city_insurance_account += 0.1f * citizen_salary_current;
                 citizen_salary_current = 0.9f * citizen_salary_current;
             }
