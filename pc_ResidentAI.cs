@@ -1848,20 +1848,20 @@ namespace RealCity
                 {
                     if ((comm_data.citizen_money[homeid] > 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                     {
-                        temp = temp + 10;
+                        temp = temp + 20;
                         // 10% is provide by citizen  90% is provide by goverment
                         Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 380, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 380, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
                         comm_data.city_insurance_account -= 380;
                     }
                     else if ((comm_data.citizen_money[homeid] < 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 400, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 400, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
                         comm_data.city_insurance_account -= 400;
                     }
                     else
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 400, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 400, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
                         comm_data.city_insurance_account -= 400;
                     }
                 }
