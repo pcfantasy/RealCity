@@ -202,7 +202,7 @@ namespace RealCity
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
             this.m_title = base.AddUIComponent<UILabel>();
-            this.m_title.text = "City Data";
+            this.m_title.text = language.RealCityUI[98];
             this.m_title.relativePosition = new Vector3(WIDTH / 2f - this.m_title.width / 2f - 25f, HEADER / 2f - this.m_title.height / 2f);
             this.m_title.textAlignment = UIHorizontalAlignment.Center;
             this.m_closeButton = base.AddUIComponent<UIButton>();
@@ -240,7 +240,7 @@ namespace RealCity
             this.m_HeaderDataText.textScale = 0.825f;
             this.m_HeaderDataText.text = string.Concat(new string[]
             {
-                "Object Type    [data]"
+                " "
             });
             this.m_HeaderDataText.tooltip = "N/A";
             this.m_HeaderDataText.relativePosition = new Vector3(SPACING, 50f);

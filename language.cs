@@ -27,7 +27,7 @@ namespace RealCity
             "Accept Outside Police Help(will not go outside for Police Patrol Demand)",
         };
 
-        public static string[] BuildingUI_English = { "Building Money",
+        public static string[] BuildingUI_English = { "Building Money(unit:fen)",
             "Only show industry and commerical building money",
             "buildingincomebuffer",
             "Only show industry and commerical buildingincomebuffer",
@@ -349,12 +349,13 @@ namespace RealCity
             "firestation",
             "firestation",
             "7、City all total income",
+            "City income data（unit:yuan）"
         };
 
 
 
 
-        public static string[] BuildingUI_Chinese = { "公司现金流",
+        public static string[] BuildingUI_Chinese = { "公司现金流(单位:分)",
             "只显示商业和工业建筑的现金流",
             "公司原料仓库储存量",
             "只显示商业和工业建筑的原料仓库储存量",
@@ -694,6 +695,7 @@ namespace RealCity
             "消防局",
             "消防局",
             "7、城市总收入",
+            "城市收入数据（单位:元）"
         };
 
 

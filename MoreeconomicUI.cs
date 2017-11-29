@@ -242,7 +242,7 @@ namespace RealCity
             this.m_HeaderDataText.textScale = 0.825f;
             this.m_HeaderDataText.text = string.Concat(new string[]
             {
-                "Object Type    [data]"
+                " "
             });
             this.m_HeaderDataText.tooltip = "N/A";
             this.m_HeaderDataText.relativePosition = new Vector3(SPACING, 50f);
