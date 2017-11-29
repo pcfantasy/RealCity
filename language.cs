@@ -18,7 +18,7 @@ namespace RealCity
             "Accept Outside Police Patrol Demand",
             "Accept Outside First Aid Help Demand",
             "Special Policy",
-            "Resident basic living allowances",
+            "Resident endowment & unemployed insurance",
             "Supports for unprofitable company(not supported yet)",
             "Accept Outside Fire inspection Help Demand",
             "Accept Outside Road maintanance Demand",
@@ -190,6 +190,8 @@ namespace RealCity
             "tip8",
             "tip9",
             "tip9",
+            "city_insurance_account",
+            "city_insurance_account",
         };
 
 
@@ -245,7 +247,7 @@ namespace RealCity
 
         public static string[] RealCityUI_English =
         {
-            "1、City resident salary-tax income",
+            "1、City resident salary-tax income(include endowment & unemployed & medical treatment insurance)",
             "citizen salary-tax income",
             "total citizen salary tax income",
             "2、City tourism income",
@@ -375,7 +377,7 @@ namespace RealCity
             "接受外部治安巡逻的请求",
             "接受外部急救支援的请求",
             "城市特殊政策",
-            "居民低保",
+            "居民养老失业保险",
             "支援亏损企业(暂不支持)",
             "接受外部消防安全检查的请求",
             "接受外部道路维护的请求",
@@ -529,6 +531,8 @@ namespace RealCity
             "提示8",
             "提示9",
             "提示9",
+            "城市保险账户",
+            "城市保险账户",
         };
 
 
@@ -584,7 +588,7 @@ namespace RealCity
 
         public static string[] RealCityUI_Chinese =
         {
-            "1、城市居民所得税收入",
+            "1、城市居民所得税收入(包含养老失业医疗保险)",
             "居民所得税收入",
             "居民所得税总收入",
             "2、城市旅游收入",

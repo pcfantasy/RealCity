@@ -54,31 +54,15 @@ namespace RealCity
                 default:
                     {
                         System.Random rand = new System.Random();
-                        switch (rand.Next(19))
+                        switch (rand.Next(4))
                         {
                             case 0:
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 8:
                                 return TransferManager.TransferReason.Lumber;
-                            case 9:
-                            case 10:
-                            case 11:
-                            case 12:
-                            case 13:
-                            case 14:
-                            case 15:
-                            case 16:
-                            case 17:
+                            case 1:
                                 return TransferManager.TransferReason.Food;
-                            case 18:
+                            case 2:
                                 return TransferManager.TransferReason.Petrol;
-                            case 19:
+                            case 3:
                                 return TransferManager.TransferReason.Coal;
                             default:
                                 return TransferManager.TransferReason.None;
@@ -86,6 +70,50 @@ namespace RealCity
                     }
             }
         }
+
+        /*private int MaxIncomingLoadSize()
+        {
+            return 16000;
+        }
+
+        public override void CreateBuilding(ushort buildingID, ref Building data)
+        {
+            base.CreateBuilding(buildingID, ref data);
+            int width = data.Width;
+            int length = data.Length;
+            int num = this.MaxIncomingLoadSize();
+            int num2 = this.CalculateProductionCapacity(new Randomizer((int)buildingID), width, length);
+            float consumptionDivider = this.GetConsumptionDivider(buildingID, data);
+            int num3 = Mathf.Max((int)(num2 * 500 / consumptionDivider), num * 4);
+            data.m_customBuffer1 = (ushort)Singleton<SimulationManager>.instance.m_randomizer.Int32(num3 - num, num3);
+            DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
+            if (specialization != DistrictPolicies.Specialization.None)
+            {
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                byte district = instance.GetDistrict(data.m_position);
+                District[] expr_9C_cp_0 = instance.m_districts.m_buffer;
+                byte expr_9C_cp_1 = district;
+                expr_9C_cp_0[(int)expr_9C_cp_1].m_specializationPoliciesEffect = (expr_9C_cp_0[(int)expr_9C_cp_1].m_specializationPoliciesEffect | specialization);
+            }
+        }*/
+
+        private DistrictPolicies.Specialization SpecialPolicyNeeded()
+        {
+            switch (this.m_info.m_class.m_subService)
+            {
+                case ItemClass.SubService.IndustrialForestry:
+                    return DistrictPolicies.Specialization.Forest;
+                case ItemClass.SubService.IndustrialFarming:
+                    return DistrictPolicies.Specialization.Farming;
+                case ItemClass.SubService.IndustrialOil:
+                    return DistrictPolicies.Specialization.Oil;
+                case ItemClass.SubService.IndustrialOre:
+                    return DistrictPolicies.Specialization.Ore;
+                default:
+                    return DistrictPolicies.Specialization.None;
+            }
+        }
+
 
         public static TransferManager.TransferReason GetIncomingTransferReason(Building data, ushort buildingID)
         {
@@ -241,10 +269,11 @@ namespace RealCity
             {
                 int width = data.Width;
                 int length = data.Length;
-                int num = 4000;
+                int num = 16000;
                 int num2 = CalculateProductionCapacity(data,new Randomizer((int)buildingID), width, length);
                 float consumptionDivider = GetConsumptionDivider(buildingID, data);
                 int num3 = Mathf.Max((int)(num2 * 500 / consumptionDivider), num * 4);
+                num3 = 64000;
                 int customBuffer = (int)data.m_customBuffer1;
                 amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                 process_incoming(buildingID, ref data, material, ref amountDelta);
@@ -254,6 +283,10 @@ namespace RealCity
             {
                 int customBuffer2 = (int)data.m_customBuffer2;
                 amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
+                if (amountDelta < -8000)
+                {
+                    amountDelta = -8000;
+                }
                 caculate_trade_income(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
                 comm_data.building_buffer2[buildingID] = (ushort)(customBuffer2 + amountDelta);
@@ -795,7 +828,17 @@ namespace RealCity
                 {
                     int num34 = num8 - (int)buildingData.m_customBuffer1 - num29;
                     num34 -= num5 >> 1;
+                    System.Random rand = new System.Random();
                     if (num34 >= 0 && (comm_data.building_money[buildingID] > 0))
+                    {
+                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                        offer.Priority = num34 * 8 / num5;
+                        offer.Building = buildingID;
+                        offer.Position = buildingData.m_position;
+                        offer.Amount = 1;
+                        offer.Active = false;
+                        Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                    } else if (rand.Next(128) == 0)
                     {
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                         offer.Priority = num34 * 8 / num5;

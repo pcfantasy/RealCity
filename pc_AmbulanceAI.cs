@@ -61,25 +61,10 @@ namespace RealCity
             }            
             else
             {
-                if ((data.m_sourceBuilding != 0) && Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
-                {
-                    var instance1 = Singleton<BuildingManager>.instance;
-                    //DebugLog.LogToFileOnly("try turn around get income hospital building = ");
-                    BuildingInfo info2 = instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Outgoing))
-                    {
-                        ushort num20 = instance1.FindBuilding(instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
-                        if (num20 != 0)
-                        {
-                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
-                            data.m_sourceBuilding = num20;
-                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
-                        }
-                    }
-                }
                 CitizenManager instance = Singleton<CitizenManager>.instance;
                 uint num = data.m_citizenUnits;
                 int num2 = 0;
+                int temp_num = 0;
                 while (num != 0u)
                 {
                     uint nextUnit = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
@@ -95,6 +80,7 @@ namespace RealCity
                             }
                             instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation = Citizen.Location.Moving;
                             data.m_transferSize += 1;
+                            temp_num++;
                         }
                     }
                     num = nextUnit;
@@ -104,6 +90,25 @@ namespace RealCity
                         break;
                     }
                 }
+
+                if ((data.m_sourceBuilding != 0) && Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                {
+                    var instance1 = Singleton<BuildingManager>.instance;
+                    //DebugLog.LogToFileOnly("try turn around get income hospital building = ");
+                    BuildingInfo info2 = instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Outgoing))
+                    {
+                        ushort num20 = instance1.FindBuilding(instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
+                        if (num20 != 0)
+                        {
+                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                            data.m_sourceBuilding = num20;
+                            instance1.m_buildings.m_buffer[(int)data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
+                        }
+                    }
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(temp_num * 100f * comm_data.game_maintain_fee_decrease), this.m_info.m_class);
+                }
+
                 for (int j = 0; j < this.m_paramedicCount; j++)
                 {
                     //DebugLog.LogToFileOnly("try CreateParamedic");

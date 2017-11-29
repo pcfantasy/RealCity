@@ -77,7 +77,7 @@ namespace RealCity
                 {
                     if (offer.Building != 0)
                     {
-                        DebugLog.LogToFileOnly("need to go outside for road maintenance");
+                        //DebugLog.LogToFileOnly("need to go outside for road maintenance");
                         this.SetTarget_1(vehicleID, ref data, offer.Building);
                         data.m_flags |= Vehicle.Flags.Exporting;
                     }

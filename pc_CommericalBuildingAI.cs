@@ -28,6 +28,51 @@ namespace RealCity
             return  TransferManager.TransferReason.Goods;
         }
 
+        /*private int MaxIncomingLoadSize()
+        {
+            return 16000;
+        }
+
+
+        public override void CreateBuilding(ushort buildingID, ref Building data)
+        {
+            base.CreateBuilding(buildingID, ref data);
+            int width = data.Width;
+            int length = data.Length;
+            int num = this.MaxIncomingLoadSize();
+            int num2 = this.CalculateVisitplaceCount(new Randomizer((int)buildingID), width, length);
+            int num3 = Mathf.Max(num2 * 500, num * 4);
+            data.m_customBuffer1 = (ushort)Singleton<SimulationManager>.instance.m_randomizer.Int32(num3 - num, num3);
+            //DebugLog.LogToFileOnly("create commercial data buffer = " + data.m_customBuffer1.ToString() + num.ToString() + num3.ToString());
+            DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
+            if (specialization != DistrictPolicies.Specialization.None)
+            {
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                byte district = instance.GetDistrict(data.m_position);
+                District[] expr_91_cp_0 = instance.m_districts.m_buffer;
+                byte expr_91_cp_1 = district;
+                expr_91_cp_0[(int)expr_91_cp_1].m_specializationPoliciesEffect = (expr_91_cp_0[(int)expr_91_cp_1].m_specializationPoliciesEffect | specialization);
+            }
+        }*/
+
+        private DistrictPolicies.Specialization SpecialPolicyNeeded()
+        {
+            ItemClass.SubService subService = this.m_info.m_class.m_subService;
+            if (subService == ItemClass.SubService.CommercialLeisure)
+            {
+                return DistrictPolicies.Specialization.Leisure;
+            }
+            if (subService == ItemClass.SubService.CommercialTourist)
+            {
+                return DistrictPolicies.Specialization.Tourist;
+            }
+            if (subService != ItemClass.SubService.CommercialEco)
+            {
+                return DistrictPolicies.Specialization.None;
+            }
+            return DistrictPolicies.Specialization.Organic;
+        }
+
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             switch (material)
@@ -47,10 +92,11 @@ namespace RealCity
                         {
                             int width = data.Width;
                             int length = data.Length;
-                            int num = 4000;
+                            int num = 16000;
                             int num2 = this.CalculateVisitplaceCount(new Randomizer((int)buildingID), width, length);
                             //DebugLog.LogToFileOnly("commerical visitplacecount is =  " + num2.ToString());
                             int num3 = Mathf.Max(num2 * 500, num * 4);
+                            num3 = 64000;
                             int customBuffer = (int)data.m_customBuffer1;
                             amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                             process_incoming(buildingID, ref data, material, ref amountDelta);

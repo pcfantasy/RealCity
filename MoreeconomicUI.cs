@@ -78,6 +78,8 @@ namespace RealCity
         private UILabel resident_consumption_rate;
         private UILabel tourist_consumption_rate;
 
+        private UILabel city_insurance_account;
+
         //2 building   27 element
         private UILabel m_secondline_building; //fixed title
         //2.1 building income
@@ -378,6 +380,14 @@ namespace RealCity
             this.tourist_consumption_rate.autoSize = true;
             this.tourist_consumption_rate.name = "Moreeconomic_Text_45";
 
+            this.city_insurance_account = base.AddUIComponent<UILabel>();
+            this.city_insurance_account.text = string.Format("city_insurance_account [000000]");
+            this.city_insurance_account.tooltip = language.EconomicUI[144];
+            this.city_insurance_account.relativePosition = new Vector3(SPACING, this.resident_consumption_rate.relativePosition.y + SPACING22);
+            //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
+            this.city_insurance_account.autoSize = true;
+            this.city_insurance_account.name = "Moreeconomic_Text_46";
+
 
 
 
@@ -388,7 +398,7 @@ namespace RealCity
             this.m_secondline_building = base.AddUIComponent<UILabel>();
             this.m_secondline_building.text = language.EconomicUI[36];
             this.m_secondline_building.tooltip = "N/A";
-            this.m_secondline_building.relativePosition = new Vector3(SPACING, this.resident_consumption_rate.relativePosition.y + SPACING22);
+            this.m_secondline_building.relativePosition = new Vector3(SPACING, this.city_insurance_account.relativePosition.y + SPACING22);
             this.m_secondline_building.autoSize = true;
 
             this.good_export_ratio = base.AddUIComponent<UILabel>();
@@ -918,6 +928,8 @@ namespace RealCity
                 this.tip7.text = string.Format(language.EconomicUI[137] + "  " + RealCity.tip7_message_forgui);
                 this.tip8.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip8_message_forgui);
                 this.tip9.text = string.Format(language.EconomicUI[141] + "  " + RealCity.tip9_message_forgui);
+
+                this.city_insurance_account.text = string.Format(language.EconomicUI[143] + " [{0:N2}]",comm_data.city_insurance_account_final);
             }
         }
 

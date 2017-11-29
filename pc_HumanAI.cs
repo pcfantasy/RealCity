@@ -122,6 +122,10 @@ namespace RealCity
 
 
             TransferManager.TransferReason temp_transfer_reason = get_shopping_reason(citizenData.m_targetBuilding);
+            if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
+            {
+                num = 1000;
+            }
 
             if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None))
             {
@@ -139,7 +143,11 @@ namespace RealCity
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
-                num = -100;
+                num = -num;
+                if ((num == -200 || num == -50))
+                {
+                    num = num + 1;
+                }
                 info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num);
             }
 

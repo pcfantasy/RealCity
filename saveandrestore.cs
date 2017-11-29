@@ -22,6 +22,18 @@ namespace RealCity
             idex = idex + temp_data.Length;
         }
 
+        public static void save_double(ref int idex, double item, ref byte[] container)
+        {
+            int i;
+            byte[] temp_data;
+            temp_data = BitConverter.GetBytes(item);
+            for (i = 0; i < temp_data.Length; i++)
+            {
+                container[idex + i] = temp_data[i];
+            }
+            idex = idex + temp_data.Length;
+        }
+
         public static void save_float(ref int idex, float item, ref byte[] container)
         {
             int i;
@@ -311,6 +323,14 @@ namespace RealCity
         {
             long tmp;
             tmp = BitConverter.ToInt64(container, idex);
+            idex = idex + 8;
+            return tmp;
+        }
+
+        public static double load_double(ref int idex, byte[] container)
+        {
+            double tmp;
+            tmp = BitConverter.ToDouble(container, idex);
             idex = idex + 8;
             return tmp;
         }

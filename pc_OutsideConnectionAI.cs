@@ -29,7 +29,7 @@ namespace RealCity
 
         public static int m_healthCareAccumulation = 200;
 
-        public static float m_healthCareRadius = 800f;
+        public static float m_healthCareRadius = 1000f;
 
         public static int m_curingRate = 20;
 
@@ -305,7 +305,7 @@ namespace RealCity
                 else
                 {
                     //deadbuffer
-                    if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                    if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
                     {
                         data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 1);
                     }
@@ -479,7 +479,7 @@ namespace RealCity
         public void Adddeadoffers(ushort buildingID, ref Building data)
         {
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-            if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+            if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
             {
                 int car_valid_path = TickPathfindStatus(ref data.m_teens, ref data.m_serviceProblemTimer);
                 SimulationManager instance1 = Singleton<SimulationManager>.instance;
@@ -868,7 +868,7 @@ namespace RealCity
 
                         }
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -2f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -6f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else if (material == TransferManager.TransferReason.Crime)

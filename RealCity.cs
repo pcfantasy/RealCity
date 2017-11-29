@@ -248,7 +248,7 @@ namespace RealCity
 
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
             group2.AddCheckbox(language.OptionUI[8], comm_data.is_help_resident, (index) => is_help_resident(index));
-            group2.AddCheckbox(language.OptionUI[9], comm_data.is_help_company, (index) => is_help_company(index));
+            //group2.AddCheckbox(language.OptionUI[9], comm_data.is_help_company, (index) => is_help_company(index));
             SaveSetting();
         }
 
