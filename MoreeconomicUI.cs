@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 1000f;
+        private static readonly float HEIGHT = 1050f;
 
         private static readonly float HEADER = 40f;
 
@@ -173,6 +173,7 @@ namespace RealCity
         private UILabel tip7;
         private UILabel tip8;
         private UILabel tip9;
+        private UILabel tip10;
 
 
         public override void Update()
@@ -196,7 +197,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 900), (float)(Loader.parentGuiView.fixedHeight / 2 - 350));
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 900), (float)(Loader.parentGuiView.fixedHeight / 2 - 250));
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -773,6 +774,13 @@ namespace RealCity
             this.tip9.autoSize = true;
             this.tip9.name = "Moreeconomic_Text_53";
 
+            this.tip10 = base.AddUIComponent<UILabel>();
+            this.tip10.text = string.Format("tip10: [0000000000]");
+            this.tip10.tooltip = language.EconomicUI[146];
+            this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
+            this.tip10.autoSize = true;
+            this.tip10.name = "Moreeconomic_Text_53";
+
             //this.m_getfromBank = base.AddUIComponent<UIButton>();
             //this.m_getfromBank.size = new Vector2(160f, 24f);
             //this.m_getfromBank.text = "Get 100K from Bank";
@@ -928,6 +936,7 @@ namespace RealCity
                 this.tip7.text = string.Format(language.EconomicUI[137] + "  " + RealCity.tip7_message_forgui);
                 this.tip8.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip8_message_forgui);
                 this.tip9.text = string.Format(language.EconomicUI[141] + "  " + RealCity.tip9_message_forgui);
+                this.tip10.text = string.Format(language.EconomicUI[145] + "  " + RealCity.tip10_message_forgui);
 
                 this.city_insurance_account.text = string.Format(language.EconomicUI[143] + " [{0:N2}]",comm_data.city_insurance_account_final);
             }

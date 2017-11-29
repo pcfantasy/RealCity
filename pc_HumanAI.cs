@@ -129,6 +129,7 @@ namespace RealCity
 
             if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None))
             {
+                num = 100;
                 num = (comm_data.citizen_money[homeid] - num > 1000f) ? num : 0;
                 int num1 = -num;
                 if((num1 == -200 || num1 == -50))

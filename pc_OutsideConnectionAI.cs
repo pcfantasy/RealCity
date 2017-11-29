@@ -141,6 +141,33 @@ namespace RealCity
                 {
                     m_cargoCapacity = 20;
                 }
+
+                m_residentCapacity = rand.Next(2000) - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final;
+                if (m_residentCapacity < 100)
+                {
+                    m_residentCapacity = 100;
+                }
+
+                m_touristFactor0 = rand.Next(1000) - (pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final) / 4;
+                m_touristFactor1 = rand.Next(400) - (pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final) / 8;
+                m_touristFactor2 = rand.Next(160) - (pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final) / 16;
+
+
+                if (m_touristFactor0 < 10)
+                {
+                    m_touristFactor0 = 10;
+                }
+
+                if (m_touristFactor1 < 10)
+                {
+                    m_touristFactor1 = 10;
+                }
+
+                if (m_touristFactor2 < 10)
+                {
+                    m_touristFactor2 = 10;
+                }
+
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
                 caculate_outside_situation(buildingID, ref data);
                 process_outside_demand(buildingID, ref data);
@@ -1409,9 +1436,9 @@ namespace RealCity
             int car_valid_path = TickPathfindStatus(ref buildingData1.m_teens, ref buildingData1.m_serviceProblemTimer);
             if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
             {
-                DebugLog.LogToFileOnly("outside connection is not good for ProducePoliceGoods");
-                if (instance1.m_randomizer.Int32(16u) == 0)
+                if (instance1.m_randomizer.Int32(128u) == 0)
                 {
+                    DebugLog.LogToFileOnly("outside connection is not good for ProducePoliceGoods");
                     if (comm_data.policehelp && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment))
                     {
                         if ((num10 + num14) < num18)

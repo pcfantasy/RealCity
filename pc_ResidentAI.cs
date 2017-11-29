@@ -668,11 +668,14 @@ namespace RealCity
                             int totalworkcount1 = 0;
                             Citizen.BehaviourData behaviour1 = default(Citizen.BehaviourData);
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
-                            if (aliveworkcount1 != 0)
+                            if (comm_data.building_money[work_building] > 0)
                             {
-                                num = (int)(comm_data.building_money[work_building] / aliveworkcount1);
+                                if (aliveworkcount1 != 0)
+                                {
+                                    num = (int)(comm_data.building_money[work_building] / aliveworkcount1);
+                                }
+                                comm_data.building_money[work_building] -= num;
                             }
-                            comm_data.building_money[work_building] -= num;
                             break;
                         case ItemClass.Service.Disaster:
                             if (budget == 0)
@@ -926,6 +929,20 @@ namespace RealCity
                         }
                     }
 
+                    if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office))
+                    {
+                        if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 0)
+                        {
+                            comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.1f;
+                            comm_data.city_insurance_account += num * 0.1f;
+                            if (comm_data.is_help_resident)
+                            {
+                                comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.2f;
+                                comm_data.city_insurance_account += num * 0.2f;
+                            }
+                        }
+                    }
+
                 }
            }//if (citizen_id != 0u)
             return num;
@@ -1072,6 +1089,31 @@ namespace RealCity
             }
             float tax = 0;
             //0-10 10% 10-30 15% 30-60 20% 60-100 25% >100 30%
+
+            if (citizen_salary_current < 0)
+            {
+                DebugLog.LogToFileOnly("citizen_salary_current< 0 in ResidentAI");
+                citizen_salary_current = 0;
+            }
+
+
+            //sick insurance 10%  
+            //endowment & unemployed 10%
+            float insurance = 0;
+            if (comm_data.is_help_resident)
+            {
+                insurance = 0.2f * citizen_salary_current;
+                comm_data.city_insurance_account += 0.2f * citizen_salary_current;
+                citizen_salary_current = 0.8f * citizen_salary_current;
+            }
+            else
+            {
+                insurance = 0.1f * citizen_salary_current;
+                comm_data.city_insurance_account += 0.1f * citizen_salary_current;
+                citizen_salary_current = 0.9f * citizen_salary_current;
+            }
+
+
             if (citizen_salary_current < 10)
             {
                 tax = citizen_salary_current * 0.1f;
@@ -1093,17 +1135,8 @@ namespace RealCity
                 tax = (citizen_salary_current - 100) * 0.5f + 30f;
             }
 
+            tax = tax + insurance;
 
-            //sick insurance 10%  
-            //endowment & unemployed 20%
-            if (comm_data.is_help_resident)
-            {
-                comm_data.city_insurance_account += 0.3f * tax;
-            } else
-            {
-                comm_data.city_insurance_account += 0.1f * tax;
-                tax = 0.8f * tax;
-            }
 
             if (citizen_salary_current < (comm_data.citizen_salary_per_family / 2) && comm_data.is_help_resident)
             {

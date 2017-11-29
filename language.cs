@@ -190,8 +190,10 @@ namespace RealCity
             "tip8",
             "tip9",
             "tip9",
-            "city_insurance_account",
-            "city_insurance_account",
+            "city_insurance_account(delta)",
+            "city_insurance_account(delta)",
+            "tip10",
+            "tip10",
         };
 
 
@@ -242,6 +244,8 @@ namespace RealCity
         "#RealCity  ",
         "Sending policecar to outside for Police Patrol Help now",
         "In earlier game, can use outside hospital and policestation for help.",
+        "#RealCity  My friend does not want to come to my house, The city air condition is too bad",
+        "industry oil and ore is too many, resident may not want to move in",
         };
 
 
@@ -531,8 +535,10 @@ namespace RealCity
             "提示8",
             "提示9",
             "提示9",
-            "城市保险账户",
-            "城市保险账户",
+            "城市保险账户(变动)",
+            "城市保险账户(变动)",
+            "提示10",
+            "提示10",
         };
 
 
@@ -583,6 +589,8 @@ namespace RealCity
         "#真实城市 ",
         "正在派出警车去邻市进行巡逻。",
         "城市发展初期，医院和警务请让外部帮助。",
+        "#真实城市 空气太糟糕了,我朋友都不愿意过来我城市串门",
+        "石油矿业太多了,居民可能不愿意来城市定居",
         };
 
 

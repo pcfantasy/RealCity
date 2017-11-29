@@ -79,6 +79,20 @@ namespace RealCity
             {
                 demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
                 demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
+                demand_idex = demand_idex * (1000 - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final) / 1000;
+                if (demand_idex < 0)
+                {
+                    demand_idex = 0;
+                }
+                System.Random rand = new System.Random();
+                if (demand_idex == 0)
+                {
+                    if (rand.Next(32) == 0)
+                    {
+                        demand_idex = 1;
+                    }
+                }
+
                 originalDemand = (int)(originalDemand * demand_idex);
             }
             else
@@ -139,7 +153,7 @@ namespace RealCity
             loss_building_num += pc_PrivateBuildingAI.all_ore_building_loss_final;
             loss_building_num += pc_PrivateBuildingAI.all_industry_building_loss_final;
 
-            if ((profit_building_num + loss_building_num) > 100)
+            if ((profit_building_num + loss_building_num) > 120)
             {
                 if (loss_building_num != 0)
                 {
