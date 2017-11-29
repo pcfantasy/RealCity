@@ -1105,13 +1105,13 @@ namespace RealCity
             {
                 insurance = 0.5f * citizen_salary_current;
                 comm_data.city_insurance_account += 0.2f * citizen_salary_current;
-                citizen_salary_current = 0.8f * citizen_salary_current;
+                citizen_salary_current = (int)(0.8f * citizen_salary_current);
             }
             else
             {
                 insurance = 0.2f * citizen_salary_current;
                 comm_data.city_insurance_account += 0.1f * citizen_salary_current;
-                citizen_salary_current = 0.9f * citizen_salary_current;
+                citizen_salary_current = (int)(0.9f * citizen_salary_current);
             }
 
 

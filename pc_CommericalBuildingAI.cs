@@ -200,9 +200,9 @@ namespace RealCity
             if (tax_benefit > 1f)
             {
                 tax_benefit = 1f;
-            } else if (tax_benefit < 0.2f)
+            } else if (tax_benefit < 0.6f)
             {
-                tax_benefit = 0.2f;
+                tax_benefit = 0.6f;
             }
             return tax_benefit;
         }
