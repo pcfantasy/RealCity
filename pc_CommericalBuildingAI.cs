@@ -260,9 +260,9 @@ namespace RealCity
                 case ItemClass.SubService.CommercialEco:
                     trade_income = amountDelta; trade_tax = -trade_income * 0.15f * tax_benefit; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.15f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.4f * tax_benefit; break;
                 case ItemClass.SubService.CommercialTourist:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.15f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.30f * tax_benefit; break;
                 default:
                     break;
             }

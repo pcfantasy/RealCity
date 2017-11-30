@@ -156,12 +156,30 @@ namespace RealCity
                 //int alivecisitCount = 0;
                 //int totalvisitCount = 0;
                 //Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                //GetVisitBehaviour(comm_data.current_buildingid, ref buildingdata, ref behaviour, ref alivecisitCount, ref totalvisitCount);
+                //GetVisitBehaviour(comm_data.current_buildingid, ref buildingdata, ref behaviour, ref alivecisitCount, ref totalvisitCount);               
                 this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
                 this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                 this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
                 this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
-                this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
+                if (buildingdata.Info.m_class.m_service == ItemClass.Service.Office)
+                {
+                    this.employfee.text = language.BuildingUI[8] + " " + language.BuildingUI[16];
+                }
+                else if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
+                {
+                    if (buildingdata.Info.m_buildingAI is IndustrialExtractorAI)
+                    {
+                        this.employfee.text = language.BuildingUI[8] + " " + language.BuildingUI[16];
+                    }
+                    else
+                    {
+                        this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
+                    }
+                }
+                else
+                {
+                    this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
+                }
                 this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1/100f);
                 this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
                 //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
@@ -280,17 +298,38 @@ namespace RealCity
                 }
             }
 
-            //money < 0, salary/1.5f
+            if (building.Info.m_buildingAI is IndustrialExtractorAI)
+            {
+                //num1 = num1 * 2;
+            } else
+            {
+                num1 = num1 / 2;
+            }
+
+            float local_salary_idex = 0.5f;
+            float final_salary_idex = 0.5f;
+            DistrictManager instance2 = Singleton<DistrictManager>.instance;
+            byte district = 0;
+            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            {
+                district = instance2.GetDistrict(building.m_position);
+                local_salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() + 50f) / 120f;
+                final_salary_idex = (local_salary_idex * 4f + comm_data.salary_idex) / 5f;
+            }
+
+            //money < 0, salary/3f
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
             {
                 if (comm_data.building_money[buildingID] < 0)
                 {
-                    //num1 =  (int)((float)num1 * comm_data.salary_idex / 24f);
-                    num1 = 0;
+                    num1 =  (int)((float)num1 * final_salary_idex / 48f);
                 }
-                else
+                else if (comm_data.building_money[buildingID] > 200 * totalWorkerCount)
                 {
-                    num1 = (int)((float)num1 * comm_data.salary_idex / 16f);
+                    num1 = (int)((float)num1 * final_salary_idex / 12f);
+                } else
+                {
+                    num1 = (int)((float)num1 * final_salary_idex / 16f);
                 }
             }
             return num1;

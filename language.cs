@@ -43,6 +43,7 @@ namespace RealCity
             "net_asset",
             "Resident Money",
             "Only show resident money",
+            "profit-sharing"
         };
 
         public static string[] EconomicUI_English =
@@ -370,7 +371,8 @@ namespace RealCity
             "公司净资产",
             "公司净资产",
             "居民存款",
-            "居民存款",};
+            "居民存款",
+            "分红制"};
 
     public static string[] OptionUI_Chinese =
         {

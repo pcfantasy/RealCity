@@ -665,9 +665,9 @@ namespace RealCity
             this.trade_income_title.text = string.Format(language.RealCityUI[42] + " [{0}]  [{1:N2}%]", city_trade_income_total, city_trade_income_percent*100);
             this.comm_high_tradeincome.text = string.Format(language.RealCityUI[44] + " [{0}]", comm_high_tradeincome_forui);
             this.comm_low_tradeincome.text = string.Format(language.RealCityUI[46] + " [{0}]", comm_low_tradeincome_forui);
-            this.comm_lei_tradeincome.text = string.Format(language.RealCityUI[48] + " [{0}]", comm_lei_tradeincome_forui);
+            this.comm_lei_tradeincome.text = string.Format(language.RealCityUI[52] + " [{0}]", comm_lei_tradeincome_forui);
             this.comm_tou_tradeincome.text = string.Format(language.RealCityUI[50] + " [{0}]", comm_tou_tradeincome_forui);
-            this.comm_eco_tradeincome.text = string.Format(language.RealCityUI[52] + " [{0}]", comm_eco_tradeincome_forui);
+            this.comm_eco_tradeincome.text = string.Format(language.RealCityUI[48] + " [{0}]", comm_eco_tradeincome_forui);
             this.indu_gen_tradeincome.text = string.Format(language.RealCityUI[54] + " [{0}]", indu_gen_tradeincome_forui);
             this.indu_farmer_tradeincome.text = string.Format(language.RealCityUI[56] + " [{0}]", indu_farmer_tradeincome_forui);
             this.indu_foresty_tradeincome.text = string.Format(language.RealCityUI[58] + " [{0}]", indu_foresty_tradeincome_forui);

@@ -142,15 +142,35 @@ namespace RealCity
                     m_cargoCapacity = 20;
                 }
 
-                m_residentCapacity = rand.Next(2000) - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final;
-                if (m_residentCapacity < 100)
+                int family_minus_oilorebuiling = (int)(comm_data.family_count / 10) - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final;
+                if (family_minus_oilorebuiling > 0)
                 {
-                    m_residentCapacity = 100;
+                    family_minus_oilorebuiling = 0;
                 }
 
-                m_touristFactor0 = rand.Next(1000) - (pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final) / 4;
-                m_touristFactor1 = rand.Next(400) - (pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final) / 8;
-                m_touristFactor2 = rand.Next(160) - (pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final) / 16;
+                m_residentCapacity = 1000 + (family_minus_oilorebuiling*10);
+                float demand_idex = 1;
+                if ((comm_data.citizen_count > 2000) && (comm_data.family_count != 0))
+                {
+                    demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
+                    demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
+                }
+
+                if (comm_data.family_count > 500)
+                {
+                    demand_idex = demand_idex * 500f / comm_data.family_count;
+                }
+
+                m_residentCapacity = (int)(m_residentCapacity * demand_idex);
+
+                if (m_residentCapacity < 0 || (demand_idex == 0))
+                {
+                    m_residentCapacity = 0;
+                }
+
+                m_touristFactor0 = rand.Next(1000) + family_minus_oilorebuiling / 4;
+                m_touristFactor1 = rand.Next(400) + family_minus_oilorebuiling / 8;
+                m_touristFactor2 = rand.Next(160) + family_minus_oilorebuiling / 16;
 
 
                 if (m_touristFactor0 < 10)

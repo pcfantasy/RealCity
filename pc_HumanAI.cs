@@ -65,7 +65,7 @@ namespace RealCity
             switch (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialLow:
-                    if (rand.Next(100) < (aliveWorkCount *2))
+                    if (rand.Next(100) < (aliveWorkCount))
                     {
                         temp_transfer_reason = TransferManager.TransferReason.Entertainment;
                     }
@@ -122,15 +122,14 @@ namespace RealCity
 
 
             TransferManager.TransferReason temp_transfer_reason = get_shopping_reason(citizenData.m_targetBuilding);
-            if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
-            {
-                num = 1000;
-            }
 
             if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None))
             {
                 System.Random rand = new System.Random();
-                num = rand.Next(900) + 100;
+                if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
+                {
+                    num = rand.Next(900) + 100;
+                }
                 num = (comm_data.citizen_money[homeid] - num > 1000f) ? num : 0;
                 int num1 = -num;
                 if((num1 == -200 || num1 == -50))
@@ -145,6 +144,20 @@ namespace RealCity
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
+                if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
+                {
+                    num = 1000;
+
+                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
+                    {
+                        num = num * 4;
+                    }
+                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.Medium)
+                    {
+                        num = num * 2;
+                    }
+                }
+
                 num = -num;
                 if ((num == -200 || num == -50))
                 {

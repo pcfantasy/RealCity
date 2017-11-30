@@ -130,15 +130,21 @@ namespace RealCity
                 default:
                     {
                         Randomizer randomizer = new Randomizer(buildingID);
-                        switch (randomizer.Int32(4u))
+                        switch (randomizer.Int32(10u))
                         {
                             case 0:
-                                return TransferManager.TransferReason.Lumber;
                             case 1:
-                                return TransferManager.TransferReason.Food;
                             case 2:
-                                return TransferManager.TransferReason.Petrol;
+                                return TransferManager.TransferReason.Lumber;
                             case 3:
+                                return TransferManager.TransferReason.Food;
+                            case 4:
+                            case 5:
+                            case 6:
+                                return TransferManager.TransferReason.Petrol;
+                            case 7:
+                            case 8:
+                            case 9:
                                 return TransferManager.TransferReason.Coal;
                             default:
                                 return TransferManager.TransferReason.None;
@@ -302,28 +308,28 @@ namespace RealCity
             switch (material)
             {
                 case TransferManager.TransferReason.Logs:
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.log_import_price - (1f - pc_PrivateBuildingAI.log_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / 4f);
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.log_import_price - (1f - pc_PrivateBuildingAI.log_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
                     break;
                 case TransferManager.TransferReason.Grain:
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.grain_import_price - (1f - pc_PrivateBuildingAI.grain_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / 5f);
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.grain_import_price - (1f - pc_PrivateBuildingAI.grain_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
                     break;
                 case TransferManager.TransferReason.Oil:
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / 2f);
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
                     break;
                 case TransferManager.TransferReason.Ore:
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.ore_import_price - (1f - pc_PrivateBuildingAI.ore_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / 2.5f);
+                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.ore_import_price - (1f - pc_PrivateBuildingAI.ore_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
                     break;
                 case TransferManager.TransferReason.Lumber:
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.3f * comm_data.ConsumptionDivider / 4f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.3f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
                             break;
                         case ItemClass.Level.Level2:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - (0.1f - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / 4f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - (0.1f - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
                             break;
                         case ItemClass.Level.Level3:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - (0.2f - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / 4f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.lumber_import_price - (0.2f - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
                             break;
                     }
                     break;
@@ -331,13 +337,13 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.3f * comm_data.ConsumptionDivider / 2.5f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.3f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
                             break;
                         case ItemClass.Level.Level2:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - (0.1f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / 2.5f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - (0.1f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
                             break;
                         case ItemClass.Level.Level3:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - (0.2f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / 2.5f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.coal_import_price - (0.2f - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
                             break;
                     }
                     break;
@@ -345,13 +351,13 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.3f * comm_data.ConsumptionDivider / 5f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.3f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
                             break;
                         case ItemClass.Level.Level2:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - (0.1f - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / 5f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - (0.1f - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
                             break;
                         case ItemClass.Level.Level3:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - (0.2f - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / 5f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.food_import_price - (0.2f - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
                             break;
                     }
                     break;
@@ -359,13 +365,13 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - ((1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.3f) * comm_data.ConsumptionDivider / 2f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - ((1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.3f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
                             break;
                         case ItemClass.Level.Level2:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - (0.1f - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / 2f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - (0.1f - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.2f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
                             break;
                         case ItemClass.Level.Level3:
-                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - (0.2f - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / 2f);
+                            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)amountDelta * (pc_PrivateBuildingAI.petrol_import_price - (0.2f - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f) * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
                             break;
                     }
                     break;
@@ -400,7 +406,7 @@ namespace RealCity
             {
                 case TransferManager.TransferReason.Lumber:
                     float trade_tax = 0;
-                    float trade_income = (float)amountDelta * (pc_PrivateBuildingAI.lumber_export_price + (1f - pc_PrivateBuildingAI.lumber_export_ratio) * 0.1f *comm_data.ConsumptionDivider / 4f);
+                    float trade_income = (float)amountDelta * (pc_PrivateBuildingAI.lumber_export_price + (1f - pc_PrivateBuildingAI.lumber_export_ratio) * 0.1f *comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
                         trade_tax = -trade_income * 0.1f * tax_benefit;
@@ -410,7 +416,7 @@ namespace RealCity
                     break;
                 case TransferManager.TransferReason.Food:
                     trade_tax = 0;
-                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.food_export_price + (1f - pc_PrivateBuildingAI.food_export_ratio) * 0.1f * comm_data.ConsumptionDivider / 5f);
+                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.food_export_price + (1f - pc_PrivateBuildingAI.food_export_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
                         trade_tax = -trade_income * 0.1f * tax_benefit;
@@ -420,7 +426,7 @@ namespace RealCity
                     break;
                 case TransferManager.TransferReason.Petrol:
                     trade_tax = 0;
-                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.petrol_export_price + (1f - pc_PrivateBuildingAI.petrol_export_ratio) * 0.1f * comm_data.ConsumptionDivider / 2f);
+                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.petrol_export_price + (1f - pc_PrivateBuildingAI.petrol_export_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
                         trade_tax = -trade_income * 0.1f * tax_benefit;
@@ -430,7 +436,7 @@ namespace RealCity
                     break;
                 case TransferManager.TransferReason.Coal:
                     trade_tax = 0;
-                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.coal_export_price + (1f - pc_PrivateBuildingAI.coal_export_ratio) * 0.1f * comm_data.ConsumptionDivider / 2.5f);
+                    trade_income = (float)amountDelta * (pc_PrivateBuildingAI.coal_export_price + (1f - pc_PrivateBuildingAI.coal_export_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
                         trade_tax = -trade_income * 0.1f * tax_benefit;
@@ -838,7 +844,7 @@ namespace RealCity
                         offer.Amount = 1;
                         offer.Active = false;
                         Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
-                    } else if (rand.Next(128) == 0)
+                    } else if ((num34 >= 0) && rand.Next(128) == 0)
                     {
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                         offer.Priority = num34 * 8 / num5;
@@ -853,13 +859,13 @@ namespace RealCity
                 {
                     int num35 = Mathf.Max(1, num7 / 6);
                     int customBuffer = (int)buildingData.m_customBuffer2;
-                    if (customBuffer >= num6 && num30 < (num35 + 3) )
+                    if (customBuffer >= num6 && num30 < (num35 + 2) )
                     {
                         TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
                         offer2.Priority = customBuffer * 8 / num6;
                         offer2.Building = buildingID;
                         offer2.Position = buildingData.m_position;
-                        offer2.Amount = Mathf.Min(customBuffer / num6, num35 + 3 - num30);
+                        offer2.Amount = Mathf.Min(customBuffer / num6, num35 + 2 - num30);
                         offer2.Active = true;
                         Singleton<TransferManager>.instance.AddOutgoingOffer(outgoingTransferReason, offer2);
                     }

@@ -561,12 +561,12 @@ namespace RealCity
                 }
 
 
-                if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final) < 500)
+                if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count/10) < 500)
                 {
                     //try_say_something(language.TipAndChirperMessage[41]);
                     tip10_message_forgui = "";
                 }
-                else
+                else if (comm_data.family_count != 0)
                 {
                     try_say_something(language.TipAndChirperMessage[45]);
                     tip10_message_forgui = language.TipAndChirperMessage[46];

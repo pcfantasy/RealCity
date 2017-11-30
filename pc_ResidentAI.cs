@@ -292,16 +292,34 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialFarming:
-                            switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
                             {
-                                case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.indus_far_education0) + rand.Next(1); break;
-                                case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.indus_far_education1) + rand.Next(2); break;
-                                case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.indus_far_education2) + rand.Next(3); break;
-                                case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.indus_far_education3) + rand.Next(4); break;
+                                int aliveworkcount1 = 0;
+                                int totalworkcount1 = 0;
+                                Citizen.BehaviourData behaviour1 = default(Citizen.BehaviourData);
+                                BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
+                                if (comm_data.building_money[work_building] > 0)
+                                {
+                                    if (aliveworkcount1 != 0)
+                                    {
+                                        num = (int)(comm_data.building_money[work_building] * 0.2f / aliveworkcount1);
+                                    }
+                                    comm_data.building_money[work_building] -= num;
+                                }
+                            }
+                            else
+                            {
+                                switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                                {
+                                    case Citizen.Education.Uneducated:
+                                        num = num + (int)(comm_data.indus_far_education0) + rand.Next(1); num = num >> 1; break;
+                                    case Citizen.Education.OneSchool:
+                                        num = num + (int)(comm_data.indus_far_education1) + rand.Next(2); num = num >> 1; break;
+                                    case Citizen.Education.TwoSchools:
+                                        num = num + (int)(comm_data.indus_far_education2) + rand.Next(3); num = num >> 1; break;
+                                    case Citizen.Education.ThreeSchools:
+                                        num = num + (int)(comm_data.indus_far_education3) + rand.Next(4); num = num >> 1; break;
+                                }
                             }
                             break; //
                         case ItemClass.SubService.IndustrialForestry:
@@ -340,6 +358,12 @@ namespace RealCity
                                 case Citizen.Education.ThreeSchools:
                                     num = num + (int)(comm_data.indus_for_education3) + rand.Next(4); break;
                             }
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                            } else
+                            {
+                                num = num / 2;
+                            }
                             break; //
                         case ItemClass.SubService.IndustrialOil:
                             if (rand.Next(1000) < 30)
@@ -362,6 +386,13 @@ namespace RealCity
                                     num = num + (int)(comm_data.indus_oil_education2) + rand.Next(3); break;
                                 case Citizen.Education.ThreeSchools:
                                     num = num + (int)(comm_data.indus_oil_education3) + rand.Next(4); break;
+                            }
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                            }
+                            else
+                            {
+                                num = num / 2;
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOre:
@@ -400,6 +431,13 @@ namespace RealCity
                                     num = num + (int)(comm_data.indus_ore_education2) + rand.Next(3); break;
                                 case Citizen.Education.ThreeSchools:
                                     num = num + (int)(comm_data.indus_ore_education3) + rand.Next(4); break;
+                            }
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                            }
+                            else
+                            {
+                                num = num / 2;
                             }
                             break; //
                         /*case ItemClass.SubService.OfficeGeneric:
@@ -878,18 +916,30 @@ namespace RealCity
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                     BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
 
+                    float local_salary_idex = 0.5f;
+                    float final_salary_idex = 0.5f;
+                    DistrictManager instance2 = Singleton<DistrictManager>.instance;
+                    byte district = 0;
+                    if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial))
+                    {
+                        district = instance2.GetDistrict(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_position);
+                        local_salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() + 50f) / 120f;
+                        final_salary_idex = (local_salary_idex * 4f + comm_data.salary_idex) / 5f;
+                    }
+
+
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office)
                     {
                         //num = num;
                     }
                     else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
                     {
-                        num = (int)((float)num * comm_data.salary_idex / 3f + 0.5f);
+                        num = (int)((float)num * final_salary_idex / 3f + 0.5f);
                         num = 0;
                     }
                     else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 1000 + aliveworkcount * 200)
                     {
-                        num = (int)((float)num * comm_data.salary_idex * 1.33f + 0.5f);
+                        num = (int)((float)num * final_salary_idex * 1.33f + 0.5f);
                     }
                     else if (budget != 0)
                     {
@@ -897,7 +947,7 @@ namespace RealCity
                     }
                     else
                     {
-                        num = (int)((float)num * comm_data.salary_idex + 0.5f);
+                        num = (int)((float)num * final_salary_idex + 0.5f);
                     }
 
                     if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial))
@@ -1135,6 +1185,7 @@ namespace RealCity
             {
                 tax = (citizen_salary_current - 100) * 0.5f + 30f;
             }
+
 
             tax = tax + insurance;
 
@@ -1634,7 +1685,7 @@ namespace RealCity
                 float currentDayTimeHour = instance2.m_currentDayTimeHour;
                 if (currentDayTimeHour > 20f || currentDayTimeHour < 4f)
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 2000)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 1000)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
@@ -2362,7 +2413,8 @@ namespace RealCity
                     {
                         BuildingInfo info = instance2.m_buildings.m_buffer[(int)num].Info;
                         int num2 = -100;
-                        TransferManager.TransferReason temp_reason = pc_HumanAI.get_shopping_reason(num);
+                        //TransferManager.TransferReason temp_reason = pc_HumanAI.get_shopping_reason(num);
+                        TransferManager.TransferReason temp_reason = TransferManager.TransferReason.Shopping;
                         info.m_buildingAI.ModifyMaterialBuffer(num, ref instance2.m_buildings.m_buffer[(int)num], temp_reason, ref num2);
                         uint containingUnit1 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if (containingUnit1 != 0u)

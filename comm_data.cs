@@ -85,28 +85,28 @@
         public const byte indus_gen_level3_education3 = 70;
 
         //industrial farmer
-        public const byte indus_far_education0 = 35;
-        public const byte indus_far_education1 = 40;
-        public const byte indus_far_education2 = 45;
-        public const byte indus_far_education3 = 50;
+        public const byte indus_far_education0 = 65;
+        public const byte indus_far_education1 = 70;
+        public const byte indus_far_education2 = 75;
+        public const byte indus_far_education3 = 80;
 
         //industrial foerest
-        public const byte indus_for_education0 = 35;
-        public const byte indus_for_education1 = 40;
-        public const byte indus_for_education2 = 45;
-        public const byte indus_for_education3 = 50;
+        public const byte indus_for_education0 = 65;
+        public const byte indus_for_education1 = 70;
+        public const byte indus_for_education2 = 75;
+        public const byte indus_for_education3 = 80;
 
         //industrial oil
-        public const byte indus_oil_education0 = 35;
-        public const byte indus_oil_education1 = 40;
-        public const byte indus_oil_education2 = 45;
-        public const byte indus_oil_education3 = 50;
+        public const byte indus_oil_education0 = 65;
+        public const byte indus_oil_education1 = 70;
+        public const byte indus_oil_education2 = 75;
+        public const byte indus_oil_education3 = 80;
 
         //industrial ore
-        public const byte indus_ore_education0 = 35;
-        public const byte indus_ore_education1 = 40;
-        public const byte indus_ore_education2 = 45;
-        public const byte indus_ore_education3 = 50;
+        public const byte indus_ore_education0 = 65;
+        public const byte indus_ore_education1 = 70;
+        public const byte indus_ore_education2 = 75;
+        public const byte indus_ore_education3 = 80;
 
         //office
         /*public const byte office_gen_level1_education0 = 70;

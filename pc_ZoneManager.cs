@@ -73,13 +73,12 @@ namespace RealCity
 
         public int OnCalculateResidentialDemand(ref int originalDemand)
         {
-            float demand_idex = 0f;
+            float demand_idex = 1f;
 
-            if ((comm_data.citizen_count > 2000) && (comm_data.family_count != 0))
+            if ((comm_data.citizen_count > 1000) && (comm_data.family_count != 0))
             {
-                demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
-                demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
-                demand_idex = demand_idex * (1000 - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final) / 1000;
+                int family_minus_oilorebuiling = (int)(comm_data.family_count / 10) - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final;
+                demand_idex = demand_idex * (100 + family_minus_oilorebuiling) / 100;
                 if (demand_idex < 0)
                 {
                     demand_idex = 0;
@@ -87,7 +86,7 @@ namespace RealCity
                 System.Random rand = new System.Random();
                 if (demand_idex == 0)
                 {
-                    if (rand.Next(32) == 0)
+                    if (rand.Next(8) == 0)
                     {
                         demand_idex = 1;
                     }
