@@ -805,7 +805,7 @@ namespace RealCity
                 {
                     problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
                     if (buildingData.m_customBuffer2 < 500)
-                    {
+                    {                       
                         problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
                     }
                     else if (buildingData.m_customBuffer2 < 1000)
@@ -875,6 +875,7 @@ namespace RealCity
                 all_office_level3_building_num_final = all_office_level3_building_num;
                 greater_than_20000_profit_building_num_final = greater_than_20000_profit_building_num;
                 greater_than_20000_profit_building_money_final = greater_than_20000_profit_building_money;
+                comm_data.Extractor_building_final = comm_data.Extractor_building;
 
                 all_buildings_final = 0;
                 all_farmer_building_profit = 0;
@@ -891,6 +892,7 @@ namespace RealCity
                 all_comm_building_loss = 0;
                 greater_than_20000_profit_building_money = 0;
                 greater_than_20000_profit_building_num = 0;
+                comm_data.Extractor_building = 0;
                 if (comm_data.update_outside_count == 63)
                 {
                     resident_shopping_count = 0;
@@ -948,78 +950,98 @@ namespace RealCity
 
             int asset = process_building_asset(buildingID, ref building);
 
-            if (comm_data.building_money[buildingID] > 0)
+
+            if ((building.Info.m_class.m_service == ItemClass.Service.Industrial)  || ((building.Info.m_class.m_service == ItemClass.Service.Commercial)))
             {
-                switch (building.Info.m_class.m_subService)
+                if (comm_data.building_money[buildingID] > 0)
                 {
-                    case ItemClass.SubService.IndustrialFarming:
-                        all_farmer_building_profit = (ushort)(all_farmer_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialForestry:
-                        all_foresty_building_profit = (ushort)(all_foresty_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialOil:
-                        all_oil_building_profit = (ushort)(all_oil_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialOre:
-                        all_ore_building_profit = (ushort)(all_ore_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialGeneric:
-                        all_industry_building_profit = (ushort)(all_industry_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.CommercialHigh:
-                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.CommercialLow:
-                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.CommercialLeisure:
-                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.CommercialTourist:
-                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                        break;
-                    case ItemClass.SubService.CommercialEco:
-                        all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                        break;
-                    default: break;
+                    switch (building.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.IndustrialFarming:
+                            all_farmer_building_profit = (ushort)(all_farmer_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.IndustrialForestry:
+                            all_foresty_building_profit = (ushort)(all_foresty_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.IndustrialOil:
+                            all_oil_building_profit = (ushort)(all_oil_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.IndustrialOre:
+                            all_ore_building_profit = (ushort)(all_ore_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            all_industry_building_profit = (ushort)(all_industry_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.CommercialHigh:
+                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.CommercialLow:
+                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.CommercialLeisure:
+                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.CommercialTourist:
+                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                            break;
+                        case ItemClass.SubService.CommercialEco:
+                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                            break;
+                        default: break;
+                    }
                 }
-            }
-            else
-            {
-                switch (building.Info.m_class.m_subService)
+                else
                 {
-                    case ItemClass.SubService.IndustrialFarming:
-                        all_farmer_building_loss = (ushort)(all_farmer_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialForestry:
-                        all_foresty_building_loss = (ushort)(all_foresty_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialOil:
-                        all_oil_building_loss = (ushort)(all_oil_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialOre:
-                        all_ore_building_loss = (ushort)(all_ore_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.IndustrialGeneric:
-                        all_industry_building_loss = (ushort)(all_industry_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.CommercialHigh:
-                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.CommercialLow:
-                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.CommercialLeisure:
-                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.CommercialTourist:
-                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                        break;
-                    case ItemClass.SubService.CommercialEco:
-                        all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                        break;
-                    default: break;
+                    switch (building.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.IndustrialFarming:
+                            if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                                all_farmer_building_profit++;
+                            }
+                            else
+                            {
+                                all_farmer_building_loss = (ushort)(all_farmer_building_loss + 1);
+                            }
+                            break;
+                        case ItemClass.SubService.IndustrialForestry:
+                            all_foresty_building_loss = (ushort)(all_foresty_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.IndustrialOil:
+                            all_oil_building_loss = (ushort)(all_oil_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.IndustrialOre:
+                            all_ore_building_loss = (ushort)(all_ore_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            all_industry_building_loss = (ushort)(all_industry_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.CommercialHigh:
+                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.CommercialLow:
+                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.CommercialLeisure:
+                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.CommercialTourist:
+                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                            break;
+                        case ItemClass.SubService.CommercialEco:
+                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                            break;
+                        default: break;
+                    }
+                }
+
+
+                if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
+                {
+                    if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                    {
+                        comm_data.Extractor_building++;
+                    }
                 }
             }
 

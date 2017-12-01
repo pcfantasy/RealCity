@@ -456,8 +456,11 @@
 
         public static double city_insurance_account = 0;
         public static double city_insurance_account_final = 0;
+
+        public static ushort Extractor_building = 0;
+        public static ushort Extractor_building_final = 0;
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49066];
+        public static ushort[] reserved = new ushort[49062];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -603,6 +606,9 @@
             saveandrestore.save_double(ref i, city_insurance_account, ref save_data);
             saveandrestore.save_double(ref i, city_insurance_account_final, ref save_data);
 
+            saveandrestore.save_ushort(ref i, Extractor_building, ref save_data);
+            saveandrestore.save_ushort(ref i, Extractor_building_final, ref save_data);
+
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
@@ -707,6 +713,9 @@
 
             city_insurance_account = saveandrestore.load_double(ref i, load_data);
             city_insurance_account_final = saveandrestore.load_double(ref i, load_data);
+
+            Extractor_building = saveandrestore.load_ushort(ref i, load_data);
+            Extractor_building_final = saveandrestore.load_ushort(ref i, load_data);
 
             reserved = saveandrestore.load_ushorts(ref i, load_data ,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);

@@ -122,15 +122,29 @@ namespace RealCity
 
 
             TransferManager.TransferReason temp_transfer_reason = get_shopping_reason(citizenData.m_targetBuilding);
+            System.Random rand = new System.Random();
 
-            if ((comm_data.citizen_money[homeid] > 0) && ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None))
+            if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
             {
-                System.Random rand = new System.Random();
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = rand.Next(900) + 100;
+                    if (info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                    {
+                        num = rand.Next(900) + 100;
+                    } else
+                    {
+                        num = rand.Next(400) + 100;
+                    }
                 }
-                num = (comm_data.citizen_money[homeid] - num > 1000f) ? num : 0;
+
+                int temp = (comm_data.citizen_money[homeid] - num > 1f) ? (int)(comm_data.citizen_money[homeid] - num) : 1;
+                num = (rand.Next(temp) > 1000) ? num : (int)(0.05f * comm_data.citizen_money[homeid]);
+
+                if(num < 0)
+                {
+                    num = 0;
+                }
+
                 int num1 = -num;
                 if((num1 == -200 || num1 == -50))
                 {
@@ -147,7 +161,6 @@ namespace RealCity
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
                     num = 1000;
-
                     if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         num = num * 4;
@@ -169,24 +182,36 @@ namespace RealCity
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
                 int size = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width * instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Length;
-                int tourism_fee = size * 100;
+                int tourism_fee = rand.Next(size * 200);
                 if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
                     //DebugLog.LogToFileOnly("tourist visit! " + instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width.ToString());
+                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
+                    {
+                        tourism_fee = tourism_fee * 4;
+                    }
+                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.Medium)
+                    {
+                        tourism_fee = tourism_fee * 2;
+                    }
                     tourism_fee = (int)(tourism_fee * comm_data.outside_consumption_rate);
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
                 }
                 else
                 {
-                    if (comm_data.citizen_money[homeid] > 1000f)
+                    //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
+                    int temp = (comm_data.citizen_money[homeid] - tourism_fee > 1f) ? (int)(comm_data.citizen_money[homeid] - tourism_fee) : 1;
+                    tourism_fee = (rand.Next(temp) > 1000) ? tourism_fee : (int)(0.05f * comm_data.citizen_money[homeid]);
+
+                    if (tourism_fee < 0)
                     {
-                        //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
-                        tourism_fee = (comm_data.citizen_money[homeid] - tourism_fee > 1000f) ? tourism_fee : 0;
-                        if (tourism_fee != 0)
-                        {
-                            comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - tourism_fee);
-                            Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
-                        }
+                        tourism_fee = 0;
+                    }
+
+                    if (tourism_fee != 0)
+                    {
+                        comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - tourism_fee);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }
                 }
                 //DebugLog.LogToFileOnly("find a Beautification building width " + instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width.ToString());

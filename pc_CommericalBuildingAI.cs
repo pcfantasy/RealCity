@@ -204,7 +204,7 @@ namespace RealCity
             {
                 tax_benefit = 0.6f;
             }
-            return tax_benefit;
+            return 1f;
         }
 
         public float caculate_employee_benefit(ushort buildingID, ref Building data)
@@ -231,11 +231,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.15f * tax_benefit; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.21f * tax_benefit; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.17f * tax_benefit; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.23f * tax_benefit; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.19f * tax_benefit; break;
+                        trade_income = amountDelta * 1; trade_tax = -trade_income * 0.25f * tax_benefit; break;
                     default:
                         trade_income = 0; break;
                 }
@@ -258,11 +258,11 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialEco:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.15f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.2f * tax_benefit; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.4f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.6f * tax_benefit; break;
                 case ItemClass.SubService.CommercialTourist:
-                    trade_income = amountDelta; trade_tax = -trade_income * 0.30f * tax_benefit; break;
+                    trade_income = amountDelta; trade_tax = -trade_income * 0.7f * tax_benefit; break;
                 default:
                     break;
             }
