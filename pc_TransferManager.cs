@@ -1,9 +1,10 @@
 ﻿using System;
 using ColossalFramework;
+using System.Reflection;
 
 namespace RealCity
 {
-    public static class pc_TransferManager
+    public class pc_TransferManager
     {
         /// <summary>
         /// Point of note: This is a static function whereas the original function uses __thiscall.
@@ -17,15 +18,15 @@ namespace RealCity
         /// 
         // TransferManager
 
-       /* public static void Init()
+        public void Init()
         {
-            //DebugLog.Log("Init fake transfer manager");
+            DebugLog.LogToFileOnly("Init fake transfer manager");
             try
             {
                 var inst = Singleton<TransferManager>.instance;
-                var incomingCount = typeof(TransferManager).GetField("m_incomingCount", BindingFlags.NonPublic | BindingFlags.Instance);
-                var incomingOffers = typeof(TransferManager).GetField("m_incomingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
-                var incomingAmount = typeof(TransferManager).GetField("m_incomingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+                //var incomingCount = typeof(TransferManager).GetField("m_incomingCount", BindingFlags.NonPublic | BindingFlags.Instance);
+                //var incomingOffers = typeof(TransferManager).GetField("m_incomingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
+                //var incomingAmount = typeof(TransferManager).GetField("m_incomingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
                 var outgoingCount = typeof(TransferManager).GetField("m_outgoingCount", BindingFlags.NonPublic | BindingFlags.Instance);
                 var outgoingOffers = typeof(TransferManager).GetField("m_outgoingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
                 var outgoingAmount = typeof(TransferManager).GetField("m_outgoingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -34,13 +35,13 @@ namespace RealCity
                     DebugLog.LogToFileOnly("No instance of TransferManager found!");
                     return;
                 }
-                _incomingCount = incomingCount.GetValue(inst) as ushort[];
-                _incomingOffers = incomingOffers.GetValue(inst) as TransferManager.TransferOffer[];
-                _incomingAmount = incomingAmount.GetValue(inst) as int[];
+                //_incomingCount = incomingCount.GetValue(inst) as ushort[];
+                //_incomingOffers = incomingOffers.GetValue(inst) as TransferManager.TransferOffer[];
+                //_incomingAmount = incomingAmount.GetValue(inst) as int[];
                 _outgoingCount = outgoingCount.GetValue(inst) as ushort[];
                 _outgoingOffers = outgoingOffers.GetValue(inst) as TransferManager.TransferOffer[];
                 _outgoingAmount = outgoingAmount.GetValue(inst) as int[];
-                if (_incomingCount == null || _incomingOffers == null || _incomingAmount == null || _outgoingCount == null || _outgoingOffers == null || _outgoingAmount == null)
+                if (_outgoingCount == null || _outgoingOffers == null || _outgoingAmount == null)
                 {
                     DebugLog.LogToFileOnly("TransferManager Arrays are null");
                 }
@@ -53,10 +54,12 @@ namespace RealCity
         private static TransferManager.TransferOffer[] _outgoingOffers;
         private static ushort[] _outgoingCount;
         private static int[] _outgoingAmount;
-        private static TransferManager.TransferOffer[] _incomingOffers;
-        private static ushort[] _incomingCount;
-        private static int[] _incomingAmount;
-        private static bool _init;*/
+        //private static TransferManager.TransferOffer[] _incomingOffers;
+        //private static ushort[] _incomingCount;
+        //private static int[] _incomingAmount;
+        private static bool _init = false;
+
+
         public static bool IsBuildingOutside(UnityEngine.Vector3 position)
         {
             if ((position.x < 8600) && (position.x > -8600) && (position.z < 8600) && (position.z > -8600))
@@ -67,7 +70,7 @@ namespace RealCity
             return true;
         }
 
-        public static void process_shopping_and_entertainment(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
+        public void process_shopping_and_entertainment(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
             Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
             uint citizen = offerIn.Citizen;
@@ -121,7 +124,7 @@ namespace RealCity
             }
         }
 
-        private static void StartTransfer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
+        private void StartTransfer(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
             bool active = offerIn.Active;
             bool active2 = offerOut.Active;
@@ -143,7 +146,7 @@ namespace RealCity
             }
             else if (active && offerIn.Citizen != 0u)
             {
-                process_shopping_and_entertainment(manager, material, offerOut, offerIn, delta);
+                process_shopping_and_entertainment(material, offerOut, offerIn, delta);
 /*Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
                 uint citizen = offerIn.Citizen;
                 CitizenInfo citizenInfo = citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
@@ -355,104 +358,150 @@ namespace RealCity
         }
 
 
-/*        public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+        /*        public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+                {
+                    // note: do NOT just use 
+                    //   DebugOutputPanel.AddMessage
+                    // here. This method is called so frequently that it will actually crash the game.
+                    if (!_init)
+                    {
+                        _init = true;
+                        Init();
+                    }
+                    //CitizenManager instance = Singleton<CitizenManager>.instance;
+                    //Citizen[] buffer1 = instance.m_citizens.m_buffer;
+                    //VehicleManager instance = Singleton<VehicleManager>.instance;
+                    //Vehicle[] buffer = instance.m_vehicles.m_buffer;
+                    BuildingManager instance1 = Singleton<BuildingManager>.instance;
+                    Building[] buffer = instance1.m_buildings.m_buffer;
+                    //DebugLog.LogToFileOnly("AddIncomingOffer" + " buildID " + offer.Building + " custom1_buffer " + buffer[13618].m_customBuffer1 + " custom2_buffer " + buffer[13618].m_customBuffer2); 
+                    if (material == TransferManager.TransferReason.Goods)
+                    {
+                    //DebugLog.LogToFileOnly("AddIncomingOfferx" + buffer[offer.Building].m_position.x.ToString() + " z " + buffer[offer.Building].m_position.z.ToString() + "for " + material + " from ");
+                    //DebugLog.LogToFileOnly("AddIncomingOffer" + " buildID " + offer.Building + " custom1_buffer " + buffer[offer.Building].m_customBuffer1 + " custom2_buffer " + buffer[offer.Building].m_customBuffer2);
+                    }
+
+                    //if (((material == TransferManager.TransferReason.Shopping) || (material == TransferManager.TransferReason.ShoppingB) || (material == TransferManager.TransferReason.ShoppingC)))
+                    //{
+                    //DebugLog.LogToFileOnly("AddIncomingOfferx" + material + buffer1[offer.Citizen].m_homeBuilding + Environment.StackTrace);
+                    //}
+                    // + Environment.StackTrace
+                    for (int priority = offer.Priority; priority >= 0; --priority)
+                    {
+                        int index = (int)material * 8 + priority;
+                        int count = _incomingCount[index];
+                        if (count < 256)
+                        {
+                            //here we caculate needs
+                            _incomingOffers[index * 256 + count] = offer;
+                            _incomingCount[index] = (ushort)(count + 1);
+                            _incomingAmount[(int)material] += offer.Amount;
+
+                            switch (material)
+                            {
+                                //shopping
+                                case TransferManager.TransferReason.Shopping:
+                                case TransferManager.TransferReason.ShoppingB:
+                                case TransferManager.TransferReason.ShoppingC:
+                                case TransferManager.TransferReason.ShoppingD:
+                                case TransferManager.TransferReason.ShoppingE:
+                                case TransferManager.TransferReason.ShoppingF:
+                                case TransferManager.TransferReason.ShoppingG:
+                                case TransferManager.TransferReason.ShoppingH:
+                                    //if (buffer1[offer.Citizen].m_homeBuilding == 0)
+                                    //{
+                                    //    ;
+                                    //}
+                                    //else
+                                    //{
+                                    //    ;
+                                    // }
+                                    break;
+                                //entertainment
+                                case TransferManager.TransferReason.Entertainment:
+                                case TransferManager.TransferReason.EntertainmentB:
+                                case TransferManager.TransferReason.EntertainmentC:
+                                case TransferManager.TransferReason.EntertainmentD:
+                                    /// if (buffer1[offer.Citizen].m_homeBuilding == 0)
+                                    // {
+                                    //     ;
+                                    // }
+                                    // else
+                                    // {
+                                    //     ;
+                                    // }
+                                    break;
+                                case TransferManager.TransferReason.Food:
+                                    // if ((buffer[offer.Building].m_position.x > 8600) || (buffer[offer.Building].m_position.x < -8600) || (buffer[offer.Building].m_position.z > 8600) || (buffer[offer.Building].m_position.z < -8600))
+                                    // {
+                                    //     ;
+                                    // }
+                                    // else
+                                    // {
+                                    //      ;
+                                    // }
+                                    break;
+                                case TransferManager.TransferReason.Goods:
+                                    // if ((buffer[offer.Building].m_position.x > 8600) || (buffer[offer.Building].m_position.x < -8600) || (buffer[offer.Building].m_position.z > 8600) || (buffer[offer.Building].m_position.z < -8600))
+                                    // {
+                                    //     ;
+                                    //  }
+                                    // else
+                                    //  {
+                                    //DebugLog.LogToFileOnly(offer.m_object.RawData.ToString());
+                                    //DebugLog.LogToFileOnly("AddIncomingOfferx goods" + offer.Priority.ToString() + "amount" + offer.Amount.ToString());
+                                    //  }
+                                    break;
+                            }
+                            break;
+                        }//endif
+                    }//endfor
+                }//end public*/
+
+        public void AddOutgoingOffer(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {
-            // note: do NOT just use 
-            //   DebugOutputPanel.AddMessage
-            // here. This method is called so frequently that it will actually crash the game.
             if (!_init)
             {
                 _init = true;
                 Init();
             }
-            //CitizenManager instance = Singleton<CitizenManager>.instance;
-            //Citizen[] buffer1 = instance.m_citizens.m_buffer;
-            //VehicleManager instance = Singleton<VehicleManager>.instance;
-            //Vehicle[] buffer = instance.m_vehicles.m_buffer;
-            BuildingManager instance1 = Singleton<BuildingManager>.instance;
-            Building[] buffer = instance1.m_buildings.m_buffer;
-            //DebugLog.LogToFileOnly("AddIncomingOffer" + " buildID " + offer.Building + " custom1_buffer " + buffer[13618].m_customBuffer1 + " custom2_buffer " + buffer[13618].m_customBuffer2); 
-            if (material == TransferManager.TransferReason.Goods)
+
+            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].m_flags.IsFlagSet(Building.Flags.Outgoing))
             {
-            //DebugLog.LogToFileOnly("AddIncomingOfferx" + buffer[offer.Building].m_position.x.ToString() + " z " + buffer[offer.Building].m_position.z.ToString() + "for " + material + " from ");
-            //DebugLog.LogToFileOnly("AddIncomingOffer" + " buildID " + offer.Building + " custom1_buffer " + buffer[offer.Building].m_customBuffer1 + " custom2_buffer " + buffer[offer.Building].m_customBuffer2);
+                if (material == TransferManager.TransferReason.Family3)
+                {
+                    //DebugLog.LogToFileOnly("reject outside moving in to live in 4-5 level house");
+                    return;
+                }
+                if (material == TransferManager.TransferReason.Single3B)
+                {
+                    //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
+                    return;
+                }
+                if (material == TransferManager.TransferReason.Single3)
+                {
+                    //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
+                    return;
+                }
             }
 
-            //if (((material == TransferManager.TransferReason.Shopping) || (material == TransferManager.TransferReason.ShoppingB) || (material == TransferManager.TransferReason.ShoppingC)))
-            //{
-            //DebugLog.LogToFileOnly("AddIncomingOfferx" + material + buffer1[offer.Citizen].m_homeBuilding + Environment.StackTrace);
-            //}
-            // + Environment.StackTrace
+
             for (int priority = offer.Priority; priority >= 0; --priority)
             {
                 int index = (int)material * 8 + priority;
-                int count = _incomingCount[index];
+                int count = _outgoingCount[index];
                 if (count < 256)
                 {
                     //here we caculate needs
-                    _incomingOffers[index * 256 + count] = offer;
-                    _incomingCount[index] = (ushort)(count + 1);
-                    _incomingAmount[(int)material] += offer.Amount;
+                    _outgoingOffers[index * 256 + count] = offer;
+                    _outgoingCount[index] = (ushort)(count + 1);
+                    _outgoingAmount[(int)material] += offer.Amount;
+                    return;
+                }
+            }
+        }
 
-                    switch (material)
-                    {
-                        //shopping
-                        case TransferManager.TransferReason.Shopping:
-                        case TransferManager.TransferReason.ShoppingB:
-                        case TransferManager.TransferReason.ShoppingC:
-                        case TransferManager.TransferReason.ShoppingD:
-                        case TransferManager.TransferReason.ShoppingE:
-                        case TransferManager.TransferReason.ShoppingF:
-                        case TransferManager.TransferReason.ShoppingG:
-                        case TransferManager.TransferReason.ShoppingH:
-                            //if (buffer1[offer.Citizen].m_homeBuilding == 0)
-                            //{
-                            //    ;
-                            //}
-                            //else
-                            //{
-                            //    ;
-                            // }
-                            break;
-                        //entertainment
-                        case TransferManager.TransferReason.Entertainment:
-                        case TransferManager.TransferReason.EntertainmentB:
-                        case TransferManager.TransferReason.EntertainmentC:
-                        case TransferManager.TransferReason.EntertainmentD:
-                            /// if (buffer1[offer.Citizen].m_homeBuilding == 0)
-                            // {
-                            //     ;
-                            // }
-                            // else
-                            // {
-                            //     ;
-                            // }
-                            break;
-                        case TransferManager.TransferReason.Food:
-                            // if ((buffer[offer.Building].m_position.x > 8600) || (buffer[offer.Building].m_position.x < -8600) || (buffer[offer.Building].m_position.z > 8600) || (buffer[offer.Building].m_position.z < -8600))
-                            // {
-                            //     ;
-                            // }
-                            // else
-                            // {
-                            //      ;
-                            // }
-                            break;
-                        case TransferManager.TransferReason.Goods:
-                            // if ((buffer[offer.Building].m_position.x > 8600) || (buffer[offer.Building].m_position.x < -8600) || (buffer[offer.Building].m_position.z > 8600) || (buffer[offer.Building].m_position.z < -8600))
-                            // {
-                            //     ;
-                            //  }
-                            // else
-                            //  {
-                            //DebugLog.LogToFileOnly(offer.m_object.RawData.ToString());
-                            //DebugLog.LogToFileOnly("AddIncomingOfferx goods" + offer.Priority.ToString() + "amount" + offer.Amount.ToString());
-                            //  }
-                            break;
-                    }
-                    break;
-                }//endif
-            }//endfor
-        }//end public*/
+
+
     }//end publi
 }//end naming space 

@@ -516,10 +516,78 @@ namespace RealCity
             }
 
             process_building_data_final(buildingID, ref buildingData);
+            limit_commericalbuilding_access(buildingID, ref buildingData);
             //process_addition_product(buildingID, ref buildingData);
 
         }
 
+
+
+
+        public void limit_commericalbuilding_access(ushort buildingID, ref Building buildingData)
+        {
+            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+            {
+                int service_num = 0;
+                if (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
+                {
+                    switch (buildingData.Info.m_class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            service_num = 4; break;
+                        case ItemClass.Level.Level2:
+                            service_num = 4; break;
+                        case ItemClass.Level.Level3:
+                            service_num = 5; break;
+                        default:
+                            service_num = 0; break;
+                    }
+                }
+                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialLow)
+                {
+                    switch (buildingData.Info.m_class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            service_num = 3; break;
+                        case ItemClass.Level.Level2:
+                            service_num = 3; break;
+                        case ItemClass.Level.Level3:
+                            service_num = 4; break;
+                        default:
+                            service_num = 0; break;
+                    }
+                }
+                
+
+                switch (buildingData.Info.m_class.m_subService)
+                {
+                    case ItemClass.SubService.CommercialEco:
+                         service_num = 5; break;
+                    case ItemClass.SubService.CommercialLeisure:
+                         service_num = 6; break;
+                    case ItemClass.SubService.CommercialTourist:
+                         service_num = 7; break;
+                    default:
+                        break;
+                }
+
+
+                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                int aliveWorkerCount = 0;
+                int totalWorkerCount = 0;
+                GetWorkBehaviour(buildingID, ref buildingData, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
+
+                behaviour = default(Citizen.BehaviourData);
+                int alivevisitCount = 0;
+                int totalvisitCount = 0;
+                GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+
+                if (((5 + aliveWorkerCount/10) * service_num) < alivevisitCount)
+                {
+                    buildingData.m_flags &= ~Building.Flags.Active;
+                }
+            }
+        }
 
         /*public void process_addition_demand(ushort buildingID, ref Building buildingData)
         {

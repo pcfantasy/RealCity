@@ -882,6 +882,15 @@ namespace RealCity
                     }
                 }
             }
+            else if (material == TransferManager.TransferReason.Family3)
+            {
+            }
+            else if (material == TransferManager.TransferReason.Single3B)
+            {
+            }
+            else if (material == TransferManager.TransferReason.Single3)
+            {
+            }
             else
             {
                 if (!OutsideConnectionAI.StartConnectionTransfer(buildingID, ref data, material, offer, m_touristFactor0, m_touristFactor1, m_touristFactor2))

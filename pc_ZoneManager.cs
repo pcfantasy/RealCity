@@ -107,7 +107,7 @@ namespace RealCity
             {
                 if (pc_PrivateBuildingAI.all_comm_building_loss_final != 0)
                 {
-                    if ((pc_PrivateBuildingAI.all_comm_building_profit_final / pc_PrivateBuildingAI.all_comm_building_loss_final) >= 1f)
+                    if ((pc_PrivateBuildingAI.all_comm_building_profit_final / pc_PrivateBuildingAI.all_comm_building_loss_final) >= 20f)
                     {
                         //do nothing
                     }

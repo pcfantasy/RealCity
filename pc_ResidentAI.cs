@@ -1323,7 +1323,7 @@ namespace RealCity
             }
             else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_profit_status[homeID] <= 25))
             {
-                if ((home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
+                if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
                     if (rand.Next(100) < 2)
                     {
@@ -1433,44 +1433,46 @@ namespace RealCity
             {
                 if (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 0)
                 {
-                    switch (data.EducationLevel)
+                    if ((comm_data.citizen_money[homeID] > 2000) && (comm_data.citizen_profit_status[homeID] >= 230))
                     {
-                        case Citizen.Education.Uneducated:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single0, offer);
-                            break;
-                        case Citizen.Education.OneSchool:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single1, offer);
-                            break;
-                        case Citizen.Education.TwoSchools:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single2, offer);
-                            break;
-                        case Citizen.Education.ThreeSchools:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single3, offer);
-                            break;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single3, offer);
+                    }
+                    else if (comm_data.citizen_money[homeID] < 0)
+                    {
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single0, offer);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 0)
+                    {
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single2, offer);
+                    }
+                    else
+                    {
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single1, offer);
                     }
                 }
                 else
                 {
-                    switch (data.EducationLevel)
+                    if ((comm_data.citizen_money[homeID] > 2000) && (comm_data.citizen_profit_status[homeID] >= 230))
                     {
-                        case Citizen.Education.Uneducated:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single0B, offer);
-                            break;
-                        case Citizen.Education.OneSchool:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single1B, offer);
-                            break;
-                        case Citizen.Education.TwoSchools:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single2B, offer);
-                            break;
-                        case Citizen.Education.ThreeSchools:
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single3B, offer);
-                            break;
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single3B, offer);
+                    }
+                    else if (comm_data.citizen_money[homeID] < 0)
+                    {
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single0B, offer);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 0)
+                    {
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single2B, offer);
+                    }
+                    else
+                    {
+                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single1B, offer);
                     }
                 }
             }
             else
             {
-                if (comm_data.citizen_profit_status[homeID] >= 230)
+                if ((comm_data.citizen_money[homeID] > 2000) && (comm_data.citizen_profit_status[homeID] >= 230))
                 {
                     Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Family3, offer);
                 }
@@ -1528,7 +1530,7 @@ namespace RealCity
                         if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding != 0)
                         {
                             ushort num1;
-                            num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 500f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                            num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
                             if (num1 != 0)
                             {
                                 num = (ushort)num1;
@@ -1564,65 +1566,110 @@ namespace RealCity
             float num5 = maxDistance * maxDistance;
             BuildingManager building = Singleton<BuildingManager>.instance;
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
-            for (int i = num2; i <= num4; i++)
+
+            if ((num4 >= num2) && (num3 >= num))
             {
-                for (int j = num; j <= num3; j++)
+                int[] source = new int[(num4 - num2 + 1) * (num3 - num + 1)];
+                int[] array = new int[(num4 - num2 + 1) * (num3 - num + 1)];
+                int idex = 0;
+                for (int i = num2; i <= num4; i++)
                 {
-                    ushort num6 = building.m_buildingGrid[i * 270 + j];
-                    int num7 = 0;
-                    while (num6 != 0)
+                    for (int j = num; j <= num3; j++)
                     {
-                        BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
-                        if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
+                        source[idex] = i * 270 + j;
+                        idex++;
+                    }
+                }
+
+                setNum(ref source, ref array);
+                idex = 0;
+                for (int i = 0; i <= num4-num2; i++)
+                  {
+                    if (result != 0)
+                    {
+                        break;
+                    }
+                    for (int j = 0; j <= num3-num; j++)
+                    {
+                        ushort num6 = building.m_buildingGrid[array[idex]];
+                        idex++;
+                        int num7 = 0;
+                        if (result != 0)
                         {
-                            Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
-                            if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
+                            break;
+                        }
+                        while (num6 != 0)
+                        {
+                            BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
+                            if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
                             {
-                                float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
-                                //for rush hour
-                                if (info.m_class.m_service == ItemClass.Service.Commercial)
+                                Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
+                                if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
                                 {
-                                    if ((maxDistance == 2000f) || (maxDistance == 500f))
+                                    float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
+                                    //for rush hour
+                                    if (info.m_class.m_service == ItemClass.Service.Commercial)
                                     {
-                                        //if (building.m_buildings.m_buffer[(int)num6].m_customBuffer1 > 5000)
-                                        //{
+                                        if ((maxDistance == 2000f) || (maxDistance == 500f))
+                                        {
+                                            //if (building.m_buildings.m_buffer[(int)num6].m_customBuffer1 > 5000)
+                                            //{
                                             //if (((num8 - num5) < (maxDistance * maxDistance)) || ((num8 - num5) > (maxDistance * maxDistance)) || (result == 0))
                                             //{
-                                                if ((instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 400) || (result == 0))
-                                                {
-                                                    result = num6;
-                                                    num5 = num8;
-                                                }
+                                            if (instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 400)
+                                            {
+                                                result = num6;
+                                                num5 = num8;
+                                                break;
+                                            }
                                             //}
-                                        //}
-                                    }
-                                    else
-                                    {
-                                        //if (building.m_buildings.m_buffer[(int)num6].m_customBuffer2 >= 0)
-                                        //{
+                                            //}
+                                        }
+                                        else
+                                        {
+                                            //if (building.m_buildings.m_buffer[(int)num6].m_customBuffer2 >= 0)
+                                            //{
                                             //if (((num8 - num5) < (maxDistance * maxDistance)) || ((num8 - num5) > (-maxDistance * maxDistance)))
                                             //{
-                                                if (((instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 100)) || (result == 0))
-                                                {
-                                                    result = num6;
-                                                    num5 = num8;
-                                                }
+                                            if ((instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 100))
+                                            {
+                                                result = num6;
+                                                num5 = num8;
+                                                break;
+                                            }
                                             //}
-                                        //}
+                                            //}
+                                        }
                                     }
                                 }
                             }
-                        }
-                        num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
-                        if (++num7 >= 49152)
-                        {
-                            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                            break;
+                            num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
+                            if (++num7 >= 49152)
+                            {
+                                CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                                break;
+                            }
                         }
                     }
                 }
             }
             return result;
+        }
+
+        public static void setNum(ref int[] source, ref int[] array)
+        {
+            System.Random rd = new System.Random();
+            int range = array.Length;
+            for (int i = 0; i < array.Length; i++)
+            {
+                //随机产生一个位置  
+                int pos = rd.Next(range);
+                //获取该位置的值  
+                array[i] = source[pos];
+                //改良：将最后一个数赋给被删除的索引所对应的值  
+                source[pos] = source[range - 1];
+                range--;
+            }
         }
 
         // ResidentAI
@@ -1695,14 +1742,14 @@ namespace RealCity
                 float currentDayTimeHour = instance2.m_currentDayTimeHour;
                 if (currentDayTimeHour > 20f || currentDayTimeHour < 4f)
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 1000)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 3200)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
                 }
                 else
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 50)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 2000)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
@@ -2020,7 +2067,11 @@ namespace RealCity
 
             Citizen.AgePhase temp_agephase = data.Info.m_agePhase;
             ushort temp_parkedVehicle = 0;
-            data.Info.m_agePhase = canusetransport(instanceID, ref data, targetBuilding);
+            if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].CurrentLocation == Citizen.Location.Home) && (!(targetBuilding == (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_workBuilding))))
+            { 
+                data.Info.m_agePhase = canusetransport(instanceID, ref data, targetBuilding);
+            }
+
             if (data.Info.m_agePhase == Citizen.AgePhase.Child)
             {
                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_parkedVehicle != 0)
