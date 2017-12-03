@@ -868,7 +868,7 @@ namespace RealCity
                 }
 
                 int asset = process_building_asset(buildingID, ref buildingData);
-                if ((buildingData.m_problems | Notification.Problem.NoCustomers) != Notification.Problem.None)
+                if ((buildingData.m_problems & Notification.Problem.NoCustomers) != Notification.Problem.None)
                 {
                     Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
                     //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
@@ -898,7 +898,7 @@ namespace RealCity
                     buildingData.m_problems = problem;
                 }
 
-                if ((buildingData.m_problems | Notification.Problem.NoGoods) != Notification.Problem.None)
+                if ((buildingData.m_problems & Notification.Problem.NoGoods) != Notification.Problem.None)
                 {
                     //mark no good
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)

@@ -1675,7 +1675,11 @@ namespace RealCity
                                             if (instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 600)
                                             {
                                                 result = num6;
-                                                num5 = num8;
+                                                if (instance2.m_randomizer.Int32(6) == 0)
+                                                {
+                                                    break;
+                                                }
+                                                //num5 = num8;
                                             }
                                             //}
                                             //}
@@ -1689,8 +1693,11 @@ namespace RealCity
                                             if ((instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 400))
                                             {
                                                 result = num6;
-                                                num5 = num8;
-                                                break;
+                                                //num5 = num8;
+                                                if (instance2.m_randomizer.Int32(6) == 0)
+                                                {
+                                                    break;
+                                                }
                                             }
                                             //}
                                             //}
@@ -1797,14 +1804,14 @@ namespace RealCity
                 float currentDayTimeHour = instance2.m_currentDayTimeHour;
                 if (currentDayTimeHour > 20f || currentDayTimeHour < 5f)
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 3000)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 3400)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
                 }
                 else
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 2200)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 2500)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
@@ -2561,7 +2568,7 @@ namespace RealCity
                 {
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-                    ushort num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 80f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted| Building.Flags.Abandoned);
+                    ushort num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 32f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted| Building.Flags.Abandoned);
                     if (homeBuilding != 0 && num != 0)
                     {
                         BuildingInfo info = instance2.m_buildings.m_buffer[(int)num].Info;
