@@ -390,6 +390,10 @@ namespace RealCity
                     comm_data.update_money_count++;
                     if (comm_data.update_money_count == 17)
                     {
+                        comm_data.tourist_num_final = comm_data.tourist_num;
+                        comm_data.tourist_transport_fee_num_final = comm_data.tourist_transport_fee_num;
+                        comm_data.tourist_num = 0;
+                        comm_data.tourist_transport_fee_num = 0;
                         comm_data.update_money_count = 0;
                     }
                     pc_EconomyManager.clean_current(comm_data.update_money_count);
@@ -409,7 +413,7 @@ namespace RealCity
                 {
                     if (comm_data.citizen_salary_per_family - comm_data.citizen_expense_per_family - (int)(comm_data.citizen_salary_tax_total / comm_data.family_count) - comm_data.citizen_average_transport_fee < 10)
                     {
-                        if (comm_data.citizen_expense_per_family > 35)
+                        if (comm_data.citizen_expense_per_family > 40)
                         {
                             try_say_something(language.TipAndChirperMessage[0]);
                             try_say_something(language.TipAndChirperMessage[1]);
@@ -430,7 +434,7 @@ namespace RealCity
                             tip1_message_forgui = language.TipAndChirperMessage[9];
                         }
                     }
-                    else if (comm_data.citizen_salary_per_family < 30)
+                    else if (comm_data.citizen_salary_per_family < 40)
                     {
                         try_say_something(language.TipAndChirperMessage[7]);
                         try_say_something(language.TipAndChirperMessage[8]);
@@ -494,7 +498,7 @@ namespace RealCity
                     tip2_message_forgui += "";
                 }
 
-                if (!pc_OutsideConnectionAI.have_maintain_road_building && (comm_data.road_connection))
+                if (!pc_OutsideConnectionAI.have_maintain_road_building || (comm_data.road_connection))
                 {
                     //try_say_something(language.TipAndChirperMessage[21]);
                     tip3_message_forgui = language.TipAndChirperMessage[22];
@@ -516,7 +520,7 @@ namespace RealCity
                     tip4_message_forgui = language.TipAndChirperMessage[28];
                 }
 
-                if (!pc_OutsideConnectionAI.have_cemetry_building && (comm_data.dead_connection))
+                if (!pc_OutsideConnectionAI.have_cemetry_building || (!comm_data.dead_connection))
                 {
                     try_say_something(language.TipAndChirperMessage[29]);
                     tip5_message_forgui = language.TipAndChirperMessage[30];
@@ -538,7 +542,7 @@ namespace RealCity
                     tip6_message_forgui = language.TipAndChirperMessage[36];
                 }
 
-                if (!pc_OutsideConnectionAI.have_fire_building && (comm_data.fire_connection))
+                if (!pc_OutsideConnectionAI.have_fire_building || (!comm_data.fire_connection))
                 {
                     //try_say_something(language.TipAndChirperMessage[37]);
                     tip7_message_forgui = language.TipAndChirperMessage[38];

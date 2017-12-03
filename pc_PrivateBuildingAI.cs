@@ -528,7 +528,7 @@ namespace RealCity
         {
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                int service_num = 0;
+                /*int service_num = 0;
                 if (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
                 {
                     switch (buildingData.Info.m_class.m_level)
@@ -576,15 +576,42 @@ namespace RealCity
                 int aliveWorkerCount = 0;
                 int totalWorkerCount = 0;
                 GetWorkBehaviour(buildingID, ref buildingData, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-
-                behaviour = default(Citizen.BehaviourData);
+                */
+                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                 int alivevisitCount = 0;
                 int totalvisitCount = 0;
+                int maxcount = 0;
                 GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-
-                if (((5 + aliveWorkerCount/10) * service_num) < alivevisitCount)
+                GetVisitNum(buildingID, ref buildingData, ref maxcount);
+                if ( maxcount * 5 < totalvisitCount + 2)
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
+                    //DebugLog.LogToFileOnly(maxcount.ToString() + " " + totalvisitCount.ToString());
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        protected void GetVisitNum(ushort buildingID, ref Building buildingData, ref int maxcount)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = buildingData.m_citizenUnits;
+            int num2 = 0;
+            while (num != 0u)
+            {
+                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Visit) != 0)
+                {
+                    maxcount++;
+                    //instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
+                }
+                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                if (++num2 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
                 }
             }
         }
@@ -841,51 +868,57 @@ namespace RealCity
                 }
 
                 int asset = process_building_asset(buildingID, ref buildingData);
-                Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
-                //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
-                //{
-                System.Random rand = new System.Random();
-                if ((comm_data.building_money[i] + asset) < -1000)
+                if ((buildingData.m_problems | Notification.Problem.NoCustomers) != Notification.Problem.None)
                 {
-                    if (rand.Next(10) < 2)
+                    Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
+                    //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                    //{
+                    System.Random rand = new System.Random();
+                    if ((comm_data.building_money[i] + asset) < -1000)
                     {
-                        buildingData.m_majorProblemTimer = 192;
-                        buildingData.m_flags &= ~Building.Flags.Active;
-                        buildingData.m_flags |= Building.Flags.Abandoned;
-                        buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
-                        base.RemovePeople(buildingID, ref buildingData, 100);
-                        this.BuildingDeactivated(buildingID, ref buildingData);
-                        Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
+                        if (rand.Next(10) < 2)
+                        {
+                            buildingData.m_majorProblemTimer = 192;
+                            buildingData.m_flags &= ~Building.Flags.Active;
+                            buildingData.m_flags |= Building.Flags.Abandoned;
+                            buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
+                            base.RemovePeople(buildingID, ref buildingData, 100);
+                            this.BuildingDeactivated(buildingID, ref buildingData);
+                            Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
+                        }
                     }
-                }
-                if ((comm_data.building_money[i] + asset) < -500)
-                {
-                    problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
-                }
-                else if ((comm_data.building_money[i] + asset) < 0)
-                {
-                    problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
+                    if ((comm_data.building_money[i] + asset) < -500)
+                    {
+                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
+                    }
+                    else if ((comm_data.building_money[i] + asset) < 0)
+                    {
+                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
+                    }
+                    buildingData.m_problems = problem;
                 }
 
-
-                //mark no good
-                if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                if ((buildingData.m_problems | Notification.Problem.NoGoods) != Notification.Problem.None)
                 {
-                    problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
-                    if (buildingData.m_customBuffer2 < 500)
-                    {                       
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
-                    }
-                    else if (buildingData.m_customBuffer2 < 1000)
+                    //mark no good
+                    if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                     {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
-                    }
-                    else
-                    {
+                        Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
+                        if (buildingData.m_customBuffer2 < 500)
+                        {
+                            problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
+                        }
+                        else if (buildingData.m_customBuffer2 < 1000)
+                        {
+                            problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
+                        }
+                        else
+                        {
 
+                        }
+                        buildingData.m_problems = problem;
                     }
                 }
-                buildingData.m_problems = problem;
                 // }
             }
             else

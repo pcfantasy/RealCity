@@ -58,7 +58,10 @@ namespace RealCity
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
             BuildingUI.GetWorkBehaviour(buildingID, ref instance2.m_buildings.m_buffer[(int)buildingID], ref behaviour, ref aliveWorkCount, ref totalWorkCount);
             idex = 0f;
-            aliveWorkCount = 25;
+            if (aliveWorkCount > 25)
+            {
+                aliveWorkCount = 25;
+            }
 
             switch (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_subService)
             {
@@ -109,17 +112,16 @@ namespace RealCity
                 {
                     if (info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
                     {
-                        num = rand.Next(900) + 100;
+                        num = (comm_data.citizen_money[homeid] > 10000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
                     } else
                     {
-                        num = rand.Next(400) + 100;
+                        num = (comm_data.citizen_money[homeid] > 5000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
                     }
 
                     num = (int)(num * idex);
                 }
 
-                int temp = (comm_data.citizen_money[homeid] - num > 1f) ? (int)(comm_data.citizen_money[homeid] - num) : 1;
-                num = (rand.Next(temp) > 1000) ? num : (int)(0.05f * comm_data.citizen_money[homeid]);
+                num = (rand.Next(3) > 1) ? (int)(0.05f * comm_data.citizen_money[homeid]) : num;
 
                 if(num < 0)
                 {
@@ -233,6 +235,77 @@ namespace RealCity
                             else
                             {
                                 ticketPrice = 0;
+                            }
+                        } else
+                        {
+                            comm_data.tourist_transport_fee_num += ticketPrice;
+                            comm_data.tourist_num++;
+                            if (comm_data.tourist_transport_fee_num > 1000000000000000000)
+                            {
+                                comm_data.tourist_transport_fee_num = 1000000000000000000;
+                            }
+                            if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Metro)
+                            {
+                                if (ticketPrice > 500)
+                                {
+                                    ticketPrice = 500;
+                                }
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Car)
+                            {
+                                if (ticketPrice > 200)
+                                {
+                                    ticketPrice = 200;
+                                }
+
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Plane)
+                            {
+                                if (ticketPrice > 1500)
+                                {
+                                    ticketPrice = 1500;
+                                }
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Train)
+                            {
+                                if (ticketPrice > 600)
+                                {
+                                    ticketPrice = 600;
+                                }
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Tram)
+                            {
+                                if (ticketPrice > 200)
+                                {
+                                    ticketPrice = 200;
+                                }
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Ship)
+                            {
+                                if (ticketPrice > 800)
+                                {
+                                    ticketPrice = 800;
+                                }
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Ferry)
+                            {
+                                if (ticketPrice > 300)
+                                {
+                                    ticketPrice = 300;
+                                }
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.CableCar)
+                            {
+                                if (ticketPrice > 200)
+                                {
+                                    ticketPrice = 200;
+                                }
+                            } else
+                            {
+                                if (ticketPrice > 1000)
+                                {
+                                    ticketPrice = 1000;
+                                }
                             }
                         }
                         //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.citizen_money[homeid].ToString());

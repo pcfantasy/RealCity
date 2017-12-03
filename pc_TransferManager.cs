@@ -466,22 +466,56 @@ namespace RealCity
                 Init();
             }
 
+
             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].m_flags.IsFlagSet(Building.Flags.Outgoing))
             {
+                Random rand = new Random();
                 if (material == TransferManager.TransferReason.Family3)
                 {
                     //DebugLog.LogToFileOnly("reject outside moving in to live in 4-5 level house");
-                    return;
+                    if (rand.Next(2) == 0)
+                    {
+                        material = TransferManager.TransferReason.Family2;
+                    } else
+                    {
+                        material = TransferManager.TransferReason.Family1;
+                    }
                 }
-                if (material == TransferManager.TransferReason.Single3B)
+            }
+
+            if (offer.Citizen != 0)
+            {
+                BuildingManager instance2 = Singleton<BuildingManager>.instance;
+                CitizenManager instance = Singleton<CitizenManager>.instance;
+                uint citizen = offer.Citizen;
+                ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+                //uint homeid = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                if (homeBuilding == 0)
                 {
-                    //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
-                    return;
-                }
-                if (material == TransferManager.TransferReason.Single3)
-                {
-                    //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
-                    return;
+                    Random rand = new Random();
+                    if (material == TransferManager.TransferReason.Single3B)
+                    {
+                        //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
+                        if (rand.Next(2) == 0)
+                        {
+                            material = TransferManager.TransferReason.Single2B;
+                        } else
+                        {
+                            material = TransferManager.TransferReason.Single1B;
+                        }
+                    }
+                    if (material == TransferManager.TransferReason.Single3)
+                    {
+                        //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
+                        if (rand.Next(2) == 0)
+                        {
+                            material = TransferManager.TransferReason.Single2;
+                        }
+                        else
+                        {
+                            material = TransferManager.TransferReason.Single1;
+                        }
+                    }
                 }
             }
 

@@ -168,24 +168,29 @@ namespace RealCity
                     m_residentCapacity = 0;
                 }
 
-                m_touristFactor0 = rand.Next(1000) + family_minus_oilorebuiling / 4;
-                m_touristFactor1 = rand.Next(400) + family_minus_oilorebuiling / 8;
-                m_touristFactor2 = rand.Next(160) + family_minus_oilorebuiling / 16;
-
-
-                if (m_touristFactor0 < 10)
+                int tourist_trans_fee = 0;
+                if (comm_data.tourist_num_final != 0)
                 {
-                    m_touristFactor0 = 10;
+                    tourist_trans_fee = (int)(comm_data.tourist_transport_fee_num_final / comm_data.tourist_num_final * 10f);
+                }
+                m_touristFactor0 = rand.Next(1200) + family_minus_oilorebuiling / 4 - tourist_trans_fee*2;
+                m_touristFactor1 = rand.Next(600) + family_minus_oilorebuiling / 8 - tourist_trans_fee;
+                m_touristFactor2 = rand.Next(360) + family_minus_oilorebuiling / 16 - tourist_trans_fee/2;
+
+
+                if (m_touristFactor0 < 0)
+                {
+                    m_touristFactor0 = 0;
                 }
 
-                if (m_touristFactor1 < 10)
+                if (m_touristFactor1 < 0)
                 {
-                    m_touristFactor1 = 10;
+                    m_touristFactor1 = 0;
                 }
 
-                if (m_touristFactor2 < 10)
+                if (m_touristFactor2 < 0)
                 {
-                    m_touristFactor2 = 10;
+                    m_touristFactor2 = 0;
                 }
 
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
@@ -285,7 +290,7 @@ namespace RealCity
             {
                 if (have_garbage_building && comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
-                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 300);
+                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200 + rand.Next(comm_data.family_count/200 + 1));
                 }
                 else if (RealCity.update_once && (data.m_garbageBuffer != 0))
                 {
@@ -339,7 +344,7 @@ namespace RealCity
                     //road maintain
                     if (have_maintain_road_building && comm_data.road_connection && have_maintain_road_building)
                     {
-                        data.m_waterBuffer = (ushort)(data.m_waterBuffer + 200);
+                        data.m_waterBuffer = (ushort)(data.m_waterBuffer + 20);
                     }
                     else if (RealCity.update_once && (data.m_waterBuffer != 32500))
                     {
@@ -354,7 +359,7 @@ namespace RealCity
                     //deadbuffer
                     if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
                     {
-                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 1);
+                        data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(11)/10);
                     }
                     else if (RealCity.update_once && (data.m_customBuffer1 != 0))
                     {
@@ -486,7 +491,7 @@ namespace RealCity
                         if (instance1.m_randomizer.Int32(128u) == 0)
                         {
                             DebugLog.LogToFileOnly("outside connection is not good for car out for garbagemoveoffers");
-                            if (data.m_garbageBuffer > 5000)
+                            if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 5000)
                             {
                                 offer = default(TransferManager.TransferOffer);
                                 offer.Priority = 1 + data.m_garbageBuffer / 5000;
@@ -504,7 +509,7 @@ namespace RealCity
                     }
                     else
                     {
-                        if (data.m_garbageBuffer > 5000)
+                        if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 5000)
                         {
                             offer = default(TransferManager.TransferOffer);
                             offer.Priority = 1 + data.m_garbageBuffer / 5000;
@@ -588,7 +593,7 @@ namespace RealCity
                     if (instance1.m_randomizer.Int32(128u) == 0)
                     {
                         DebugLog.LogToFileOnly("outside connection is not good for car in for crimeoffers");
-                        if ((data.m_crimeBuffer - (num27 - num26) * 100) > 10)
+                        if ((data.m_crimeBuffer - (num27 - num26) * 100) > 200)
                         {
                             offer = default(TransferManager.TransferOffer);
                             offer.Priority = 1 + (data.m_crimeBuffer - (num27 - num26) * 100) / 5;
@@ -606,7 +611,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if ((data.m_crimeBuffer - (num27 - num26) * 100) > 10)
+                    if ((data.m_crimeBuffer - (num27 - num26) * 100) > 200)
                     {
                         offer = default(TransferManager.TransferOffer);
                         offer.Priority = 1 + (data.m_crimeBuffer - (num27 - num26) * 100) / 5;
@@ -642,7 +647,7 @@ namespace RealCity
                     if (instance1.m_randomizer.Int32(128u) == 0)
                     {
                         DebugLog.LogToFileOnly("outside connection is not good for car in for roadoffers");
-                        if ((data.m_waterBuffer - (num27 - num26) * 100) > 10)
+                        if ((data.m_waterBuffer - (num27 - num26) * 100) > 200)
                         {
                             offer = default(TransferManager.TransferOffer);
                             offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
@@ -659,7 +664,7 @@ namespace RealCity
                     }
                 } else
                 {
-                    if ((data.m_waterBuffer - (num27 - num26) * 100) > 10)
+                    if ((data.m_waterBuffer - (num27 - num26) * 100) > 200)
                     {
                         offer = default(TransferManager.TransferOffer);
                         offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
@@ -695,7 +700,7 @@ namespace RealCity
                     if (instance1.m_randomizer.Int32(128u) == 0)
                     {
                         DebugLog.LogToFileOnly("outside connection is not good for car in for fireoffers");
-                        if ((data.m_electricityBuffer - (num27 - num26) * 100) > 10)
+                        if ((data.m_electricityBuffer - (num27 - num26) * 100) > 200)
                         {
                             offer = default(TransferManager.TransferOffer);
                             offer.Priority = 1 + (data.m_electricityBuffer - (num27 - num26) * 100) / 5;
@@ -712,7 +717,7 @@ namespace RealCity
                     }
                 } else
                 {
-                    if ((data.m_electricityBuffer - (num27 - num26) * 100) > 10)
+                    if ((data.m_electricityBuffer - (num27 - num26) * 100) > 200)
                     {
                         offer = default(TransferManager.TransferOffer);
                         offer.Priority = 1 + (data.m_electricityBuffer - (num27 - num26) * 100) / 5;
@@ -748,7 +753,7 @@ namespace RealCity
                     if (instance1.m_randomizer.Int32(128u) == 0)
                     {
                         DebugLog.LogToFileOnly("outside connection is not good for car in for sickoffers");
-                        if ((data.m_customBuffer2 - (num27 - num26) * 100) > 10)
+                        if ((data.m_customBuffer2 - (num27 - num26) * 100) > 200)
                         {
                             offer = default(TransferManager.TransferOffer);
                             offer.Priority = 1 + (data.m_customBuffer2 - (num27 - num26) * 100) / 5;
@@ -765,10 +770,10 @@ namespace RealCity
                     }
                 } else
                 {
-                    if ((data.m_customBuffer2 - (num27 - num26) * 100) > 10)
+                    if ((data.m_customBuffer2 - (num27 - num26) * 100) > 100)
                     {
                         offer = default(TransferManager.TransferOffer);
-                        offer.Priority = 1 + (data.m_customBuffer2 - (num27 - num26) * 100) / 5;
+                        offer.Priority = 1 + (data.m_customBuffer2 - (num27 - num26) * 200) / 5;
                         if (offer.Priority > 7)
                         {
                             offer.Priority = 7;
@@ -1015,7 +1020,7 @@ namespace RealCity
                         }
                         //DebugLog.LogToFileOnly("find outside maintain num = " + amountDelta.ToString());
                         data.m_waterBuffer = (ushort)(data.m_waterBuffer + amountDelta * 100);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -100f), ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -1000f), ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else

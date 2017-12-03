@@ -323,7 +323,7 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialForestry:
-                            if (rand.Next(1000) < 10)
+                            if (rand.Next(1000) < 5)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -366,7 +366,7 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOil:
-                            if (rand.Next(1000) < 30)
+                            if (rand.Next(1000) < 15)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -396,7 +396,7 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOre:
-                            if (rand.Next(1000) < 20)
+                            if (rand.Next(1000) < 10)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -407,7 +407,7 @@ namespace RealCity
                                 }
                             }
 
-                            if (rand.Next(1000) < 5)
+                            if (rand.Next(1000) < 10)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -983,18 +983,12 @@ namespace RealCity
                     {
                         if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 0)
                         {
-                            if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI) && (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming))
+                            comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.1f;
+                            comm_data.city_insurance_account += num * 0.1f;
+                            if (comm_data.is_help_resident)
                             {
-                            }
-                            else
-                            {
-                                comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.1f;
-                                comm_data.city_insurance_account += num * 0.1f;
-                                if (comm_data.is_help_resident)
-                                {
-                                    comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.2f;
-                                    comm_data.city_insurance_account += num * 0.2f;
-                                }
+                                comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.3f;
+                                comm_data.city_insurance_account += num * 0.3f;
                             }
                         }
                     }
@@ -1161,15 +1155,15 @@ namespace RealCity
             if (comm_data.is_help_resident)
             {
                 insurance = 0.2f * citizen_salary_current;
-                company_insurance = 0.3f * citizen_salary_current;
-                comm_data.city_insurance_account += (company_insurance + insurance);
+                //company_insurance = 0.3f * citizen_salary_current;
+                comm_data.city_insurance_account += insurance;
                 citizen_salary_current = (int)(0.8f * citizen_salary_current);
             }
             else
             {
                 insurance = 0.1f * citizen_salary_current;
-                company_insurance = 0.1f * citizen_salary_current;
-                comm_data.city_insurance_account += (company_insurance + insurance);
+                //company_insurance = 0.1f * citizen_salary_current;
+                comm_data.city_insurance_account += insurance;
                 citizen_salary_current = (int)(0.9f * citizen_salary_current);
             }
 
@@ -1323,7 +1317,7 @@ namespace RealCity
             }
             else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_profit_status[homeID] <= 25))
             {
-                if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
+                if ( (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
                     if (rand.Next(100) < 2)
                     {
@@ -1412,6 +1406,68 @@ namespace RealCity
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, expense * comm_data.game_maintain_fee_decrease, this.m_info.m_class);
             }
         }
+
+        public void TryMoveAwayFromHome_1(uint citizenID, ref Citizen data)
+        {
+            if (data.Dead)
+            {
+                return;
+            }
+            if (data.m_homeBuilding == 0)
+            {
+                return;
+            }
+            Citizen.AgeGroup ageGroup = Citizen.GetAgeGroup(data.Age);
+            if (ageGroup == Citizen.AgeGroup.Young || ageGroup == Citizen.AgeGroup.Adult)
+            {
+                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                if (ageGroup == Citizen.AgeGroup.Young)
+                {
+                    offer.Priority = 1;
+                }
+                else
+                {
+                    offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(2, 4);
+                }
+                offer.Citizen = citizenID;
+                offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_homeBuilding].m_position;
+                offer.Amount = 1;
+                offer.Active = true;
+                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 0)
+                {
+                    switch (data.EducationLevel)
+                    {
+                        case Citizen.Education.Uneducated:
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single0, offer);
+                            break;
+                        case Citizen.Education.OneSchool:
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single1, offer);
+                            break;
+                        case Citizen.Education.TwoSchools:
+                        case Citizen.Education.ThreeSchools:
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single2, offer);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (data.EducationLevel)
+                    {
+                        case Citizen.Education.Uneducated:
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single0B, offer);
+                            break;
+                        case Citizen.Education.OneSchool:
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single1B, offer);
+                            break;
+                        case Citizen.Education.TwoSchools:
+                        case Citizen.Education.ThreeSchools:
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single2B, offer);
+                            break;
+                    }
+                }
+            }
+        }
+
 
         public void TryMoveFamily_1(uint homeID, uint citizenID, ref Citizen data, int familySize)
         {
@@ -1616,11 +1672,10 @@ namespace RealCity
                                             //{
                                             //if (((num8 - num5) < (maxDistance * maxDistance)) || ((num8 - num5) > (maxDistance * maxDistance)) || (result == 0))
                                             //{
-                                            if (instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 400)
+                                            if (instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 600)
                                             {
                                                 result = num6;
                                                 num5 = num8;
-                                                break;
                                             }
                                             //}
                                             //}
@@ -1631,7 +1686,7 @@ namespace RealCity
                                             //{
                                             //if (((num8 - num5) < (maxDistance * maxDistance)) || ((num8 - num5) > (-maxDistance * maxDistance)))
                                             //{
-                                            if ((instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 100))
+                                            if ((instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 400))
                                             {
                                                 result = num6;
                                                 num5 = num8;
@@ -1713,15 +1768,15 @@ namespace RealCity
             }
             if (data.m_citizen2 != 0u)
             {
-                this.TryMoveAwayFromHome(data.m_citizen2, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)]);
+                this.TryMoveAwayFromHome_1(data.m_citizen2, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)]);
             }
             if (data.m_citizen3 != 0u)
             {
-                this.TryMoveAwayFromHome(data.m_citizen3, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)]);
+                this.TryMoveAwayFromHome_1(data.m_citizen3, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)]);
             }
             if (data.m_citizen4 != 0u)
             {
-                this.TryMoveAwayFromHome(data.m_citizen4, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)]);
+                this.TryMoveAwayFromHome_1(data.m_citizen4, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)]);
             }
             int temp_num = process_citizen(homeID, ref data);
 
@@ -1740,16 +1795,16 @@ namespace RealCity
             { 
                 SimulationManager instance2 = Singleton<SimulationManager>.instance;
                 float currentDayTimeHour = instance2.m_currentDayTimeHour;
-                if (currentDayTimeHour > 20f || currentDayTimeHour < 4f)
+                if (currentDayTimeHour > 20f || currentDayTimeHour < 5f)
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 3200)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 3000)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
                 }
                 else
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 2000)
+                    if (instance2.m_randomizer.Int32(data.m_goods) < 2200)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
@@ -1770,7 +1825,7 @@ namespace RealCity
                         {
                             SimulationManager instance2 = Singleton<SimulationManager>.instance;
                             Citizen[] expr_2FA_cp_0 = instance.m_citizens.m_buffer;
-                            if (instance2.m_randomizer.Int32(data.m_goods) < 200)
+                            if (instance2.m_randomizer.Int32(data.m_goods) < 50)
                             {
                                 expr_2FA_cp_0[citizen].Sick = true;
                             }
@@ -1959,18 +2014,18 @@ namespace RealCity
                         temp = temp + 20;
                         // 10% is provide by citizen  90% is provide by goverment
                         Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 380, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 380;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 80, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 80;
                     }
                     else if ((comm_data.citizen_money[homeid] < 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 400, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 400;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 100;
                     }
                     else
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 400, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 400;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 100;
                     }
                 }
             }

@@ -39,8 +39,24 @@ namespace RealCity
                                 ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                                 BuildingManager instance4 = Singleton<BuildingManager>.instance;
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
-                                { 
+                                {
+                                    if (comm_data.citizen_money[num2] > 0)
+                                    {
                                         comm_data.citizen_money[num2] = (short)(comm_data.citizen_money[num2] - num4 / comm_data.game_maintain_fee_decrease3);
+                                    }
+                                }
+                                else
+                                {
+                                    comm_data.tourist_transport_fee_num += num4;
+                                    comm_data.tourist_num++;
+                                    if (comm_data.tourist_transport_fee_num > 1000000000000000000)
+                                    {
+                                        comm_data.tourist_transport_fee_num = 1000000000000000000;
+                                    }
+                                    if (num4 > 3000)
+                                    {
+                                        num4 = 3000;
+                                    }
                                 }
                                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4 / comm_data.game_maintain_fee_decrease3, this.m_info.m_class);
                             }

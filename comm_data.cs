@@ -459,8 +459,14 @@
 
         public static ushort Extractor_building = 0;
         public static ushort Extractor_building_final = 0;
+
+        public static ushort tourist_num = 0;
+        public static ushort tourist_num_final = 0;
+
+        public static long tourist_transport_fee_num = 0;
+        public static long tourist_transport_fee_num_final = 0;
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49062];
+        public static ushort[] reserved = new ushort[49042];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -609,6 +615,12 @@
             saveandrestore.save_ushort(ref i, Extractor_building, ref save_data);
             saveandrestore.save_ushort(ref i, Extractor_building_final, ref save_data);
 
+            saveandrestore.save_ushort(ref i, tourist_num, ref save_data);
+            saveandrestore.save_ushort(ref i, tourist_num_final, ref save_data);
+
+            saveandrestore.save_long(ref i, tourist_transport_fee_num, ref save_data);
+            saveandrestore.save_long(ref i, tourist_transport_fee_num_final, ref save_data);
+
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
@@ -716,6 +728,12 @@
 
             Extractor_building = saveandrestore.load_ushort(ref i, load_data);
             Extractor_building_final = saveandrestore.load_ushort(ref i, load_data);
+
+            tourist_num = saveandrestore.load_ushort(ref i, load_data);
+            tourist_num_final = saveandrestore.load_ushort(ref i, load_data);
+
+            tourist_transport_fee_num = saveandrestore.load_long(ref i, load_data);
+            tourist_transport_fee_num_final = saveandrestore.load_long(ref i, load_data);
 
             reserved = saveandrestore.load_ushorts(ref i, load_data ,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);

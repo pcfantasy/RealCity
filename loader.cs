@@ -52,7 +52,7 @@ namespace RealCity
         public static RedirectCallsState state17;
         public static RedirectCallsState state18;
         public static RedirectCallsState state19;
-        public static RedirectCallsState state20;
+        //public static RedirectCallsState state20;
         public static RedirectCallsState state21;
         public static RedirectCallsState state22;
         public static RedirectCallsState state23;
@@ -361,9 +361,9 @@ namespace RealCity
             var destMethod19 = typeof(pc_ZoneManager).GetMethod("CalculateIncomingResidentDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
             state19 = RedirectionHelper.RedirectCalls(srcMethod19, destMethod19);
 
-            var srcMethod20 = typeof(ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
-            var destMethod20 = typeof(pc_ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
-            state20 = RedirectionHelper.RedirectCalls(srcMethod20, destMethod20);
+            //var srcMethod20 = typeof(ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            //var destMethod20 = typeof(pc_ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            //state20 = RedirectionHelper.RedirectCalls(srcMethod20, destMethod20);
 
             var srcMethod21 = typeof(ZoneManager).GetMethod("CalculateWorkplaceDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
             var destMethod21 = typeof(pc_ZoneManager).GetMethod("CalculateWorkplaceDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
@@ -537,7 +537,7 @@ namespace RealCity
             var srcMethod17 = typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             var srcMethod18 = typeof(ZoneManager).GetMethod("CalculateResidentialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
             var srcMethod19 = typeof(ZoneManager).GetMethod("CalculateIncomingResidentDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
-            var srcMethod20 = typeof(ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
+            //var srcMethod20 = typeof(ZoneManager).GetMethod("CalculateCommercialDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
             var srcMethod21 = typeof(ZoneManager).GetMethod("CalculateWorkplaceDemand", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(District).MakeByRefType() }, null);
             var srcMethod22 = typeof(CargoTruckAI).GetMethod("SetSource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort) }, null);
             var srcMethod23 = typeof(OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
@@ -596,7 +596,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod17, state17);
             RedirectionHelper.RevertRedirect(srcMethod18, state18);
             RedirectionHelper.RevertRedirect(srcMethod19, state19);
-            RedirectionHelper.RevertRedirect(srcMethod20, state20);
+            //RedirectionHelper.RevertRedirect(srcMethod20, state20);
             RedirectionHelper.RevertRedirect(srcMethod21, state21);
             RedirectionHelper.RevertRedirect(srcMethod22, state22);
             RedirectionHelper.RevertRedirect(srcMethod23, state23);

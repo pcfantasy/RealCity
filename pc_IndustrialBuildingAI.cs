@@ -199,18 +199,18 @@ namespace RealCity
 
             if ( (aliveWorkerCount /10f) > 1f)
             {
-                work_efficiency = work_efficiency / 10f;
+                work_efficiency = work_efficiency / 7.5f;
             }
             else
             {
-                work_efficiency = work_efficiency / aliveWorkerCount;
+                work_efficiency = work_efficiency / ((float)aliveWorkerCount*0.75f);
             }
 
             float final_idex = work_efficiency;
 
-            if (final_idex < 1f)
+            if (final_idex < 0.6f)
             {
-                final_idex = 1;
+                final_idex = 0.6f;
             }
 
             ConsumptionDivider = ConsumptionDivider * final_idex;

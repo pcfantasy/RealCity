@@ -41,7 +41,7 @@ namespace RealCity
             return Mathf.Clamp(num4, 0, 100);
         }
 
-        private int CalculateCommercialDemand(ref District districtData)
+        /*private int CalculateCommercialDemand(ref District districtData)
         {
             int num = (int)(districtData.m_commercialData.m_finalHomeOrWorkCount - districtData.m_commercialData.m_finalEmptyCount);
             int num2 = (int)(districtData.m_residentialData.m_finalHomeOrWorkCount - districtData.m_residentialData.m_finalEmptyCount);
@@ -55,7 +55,7 @@ namespace RealCity
             this.m_DemandWrapper.OnCalculateCommercialDemand(ref num3);
             this.OnCalculateCommercialDemand(ref num3);
             return Mathf.Clamp(num3, 0, 100);
-        }
+        }*/
 
         private int CalculateWorkplaceDemand(ref District districtData)
         {
@@ -101,7 +101,7 @@ namespace RealCity
             return originalDemand;
         }
 
-        public int OnCalculateCommercialDemand(ref int originalDemand)
+        /*public int OnCalculateCommercialDemand(ref int originalDemand)
         {
             if ((pc_PrivateBuildingAI.all_comm_building_loss_final + pc_PrivateBuildingAI.all_comm_building_profit_final) > 0)
             {
@@ -134,7 +134,7 @@ namespace RealCity
                 //do nothing
             }
             return originalDemand;
-        }
+        }*/
 
         public int OnCalculateWorkplaceDemand(ref int originalDemand)
         {
