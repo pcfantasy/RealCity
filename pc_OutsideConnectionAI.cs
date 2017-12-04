@@ -156,9 +156,9 @@ namespace RealCity
                     demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
                 }
 
-                if (comm_data.family_count > 500)
+                if (comm_data.family_count > 200)
                 {
-                    demand_idex = demand_idex * 500f / comm_data.family_count;
+                    demand_idex = demand_idex * 200f / comm_data.family_count;
                 }
 
                 m_residentCapacity = (int)(m_residentCapacity * demand_idex);
@@ -166,6 +166,14 @@ namespace RealCity
                 if (m_residentCapacity < 0 || (demand_idex == 0))
                 {
                     m_residentCapacity = 0;
+                }
+
+                if (m_residentCapacity < 200)
+                {
+                    if (rand.Next(200) < 10)
+                    {
+                        m_residentCapacity = rand.Next(200);
+                    }
                 }
 
                 int tourist_trans_fee = 0;
@@ -290,7 +298,7 @@ namespace RealCity
             {
                 if (have_garbage_building && comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
-                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200 + rand.Next(comm_data.family_count/200 + 1));
+                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 100 + rand.Next(comm_data.family_count/100 + 1));
                 }
                 else if (RealCity.update_once && (data.m_garbageBuffer != 0))
                 {
@@ -491,7 +499,7 @@ namespace RealCity
                         if (instance1.m_randomizer.Int32(128u) == 0)
                         {
                             DebugLog.LogToFileOnly("outside connection is not good for car out for garbagemoveoffers");
-                            if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 5000)
+                            if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 15000)
                             {
                                 offer = default(TransferManager.TransferOffer);
                                 offer.Priority = 1 + data.m_garbageBuffer / 5000;
@@ -509,7 +517,7 @@ namespace RealCity
                     }
                     else
                     {
-                        if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 5000)
+                        if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 15000)
                         {
                             offer = default(TransferManager.TransferOffer);
                             offer.Priority = 1 + data.m_garbageBuffer / 5000;

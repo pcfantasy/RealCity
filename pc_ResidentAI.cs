@@ -1266,18 +1266,18 @@ namespace RealCity
             }
             else if (temp_num > 60)
             {
-                temp_num = 20;
+                temp_num = rand.Next(temp_num);
                 comm_data.citizen_profit_status[homeID]++;
                 family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
             }
             else
             {
-                temp_num = 20;
+                temp_num = rand.Next(temp_num);
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
 
 
-            //temp_num = (temp_num > 200) ? 200 : temp_num;
+            temp_num = (temp_num > 100) ? 100 : temp_num;
 
             if (comm_data.citizen_money[homeID] > 32000000f)
             {
@@ -1304,7 +1304,7 @@ namespace RealCity
                 family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
                 if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3))
                 {
-                    if (rand.Next(100) < 2)
+                    if (rand.Next(100) < 5)
                     {
                         if (num3 != 0u)
                         {
@@ -1319,7 +1319,7 @@ namespace RealCity
             {
                 if ( (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
-                    if (rand.Next(100) < 2)
+                    if (rand.Next(100) < 5)
                     {
                         if (num3 != 0u)
                         {
@@ -1344,7 +1344,7 @@ namespace RealCity
                 }
                 else if ((home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
-                    if (rand.Next(100) < 2)
+                    if (rand.Next(100) < 5)
                     {
                         if (num3 != 0u)
                         {
@@ -1377,7 +1377,7 @@ namespace RealCity
                 {
                     if ((comm_data.citizen_money[i] != 0) || (comm_data.citizen_profit_status[i] != 128))
                     {
-                        comm_data.citizen_money[i] = 0;
+                        comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200 ;
                         comm_data.citizen_profit_status[i] = 128;
                     }
                 }
@@ -1787,31 +1787,24 @@ namespace RealCity
             }
             int temp_num = process_citizen(homeID, ref data);
 
-            if (data.m_goods - temp_num < 0)
-            {
-                //DebugLog.LogToFileOnly("very lack of good, try do viture shopping");
-                if (Chancetodovitureshopping(homeID, ref data))
-                {
 
-                }
-                else
-                {
-                    temp_num = 0; //not buy anything, so do not decrease money
-                }
-            } else if (data.m_goods < 20000)
+            data.m_goods = (ushort)Mathf.Max(0, (int)(data.m_goods - temp_num)); //here we can adjust demand
+            comm_data.citizen_money[homeID] = (float)(comm_data.citizen_money[homeID] - temp_num);
+
+            if (data.m_goods < 20000)
             { 
                 SimulationManager instance2 = Singleton<SimulationManager>.instance;
                 float currentDayTimeHour = instance2.m_currentDayTimeHour;
                 if (currentDayTimeHour > 20f || currentDayTimeHour < 5f)
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 3400)
+                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < temp_num * 200)
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
                 }
                 else
                 {
-                    if (instance2.m_randomizer.Int32(data.m_goods) < 2500)
+                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < (temp_num * 100))
                     {
                         Chancetodovitureshopping(homeID, ref data);
                     }
@@ -1841,9 +1834,6 @@ namespace RealCity
                     }
                 }
             }
-
-            data.m_goods = (ushort)Mathf.Max(0, (int)(data.m_goods - temp_num)); //here we can adjust demand
-            comm_data.citizen_money[homeID] = (float)(comm_data.citizen_money[homeID] - temp_num);
 
             if (data.m_goods < 20000)
             {

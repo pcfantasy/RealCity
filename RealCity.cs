@@ -1259,8 +1259,8 @@ namespace RealCity
             {
                 if (!(Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment)) && (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount <= 1100))
                 {
-                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount = 1100;
-                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_tempCount = 1100;
+                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount = 1600;
+                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_tempCount = 1600;
                 }
             }
         }
