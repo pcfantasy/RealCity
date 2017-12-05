@@ -152,11 +152,7 @@ namespace RealCity
                 int totalWorkerCount = 0;
                 int num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
                 int num1 = process_land_fee(buildingdata, comm_data.last_buildingid);
-                int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);
-                //int alivecisitCount = 0;
-                //int totalvisitCount = 0;
-                //Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                //GetVisitBehaviour(comm_data.current_buildingid, ref buildingdata, ref behaviour, ref alivecisitCount, ref totalvisitCount);               
+                int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);         
                 this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
                 this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                 this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
@@ -223,43 +219,6 @@ namespace RealCity
                         num1 = (int)(behaviour.m_educated0Count * comm_data.indus_gen_level3_education0 + behaviour.m_educated1Count * comm_data.indus_gen_level3_education1 + behaviour.m_educated2Count * comm_data.indus_gen_level3_education2 + behaviour.m_educated3Count * comm_data.indus_gen_level3_education3);
                     }
                     break;
-                case ItemClass.SubService.CommercialHigh:
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level1_education0 + behaviour.m_educated1Count * comm_data.comm_high_level1_education1 + behaviour.m_educated2Count * comm_data.comm_high_level1_education2 + behaviour.m_educated3Count * comm_data.comm_high_level1_education3);
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level2_education0 + behaviour.m_educated1Count * comm_data.comm_high_level2_education1 + behaviour.m_educated2Count * comm_data.comm_high_level2_education2 + behaviour.m_educated3Count * comm_data.comm_high_level2_education3);
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level3_education0 + behaviour.m_educated1Count * comm_data.comm_high_level3_education1 + behaviour.m_educated2Count * comm_data.comm_high_level3_education2 + behaviour.m_educated3Count * comm_data.comm_high_level3_education3);
-                    }
-                    break;
-                case ItemClass.SubService.CommercialLow:
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level1_education0 + behaviour.m_educated1Count * comm_data.comm_low_level1_education1 + behaviour.m_educated2Count * comm_data.comm_low_level1_education2 + behaviour.m_educated3Count * comm_data.comm_low_level1_education3);
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level2_education0 + behaviour.m_educated1Count * comm_data.comm_low_level2_education1 + behaviour.m_educated2Count * comm_data.comm_low_level2_education2 + behaviour.m_educated3Count * comm_data.comm_low_level2_education3);
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level3_education0 + behaviour.m_educated1Count * comm_data.comm_low_level3_education1 + behaviour.m_educated2Count * comm_data.comm_low_level3_education2 + behaviour.m_educated3Count * comm_data.comm_low_level3_education3);
-                    }
-                    break;
-                case ItemClass.SubService.CommercialLeisure:
-                    num1 = (int)(behaviour.m_educated0Count * comm_data.comm_lei_education0 + behaviour.m_educated1Count * comm_data.comm_lei_education1 + behaviour.m_educated2Count * comm_data.comm_lei_education2 + behaviour.m_educated3Count * comm_data.comm_lei_education3);
-                    break;
-                case ItemClass.SubService.CommercialTourist:
-                    num1 = (int)(behaviour.m_educated0Count * comm_data.comm_tou_education0 + behaviour.m_educated1Count * comm_data.comm_tou_education1 + behaviour.m_educated2Count * comm_data.comm_tou_education2 + behaviour.m_educated3Count * comm_data.comm_tou_education3);
-                    break;
-                case ItemClass.SubService.CommercialEco:
-                    num1 = (int)(behaviour.m_educated0Count * comm_data.comm_eco_education0 + behaviour.m_educated1Count * comm_data.comm_eco_education1 + behaviour.m_educated2Count * comm_data.comm_eco_education2 + behaviour.m_educated3Count * comm_data.comm_eco_education3);
-                    break;
                 default: break;
             }
             System.Random rand = new System.Random();
@@ -267,35 +226,12 @@ namespace RealCity
             //add random value to match citizen salary
             if (num1 != 0)
             {
-                num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
+                num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated1Count * rand.Next(2) + behaviour.m_educated2Count * rand.Next(3) + behaviour.m_educated3Count * rand.Next(4));
             }
 
-            if (building.Info.m_class.m_service == ItemClass.Service.Commercial || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                if (building.Width * building.Length <= 12)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 9)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 6)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 4)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 2)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
+                num1 = num1 * (building.Width * building.Length / 16);
             }
 
             if (building.Info.m_buildingAI is IndustrialExtractorAI)
@@ -310,24 +246,21 @@ namespace RealCity
             float final_salary_idex = 0.5f;
             DistrictManager instance2 = Singleton<DistrictManager>.instance;
             byte district = 0;
-            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
                 district = instance2.GetDistrict(building.m_position);
                 local_salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() + 50f) / 120f;
-                final_salary_idex = (local_salary_idex * 4f + comm_data.salary_idex) / 5f;
+                final_salary_idex = (local_salary_idex * 3f + comm_data.salary_idex) / 4f;
             }
 
             //money < 0, salary/3f
-            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
                 if (comm_data.building_money[buildingID] < 0)
                 {
                     num1 =  (int)((float)num1 * final_salary_idex / 48f);
                 }
-                else if (comm_data.building_money[buildingID] > 200 * totalWorkerCount)
-                {
-                    num1 = (int)((float)num1 * final_salary_idex / 12f);
-                } else
+                else
                 {
                     num1 = (int)((float)num1 * final_salary_idex / 16f);
                 }
@@ -345,26 +278,6 @@ namespace RealCity
                 if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
                 {
                     instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenWorkBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                }
-                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-                if (++num2 > 524288)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
-        }
-
-        protected void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-        {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            while (num != 0u)
-            {
-                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Visit) != 0)
-                {
-                    instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
                 }
                 num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
                 if (++num2 > 524288)

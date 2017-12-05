@@ -16,7 +16,7 @@
         //1.  citizen
         //1.1 citizen salary
 
-        public const byte comm_high_level1_education0 = 50;
+        /*public const byte comm_high_level1_education0 = 50;
         public const byte comm_high_level2_education0 = 65;
         public const byte comm_high_level3_education0 = 75;
 
@@ -65,7 +65,7 @@
         public const byte comm_eco_education0 = 70;
         public const byte comm_eco_education1 = 75;
         public const byte comm_eco_education2 = 85;
-        public const byte comm_eco_education3 = 100;
+        public const byte comm_eco_education3 = 100;*/
 
         //indus generic
         public const byte indus_gen_level1_education0 = 35;

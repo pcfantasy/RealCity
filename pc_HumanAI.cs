@@ -106,12 +106,12 @@ namespace RealCity
             {
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
-                    if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
+                    if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        num = (comm_data.citizen_money[homeid] > 10000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
                     } else
                     {
-                        num = (comm_data.citizen_money[homeid] > 5000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
                     }
 
                     num = (int)(num * idex);
@@ -139,7 +139,7 @@ namespace RealCity
             {
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = rand.Next(2000);
+                    num = rand.Next(4000);
                     if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         num = num * 4;

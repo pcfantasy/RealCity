@@ -88,6 +88,7 @@ namespace RealCity
         public static RedirectCallsState state53;
         public static RedirectCallsState state54;
         public static RedirectCallsState state55;
+        public static RedirectCallsState state56;
 
         public override void OnCreated(ILoading loading)
         {
@@ -514,6 +515,10 @@ namespace RealCity
             var srcMethod55 = typeof(TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
             var destMethod55 = typeof(pc_TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
             state55 = RedirectionHelper.RedirectCalls(srcMethod55, destMethod55);
+
+            var srcMethod56 = typeof(BuildingManager).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            var destMethod56 = typeof(pc_BuildingManager).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            state56 = RedirectionHelper.RedirectCalls(srcMethod56, destMethod56);
         }
 
         public void revert_detour()
@@ -576,6 +581,7 @@ namespace RealCity
             var srcMethod53 = typeof(CommercialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             var srcMethod54 = typeof(IndustrialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);*/
             var srcMethod55 = typeof(TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            var srcMethod56 = typeof(BuildingManager).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -632,6 +638,7 @@ namespace RealCity
             //RedirectionHelper.RevertRedirect(srcMethod53, state53);
             //RedirectionHelper.RevertRedirect(srcMethod54, state54);
             RedirectionHelper.RevertRedirect(srcMethod55, state55);
+            RedirectionHelper.RevertRedirect(srcMethod56, state56);
         }
     }
 }

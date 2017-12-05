@@ -528,55 +528,6 @@ namespace RealCity
         {
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                /*int service_num = 0;
-                if (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
-                {
-                    switch (buildingData.Info.m_class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            service_num = 4; break;
-                        case ItemClass.Level.Level2:
-                            service_num = 4; break;
-                        case ItemClass.Level.Level3:
-                            service_num = 5; break;
-                        default:
-                            service_num = 0; break;
-                    }
-                }
-                else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialLow)
-                {
-                    switch (buildingData.Info.m_class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            service_num = 3; break;
-                        case ItemClass.Level.Level2:
-                            service_num = 3; break;
-                        case ItemClass.Level.Level3:
-                            service_num = 4; break;
-                        default:
-                            service_num = 0; break;
-                    }
-                }
-                
-
-                switch (buildingData.Info.m_class.m_subService)
-                {
-                    case ItemClass.SubService.CommercialEco:
-                         service_num = 5; break;
-                    case ItemClass.SubService.CommercialLeisure:
-                         service_num = 6; break;
-                    case ItemClass.SubService.CommercialTourist:
-                         service_num = 7; break;
-                    default:
-                        break;
-                }
-
-
-                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                int aliveWorkerCount = 0;
-                int totalWorkerCount = 0;
-                GetWorkBehaviour(buildingID, ref buildingData, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-                */
                 Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                 int alivevisitCount = 0;
                 int totalvisitCount = 0;
@@ -586,7 +537,6 @@ namespace RealCity
                 if ( maxcount * 5 < totalvisitCount + 2)
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
-                    //DebugLog.LogToFileOnly(maxcount.ToString() + " " + totalvisitCount.ToString());
                 }
                 else
                 {
@@ -605,7 +555,6 @@ namespace RealCity
                 if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Visit) != 0)
                 {
                     maxcount++;
-                    //instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
                 }
                 num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
                 if (++num2 > 524288)
@@ -616,175 +565,8 @@ namespace RealCity
             }
         }
 
-        /*public void process_addition_demand(ushort buildingID, ref Building buildingData)
-        {
-            Regex r = new Regex("IndustrialBuildingAI");
-            //Regex p = new Regex("IndustrialExtractorAI");
-
-            Match m = r.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
-            //Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
-            if (m.Success)
-            {
-                Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
-                int aliveWorkerCount = 0;
-                int totalWorkerCount = 0;
-                base.GetWorkBehaviour(buildingID, ref buildingData, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                TransferManager.TransferReason incomingTransferReason = pc_IndustrialBuildingAI.GetIncomingTransferReason(buildingData, buildingID);
-                TransferManager.TransferReason outgoingTransferReason = pc_IndustrialBuildingAI.GetOutgoingTransferReason(buildingData);
-                int width = buildingData.Width;
-                int length = buildingData.Length;
-                int production_capacity = pc_IndustrialBuildingAI.CalculateProductionCapacity(buildingData, new Randomizer((int)buildingID), width, length);
-                int num30 = 0;
-                int num31 = 0;
-                int num32 = 0;
-                int value2 = 0;
-                if (outgoingTransferReason != TransferManager.TransferReason.None)
-                {
-                    base.CalculateOwnVehicles(buildingID, ref buildingData, outgoingTransferReason, ref num30, ref num31, ref num32, ref value2);
-                    buildingData.m_tempExport = (byte)Mathf.Clamp(value2, (int)buildingData.m_tempExport, 255);
-                }
-
-                //add 3 more cars to industrial
-                if (buildingData.m_fireIntensity == 0 && outgoingTransferReason != TransferManager.TransferReason.None)
-                {
-                    int num35 = Mathf.Max(1, production_capacity / 6);
-                    int customBuffer = (int)buildingData.m_customBuffer2;
-                    if (customBuffer >= 8000 && (num30 < num35+3) && (num30 >= num35))
-                    {
-                        TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
-                        offer2.Priority = customBuffer * 8 / 8000;
-                        offer2.Building = buildingID;
-                        offer2.Position = buildingData.m_position;
-                        offer2.Amount = Mathf.Min(customBuffer / 8000, num35 + 3 - num30);
-                        offer2.Active = true;
-                        Singleton<TransferManager>.instance.AddOutgoingOffer(outgoingTransferReason, offer2);
-                    }
-                }
-            }
-        }*/
-
-        /*public void process_addition_product(ushort buildingID, ref Building buildingData)
-        {
-            Regex r = new Regex("IndustrialBuildingAI");
-            //Regex p = new Regex("IndustrialExtractorAI");
-
-            Match m = r.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
-            //Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
-            if (m.Success)
-            {
-                DistrictManager instance = Singleton<DistrictManager>.instance;
-                byte district = instance.GetDistrict(buildingData.m_position);
-                DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[(int)district].m_servicePolicies;
-                DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[(int)district].m_cityPlanningPolicies;
-                Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
-                int aliveWorkerCount = 0;
-                int totalWorkerCount = 0;
-                base.GetWorkBehaviour(buildingID, ref buildingData, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                TransferManager.TransferReason incomingTransferReason = pc_IndustrialBuildingAI.GetIncomingTransferReason(buildingData, buildingID);
-                TransferManager.TransferReason outgoingTransferReason = pc_IndustrialBuildingAI.GetOutgoingTransferReason(buildingData);
-                int width = buildingData.Width;
-                int length = buildingData.Length;
-                int production_capacity = pc_IndustrialBuildingAI.CalculateProductionCapacity(buildingData, new Randomizer((int)buildingID), width, length);
-                int num5 = 4000;
-                int num6 = 8000;
-                int consumptionDivider = pc_IndustrialBuildingAI.GetConsumptionDivider(buildingData);
-                int num8 = Mathf.Max(production_capacity * 500 / consumptionDivider, num5 * 4);
-                int num9 = production_capacity * 500;
-                int num10 = Mathf.Max(num9, num6 * 2);
-
-                int work_capacity = 1;
-                if (aliveWorkerCount != 0)
-                {
-                    work_capacity = (int)(((float)behaviourData.m_efficiencyAccumulation * (0.5f * (float)aliveWorkerCount + 0.5f * (float)totalWorkerCount)) / (float)aliveWorkerCount);
-                }
-                else
-                {
-                    work_capacity = (int)(60 * 0.5f * (float)totalWorkerCount);
-                }
-
-                int production_actually = 0;
-
-                float compensation_factor = 1f;
-                if ((width * length) != 0)
-                {
-                    compensation_factor = 16f / (float)(width * length);
-                    if (compensation_factor < 1f)
-                    {
-                        compensation_factor = 1f;
-                    }
-                }
-
-
-                float space_factor = 1f;
-
-                if (num10 != 0)
-                {
-                    space_factor  = (float)(num10 - buildingData.m_customBuffer2) / (float)num10;
-                }
-                production_actually = (int)((float)work_capacity * (float)production_capacity * compensation_factor * space_factor / 80f);
-                
-
-                int game_production = buildingData.m_customBuffer2 - comm_data.building_buffer2[buildingID];
-
-                if ((game_production > 1000) || (game_production < 0))
-                {
-                    //DebugLog.LogToFileOnly("may be first time progress or save data not correct, game_production = " + game_production.ToString() + "work_capacity = " + work_capacity.ToString() + "production_capacity =" + production_capacity.ToString());
-                }
-                else if(game_production == 0)
-                {
-                    //DebugLog.LogToFileOnly("game_production = 0 ??? ");
-                }
-                else
-                {
-                    if (game_production >= production_actually)
-                    {
-                        //DebugLog.LogToFileOnly("game_production great than production_actually, game_production= " + game_production.ToString() + "production_actually = " + production_actually.ToString());
-                        production_actually = 0;
-                    }
-                    else
-                    {
-                        production_actually = production_actually - game_production;
-                    }
-
-                    if (incomingTransferReason != TransferManager.TransferReason.None)
-                    {
-                        int temp = buildingData.m_customBuffer1 - (ushort)((production_actually + consumptionDivider - 1) / consumptionDivider);
-                        if (temp > 0)
-                        {
-                            buildingData.m_customBuffer1 -= (ushort)((production_actually + consumptionDivider - 1) / consumptionDivider);
-                        } else
-                        {
-                            buildingData.m_customBuffer1 = 0;
-                        }
-                    }
-                    if (outgoingTransferReason != TransferManager.TransferReason.None)
-                    {
-                        if ((cityPlanningPolicies & DistrictPolicies.CityPlanning.IndustrySpace) != DistrictPolicies.CityPlanning.None)
-                        {
-                            buildingData.m_customBuffer2 = (ushort)Mathf.Min(num10, (int)buildingData.m_customBuffer2 + production_actually * 2);
-                        }
-                        else
-                        {
-                            buildingData.m_customBuffer2 += (ushort)production_actually;
-                        }
-                        IndustrialBuildingAI.ProductType productType = IndustrialBuildingAI.GetProductType(outgoingTransferReason);
-                        if (productType != IndustrialBuildingAI.ProductType.None)
-                        {
-                            StatisticsManager instance2 = Singleton<StatisticsManager>.instance;
-                            StatisticBase statisticBase = instance2.Acquire<StatisticArray>(StatisticType.GoodsProduced);
-                            statisticBase.Acquire<StatisticInt32>((int)productType, 5).Add(production_actually);
-                        }
-                    }
-                }
-                comm_data.building_buffer2[buildingID] = buildingData.m_customBuffer2;
-                process_addition_demand(buildingID, ref buildingData);
-            }//m.sucess
-        }*/
-
         public static int process_building_asset(ushort buildingID, ref Building buildingData)
         {
-            //Regex p = new Regex("IndustrialExtractorAI");
-            //Match n = p.Match(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI.ToString());
             int asset = 0;
             if ((buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) || (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial))
             {
@@ -813,7 +595,7 @@ namespace RealCity
                     {
                         if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 + buildingData.m_customBuffer2) * (good_export_price / 4f));
+                            asset = (int)((buildingData.m_customBuffer1 + buildingData.m_customBuffer2 - 4000) * (good_export_price / 4f));
                         } else
                         {
                             asset = (int)(buildingData.m_customBuffer2 * (good_export_price / 4f));
@@ -825,7 +607,7 @@ namespace RealCity
                         // 90%*0.5 + 10% * 1 =  
                         if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 - 12000) * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price / 4f));
+                            asset = (int)((buildingData.m_customBuffer1 - 400) * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price / 4f));
                         }
                         else
                         {
@@ -971,24 +753,6 @@ namespace RealCity
                         }
                         else if (buildingData.m_customBuffer2 < 1000)
                         {
-                            if ((buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh) || (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialLow))
-                            {
-                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                {
-                                    if (comm_data.building_money[buildingID] > 10000)
-                                    {
-                                        this.StartUpgrading(buildingID, ref buildingData);
-                                    }
-                                }
-
-                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                {
-                                    if (comm_data.building_money[buildingID] > 20000)
-                                    {
-                                        this.StartUpgrading(buildingID, ref buildingData);
-                                    }
-                                }
-                            }
                             problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
                         }
                         else
@@ -1399,43 +1163,6 @@ namespace RealCity
                         num1 = (int)(behaviour.m_educated0Count * comm_data.indus_gen_level3_education0 + behaviour.m_educated1Count * comm_data.indus_gen_level3_education1 + behaviour.m_educated2Count * comm_data.indus_gen_level3_education2 + behaviour.m_educated3Count * comm_data.indus_gen_level3_education3);
                     }
                     break;
-                case ItemClass.SubService.CommercialHigh:
-                    /*if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level1_education0 + behaviour.m_educated1Count * comm_data.comm_high_level1_education1 + behaviour.m_educated2Count * comm_data.comm_high_level1_education2 + behaviour.m_educated3Count * comm_data.comm_high_level1_education3);
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level2_education0 + behaviour.m_educated1Count * comm_data.comm_high_level2_education1 + behaviour.m_educated2Count * comm_data.comm_high_level2_education2 + behaviour.m_educated3Count * comm_data.comm_high_level2_education3);
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level3_education0 + behaviour.m_educated1Count * comm_data.comm_high_level3_education1 + behaviour.m_educated2Count * comm_data.comm_high_level3_education2 + behaviour.m_educated3Count * comm_data.comm_high_level3_education3);
-                    }*/
-                    break;
-                case ItemClass.SubService.CommercialLow:
-                    /*if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level1_education0 + behaviour.m_educated1Count * comm_data.comm_low_level1_education1 + behaviour.m_educated2Count * comm_data.comm_low_level1_education2 + behaviour.m_educated3Count * comm_data.comm_low_level1_education3);
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level2_education0 + behaviour.m_educated1Count * comm_data.comm_low_level2_education1 + behaviour.m_educated2Count * comm_data.comm_low_level2_education2 + behaviour.m_educated3Count * comm_data.comm_low_level2_education3);
-                    }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level3_education0 + behaviour.m_educated1Count * comm_data.comm_low_level3_education1 + behaviour.m_educated2Count * comm_data.comm_low_level3_education2 + behaviour.m_educated3Count * comm_data.comm_low_level3_education3);
-                    }*/
-                    break;
-                case ItemClass.SubService.CommercialLeisure:
-                    //num1 = (int)(behaviour.m_educated0Count * comm_data.comm_lei_education0 + behaviour.m_educated1Count * comm_data.comm_lei_education1 + behaviour.m_educated2Count * comm_data.comm_lei_education2 + behaviour.m_educated3Count * comm_data.comm_lei_education3);
-                    break;
-                case ItemClass.SubService.CommercialTourist:
-                    //num1 = (int)(behaviour.m_educated0Count * comm_data.comm_tou_education0 + behaviour.m_educated1Count * comm_data.comm_tou_education1 + behaviour.m_educated2Count * comm_data.comm_tou_education2 + behaviour.m_educated3Count * comm_data.comm_tou_education3);
-                    break;
-                case ItemClass.SubService.CommercialEco:
-                    //num1 = (int)(behaviour.m_educated0Count * comm_data.comm_eco_education0 + behaviour.m_educated1Count * comm_data.comm_eco_education1 + behaviour.m_educated2Count * comm_data.comm_eco_education2 + behaviour.m_educated3Count * comm_data.comm_eco_education3);
-                    break;
                 default: break;
             }
             System.Random rand = new System.Random();
@@ -1443,11 +1170,11 @@ namespace RealCity
             //add random value to match citizen salary
             if (num1 != 0)
             {
-                num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated0Count * rand.Next(2) + behaviour.m_educated0Count * rand.Next(3) + behaviour.m_educated0Count * rand.Next(4));
+                num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated1Count * rand.Next(2) + behaviour.m_educated2Count * rand.Next(3) + behaviour.m_educated3Count * rand.Next(4));
             }
 
             //money < 0, salary/1.5f   money > 1000 salary * 1.33f
-            if (building.Info.m_class.m_service == ItemClass.Service.Commercial || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
                 num1 = num1 * (building.Width * building.Length / 16);
             }
@@ -1462,16 +1189,12 @@ namespace RealCity
                 {
                     district = instance2.GetDistrict(building.m_position);
                     local_salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() + 50f) / 120f;
-                    final_salary_idex = (local_salary_idex * 4f + comm_data.salary_idex) / 5f;
+                    final_salary_idex = (local_salary_idex * 3f + comm_data.salary_idex) / 4f;
                 }
 
                 if (comm_data.building_money[buildingID] < 0)
                 {
                     comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * final_salary_idex / 48f;
-                }
-                else if (comm_data.building_money[buildingID] > 200 * totalWorkerCount)
-                {
-                    comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - (float)num1 * final_salary_idex / 12f;
                 }
                 else
                 {
@@ -1614,12 +1337,6 @@ namespace RealCity
                     break;
                 default: break;
             }
-            /*Regex p = new Regex("IndustrialExtractorAI");
-            Match n = p.Match(this.m_info.m_buildingAI.ToString());
-            if (n.Success)
-            {
-                incomeAccumulation = incomeAccumulation * 10;
-            }*/
         }
 
         protected void CalculateGuestVehicles_1(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
