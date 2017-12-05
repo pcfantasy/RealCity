@@ -811,19 +811,19 @@ namespace RealCity
                 {
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                     {
-                        if (buildingData.m_customBuffer1 > 12000)
+                        if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 + buildingData.m_customBuffer2 - 12000) * (good_export_price / 4f));
+                            asset = (int)((buildingData.m_customBuffer1 + buildingData.m_customBuffer2) * (good_export_price / 4f));
                         } else
                         {
                             asset = (int)(buildingData.m_customBuffer2 * (good_export_price / 4f));
                         }
-                        //asset = (int)(buildingData.m_customBuffer2 * 4 / 4f);
+                        asset = (int)(buildingData.m_customBuffer2 * 4 / 4f);
                     }
                     else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                     {
                         // 90%*0.5 + 10% * 1 =  
-                        if (buildingData.m_customBuffer1 > 12000)
+                        if (buildingData.m_customBuffer1 > 4000)
                         {
                             asset = (int)((buildingData.m_customBuffer1 - 12000) * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price / 4f));
                         }
@@ -834,9 +834,9 @@ namespace RealCity
                     }
                     else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                     {
-                        if (buildingData.m_customBuffer1 > 12000)
+                        if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 -12000) * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
+                            asset = (int)((buildingData.m_customBuffer1 -4000) * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
                         }
                         else
                         {
@@ -845,9 +845,9 @@ namespace RealCity
                     }
                     else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
                     {
-                        if (buildingData.m_customBuffer1 > 12000)
+                        if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 - 12000) * grain_export_price + buildingData.m_customBuffer2 * food_export_price);
+                            asset = (int)((buildingData.m_customBuffer1 - 4000) * grain_export_price + buildingData.m_customBuffer2 * food_export_price);
                         }
                         else
                         {
@@ -856,9 +856,9 @@ namespace RealCity
                     }
                     else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
                     {
-                        if (buildingData.m_customBuffer1 > 12000)
+                        if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 - 12000) * oil_export_price + buildingData.m_customBuffer2 * petrol_export_price);
+                            asset = (int)((buildingData.m_customBuffer1 - 4000) * oil_export_price + buildingData.m_customBuffer2 * petrol_export_price);
                         }
                         else
                         {
@@ -867,9 +867,9 @@ namespace RealCity
                     }
                     else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
                     {
-                        if (buildingData.m_customBuffer1 > 12000)
+                        if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 - 12000) * ore_export_price + buildingData.m_customBuffer2 * coal_export_price);
+                            asset = (int)((buildingData.m_customBuffer1 - 4000) * ore_export_price + buildingData.m_customBuffer2 * coal_export_price);
                         } else
                         {
                             asset = (int)(buildingData.m_customBuffer2 * coal_export_price);
@@ -904,7 +904,7 @@ namespace RealCity
                 }
 
                 int asset = process_building_asset(buildingID, ref buildingData);
-                if ((buildingData.m_problems & Notification.Problem.NoCustomers) != Notification.Problem.None)
+                if (((buildingData.m_problems & (~Notification.Problem.NoCustomers)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoCustomers)) != Notification.Problem.None))
                 {
                     Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
                     //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
@@ -934,7 +934,7 @@ namespace RealCity
                     buildingData.m_problems = problem;
                 }
 
-                if ((buildingData.m_problems & Notification.Problem.NoGoods) != Notification.Problem.None)
+                if (((buildingData.m_problems & (~Notification.Problem.NoGoods)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoGoods)) != Notification.Problem.None))
                 {
                     //mark no good
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
@@ -944,19 +944,26 @@ namespace RealCity
                         {
                             if ((buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)  || (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialLow))
                             {
+                                byte district = Singleton<DistrictManager>.instance.GetDistrict(buildingData.m_position);
                                 if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
                                 {
-                                    if (comm_data.building_money[buildingID] > 10000)
+                                    if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 30)
                                     {
-                                        this.StartUpgrading(buildingID, ref buildingData);
+                                        if (comm_data.building_money[buildingID] > 100)
+                                        {
+                                            this.StartUpgrading(buildingID, ref buildingData);
+                                        }
                                     }
                                 }
 
                                 if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
                                 {
-                                    if (comm_data.building_money[buildingID] > 20000)
+                                    if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 50)
                                     {
-                                        this.StartUpgrading(buildingID, ref buildingData);
+                                        if (comm_data.building_money[buildingID] > 500)
+                                        {
+                                            this.StartUpgrading(buildingID, ref buildingData);
+                                        }
                                     }
                                 }
                             }
@@ -1253,13 +1260,37 @@ namespace RealCity
 
             if (comm_data.building_money[buildingID] > 50000)
             {
-                if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric))
+                if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
-                    if ((building.Width * building.Length) >= 12)
+                    if ((building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming) && (building.Info.m_buildingAI is IndustrialExtractorAI))
+                    {
+
+                    }
+                    else
                     {
                         greater_than_20000_profit_building_num++;
-                        greater_than_20000_profit_building_money += (long)(comm_data.building_money[buildingID] - 50000);
-                        comm_data.building_money[buildingID] = 50000f;
+
+                        float idex = 0;
+
+                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
+                        {
+                            idex = 0.1f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            idex = 0.1f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            idex = 0.5f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            idex = 1f;
+                        }
+
+                        greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 10000) * idex);
+                        comm_data.building_money[buildingID] = 10000f;
                     }
                 }
             }
@@ -1369,7 +1400,7 @@ namespace RealCity
                     }
                     break;
                 case ItemClass.SubService.CommercialHigh:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    /*if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level1_education0 + behaviour.m_educated1Count * comm_data.comm_high_level1_education1 + behaviour.m_educated2Count * comm_data.comm_high_level1_education2 + behaviour.m_educated3Count * comm_data.comm_high_level1_education3);
                     }
@@ -1380,10 +1411,10 @@ namespace RealCity
                     else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         num1 = (int)(behaviour.m_educated0Count * comm_data.comm_high_level3_education0 + behaviour.m_educated1Count * comm_data.comm_high_level3_education1 + behaviour.m_educated2Count * comm_data.comm_high_level3_education2 + behaviour.m_educated3Count * comm_data.comm_high_level3_education3);
-                    }
+                    }*/
                     break;
                 case ItemClass.SubService.CommercialLow:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    /*if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level1_education0 + behaviour.m_educated1Count * comm_data.comm_low_level1_education1 + behaviour.m_educated2Count * comm_data.comm_low_level1_education2 + behaviour.m_educated3Count * comm_data.comm_low_level1_education3);
                     }
@@ -1394,16 +1425,16 @@ namespace RealCity
                     else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         num1 = (int)(behaviour.m_educated0Count * comm_data.comm_low_level3_education0 + behaviour.m_educated1Count * comm_data.comm_low_level3_education1 + behaviour.m_educated2Count * comm_data.comm_low_level3_education2 + behaviour.m_educated3Count * comm_data.comm_low_level3_education3);
-                    }
+                    }*/
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    num1 = (int)(behaviour.m_educated0Count * comm_data.comm_lei_education0 + behaviour.m_educated1Count * comm_data.comm_lei_education1 + behaviour.m_educated2Count * comm_data.comm_lei_education2 + behaviour.m_educated3Count * comm_data.comm_lei_education3);
+                    //num1 = (int)(behaviour.m_educated0Count * comm_data.comm_lei_education0 + behaviour.m_educated1Count * comm_data.comm_lei_education1 + behaviour.m_educated2Count * comm_data.comm_lei_education2 + behaviour.m_educated3Count * comm_data.comm_lei_education3);
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    num1 = (int)(behaviour.m_educated0Count * comm_data.comm_tou_education0 + behaviour.m_educated1Count * comm_data.comm_tou_education1 + behaviour.m_educated2Count * comm_data.comm_tou_education2 + behaviour.m_educated3Count * comm_data.comm_tou_education3);
+                    //num1 = (int)(behaviour.m_educated0Count * comm_data.comm_tou_education0 + behaviour.m_educated1Count * comm_data.comm_tou_education1 + behaviour.m_educated2Count * comm_data.comm_tou_education2 + behaviour.m_educated3Count * comm_data.comm_tou_education3);
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    num1 = (int)(behaviour.m_educated0Count * comm_data.comm_eco_education0 + behaviour.m_educated1Count * comm_data.comm_eco_education1 + behaviour.m_educated2Count * comm_data.comm_eco_education2 + behaviour.m_educated3Count * comm_data.comm_eco_education3);
+                    //num1 = (int)(behaviour.m_educated0Count * comm_data.comm_eco_education0 + behaviour.m_educated1Count * comm_data.comm_eco_education1 + behaviour.m_educated2Count * comm_data.comm_eco_education2 + behaviour.m_educated3Count * comm_data.comm_eco_education3);
                     break;
                 default: break;
             }
@@ -1418,30 +1449,7 @@ namespace RealCity
             //money < 0, salary/1.5f   money > 1000 salary * 1.33f
             if (building.Info.m_class.m_service == ItemClass.Service.Commercial || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
             {
-                if (building.Width * building.Length <= 12)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 9)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 6)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 4)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
-
-                if (building.Width * building.Length <= 2)
-                {
-                    num1 = (int)(num1 / 1.1f);
-                }
+                num1 = num1 * (building.Width * building.Length / 16);
             }
 
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
@@ -1450,7 +1458,7 @@ namespace RealCity
                 float final_salary_idex = 0.5f;
                 DistrictManager instance2 = Singleton<DistrictManager>.instance;
                 byte district = 0;
-                if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+                if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
                     district = instance2.GetDistrict(building.m_position);
                     local_salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() + 50f) / 120f;

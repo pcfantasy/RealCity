@@ -58,10 +58,6 @@ namespace RealCity
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
             BuildingUI.GetWorkBehaviour(buildingID, ref instance2.m_buildings.m_buffer[(int)buildingID], ref behaviour, ref aliveWorkCount, ref totalWorkCount);
             idex = 0f;
-            if (aliveWorkCount > 25)
-            {
-                aliveWorkCount = 25;
-            }
 
             switch (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_subService)
             {
@@ -79,11 +75,11 @@ namespace RealCity
                     break;
                 case ItemClass.SubService.CommercialTourist:
                     temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = rand.Next(200) / 100f;
+                    idex = rand.Next(100 + aliveWorkCount * 5) / 100f;
                     break;
                 case ItemClass.SubService.CommercialEco:
                     temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = rand.Next(20 + aliveWorkCount * 3) / 100f;
+                    idex = rand.Next(20 + aliveWorkCount * 5) / 100f;
                     break;
                 default: temp_transfer_reason = TransferManager.TransferReason.Shopping; break;
             }
@@ -110,9 +106,9 @@ namespace RealCity
             {
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
-                    if (info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                    if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
                     {
-                        num = (comm_data.citizen_money[homeid] > 10000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 10000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
                     } else
                     {
                         num = (comm_data.citizen_money[homeid] > 5000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
@@ -143,7 +139,7 @@ namespace RealCity
             {
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = 1000;
+                    num = rand.Next(2000);
                     if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         num = num * 4;
@@ -154,7 +150,7 @@ namespace RealCity
                     }
                 }
 
-                num = -num;
+                num = -(int)(num * idex);
                 if ((num == -200 || num == -50))
                 {
                     num = num + 1;
@@ -165,7 +161,7 @@ namespace RealCity
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
                 int size = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width * instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Length;
-                int tourism_fee = rand.Next(size * 100);
+                int tourism_fee = rand.Next(4000);
                 if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
                     //DebugLog.LogToFileOnly("tourist visit! " + instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width.ToString());
@@ -183,8 +179,8 @@ namespace RealCity
                 else
                 {
                     //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
-                    int temp = (comm_data.citizen_money[homeid] - tourism_fee > 1f) ? (int)(comm_data.citizen_money[homeid] - tourism_fee) : 1;
-                    tourism_fee = (rand.Next(temp) > 1000) ? tourism_fee : (int)(0.05f * comm_data.citizen_money[homeid]);
+                    int temp = (comm_data.citizen_money[homeid]> 1f) ? (int)(comm_data.citizen_money[homeid]) : 1;
+                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.1f * comm_data.citizen_money[homeid]) : (int)(0.05f * comm_data.citizen_money[homeid]);
 
                     if (tourism_fee < 0)
                     {
@@ -226,6 +222,12 @@ namespace RealCity
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;
                         uint homeid = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+
+                        //if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Train)
+                        //{
+                        //    DebugLog.LogToFileOnly("train price before is " + ticketPrice.ToString());
+                        //}
+
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
                             if ((comm_data.citizen_money[homeid] - (ticketPrice/comm_data.game_maintain_fee_decrease)) > 0)
@@ -308,6 +310,11 @@ namespace RealCity
                                 }
                             }
                         }
+
+                        //if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Train)
+                        //{
+                            //DebugLog.LogToFileOnly("train price after is " + ticketPrice.ToString());
+                        //}
                         //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.citizen_money[homeid].ToString());
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice/ comm_data.game_maintain_fee_decrease3, info.m_class);
                     }

@@ -161,7 +161,7 @@ namespace RealCity
                 this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                 this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
                 this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
-                if (buildingdata.Info.m_class.m_service == ItemClass.Service.Office)
+                if (buildingdata.Info.m_class.m_service == ItemClass.Service.Office || buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
                     this.employfee.text = language.BuildingUI[8] + " " + language.BuildingUI[16];
                 }
