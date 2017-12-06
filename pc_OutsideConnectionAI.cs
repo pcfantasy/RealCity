@@ -156,9 +156,9 @@ namespace RealCity
                     demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
                 }
 
-                if (comm_data.family_count > 200)
+                if (comm_data.family_count > 500)
                 {
-                    demand_idex = demand_idex * 200f / comm_data.family_count;
+                    demand_idex = demand_idex * 500f / comm_data.family_count;
                 }
 
                 m_residentCapacity = (int)(m_residentCapacity * demand_idex);
@@ -168,11 +168,11 @@ namespace RealCity
                     m_residentCapacity = 0;
                 }
 
-                if (m_residentCapacity < 20)
+                if (m_residentCapacity < 50)
                 {
-                    if (rand.Next(200) < 10)
+                    if (rand.Next(200) < 20)
                     {
-                        m_residentCapacity = rand.Next(20);
+                        m_residentCapacity = rand.Next(50);
                     }
                 }
 
@@ -181,9 +181,9 @@ namespace RealCity
                 {
                     tourist_trans_fee = (int)(comm_data.tourist_transport_fee_num_final / comm_data.tourist_num_final * 10f);
                 }
-                m_touristFactor0 = rand.Next(1000) + family_minus_oilorebuiling / 4;
-                m_touristFactor1 = rand.Next(500) + family_minus_oilorebuiling / 8;
-                m_touristFactor2 = rand.Next(300) + family_minus_oilorebuiling / 16;
+                m_touristFactor0 = rand.Next(650) + family_minus_oilorebuiling / 4;
+                m_touristFactor1 = rand.Next(250) + family_minus_oilorebuiling / 8;
+                m_touristFactor2 = rand.Next(100) + family_minus_oilorebuiling / 16;
 
 
                 if (m_touristFactor0 < 0)
@@ -203,10 +203,25 @@ namespace RealCity
 
                 if (data.Info.m_class.m_service == ItemClass.Service.PublicTransport)
                 {
-                    m_touristFactor0 = m_touristFactor0 * 3;
-                    m_touristFactor1 = m_touristFactor1 * 3;
-                    m_touristFactor2 = m_touristFactor2 * 3;
-                    m_residentCapacity = 2000;
+                    if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportPlane)
+                    {
+                        m_touristFactor0 = m_touristFactor0 * 4;
+                        m_touristFactor1 = m_touristFactor1 * 4;
+                        m_touristFactor2 = m_touristFactor2 * 4;
+                    } else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportShip)
+                    {
+                        m_touristFactor0 = m_touristFactor0 * 3;
+                        m_touristFactor1 = m_touristFactor1 * 3;
+                        m_touristFactor2 = m_touristFactor2 * 3;
+                        m_cargoCapacity = 60;
+                    }
+                    else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportTrain)
+                    {
+                        m_touristFactor0 = m_touristFactor0 * 2;
+                        m_touristFactor1 = m_touristFactor1 * 2;
+                        m_touristFactor2 = m_touristFactor2 * 2;
+                        m_cargoCapacity = 50;
+                    }
                 }
 
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
@@ -306,7 +321,7 @@ namespace RealCity
             {
                 if (have_garbage_building && comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
-                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
+                    data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 150);
                 }
                 else if (RealCity.update_once && (data.m_garbageBuffer != 0))
                 {
@@ -945,7 +960,7 @@ namespace RealCity
 
                         }
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -6f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -5f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else if (material == TransferManager.TransferReason.Crime)
@@ -968,7 +983,7 @@ namespace RealCity
 
                             }
                             data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + amountDelta * 100);
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -40000f), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -100000f), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
                 }
@@ -992,7 +1007,7 @@ namespace RealCity
 
                             }
                             data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + amountDelta * 100);
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -40000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -100000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
                 }
@@ -1014,7 +1029,7 @@ namespace RealCity
 
                         }
                         data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + amountDelta * 100);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -40000f), ItemClass.Service.FireDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -100000f), ItemClass.Service.FireDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else if (material == TransferManager.TransferReason.RoadMaintenance)

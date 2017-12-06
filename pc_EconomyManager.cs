@@ -2137,6 +2137,37 @@ namespace RealCity
             return result;
         }
 
+
+        public int GetBudget(ItemClass itemClass)
+        {
+            int budget = Singleton<EconomyManager>.instance.GetBudget(itemClass.m_service, itemClass.m_subService, Singleton<SimulationManager>.instance.m_isNightTime);
+            SimulationManager instance2 = Singleton<SimulationManager>.instance;
+            float currentDayTimeHour = instance2.m_currentDayTimeHour;
+            if (currentDayTimeHour > 23f || currentDayTimeHour < 5f)
+            {
+                if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram))
+                {
+                    budget = budget >> 2;
+                    //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                }
+            } else if (currentDayTimeHour < 9.5f && currentDayTimeHour > 6.5f)
+            {
+                if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram))
+                {
+                    budget = budget << 1;
+                    //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                }
+            } else if (currentDayTimeHour > 16.5f && currentDayTimeHour < 20.5f)
+            {
+                if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram))
+                {
+                    budget = budget << 1;
+                    //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                }
+            }
+            return budget;
+        }
+
         public static void Init()
         {
             //DebugLog.Log("Init fake transfer manager");

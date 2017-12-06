@@ -108,16 +108,16 @@ namespace RealCity
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.4f * comm_data.citizen_money[homeid]) : 0;
                     } else
                     {
-                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.2f * comm_data.citizen_money[homeid]) : 0;
                     }
 
                     num = (int)(num * idex);
                 }
 
-                num = (rand.Next(3) > 1) ? (int)(0.05f * comm_data.citizen_money[homeid]) : num;
+                num = (rand.Next(3) > 1) ? (int)(0.2f * comm_data.citizen_money[homeid]) : num;
 
                 if(num < 0)
                 {
@@ -180,7 +180,7 @@ namespace RealCity
                 {
                     //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
                     int temp = (comm_data.citizen_money[homeid]> 1f) ? (int)(comm_data.citizen_money[homeid]) : 1;
-                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.1f * comm_data.citizen_money[homeid]) : (int)(0.05f * comm_data.citizen_money[homeid]);
+                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.4f * comm_data.citizen_money[homeid]) : (int)(0.2f * comm_data.citizen_money[homeid]);
 
                     if (tourism_fee < 0)
                     {

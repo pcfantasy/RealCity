@@ -29,6 +29,7 @@ namespace RealCity
                     result = result / 10;
                 }
             }*/
+
             Singleton<EconomyManager>.instance.m_EconomyWrapper.OnGetMaintenanceCost(ref result, this.m_info.m_class.m_service, this.m_info.m_class.m_subService, this.m_info.m_class.m_level);
             return result;
         }
@@ -36,7 +37,7 @@ namespace RealCity
 
         public static int GetProductionRate_1(int productionRate, int budget)
         {
-            return (productionRate * budget + 99) / 100;
+             return (productionRate * budget + 99) / 100;
         }
     }
 }

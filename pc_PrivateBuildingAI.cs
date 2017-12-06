@@ -600,14 +600,13 @@ namespace RealCity
                         {
                             asset = (int)(buildingData.m_customBuffer2 * (good_export_price / 4f));
                         }
-                        asset = (int)(buildingData.m_customBuffer2 * 4 / 4f);
                     }
                     else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                     {
                         // 90%*0.5 + 10% * 1 =  
                         if (buildingData.m_customBuffer1 > 4000)
                         {
-                            asset = (int)((buildingData.m_customBuffer1 - 400) * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price / 4f));
+                            asset = (int)((buildingData.m_customBuffer1 - 4000) * lumber_export_price + buildingData.m_customBuffer2 * (good_export_price / 4f));
                         }
                         else
                         {
@@ -767,6 +766,31 @@ namespace RealCity
             else
             {
                 //DebugLog.LogToFileOnly("caculate building final status, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
+
+                for (i = (int)(prebuidlingid + 1); i < 49152; i++)
+                {
+                    //70000000f is a flag for outside building
+                    if (comm_data.building_money[i] != 70000000f)
+                    {
+                        if (comm_data.building_money[i] != 0)
+                        {
+                            comm_data.building_money[i] = 0;
+                        }
+                    }
+                }
+
+                for (i = 0; i < buildingID; i++)
+                {
+                    //70000000f is a flag for outside building
+                    if (comm_data.building_money[i] != 70000000f)
+                    {
+                        if (comm_data.building_money[i] != 0)
+                        {
+                            comm_data.building_money[i] = 0;
+                        }
+                    }
+                }
+
                 if (comm_data.update_outside_count == 63)
                 {
                     resident_shopping_count_final = resident_shopping_count;
@@ -1022,7 +1046,7 @@ namespace RealCity
             }
 
 
-            if (comm_data.building_money[buildingID] > 50000)
+            if (comm_data.building_money[buildingID] > 30000)
             {
                 if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
@@ -1053,8 +1077,8 @@ namespace RealCity
                             idex = 1f;
                         }
 
-                        greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 10000) * idex);
-                        comm_data.building_money[buildingID] = 10000f;
+                        greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex);
+                        comm_data.building_money[buildingID] = 30000f;
                     }
                 }
             }
@@ -1379,6 +1403,16 @@ namespace RealCity
                 }
             }
             return false;
+        }
+
+
+        public override void ReleaseBuilding(ushort buildingID, ref Building data)
+        {
+            if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
+            {
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 5000, data.Info.m_class.m_service, ItemClass.SubService.None, ItemClass.Level.Level1);
+            }
+            base.ReleaseBuilding(buildingID, ref data);
         }
 
     }
