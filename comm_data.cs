@@ -434,7 +434,7 @@
         public static bool fire_connection = false;
         public static bool road_connection = false;
         public static bool is_help_resident = false;
-        public static bool is_help_company = false;
+        public static bool is_smart_pbtp = false;
 
         public static bool firehelp = false;
         public static bool hospitalhelp = false;
@@ -598,7 +598,7 @@
             saveandrestore.save_bool(ref i, crime_connection, ref save_data);
             saveandrestore.save_bool(ref i, garbage_connection, ref save_data);
             saveandrestore.save_bool(ref i, is_help_resident, ref save_data);
-            saveandrestore.save_bool(ref i, is_help_company, ref save_data);
+            saveandrestore.save_bool(ref i, is_smart_pbtp, ref save_data);
             saveandrestore.save_bool(ref i, road_connection, ref save_data);
 
             saveandrestore.save_uint(ref i, outside_road_count, ref save_data);
@@ -711,7 +711,7 @@
             crime_connection = saveandrestore.load_bool(ref i, load_data);
             garbage_connection = saveandrestore.load_bool(ref i, load_data);
             is_help_resident = saveandrestore.load_bool(ref i, load_data);
-            is_help_company = saveandrestore.load_bool(ref i, load_data);
+            is_smart_pbtp = saveandrestore.load_bool(ref i, load_data);
             road_connection = saveandrestore.load_bool(ref i, load_data);
 
             outside_road_count = saveandrestore.load_uint(ref i, load_data);

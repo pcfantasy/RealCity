@@ -983,7 +983,7 @@ namespace RealCity
 
                             }
                             data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + amountDelta * 100);
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -100000f), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -80000f), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
                 }
@@ -1007,7 +1007,7 @@ namespace RealCity
 
                             }
                             data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + amountDelta * 100);
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -100000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -80000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
                 }
@@ -1029,7 +1029,7 @@ namespace RealCity
 
                         }
                         data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + amountDelta * 100);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -100000f), ItemClass.Service.FireDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -80000f), ItemClass.Service.FireDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else if (material == TransferManager.TransferReason.RoadMaintenance)

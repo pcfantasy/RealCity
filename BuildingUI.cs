@@ -231,7 +231,7 @@ namespace RealCity
 
             if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                num1 = num1 * (building.Width * building.Length / 16);
+                num1 = (num1 * (int)((float)building.Width * (float)building.Length / 16f));
             }
 
             if (building.Info.m_buildingAI is IndustrialExtractorAI)

@@ -1200,7 +1200,7 @@ namespace RealCity
             //money < 0, salary/1.5f   money > 1000 salary * 1.33f
             if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                num1 = num1 * (building.Width * building.Length / 16);
+                num1 = (int)(num1 * ((float)building.Width * (float)building.Length / 16f));
             }
 
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))

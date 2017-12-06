@@ -2143,26 +2143,31 @@ namespace RealCity
             int budget = Singleton<EconomyManager>.instance.GetBudget(itemClass.m_service, itemClass.m_subService, Singleton<SimulationManager>.instance.m_isNightTime);
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
             float currentDayTimeHour = instance2.m_currentDayTimeHour;
-            if (currentDayTimeHour > 23f || currentDayTimeHour < 5f)
+            if (comm_data.is_smart_pbtp)
             {
-                if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram))
+                if (currentDayTimeHour > 23f || currentDayTimeHour < 5f)
                 {
-                    budget = budget >> 2;
-                    //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                    if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMetro) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMonorail) || (itemClass.m_subService == ItemClass.SubService.PublicTransportCableCar))
+                    {
+                        budget = budget >> 2;
+                        //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                    }
                 }
-            } else if (currentDayTimeHour < 9.5f && currentDayTimeHour > 6.5f)
-            {
-                if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram))
+                else if (currentDayTimeHour < 10f && currentDayTimeHour > 6f)
                 {
-                    budget = budget << 1;
-                    //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                    if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMetro) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMonorail) || (itemClass.m_subService == ItemClass.SubService.PublicTransportCableCar))
+                    {
+                        budget = budget << 1;
+                        //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                    }
                 }
-            } else if (currentDayTimeHour > 16.5f && currentDayTimeHour < 20.5f)
-            {
-                if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram))
+                else if (currentDayTimeHour > 16f && currentDayTimeHour < 20f)
                 {
-                    budget = budget << 1;
-                    //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                    if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMetro) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMonorail) || (itemClass.m_subService == ItemClass.SubService.PublicTransportCableCar))
+                    {
+                        budget = budget << 1;
+                        //DebugLog.LogToFileOnly("BUS budget = " + budget.ToString());
+                    }
                 }
             }
             return budget;

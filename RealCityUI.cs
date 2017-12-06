@@ -10,7 +10,7 @@ namespace RealCity
     {
         public static readonly string cacheName = "RealCityUI";
 
-        private static readonly float WIDTH = 800f;
+        private static readonly float WIDTH = 850f;
 
         private static readonly float HEIGHT = 750f;
 

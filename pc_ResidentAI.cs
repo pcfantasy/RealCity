@@ -1940,9 +1940,37 @@ namespace RealCity
             {
                 if (comm_data.citizen_money[homeid] > 0 && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags.IsFlagSet(Citizen.Flags.Education2)))
                 {
-                    temp = temp + 10;
-                    Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    temp = temp + 20;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                 }
+
+                if (comm_data.citizen_money[homeid] > 0 && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags.IsFlagSet(Citizen.Flags.Education1)))
+                {
+                    temp = temp + 10;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(10, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level2, 115);
+                }
+
+                if (comm_data.citizen_money[homeid] > 0)
+                {
+                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags.IsFlagSet(Citizen.Flags.Education1))
+                    {
+
+                    }
+                    else if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags.IsFlagSet(Citizen.Flags.Education2))
+                    {
+
+                    }
+                    else if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags.IsFlagSet(Citizen.Flags.Education3))
+                    {
+
+                    }
+                    else
+                    {
+                        temp = temp + 5;
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(5, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level2, 115);
+                    }
+                }
+
             }
 
             if (UnlockManager.instance.Unlocked(ItemClass.Service.HealthCare))
@@ -1951,21 +1979,21 @@ namespace RealCity
                 {
                     if ((comm_data.citizen_money[homeid] > 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                     {
-                        temp = temp + 40;
+                        temp = temp + 20;
                         // 10% is provide by citizen  90% is provide by goverment
-                        Singleton<EconomyManager>.instance.AddPrivateIncome(40, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 160, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 160;
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 80, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 100;
                     }
                     else if ((comm_data.citizen_money[homeid] < 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 200, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 200;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 100;
                     }
                     else
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 200, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 200;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 100;
                     }
                 }
             }

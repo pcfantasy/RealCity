@@ -75,7 +75,7 @@ namespace RealCity
             streamWriter.WriteLine(comm_data.crime_connection);
             streamWriter.WriteLine(comm_data.sick_connection);
             streamWriter.WriteLine(comm_data.is_help_resident);
-            streamWriter.WriteLine(comm_data.is_help_company);
+            streamWriter.WriteLine(comm_data.is_smart_pbtp);
             streamWriter.WriteLine(comm_data.fire_connection);
             streamWriter.WriteLine(comm_data.road_connection);
             streamWriter.WriteLine(comm_data.hospitalhelp);
@@ -161,11 +161,11 @@ namespace RealCity
 
                 if (strLine == "False")
                 {
-                    comm_data.is_help_company = false;
+                    comm_data.is_smart_pbtp = false;
                 }
                 else
                 {
-                    comm_data.is_help_company = true;
+                    comm_data.is_smart_pbtp = true;
                 }
 
                 strLine = sr.ReadLine();
@@ -249,7 +249,7 @@ namespace RealCity
 
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
             group2.AddCheckbox(language.OptionUI[8], comm_data.is_help_resident, (index) => is_help_resident(index));
-            //group2.AddCheckbox(language.OptionUI[9], comm_data.is_help_company, (index) => is_help_company(index));
+            group2.AddCheckbox(language.OptionUI[9], comm_data.is_smart_pbtp, (index) => is_smart_pbtp(index));
             SaveSetting();
         }
 
@@ -269,9 +269,9 @@ namespace RealCity
             SaveSetting();
         }
 
-        public void is_help_company(bool index)
+        public void is_smart_pbtp(bool index)
         {
-            comm_data.is_help_company = index;
+            comm_data.is_smart_pbtp = index;
             SaveSetting();
         }
 
@@ -445,57 +445,19 @@ namespace RealCity
                         try_say_something(language.TipAndChirperMessage[10]);
                         tip1_message_forgui = language.TipAndChirperMessage[11];
                     }
-                }
 
-                if (pc_PrivateBuildingAI.all_comm_building_loss_final + pc_PrivateBuildingAI.all_comm_building_profit_final > 0)
-                {
-                    if (pc_PrivateBuildingAI.all_comm_building_profit_final >= pc_PrivateBuildingAI.all_comm_building_loss_final)
-                    {
-                        try_say_something(language.TipAndChirperMessage[12]);
-                        tip2_message_forgui = language.TipAndChirperMessage[13];
-                    }
-                    else
-                    {
-                        try_say_something(language.TipAndChirperMessage[14]);
-                        try_say_something(language.TipAndChirperMessage[15]);
-                        tip2_message_forgui = language.TipAndChirperMessage[16];
-                    }
-                }
-                else
-                {
-                    tip2_message_forgui = "";
-                }
 
-                int profit_building_num = 0;
-                int loss_building_num = 0;
-                profit_building_num += pc_PrivateBuildingAI.all_farmer_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_foresty_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_oil_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_ore_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_industry_building_profit_final;
-
-                loss_building_num += pc_PrivateBuildingAI.all_farmer_building_loss_final;
-                loss_building_num += pc_PrivateBuildingAI.all_foresty_building_loss_final;
-                loss_building_num += pc_PrivateBuildingAI.all_oil_building_loss_final;
-                loss_building_num += pc_PrivateBuildingAI.all_ore_building_loss_final;
-                loss_building_num += pc_PrivateBuildingAI.all_industry_building_loss_final;
-
-                if (profit_building_num + loss_building_num > 0)
-                {
-                    if (profit_building_num >= loss_building_num)
+                    int tip2_data = (int)comm_data.citizen_salary_per_family - (int)comm_data.citizen_expense_per_family - (int)(comm_data.citizen_salary_tax_total / comm_data.family_count);
+                    int tip2_data_1 = 0;
+                    if (tip2_data < 20)
                     {
-                        try_say_something(language.TipAndChirperMessage[17]);
-                        tip2_message_forgui += language.TipAndChirperMessage[18];
-                    }
-                    else
+                        tip2_data_1 = 10* comm_data.family_count / (16 * 100);
+                    } else
                     {
-                        try_say_something(language.TipAndChirperMessage[19]);
-                        tip2_message_forgui += language.TipAndChirperMessage[20];
+                        tip2_data_1 = tip2_data * comm_data.family_count / (16 * 100 * 2);
                     }
-                }
-                else
-                {
-                    tip2_message_forgui += "";
+
+                    tip2_message_forgui = language.TipAndChirperMessage[13] + tip2_data_1.ToString() + " " + language.TipAndChirperMessage[16];
                 }
 
                 if (!pc_OutsideConnectionAI.have_maintain_road_building || (comm_data.road_connection))
@@ -565,7 +527,7 @@ namespace RealCity
                 }
 
 
-                if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count/10) < 500)
+                if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count/10) < 150)
                 {
                     //try_say_something(language.TipAndChirperMessage[41]);
                     tip10_message_forgui = "";

@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 800f;
 
-        private static readonly float HEIGHT = 1050f;
+        private static readonly float HEIGHT = 950f;
 
         private static readonly float HEADER = 40f;
 
@@ -197,7 +197,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 900), (float)(Loader.parentGuiView.fixedHeight / 2 - 450));
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 900), (float)(Loader.parentGuiView.fixedHeight / 2 - 400));
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -672,7 +672,7 @@ namespace RealCity
             this.m_outside_firestation = base.AddUIComponent<UILabel>();
             this.m_outside_firestation.text = string.Format("outside fire [00000]");
             this.m_outside_firestation.tooltip = language.EconomicUI[114];
-            this.m_outside_firestation.relativePosition = new Vector3(this.m_outside_road.relativePosition.x + this.m_outside_road.width + SPACING + 80f, this.m_outside_road.relativePosition.y);
+            this.m_outside_firestation.relativePosition = new Vector3(this.m_outside_road.relativePosition.x + this.m_outside_road.width + SPACING + 140f, this.m_outside_road.relativePosition.y);
             this.m_outside_firestation.autoSize = true;
             this.m_outside_firestation.name = "Moreeconomic_Text_48";
 
@@ -686,7 +686,7 @@ namespace RealCity
             this.m_ambulance = base.AddUIComponent<UILabel>();
             this.m_ambulance.text = string.Format("outside ambulance [00000]");
             this.m_ambulance.tooltip = language.EconomicUI[118];
-            this.m_ambulance.relativePosition = new Vector3(this.m_hospital.relativePosition.x + this.m_hospital.width + SPACING + 20f, this.m_hospital.relativePosition.y);
+            this.m_ambulance.relativePosition = new Vector3(this.m_hospital.relativePosition.x + this.m_hospital.width + SPACING + 40f, this.m_hospital.relativePosition.y);
             this.m_ambulance.autoSize = true;
             this.m_ambulance.name = "Moreeconomic_Text_48";
 
