@@ -462,7 +462,7 @@ namespace RealCity
                             {
                                 if (aliveworkcount1 != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.5f / aliveworkcount1);
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / aliveworkcount1);
                                     num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount1);
                                 }
                                 comm_data.building_money[work_building] -= num1;
@@ -473,11 +473,11 @@ namespace RealCity
                             totalworkcount1 = 0;
                             behaviour1 = default(Citizen.BehaviourData);
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
-                            if (comm_data.building_money[work_building] > 6000)
+                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                             {
                                 if (aliveworkcount1 != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.5f / aliveworkcount1);
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.9f / aliveworkcount1);
                                     num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount1);
                                 }
                                 comm_data.building_money[work_building] -= num1;
@@ -488,7 +488,7 @@ namespace RealCity
                             totalworkcount1 = 0;
                             behaviour1 = default(Citizen.BehaviourData);
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
-                            if (comm_data.building_money[work_building] > 0)
+                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                             {
                                 if (aliveworkcount1 != 0)
                                 {
@@ -1532,7 +1532,33 @@ namespace RealCity
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
             BuildingManager expr_18 = Singleton<BuildingManager>.instance;
             Building building = expr_18.m_buildings.m_buffer[(int)data.m_building];
-            ushort num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+            ushort num = 0;
+            if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 0)
+            {
+                num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+            }
+
+            if (num == 0)
+            {
+                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 1)
+                {
+                    num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLeisure, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                }
+            }
+
+            if (num == 0)
+            {
+                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) < 5)
+                {
+                    num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLow, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                }
+            }
+
+            if (num == 0)
+            {
+                num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialHigh, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+            }
+
             if ((num == 0) || (Singleton<SimulationManager>.instance.m_randomizer.Int32(20) < 10))
             {
                 int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
@@ -1544,7 +1570,31 @@ namespace RealCity
                         if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding != 0)
                         {
                             ushort num1;
-                            num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+
+                            if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 0)
+                            {
+                                num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                            }
+
+                            if (num1 == 0)
+                            {
+                                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 1)
+                                {
+                                    num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLeisure, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                                }
+                            }
+
+                            if (num1 == 0)
+                            {
+                                num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialHigh, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                            }
+
+                            if ((num1 == 0) || (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 1))
+                            {
+                                num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLow, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                            }
+
+
                             if (num1 != 0)
                             {
                                 num = (ushort)num1;
@@ -2230,7 +2280,15 @@ namespace RealCity
                 {
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-                    ushort num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted| Building.Flags.Abandoned);
+                    ushort num = 0;
+
+                    num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialHigh, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+
+
+                    if ((num1 == 0) || (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 1))
+                    {
+                        num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLow, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                    }
                     if (homeBuilding != 0 && num != 0)
                     {
                         BuildingInfo info = instance2.m_buildings.m_buffer[(int)num].Info;
