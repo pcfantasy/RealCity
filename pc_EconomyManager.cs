@@ -1998,9 +1998,19 @@ namespace RealCity
             {
                 //113 means tourist tourism income // 114 means resident tourism income
                 //taxRate = 100;
+
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddTourismIncome(amount, service, subService, level, taxRate);
                 amount = amount * comm_data.game_income_expense_multiple;
+
+                /*if (taxRate == 113)
+                {
+                    ItemClass m_class = default(ItemClass);
+                    m_class.m_service = ItemClass.Service.Beautification;
+                    m_class.m_subService = ItemClass.SubService.None;
+                    m_class.m_level = ItemClass.Level.Level1;
+                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.TourismIncome, amount, m_class);
+                }*/
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -2079,6 +2089,22 @@ namespace RealCity
             }
             //DebugLog.LogToFileOnly("cashamout = " + _cashAmount.ToString());
             return amount;
+        }
+
+
+        public int AddResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
+        {
+            if (resource == EconomyManager.Resource.TourismIncome)
+            {
+                if (itemClass.m_service == ItemClass.Service.Beautification)
+                {
+                    return Singleton<EconomyManager>.instance.AddResource(resource, 0, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, itemClass.m_level, DistrictPolicies.Taxation.None);
+                } else
+                {
+                    return Singleton<EconomyManager>.instance.AddResource(resource, 0, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
+                }
+            }
+            return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
         }
 
         private static int ClassIndex(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)

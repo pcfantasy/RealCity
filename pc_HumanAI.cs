@@ -160,7 +160,6 @@ namespace RealCity
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
-                int size = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width * instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Length;
                 int tourism_fee = rand.Next(4000);
                 if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
@@ -174,6 +173,7 @@ namespace RealCity
                         tourism_fee = tourism_fee * 2;
                     }
                     tourism_fee = (int)(tourism_fee * comm_data.outside_consumption_rate);
+                    comm_data.building_money[citizenData.m_targetBuilding] += tourism_fee /100f;
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
                 }
                 else
@@ -190,6 +190,7 @@ namespace RealCity
                     if (tourism_fee != 0)
                     {
                         comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - tourism_fee);
+                        comm_data.building_money[citizenData.m_targetBuilding] += tourism_fee / 100f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }
                 }

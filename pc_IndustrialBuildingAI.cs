@@ -115,7 +115,7 @@ namespace RealCity
         }
 
 
-        public static TransferManager.TransferReason GetIncomingTransferReason(Building data, ushort buildingID)
+        /*public static TransferManager.TransferReason GetIncomingTransferReason(Building data, ushort buildingID)
         {
             switch (data.Info.m_class.m_subService)
             {
@@ -130,28 +130,22 @@ namespace RealCity
                 default:
                     {
                         Randomizer randomizer = new Randomizer(buildingID);
-                        switch (randomizer.Int32(10u))
+                        switch (randomizer.Int32(4u))
                         {
                             case 0:
-                            case 1:
-                            case 2:
                                 return TransferManager.TransferReason.Lumber;
-                            case 3:
+                            case 1:
                                 return TransferManager.TransferReason.Food;
-                            case 4:
-                            case 5:
-                            case 6:
+                            case 2:
                                 return TransferManager.TransferReason.Petrol;
-                            case 7:
-                            case 8:
-                            case 9:
+                            case 3:
                                 return TransferManager.TransferReason.Coal;
                             default:
                                 return TransferManager.TransferReason.None;
                         }
                     }
             }
-        }
+        }*/
 
         /*public static int GetConsumptionDivider(Building data)
         {
@@ -271,7 +265,7 @@ namespace RealCity
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == GetIncomingTransferReason(data ,buildingID) || pc_PrivateBuildingAI.is_general_industry(buildingID, data , material))
+            if (material == GetIncomingTransferReason(buildingID) || pc_PrivateBuildingAI.is_general_industry(buildingID, data , material))
             {
                 int width = data.Width;
                 int length = data.Length;
@@ -395,7 +389,7 @@ namespace RealCity
             {
                 tax_benefit = 0.5f;
             }
-            return tax_benefit;
+            return 1f;
         }
 
 
@@ -409,7 +403,7 @@ namespace RealCity
                     float trade_income = (float)amountDelta * (pc_PrivateBuildingAI.lumber_export_price + (1f - pc_PrivateBuildingAI.lumber_export_ratio) * 0.1f *comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.1f * tax_benefit;
+                        trade_tax = -trade_income * 0.15f * tax_benefit;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
@@ -419,7 +413,7 @@ namespace RealCity
                     trade_income = (float)amountDelta * (pc_PrivateBuildingAI.food_export_price + (1f - pc_PrivateBuildingAI.food_export_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.1f * tax_benefit;
+                        trade_tax = -trade_income * 0.15f * tax_benefit;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
@@ -429,7 +423,7 @@ namespace RealCity
                     trade_income = (float)amountDelta * (pc_PrivateBuildingAI.petrol_export_price + (1f - pc_PrivateBuildingAI.petrol_export_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.1f * tax_benefit;
+                        trade_tax = -trade_income * 0.15f * tax_benefit;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
@@ -439,7 +433,7 @@ namespace RealCity
                     trade_income = (float)amountDelta * (pc_PrivateBuildingAI.coal_export_price + (1f - pc_PrivateBuildingAI.coal_export_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
                     if ((comm_data.building_money[buildingID] - trade_income)> 0)
                     {
-                        trade_tax = -trade_income * 0.1f * tax_benefit;
+                        trade_tax = -trade_income * 0.15f * tax_benefit;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
                     }
                     comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));

@@ -10,9 +10,9 @@ namespace RealCity
     {
         public static readonly string cacheName = "RealCityUI";
 
-        private static readonly float WIDTH = 850f;
+        private static readonly float WIDTH = 950f;
 
-        private static readonly float HEIGHT = 750f;
+        private static readonly float HEIGHT = 950f;
 
         private static readonly float HEADER = 40f;
 
@@ -100,6 +100,25 @@ namespace RealCity
         private UILabel all_total_income_ui;
 
 
+        //7、task
+        private UILabel task_ui;
+
+        private UILabel infinity_garbage;
+        private UILabel infinity_dead;
+        private UILabel crasy_transport;
+        private UILabel happy_holiday;
+
+        public static UICheckBox infinity_garbage_Checkbox;
+        public static UICheckBox infinity_dead_Checkbox;
+        public static UICheckBox crasy_transport_Checkbox;
+        public static UICheckBox happy_holiday_Checkbox;
+
+
+        private UILabel task_num;
+        private UILabel task_time;
+        private UILabel cd_num;
+
+
         //used for display
         //citizen tax income
         public static double citizen_tax_income_total;
@@ -171,6 +190,11 @@ namespace RealCity
         //all total income
         public static double all_total_income;
 
+
+
+
+
+
         private static bool isRefreshing = false;
 
         private bool CoDisplayRefreshEnabled;
@@ -195,7 +219,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 50), (float)(Loader.parentGuiView.fixedHeight / 2 - 350));
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 50), (float)(Loader.parentGuiView.fixedHeight / 2 - 450));
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -609,6 +633,192 @@ namespace RealCity
             this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.firestation_income_title.relativePosition.y + SPACING22 + 20f);
             this.all_total_income_ui.autoSize = true;
             this.all_total_income_ui.name = "Moreeconomic_Text_45";
+
+
+            this.task_ui = base.AddUIComponent<UILabel>();
+            this.task_ui.text = language.RealCityUI[99];
+            this.task_ui.tooltip = language.RealCityUI[99];
+            this.task_ui.relativePosition = new Vector3(SPACING, this.all_total_income_ui.relativePosition.y + SPACING22 + 20f);
+            this.task_ui.autoSize = true;
+            this.task_ui.name = "Moreeconomic_Text_46";
+
+
+            infinity_garbage_Checkbox = base.AddUIComponent<UICheckBox>();
+            infinity_garbage_Checkbox.relativePosition = new Vector3(SPACING, this.task_ui.relativePosition.y + 30f);
+            this.infinity_garbage = base.AddUIComponent<UILabel>();
+            this.infinity_garbage.relativePosition = new Vector3(infinity_garbage_Checkbox.relativePosition.x + infinity_garbage_Checkbox.width + SPACING * 2f, infinity_garbage_Checkbox.relativePosition.y + 5f);
+            this.infinity_garbage.tooltip = language.RealCityUI[100];
+            infinity_garbage_Checkbox.height = 16f;
+            infinity_garbage_Checkbox.width = 16f;
+            infinity_garbage_Checkbox.label = this.infinity_garbage;
+            infinity_garbage_Checkbox.text = language.RealCityUI[100];
+            UISprite uISprite = infinity_garbage_Checkbox.AddUIComponent<UISprite>();
+            uISprite.height = 20f;
+            uISprite.width = 20f;
+            uISprite.relativePosition = new Vector3(0f, 0f);
+            uISprite.spriteName = "check-unchecked";
+            uISprite.isVisible = true;
+            UISprite uISprite2 = infinity_garbage_Checkbox.AddUIComponent<UISprite>();
+            uISprite2.height = 20f;
+            uISprite2.width = 20f;
+            uISprite2.relativePosition = new Vector3(0f, 0f);
+            uISprite2.spriteName = "check-checked";
+            infinity_garbage_Checkbox.checkedBoxObject = uISprite2;
+            infinity_garbage_Checkbox.isChecked = comm_data.garbage_task;
+            infinity_garbage_Checkbox.isEnabled = true;
+            infinity_garbage_Checkbox.isVisible = true;
+            infinity_garbage_Checkbox.canFocus = true;
+            infinity_garbage_Checkbox.isInteractive = true;
+            infinity_garbage_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
+            };
+
+
+            infinity_dead_Checkbox = base.AddUIComponent<UICheckBox>();
+            infinity_dead_Checkbox.relativePosition = new Vector3(SPACING, infinity_garbage_Checkbox.relativePosition.y + 30f);
+            this.infinity_dead = base.AddUIComponent<UILabel>();
+            this.infinity_dead.relativePosition = new Vector3(infinity_dead_Checkbox.relativePosition.x + infinity_dead_Checkbox.width + SPACING * 2f, infinity_dead_Checkbox.relativePosition.y + 5f);
+            this.infinity_dead.tooltip = language.RealCityUI[101];
+            infinity_dead_Checkbox.height = 16f;
+            infinity_dead_Checkbox.width = 16f;
+            infinity_dead_Checkbox.label = this.infinity_dead;
+            infinity_dead_Checkbox.text = language.RealCityUI[101];
+            UISprite uISprite3 = infinity_dead_Checkbox.AddUIComponent<UISprite>();
+            uISprite3.height = 20f;
+            uISprite3.width = 20f;
+            uISprite3.relativePosition = new Vector3(0f, 0f);
+            uISprite3.spriteName = "check-unchecked";
+            uISprite3.isVisible = true;
+            UISprite uISprite4 = infinity_dead_Checkbox.AddUIComponent<UISprite>();
+            uISprite4.height = 20f;
+            uISprite4.width = 20f;
+            uISprite4.relativePosition = new Vector3(0f, 0f);
+            uISprite4.spriteName = "check-checked";
+            infinity_dead_Checkbox.checkedBoxObject = uISprite4;
+            infinity_dead_Checkbox.isChecked = false;
+            infinity_dead_Checkbox.isEnabled = false;
+            infinity_dead_Checkbox.isVisible = true;
+            infinity_dead_Checkbox.canFocus = true;
+            infinity_dead_Checkbox.isInteractive = true;
+            /*infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
+            };*/
+
+
+            crasy_transport_Checkbox = base.AddUIComponent<UICheckBox>();
+            crasy_transport_Checkbox.relativePosition = new Vector3(SPACING, infinity_dead_Checkbox.relativePosition.y + 30f);
+            this.crasy_transport = base.AddUIComponent<UILabel>();
+            this.crasy_transport.relativePosition = new Vector3(crasy_transport_Checkbox.relativePosition.x + crasy_transport_Checkbox.width + SPACING * 2f, crasy_transport_Checkbox.relativePosition.y + 5f);
+            this.crasy_transport.tooltip = language.RealCityUI[102];
+            crasy_transport_Checkbox.height = 16f;
+            crasy_transport_Checkbox.width = 16f;
+            crasy_transport_Checkbox.label = this.crasy_transport;
+            crasy_transport_Checkbox.text = language.RealCityUI[102];
+            UISprite uISprite5 = crasy_transport_Checkbox.AddUIComponent<UISprite>();
+            uISprite5.height = 20f;
+            uISprite5.width = 20f;
+            uISprite5.relativePosition = new Vector3(0f, 0f);
+            uISprite5.spriteName = "check-unchecked";
+            uISprite5.isVisible = true;
+            UISprite uISprite6 = infinity_dead_Checkbox.AddUIComponent<UISprite>();
+            uISprite6.height = 20f;
+            uISprite6.width = 20f;
+            uISprite6.relativePosition = new Vector3(0f, 0f);
+            uISprite6.spriteName = "check-checked";
+            crasy_transport_Checkbox.checkedBoxObject = uISprite6;
+            crasy_transport_Checkbox.isChecked = false;
+            crasy_transport_Checkbox.isEnabled = false;
+            crasy_transport_Checkbox.isVisible = true;
+            crasy_transport_Checkbox.canFocus = true;
+            crasy_transport_Checkbox.isInteractive = true;
+            /*infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
+            };*/
+
+
+            happy_holiday_Checkbox = base.AddUIComponent<UICheckBox>();
+            happy_holiday_Checkbox.relativePosition = new Vector3(SPACING, crasy_transport_Checkbox.relativePosition.y + 30f);
+            this.happy_holiday = base.AddUIComponent<UILabel>();
+            this.happy_holiday.relativePosition = new Vector3(happy_holiday_Checkbox.relativePosition.x + happy_holiday_Checkbox.width + SPACING * 2f, happy_holiday_Checkbox.relativePosition.y + 5f);
+            this.happy_holiday.tooltip = language.RealCityUI[103];
+            happy_holiday_Checkbox.height = 16f;
+            happy_holiday_Checkbox.width = 16f;
+            happy_holiday_Checkbox.label = this.happy_holiday;
+            happy_holiday_Checkbox.text = language.RealCityUI[103];
+            UISprite uISprite7 = happy_holiday_Checkbox.AddUIComponent<UISprite>();
+            uISprite7.height = 20f;
+            uISprite7.width = 20f;
+            uISprite7.relativePosition = new Vector3(0f, 0f);
+            uISprite7.spriteName = "check-unchecked";
+            uISprite7.isVisible = true;
+            UISprite uISprite8 = happy_holiday_Checkbox.AddUIComponent<UISprite>();
+            uISprite8.height = 20f;
+            uISprite8.width = 20f;
+            uISprite8.relativePosition = new Vector3(0f, 0f);
+            uISprite8.spriteName = "check-checked";
+            happy_holiday_Checkbox.checkedBoxObject = uISprite8;
+            happy_holiday_Checkbox.isChecked = false;
+            happy_holiday_Checkbox.isEnabled = false;
+            happy_holiday_Checkbox.isVisible = true;
+            happy_holiday_Checkbox.canFocus = true;
+            happy_holiday_Checkbox.isInteractive = true;
+            /*infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
+            };*/
+
+
+
+
+            this.task_time = base.AddUIComponent<UILabel>();
+            this.task_time.text = "remaining_time: [0000]";
+            this.task_time.tooltip = language.RealCityUI[105];
+            this.task_time.relativePosition = new Vector3(SPACING, happy_holiday_Checkbox.relativePosition.y + SPACING22 + 20f);
+            this.task_time.autoSize = true;
+            this.task_time.name = "Moreeconomic_Text_47";
+
+
+            this.task_num = base.AddUIComponent<UILabel>();
+            this.task_num.text = "remaining_num: [0000]";
+            this.task_num.tooltip = language.RealCityUI[107];
+            this.task_num.relativePosition = new Vector3(this.task_time.relativePosition.x + this.task_time.width + SPACING + 60f, this.task_time.relativePosition.y);
+            this.task_num.autoSize = true;
+            this.task_num.name = "Moreeconomic_Text_48";
+
+            this.cd_num = base.AddUIComponent<UILabel>();
+            this.cd_num.text = "cooldown_time: [0000]";
+            this.cd_num.tooltip = language.RealCityUI[109];
+            this.cd_num.relativePosition = new Vector3(this.task_num.relativePosition.x + this.task_num.width + SPACING + 60f, this.task_num.relativePosition.y);
+            this.cd_num.autoSize = true;
+            this.cd_num.name = "Moreeconomic_Text_49";
+        }
+
+
+
+
+        public static void infinity_garbage_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                if (comm_data.cd_num < 0)
+                {
+                    if (comm_data.family_count > 1500)
+                    {
+                        comm_data.garbage_task = true;
+                        comm_data.task_num = 300;
+                        comm_data.task_time = 1000;
+                    }
+                }
+            }
+            else
+            {
+                comm_data.garbage_task = false;
+                comm_data.task_num = 0;
+                comm_data.task_time = 0;
+            }
         }
 
 
@@ -691,6 +901,16 @@ namespace RealCity
             this.school_income_title.text = string.Format(language.RealCityUI[93] + " [{0}]", school_income_forui);
             this.firestation_income_title.text = string.Format(language.RealCityUI[95] + " [{0}]", firestation_income_forui);
             this.all_total_income_ui.text = string.Format(language.RealCityUI[97] + " [{0}]", all_total_income);
+
+
+            infinity_garbage_Checkbox.text = language.RealCityUI[100];
+            infinity_dead_Checkbox.text = language.RealCityUI[101];
+            crasy_transport_Checkbox.text = language.RealCityUI[102];
+            happy_holiday_Checkbox.text = language.RealCityUI[103];
+
+            this.task_time.text = string.Format(language.RealCityUI[104] + " [{0}]", comm_data.task_time);
+            this.task_num.text = string.Format(language.RealCityUI[106] + " [{0}]", comm_data.task_num);
+            this.cd_num.text = string.Format(language.RealCityUI[108] + " [{0}]", comm_data.cd_num);
 
 
 

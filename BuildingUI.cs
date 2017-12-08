@@ -150,7 +150,7 @@ namespace RealCity
                 Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
                 int aliveWorkerCount = 0;
                 int totalWorkerCount = 0;
-                int num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
+                float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
                 int num1 = process_land_fee(buildingdata, comm_data.last_buildingid);
                 int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);         
                 this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
@@ -169,12 +169,12 @@ namespace RealCity
                     }
                     else
                     {
-                        this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
+                        this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", num);
                     }
                 }
                 else
                 {
-                    this.employfee.text = string.Format(language.BuildingUI[8] + " [{0}]", num);
+                    this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", num);
                 }
                 this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1/100f);
                 this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
@@ -184,9 +184,9 @@ namespace RealCity
 
         }
 
-        public int caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
+        public float caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
         {
-            int num1 = 0;
+            float num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
             aliveWorkerCount = 0;
             totalWorkerCount = 0;
@@ -231,7 +231,8 @@ namespace RealCity
 
             if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                num1 = (num1 * (int)((float)building.Width * (float)building.Length / 16f));
+                num1 = (float)(num1 * (float)((float)building.m_width * (float)building.m_length / 16f));
+                //DebugLog.LogToFileOnly("num1 = " + num1.ToString() + " " + building.m_width.ToString() + " " + building.m_length.ToString());
             }
 
             if (building.Info.m_buildingAI is IndustrialExtractorAI)
@@ -239,7 +240,7 @@ namespace RealCity
                 //num1 = num1 * 2;
             } else
             {
-                num1 = num1 / 2;
+                num1 = num1 / 2f;
             }
 
             float local_salary_idex = 0.5f;
@@ -258,11 +259,11 @@ namespace RealCity
             {
                 if (comm_data.building_money[buildingID] < 0)
                 {
-                    num1 =  (int)((float)num1 * final_salary_idex / 48f);
+                    num1 =  (float)((float)num1 * final_salary_idex / 48f);
                 }
                 else
                 {
-                    num1 = (int)((float)num1 * final_salary_idex / 16f);
+                    num1 = (float)((float)num1 * final_salary_idex / 16f);
                 }
             }
             return num1;

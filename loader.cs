@@ -16,6 +16,8 @@ namespace RealCity
 
         public static UIPanel buildingInfo;
 
+        public static UIPanel playerbuildingInfo;
+
         public static UIPanel HumanInfo;
 
         public static MoreeconomicUI guiPanel;
@@ -26,7 +28,11 @@ namespace RealCity
 
         public static HumanUI guiPanel3;
 
+        public static PlayerBuildingUI guiPanel4;
+
         public static GameObject buildingWindowGameObject;
+
+        public static GameObject PlayerbuildingWindowGameObject;
 
         public static GameObject HumanWindowGameObject;
 
@@ -90,6 +96,7 @@ namespace RealCity
         public static RedirectCallsState state55;
         public static RedirectCallsState state56;
         public static RedirectCallsState state57;
+        public static RedirectCallsState state58;
 
         public override void OnCreated(ILoading loading)
         {
@@ -165,6 +172,7 @@ namespace RealCity
             //}
             SetupBuidingGui();
             SetupHumanGui();
+            SetupPlayerBuidingGui();
 
             Loader.isGuiRunning = true;
         }
@@ -198,13 +206,31 @@ namespace RealCity
             HumanInfo = UIView.Find<UIPanel>("(Library) CitizenWorldInfoPanel");
             if (HumanInfo == null)
             {
-                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) LivingCreatureWorldInfoPanel\nAvailable panels are:\n");
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) CitizenWorldInfoPanel\nAvailable panels are:\n");
             }
             guiPanel3.transform.parent = HumanInfo.transform;
             guiPanel3.size = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
             guiPanel3.baseBuildingWindow = HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
             guiPanel3.position = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
             HumanInfo.eventVisibilityChanged += HumanInfo_eventVisibilityChanged;
+        }
+
+        public void SetupPlayerBuidingGui()
+        {
+            PlayerbuildingWindowGameObject = new GameObject("PlayerbuildingWindowGameObject");
+            guiPanel4 = (PlayerBuildingUI)PlayerbuildingWindowGameObject.AddComponent(typeof(PlayerBuildingUI));
+
+
+            playerbuildingInfo = UIView.Find<UIPanel>("(Library) CityServiceWorldInfoPanel");
+            if (playerbuildingInfo == null)
+            {
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) CityServiceWorldInfoPanel\nAvailable panels are:\n");
+            }
+            guiPanel4.transform.parent = playerbuildingInfo.transform;
+            guiPanel4.size = new Vector3(playerbuildingInfo.size.x, HumanInfo.size.y);
+            guiPanel4.baseBuildingWindow = playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
+            guiPanel4.position = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
+            playerbuildingInfo.eventVisibilityChanged += playerbuildingInfo_eventVisibilityChanged;
         }
 
         public void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
@@ -228,6 +254,27 @@ namespace RealCity
             }
         }
 
+
+        public void playerbuildingInfo_eventVisibilityChanged(UIComponent component, bool value)
+        {
+            guiPanel4.isEnabled = value;
+            if (value)
+            {
+                Loader.guiPanel4.transform.parent = Loader.playerbuildingInfo.transform;
+                Loader.guiPanel4.size = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
+                Loader.guiPanel4.baseBuildingWindow = Loader.playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
+                Loader.guiPanel4.position = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
+                //DebugLog.LogToFileOnly("select building found!!!!!:\n");
+                //comm_data.current_buildingid = 0;
+                PlayerBuildingUI.refesh_once = true;
+                guiPanel4.Show();
+            }
+            else
+            {
+                //comm_data.current_buildingid = 0;
+                guiPanel4.Hide();
+            }
+        }
 
         public void HumanInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
@@ -281,6 +328,20 @@ namespace RealCity
             if (HumanWindowGameObject != null)
             {
                 UnityEngine.Object.Destroy(HumanWindowGameObject);
+            }
+
+
+            //remove PlayerbuildingUI
+            if (guiPanel4 != null)
+            {
+                if (guiPanel4.parent != null)
+                {
+                    guiPanel4.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
+                }
+            }
+            if (PlayerbuildingWindowGameObject != null)
+            {
+                UnityEngine.Object.Destroy(PlayerbuildingWindowGameObject);
             }
         }
 
@@ -524,6 +585,10 @@ namespace RealCity
             var srcMethod57 = typeof(EconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null);
             var destMethod57 = typeof(pc_EconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null);
             state57 = RedirectionHelper.RedirectCalls(srcMethod57, destMethod57);
+
+            var srcMethod58 = typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
+            var destMethod58 = typeof(pc_EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
+            state58 = RedirectionHelper.RedirectCalls(srcMethod58, destMethod58);
         }
 
         public void revert_detour()
@@ -588,6 +653,7 @@ namespace RealCity
             var srcMethod55 = typeof(TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
             var srcMethod56 = typeof(PrivateBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             var srcMethod57 = typeof(EconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null);
+            var srcMethod58 = typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -646,6 +712,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod55, state55);
             RedirectionHelper.RevertRedirect(srcMethod56, state56);
             RedirectionHelper.RevertRedirect(srcMethod57, state57);
+            RedirectionHelper.RevertRedirect(srcMethod58, state58);
         }
     }
 }

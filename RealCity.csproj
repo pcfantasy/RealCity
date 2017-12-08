@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayerBuildingUI.cs" />
     <Compile Include="HumanUI.cs" />
     <Compile Include="BuildingUI.cs" />
     <Compile Include="language.cs" />

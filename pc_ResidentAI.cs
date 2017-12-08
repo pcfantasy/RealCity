@@ -894,6 +894,7 @@ namespace RealCity
                     else if (budget != 0)
                     {
                         num = (int)(num * budget / 100f);
+                        comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * budget / 10000f;
                     }
                     else
                     {
@@ -902,7 +903,7 @@ namespace RealCity
 
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial)
                     {
-                        num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Length) / 16f));
+                        num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_length) / 16f));
                     }
 
                     if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office))
@@ -1238,9 +1239,8 @@ namespace RealCity
 
 
             ItemClass.Level home_level = Singleton<BuildingManager>.instance.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building].Info.m_class.m_level;
-            if ((comm_data.citizen_money[homeID] >= 10000) && (comm_data.citizen_profit_status[homeID] >= 230))
+            if ((comm_data.citizen_money[homeID] >= 20000) && (comm_data.citizen_profit_status[homeID] >= 230))
             {
-                family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
                 if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3))
                 {
                     if (rand.Next(100) < 10)
@@ -1254,7 +1254,7 @@ namespace RealCity
                 //change wealth to high
                 //try move family here (1、2、3 level house to 4-5 level house)
             }
-            else if ((comm_data.citizen_money[homeID] <= 0) && (comm_data.citizen_profit_status[homeID] <= 25))
+            else if ((comm_data.citizen_money[homeID] <= 5000) && (comm_data.citizen_profit_status[homeID] <= 25))
             {
                 if ((home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
@@ -1305,7 +1305,7 @@ namespace RealCity
                 family_weight_stable_high = (ushort)(family_weight_stable_high + 1);
             }
 
-
+            //DebugLog.LogToFileOnly("comm_data.citizen_profit_status[" + homeID.ToString() +"] = " + comm_data.citizen_profit_status[homeID].ToString() + "money = " + comm_data.citizen_money[homeID].ToString());
             //set other non-exist citizen status to 0
             uint i;
             if (precitizenid < homeID)
@@ -1313,10 +1313,10 @@ namespace RealCity
                 for (i = (precitizenid + 1); i < homeID; i++)
                 {
                     comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
-                    if (comm_data.citizen_profit_status[i] != 128)
+                    if (comm_data.citizen_profit_status[i] != 30)
                     {
                         //comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200 ;
-                        comm_data.citizen_profit_status[i] = 128;
+                        comm_data.citizen_profit_status[i] = 30;
                     }
                 }
             } else
@@ -1324,19 +1324,19 @@ namespace RealCity
                 for (i = (precitizenid + 1); i < 524288; i++)
                 {
                     comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
-                    if (comm_data.citizen_profit_status[i] != 128)
+                    if (comm_data.citizen_profit_status[i] != 30)
                     {
                         //comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
-                        comm_data.citizen_profit_status[i] = 128;
+                        comm_data.citizen_profit_status[i] = 30;
                     }
                 }
 
                 for (i = 0; i < homeID; i++)
                 {
                     comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
-                    if (comm_data.citizen_profit_status[i] != 128)
+                    if (comm_data.citizen_profit_status[i] != 30)
                     {
-                        comm_data.citizen_profit_status[i] = 128;
+                        comm_data.citizen_profit_status[i] = 30;
                     }
                 }
             }
@@ -1447,7 +1447,7 @@ namespace RealCity
             {
                 if (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 0)
                 {
-                    if ((comm_data.citizen_money[homeID] > 50000) && (comm_data.citizen_profit_status[homeID] >= 230))
+                    if ((comm_data.citizen_money[homeID] > 20000) && (comm_data.citizen_profit_status[homeID] >= 230))
                     {
                         Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single3, offer);
                     }
@@ -1466,7 +1466,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if ((comm_data.citizen_money[homeID] > 50000) && (comm_data.citizen_profit_status[homeID] >= 230))
+                    if ((comm_data.citizen_money[homeID] > 20000) && (comm_data.citizen_profit_status[homeID] >= 230))
                     {
                         Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Single3B, offer);
                     }

@@ -27,7 +27,8 @@ namespace RealCity
             "Accept Outside Police Help(will not go outside for Police Patrol Demand)",
         };
 
-        public static string[] BuildingUI_English = { "Building Money(unit:fen)",
+        public static string[] BuildingUI_English = {
+            "Building Money(unit:fen)",
             "Only show industry and commerical building money",
             "buildingincomebuffer",
             "Only show industry and commerical buildingincomebuffer",
@@ -43,7 +44,8 @@ namespace RealCity
             "net_asset",
             "Resident Money",
             "Only show resident money",
-            "profit-sharing"
+            "profit-sharing",
+            "Accumulating Money(unit:yuan)",
         };
 
         public static string[] EconomicUI_English =
@@ -350,7 +352,18 @@ namespace RealCity
             "firestation",
             "firestation",
             "7、City all total income",
-            "City income data（unit:yuan）"
+            "City income data(unit:yuan)",
+            "Spercial Task(once at a time)",
+            "infinity garbage,receive 300 garbagecars in 1000time, will get 40K(cd time 1000,available when family>1500)",
+            "infinity dead,receive 300 hearsecars in 1000time,will get 60K(cd time 1500,available when family>2000 NSPYET!)",
+            "crasy traffic,Many feedthrough traffic, stand it for 3000time, get 100K(cd time 2000,available when family>3000,NSPYET!)",
+            "happy holiday,A lot of visitors come in, will spend 20K(cd time 3000,available when family>4000 and in weekend,NSPYET!)",
+            "remaining_time",
+            "task remaining_time",
+            "remaining_num",
+            "task remaining_num",
+            "cooldown time",
+            "task cooldown time"
         };
 
 
@@ -372,7 +385,8 @@ namespace RealCity
             "公司净资产",
             "居民存款",
             "居民存款",
-            "分红制"};
+            "分红制",
+            "累积赚或亏的钱(单位:元)"};
 
     public static string[] OptionUI_Chinese =
         {
@@ -697,7 +711,18 @@ namespace RealCity
             "消防局",
             "消防局",
             "7、城市总收入",
-            "城市收入数据（单位:元）"
+            "城市收入情况(单位:元)",
+            "特殊任务",
+            "垃圾围城,1000时间接受300卡车垃圾,可获得4万元(冷却时间1000,1500家庭有效)",
+            "死尸围城,1000时间接受300灵车垃圾,可获得8万元(冷却时间1500,2000家庭有效,暂不支持)",
+            "疯狂运输,一堆过境车辆,坚持3000时间可以获得10万元(冷却时间2000,3000家庭有效,暂不支持)",
+            "快乐假期,花费2W会得到一堆游客进城,持续3000时间(冷却时间2000,4000家庭且是节假日有效,暂不支持)",
+            "剩余时间",
+            "任务剩余时间",
+            "剩余数目",
+            "任务剩余数目",
+            "冷却时间",
+            "任务冷却时间"
         };
 
 
