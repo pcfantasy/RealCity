@@ -77,8 +77,21 @@ namespace RealCity
                 //info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
                 if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
                 {
-                    comm_data.building_money[data.m_targetBuilding] += num * 6000f / 100f;
-                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 6000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    if (!comm_data.dead_task)
+                    {
+                        if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
+                        {
+                            comm_data.building_money[data.m_targetBuilding] += num * 6000f / 100f;
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 6000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        }
+                    }
+                    else
+                    {
+                        if ((data.m_flags & Vehicle.Flags.Importing) == (Vehicle.Flags)0)
+                        {
+                            comm_data.task_num--;
+                        }
+                    }
                 }
             }
         }

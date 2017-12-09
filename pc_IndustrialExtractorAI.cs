@@ -78,7 +78,7 @@ namespace RealCity
             switch (material)
             {
                 case TransferManager.TransferReason.Grain:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.grain_export_price + (1f - pc_PrivateBuildingAI.grain_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.grain_export_price + (1f - pc_PrivateBuildingAI.grain_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / pc_PrivateBuildingAI.food_index);
                     if ((comm_data.building_money[buildingID] - trade_income) > 0)
                     {
                         trade_tax = -trade_income * 0.35f;
@@ -86,7 +86,7 @@ namespace RealCity
                     }
                     break;
                 case TransferManager.TransferReason.Logs:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.log_export_price + (1f - pc_PrivateBuildingAI.log_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.log_export_price + (1f - pc_PrivateBuildingAI.log_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / pc_PrivateBuildingAI.lumber_index);
                     if ((comm_data.building_money[buildingID] - trade_income) > 0)
                     {
                         trade_tax = -trade_income * 0.85f;
@@ -95,7 +95,7 @@ namespace RealCity
                     }
                     break;
                 case TransferManager.TransferReason.Oil:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.oil_export_price + (1f - pc_PrivateBuildingAI.oil_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.oil_export_price + (1f - pc_PrivateBuildingAI.oil_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / pc_PrivateBuildingAI.petrol_index);
                     if ((comm_data.building_money[buildingID] - trade_income) > 0)
                     {
                         trade_tax = -trade_income * 0.9f;
@@ -103,7 +103,7 @@ namespace RealCity
                     }
                     break;
                 case TransferManager.TransferReason.Ore:
-                    trade_income = amountDelta * (pc_PrivateBuildingAI.ore_export_price + (1f - pc_PrivateBuildingAI.ore_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
+                    trade_income = amountDelta * (pc_PrivateBuildingAI.ore_export_price + (1f - pc_PrivateBuildingAI.ore_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / pc_PrivateBuildingAI.coal_index);
                     if ((comm_data.building_money[buildingID] - trade_income) > 0)
                     {
                         trade_tax = -trade_income * 0.90f;

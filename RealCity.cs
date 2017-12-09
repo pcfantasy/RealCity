@@ -420,19 +420,42 @@ namespace RealCity
                 else if (comm_data.cd_num > 0)
                 {
                     comm_data.garbage_task = false;
+                    comm_data.dead_task = false;
+                    comm_data.crasy_task = false;
+                    comm_data.happy_task = false;
                 }
 
                 if (comm_data.task_time > 0)
                 {
                     if (comm_data.task_num <= 0)
                     {
+                        comm_data.task_time = 0;
+                        comm_data.task_num = 0;
                         if (comm_data.garbage_task)
                         {
                             comm_data.garbage_task = false;                            
-                            comm_data.task_time = 0;
-                            comm_data.task_num = 0;
-                            comm_data.cd_num = 1000;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome(4000000, ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            comm_data.cd_num = 2000;
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(9000000, ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        }
+
+                        if (comm_data.dead_task)
+                        {
+                            comm_data.dead_task = false;
+                            comm_data.cd_num = 2500;
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(3000000, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        }
+
+                        if (comm_data.crasy_task)
+                        {
+                            comm_data.crasy_task = false;
+                            comm_data.cd_num = 3000;
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(6000000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        }
+
+                        if (comm_data.happy_task)
+                        {
+                            comm_data.happy_task = false;
+                            comm_data.cd_num = 3000;
                         }
                     }
                 }
@@ -442,8 +465,26 @@ namespace RealCity
                     comm_data.task_num = 0;
                     if (comm_data.garbage_task)
                     {
-                        comm_data.cd_num = 1000;
+                        comm_data.cd_num = 2000;
                         comm_data.garbage_task = false;
+                    }
+
+                    if (comm_data.dead_task)
+                    {
+                        comm_data.cd_num = 2500;
+                        comm_data.dead_task = false;
+                    }
+
+                    if (comm_data.crasy_task)
+                    {
+                        comm_data.cd_num = 3000;
+                        comm_data.crasy_task = false;
+                    }
+
+                    if (comm_data.happy_task)
+                    {
+                        comm_data.cd_num = 3000;
+                        comm_data.happy_task = false;
                     }
                 }
 
@@ -451,6 +492,21 @@ namespace RealCity
                 if(!comm_data.garbage_task)
                 {
                     RealCityUI.infinity_garbage_Checkbox.isChecked = comm_data.garbage_task;
+                }
+
+                if (!comm_data.dead_task)
+                {
+                    RealCityUI.infinity_dead_Checkbox.isChecked = comm_data.dead_task;
+                }
+
+                if (!comm_data.crasy_task)
+                {
+                    RealCityUI.crasy_transport_Checkbox.isChecked = comm_data.crasy_task;
+                }
+
+                if (!comm_data.happy_task)
+                {
+                    RealCityUI.happy_holiday_Checkbox.isChecked = comm_data.happy_task;
                 }
             }
 
@@ -1117,6 +1173,7 @@ namespace RealCity
                 VehicleManager instance = Singleton<VehicleManager>.instance;
                 for (int i = 0; i < 16384; i = i + 1)
                 {
+                    System.Random rand = new System.Random();
                     Vehicle vehicle = instance.m_vehicles.m_buffer[i];
                     if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
                     {
@@ -1129,6 +1186,36 @@ namespace RealCity
                             else
                             {
                                 comm_data.vehical_transfer_time[i] = 0;
+                            }
+
+                            if (vehicle.Info.m_vehicleAI is GarbageTruckAI)
+                            {
+                                Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                //DebugLog.LogToFileOnly("try give GarbageTruckAI Pollution");
+                            }
+
+                            if (vehicle.Info.m_vehicleAI is CargoTruckAI)
+                            {
+                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Oil)
+                                {
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                }
+
+                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Ore)
+                                {
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                }
+
+                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Petrol)
+                                {
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                }
+
+                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Coal)
+                                {
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                }
+                                //DebugLog.LogToFileOnly("try give GarbageTruckAI Pollution");
                             }
                         }
                     }

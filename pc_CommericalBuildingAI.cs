@@ -101,6 +101,8 @@ namespace RealCity
                             amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                             process_incoming(buildingID, ref data, material, ref amountDelta);
                             data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                            //sync with org game.
+                            comm_data.building_buffer2[buildingID] = (ushort)(customBuffer + amountDelta);
                         }
                         else
                         {
@@ -150,11 +152,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f* pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.6f * ((1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f* pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.1f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.1f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.2f - 0.4f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.2f - 0.4f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                     default:
                         trade_income = 0; break;
                 }
@@ -164,11 +166,11 @@ namespace RealCity
                 switch (data.Info.m_class.m_level)
                 {
                     case ItemClass.Level.Level1:
-                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.3f - 0.3f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.3f - 0.3f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                     case ItemClass.Level.Level2:
-                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.4f - 0.2f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.4f - 0.2f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                     case ItemClass.Level.Level3:
-                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.5f - 0.1f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4; break;
+                        trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.5f - 0.1f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                     default:
                         trade_income = 0; break;
                 }
@@ -177,11 +179,11 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialEco:
-                    trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / (float)comm_data.ConsumptionDivider; break;
+                    trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / (float)comm_data.ConsumptionDivider; break;
+                    trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                 case ItemClass.SubService.CommercialTourist:
-                    trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - 0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / (float)comm_data.ConsumptionDivider; break;
+                    trade_income = amountDelta * (float)(pc_PrivateBuildingAI.good_import_price - (0.3f - 0.5f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / 4; break;
                 default:
                     break;
             }

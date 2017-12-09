@@ -52,25 +52,25 @@ namespace RealCity
         public const float goods_idex= 4f;
 
 
-        public const float good_export_price = 1.6f;
-        public const float petrol_export_price = 0.175f * comm_data.ConsumptionDivider;    //org 0.5 *comm_data.ConsumptionDivider /2.86f
-        public const float coal_export_price = 0.15f * comm_data.ConsumptionDivider;  // org 0.5 *comm_data.ConsumptionDivider /3.3f
-        public const float lumber_export_price = 0.125f * comm_data.ConsumptionDivider; // org 0.5 *comm_data.ConsumptionDivider /4f
-        public const float food_export_price = 0.1f * comm_data.ConsumptionDivider; // org 0.5 *comm_data.ConsumptionDivider /5f
-        public const float ore_export_price = 0.075f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /3.3f
-        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4f
-        public const float oil_export_price = 0.0875f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.86f
-        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public const float good_export_price = 1.6f * comm_data.Commerical_price;
+        public const float petrol_export_price = 0.175f * comm_data.ConsumptionDivider * comm_data.Commerical_price;    //org 0.5 *comm_data.ConsumptionDivider /2.86f
+        public const float coal_export_price = 0.15f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // org 0.5 *comm_data.ConsumptionDivider /3.3f
+        public const float lumber_export_price = 0.125f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /4f
+        public const float food_export_price = 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /5f
+        public const float ore_export_price = 0.075f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /3.3f
+        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4f
+        public const float oil_export_price = 0.0875f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.86f
+        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
 
-        public const float good_import_price = 2.7f;
-        public const float petrol_import_price = 0.315f * comm_data.ConsumptionDivider;  // 0.9
-        public const float coal_import_price = 0.27f * comm_data.ConsumptionDivider; //0.9
-        public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider; //0.9
-        public const float food_import_price = 0.18f * comm_data.ConsumptionDivider; //0.9
-        public const float ore_import_price = 0.12f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider;  //0.4
-        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider; //0.4
-        public const float oil_import_price = 0.14f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
-        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider; //0.4
+        public const float good_import_price = 2.7f * comm_data.Commerical_price;
+        public const float petrol_import_price = 0.315f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // 0.9
+        public const float coal_import_price = 0.27f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
+        public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
+        public const float food_import_price = 0.18f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
+        public const float ore_import_price = 0.12f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;  //0.4
+        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
+        public const float oil_import_price = 0.14f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
          
         public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
@@ -517,11 +517,22 @@ namespace RealCity
 
             process_building_data_final(buildingID, ref buildingData);
             limit_commericalbuilding_access(buildingID, ref buildingData);
-            //process_addition_product(buildingID, ref buildingData);
+            process_addition_product(buildingID, ref buildingData);
 
         }
 
-
+        public void process_addition_product(ushort buildingID, ref Building buildingData)
+        {
+            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+            {
+                int delta_custom_buffer1 = comm_data.building_buffer2[buildingID] - buildingData.m_customBuffer1;
+                if (delta_custom_buffer1 > 0)
+                {
+                    buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + delta_custom_buffer1 - (int)(delta_custom_buffer1 / comm_data.Commerical_price));
+                }
+                comm_data.building_buffer2[buildingID] = buildingData.m_customBuffer1;
+            }
+        }
 
 
         public void limit_commericalbuilding_access(ushort buildingID, ref Building buildingData)

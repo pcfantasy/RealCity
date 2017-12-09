@@ -9,6 +9,23 @@ namespace RealCity
         public bool ArriveAtDestination_1 (ushort vehicleID, ref Vehicle vehicleData)
         {
             get_vehicle_running_timing(vehicleID, ref vehicleData);
+
+            BuildingManager instance = Singleton<BuildingManager>.instance;
+            Building building = instance.m_buildings.m_buffer[(int)vehicleData.m_sourceBuilding];
+            Building building1 = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding];
+            BuildingInfo info = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding].Info;
+
+            if (comm_data.crasy_task)
+            {
+                if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
+                {
+                    if (building1.m_flags.IsFlagSet(Building.Flags.Untouchable))
+                    {
+                        comm_data.task_num--;
+                    }
+                }
+            }
+
             var inst = Singleton<PassengerCarAI>.instance;
             var Method = typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance , null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType()}, null);
             //if(Method == null)

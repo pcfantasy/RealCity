@@ -133,6 +133,16 @@ namespace RealCity
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyTrain;
                 }
                 m_dummyTrafficFactor = rand.Next(800) + 200;
+
+                if (comm_data.crasy_task)
+                {
+                    if (data.Info.m_class.m_service == ItemClass.Service.Road)
+                    {
+                        m_dummyTrafficFactor = m_dummyTrafficFactor * 3;
+                    }
+                }
+
+
                 if (comm_data.outside_road_num_final != 0)
                 {
                     m_cargoCapacity = (int)((1f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 65000f)) * 40);
@@ -201,6 +211,14 @@ namespace RealCity
                     m_touristFactor2 = 0;
                 }
 
+
+                if (comm_data.happy_task)
+                {
+                    m_touristFactor0 = (int)(m_touristFactor0 * 1.5f);
+                    m_touristFactor1 = (int)(m_touristFactor1 * 1.5f);
+                    m_touristFactor2 = (int)(m_touristFactor2 * 1.5f);
+                }
+
                 if (data.Info.m_class.m_service == ItemClass.Service.PublicTransport)
                 {
                     if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportPlane)
@@ -223,6 +241,8 @@ namespace RealCity
                         m_cargoCapacity = 50;
                     }
                 }
+
+
 
                 OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
                 caculate_outside_situation(buildingID, ref data);
@@ -406,6 +426,10 @@ namespace RealCity
                     if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
                     {
                         data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(11)/10);
+                        if (comm_data.dead_task)
+                        {
+                            data.m_garbageBuffer = 20;
+                        }
                     }
                     else if (RealCity.update_once && (data.m_customBuffer1 != 0))
                     {
@@ -560,21 +584,24 @@ namespace RealCity
                         int num27 = 0;
                         int num28 = 0;
                         this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
-                        if (num25 < 30)
+                        if (num25 < 40)
                         {
-                            if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 12000)
+                            if (instance1.m_randomizer.Int32(10) > 6)
                             {
-                                offer = default(TransferManager.TransferOffer);
-                                offer.Priority = 1 + data.m_garbageBuffer / 5000;
-                                if (offer.Priority > 7)
+                                if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 12000)
                                 {
-                                    offer.Priority = 7;
+                                    offer = default(TransferManager.TransferOffer);
+                                    offer.Priority = 1 + data.m_garbageBuffer / 5000;
+                                    if (offer.Priority > 7)
+                                    {
+                                        offer.Priority = 7;
+                                    }
+                                    offer.Building = buildingID;
+                                    offer.Position = data.m_position;
+                                    offer.Amount = 1;
+                                    offer.Active = true;
+                                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
                                 }
-                                offer.Building = buildingID;
-                                offer.Position = data.m_position;
-                                offer.Amount = 1;
-                                offer.Active = true;
-                                Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
                             }
                         }
                     }
@@ -613,17 +640,28 @@ namespace RealCity
                 {
                     if (data.m_customBuffer1 > 10)
                     {
-                        offer = default(TransferManager.TransferOffer);
-                        offer.Priority = 1 + data.m_customBuffer1 / 5;
-                        if (offer.Priority > 7)
+                        int num25 = 0;
+                        int num26 = 0;
+                        int num27 = 0;
+                        int num28 = 0;
+                        this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
+                        if (num25 < 40)
                         {
-                            offer.Priority = 7;
+                            if (instance1.m_randomizer.Int32(10) > 6)
+                            {
+                                offer = default(TransferManager.TransferOffer);
+                                offer.Priority = 1 + data.m_customBuffer1 / 5;
+                                if (offer.Priority > 7)
+                                {
+                                    offer.Priority = 7;
+                                }
+                                offer.Building = buildingID;
+                                offer.Position = data.m_position;
+                                offer.Amount = 1;
+                                offer.Active = true;
+                                Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
+                            }
                         }
-                        offer.Building = buildingID;
-                        offer.Position = data.m_position;
-                        offer.Amount = 1;
-                        offer.Active = true;
-                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
                     }
                 }
             }
@@ -882,6 +920,10 @@ namespace RealCity
                         {
                             vehicles2.m_buffer[num2].m_flags &= (~Vehicle.Flags.Importing);
                         }
+                        else
+                        {
+                            vehicles2.m_buffer[num2].m_flags |= (Vehicle.Flags.Importing);
+                        }
                     }
                 }
             }
@@ -897,6 +939,14 @@ namespace RealCity
                         //DebugLog.LogToFileOnly("try transfer deadmove to city, itemclass = " + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_subService.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_level.ToString());
                         randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[(int)num2], buildingID);
                         randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[(int)num2], material, offer);
+                        if (comm_data.dead_task)
+                        {
+                            vehicles2.m_buffer[num2].m_flags &= (~Vehicle.Flags.Importing);
+                        }
+                        else
+                        {
+                            vehicles2.m_buffer[num2].m_flags |= (Vehicle.Flags.Importing);
+                        }
                     }
                 }
             }

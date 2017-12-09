@@ -8,8 +8,12 @@
         public const byte game_maintain_fee_decrease2 = 1;
         public const byte game_maintain_fee_decrease3 = 1;
 
-        public const float ConsumptionDivider = 8f;
-        public const float ConsumptionDivider1 = 5f;
+
+        //org 1,8,40
+        //new 2.5 15 45.
+        public const float ConsumptionDivider = 6f;
+        public const float ConsumptionDivider1 = 3f;
+        public const float Commerical_price = 2.5f;
 
 
         public static bool try_unlock_farmer = true;
@@ -471,8 +475,12 @@
         public static int task_time = 0;
         public static int task_num = 0;
         public static int cd_num = 1000;
+
+        public static bool dead_task = false;
+        public static bool crasy_task = false;
+        public static bool happy_task = false;
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49029];
+        public static ushort[] reserved = new ushort[49026];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -634,6 +642,10 @@
             saveandrestore.save_int(ref i, task_time, ref save_data);
             saveandrestore.save_int(ref i, cd_num, ref save_data);
 
+            saveandrestore.save_bool(ref i, dead_task, ref save_data);
+            saveandrestore.save_bool(ref i, crasy_task, ref save_data);
+            saveandrestore.save_bool(ref i, happy_task, ref save_data);
+
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
@@ -753,6 +765,10 @@
             task_num = saveandrestore.load_int(ref i, load_data);
             task_time = saveandrestore.load_int(ref i, load_data);
             cd_num = saveandrestore.load_int(ref i, load_data);
+
+            dead_task = saveandrestore.load_bool(ref i, load_data);
+            crasy_task = saveandrestore.load_bool(ref i, load_data);
+            happy_task = saveandrestore.load_bool(ref i, load_data);
 
             reserved = saveandrestore.load_ushorts(ref i, load_data ,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);

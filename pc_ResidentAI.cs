@@ -1533,31 +1533,9 @@ namespace RealCity
             BuildingManager expr_18 = Singleton<BuildingManager>.instance;
             Building building = expr_18.m_buildings.m_buffer[(int)data.m_building];
             ushort num = 0;
-            if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 0)
-            {
-                num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-            }
-
-            if (num == 0)
-            {
-                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 1)
-                {
-                    num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLeisure, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-                }
-            }
-
-            if (num == 0)
-            {
-                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) < 5)
-                {
-                    num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLow, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-                }
-            }
-
-            if (num == 0)
-            {
-                num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialHigh, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-            }
+            
+            num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+            
 
             if ((num == 0) || (Singleton<SimulationManager>.instance.m_randomizer.Int32(20) < 10))
             {
@@ -1569,30 +1547,10 @@ namespace RealCity
                     {
                         if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding != 0)
                         {
-                            ushort num1;
+                            ushort num1 = 0;
 
-                            if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 0)
-                            {
-                                num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-                            }
-
-                            if (num1 == 0)
-                            {
-                                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(10u) == 1)
-                                {
-                                    num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLeisure, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-                                }
-                            }
-
-                            if (num1 == 0)
-                            {
-                                num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialHigh, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-                            }
-
-                            if ((num1 == 0) || (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 1))
-                            {
-                                num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLow, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-                            }
+                            
+                            num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
 
 
                             if (num1 != 0)
@@ -1674,7 +1632,15 @@ namespace RealCity
                                     //for rush hour
                                     if (info.m_class.m_service == ItemClass.Service.Commercial)
                                     {
-                                        if ((maxDistance == 2000f) || (maxDistance == 500f))
+                                        if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist) && (instance2.m_randomizer.Int32(10) > 8))
+                                        {
+
+                                        }
+                                        else if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) && (instance2.m_randomizer.Int32(10) > 7))
+                                        {
+
+                                        }
+                                        else if ((maxDistance == 2000f) || (maxDistance == 500f))
                                         {
                                             if (instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 300)
                                             {
@@ -2282,13 +2248,7 @@ namespace RealCity
                     ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                     ushort num = 0;
 
-                    num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialHigh, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-
-
-                    if ((num1 == 0) || (Singleton<SimulationManager>.instance.m_randomizer.Int32(2u) == 1))
-                    {
-                        num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.CommercialLow, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-                    }
+                    num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
                     if (homeBuilding != 0 && num != 0)
                     {
                         BuildingInfo info = instance2.m_buildings.m_buffer[(int)num].Info;

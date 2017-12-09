@@ -696,15 +696,15 @@ namespace RealCity
             uISprite4.relativePosition = new Vector3(0f, 0f);
             uISprite4.spriteName = "check-checked";
             infinity_dead_Checkbox.checkedBoxObject = uISprite4;
-            infinity_dead_Checkbox.isChecked = false;
-            infinity_dead_Checkbox.isEnabled = false;
+            infinity_dead_Checkbox.isChecked = comm_data.dead_task;
+            infinity_dead_Checkbox.isEnabled = true;
             infinity_dead_Checkbox.isVisible = true;
             infinity_dead_Checkbox.canFocus = true;
             infinity_dead_Checkbox.isInteractive = true;
-            /*infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
             {
-                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
-            };*/
+                infinity_dead_Checkbox_OnCheckChanged(component, eventParam);
+            };
 
 
             crasy_transport_Checkbox = base.AddUIComponent<UICheckBox>();
@@ -722,21 +722,21 @@ namespace RealCity
             uISprite5.relativePosition = new Vector3(0f, 0f);
             uISprite5.spriteName = "check-unchecked";
             uISprite5.isVisible = true;
-            UISprite uISprite6 = infinity_dead_Checkbox.AddUIComponent<UISprite>();
+            UISprite uISprite6 = crasy_transport_Checkbox.AddUIComponent<UISprite>();
             uISprite6.height = 20f;
             uISprite6.width = 20f;
             uISprite6.relativePosition = new Vector3(0f, 0f);
             uISprite6.spriteName = "check-checked";
             crasy_transport_Checkbox.checkedBoxObject = uISprite6;
-            crasy_transport_Checkbox.isChecked = false;
-            crasy_transport_Checkbox.isEnabled = false;
+            crasy_transport_Checkbox.isChecked = comm_data.crasy_task;
+            crasy_transport_Checkbox.isEnabled = true;
             crasy_transport_Checkbox.isVisible = true;
             crasy_transport_Checkbox.canFocus = true;
             crasy_transport_Checkbox.isInteractive = true;
-            /*infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            crasy_transport_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
             {
-                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
-            };*/
+                crasy_transport_Checkbox_OnCheckChanged(component, eventParam);
+            };
 
 
             happy_holiday_Checkbox = base.AddUIComponent<UICheckBox>();
@@ -760,15 +760,15 @@ namespace RealCity
             uISprite8.relativePosition = new Vector3(0f, 0f);
             uISprite8.spriteName = "check-checked";
             happy_holiday_Checkbox.checkedBoxObject = uISprite8;
-            happy_holiday_Checkbox.isChecked = false;
-            happy_holiday_Checkbox.isEnabled = false;
+            happy_holiday_Checkbox.isChecked = comm_data.happy_task;
+            happy_holiday_Checkbox.isEnabled = true;
             happy_holiday_Checkbox.isVisible = true;
             happy_holiday_Checkbox.canFocus = true;
             happy_holiday_Checkbox.isInteractive = true;
-            /*infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            happy_holiday_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
             {
-                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
-            };*/
+                happy_holiday_Checkbox_OnCheckChanged(component, eventParam);
+            };
 
 
 
@@ -805,7 +805,7 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 1500)
+                    if (comm_data.family_count > 1000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.garbage_task = true;
                         comm_data.task_num = 300;
@@ -816,10 +816,94 @@ namespace RealCity
             else
             {
                 comm_data.garbage_task = false;
-                comm_data.task_num = 0;
-                comm_data.task_time = 0;
+                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
+                {
+                    comm_data.task_num = 0;
+                    comm_data.task_time = 0;
+                }
             }
         }
+
+
+        public static void infinity_dead_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                if (comm_data.cd_num < 0)
+                {
+                    if (comm_data.family_count > 1500 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    {
+                        comm_data.dead_task = true;
+                        comm_data.task_num = 500;
+                        comm_data.task_time = 1000;
+                    }
+                }
+            }
+            else
+            {
+                comm_data.dead_task = false;
+                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task ||comm_data.garbage_task))
+                {
+                    comm_data.task_num = 0;
+                    comm_data.task_time = 0;
+                } 
+            }
+        }
+
+
+        public static void crasy_transport_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                if (comm_data.cd_num < 0)
+                {
+                    if (comm_data.family_count > 2000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    {
+                        comm_data.crasy_task = true;
+                        comm_data.task_num = 10000;
+                        comm_data.task_time = 3000;
+                    }
+                }
+            }
+            else
+            {
+                comm_data.crasy_task = false;
+                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
+                {
+                    comm_data.task_num = 0;
+                    comm_data.task_time = 0;
+                }
+            }
+        }
+
+        public static void happy_holiday_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                if (comm_data.cd_num < 0)
+                {
+                    if (comm_data.family_count > 4000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    {
+                        comm_data.happy_task = true;
+                        comm_data.task_num = 1;
+                        comm_data.task_time = 3000;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 5000000, ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
+                    }
+                }
+            }
+            else
+            {
+                comm_data.happy_task = false;
+                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
+                {
+                    comm_data.task_num = 0;
+                    comm_data.task_time = 0;
+                }
+            }
+        }
+
+
+
 
 
         private IEnumerator RefreshDisplayDataWrapper()
@@ -902,6 +986,7 @@ namespace RealCity
             this.firestation_income_title.text = string.Format(language.RealCityUI[95] + " [{0}]", firestation_income_forui);
             this.all_total_income_ui.text = string.Format(language.RealCityUI[97] + " [{0}]", all_total_income);
 
+            this.task_ui.text = language.RealCityUI[99];
 
             infinity_garbage_Checkbox.text = language.RealCityUI[100];
             infinity_dead_Checkbox.text = language.RealCityUI[101];
