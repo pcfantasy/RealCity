@@ -231,7 +231,7 @@ namespace RealCity
 
             if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                num1 = (float)(num1 * (float)((float)building.m_width * (float)building.m_length / 16f));
+                num1 = (float)(num1 * (float)((float)building.m_width * (float)building.m_length / 9f));
                 //DebugLog.LogToFileOnly("num1 = " + num1.ToString() + " " + building.m_width.ToString() + " " + building.m_length.ToString());
             }
 

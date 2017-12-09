@@ -10,10 +10,10 @@
 
 
         //org 1,8,40
-        //new 2.5 15 45.
+        //new 3 18 45.
         public const float ConsumptionDivider = 6f;
-        public const float ConsumptionDivider1 = 3f;
-        public const float Commerical_price = 2.5f;
+        public const float ConsumptionDivider1 = 2.5f;
+        public const float Commerical_price = 3f;
 
 
         public static bool try_unlock_farmer = true;
@@ -479,8 +479,10 @@
         public static bool dead_task = false;
         public static bool crasy_task = false;
         public static bool happy_task = false;
+
+        public static bool is_weekend = false;
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49026];
+        public static ushort[] reserved = new ushort[49025];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -646,6 +648,8 @@
             saveandrestore.save_bool(ref i, crasy_task, ref save_data);
             saveandrestore.save_bool(ref i, happy_task, ref save_data);
 
+            saveandrestore.save_bool(ref i, is_weekend, ref save_data);
+
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
@@ -769,6 +773,7 @@
             dead_task = saveandrestore.load_bool(ref i, load_data);
             crasy_task = saveandrestore.load_bool(ref i, load_data);
             happy_task = saveandrestore.load_bool(ref i, load_data);
+            is_weekend = saveandrestore.load_bool(ref i, load_data);
 
             reserved = saveandrestore.load_ushorts(ref i, load_data ,reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);

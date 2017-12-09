@@ -12,7 +12,7 @@ namespace RealCity
 
         private static readonly float WIDTH = 950f;
 
-        private static readonly float HEIGHT = 950f;
+        private static readonly float HEIGHT = 1000f;
 
         private static readonly float HEADER = 40f;
 
@@ -107,12 +107,13 @@ namespace RealCity
         private UILabel infinity_dead;
         private UILabel crasy_transport;
         private UILabel happy_holiday;
+        private UILabel is_weekend;
 
         public static UICheckBox infinity_garbage_Checkbox;
         public static UICheckBox infinity_dead_Checkbox;
         public static UICheckBox crasy_transport_Checkbox;
         public static UICheckBox happy_holiday_Checkbox;
-
+        public static UICheckBox is_weekend_Checkbox;
 
         private UILabel task_num;
         private UILabel task_time;
@@ -219,7 +220,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 50), (float)(Loader.parentGuiView.fixedHeight / 2 - 450));
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 50), (float)(Loader.parentGuiView.fixedHeight / 2 - 500));
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -770,13 +771,42 @@ namespace RealCity
                 happy_holiday_Checkbox_OnCheckChanged(component, eventParam);
             };
 
-
+            is_weekend_Checkbox = base.AddUIComponent<UICheckBox>();
+            is_weekend_Checkbox.relativePosition = new Vector3(SPACING, happy_holiday_Checkbox.relativePosition.y + 30f);
+            this.is_weekend = base.AddUIComponent<UILabel>();
+            this.is_weekend.relativePosition = new Vector3(is_weekend_Checkbox.relativePosition.x + is_weekend_Checkbox.width + SPACING * 2f, is_weekend_Checkbox.relativePosition.y + 5f);
+            this.is_weekend.tooltip = language.RealCityUI[110];
+            is_weekend_Checkbox.height = 16f;
+            is_weekend_Checkbox.width = 16f;
+            is_weekend_Checkbox.label = this.is_weekend;
+            is_weekend_Checkbox.text = language.RealCityUI[110];
+            UISprite uISprite9 = is_weekend_Checkbox.AddUIComponent<UISprite>();
+            uISprite9.height = 20f;
+            uISprite9.width = 20f;
+            uISprite9.relativePosition = new Vector3(0f, 0f);
+            uISprite9.spriteName = "check-unchecked";
+            uISprite9.isVisible = true;
+            UISprite uISprite10 = is_weekend_Checkbox.AddUIComponent<UISprite>();
+            uISprite10.height = 20f;
+            uISprite10.width = 20f;
+            uISprite10.relativePosition = new Vector3(0f, 0f);
+            uISprite10.spriteName = "check-checked";
+            is_weekend_Checkbox.checkedBoxObject = uISprite10;
+            is_weekend_Checkbox.isChecked = comm_data.is_weekend;
+            is_weekend_Checkbox.isEnabled = true;
+            is_weekend_Checkbox.isVisible = true;
+            is_weekend_Checkbox.canFocus = true;
+            is_weekend_Checkbox.isInteractive = true;
+            is_weekend_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                is_weekend_Checkbox_OnCheckChanged(component, eventParam);
+            };
 
 
             this.task_time = base.AddUIComponent<UILabel>();
             this.task_time.text = "remaining_time: [0000]";
             this.task_time.tooltip = language.RealCityUI[105];
-            this.task_time.relativePosition = new Vector3(SPACING, happy_holiday_Checkbox.relativePosition.y + SPACING22 + 20f);
+            this.task_time.relativePosition = new Vector3(SPACING, is_weekend_Checkbox.relativePosition.y + SPACING22 + 20f);
             this.task_time.autoSize = true;
             this.task_time.name = "Moreeconomic_Text_47";
 
@@ -834,7 +864,7 @@ namespace RealCity
                     if (comm_data.family_count > 1500 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.dead_task = true;
-                        comm_data.task_num = 500;
+                        comm_data.task_num = 300;
                         comm_data.task_time = 1000;
                     }
                 }
@@ -860,8 +890,8 @@ namespace RealCity
                     if (comm_data.family_count > 2000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.crasy_task = true;
-                        comm_data.task_num = 10000;
-                        comm_data.task_time = 3000;
+                        comm_data.task_num = 5000;
+                        comm_data.task_time = 2000;
                     }
                 }
             }
@@ -899,6 +929,18 @@ namespace RealCity
                     comm_data.task_num = 0;
                     comm_data.task_time = 0;
                 }
+            }
+        }
+
+        public static void is_weekend_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                comm_data.is_weekend = true;
+            }
+            else
+            {
+                comm_data.is_weekend = false;
             }
         }
 
@@ -992,6 +1034,7 @@ namespace RealCity
             infinity_dead_Checkbox.text = language.RealCityUI[101];
             crasy_transport_Checkbox.text = language.RealCityUI[102];
             happy_holiday_Checkbox.text = language.RealCityUI[103];
+            is_weekend_Checkbox.text = language.RealCityUI[110];
 
             this.task_time.text = string.Format(language.RealCityUI[104] + " [{0}]", comm_data.task_time);
             this.task_num.text = string.Format(language.RealCityUI[106] + " [{0}]", comm_data.task_num);

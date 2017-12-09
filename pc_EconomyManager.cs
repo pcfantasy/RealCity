@@ -2169,7 +2169,7 @@ namespace RealCity
             int budget = Singleton<EconomyManager>.instance.GetBudget(itemClass.m_service, itemClass.m_subService, Singleton<SimulationManager>.instance.m_isNightTime);
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
             float currentDayTimeHour = instance2.m_currentDayTimeHour;
-            if (comm_data.is_smart_pbtp)
+            if (comm_data.is_smart_pbtp && (!comm_data.is_weekend))
             {
                 if (currentDayTimeHour > 23f || currentDayTimeHour < 5f)
                 {

@@ -545,7 +545,7 @@ namespace RealCity
                 int maxcount = 0;
                 GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
                 GetVisitNum(buildingID, ref buildingData, ref maxcount);
-                if ( maxcount * 5 < totalvisitCount + 2)
+                if ( maxcount * 5 < totalvisitCount + 1)
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
@@ -1220,7 +1220,7 @@ namespace RealCity
             //money < 0, salary/1.5f   money > 1000 salary * 1.33f
             if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                num1 = (float)(num1 * (float)((float)building.m_width * (float)building.m_length / 16f));
+                num1 = (float)(num1 * (float)((float)building.m_width * (float)building.m_length / 9f));
             }
 
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))

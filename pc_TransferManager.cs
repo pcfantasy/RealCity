@@ -93,7 +93,7 @@ namespace RealCity
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
-                    if (((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) && comm_data.citizen_money[homeid] >= 500f)
+                    if (((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) && comm_data.citizen_money[homeid] >= 3000f)
                     {
                         if (citizenInfo != null)
                         {

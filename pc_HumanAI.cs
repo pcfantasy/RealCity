@@ -108,19 +108,19 @@ namespace RealCity
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.3f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.2f * comm_data.citizen_money[homeid]) : 0;
                         num = (int)(num * idex);
-                        if (num > 0.35f * comm_data.citizen_money[homeid])
+                        if (num > 0.25f * comm_data.citizen_money[homeid])
                         {
-                            num = (int)(0.35f * comm_data.citizen_money[homeid]);
+                            num = (int)(0.25f * comm_data.citizen_money[homeid]);
                         }
                     } else
                     {
-                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.15f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
                         num = (int)(num * idex);
-                        if (num > 0.2f * comm_data.citizen_money[homeid])
+                        if (num > 0.15f * comm_data.citizen_money[homeid])
                         {
-                            num = (int)(0.2f * comm_data.citizen_money[homeid]);
+                            num = (int)(0.15f * comm_data.citizen_money[homeid]);
                         }
                     }
                 }
@@ -171,12 +171,12 @@ namespace RealCity
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
                 int budget = Singleton<EconomyManager>.instance.GetBudget(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_class);
-                int result = (int)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_buildingAI.GetMaintenanceCost() / 2.5f);
+                int result = (int)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_buildingAI.GetMaintenanceCost() / 5f);
                 result = (int)(result *(float)(budget * (float)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].m_productionRate / 1000f)));
 
-                if(result > 4000)
+                if(result > 2000)
                 {
-                   result = 4000 + (int)((result-4000)/100f);
+                   result = 2000 + (int)((result-2000)/100f);
                 }
 
                 int tourism_fee = rand.Next(result);
@@ -200,7 +200,7 @@ namespace RealCity
                 {
                     //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
                     int temp = (comm_data.citizen_money[homeid]> 1f) ? (int)(comm_data.citizen_money[homeid]) : 1;
-                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.3f * comm_data.citizen_money[homeid]) : (int)(0.15f * comm_data.citizen_money[homeid]);
+                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.2f * comm_data.citizen_money[homeid]) : (int)(0.1f * comm_data.citizen_money[homeid]);
 
                     if (tourism_fee < 0)
                     {

@@ -442,14 +442,14 @@ namespace RealCity
                         {
                             comm_data.dead_task = false;
                             comm_data.cd_num = 2500;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome(3000000, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(5000000, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
 
                         if (comm_data.crasy_task)
                         {
                             comm_data.crasy_task = false;
                             comm_data.cd_num = 3000;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome(6000000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(7000000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
 
                         if (comm_data.happy_task)
@@ -638,8 +638,8 @@ namespace RealCity
                 }
                 else if (comm_data.family_count != 0)
                 {
-                    try_say_something(language.TipAndChirperMessage[45]);
-                    tip10_message_forgui = language.TipAndChirperMessage[46];
+                    try_say_something(language.TipAndChirperMessage[46]);
+                    tip10_message_forgui = language.TipAndChirperMessage[47];
                 }
 
                 tip9_message_forgui = language.TipAndChirperMessage[45];
@@ -1190,7 +1190,7 @@ namespace RealCity
 
                             if (vehicle.Info.m_vehicleAI is GarbageTruckAI)
                             {
-                                Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
                                 //DebugLog.LogToFileOnly("try give GarbageTruckAI Pollution");
                             }
 
@@ -1198,22 +1198,22 @@ namespace RealCity
                             {
                                 if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Oil)
                                 {
-                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
                                 }
 
                                 if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Ore)
                                 {
-                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
                                 }
 
                                 if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Petrol)
                                 {
-                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
                                 }
 
                                 if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Coal)
                                 {
-                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(8), rand.Next(8), vehicle.GetLastFramePosition(), 6f);
+                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(10), rand.Next(10), vehicle.GetLastFramePosition(), 6f);
                                 }
                                 //DebugLog.LogToFileOnly("try give GarbageTruckAI Pollution");
                             }

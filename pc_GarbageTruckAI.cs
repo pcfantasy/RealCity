@@ -120,8 +120,8 @@ namespace RealCity
                     {
                         if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                         {
-                            comm_data.building_money[data.m_targetBuilding] += num * 6f / 100f;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 6f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            comm_data.building_money[data.m_targetBuilding] += num * 5f / 100f;
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 5f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     } else
                     {

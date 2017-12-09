@@ -336,7 +336,7 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialForestry:
-                            if (rand.Next(1000) < 5)
+                            if (rand.Next(10000) < 4)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -347,7 +347,7 @@ namespace RealCity
                                 }
                             }
 
-                            if (rand.Next(1000) < 5)
+                            if (rand.Next(10000) < 2)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -379,7 +379,7 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOil:
-                            if (rand.Next(1000) < 15)
+                            if (rand.Next(10000) < 10)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -409,7 +409,7 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOre:
-                            if (rand.Next(1000) < 10)
+                            if (rand.Next(10000) < 6)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -420,7 +420,7 @@ namespace RealCity
                                 }
                             }
 
-                            if (rand.Next(1000) < 10)
+                            if (rand.Next(10000) < 3)
                             {
                                 if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                 {
@@ -886,15 +886,26 @@ namespace RealCity
                     {
                         //num = num;
                     }
+                    else if (budget != 0)
+                    {
+                        num = (int)(num * budget / 100f);
+                        switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service)
+                        {
+                            case ItemClass.Service.HealthCare:
+                            case ItemClass.Service.PoliceDepartment:
+                            case ItemClass.Service.Road:
+                            case ItemClass.Service.Beautification:
+                            case ItemClass.Service.Monument:
+                            case ItemClass.Service.Garbage:
+                            case ItemClass.Service.FireDepartment:
+                                comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * budget / 10000f; break;
+                            default: comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] = 0; break;
+                        }
+                    }
                     else if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
                     {
                         num = (int)((float)num * final_salary_idex / 3f + 0.5f);
                         num = 0;
-                    }
-                    else if (budget != 0)
-                    {
-                        num = (int)(num * budget / 100f);
-                        comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * budget / 10000f;
                     }
                     else
                     {
@@ -903,7 +914,7 @@ namespace RealCity
 
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial)
                     {
-                        num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_length) / 16f));
+                        num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_length) / 9f));
                     }
 
                     if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office))
@@ -1632,11 +1643,11 @@ namespace RealCity
                                     //for rush hour
                                     if (info.m_class.m_service == ItemClass.Service.Commercial)
                                     {
-                                        if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist) && (instance2.m_randomizer.Int32(10) > 8))
+                                        if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist) && (instance2.m_randomizer.Int32(100) < 97))
                                         {
 
                                         }
-                                        else if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) && (instance2.m_randomizer.Int32(10) > 7))
+                                        else if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) && (instance2.m_randomizer.Int32(100) < 95))
                                         {
 
                                         }
@@ -1995,21 +2006,21 @@ namespace RealCity
                 {
                     if ((comm_data.citizen_money[homeid] > 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                     {
-                        temp = temp + 20;
+                        temp = temp + 30;
                         // 10% is provide by citizen  90% is provide by goverment
-                        Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 80, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 100;
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(30, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 120, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 120;
                     }
                     else if ((comm_data.citizen_money[homeid] < 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 100;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 150, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 150;
                     }
                     else
                     {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 100, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 100;
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 150, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
+                        comm_data.city_insurance_account -= 150;
                     }
                 }
             }
@@ -2148,7 +2159,7 @@ namespace RealCity
             int homeBuilding1 = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
             uint containingUnit = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetContainingUnit(citizen, Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)homeBuilding1].m_citizenUnits, CitizenUnit.Flags.Home);
             int temp_money = (comm_data.citizen_money[containingUnit] > 1) ? (int)comm_data.citizen_money[containingUnit] : 1;
-            if (rand.Next(temp_money) < 2000)
+            if (rand.Next(temp_money) < 4000)
             {
                 BuildingManager instance3 = Singleton<BuildingManager>.instance;
                 DistrictManager instance4 = Singleton<DistrictManager>.instance;
@@ -2203,12 +2214,12 @@ namespace RealCity
                 DistrictPolicies.Event @event = instance4.m_districts.m_buffer[(int)district].m_eventPolicies & Singleton<EventManager>.instance.GetEventPolicyMask();
                 DistrictPolicies.Services servicePolicies1 = instance4.m_districts.m_buffer[(int)district1].m_servicePolicies;
                 DistrictPolicies.Event @event1 = instance4.m_districts.m_buffer[(int)district1].m_eventPolicies & Singleton<EventManager>.instance.GetEventPolicyMask();
-                if (rand.Next((int)comm_data.citizen_money[containingUnit]) < 4000)
+                if (rand.Next((int)comm_data.citizen_money[containingUnit]) < 6000)
                 {
                     citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTaxi);
                 }
 
-                if (rand.Next((int)comm_data.citizen_money[containingUnit]) < 3000)
+                if (rand.Next((int)comm_data.citizen_money[containingUnit]) < 5000)
                 {
                     temp_agephase = Citizen.AgePhase.Child; // do not use car
                 }                    //citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTransport);

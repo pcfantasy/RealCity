@@ -355,15 +355,16 @@ namespace RealCity
             "City income data(unit:yuan)",
             "Spercial Task(once at a time)",
             "infinity garbage,receive 300 garbagecars in 1000time, will get 90K(cd time 2000,available when family>1500)",
-            "infinity dead,receive 500 hearsecars in 1000time,will get 30K(cd time 2500,available when family>2000)",
-            "crasy traffic,receive 10K feedthrough traffic in 3000time, get 60K(cd time 3000,available when family>2000)",
+            "infinity dead,receive 300 hearsecars in 1000time,will get 50K(cd time 2500,available when family>2000)",
+            "crasy traffic,receive 5K feedthrough traffic in 2000time, get 70K(cd time 3000,available when family>2000)",
             "happy holiday,1.5x visitors come in, will spend 50K(cd time 3000,available when family>4000)",
             "remaining_time",
             "task remaining_time",
             "remaining_num",
             "task remaining_num",
             "cooldown time",
-            "task cooldown time"
+            "task cooldown time",
+            "If using rush hour, tell me if it is weekend now to disable Smart Public Transport function at weekend"
         };
 
 
@@ -714,15 +715,16 @@ namespace RealCity
             "城市收入情况(单位:元)",
             "特殊任务(1次只接受点击一样)",
             "垃圾围城,1000时间接受300卡车垃圾,可获得9万元(冷却时间2000,1000家庭有效)",
-            "死尸围城,1000时间接受500灵车遗体,可获得3万元(冷却时间2500,1500家庭有效)",
-            "疯狂运输,3000时间接受5000过境车辆,可获得6万元(冷却时间3000,2000家庭有效)",
+            "死尸围城,1000时间接受300灵车遗体,可获得5万元(冷却时间2500,1500家庭有效)",
+            "疯狂运输,2000时间接受5000过境车辆,可获得7万元(冷却时间3000,2000家庭有效)",
             "快乐假期,花费5W会得到一堆游客进城,持续3000时间(冷却时间3000,4000家庭有效)",
             "剩余时间",
             "任务剩余时间",
             "剩余数目",
             "任务剩余数目",
             "冷却时间",
-            "任务冷却时间"
+            "任务冷却时间",
+            "用rush hour的话,告诉本MOD今天是不是节假日,可以关掉智能公交预算功能"
         };
 
 
