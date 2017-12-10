@@ -1206,7 +1206,7 @@ namespace RealCity
                                     Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
                                 }
 
-                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Petrol)
+                                /*if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Petrol)
                                 {
                                     Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
                                 }
@@ -1214,7 +1214,7 @@ namespace RealCity
                                 if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Coal)
                                 {
                                     Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(10), rand.Next(10), vehicle.GetLastFramePosition(), 6f);
-                                }
+                                }*/
                                 //DebugLog.LogToFileOnly("try give GarbageTruckAI Pollution");
                             }
                         }
@@ -1446,7 +1446,7 @@ namespace RealCity
             }
         }
 
-        public class ThreadingRealCityStatsMod : ThreadingExtensionBase
+        /*public class ThreadingRealCityStatsMod : ThreadingExtensionBase
         {
             public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
             {
@@ -1456,7 +1456,7 @@ namespace RealCity
                     Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_tempCount = 1600;
                 }
             }
-        }
+        }*/
     }
 }
 

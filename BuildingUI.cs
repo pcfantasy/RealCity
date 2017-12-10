@@ -264,7 +264,7 @@ namespace RealCity
                     if (comm_data.building_money[buildingID] < 0)
                     {
                         //num1 =  (float)((float)num1 * final_salary_idex / 48f);
-                        num1 = (float)((float)num1 * final_salary_idex / 3f * totalWorkerCount);
+                        num1 = (float)((float)num1 * final_salary_idex / (3f * totalWorkerCount));
                     }
                     else
                     {

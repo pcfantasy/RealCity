@@ -10,10 +10,10 @@
 
 
         //org 1,8,40
-        //new 3 18 45.
-        public const float ConsumptionDivider = 6f;
-        public const float ConsumptionDivider1 = 2.5f;
-        public const float Commerical_price = 3f;
+        //new 6 30 45.
+        public const float ConsumptionDivider = 5f;
+        public const float ConsumptionDivider1 = 1.5f;
+        public const float Commerical_price = 6f;
 
 
         public static bool try_unlock_farmer = true;

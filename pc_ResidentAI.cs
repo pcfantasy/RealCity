@@ -936,6 +936,7 @@ namespace RealCity
             return num;
         }//public
 
+
         public byte process_citizen(uint homeID, ref CitizenUnit data)
         {
             //DebugLog.LogToFileOnly("we go in now, pc_ResidentAI");
@@ -1022,6 +1023,11 @@ namespace RealCity
             if (homeID > 524288)
             {
                 DebugLog.LogToFileOnly("Error: citizen ID greater than 524288");
+            }
+
+            if (comm_data.citizen_money[homeID] < -39000000f)
+            {
+                comm_data.citizen_money[homeID] = 0;
             }
 
             //here we caculate citizen income
@@ -1323,7 +1329,7 @@ namespace RealCity
             {
                 for (i = (precitizenid + 1); i < homeID; i++)
                 {
-                    comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
+                    comm_data.citizen_money[i] = -40000000f;  // 40000000f is default value
                     if (comm_data.citizen_profit_status[i] != 30)
                     {
                         //comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200 ;
@@ -1334,7 +1340,7 @@ namespace RealCity
             {
                 for (i = (precitizenid + 1); i < 524288; i++)
                 {
-                    comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
+                    comm_data.citizen_money[i] = -40000000f;
                     if (comm_data.citizen_profit_status[i] != 30)
                     {
                         //comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
@@ -1344,7 +1350,7 @@ namespace RealCity
 
                 for (i = 0; i < homeID; i++)
                 {
-                    comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
+                    comm_data.citizen_money[i] = -40000000f; 
                     if (comm_data.citizen_profit_status[i] != 30)
                     {
                         comm_data.citizen_profit_status[i] = 30;
@@ -2065,6 +2071,24 @@ namespace RealCity
         }
 
 
+
+        public void is_outside_movingin(ushort instanceID, ref CitizenInstance data, ushort targetBuilding)
+        {
+            System.Random rand = new System.Random();
+            int homeBuilding1 = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_homeBuilding;
+            uint containingUnit = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].GetContainingUnit(data.m_citizen, Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)homeBuilding1].m_citizenUnits, CitizenUnit.Flags.Home);
+            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_flags.IsFlagSet(Citizen.Flags.MovingIn))
+            {
+                if (containingUnit != 0)
+                {
+                    if (comm_data.citizen_money[containingUnit] < -39000000f)
+                    {
+                        comm_data.citizen_money[containingUnit] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
+                    }
+                }
+            }
+        }
+
         public override void SetTarget(ushort instanceID, ref CitizenInstance data, ushort targetBuilding)
         {
             int dayTimeFrame = (int)Singleton<SimulationManager>.instance.m_dayTimeFrame;
@@ -2079,6 +2103,9 @@ namespace RealCity
                 data.m_flags |= CitizenInstance.Flags.CannotUseTaxi;
             }
             data.m_flags &= ~CitizenInstance.Flags.CannotUseTransport;
+
+
+
             if (targetBuilding != data.m_targetBuilding)
             {
                 if (data.m_targetBuilding != 0)
@@ -2095,6 +2122,7 @@ namespace RealCity
             if (this.IsRoadConnection(targetBuilding) || this.IsRoadConnection(data.m_sourceBuilding))
             {
                 data.m_flags |= CitizenInstance.Flags.BorrowCar;
+                is_outside_movingin(instanceID, ref data, targetBuilding);
             }
             else
             {
