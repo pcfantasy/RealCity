@@ -147,7 +147,7 @@ namespace RealCity
             {
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = rand.Next(2000);
+                    num = rand.Next(1500);
                     if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         num = num * 4;
@@ -164,19 +164,19 @@ namespace RealCity
                     num = num + 1;
                 }
                 info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num);
-                num = -100 * (int)comm_data.Commerical_price;
+                num = -100;
                 info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num);
             }
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
                 int budget = Singleton<EconomyManager>.instance.GetBudget(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_class);
-                int result = (int)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_buildingAI.GetMaintenanceCost() / 5f);
+                int result = (int)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_buildingAI.GetMaintenanceCost() / 2.5f);
                 result = (int)(result *(float)(budget * (float)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].m_productionRate / 1000f)));
 
-                if(result > 2000)
+                if(result > 1000)
                 {
-                   result = 2000 + (int)((result-2000)/100f);
+                   result = 1000 + (int)((result-1000)/100f);
                 }
 
                 int tourism_fee = rand.Next(result);
