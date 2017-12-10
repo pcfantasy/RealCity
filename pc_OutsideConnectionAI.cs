@@ -160,15 +160,15 @@ namespace RealCity
 
                 m_residentCapacity = 1000 + (family_minus_oilorebuiling*10);
                 float demand_idex = 1;
-                if ((comm_data.citizen_count > 2000) && (comm_data.family_count != 0))
+                if (comm_data.family_count > 100)
                 {
                     demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
                     demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
                 }
 
-                if (comm_data.family_count > 400)
+                if (comm_data.family_count > 50)
                 {
-                    demand_idex = demand_idex * 400f / comm_data.family_count;
+                    demand_idex = demand_idex * 50f / comm_data.family_count;
                 }
 
                 m_residentCapacity = (int)(m_residentCapacity * demand_idex);

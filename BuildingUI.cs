@@ -159,22 +159,22 @@ namespace RealCity
                 this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
                 if (buildingdata.Info.m_class.m_service == ItemClass.Service.Office || buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    this.employfee.text = language.BuildingUI[8] + " " + language.BuildingUI[16];
+                    this.employfee.text = language.BuildingUI[8] + " " + num.ToString() + " " + language.BuildingUI[16];
                 }
                 else if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
                 {
                     if (buildingdata.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        this.employfee.text = language.BuildingUI[8] + " " + language.BuildingUI[16];
+                        this.employfee.text = language.BuildingUI[8] + " " + num.ToString() + " " + language.BuildingUI[16];
                     }
                     else
                     {
-                        this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", num);
+                        this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
                     }
                 }
                 else
                 {
-                    this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", num);
+                    this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
                 }
                 this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1/100f);
                 this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
@@ -238,7 +238,8 @@ namespace RealCity
             if (building.Info.m_buildingAI is IndustrialExtractorAI)
             {
                 //num1 = num1 * 2;
-            } else
+            }
+            else
             {
                 num1 = num1 / 2f;
             }
@@ -254,18 +255,118 @@ namespace RealCity
                 final_salary_idex = (local_salary_idex * 3f + comm_data.salary_idex) / 4f;
             }
 
-            //money < 0, salary/3f
-            if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
+
+            if (totalWorkerCount > 0)
             {
-                if (comm_data.building_money[buildingID] < 0)
+                //money < 0, salary/3f
+                if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
-                    num1 =  (float)((float)num1 * final_salary_idex / 48f);
+                    if (comm_data.building_money[buildingID] < 0)
+                    {
+                        //num1 =  (float)((float)num1 * final_salary_idex / 48f);
+                        num1 = (float)((float)num1 * final_salary_idex / 3f * totalWorkerCount);
+                    }
+                    else
+                    {
+                        //num1 = (float)((float)num1 * final_salary_idex / 16f);
+                        num1 = (float)((float)num1 * final_salary_idex / totalWorkerCount);
+                    }
                 }
-                else
+
+
+
+
+
+                if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    num1 = (float)((float)num1 * final_salary_idex / 16f);
+                    if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                    {
+                        switch (building.Info.m_class.m_subService)
+                        {
+                            case ItemClass.SubService.CommercialLow:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                {
+                                    num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.1f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                {
+                                    num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.3f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                                {
+                                    num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.6f / totalWorkerCount);
+                                }
+                                break;
+                            case ItemClass.SubService.CommercialHigh:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                {
+                                    num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.2f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                {
+                                    num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.4f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                {
+                                    num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / totalWorkerCount);
+                                }
+                                break;
+                            case ItemClass.SubService.CommercialLeisure:
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / totalWorkerCount);
+                                break;
+                            case ItemClass.SubService.CommercialTourist:
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.9f / totalWorkerCount);
+                                break;
+                            case ItemClass.SubService.CommercialEco:
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.05f / totalWorkerCount);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
                 }
+
+
+
+
+                if (building.Info.m_class.m_service == ItemClass.Service.Office)
+                {
+                    if (comm_data.building_money[buildingID] > 0)
+                    {
+                        num1 = (comm_data.building_money[buildingID] / totalWorkerCount);
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
+                }
+
+                if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
+                {
+                    if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                    {
+                        if (comm_data.building_money[buildingID] > 0)
+                        {
+                            num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
+                        }
+                        else
+                        {
+                            num1 = 0;
+                        }
+                    }
+                }
+
+
             }
+            else
+            {
+                num1 = 0;
+            }
+
+
+
             return num1;
         }
 

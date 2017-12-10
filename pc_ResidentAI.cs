@@ -170,10 +170,10 @@ namespace RealCity
                                     BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour3, ref aliveworkcount3, ref totalworkcount3);
                                     if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                                     {
-                                        if (aliveworkcount3 != 0)
+                                        if (totalworkcount3 != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.2f / aliveworkcount3);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount3);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.2f / totalworkcount3);
+                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount3);
                                         }
                                         comm_data.building_money[work_building] -= num1;
                                     }
@@ -185,10 +185,10 @@ namespace RealCity
                                     BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour3, ref aliveworkcount3, ref totalworkcount3);
                                     if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                                     {
-                                        if (aliveworkcount3 != 0)
+                                        if (totalworkcount3 != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.4f / aliveworkcount3);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount3);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.4f / totalworkcount3);
+                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount3);
                                         }
                                         comm_data.building_money[work_building] -= num1;
                                     }
@@ -200,10 +200,10 @@ namespace RealCity
                                     BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour3, ref aliveworkcount3, ref totalworkcount3);
                                     if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                                     {
-                                        if (aliveworkcount3 != 0)
+                                        if (totalworkcount3 != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / aliveworkcount3);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount3);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / totalworkcount3);
+                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount3);
                                         }
                                         comm_data.building_money[work_building] -= num1;
                                     }
@@ -220,10 +220,10 @@ namespace RealCity
                                     BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour2, ref aliveworkcount2, ref totalworkcount2);
                                     if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                                     {
-                                        if (aliveworkcount2 != 0)
+                                        if (totalworkcount2 != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.1f / aliveworkcount2);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000))/ aliveworkcount2);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.1f / totalworkcount2);
+                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000))/ totalworkcount2);
                                         }
                                         comm_data.building_money[work_building] -= num1;
                                     }
@@ -235,10 +235,10 @@ namespace RealCity
                                     BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour2, ref aliveworkcount2, ref totalworkcount2);
                                     if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                                     {
-                                        if (aliveworkcount2 != 0)
+                                        if (totalworkcount2 != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.3f / aliveworkcount2);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount2);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.3f / totalworkcount2);
+                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount2);
                                         }
                                         comm_data.building_money[work_building] -= num1;
                                     }
@@ -250,10 +250,10 @@ namespace RealCity
                                     BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour2, ref aliveworkcount2, ref totalworkcount2);
                                     if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                                     {
-                                        if (aliveworkcount2 != 0)
+                                        if (totalworkcount2 != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000 ))* 0.6f / aliveworkcount2);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount2);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000 ))* 0.6f / totalworkcount2);
+                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount2);
                                         }
                                         comm_data.building_money[work_building] -= num1;
                                     }
@@ -313,9 +313,9 @@ namespace RealCity
                                 BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour4, ref aliveworkcount4, ref totalworkcount4);
                                 if (comm_data.building_money[work_building] > 0)
                                 {
-                                    if (aliveworkcount4 != 0)
+                                    if (totalworkcount4 != 0)
                                     {
-                                        num = (int)(comm_data.building_money[work_building] * 0.2f / aliveworkcount4);
+                                        num = (int)(comm_data.building_money[work_building] * 0.2f / totalworkcount4);
                                     }
                                     comm_data.building_money[work_building] -= num;
                                 }
@@ -460,10 +460,10 @@ namespace RealCity
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
                             if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                             {
-                                if (aliveworkcount1 != 0)
+                                if (totalworkcount1 != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / aliveworkcount1);
-                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount1);
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / totalworkcount1);
+                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount1);
                                 }
                                 comm_data.building_money[work_building] -= num1;
                             }
@@ -475,10 +475,10 @@ namespace RealCity
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
                             if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                             {
-                                if (aliveworkcount1 != 0)
+                                if (totalworkcount1 != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.9f / aliveworkcount1);
-                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount1);
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.9f / totalworkcount1);
+                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount1);
                                 }
                                 comm_data.building_money[work_building] -= num1;
                             }
@@ -490,10 +490,10 @@ namespace RealCity
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
                             if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
                             {
-                                if (aliveworkcount1 != 0)
+                                if (totalworkcount1 != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.05f / aliveworkcount1);
-                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / aliveworkcount1);
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.05f / totalworkcount1);
+                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount1);
                                 }
                                 comm_data.building_money[work_building] -= num1;
                             }
@@ -662,9 +662,9 @@ namespace RealCity
                             BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour1, ref aliveworkcount1, ref totalworkcount1);
                             if (comm_data.building_money[work_building] > 0)
                             {
-                                if (aliveworkcount1 != 0)
+                                if (totalworkcount1 != 0)
                                 {
-                                    num = (int)(comm_data.building_money[work_building] / aliveworkcount1);
+                                    num = (int)(comm_data.building_money[work_building] / totalworkcount1);
                                 }
                                 comm_data.building_money[work_building] -= num;
                             }
@@ -885,8 +885,7 @@ namespace RealCity
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office || Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial)
                     {
                         //num = num;
-                    }
-                    else if (budget != 0)
+                    }else if (budget != 0)
                     {
                         num = (int)(num * budget / 100f);
                         switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service)
@@ -915,6 +914,7 @@ namespace RealCity
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial)
                     {
                         num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_length) / 9f));
+                        comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num;
                     }
 
                     if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office))

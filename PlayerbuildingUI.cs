@@ -26,6 +26,8 @@ namespace RealCity
 
         //1、citizen tax income
         private UILabel buildingmoney;
+        private UILabel aliveworkcount;
+        private UILabel employfee;
         //private UILabel alivevisitcount;
 
         public override void Update()
@@ -82,6 +84,20 @@ namespace RealCity
             this.buildingmoney.autoSize = true;
             this.buildingmoney.name = "Moreeconomic_Text_0";
 
+            this.aliveworkcount = base.AddUIComponent<UILabel>();
+            this.aliveworkcount.text = "aliveworkcont [000000000000000]";
+            this.aliveworkcount.tooltip = language.BuildingUI[7];
+            this.aliveworkcount.relativePosition = new Vector3(SPACING, this.buildingmoney.relativePosition.y + SPACING22);
+            this.aliveworkcount.autoSize = true;
+            this.aliveworkcount.name = "Moreeconomic_Text_3";
+
+            this.employfee = base.AddUIComponent<UILabel>();
+            this.employfee.text = "employfee [000000000000000]";
+            this.employfee.tooltip = language.BuildingUI[9];
+            this.employfee.relativePosition = new Vector3(SPACING, this.aliveworkcount.relativePosition.y + SPACING22);
+            this.employfee.autoSize = true;
+            this.employfee.name = "Moreeconomic_Text_4";
+
 
             /*this.alivevisitcount = base.AddUIComponent<UILabel>();
             this.alivevisitcount.text = "alivevisitcount [000000000000000]";
@@ -99,11 +115,46 @@ namespace RealCity
             if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || PlayerBuildingUI.refesh_once || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
-                comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;    
+                comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+                Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
+                int aliveWorkerCount = 0;
+                int totalWorkerCount = 0;
+                float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
+                this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
+                this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
                 this.buildingmoney.text = string.Format(language.BuildingUI[17] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
                 PlayerBuildingUI.refesh_once = false;
             }
 
+        }
+
+
+        public float caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
+        {
+            float num1 = 0;
+            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+            aliveWorkerCount = 0;
+            totalWorkerCount = 0;
+            BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
+            num1 = (int)(behaviour.m_educated0Count * comm_data.road_education0 + behaviour.m_educated1Count * comm_data.road_education1 + behaviour.m_educated2Count * comm_data.road_education2 + behaviour.m_educated3Count * comm_data.road_education3);
+                    
+            System.Random rand = new System.Random();
+
+            //add random value to match citizen salary
+            if (num1 != 0)
+            {
+                num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated1Count * rand.Next(2) + behaviour.m_educated2Count * rand.Next(3) + behaviour.m_educated3Count * rand.Next(4));
+            }
+            int budget = Singleton<EconomyManager>.instance.GetBudget(building.Info.m_class);
+            num1 = (int)(num1 * budget / 100f);
+            if (totalWorkerCount > 0)
+            {
+                num1 = num1 / totalWorkerCount;
+            } else
+            {
+                num1 = 0;
+            }
+            return num1;
         }
 
     }

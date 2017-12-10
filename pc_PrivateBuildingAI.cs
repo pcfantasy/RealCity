@@ -484,7 +484,7 @@ namespace RealCity
             }
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
             process_land_fee(buildingData, buildingID);
-            caculate_employee_expense(buildingData, buildingID);
+            //caculate_employee_expense(buildingData, buildingID);
             limit_and_check_building_money(buildingData, buildingID);
             if ((buildingData.m_problems & Notification.Problem.MajorProblem) != Notification.Problem.None)
             {
@@ -1140,7 +1140,7 @@ namespace RealCity
         }
 
 
-        public void caculate_employee_expense(Building building, ushort buildingID)
+        /*public void caculate_employee_expense(Building building, ushort buildingID)
         {
             float num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
@@ -1246,7 +1246,7 @@ namespace RealCity
                 }
             }
 
-        }
+        }*/
 
         public void process_land_fee(Building building, ushort buildingID)
         {

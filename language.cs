@@ -36,15 +36,15 @@ namespace RealCity
             "Only show industry and commerical buildingincomebuffer",
             "aliveworkcont",
             "aliveworkcont",
-            "employfee",
-            "employfee",
+            "average employfee(in resident time-period view)",
+            "average employfee(in resident time-period view)",
             "landrent",
             "landrent",
             "net_asset",
             "net_asset",
             "Resident Money",
             "Only show resident money",
-            "profit-sharing",
+            "profit-sharing(current)",
             "Accumulating Money(unit:yuan)",
         };
 
@@ -378,15 +378,15 @@ namespace RealCity
             "只显示商业和工业建筑的产品仓库储存量",
             "到达公司员工",
             "到达公司员工",
-            "员工工资支出",
-            "员工工资支出",
+            "员工平均工资(按居民刷新周期算)",
+            "员工平均工资(按居民刷新周期算)",
             "土地费支出",
             "土地费支出",
             "公司净资产",
             "公司净资产",
             "居民存款",
             "居民存款",
-            "分红制",
+            "分红制(当次)",
             "累积赚或亏的钱(单位:元)"};
 
     public static string[] OptionUI_Chinese =
