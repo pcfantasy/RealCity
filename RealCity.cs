@@ -928,8 +928,8 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result /100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_cemetry_building = true;
 
                                 if (comm_data.building_money[i] > 80000000)
@@ -946,9 +946,10 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_garbage_building = true;
+                                //DebugLog.LogToFileOnly("maintenaince is " + budget.ToString() + " " + result.ToString() + " " + instance.m_buildings.m_buffer[i].m_productionRate.ToString());
 
                                 if (comm_data.building_money[i] > 80000000)
                                 {
@@ -964,8 +965,8 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_maintain_road_building = true;
 
                                 if (comm_data.building_money[i] > 80000000)
@@ -982,8 +983,8 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_police_building = true;
 
                                 if (comm_data.building_money[i] > 80000000)
@@ -1000,8 +1001,8 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));                                
                                 pc_OutsideConnectionAI.have_hospital_building = true;
 
                                 if (comm_data.building_money[i] > 80000000)
@@ -1019,8 +1020,8 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_fire_building = true;
 
                                 if (comm_data.building_money[i] > 80000000)
@@ -1037,8 +1038,8 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
 
                                 if (comm_data.building_money[i] > 80000000)
                                 {
@@ -1054,8 +1055,8 @@ namespace RealCity
                             {
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 1600;
-                                comm_data.building_money[i] -= result * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
 
                                 if (comm_data.building_money[i] > 80000000)
                                 {

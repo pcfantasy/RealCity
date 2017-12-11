@@ -160,15 +160,13 @@ namespace RealCity
 
                 m_residentCapacity = 1000 + (family_minus_oilorebuiling*10);
                 float demand_idex = 1;
+
+                demand_idex = (float)(comm_data.family_weight_stable_high + comm_data.family_count - comm_data.family_weight_stable_low) / (float)(comm_data.family_count);
+                demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
+
                 if (comm_data.family_count > 100)
                 {
-                    demand_idex = (float)(comm_data.family_weight_stable_high + 2 * comm_data.family_count - comm_data.family_weight_stable_low * 3) / (float)(2 * comm_data.family_count);
-                    demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
-                }
-
-                if (comm_data.family_count > 50)
-                {
-                    demand_idex = demand_idex * 50f / comm_data.family_count;
+                    demand_idex = demand_idex * 100f / comm_data.family_count;
                 }
 
                 m_residentCapacity = (int)(m_residentCapacity * demand_idex);
@@ -180,9 +178,9 @@ namespace RealCity
 
                 if (m_residentCapacity < 15)
                 {
-                    if (rand.Next(200) < 15)
+                    if (rand.Next(200) < 50)
                     {
-                        m_residentCapacity = rand.Next(15);
+                        m_residentCapacity = rand.Next(50);
                     }
                 }
 
@@ -348,7 +346,7 @@ namespace RealCity
                 {
                     if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 300);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 150);
                     } else
                     {
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 50);
@@ -1084,7 +1082,7 @@ namespace RealCity
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
                         if (!comm_data.garbage_task)
                         {
-                            comm_data.building_money[buildingID] += amountDelta * -7f / 100f;
+                            comm_data.building_money[buildingID] += (amountDelta * -7f / 100f);
                             Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -7f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }

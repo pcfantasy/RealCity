@@ -1260,6 +1260,10 @@ namespace RealCity
             GetLandRent(out num);
             int num2;
             num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
+            if (comm_data.citizen_count < 500)
+            {
+                num2 = 0;
+            }
             if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
             {
                 num = 0;

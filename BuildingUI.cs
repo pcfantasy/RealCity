@@ -406,6 +406,11 @@ namespace RealCity
             {
                 num = 0;
             }
+
+            if (comm_data.citizen_count < 500)
+            {
+                num = 0;
+            }
             return num*num2;
         }
 

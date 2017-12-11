@@ -897,7 +897,7 @@ namespace RealCity
                             case ItemClass.Service.Monument:
                             case ItemClass.Service.Garbage:
                             case ItemClass.Service.FireDepartment:
-                                comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * budget / 10000f; break;
+                                comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= (num / 100f); break;
                             default: comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] = 0; break;
                         }
                     }
@@ -1330,10 +1330,10 @@ namespace RealCity
                 for (i = (precitizenid + 1); i < homeID; i++)
                 {
                     comm_data.citizen_money[i] = -40000000f;  // 40000000f is default value
-                    if (comm_data.citizen_profit_status[i] != 30)
+                    if (comm_data.citizen_profit_status[i] != 20)
                     {
                         //comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200 ;
-                        comm_data.citizen_profit_status[i] = 30;
+                        comm_data.citizen_profit_status[i] = 20;
                     }
                 }
             } else
@@ -1341,19 +1341,19 @@ namespace RealCity
                 for (i = (precitizenid + 1); i < 524288; i++)
                 {
                     comm_data.citizen_money[i] = -40000000f;
-                    if (comm_data.citizen_profit_status[i] != 30)
+                    if (comm_data.citizen_profit_status[i] != 20)
                     {
                         //comm_data.citizen_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
-                        comm_data.citizen_profit_status[i] = 30;
+                        comm_data.citizen_profit_status[i] = 20;
                     }
                 }
 
                 for (i = 0; i < homeID; i++)
                 {
                     comm_data.citizen_money[i] = -40000000f; 
-                    if (comm_data.citizen_profit_status[i] != 30)
+                    if (comm_data.citizen_profit_status[i] != 20)
                     {
-                        comm_data.citizen_profit_status[i] = 30;
+                        comm_data.citizen_profit_status[i] = 20;
                     }
                 }
             }
