@@ -835,7 +835,7 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 1000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 500 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.garbage_task = true;
                         comm_data.task_num = 300;
@@ -887,7 +887,7 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 2000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 1000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.crasy_task = true;
                         comm_data.task_num = 5000;

@@ -176,11 +176,11 @@ namespace RealCity
                     m_residentCapacity = 0;
                 }
 
-                if (m_residentCapacity < 15)
+                if (m_residentCapacity < 150)
                 {
-                    if (rand.Next(200) < 50)
+                    if (rand.Next(1000) < 150)
                     {
-                        m_residentCapacity = rand.Next(50);
+                        m_residentCapacity = rand.Next(150);
                     }
                 }
 

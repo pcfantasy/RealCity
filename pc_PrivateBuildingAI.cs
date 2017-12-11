@@ -686,18 +686,33 @@ namespace RealCity
                 for (i = (int)(prebuidlingid + 1); i < buildingID; i++)
                 {
                     //70000000f is a flag for outside building
-                    if (!buildingData.m_flags.IsFlagSet(Building.Flags.Created))
+                    switch (buildingData.Info.m_class.m_service)
                     {
-                        if (comm_data.building_money[i] != 70000000f)
-                        {
-                            if (comm_data.building_money[i] != 0)
+                        case ItemClass.Service.Road:
+                        case ItemClass.Service.Beautification:
+                        case ItemClass.Service.HealthCare:
+                        case ItemClass.Service.Monument:
+                        case ItemClass.Service.Garbage:
+                        case ItemClass.Service.PoliceDepartment:
+                        case ItemClass.Service.FireDepartment:
+                            break;
+                        default:
+                            if (comm_data.building_money[i] != 70000000f)
                             {
-                                comm_data.building_money[i] = 0;
+                                if (comm_data.building_money[i] != 0)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
                             }
-                        }
+                            break;
                     }
                 }
 
+                if (buildingData.Info.m_class.m_service == ItemClass.Service.Residential)
+                {
+                    comm_data.building_money[buildingID] = 0;
+                }
+                    
                 int asset = process_building_asset(buildingID, ref buildingData);
                 if (((buildingData.m_problems & (~Notification.Problem.NoCustomers)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoCustomers)) != Notification.Problem.None))
                 {
@@ -784,30 +799,50 @@ namespace RealCity
                 for (i = (int)(prebuidlingid + 1); i < 49152; i++)
                 {
                     //70000000f is a flag for outside building
-                    if (!buildingData.m_flags.IsFlagSet(Building.Flags.Created))
+                    switch (buildingData.Info.m_class.m_service)
                     {
-                        if (comm_data.building_money[i] != 70000000f)
-                        {
-                            if (comm_data.building_money[i] != 0)
+                        case ItemClass.Service.Road:
+                        case ItemClass.Service.Beautification:
+                        case ItemClass.Service.HealthCare:
+                        case ItemClass.Service.Monument:
+                        case ItemClass.Service.Garbage:
+                        case ItemClass.Service.PoliceDepartment:
+                        case ItemClass.Service.FireDepartment:
+                            break;
+                        default:
+                            if (comm_data.building_money[i] != 70000000f)
                             {
-                                comm_data.building_money[i] = 0;
+                                if (comm_data.building_money[i] != 0)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
                             }
-                        }
+                            break;
                     }
                 }
 
                 for (i = 0; i < buildingID; i++)
                 {
                     //70000000f is a flag for outside building
-                    if (!buildingData.m_flags.IsFlagSet(Building.Flags.Created))
+                    switch (buildingData.Info.m_class.m_service)
                     {
-                        if (comm_data.building_money[i] != 70000000f)
-                        {
-                            if (comm_data.building_money[i] != 0)
+                        case ItemClass.Service.Road:
+                        case ItemClass.Service.Beautification:
+                        case ItemClass.Service.HealthCare:
+                        case ItemClass.Service.Monument:
+                        case ItemClass.Service.Garbage:
+                        case ItemClass.Service.PoliceDepartment:
+                        case ItemClass.Service.FireDepartment:
+                            break;
+                        default:
+                            if (comm_data.building_money[i] != 70000000f)
                             {
-                                comm_data.building_money[i] = 0;
+                                if (comm_data.building_money[i] != 0)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
                             }
-                        }
+                            break;
                     }
                 }
 
