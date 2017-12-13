@@ -53,9 +53,9 @@ namespace RealCity
                                     {
                                         comm_data.tourist_transport_fee_num = 1000000000000000000;
                                     }
-                                    if (num4 > 3000)
+                                    if (num4 > 5000)
                                     {
-                                        num4 = 3000;
+                                        num4 = 5000;
                                     }
                                 }
                                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4 / comm_data.game_maintain_fee_decrease3, this.m_info.m_class);

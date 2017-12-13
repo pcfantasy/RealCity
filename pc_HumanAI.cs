@@ -147,7 +147,7 @@ namespace RealCity
             {
                 if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = rand.Next(1500);
+                    num = rand.Next(1000);
                     if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         num = num * 4;
@@ -298,9 +298,9 @@ namespace RealCity
                             }
                             else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Tram)
                             {
-                                if (ticketPrice > 200)
+                                if (ticketPrice > 300)
                                 {
-                                    ticketPrice = 200;
+                                    ticketPrice = 300;
                                 }
                             }
                             else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Ship)
@@ -319,11 +319,19 @@ namespace RealCity
                             }
                             else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.CableCar)
                             {
-                                if (ticketPrice > 200)
+                                if (ticketPrice > 250)
                                 {
-                                    ticketPrice = 200;
+                                    ticketPrice = 250;
                                 }
-                            } else
+                            }
+                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Monorail)
+                            {
+                                if (ticketPrice > 400)
+                                {
+                                    ticketPrice = 400;
+                                }
+                            }
+                            else
                             {
                                 if (ticketPrice > 1000)
                                 {

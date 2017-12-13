@@ -176,11 +176,11 @@ namespace RealCity
                     m_residentCapacity = 0;
                 }
 
-                if (m_residentCapacity < 150)
+                if (m_residentCapacity < 70)
                 {
-                    if (rand.Next(1000) < 150)
+                    if (rand.Next(200) < 70)
                     {
-                        m_residentCapacity = rand.Next(150);
+                        m_residentCapacity = rand.Next(70);
                     }
                 }
 
@@ -189,9 +189,20 @@ namespace RealCity
                 {
                     tourist_trans_fee = (int)(comm_data.tourist_transport_fee_num_final / comm_data.tourist_num_final * 10f);
                 }
-                m_touristFactor0 = rand.Next(650) + family_minus_oilorebuiling / 4;
-                m_touristFactor1 = rand.Next(250) + family_minus_oilorebuiling / 8;
-                m_touristFactor2 = rand.Next(100) + family_minus_oilorebuiling / 16;
+
+
+                if (comm_data.family_count > 0)
+                {
+                    int temp = (comm_data.family_count > 650) ? 650 : comm_data.family_count;
+                    m_touristFactor0 = rand.Next(temp) + family_minus_oilorebuiling / 4;
+                    m_touristFactor1 = rand.Next(temp) /2 + family_minus_oilorebuiling / 8;
+                    m_touristFactor2 = rand.Next(temp) /4 + family_minus_oilorebuiling / 16;
+                } else
+                {
+                    m_touristFactor0 = 0;
+                    m_touristFactor1 = 0;
+                    m_touristFactor2 = 0;
+                }
 
 
                 if (m_touristFactor0 < 0)
@@ -629,7 +640,7 @@ namespace RealCity
                         this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
                         if (num25 < 100)
                         {
-                            if ((instance1.m_randomizer.Int32(20) > 13) || (!comm_data.garbage_task))
+                            if ((instance1.m_randomizer.Int32(20) > 12) || (!comm_data.garbage_task))
                             {
                                 if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 12000)
                                 {
@@ -690,7 +701,7 @@ namespace RealCity
                         this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
                         if (num25 < 100)
                         {
-                            if (instance1.m_randomizer.Int32(20) > 13 || (!comm_data.dead_task))
+                            if (instance1.m_randomizer.Int32(20) > 12 || (!comm_data.dead_task))
                             {
                                 offer = default(TransferManager.TransferOffer);
                                 offer.Priority = 1 + data.m_customBuffer1 / 5;

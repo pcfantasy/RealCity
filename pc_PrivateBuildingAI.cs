@@ -686,7 +686,7 @@ namespace RealCity
                 for (i = (int)(prebuidlingid + 1); i < buildingID; i++)
                 {
                     //70000000f is a flag for outside building
-                    switch (buildingData.Info.m_class.m_service)
+                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service)
                     {
                         case ItemClass.Service.Road:
                         case ItemClass.Service.Beautification:
@@ -799,7 +799,7 @@ namespace RealCity
                 for (i = (int)(prebuidlingid + 1); i < 49152; i++)
                 {
                     //70000000f is a flag for outside building
-                    switch (buildingData.Info.m_class.m_service)
+                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service)
                     {
                         case ItemClass.Service.Road:
                         case ItemClass.Service.Beautification:
@@ -824,7 +824,7 @@ namespace RealCity
                 for (i = 0; i < buildingID; i++)
                 {
                     //70000000f is a flag for outside building
-                    switch (buildingData.Info.m_class.m_service)
+                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service)
                     {
                         case ItemClass.Service.Road:
                         case ItemClass.Service.Beautification:
@@ -1467,9 +1467,41 @@ namespace RealCity
 
         public override void ReleaseBuilding(ushort buildingID, ref Building data)
         {
+
+            int cost = 5000;
+            if (data.Info.m_class.m_level == ItemClass.Level.Level2)
+            {
+                cost = cost << 1;
+            }
+
+            if (data.Info.m_class.m_level == ItemClass.Level.Level3)
+            {
+                cost = cost << 2;
+            }
+
+            if (data.Info.m_class.m_level == ItemClass.Level.Level4)
+            {
+                cost = cost << 3;
+            }
+
+            if (data.Info.m_class.m_level == ItemClass.Level.Level5)
+            {
+                cost = cost << 4;
+            }
+
+            if (data.Info.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
+            {
+                cost = cost << 2;
+            }
+
+            if (data.Info.m_class.m_subService == ItemClass.SubService.ResidentialLow)
+            {
+                cost = cost << 1;
+            }
+
             if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
             {
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 5000, data.Info.m_class.m_service, ItemClass.SubService.None, ItemClass.Level.Level1);
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, cost, data.Info.m_class.m_service, ItemClass.SubService.None, ItemClass.Level.Level1);
             }
             base.ReleaseBuilding(buildingID, ref data);
         }

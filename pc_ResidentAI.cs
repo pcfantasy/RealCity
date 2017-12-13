@@ -1224,7 +1224,7 @@ namespace RealCity
             comm_data.citizen_money[homeID] = (float)(comm_data.citizen_money[homeID] - temp_num);
 
 
-            if (comm_data.citizen_money[homeID] >= 50000)
+            if (comm_data.citizen_money[homeID] >= 20000)
             {
                 comm_data.citizen_profit_status[homeID]++;
             }
