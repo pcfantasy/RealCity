@@ -39,6 +39,9 @@ namespace RealCity
         public static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
 
+        public static EcnomicButton EcMenuPanel;
+        public static CityButton RcMenuPanel;
+
         public static RedirectCallsState state1;
         public static RedirectCallsState state2;
         public static RedirectCallsState state3;
@@ -173,6 +176,8 @@ namespace RealCity
             SetupBuidingGui();
             SetupHumanGui();
             SetupPlayerBuidingGui();
+            SetupEcnomicButton();
+            SetupCityButton();
 
             Loader.isGuiRunning = true;
         }
@@ -232,6 +237,26 @@ namespace RealCity
             guiPanel4.position = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
             playerbuildingInfo.eventVisibilityChanged += playerbuildingInfo_eventVisibilityChanged;
         }
+
+        public void SetupEcnomicButton()
+        {
+            if (EcMenuPanel == null)
+            {
+                EcMenuPanel = (parentGuiView.AddUIComponent(typeof(EcnomicButton)) as EcnomicButton);
+            }
+            EcMenuPanel.Show();
+        }
+
+
+        public void SetupCityButton()
+        {
+            if (RcMenuPanel == null)
+            {
+                RcMenuPanel = (parentGuiView.AddUIComponent(typeof(CityButton)) as CityButton);
+            }
+            RcMenuPanel.Show();
+        }
+
 
         public void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {

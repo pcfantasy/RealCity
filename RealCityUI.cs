@@ -196,9 +196,9 @@ namespace RealCity
 
 
 
-        private static bool isRefreshing = false;
+        //private static bool isRefreshing = false;
 
-        private bool CoDisplayRefreshEnabled;
+        //private bool CoDisplayRefreshEnabled;
 
         public override void Update()
         {
@@ -207,6 +207,7 @@ namespace RealCity
                 this.ProcessVisibility();
                 DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "ctrl+R found");
             }
+            this.RefreshDisplayData();
             base.Update();
         }
 
@@ -249,7 +250,7 @@ namespace RealCity
             this.ShowOnGui();
             //this.PopulateControlContainers();
 
-            base.StartCoroutine(this.RefreshDisplayDataWrapper());
+            //base.StartCoroutine(this.RefreshDisplayDataWrapper());
             this.RefreshDisplayData();
         }
 
@@ -948,7 +949,7 @@ namespace RealCity
 
 
 
-        private IEnumerator RefreshDisplayDataWrapper()
+        /*private IEnumerator RefreshDisplayDataWrapper()
         {
             if (this.CoDisplayRefreshEnabled)
             {
@@ -967,15 +968,16 @@ namespace RealCity
 
             }
             yield break;
-        }
+        }*/
 
         private void RefreshDisplayData()
         {
             //EconomyPanel instance = Singleton<EconomyPanel>.instance;
-            isRefreshing = true;
+            //isRefreshing = true;
             process_data();
             //citizen
             //this.citizen_count.text = string.Format(language.RealCityUI[0] + " [{0}]", comm_data.citizen_count);
+            this.m_title.text = language.RealCityUI[98];
             this.citizen_tax_income_title.text = string.Format(language.RealCityUI[0] + " [{0}]  [{1:N2}%]", citizen_tax_income_total, citizen_tax_income_percent*100);
             this.citizen_tax_income.text = string.Format(language.RealCityUI[1] + " [{0}]", citizen_tax_income_forui);
             this.city_tourism_income_title.text = string.Format(language.RealCityUI[3] + " [{0}]  [{1:N2}%]", city_tourism_income_total, city_tourism_income_percent*100) ;
@@ -1042,7 +1044,7 @@ namespace RealCity
 
 
 
-            isRefreshing = false;
+            //isRefreshing = false;
         }
 
         private void ProcessVisibility()
@@ -1050,11 +1052,11 @@ namespace RealCity
             if (!base.isVisible)
             {
                 base.Show();
-                if (!this.CoDisplayRefreshEnabled)
+                /*if (!this.CoDisplayRefreshEnabled)
                 {
                     base.StartCoroutine(this.RefreshDisplayDataWrapper());
                     return;
-                }
+                }*/
             }
             else
             {

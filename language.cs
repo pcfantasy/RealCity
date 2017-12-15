@@ -28,30 +28,30 @@ namespace RealCity
         };
 
         public static string[] BuildingUI_English = {
-            "Building Money(unit:fen)",
+            "Building Money(unit:1/100₡)",
             "Only show industry and commerical building money",
             "buildingincomebuffer",
             "Only show industry and commerical buildingincomebuffer",
             "buildingoutgoingbuffer",
             "Only show industry and commerical buildingincomebuffer",
-            "aliveworkcont",
-            "aliveworkcont",
+            "aliveworkcount",
+            "aliveworkcount",
             "average employfee(in resident time-period view)",
             "average employfee(in resident time-period view)",
             "landrent",
             "landrent",
             "net_asset",
             "net_asset",
-            "Resident Money",
-            "Only show resident money",
+            "Family Money(unit:1/100₡)",
+            "Only show Family money",
             "profit-sharing(current)",
-            "Accumulating Money(unit:yuan)",
+            "Accumulating Money(unit:₡)",
         };
 
         public static string[] EconomicUI_English =
         {
             "Economic Data",
-            "1、Citizen Status(unit: fen)",
+            "1、Citizen Status(unit: 1/100₡)",
             "citizen_count",
             "total citizen_count",
             "family_count",
@@ -352,7 +352,7 @@ namespace RealCity
             "firestation",
             "firestation",
             "7、City all total income",
-            "City income data(unit:yuan)",
+            "City income data(unit:₡)",
             "Spercial Task(once at a time)",
             "infinity garbage,receive 200 garbagecars in 1000time, will get 90K(cd time 2000,available when family>500)",
             "infinity dead,receive 200 hearsecars in 1000time,will get 50K(cd time 2500,available when family>2000)",
@@ -364,13 +364,14 @@ namespace RealCity
             "task remaining_num",
             "cooldown time",
             "task cooldown time",
-            "If using rush hour, tell me if it is weekend now to disable Smart Public Transport function at weekend"
+            "If using rush hour, tell me if it is weekend now to disable Smart Public Transport function at weekend",
+            "City Data"
         };
 
 
 
 
-        public static string[] BuildingUI_Chinese = { "公司现金流(单位:分)",
+        public static string[] BuildingUI_Chinese = { "公司现金流(单位:1/100克朗)",
             "只显示商业和工业建筑的现金流",
             "公司原料仓库储存量",
             "只显示商业和工业建筑的原料仓库储存量",
@@ -384,10 +385,10 @@ namespace RealCity
             "土地费支出",
             "公司净资产",
             "公司净资产",
-            "居民存款",
-            "居民存款",
+            "居民家庭存款(单位:1/100克朗)",
+            "居民家庭存款",
             "分红制(当次)",
-            "累积赚或亏的钱(单位:元)"};
+            "累积赚或亏的钱(单位:克朗)"};
 
     public static string[] OptionUI_Chinese =
         {
@@ -411,7 +412,7 @@ namespace RealCity
         public static string[] EconomicUI_Chinese =
         {
             "经济数据",
-            "1、居民情况(钱单位:分)",
+            "1、居民情况(钱单位:1/100克朗)",
             "居民人数",
             "居民总人数",
             "家庭户数",
@@ -712,11 +713,11 @@ namespace RealCity
             "消防局",
             "消防局",
             "7、城市总收入",
-            "城市收入情况(单位:元)",
+            "城市收入情况(单位:克朗)",
             "特殊任务(1次只接受点击一样)",
-            "垃圾围城,1000时间接受200卡车垃圾,可获得9万元(冷却时间2000,500家庭有效)",
-            "死尸围城,1000时间接受200灵车遗体,可获得5万元(冷却时间2500,1500家庭有效)",
-            "疯狂运输,2000时间接受4000过境车辆,可获得7万元(冷却时间3000,1000家庭有效)",
+            "垃圾围城,1000时间接受200卡车垃圾,可获得9万克朗(冷却时间2000,500家庭有效)",
+            "死尸围城,1000时间接受200灵车遗体,可获得5万克朗(冷却时间2500,1500家庭有效)",
+            "疯狂运输,2000时间接受4000过境车辆,可获得7万克朗(冷却时间3000,1000家庭有效)",
             "快乐假期,花费5W会得到一堆游客进城,持续3000时间(冷却时间3000,4000家庭有效)",
             "剩余时间",
             "任务剩余时间",
@@ -724,7 +725,8 @@ namespace RealCity
             "任务剩余数目",
             "冷却时间",
             "任务冷却时间",
-            "用rush hour的话,告诉本MOD今天是不是节假日,可以关掉智能公交预算功能"
+            "用rush hour的话,告诉本MOD今天是不是节假日,可以关掉智能公交预算功能",
+            "城市情况"
         };
 
 

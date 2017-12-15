@@ -1491,12 +1491,27 @@ namespace RealCity
 
             if (data.Info.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
             {
-                cost = cost << 2;
+                cost = cost << 1;
             }
 
-            if (data.Info.m_class.m_subService == ItemClass.SubService.ResidentialLow)
+            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
             {
                 cost = cost << 1;
+            }
+
+            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+            {
+                cost = 5000 << 1;
+            }
+
+            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
+            {
+                cost = 5000 << 4;
+            }
+
+            if (data.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
+            {
+                cost = 5000 << 4;
             }
 
             if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))

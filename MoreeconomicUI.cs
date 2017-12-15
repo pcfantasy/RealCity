@@ -843,6 +843,8 @@ namespace RealCity
             if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
             {
                 //citizen
+                this.m_title.text = language.EconomicUI[0];
+                this.m_firstline_citizen.text = language.EconomicUI[1];
                 this.citizen_count.text = string.Format(language.EconomicUI[2] + " [{0}]", comm_data.citizen_count);
                 this.family_count.text = string.Format(language.EconomicUI[4] + " [{0}]", comm_data.family_count);
                 this.citizen_salary_per_family.text = string.Format(language.EconomicUI[6] + " [{0}]", comm_data.citizen_salary_per_family);
@@ -869,6 +871,7 @@ namespace RealCity
                 }
 
                 //building
+                this.m_secondline_building.text = language.EconomicUI[36];
                 this.good_export_ratio.text = string.Format(language.EconomicUI[37] + " [{0:N2}]", pc_PrivateBuildingAI.good_export_ratio);
                 this.food_export_ratio.text = string.Format(language.EconomicUI[39] + " [{0:N2}]", pc_PrivateBuildingAI.food_export_ratio);
                 this.petrol_export_ratio.text = string.Format(language.EconomicUI[41] + " [{0:N2}]", pc_PrivateBuildingAI.petrol_export_ratio);
@@ -906,6 +909,7 @@ namespace RealCity
                 this.office_gen_salary_index.text = string.Format(language.EconomicUI[97] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_num_final);
                 this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[99] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_money_final);
 
+                this.m_thirdline_outside.text = string.Format(language.EconomicUI[101]);
                 this.m_outside_garbage.text = string.Format(language.EconomicUI[103] + " [{0}]", comm_data.outside_garbage_count);
                 this.m_outside_dead.text = string.Format(language.EconomicUI[105] + " [{0}]", comm_data.outside_dead_count);
                 this.m_outside_sick.text = string.Format(language.EconomicUI[107] + " [{0}]", comm_data.outside_sick_count);

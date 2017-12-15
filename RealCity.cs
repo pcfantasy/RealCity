@@ -889,8 +889,8 @@ namespace RealCity
                 comm_data.temp_total_citizen_vehical_time_last = comm_data.temp_total_citizen_vehical_time;
                 comm_data.temp_total_citizen_vehical_time = 0;
 
-                //assume that 1 time will cost 3fen car oil money
-                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last * 3;
+                //assume that 1 time will cost 5fen car oil money
+                comm_data.all_transport_fee = comm_data.public_transport_fee + comm_data.temp_total_citizen_vehical_time_last * 5;
 
                 if (comm_data.family_count > 0)
                 {
