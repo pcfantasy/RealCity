@@ -63,15 +63,37 @@ namespace RealCity
             {
                 case ItemClass.SubService.CommercialLow:
                     temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = rand.Next(10 + aliveWorkCount * 3) / 100f;
+                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        idex = 0.2f;
+                    }
+                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        idex = 0.4f;
+                    }
+                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        idex = 0.7f;
+                    }
                     break;
                 case ItemClass.SubService.CommercialHigh:
                     temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = rand.Next(20 + aliveWorkCount * 4) / 100f;
+                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        idex = 0.3f;
+                    }
+                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        idex = 0.5f;
+                    }
+                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        idex = 0.8f;
+                    }
                     break;
                 case ItemClass.SubService.CommercialLeisure:
                     temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = rand.Next(20 + aliveWorkCount * 5) / 100f;
+                    idex = 0.9f;
                     break;
                 case ItemClass.SubService.CommercialTourist:
                     temp_transfer_reason = TransferManager.TransferReason.Entertainment;
@@ -79,7 +101,7 @@ namespace RealCity
                     break;
                 case ItemClass.SubService.CommercialEco:
                     temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = rand.Next(20 + aliveWorkCount * 3) / 100f;
+                    idex = 0.4f;
                     break;
                 default: temp_transfer_reason = TransferManager.TransferReason.Shopping; break;
             }
@@ -108,24 +130,24 @@ namespace RealCity
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.2f * comm_data.citizen_money[homeid]) : 0;
-                        num = (int)(num * idex);
-                        if (num > 0.25f * comm_data.citizen_money[homeid])
-                        {
-                            num = (int)(0.25f * comm_data.citizen_money[homeid]);
-                        }
-                    } else
-                    {
-                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
                         num = (int)(num * idex);
                         if (num > 0.15f * comm_data.citizen_money[homeid])
                         {
                             num = (int)(0.15f * comm_data.citizen_money[homeid]);
                         }
+                    } else
+                    {
+                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
+                        num = (int)(num * idex);
+                        if (num > 0.1f * comm_data.citizen_money[homeid])
+                        {
+                            num = (int)(0.1f * comm_data.citizen_money[homeid]);
+                        }
                     }
                 }
 
-                num = (rand.Next(3) > 1) ? (int)(0.2f * comm_data.citizen_money[homeid]) : num;
+                num = (rand.Next(3) > 1) ? (int)(0.1f * comm_data.citizen_money[homeid]) : num;
 
                 if(num < 0)
                 {
@@ -200,7 +222,7 @@ namespace RealCity
                 {
                     //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
                     int temp = (comm_data.citizen_money[homeid]> 1f) ? (int)(comm_data.citizen_money[homeid]) : 1;
-                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.2f * comm_data.citizen_money[homeid]) : (int)(0.1f * comm_data.citizen_money[homeid]);
+                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.15f * comm_data.citizen_money[homeid]) : (int)(0.1f * comm_data.citizen_money[homeid]);
 
                     if (tourism_fee < 0)
                     {

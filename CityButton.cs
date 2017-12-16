@@ -54,7 +54,7 @@ namespace RealCity
             UIView aView = UIView.GetAView();
             base.name = "RealCityUIPanel";
             base.width = 100f;
-            base.height = 100f;
+            base.height = 70f;
             base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 750), (float)(Loader.parentGuiView.fixedHeight / 2 - 540));
             this.BringToFront();
             base.backgroundSprite = "MenuPanel";
@@ -71,9 +71,9 @@ namespace RealCity
             this.RcButton.playAudioEvents = true;
             this.RcButton.name = "RcButton";
             this.RcButton.tooltipBox = aView.defaultTooltipBox;
-            this.RcButton.text = language.RealCityUI[111];
-            this.RcButton.size = new Vector2(100f, 50f);
-            this.RcButton.relativePosition = new Vector3(0, 50f);
+            this.RcButton.text = language.RealCityUI1[111];
+            this.RcButton.size = new Vector2(100f, 40f);
+            this.RcButton.relativePosition = new Vector3(0, 30f);
             this.RcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 CityButton.RealCityUIToggle();
@@ -117,8 +117,8 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.RcButton.tooltip = language.RealCityUI[111];
-                this.RcButton.text = language.RealCityUI[111];
+                this.RcButton.tooltip = language.RealCityUI1[111];
+                this.RcButton.text = language.RealCityUI1[111];
                 if (Input.GetMouseButton(2) && Input.GetKeyDown(KeyCode.M))
                 {
                     CityButton.RealCityUIToggle();

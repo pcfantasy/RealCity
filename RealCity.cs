@@ -260,6 +260,8 @@ namespace RealCity
             SaveSetting();
             MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
             method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+            Loader.RemoveGui();
+            Loader.SetupGui();
             //DebugLog.LogToFileOnly("get_current language idex = " + language_idex.ToString());
         }
 
@@ -932,6 +934,11 @@ namespace RealCity
                                 comm_data.building_money[i] -= (result /100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_cemetry_building = true;
 
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
+
                                 if (comm_data.building_money[i] > 80000000)
                                 {
                                     comm_data.building_money[i] = 80000000;
@@ -959,6 +966,11 @@ namespace RealCity
                                 {
                                     comm_data.building_money[i] = -80000000;
                                 }
+
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
                             }
 
                             if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Road)
@@ -976,6 +988,11 @@ namespace RealCity
                                 else if (comm_data.building_money[i] < -80000000)
                                 {
                                     comm_data.building_money[i] = -80000000;
+                                }
+
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
                                 }
                             }
 
@@ -995,6 +1012,11 @@ namespace RealCity
                                 {
                                     comm_data.building_money[i] = -80000000;
                                 }
+
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
                             }
 
                             if ((instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.HealthCare) && (instance.m_buildings.m_buffer[i].Info.m_class.m_level == ItemClass.Level.Level1))
@@ -1012,6 +1034,11 @@ namespace RealCity
                                 else if (comm_data.building_money[i] < -80000000)
                                 {
                                     comm_data.building_money[i] = -80000000;
+                                }
+
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
                                 }
                             }
 
@@ -1032,6 +1059,11 @@ namespace RealCity
                                 {
                                     comm_data.building_money[i] = -80000000;
                                 }
+
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
                             }
 
                             if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Monument)
@@ -1049,6 +1081,11 @@ namespace RealCity
                                 {
                                     comm_data.building_money[i] = -80000000;
                                 }
+
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
+                                }
                             }
 
                             if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Beautification)
@@ -1065,6 +1102,11 @@ namespace RealCity
                                 else if (comm_data.building_money[i] < -80000000)
                                 {
                                     comm_data.building_money[i] = -80000000;
+                                }
+
+                                if (comm_data.update_outside_count == 63)
+                                {
+                                    comm_data.building_money[i] = 0;
                                 }
                             }
 

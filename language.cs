@@ -30,62 +30,67 @@ namespace RealCity
         public static string[] BuildingUI_English = {
             "Building Money(unit:1/100₡)",
             "Only show industry and commerical building money",
-            "buildingincomebuffer",
-            "Only show industry and commerical buildingincomebuffer",
-            "buildingoutgoingbuffer",
-            "Only show industry and commerical buildingincomebuffer",
+            "Material Buffer",
+            "Only show industry and commerical Material Buffer",
+            "Production Buffer",
+            "Only show industry and commerical Production Buffer",
             "aliveworkcount",
             "aliveworkcount",
-            "average employfee(in resident time-period view)",
-            "average employfee(in resident time-period view)",
-            "landrent",
-            "landrent",
-            "net_asset",
-            "net_asset",
+            "average employfee(resident time-period)",
+            "average employfee(resident time-period)",
+            "Building landrent",
+            "Building landrent",
+            "Building net asset",
+            "Building net asset",
             "Family Money(unit:1/100₡)",
             "Only show Family money",
-            "profit-sharing(current)",
+            "(profit-sharing)",
             "Accumulating Money(unit:₡)",
+            "Buy price:",
+            "Sell price:",
+            "Family Salary:",
+            "Material/Production:",
+            "Sell tax",
+            "BuyToSell Profit",
+            "(exclude visit income)"
         };
 
         public static string[] EconomicUI_English =
         {
             "Economic Data",
             "1、Citizen Status(unit: 1/100₡)",
-            "citizen_count",
+            "citizen_count",    //1
             "total citizen_count",
-            "family_count",
+            "family_count",    //2
             "total family_count",
+            "salary_per_family",
             "citizen_salary_per_family",
-            "citizen_salary_per_family",
-            "salary_total",
-            "total citizen_salary",
-            "citizen_tax_total",
-            "total_citizen_salary_tax",
+            "citizen_tax_per_family",   //1
+            "total_citizen_salary_tax_per_family",
+            "expense_per_family",    //2
             "fixed_expense_per_family",
-            "citizen_expense_per_family",
-            "citizen_expense",
-            "total citizen_expense",
+            "average_trans_fee",
+            "citizen_average_transport_fee",
             "public_trans_fee",
             "public_transport_fee",
             "citizen_vehical_time",
             "total citizen_vehical_time",
-            "medium_salary",
+            "high_salary",    //1
+            "family_high_salary_num",
+            "medium_salary",    //2
             "total family_medium_salary_num",
             "low_salary",
             "family_low_salary_num",
-            "high_salary",
-            "family_high_salary_num",
-            "wealth_stable_high",
+            "wealth_high",    //1
             "family_wealth_stable_high_num",
-            "wealth_stable_low",
+            "wealth_medium",    //2
+            "family_wealth_stable_high_num",
+            "wealth_low",
             "family_wealth_stable_low_num",
-            "average_trans_fee",
-            "citizen_average_transport_fee",
-            "family total goods",
-            "family total goods",
-            "family satisfactios of goods",
-            "family satisfactios of goods",
+            "satisfactions of goods",
+            "family satisfactions of goods",
+            "insurance_account(delta)",
+            "city_insurance_account(delta)",
             "2、Building Status",
             "good_export_ratio",
             "good_export_ratio",
@@ -123,30 +128,30 @@ namespace RealCity
             "log_import_ratio",
             "grain_import_ratio",
             "grain_import_ratio",
-            "all_comm_building_profit num",
-            "all_comm_building_profit num",
-            "all_comm_building_loss num",
-            "all_comm_building_loss num",
-            "all_industry_building_profit",
-            "all_industry_building_profit",
-            "all_industry_building_loss num",
-            "all_industry_building_loss num",
-            "all_foresty_building_profit num",
-            "all_foresty_building_profit num",
-            "all_foresty_building_loss num",
-            "all_foresty_building_loss num",
-            "all_farmer_building_profit num",
-            "all_farmer_building_profit num",
-            "all_farmer_building_loss num",
-            "all_farmer_building_loss num",
-            "all_oil_building_profit num",
-            "all_oil_building_profit num",
-            "all_oil_building_loss num",
-            "all_oil_building_loss num",
-            "all_ore_building_profit num",
-            "all_ore_building_profit num",
-            "all_ore_building_loss num",
-            "all_ore_building_loss num",
+            "commerical_profit num",
+            "commerical_profit num",
+            "commerical_loss num",
+            "commerical_loss num",
+            "industrial_profit num",
+            "industrial_profit num",
+            "industrial_loss num",
+            "industrial_loss num",
+            "foresty_profit num",
+            "foresty_profit num",
+            "foresty_loss num",
+            "foresty_loss num",
+            "farming_profit num",
+            "farming_profit num",
+            "farming_loss num",
+            "farming_loss num",
+            "oil_profit num",
+            "oil_profit num",
+            "oil_loss num",
+            "oil_loss num",
+            "ore_profit num",
+            "ore_profit num",
+            "ore_loss num",
+            "ore_loss num",
             "very profit company num",
             "very profit company num",
             "external money for office",
@@ -173,8 +178,6 @@ namespace RealCity
             "outside jail compacity",
             "outside policecar num",
             "outside policecar num",
-            "outside firetruck num",
-            "outside firetruck num",
             "tip1",
             "tip1",
             "tip2",
@@ -193,8 +196,6 @@ namespace RealCity
             "tip8",
             "tip9",
             "tip9",
-            "city_insurance_account(delta)",
-            "city_insurance_account(delta)",
             "tip10",
             "tip10",
         };
@@ -217,13 +218,13 @@ namespace RealCity
         "Suggested shop num ",
         "#RealCity Heared that the shop below my house will close down",
         "#RealCity I think there are too many shops in our city",
-        "(Adjust it by checking family satisfactios of goods and no good mark)",
+        "(Adjust it by satisfactions of goods and no good mark)",
         "#RealCity industrialization city, happy with our city",
         "most of industrial buildings are profit.",
         "#RealCity Two months with discount salary, what happened with my workplace",
         "most of industrial buildings are lossing money.",
         "#RealCity Too many trucks through our city with noise but without any benefits!",
-        "Build road maintain buildings to earn money and let more cargotrucks to bring in demand",
+        "Build road maintain buildings to earn money and can let more cargotrucks in",
         "#RealCity .",
         "We are sending trucks to maintain outside road now",
         "#RealCity Neighbour city is full of garbage now, wish our city will not like that in the future",
@@ -254,7 +255,7 @@ namespace RealCity
 
         public static string[] RealCityUI_English =
         {
-            "1、City resident salary-tax income(include endowment unemployed medical insurance)",
+            "1、City resident salary-tax income(include all insurance)",
             "citizen salary-tax income",
             "total citizen salary tax income",
             "2、City tourism income",
@@ -345,26 +346,26 @@ namespace RealCity
             "HealthCare",
             "Garbage",
             "Garbage",
-            "police",
-            "police",
-            "school",
-            "school",
-            "firestation",
-            "firestation",
+            "Police",
+            "Police",
+            "School",
+            "School",
+            "Firestation",
+            "Firestation",
             "7、City all total income",
             "City income data(unit:₡)",
             "Spercial Task(once at a time)",
-            "infinity garbage,receive 200 garbagecars in 1000time, will get 90K(cd time 2000,available when family>500)",
-            "infinity dead,receive 200 hearsecars in 1000time,will get 50K(cd time 2500,available when family>2000)",
-            "crasy traffic,receive 4K feedthrough traffic in 2000time, get 70K(cd time 3000,available when family>1000)",
-            "happy holiday,1.5x visitors come in, will spend 50K(cd time 3000,available when family>4000)",
+            "infinity garbage,receive 200 garbagecars in 1000time,get 90K(cd time 2000,when family>500)",
+            "infinity dead,receive 200 hearsecars in 1000time,get 50K(cd time 2500,when family>2000)",
+            "crasy traffic,receive 4K feedthrough traffic in 2000time,get 70K(cd time 3000,when family>1000)",
+            "happy holiday,1.5x visitors come in, will spend 50K(cd time 3000,when family>4000)",
             "remaining_time",
             "task remaining_time",
             "remaining_num",
             "task remaining_num",
             "cooldown time",
             "task cooldown time",
-            "If using rush hour, tell me if it is weekend now to disable Smart Public Transport function at weekend",
+            "If using rush hour, tell mod if it is weekend to disable Smart Public Transport function",
             "City Data"
         };
 
@@ -373,9 +374,9 @@ namespace RealCity
 
         public static string[] BuildingUI_Chinese = { "公司现金流(单位:1/100克朗)",
             "只显示商业和工业建筑的现金流",
-            "公司原料仓库储存量",
+            "原料仓库储存量",
             "只显示商业和工业建筑的原料仓库储存量",
-            "公司产品仓库储存量",
+            "产品仓库储存量",
             "只显示商业和工业建筑的产品仓库储存量",
             "到达公司员工",
             "到达公司员工",
@@ -388,7 +389,14 @@ namespace RealCity
             "居民家庭存款(单位:1/100克朗)",
             "居民家庭存款",
             "分红制(当次)",
-            "累积赚或亏的钱(单位:克朗)"};
+            "累积赚或亏的钱(单位:克朗)",
+             "原料买入价格:",
+             "产品卖出价格:",
+             "家庭总工资:",
+             "原料产品消耗比:",
+             "卖出收入交易税",
+             "买入卖出利润率",
+             "(不包括商业访问收入)"};
 
     public static string[] OptionUI_Chinese =
         {
@@ -419,34 +427,32 @@ namespace RealCity
             "家庭总户数",
             "每户居民收入",
             "每户居民收入",
-            "总收入",
-            "居民总收入",
-            "居民总纳税",
-            "居民总所得税",
+            "居民平均纳税",
+            "居民平均纳税",
             "每户固定支出",
             "居民每户固定支出",
-            "居民支出",
-            "居民总支出",
+            "平均公交费用",
+            "居民平均公交费用",
             "公共交通费用",
             "公共交通费用",
             "居民驾车时间",
             "居民总驾车时间",
+            "收支优秀的户数",
+            "收支优秀的户数",
             "收支尚可的户数",
             "收支尚可的户数",
             "收支糟糕的户数",
             "收支糟糕的户数",
-            "收支优秀的户数",
-            "收支优秀的户数",
             "财富稳定性高",
             "家庭财富稳定性高的户数",
+            "财富稳定性中",
+            "家庭财富稳定性中的户数",
             "财富稳定性低",
             "家庭财富稳定性低的户数",
-            "平均公交费用",
-            "居民平均公交费用",
-            "家庭总货物",
-            "家庭总货物",
             "家庭货物满足度",
             "家庭货物满足度",
+            "城市保险账户(变动)",
+            "城市保险账户(变动)",
             "2、建筑情况",
             "货物出口比例",
             "货物出口比例",
@@ -514,18 +520,18 @@ namespace RealCity
             "可用于投资办公的钱",
             "3、城市外部情况",
             "城市外部情况",
-            "城市外部垃圾",
-            "城市外部总垃圾",
-            "城市外部遗体",
-            "城市外部总遗体",
-            "城市外部病人",
-            "城市外部总病人",
-            "城市外部罪犯",
-            "城市外部总罪犯",
-            "城市外部道路状况",
-            "城市外部道路状况",
-            "城市外部火情",
-            "城市外部火情",
+            "外部垃圾",
+            "外部总垃圾",
+            "外部遗体",
+            "外部总遗体",
+            "外部病人",
+            "外部总病人",
+            "外部罪犯",
+            "外部总罪犯",
+            "外部道路状况",
+            "外部道路状况",
+            "外部火情",
+            "外部火情",
             "外部医院容量",
             "外部医院容量",
             "外部救护车",
@@ -534,8 +540,6 @@ namespace RealCity
             "外部监狱容量",
             "外部警车",
             "外部警车",
-            "外部救火车",
-            "外部救火车",
             "提示1",
             "提示1",
             "提示2",
@@ -554,8 +558,6 @@ namespace RealCity
             "提示8",
             "提示9",
             "提示9",
-            "城市保险账户(变动)",
-            "城市保险账户(变动)",
             "提示10",
             "提示10",
         };
@@ -732,7 +734,7 @@ namespace RealCity
 
         public static string[] BuildingUI = new string[BuildingUI_English.Length];
         public static string[] OptionUI = new string[OptionUI_English.Length];
-        public static string[] RealCityUI = new string[RealCityUI_Chinese.Length];
+        public static string[] RealCityUI1 = new string[RealCityUI_Chinese.Length];
         public static string[] TipAndChirperMessage = new string[TipAndChirperMessage_Chinese.Length];
         public static string[] EconomicUI = new string[EconomicUI_Chinese.Length];
 
@@ -760,9 +762,11 @@ namespace RealCity
                 }
                 for (int i = 0; i < RealCityUI_English.Length; i++)
                 {
-                    RealCityUI[i] = RealCityUI_Chinese[i];
+                    RealCityUI1[i] = RealCityUI_Chinese[i];
                 }
                 current_language = 1;
+                MoreeconomicUI.WIDTH = 650;
+                RealCityUI.WIDTH = 700;
             }
             else if (language == 0)
             {
@@ -784,9 +788,11 @@ namespace RealCity
                 }
                 for (int i = 0; i < RealCityUI_English.Length; i++)
                 {
-                    RealCityUI[i] = RealCityUI_English[i];
+                    RealCityUI1[i] = RealCityUI_English[i];
                 }
                 current_language = 0;
+                MoreeconomicUI.WIDTH = 800;
+                RealCityUI.WIDTH = 850;
             }
             else
             {
@@ -809,9 +815,11 @@ namespace RealCity
                 }
                 for (int i = 0; i < RealCityUI_English.Length; i++)
                 {
-                    RealCityUI[i] = RealCityUI_English[i];
+                    RealCityUI1[i] = RealCityUI_English[i];
                 }
                 current_language = 0;
+                MoreeconomicUI.WIDTH = 800;
+                RealCityUI.WIDTH = 850;
             }
 
             comm_data.last_language = current_language;

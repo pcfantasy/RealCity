@@ -153,7 +153,7 @@ namespace RealCity
             base.OnReleased();
         }
 
-        public void SetupGui()
+        public static void SetupGui()
         {
             Loader.parentGuiView = null;
             Loader.parentGuiView = UIView.GetAView();
@@ -182,7 +182,7 @@ namespace RealCity
             Loader.isGuiRunning = true;
         }
 
-        public void SetupBuidingGui()
+        public static void SetupBuidingGui()
         {
             buildingWindowGameObject = new GameObject("buildingWindowObject");
             guiPanel2 = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
@@ -202,7 +202,7 @@ namespace RealCity
             buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
         }
 
-        public void SetupHumanGui()
+        public static void SetupHumanGui()
         {
             HumanWindowGameObject = new GameObject("HumanWindowGameObject");
             guiPanel3 = (HumanUI)HumanWindowGameObject.AddComponent(typeof(HumanUI));
@@ -220,7 +220,7 @@ namespace RealCity
             HumanInfo.eventVisibilityChanged += HumanInfo_eventVisibilityChanged;
         }
 
-        public void SetupPlayerBuidingGui()
+        public static void SetupPlayerBuidingGui()
         {
             PlayerbuildingWindowGameObject = new GameObject("PlayerbuildingWindowGameObject");
             guiPanel4 = (PlayerBuildingUI)PlayerbuildingWindowGameObject.AddComponent(typeof(PlayerBuildingUI));
@@ -238,7 +238,7 @@ namespace RealCity
             playerbuildingInfo.eventVisibilityChanged += playerbuildingInfo_eventVisibilityChanged;
         }
 
-        public void SetupEcnomicButton()
+        public static void SetupEcnomicButton()
         {
             if (EcMenuPanel == null)
             {
@@ -248,7 +248,7 @@ namespace RealCity
         }
 
 
-        public void SetupCityButton()
+        public static void SetupCityButton()
         {
             if (RcMenuPanel == null)
             {
@@ -258,7 +258,7 @@ namespace RealCity
         }
 
 
-        public void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
+        public static void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
             guiPanel2.isEnabled = value;
             if (value)
@@ -280,7 +280,7 @@ namespace RealCity
         }
 
 
-        public void playerbuildingInfo_eventVisibilityChanged(UIComponent component, bool value)
+        public static void playerbuildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
             guiPanel4.isEnabled = value;
             if (value)
@@ -301,7 +301,7 @@ namespace RealCity
             }
         }
 
-        public void HumanInfo_eventVisibilityChanged(UIComponent component, bool value)
+        public static void HumanInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
             guiPanel3.isEnabled = value;
             if (value)
@@ -321,12 +321,16 @@ namespace RealCity
         }
 
 
-        public void RemoveGui()
+        public static void RemoveGui()
         {
             Loader.isGuiRunning = false;
             if (Loader.parentGuiView != null)
             {
                 Loader.parentGuiView = null;
+                UnityEngine.Object.Destroy(guiPanel);
+                UnityEngine.Object.Destroy(guiPanel1);
+                Loader.guiPanel = null;
+                Loader.guiPanel1 = null;
             }
 
             //remove buildingUI

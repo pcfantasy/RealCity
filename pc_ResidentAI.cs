@@ -1232,6 +1232,16 @@ namespace RealCity
             {
                 comm_data.citizen_profit_status[homeID]--;
             }
+            else
+            {
+                if (comm_data.citizen_profit_status[homeID] > 128)
+                {
+                    comm_data.citizen_profit_status[homeID]--;
+                } else
+                {
+                    comm_data.citizen_profit_status[homeID]++;
+                }
+            }
 
 
 
@@ -1260,7 +1270,7 @@ namespace RealCity
             {
                 if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3))
                 {
-                    if (rand.Next(100) < 10)
+                    if (rand.Next(100) < 20)
                     {
                         if (num3 != 0u)
                         {
@@ -1275,7 +1285,7 @@ namespace RealCity
             {
                 if ((home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3) || (home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
-                    if (rand.Next(100) < 5)
+                    if (rand.Next(100) < 10)
                     {
                         if (num3 != 0u)
                         {
@@ -1290,7 +1300,7 @@ namespace RealCity
             {
                 if (home_level == ItemClass.Level.Level1)
                 {
-                    if (rand.Next(100) < 2)
+                    if (rand.Next(100) < 10)
                     {
                         if (num3 != 0u)
                         {
@@ -1300,7 +1310,7 @@ namespace RealCity
                 }
                 else if ((home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
                 {
-                    if (rand.Next(100) < 5)
+                    if (rand.Next(100) < 10)
                     {
                         if (num3 != 0u)
                         {

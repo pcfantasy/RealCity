@@ -53,8 +53,8 @@ namespace RealCity
         {
             UIView aView = UIView.GetAView();
             base.name = "MoreeconomicUIPanel";
-            base.width = 140f;
-            base.height = 100f;
+            base.width = 120f;
+            base.height = 70f;
             base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 600), (float)(Loader.parentGuiView.fixedHeight / 2 - 540));
             this.BringToFront();
             base.backgroundSprite = "MenuPanel";
@@ -72,8 +72,8 @@ namespace RealCity
             this.EcButton.name = "EcButton";
             this.EcButton.tooltipBox = aView.defaultTooltipBox;
             this.EcButton.text = language.EconomicUI[0];
-            this.EcButton.size = new Vector2(140f, 50f);
-            this.EcButton.relativePosition = new Vector3(0, 50f);
+            this.EcButton.size = new Vector2(120f, 40f);
+            this.EcButton.relativePosition = new Vector3(0, 30f);
             this.EcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 EcnomicButton.MoreeconomicUIToggle();
