@@ -91,14 +91,17 @@ namespace RealCity
 
             if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || HumanUI.refesh_once || (comm_data.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
-                comm_data.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
-                CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)comm_data.last_citizenid)].m_homeBuilding;
-                BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                uint homeid = instance3.m_citizens.m_buffer[comm_data.last_citizenid].GetContainingUnit(comm_data.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                this.buildingmoney.text = string.Format(language.BuildingUI[14] + " [{0}]", comm_data.citizen_money[homeid]);
-                this.family_salary.text = string.Format(language.BuildingUI[20] + " [{0}]", caculate_family_salary(homeid));
-                HumanUI.refesh_once = false;
+                if (base.isVisible)
+                {
+                    comm_data.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
+                    CitizenManager instance3 = Singleton<CitizenManager>.instance;
+                    ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)comm_data.last_citizenid)].m_homeBuilding;
+                    BuildingManager instance2 = Singleton<BuildingManager>.instance;
+                    uint homeid = instance3.m_citizens.m_buffer[comm_data.last_citizenid].GetContainingUnit(comm_data.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                    this.buildingmoney.text = string.Format(language.BuildingUI[14] + " [{0}]", comm_data.citizen_money[homeid]);
+                    this.family_salary.text = string.Format(language.BuildingUI[20] + " [{0}]", caculate_family_salary(homeid));
+                    HumanUI.refesh_once = false;
+                }
             }
         }
 

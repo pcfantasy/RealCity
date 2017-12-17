@@ -188,7 +188,7 @@ namespace RealCity
 
         //all total income
         public static double all_total_income;
-
+        public static bool refesh_onece = false;
 
 
 
@@ -1046,6 +1046,7 @@ namespace RealCity
         {
             if (!base.isVisible)
             {
+                refesh_onece = true;
                 base.Show();
                 /*if (!this.CoDisplayRefreshEnabled)
                 {

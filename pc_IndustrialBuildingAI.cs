@@ -211,6 +211,7 @@ namespace RealCity
             if ((comm_data.building_money[buildingID] - trade_income1) > 0)
             {
                 trade_tax = -trade_income1 * pc_PrivateBuildingAI.get_tax_rate(data, buildingID);
+                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             } else
             {
                 trade_tax = 0;

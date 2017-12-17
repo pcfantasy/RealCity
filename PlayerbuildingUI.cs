@@ -115,15 +115,19 @@ namespace RealCity
             if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || PlayerBuildingUI.refesh_once || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
-                comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
-                Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
-                int aliveWorkerCount = 0;
-                int totalWorkerCount = 0;
-                float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
-                this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
-                this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
-                this.buildingmoney.text = string.Format(language.BuildingUI[17] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
-                PlayerBuildingUI.refesh_once = false;
+                if (base.isVisible)
+                {
+                    comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+
+                    Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
+                    int aliveWorkerCount = 0;
+                    int totalWorkerCount = 0;
+                    float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
+                    this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
+                    this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
+                    this.buildingmoney.text = string.Format(language.BuildingUI[17] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
+                    PlayerBuildingUI.refesh_once = false;
+                }
             }
 
         }

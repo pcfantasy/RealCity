@@ -33,6 +33,7 @@ namespace RealCity
         {
             if (!Loader.guiPanel1.isVisible)
             {
+                RealCityUI.refesh_onece = true;
                 Loader.guiPanel1.Show();
             }
             else
@@ -55,7 +56,7 @@ namespace RealCity
             base.name = "RealCityUIPanel";
             base.width = 100f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 750), (float)(Loader.parentGuiView.fixedHeight / 2 - 540));
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 100f), 5f);
             this.BringToFront();
             base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;

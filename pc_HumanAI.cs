@@ -147,7 +147,7 @@ namespace RealCity
                     }
                 }
 
-                num = (rand.Next(3) > 1) ? (int)(0.1f * comm_data.citizen_money[homeid]) : num;
+                //num = (rand.Next(3) > 1) ? (int)(0.1f * comm_data.citizen_money[homeid]) : num;
 
                 if(num < 0)
                 {
