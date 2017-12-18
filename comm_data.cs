@@ -481,6 +481,30 @@
         public static bool happy_task = false;
 
         public static bool is_weekend = false;
+
+        //random event
+        public static bool is_random_event = false;
+        public static bool lackofgoods = false;
+        public static bool highpricegoods = false;
+        public static bool highdemand = false;
+        public static bool lowdemand = false;
+        public static bool Virus_attack  = false;
+        public static bool refugees = false;
+        public static bool Rich_immigrants = false;
+        public static bool hot_money = false;
+        public static bool money_flowout = false;
+
+        public static bool high_oil = false;
+        public static bool high_ore = false;
+        public static bool high_logs = false;
+        public static bool high_grain = false;
+        public static bool high_lumber = false;
+        public static bool high_petrol = false;
+        public static bool high_food = false;
+        public static bool high_coal = false;
+
+        public static int event_num = 0;
+
         // reserved some for futher used
         public static ushort[] reserved = new ushort[49025];
         public static ushort[] building_buffer2 = new ushort[49152];

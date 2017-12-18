@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using ColossalFramework.Plugins;
+using System.IO;
 
 namespace RealCity
 {
@@ -12,6 +13,12 @@ namespace RealCity
                 streamWriter.WriteLine(msg);
                 streamWriter.Flush();
             }
+        }
+
+        public static void LogWarning(string msg)
+        {
+            DebugOutputPanel.AddMessage(PluginManager.MessageType.Warning, msg);
+            //_logFile.WriteLine("Warning: " + msg);
         }
     }
 }

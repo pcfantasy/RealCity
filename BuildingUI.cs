@@ -354,7 +354,10 @@ namespace RealCity
             }
             else
             {
-                num1 = num1 / 2f;
+                if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
+                {
+                    num1 = num1 / 2f;
+                }
             }
 
             float local_salary_idex = 0.5f;

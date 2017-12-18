@@ -388,6 +388,8 @@ namespace RealCity
                     caculate_citizen_transport_fee();
                     generate_tips();
                     check_task_status();
+                    //check_event_status();
+                    check_rush_hour();
 
                     comm_data.is_updated = true;
                     comm_data.update_money_count++;
@@ -409,6 +411,188 @@ namespace RealCity
                 //}
                 return internalMoneyAmount;
             }
+
+
+
+            public void check_rush_hour()
+            {                
+                if ((comm_data.current_time - comm_data.prev_time) > 0.012)
+                {
+                    System.Random rand = new System.Random();
+                    //DebugLog.LogToFileOnly((comm_data.current_time - comm_data.prev_time).ToString());
+                    if (rand.Next(100) < 10)
+                    {
+                        DebugLog.LogWarning(language.OptionUI[15]);
+                    }
+                }
+            }
+
+            public void get_high_low_price(bool is_low)
+            {
+                System.Random rand = new System.Random();
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_coal = true;
+                }
+                else
+                {
+                    comm_data.high_coal = false;
+                }
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_petrol = true;
+                }
+                else
+                {
+                    comm_data.high_petrol = false;
+                }
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_food = true;
+                }
+                else
+                {
+                    comm_data.high_food = false;
+                }
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_lumber = true;
+                }
+                else
+                {
+                    comm_data.high_lumber = false;
+                }
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_oil = true;
+                }
+                else
+                {
+                    comm_data.high_oil = false;
+                }
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_ore = true;
+                }
+                else
+                {
+                    comm_data.high_ore = false;
+                }
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_logs = true;
+                }
+                else
+                {
+                    comm_data.high_logs = false;
+                }
+                if (rand.Next(1) == 0)
+                {
+                    comm_data.high_grain = true;
+                }
+                else
+                {
+                    comm_data.high_grain = false;
+                }
+
+                if (!is_low)
+                {
+                    switch (rand.Next(8))
+                    {
+                        case 0:
+                            comm_data.high_grain = true; break;
+                        case 1:
+                            comm_data.high_logs = true; break;
+                        case 2:
+                            comm_data.high_ore = true; break;
+                        case 3:
+                            comm_data.high_oil = true; break;
+                        case 4:
+                            comm_data.high_lumber = true; break;
+                        case 5:
+                            comm_data.high_food = true; break;
+                        case 6:
+                            comm_data.high_petrol = true; break;
+                        case 7:
+                            comm_data.high_coal = true; break;
+                        default: break;
+                    }
+                }
+                else
+                {
+                    switch (rand.Next(8))
+                    {
+                        case 0:
+                            comm_data.high_grain = false; break;
+                        case 1:
+                            comm_data.high_logs = false; break;
+                        case 2:
+                            comm_data.high_ore = false; break;
+                        case 3:
+                            comm_data.high_oil = false; break;
+                        case 4:
+                            comm_data.high_lumber = false; break;
+                        case 5:
+                            comm_data.high_food = false; break;
+                        case 6:
+                            comm_data.high_petrol = false; break;
+                        case 7:
+                            comm_data.high_coal = false; break;
+                        default: break;
+                    }
+                }
+            }
+
+            public void check_event_status()
+            {
+                if(comm_data.event_num <=0)
+                {
+                    comm_data.is_random_event = false;
+                    System.Random rand = new System.Random();
+                    comm_data.lackofgoods = false;
+                    comm_data.highpricegoods = true;
+                    comm_data.highpricegoods = true;
+                    comm_data.Rich_immigrants = true;
+                    comm_data.highpricegoods = true;
+                    comm_data.hot_money = true;
+                    comm_data.money_flowout = true;
+                    comm_data.lowdemand = true;
+                    comm_data.highdemand = true;
+                    if (rand.Next(1000) < 10)
+                    {
+                        comm_data.is_random_event = true;
+                        comm_data.event_num = 1000;
+                        switch (rand.Next(10))
+                        {
+                            case 0:
+                                comm_data.lackofgoods = true;break;
+                            case 1:
+                                comm_data.highpricegoods = true; break;
+                            case 2:
+                                comm_data.highpricegoods = true; break;
+                            case 3:
+                                comm_data.refugees = true; break;
+                            case 4:
+                                comm_data.Rich_immigrants = true; break;
+                            case 5:
+                                comm_data.highpricegoods = true; break;
+                            case 6:
+                                comm_data.hot_money = true; break;
+                            case 7:
+                                comm_data.money_flowout = true; break;
+                            case 8:
+                                comm_data.lowdemand = true; get_high_low_price(true);break;
+                            case 9:
+                                comm_data.highdemand = true; get_high_low_price(false); break;
+                            default:break;
+                        }
+                    }
+                } else
+                {
+                    comm_data.event_num--;
+                }
+            }
+
 
 
             public void check_task_status()
@@ -632,6 +816,7 @@ namespace RealCity
                     tip8_message_forgui = language.TipAndChirperMessage[44];
                 }
 
+                tip9_message_forgui = language.TipAndChirperMessage[45];
 
                 if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count/10) < 150)
                 {
@@ -644,7 +829,7 @@ namespace RealCity
                     tip10_message_forgui = language.TipAndChirperMessage[47];
                 }
 
-                tip9_message_forgui = language.TipAndChirperMessage[45];
+
             }
 
             public void try_say_something(string message)

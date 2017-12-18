@@ -25,6 +25,7 @@ namespace RealCity
             "Accept Outside Fire Help(will not go outside for Fire inspection Help Demand)",            
             "Accept Outside Hospital Help(will not go outside for First Aid Help Demand)",
             "Accept Outside Police Help(will not go outside for Police Patrol Demand)",
+            "Please set rush hour time speed to 0.125x"
         };
 
         public static string[] BuildingUI_English = {
@@ -415,6 +416,7 @@ namespace RealCity
             "接受外部消防帮助(就不会去外部消防检查)",
             "接受外部医院服务(就不会去外部参与急救)",
             "接受外部警务帮助(就不会去外部治安巡逻)",
+            "Please set rush hour time speed to 0.125x"    //do not translate this, or will be crash.
         };
 
         public static string[] EconomicUI_Chinese =
