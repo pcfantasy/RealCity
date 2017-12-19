@@ -969,73 +969,82 @@ namespace RealCity
         {
             //EconomyPanel instance = Singleton<EconomyPanel>.instance;
             //isRefreshing = true;
-            process_data();
-            //citizen
-            //this.citizen_count.text = string.Format(language.RealCityUI1[0] + " [{0}]", comm_data.citizen_count);
-            this.m_title.text = language.RealCityUI1[98];
-            this.citizen_tax_income_title.text = string.Format(language.RealCityUI1[0] + " [{0}]  [{1:N2}%]", citizen_tax_income_total, citizen_tax_income_percent*100);
-            this.citizen_tax_income.text = string.Format(language.RealCityUI1[1] + " [{0}]", citizen_tax_income_forui);
-            this.city_tourism_income_title.text = string.Format(language.RealCityUI1[3] + " [{0}]  [{1:N2}%]", city_tourism_income_total, city_tourism_income_percent*100) ;
-            this.citizen_income.text = string.Format(language.RealCityUI1[4] + " [{0}]", citizen_income_forui);
-            this.tourist_income.text = string.Format(language.RealCityUI1[6] + " [{0}]", tourist_income_forui);
-            this.land_income_title.text = string.Format(language.RealCityUI1[8] + " [{0}]  [{1:N2}%]", city_land_income_total, city_land_income_percent*100);
-            this.resident_high_landincome.text = string.Format(language.RealCityUI1[10] + " [{0}]", resident_high_landincome_forui);
-            this.resident_low_landincome.text = string.Format(language.RealCityUI1[12] + " [{0}]", resident_low_landincome_forui);
-            this.resident_high_eco_landincome.text = string.Format(language.RealCityUI1[14] + " [{0}]", resident_high_eco_landincome_forui);
-            this.resident_low_eco_landincome.text = string.Format(language.RealCityUI1[16] + " [{0}]", resident_low_eco_landincome_forui);
-            this.comm_high_landincome.text = string.Format(language.RealCityUI1[18] + " [{0}]", comm_high_landincome_forui);
-            this.comm_low_landincome.text = string.Format(language.RealCityUI1[20] + " [{0}]", comm_low_landincome_forui);
-            this.comm_lei_landincome.text = string.Format(language.RealCityUI1[22] + " [{0}]", comm_lei_landincome_forui);
-            this.comm_tou_landincome.text = string.Format(language.RealCityUI1[24] + " [{0}]", comm_tou_landincome_forui);
-            this.comm_eco_landincome.text = string.Format(language.RealCityUI1[26] + " [{0}]", comm_eco_landincome_forui);
-            this.indu_gen_landincome.text = string.Format(language.RealCityUI1[28] + " [{0}]", indu_gen_landincome_forui);
-            this.indu_farmer_landincome.text = string.Format(language.RealCityUI1[30] + " [{0}]", indu_farmer_landincome_forui);
-            this.indu_foresty_landincome.text = string.Format(language.RealCityUI1[32] + " [{0}]", indu_foresty_landincome_forui);
-            this.indu_oil_landincome.text = string.Format(language.RealCityUI1[34] + " [{0}]", indu_oil_landincome_forui);
-            this.indu_ore_landincome.text = string.Format(language.RealCityUI1[36] + " [{0}]", indu_ore_landincome_forui);
-            this.office_gen_landincome.text = string.Format(language.RealCityUI1[38] + " [{0}]", office_gen_landincome_forui);
-            this.office_high_tech_landincome.text = string.Format(language.RealCityUI1[40] + " [{0}]", office_high_tech_landincome_forui); ;
-            this.trade_income_title.text = string.Format(language.RealCityUI1[42] + " [{0}]  [{1:N2}%]", city_trade_income_total, city_trade_income_percent*100);
-            this.comm_high_tradeincome.text = string.Format(language.RealCityUI1[44] + " [{0}]", comm_high_tradeincome_forui);
-            this.comm_low_tradeincome.text = string.Format(language.RealCityUI1[46] + " [{0}]", comm_low_tradeincome_forui);
-            this.comm_lei_tradeincome.text = string.Format(language.RealCityUI1[52] + " [{0}]", comm_lei_tradeincome_forui);
-            this.comm_tou_tradeincome.text = string.Format(language.RealCityUI1[50] + " [{0}]", comm_tou_tradeincome_forui);
-            this.comm_eco_tradeincome.text = string.Format(language.RealCityUI1[48] + " [{0}]", comm_eco_tradeincome_forui);
-            this.indu_gen_tradeincome.text = string.Format(language.RealCityUI1[54] + " [{0}]", indu_gen_tradeincome_forui);
-            this.indu_farmer_tradeincome.text = string.Format(language.RealCityUI1[56] + " [{0}]", indu_farmer_tradeincome_forui);
-            this.indu_foresty_tradeincome.text = string.Format(language.RealCityUI1[58] + " [{0}]", indu_foresty_tradeincome_forui);
-            this.indu_oil_tradeincome.text = string.Format(language.RealCityUI1[60] + " [{0}]", indu_oil_tradeincome_forui);
-            this.indu_ore_tradeincome.text = string.Format(language.RealCityUI1[62] + " [{0}]", indu_ore_tradeincome_forui);
-            this.public_transport_income_title.text = string.Format(language.RealCityUI1[64] + " [{0}]  [{1:N2}%]", city_transport_income_total, city_transport_income_percent*100);
-            this.from_bus.text = string.Format(language.RealCityUI1[65] + " [{0}]", bus_income);
-            this.from_tram.text = string.Format(language.RealCityUI1[67] + " [{0}]", tram_income);
-            this.from_train.text = string.Format(language.RealCityUI1[69] + " [{0}]", train_income);
-            this.from_ship.text = string.Format(language.RealCityUI1[71] + " [{0}]", ship_income);
-            this.from_plane.text = string.Format(language.RealCityUI1[73] + " [{0}]", plane_income);
-            this.from_metro.text = string.Format(language.RealCityUI1[75] + " [{0}]", metro_income);
-            this.from_taxi.text = string.Format(language.RealCityUI1[77] + " [{0}]", taxi_income);
-            this.from_cable_car.text = string.Format(language.RealCityUI1[79] + " [{0}]", cablecar_income);
-            this.from_monorail.text = string.Format(language.RealCityUI1[81] + " [{0}]", monorail_income);
-            this.goverment_income_title.text = string.Format(language.RealCityUI1[83] + " [{0}]  [{1:N2}%]", city_playerbuilding_income_total, city_playerbuilding_income_percent * 100);
-            this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [{0}]", road_income_forui);
-            this.cemetery_income_title.text = string.Format(language.RealCityUI1[87] + " [{0}]", cemetery_income_forui);
-            this.garbage_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", garbage_income_forui);
-            this.police_income_title.text = string.Format(language.RealCityUI1[91] + " [{0}]",police_income_forui);
-            this.school_income_title.text = string.Format(language.RealCityUI1[93] + " [{0}]", school_income_forui);
-            this.firestation_income_title.text = string.Format(language.RealCityUI1[95] + " [{0}]", firestation_income_forui);
-            this.all_total_income_ui.text = string.Format(language.RealCityUI1[97] + " [{0}]", all_total_income);
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            uint num2 = currentFrameIndex & 255u;
+            if (refesh_onece)
+            {
+                if (base.isVisible)
+                {
+                    process_data();
+                    //citizen
+                    //this.citizen_count.text = string.Format(language.RealCityUI1[0] + " [{0}]", comm_data.citizen_count);
+                    this.m_title.text = language.RealCityUI1[98];
+                    this.citizen_tax_income_title.text = string.Format(language.RealCityUI1[0] + " [{0}]  [{1:N2}%]", citizen_tax_income_total, citizen_tax_income_percent * 100);
+                    this.citizen_tax_income.text = string.Format(language.RealCityUI1[1] + " [{0}]", citizen_tax_income_forui);
+                    this.city_tourism_income_title.text = string.Format(language.RealCityUI1[3] + " [{0}]  [{1:N2}%]", city_tourism_income_total, city_tourism_income_percent * 100);
+                    this.citizen_income.text = string.Format(language.RealCityUI1[4] + " [{0}]", citizen_income_forui);
+                    this.tourist_income.text = string.Format(language.RealCityUI1[6] + " [{0}]", tourist_income_forui);
+                    this.land_income_title.text = string.Format(language.RealCityUI1[8] + " [{0}]  [{1:N2}%]", city_land_income_total, city_land_income_percent * 100);
+                    this.resident_high_landincome.text = string.Format(language.RealCityUI1[10] + " [{0}]", resident_high_landincome_forui);
+                    this.resident_low_landincome.text = string.Format(language.RealCityUI1[12] + " [{0}]", resident_low_landincome_forui);
+                    this.resident_high_eco_landincome.text = string.Format(language.RealCityUI1[14] + " [{0}]", resident_high_eco_landincome_forui);
+                    this.resident_low_eco_landincome.text = string.Format(language.RealCityUI1[16] + " [{0}]", resident_low_eco_landincome_forui);
+                    this.comm_high_landincome.text = string.Format(language.RealCityUI1[18] + " [{0}]", comm_high_landincome_forui);
+                    this.comm_low_landincome.text = string.Format(language.RealCityUI1[20] + " [{0}]", comm_low_landincome_forui);
+                    this.comm_lei_landincome.text = string.Format(language.RealCityUI1[22] + " [{0}]", comm_lei_landincome_forui);
+                    this.comm_tou_landincome.text = string.Format(language.RealCityUI1[24] + " [{0}]", comm_tou_landincome_forui);
+                    this.comm_eco_landincome.text = string.Format(language.RealCityUI1[26] + " [{0}]", comm_eco_landincome_forui);
+                    this.indu_gen_landincome.text = string.Format(language.RealCityUI1[28] + " [{0}]", indu_gen_landincome_forui);
+                    this.indu_farmer_landincome.text = string.Format(language.RealCityUI1[30] + " [{0}]", indu_farmer_landincome_forui);
+                    this.indu_foresty_landincome.text = string.Format(language.RealCityUI1[32] + " [{0}]", indu_foresty_landincome_forui);
+                    this.indu_oil_landincome.text = string.Format(language.RealCityUI1[34] + " [{0}]", indu_oil_landincome_forui);
+                    this.indu_ore_landincome.text = string.Format(language.RealCityUI1[36] + " [{0}]", indu_ore_landincome_forui);
+                    this.office_gen_landincome.text = string.Format(language.RealCityUI1[38] + " [{0}]", office_gen_landincome_forui);
+                    this.office_high_tech_landincome.text = string.Format(language.RealCityUI1[40] + " [{0}]", office_high_tech_landincome_forui); ;
+                    this.trade_income_title.text = string.Format(language.RealCityUI1[42] + " [{0}]  [{1:N2}%]", city_trade_income_total, city_trade_income_percent * 100);
+                    this.comm_high_tradeincome.text = string.Format(language.RealCityUI1[44] + " [{0}]", comm_high_tradeincome_forui);
+                    this.comm_low_tradeincome.text = string.Format(language.RealCityUI1[46] + " [{0}]", comm_low_tradeincome_forui);
+                    this.comm_lei_tradeincome.text = string.Format(language.RealCityUI1[52] + " [{0}]", comm_lei_tradeincome_forui);
+                    this.comm_tou_tradeincome.text = string.Format(language.RealCityUI1[50] + " [{0}]", comm_tou_tradeincome_forui);
+                    this.comm_eco_tradeincome.text = string.Format(language.RealCityUI1[48] + " [{0}]", comm_eco_tradeincome_forui);
+                    this.indu_gen_tradeincome.text = string.Format(language.RealCityUI1[54] + " [{0}]", indu_gen_tradeincome_forui);
+                    this.indu_farmer_tradeincome.text = string.Format(language.RealCityUI1[56] + " [{0}]", indu_farmer_tradeincome_forui);
+                    this.indu_foresty_tradeincome.text = string.Format(language.RealCityUI1[58] + " [{0}]", indu_foresty_tradeincome_forui);
+                    this.indu_oil_tradeincome.text = string.Format(language.RealCityUI1[60] + " [{0}]", indu_oil_tradeincome_forui);
+                    this.indu_ore_tradeincome.text = string.Format(language.RealCityUI1[62] + " [{0}]", indu_ore_tradeincome_forui);
+                    this.public_transport_income_title.text = string.Format(language.RealCityUI1[64] + " [{0}]  [{1:N2}%]", city_transport_income_total, city_transport_income_percent * 100);
+                    this.from_bus.text = string.Format(language.RealCityUI1[65] + " [{0}]", bus_income);
+                    this.from_tram.text = string.Format(language.RealCityUI1[67] + " [{0}]", tram_income);
+                    this.from_train.text = string.Format(language.RealCityUI1[69] + " [{0}]", train_income);
+                    this.from_ship.text = string.Format(language.RealCityUI1[71] + " [{0}]", ship_income);
+                    this.from_plane.text = string.Format(language.RealCityUI1[73] + " [{0}]", plane_income);
+                    this.from_metro.text = string.Format(language.RealCityUI1[75] + " [{0}]", metro_income);
+                    this.from_taxi.text = string.Format(language.RealCityUI1[77] + " [{0}]", taxi_income);
+                    this.from_cable_car.text = string.Format(language.RealCityUI1[79] + " [{0}]", cablecar_income);
+                    this.from_monorail.text = string.Format(language.RealCityUI1[81] + " [{0}]", monorail_income);
+                    this.goverment_income_title.text = string.Format(language.RealCityUI1[83] + " [{0}]  [{1:N2}%]", city_playerbuilding_income_total, city_playerbuilding_income_percent * 100);
+                    this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [{0}]", road_income_forui);
+                    this.cemetery_income_title.text = string.Format(language.RealCityUI1[87] + " [{0}]", cemetery_income_forui);
+                    this.garbage_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", garbage_income_forui);
+                    this.police_income_title.text = string.Format(language.RealCityUI1[91] + " [{0}]", police_income_forui);
+                    this.school_income_title.text = string.Format(language.RealCityUI1[93] + " [{0}]", school_income_forui);
+                    this.firestation_income_title.text = string.Format(language.RealCityUI1[95] + " [{0}]", firestation_income_forui);
+                    this.all_total_income_ui.text = string.Format(language.RealCityUI1[97] + " [{0}]", all_total_income);
 
-            this.task_ui.text = language.RealCityUI1[99];
+                    this.task_ui.text = language.RealCityUI1[99];
 
-            infinity_garbage_Checkbox.text = language.RealCityUI1[100];
-            infinity_dead_Checkbox.text = language.RealCityUI1[101];
-            crasy_transport_Checkbox.text = language.RealCityUI1[102];
-            happy_holiday_Checkbox.text = language.RealCityUI1[103];
-            is_weekend_Checkbox.text = language.RealCityUI1[110];
+                    infinity_garbage_Checkbox.text = language.RealCityUI1[100];
+                    infinity_dead_Checkbox.text = language.RealCityUI1[101];
+                    crasy_transport_Checkbox.text = language.RealCityUI1[102];
+                    happy_holiday_Checkbox.text = language.RealCityUI1[103];
+                    is_weekend_Checkbox.text = language.RealCityUI1[110];
 
-            this.task_time.text = string.Format(language.RealCityUI1[104] + " [{0}]", comm_data.task_time);
-            this.task_num.text = string.Format(language.RealCityUI1[106] + " [{0}]", comm_data.task_num);
-            this.cd_num.text = string.Format(language.RealCityUI1[108] + " [{0}]", comm_data.cd_num);
+                    this.task_time.text = string.Format(language.RealCityUI1[104] + " [{0}]", comm_data.task_time);
+                    this.task_num.text = string.Format(language.RealCityUI1[106] + " [{0}]", comm_data.task_num);
+                    this.cd_num.text = string.Format(language.RealCityUI1[108] + " [{0}]", comm_data.cd_num);
+                    refesh_onece = false;
+                }
+            }
 
 
 

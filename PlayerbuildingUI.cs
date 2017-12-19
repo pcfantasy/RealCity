@@ -112,7 +112,7 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
      
-            if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || PlayerBuildingUI.refesh_once || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (PlayerBuildingUI.refesh_once  || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 if (base.isVisible)

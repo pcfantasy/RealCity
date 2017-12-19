@@ -52,7 +52,8 @@ namespace RealCity
             "Material/Production:",
             "Sell tax",
             "BuyToSell Profit",
-            "(exclude visit income)"
+            "(exclude visit income)",
+            "Family status:"
         };
 
         public static string[] EconomicUI_English =
@@ -205,7 +206,7 @@ namespace RealCity
         "Better set rush hour time speed to 0.125x",
         "Better use TMPE and disable vehicle spawn",
         "Better use Citizen Lifecycle Rebalance and set lifespan to 16, see Q/A in workshop",
-        "if you already done these three above, just ignore these tips",
+        "Can use Favorite Cims mod to watch every citizens and their family",
         "In earlier game, can use outside hospital and policestation for help.",
         "industry oil and ore is too many, resident may not want to move in",
         "Current Event:",
@@ -227,7 +228,7 @@ namespace RealCity
         "Petrol ",
         "Coal ",
         "Remaining time:",
-        "No random event now"   
+        "No random event now(NSP yet, coming soon)"   
         };
 
 
@@ -350,7 +351,8 @@ namespace RealCity
 
 
 
-        public static string[] BuildingUI_Chinese = { "公司现金流(单位:1/100克朗)",
+        public static string[] BuildingUI_Chinese = {
+            "公司现金流(单位:1/100克朗)",
             "只显示商业和工业建筑的现金流",
             "原料仓库储存量",
             "只显示商业和工业建筑的原料仓库储存量",
@@ -374,7 +376,8 @@ namespace RealCity
              "原料产品消耗比:",
              "卖出收入交易税",
              "买入卖出利润率",
-             "(不包括商业访问收入)"};
+             "(不包括商业访问收入)",
+             "家庭状况"};
 
     public static string[] OptionUI_Chinese =
         {
@@ -545,7 +548,7 @@ namespace RealCity
         "最好把Rush Hour的速度改成x0.125",
         "最好用TMPE并且禁止车辆消失",
         "最好用Citizen Lifecycle Rebalance并把lifespan改成16(看工坊Q/A)",
-        "如果你已经做了上面三点,请忽略这些提示",
+        "可以用Favorite Cims mod看每个居民和他们家庭的情况",
         "城市发展初期，医院和警务请让外部帮助",
         "石油矿业太多了,居民可能不愿意来城市定居",
         "当前事件:",
@@ -567,7 +570,7 @@ namespace RealCity
         "汽油 ",
         "煤矿 ",
         "剩余时间:",
-        "当前没有随机事件"
+        "当前没有随机事件(暂不支持,稍后发布)"
         };
 
 

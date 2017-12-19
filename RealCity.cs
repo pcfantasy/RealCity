@@ -379,7 +379,7 @@ namespace RealCity
                 //DebugLog.LogToFileOnly("OnUpdateMoneyAmount num2 = " + num2.ToString());
                 if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
                 {
-                    //DebugLog.LogToFileOnly("process once update money");
+                    //DebugLog.LogToFileOnly("process once update money " + comm_data.current_time.ToString() + " " + comm_data.prev_time.ToString());
                     citizen_status();
                     vehicle_status();
                     building_status();
@@ -401,10 +401,16 @@ namespace RealCity
                         comm_data.update_money_count = 0;
                     }
                     pc_EconomyManager.clean_current(comm_data.update_money_count);
+
+
                     comm_data.prev_time = comm_data.current_time;
                     //DebugLog.LogToFileOnly("update_money_count is " + comm_data.update_money_count.ToString());
                 }
-
+                RealCityUI.refesh_onece = true;
+                MoreeconomicUI.refesh_onece = true;
+                PlayerBuildingUI.refesh_once = true;
+                BuildingUI.refesh_once = true;
+                HumanUI.refesh_once = true;
                 comm_data.is_updated = true;
 
                 return internalMoneyAmount;

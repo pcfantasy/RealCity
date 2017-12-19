@@ -1109,6 +1109,26 @@ namespace RealCity
 
             process_citizen(homeID, ref data, true);
 
+            if (comm_data.family_money[homeID] < 5000)
+            {
+                if (comm_data.family_profit_status[homeID] == 10)
+                {
+                    comm_data.family_profit_status[homeID] = 27;
+                }
+            }else if (comm_data.family_money[homeID] > 20000)
+            {
+                if (comm_data.family_profit_status[homeID] == 10)
+                {
+                    comm_data.family_profit_status[homeID] = 228;
+                }
+            } else
+            {
+                if (comm_data.family_profit_status[homeID] == 10)
+                {
+                    comm_data.family_profit_status[homeID] = (byte)(comm_data.family_money[homeID] / 100);
+                }
+            }
+
             //here we caculate citizen income
             int temp_num;
             temp_num = citizen_salary(data.m_citizen0);
@@ -1338,9 +1358,9 @@ namespace RealCity
             {
                 comm_data.family_profit_status[homeID] = 250;
             }
-            if (comm_data.family_profit_status[homeID] < 5)
+            if (comm_data.family_profit_status[homeID] < 15)
             {
-                comm_data.family_profit_status[homeID] = 5;
+                comm_data.family_profit_status[homeID] = 15;
             }
 
 
@@ -1413,44 +1433,41 @@ namespace RealCity
 
             //DebugLog.LogToFileOnly("comm_data.family_profit_status[" + homeID.ToString() +"] = " + comm_data.family_profit_status[homeID].ToString() + "money = " + comm_data.family_money[homeID].ToString());
             //set other non-exist citizen status to 0
-            /*uint i;
+            uint i;
             if (precitizenid < homeID)
             {
                 for (i = (precitizenid + 1); i < homeID; i++)
                 {
-                    comm_data.family_money[i] = -40000000f;  // 40000000f is default value
-                    if (comm_data.family_profit_status[i] != 20)
+                    if (comm_data.family_profit_status[i] != 10)
                     {
                         //comm_data.family_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200 ;
-                        comm_data.family_profit_status[i] = 20;
+                        comm_data.family_profit_status[i] = 10;
                     }
                 }
             } else
             {
                 for (i = (precitizenid + 1); i < 524288; i++)
                 {
-                    comm_data.family_money[i] = -40000000f;
-                    if (comm_data.family_profit_status[i] != 20)
+                    if (comm_data.family_profit_status[i] != 10)
                     {
                         //comm_data.family_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
-                        comm_data.family_profit_status[i] = 20;
+                        comm_data.family_profit_status[i] = 10;
                     }
                 }
 
                 for (i = 0; i < homeID; i++)
                 {
-                    comm_data.family_money[i] = -40000000f; 
-                    if (comm_data.family_profit_status[i] != 20)
+                    if (comm_data.family_profit_status[i] != 10)
                     {
-                        comm_data.family_profit_status[i] = 20;
+                        comm_data.family_profit_status[i] = 10;
                     }
                 }
-            }*/
-            /*if (comm_data.citizen_count == 0)
+            }
+            if (comm_data.citizen_count == 0)
             {
                 comm_data.family_money[homeID] = 0;
                 comm_data.family_profit_status[homeID] = 128;
-            }*/
+            }
             precitizenid = homeID;
             process_citizen(homeID, ref data, false);
 

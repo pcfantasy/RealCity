@@ -166,7 +166,7 @@ namespace RealCity
             uint num2 = currentFrameIndex & 255u;
      
 
-            if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || BuildingUI.refesh_once || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (refesh_once || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 if (base.isVisible)

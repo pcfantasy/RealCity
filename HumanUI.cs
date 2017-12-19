@@ -25,6 +25,8 @@ namespace RealCity
         private UILabel buildingmoney;
         private UILabel family_salary;
 
+        private UILabel family_status;
+
         public override void Update()
         {
             this.RefreshDisplayData();
@@ -63,18 +65,25 @@ namespace RealCity
         private void ShowOnGui()
         { 
             this.buildingmoney = base.AddUIComponent<UILabel>();
-            this.buildingmoney.text = "Citizen Money [000000000000000]";
+            this.buildingmoney.text = language.BuildingUI[14];
             this.buildingmoney.tooltip = language.BuildingUI[15];
             this.buildingmoney.relativePosition = new Vector3(SPACING, 50f);
             this.buildingmoney.autoSize = true;
             this.buildingmoney.name = "Moreeconomic_Text_0";
 
             this.family_salary = base.AddUIComponent<UILabel>();
-            this.family_salary.text = "Family Salary [000000000000000]";
+            this.family_salary.text = language.BuildingUI[20];
             this.family_salary.tooltip = language.BuildingUI[20];
             this.family_salary.relativePosition = new Vector3(SPACING, this.buildingmoney.relativePosition.y + SPACING22);
             this.family_salary.autoSize = true;
             this.family_salary.name = "Moreeconomic_Text_0";
+
+            this.family_status = base.AddUIComponent<UILabel>();
+            this.family_status.text = language.BuildingUI[25];
+            this.family_status.tooltip = language.BuildingUI[25];
+            this.family_status.relativePosition = new Vector3(SPACING, this.family_salary.relativePosition.y + SPACING22);
+            this.family_status.autoSize = true;
+            this.family_status.name = "Moreeconomic_Text_0";
 
             /*this.alivevisitcount = base.AddUIComponent<UILabel>();
             this.alivevisitcount.text = "alivevisitcount [000000000000000]";
@@ -89,7 +98,7 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || HumanUI.refesh_once || (comm_data.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
+            if (refesh_once || (comm_data.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
                 if (base.isVisible)
                 {
@@ -100,6 +109,7 @@ namespace RealCity
                     uint homeid = instance3.m_citizens.m_buffer[comm_data.last_citizenid].GetContainingUnit(comm_data.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                     this.buildingmoney.text = string.Format(language.BuildingUI[14] + " [{0}]", comm_data.family_money[homeid]);
                     this.family_salary.text = string.Format(language.BuildingUI[20] + " [{0}]", caculate_family_salary(homeid));
+                    this.family_status.text = string.Format(language.BuildingUI[25] + " [{0}]", comm_data.family_profit_status[homeid]);
                     HumanUI.refesh_once = false;
                 }
             }

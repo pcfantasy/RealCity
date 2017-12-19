@@ -757,7 +757,7 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (((num2 == 255u) && (comm_data.current_time != comm_data.prev_time)) || refesh_onece)
+            if (refesh_onece)
             {
                 if (base.isVisible)
                 {
