@@ -93,7 +93,7 @@ namespace RealCity
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
-                    int temp = (comm_data.citizen_money[homeid] > 1) ? (int)comm_data.citizen_money[homeid] : 1;
+                    int temp = (comm_data.family_money[homeid] > 1) ? (int)comm_data.family_money[homeid] : 1;
                     Random rand = new Random();
                     if (((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) && rand.Next(temp) >= 4000f)
                     {
@@ -481,6 +481,17 @@ namespace RealCity
                     } else
                     {
                         material = TransferManager.TransferReason.Family1;
+                    }
+                }
+
+                if (material == TransferManager.TransferReason.Goods)
+                {
+                    if (comm_data.lackofgoods)
+                    {
+                        if (rand.Next(1000) < 100)
+                        {
+                            return;
+                        }
                     }
                 }
             }

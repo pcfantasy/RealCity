@@ -130,24 +130,24 @@ namespace RealCity
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        num = (comm_data.citizen_money[homeid] > 2000f) ? (int)(0.1f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.family_money[homeid] > 2000f) ? (int)(0.1f * comm_data.family_money[homeid]) : 0;
                         num = (int)(num * idex);
-                        if (num > 0.15f * comm_data.citizen_money[homeid])
+                        if (num > 0.15f * comm_data.family_money[homeid])
                         {
-                            num = (int)(0.15f * comm_data.citizen_money[homeid]);
+                            num = (int)(0.15f * comm_data.family_money[homeid]);
                         }
                     } else
                     {
-                        num = (comm_data.citizen_money[homeid] > 1000f) ? (int)(0.05f * comm_data.citizen_money[homeid]) : 0;
+                        num = (comm_data.family_money[homeid] > 1000f) ? (int)(0.05f * comm_data.family_money[homeid]) : 0;
                         num = (int)(num * idex);
-                        if (num > 0.1f * comm_data.citizen_money[homeid])
+                        if (num > 0.1f * comm_data.family_money[homeid])
                         {
-                            num = (int)(0.1f * comm_data.citizen_money[homeid]);
+                            num = (int)(0.1f * comm_data.family_money[homeid]);
                         }
                     }
                 }
 
-                //num = (rand.Next(3) > 1) ? (int)(0.1f * comm_data.citizen_money[homeid]) : num;
+                //num = (rand.Next(3) > 1) ? (int)(0.1f * comm_data.family_money[homeid]) : num;
 
                 if(num < 0)
                 {
@@ -162,7 +162,8 @@ namespace RealCity
                 if (num != 0)
                 {
                     info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num1);
-                    comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] + num1);
+                    comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] + num1);
+                    comm_data.citizen_money[citizen] += num1;
                 }
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
@@ -221,8 +222,8 @@ namespace RealCity
                 else
                 {
                     //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
-                    int temp = (comm_data.citizen_money[homeid]> 1f) ? (int)(comm_data.citizen_money[homeid]) : 1;
-                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.15f * comm_data.citizen_money[homeid]) : (int)(0.1f * comm_data.citizen_money[homeid]);
+                    int temp = (comm_data.family_money[homeid]> 1f) ? (int)(comm_data.family_money[homeid]) : 1;
+                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.15f * comm_data.family_money[homeid]) : (int)(0.1f * comm_data.family_money[homeid]);
 
                     if (tourism_fee < 0)
                     {
@@ -231,7 +232,8 @@ namespace RealCity
 
                     if (tourism_fee != 0)
                     {
-                        comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - tourism_fee);
+                        comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] - tourism_fee);
+                        comm_data.citizen_money[citizen] -= tourism_fee;
                         comm_data.building_money[citizenData.m_targetBuilding] += tourism_fee / 100f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }
@@ -273,9 +275,10 @@ namespace RealCity
 
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            if ((comm_data.citizen_money[homeid] - (ticketPrice/comm_data.game_maintain_fee_decrease)) > 0)
+                            if ((comm_data.family_money[homeid] - (ticketPrice/comm_data.game_maintain_fee_decrease)) > 0)
                             {
-                                comm_data.citizen_money[homeid] = (short)(comm_data.citizen_money[homeid] - (ticketPrice / comm_data.game_maintain_fee_decrease3));
+                                comm_data.citizen_money[citizen] -= ticketPrice / comm_data.game_maintain_fee_decrease3;
+                                comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] - (ticketPrice / comm_data.game_maintain_fee_decrease3));
                             }
                             else
                             {
@@ -366,7 +369,7 @@ namespace RealCity
                         //{
                             //DebugLog.LogToFileOnly("train price after is " + ticketPrice.ToString());
                         //}
-                        //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.citizen_money[homeid].ToString());
+                        //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.family_money[homeid].ToString());
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice/ comm_data.game_maintain_fee_decrease3, info.m_class);
                     }
                 }

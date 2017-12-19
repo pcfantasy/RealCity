@@ -172,8 +172,8 @@ namespace RealCity
         private UILabel tip6;
         private UILabel tip7;
         private UILabel tip8;
-        private UILabel tip9;
-        private UILabel tip10;
+        //private UILabel tip9;
+        //private UILabel tip10;
         public static bool refesh_onece = false;
 
         public override void Update()
@@ -736,7 +736,7 @@ namespace RealCity
             this.tip8.autoSize = true;
             this.tip8.name = "Moreeconomic_Text_52";
 
-            this.tip9 = base.AddUIComponent<UILabel>();
+            /*this.tip9 = base.AddUIComponent<UILabel>();
             this.tip9.text = language.EconomicUI[137];
             this.tip9.tooltip = language.EconomicUI[138];
             this.tip9.relativePosition = new Vector3(SPACING, this.tip8.relativePosition.y + SPACING22);
@@ -748,7 +748,7 @@ namespace RealCity
             this.tip10.tooltip = language.EconomicUI[140];
             this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
             this.tip10.autoSize = true;
-            this.tip10.name = "Moreeconomic_Text_53";
+            this.tip10.name = "Moreeconomic_Text_53";*/
         }
 
 
@@ -861,8 +861,12 @@ namespace RealCity
                     this.tip6.text = string.Format(language.EconomicUI[131] + "  " + RealCity.tip6_message_forgui);
                     this.tip7.text = string.Format(language.EconomicUI[133] + "  " + RealCity.tip7_message_forgui);
                     this.tip8.text = string.Format(language.EconomicUI[135] + "  " + RealCity.tip8_message_forgui);
-                    this.tip9.text = string.Format(language.EconomicUI[137] + "  " + RealCity.tip9_message_forgui);
-                    this.tip10.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip10_message_forgui);
+                    if (comm_data.is_random_event)
+                    {
+                        this.tip8.textColor = Color.red;
+                    }
+                    //this.tip9.text = string.Format(language.EconomicUI[137] + "  " + RealCity.tip9_message_forgui);
+                    //this.tip10.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip10_message_forgui);
                     refesh_onece = false;
                 }
             }

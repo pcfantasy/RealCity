@@ -296,9 +296,9 @@
 
         //1.3 income-expense
         //public static byte citizen_shopping_idex = 0;
-        public static float[] citizen_money = new float[524288];
+        public static float[] family_money = new float[524288];
         //public static byte[] citizen_very_profit_time_num = new byte[524288];
-        public static byte[] citizen_profit_status = new byte[524288];
+        public static byte[] family_profit_status = new byte[524288];
         //public static byte[] citizen_loss_time_num = new byte[524288];
         public static uint family_profit_money_num = 0;
         public static uint family_loss_money_num = 0;
@@ -511,7 +511,10 @@
 
         //public static byte[] save_data = new byte[2867364];
         public static byte[] save_data = new byte[3063935];
-        public static byte[] load_data = new byte[3063935];
+        //public static byte[] save_data = new byte[3063935];
+
+        public static float[] citizen_money = new float[1048576];
+        public static byte[] save_data1 = new byte[4194304];
 
         public static void data_init()
         {
@@ -532,12 +535,14 @@
             {
                 vehical_last_transfer_flag[i] = false;
             }
+            for (int i = 0; i < comm_data.family_money.Length; i++)
+            {
+                family_money[i] = 0f;
+                family_profit_status[i] = 128;
+            }
             for (int i = 0; i < comm_data.citizen_money.Length; i++)
             {
                 citizen_money[i] = 0f;
-                //citizen_very_profit_time_num[i] = 0;
-                citizen_profit_status[i] = 128;
-                //citizen_loss_time_num[i] = 0;
             }
         }
 
@@ -557,9 +562,9 @@
             saveandrestore.save_long(ref i, all_transport_fee, ref save_data);
 
             // (3+2)*524288 = 1572864 + 2*524288
-            saveandrestore.save_floats(ref i, citizen_money, ref save_data);
+            saveandrestore.save_floats(ref i, family_money, ref save_data);
             //saveandrestore.save_bytes(ref i, citizen_very_profit_time_num, ref save_data);
-            saveandrestore.save_bytes(ref i, citizen_profit_status, ref save_data);
+            saveandrestore.save_bytes(ref i, family_profit_status, ref save_data);
             //saveandrestore.save_bytes(ref i, citizen_loss_time_num, ref save_data);
 
             //5*4 = 20
@@ -678,131 +683,143 @@
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
 
+
+            i = 0;
+            saveandrestore.save_floats(ref i, citizen_money, ref save_data1);
+
+
         }
 
         public static void load()
         {
             int i = 0;
 
-            citizen_expense_per_family = saveandrestore.load_long(ref i, load_data);
-            citizen_expense = saveandrestore.load_long(ref i, load_data);
-            vehical_transfer_time = saveandrestore.load_ushorts(ref i, load_data, vehical_transfer_time.Length);
-            vehical_last_transfer_flag = saveandrestore.load_bools(ref i, load_data, vehical_last_transfer_flag.Length);
-            temp_total_citizen_vehical_time = saveandrestore.load_uint(ref i, load_data);
-            temp_total_citizen_vehical_time_last = saveandrestore.load_uint(ref i, load_data);
-            total_citizen_vehical_time = saveandrestore.load_uint(ref i, load_data);
-            public_transport_fee = saveandrestore.load_long(ref i, load_data);
-            all_transport_fee = saveandrestore.load_long(ref i, load_data);
-            citizen_money = saveandrestore.load_floats(ref i, load_data, citizen_money.Length);
-            //citizen_very_profit_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_very_profit_time_num.Length);
-            //citizen_loss_time_num = saveandrestore.load_bytes(ref i, load_data, citizen_loss_time_num.Length);
-            citizen_profit_status = saveandrestore.load_bytes(ref i, load_data, citizen_profit_status.Length);
-            family_profit_money_num = saveandrestore.load_uint(ref i, load_data);
-            family_loss_money_num = saveandrestore.load_uint(ref i, load_data);
-            family_very_profit_money_num = saveandrestore.load_uint(ref i, load_data);
-            family_weight_stable_high = saveandrestore.load_uint(ref i, load_data);
-            family_weight_stable_low = saveandrestore.load_uint(ref i, load_data);
+            citizen_expense_per_family = saveandrestore.load_long(ref i, save_data);
+            citizen_expense = saveandrestore.load_long(ref i, save_data);
+            vehical_transfer_time = saveandrestore.load_ushorts(ref i, save_data, vehical_transfer_time.Length);
+            vehical_last_transfer_flag = saveandrestore.load_bools(ref i, save_data, vehical_last_transfer_flag.Length);
+            temp_total_citizen_vehical_time = saveandrestore.load_uint(ref i, save_data);
+            temp_total_citizen_vehical_time_last = saveandrestore.load_uint(ref i, save_data);
+            total_citizen_vehical_time = saveandrestore.load_uint(ref i, save_data);
+            public_transport_fee = saveandrestore.load_long(ref i, save_data);
+            all_transport_fee = saveandrestore.load_long(ref i, save_data);
+            family_money = saveandrestore.load_floats(ref i, save_data, family_money.Length);
+            //citizen_very_profit_time_num = saveandrestore.load_bytes(ref i, save_data, citizen_very_profit_time_num.Length);
+            //citizen_loss_time_num = saveandrestore.load_bytes(ref i, save_data, citizen_loss_time_num.Length);
+            family_profit_status = saveandrestore.load_bytes(ref i, save_data, family_profit_status.Length);
+            family_profit_money_num = saveandrestore.load_uint(ref i, save_data);
+            family_loss_money_num = saveandrestore.load_uint(ref i, save_data);
+            family_very_profit_money_num = saveandrestore.load_uint(ref i, save_data);
+            family_weight_stable_high = saveandrestore.load_uint(ref i, save_data);
+            family_weight_stable_low = saveandrestore.load_uint(ref i, save_data);
 
-            building_money = saveandrestore.load_floats(ref i, load_data, building_money.Length);
+            building_money = saveandrestore.load_floats(ref i, save_data, building_money.Length);
 
-            Road = saveandrestore.load_int(ref i, load_data);
-            Electricity = saveandrestore.load_int(ref i, load_data);
-            Water = saveandrestore.load_int(ref i, load_data);
-            Beautification = saveandrestore.load_int(ref i, load_data);
-            Garbage = saveandrestore.load_int(ref i, load_data);
-            HealthCare = saveandrestore.load_int(ref i, load_data);
-            PoliceDepartment = saveandrestore.load_int(ref i, load_data);
-            Education = saveandrestore.load_int(ref i, load_data);
-            Monument = saveandrestore.load_int(ref i, load_data);
-            FireDepartment = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_bus = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_tram = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_ship = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_plane = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_metro = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_train = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_taxi = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_cablecar = saveandrestore.load_int(ref i, load_data);
-            PublicTransport_monorail = saveandrestore.load_int(ref i, load_data);
-            Disaster = saveandrestore.load_int(ref i, load_data);
+            Road = saveandrestore.load_int(ref i, save_data);
+            Electricity = saveandrestore.load_int(ref i, save_data);
+            Water = saveandrestore.load_int(ref i, save_data);
+            Beautification = saveandrestore.load_int(ref i, save_data);
+            Garbage = saveandrestore.load_int(ref i, save_data);
+            HealthCare = saveandrestore.load_int(ref i, save_data);
+            PoliceDepartment = saveandrestore.load_int(ref i, save_data);
+            Education = saveandrestore.load_int(ref i, save_data);
+            Monument = saveandrestore.load_int(ref i, save_data);
+            FireDepartment = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_bus = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_tram = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_ship = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_plane = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_metro = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_train = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_taxi = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_cablecar = saveandrestore.load_int(ref i, save_data);
+            PublicTransport_monorail = saveandrestore.load_int(ref i, save_data);
+            Disaster = saveandrestore.load_int(ref i, save_data);
 
-            outside_situation_index = saveandrestore.load_byte(ref i, load_data);
-            update_money_count = saveandrestore.load_byte(ref i, load_data);
-            is_updated = saveandrestore.load_bool(ref i, load_data);
+            outside_situation_index = saveandrestore.load_byte(ref i, save_data);
+            update_money_count = saveandrestore.load_byte(ref i, save_data);
+            is_updated = saveandrestore.load_bool(ref i, save_data);
+            is_updated = false;
 
-            current_time = saveandrestore.load_float(ref i, load_data);
-            prev_time = saveandrestore.load_float(ref i, load_data);
-            resident_consumption_rate = saveandrestore.load_float(ref i, load_data);
-            outside_consumption_rate = saveandrestore.load_float(ref i, load_data);
-            update_outside_count = saveandrestore.load_byte(ref i, load_data);
-            mantain_and_land_fee_decrease = saveandrestore.load_byte(ref i, load_data);
+            current_time = saveandrestore.load_float(ref i, save_data);
+            prev_time = saveandrestore.load_float(ref i, save_data);
+            resident_consumption_rate = saveandrestore.load_float(ref i, save_data);
+            outside_consumption_rate = saveandrestore.load_float(ref i, save_data);
+            update_outside_count = saveandrestore.load_byte(ref i, save_data);
+            mantain_and_land_fee_decrease = saveandrestore.load_byte(ref i, save_data);
 
-            salary_idex = saveandrestore.load_float(ref i, load_data);
+            salary_idex = saveandrestore.load_float(ref i, save_data);
 
-            citizen_count = saveandrestore.load_int(ref i, load_data);
-            family_count = saveandrestore.load_int(ref i, load_data);
-            citizen_salary_per_family = saveandrestore.load_int(ref i, load_data);
-            citizen_salary_total = saveandrestore.load_long(ref i, load_data);
-            citizen_salary_tax_total = saveandrestore.load_long(ref i, load_data);
-            temp_public_transport_fee = saveandrestore.load_long(ref i, load_data);
-            last_language = saveandrestore.load_byte(ref i, load_data);
+            citizen_count = saveandrestore.load_int(ref i, save_data);
+            family_count = saveandrestore.load_int(ref i, save_data);
+            citizen_salary_per_family = saveandrestore.load_int(ref i, save_data);
+            citizen_salary_total = saveandrestore.load_long(ref i, save_data);
+            citizen_salary_tax_total = saveandrestore.load_long(ref i, save_data);
+            temp_public_transport_fee = saveandrestore.load_long(ref i, save_data);
+            last_language = saveandrestore.load_byte(ref i, save_data);
 
-            outside_crime_count = saveandrestore.load_uint(ref i, load_data);
-            outside_sick_count = saveandrestore.load_uint(ref i, load_data);
-            outside_garbage_count = saveandrestore.load_uint(ref i, load_data);
-            outside_dead_count = saveandrestore.load_uint(ref i, load_data);
+            outside_crime_count = saveandrestore.load_uint(ref i, save_data);
+            outside_sick_count = saveandrestore.load_uint(ref i, save_data);
+            outside_garbage_count = saveandrestore.load_uint(ref i, save_data);
+            outside_dead_count = saveandrestore.load_uint(ref i, save_data);
 
-            outside_crime_count_temp = saveandrestore.load_uint(ref i, load_data);
-            outside_sick_count_temp = saveandrestore.load_uint(ref i, load_data);
-            outside_garbage_count_temp = saveandrestore.load_uint(ref i, load_data);
-            outside_dead_count_temp = saveandrestore.load_uint(ref i, load_data);
+            outside_crime_count_temp = saveandrestore.load_uint(ref i, save_data);
+            outside_sick_count_temp = saveandrestore.load_uint(ref i, save_data);
+            outside_garbage_count_temp = saveandrestore.load_uint(ref i, save_data);
+            outside_dead_count_temp = saveandrestore.load_uint(ref i, save_data);
 
-            outside_pre_building = saveandrestore.load_ushort(ref i, load_data);
+            outside_pre_building = saveandrestore.load_ushort(ref i, save_data);
 
-            sick_connection = saveandrestore.load_bool(ref i, load_data);
-            dead_connection = saveandrestore.load_bool(ref i, load_data);
-            crime_connection = saveandrestore.load_bool(ref i, load_data);
-            garbage_connection = saveandrestore.load_bool(ref i, load_data);
-            is_help_resident = saveandrestore.load_bool(ref i, load_data);
-            is_smart_pbtp = saveandrestore.load_bool(ref i, load_data);
-            road_connection = saveandrestore.load_bool(ref i, load_data);
+            sick_connection = saveandrestore.load_bool(ref i, save_data);
+            dead_connection = saveandrestore.load_bool(ref i, save_data);
+            crime_connection = saveandrestore.load_bool(ref i, save_data);
+            garbage_connection = saveandrestore.load_bool(ref i, save_data);
+            is_help_resident = saveandrestore.load_bool(ref i, save_data);
+            is_smart_pbtp = saveandrestore.load_bool(ref i, save_data);
+            road_connection = saveandrestore.load_bool(ref i, save_data);
 
-            outside_road_count = saveandrestore.load_uint(ref i, load_data);
-            outside_firestation_count = saveandrestore.load_uint(ref i, load_data);
+            outside_road_count = saveandrestore.load_uint(ref i, save_data);
+            outside_firestation_count = saveandrestore.load_uint(ref i, save_data);
 
-            outside_road_count_temp = saveandrestore.load_uint(ref i, load_data);
-            outside_firestation_count_temp = saveandrestore.load_uint(ref i, load_data);
+            outside_road_count_temp = saveandrestore.load_uint(ref i, save_data);
+            outside_firestation_count_temp = saveandrestore.load_uint(ref i, save_data);
 
-            outside_road_num = saveandrestore.load_ushort(ref i, load_data);
-            outside_road_num_final = saveandrestore.load_ushort(ref i, load_data);
+            outside_road_num = saveandrestore.load_ushort(ref i, save_data);
+            outside_road_num_final = saveandrestore.load_ushort(ref i, save_data);
 
-            city_insurance_account = saveandrestore.load_double(ref i, load_data);
-            city_insurance_account_final = saveandrestore.load_double(ref i, load_data);
+            city_insurance_account = saveandrestore.load_double(ref i, save_data);
+            city_insurance_account_final = saveandrestore.load_double(ref i, save_data);
 
-            Extractor_building = saveandrestore.load_ushort(ref i, load_data);
-            Extractor_building_final = saveandrestore.load_ushort(ref i, load_data);
+            Extractor_building = saveandrestore.load_ushort(ref i, save_data);
+            Extractor_building_final = saveandrestore.load_ushort(ref i, save_data);
 
-            tourist_num = saveandrestore.load_ushort(ref i, load_data);
-            tourist_num_final = saveandrestore.load_ushort(ref i, load_data);
+            tourist_num = saveandrestore.load_ushort(ref i, save_data);
+            tourist_num_final = saveandrestore.load_ushort(ref i, save_data);
 
-            tourist_transport_fee_num = saveandrestore.load_long(ref i, load_data);
-            tourist_transport_fee_num_final = saveandrestore.load_long(ref i, load_data);
+            tourist_transport_fee_num = saveandrestore.load_long(ref i, save_data);
+            tourist_transport_fee_num_final = saveandrestore.load_long(ref i, save_data);
 
-            garbage_task = saveandrestore.load_bool(ref i, load_data);
+            garbage_task = saveandrestore.load_bool(ref i, save_data);
 
-            task_num = saveandrestore.load_int(ref i, load_data);
-            task_time = saveandrestore.load_int(ref i, load_data);
-            cd_num = saveandrestore.load_int(ref i, load_data);
+            task_num = saveandrestore.load_int(ref i, save_data);
+            task_time = saveandrestore.load_int(ref i, save_data);
+            cd_num = saveandrestore.load_int(ref i, save_data);
 
-            dead_task = saveandrestore.load_bool(ref i, load_data);
-            crasy_task = saveandrestore.load_bool(ref i, load_data);
-            happy_task = saveandrestore.load_bool(ref i, load_data);
-            is_weekend = saveandrestore.load_bool(ref i, load_data);
+            dead_task = saveandrestore.load_bool(ref i, save_data);
+            crasy_task = saveandrestore.load_bool(ref i, save_data);
+            happy_task = saveandrestore.load_bool(ref i, save_data);
+            is_weekend = saveandrestore.load_bool(ref i, save_data);
 
-            reserved = saveandrestore.load_ushorts(ref i, load_data ,reserved.Length);
-            building_buffer2 = saveandrestore.load_ushorts(ref i, load_data, building_buffer2.Length);
+            reserved = saveandrestore.load_ushorts(ref i, save_data ,reserved.Length);
+            building_buffer2 = saveandrestore.load_ushorts(ref i, save_data, building_buffer2.Length);
 
             DebugLog.LogToFileOnly("save_data in comm_data is " + i.ToString());
+
+
+            i = 0;
+            citizen_money = saveandrestore.load_floats(ref i, save_data1, citizen_money.Length);
+
+            DebugLog.LogToFileOnly("save_data1 in comm_data is " + i.ToString());
         }
     }
 }

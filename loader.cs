@@ -100,6 +100,8 @@ namespace RealCity
         public static RedirectCallsState state56;
         public static RedirectCallsState state57;
         public static RedirectCallsState state58;
+        public static RedirectCallsState state59;
+        public static RedirectCallsState state60;
 
         public override void OnCreated(ILoading loading)
         {
@@ -122,15 +124,23 @@ namespace RealCity
                     {
                         init_data();
                     }
+                    //DebugLog.LogWarning(language.OptionUI[15]);
+                    //DebugLog.LogWarning(language.OptionUI[16]);
+                    //DebugLog.LogWarning(language.OptionUI[17]);
                     //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "setup_gui now");
                 }
             }
         }
 
-        public void init_data()
+        public static void init_data()
         {
             comm_data.data_init();
             pc_EconomyManager.data_init();
+            pc_EconomyManager.save_data = new byte[2768];
+            comm_data.save_data1 = new byte[4194304];
+            pc_PrivateBuildingAI.save_data = new byte[316];
+            pc_ResidentAI.save_data = new byte[140];
+            comm_data.save_data = new byte[3063935];
         }
 
         public override void OnLevelUnloading()
@@ -618,6 +628,14 @@ namespace RealCity
             var srcMethod58 = typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
             var destMethod58 = typeof(pc_EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
             state58 = RedirectionHelper.RedirectCalls(srcMethod58, destMethod58);
+
+            var srcMethod59 = typeof(CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
+            var destMethod59 = typeof(pc_CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
+            state59 = RedirectionHelper.RedirectCalls(srcMethod59, destMethod59);
+
+            var srcMethod60 = typeof(ResidentAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
+            var destMethod60 = typeof(pc_ResidentAI_1).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
+            state60 = RedirectionHelper.RedirectCalls(srcMethod60, destMethod60);
         }
 
         public void revert_detour()
@@ -683,6 +701,8 @@ namespace RealCity
             var srcMethod56 = typeof(PrivateBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             var srcMethod57 = typeof(EconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null);
             var srcMethod58 = typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
+            var srcMethod59 = typeof(CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
+            var srcMethod60 = typeof(ResidentAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -742,6 +762,8 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod56, state56);
             RedirectionHelper.RevertRedirect(srcMethod57, state57);
             RedirectionHelper.RevertRedirect(srcMethod58, state58);
+            RedirectionHelper.RevertRedirect(srcMethod59, state59);
+            RedirectionHelper.RevertRedirect(srcMethod60, state60);
         }
     }
 }

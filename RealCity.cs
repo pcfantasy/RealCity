@@ -389,9 +389,8 @@ namespace RealCity
                     generate_tips();
                     check_task_status();
                     //check_event_status();
-                    check_rush_hour();
+                    //change_outside_price();
 
-                    comm_data.is_updated = true;
                     comm_data.update_money_count++;
                     if (comm_data.update_money_count == 17)
                     {
@@ -405,32 +404,194 @@ namespace RealCity
                     comm_data.prev_time = comm_data.current_time;
                     //DebugLog.LogToFileOnly("update_money_count is " + comm_data.update_money_count.ToString());
                 }
-                //if(num2 != 255u)
-                //{
-                //    comm_data.is_updated = false;
-                //}
+
+                comm_data.is_updated = true;
+
                 return internalMoneyAmount;
             }
 
 
+            public void change_outside_price()
+            {
+                System.Random rand = new System.Random();
 
-            public void check_rush_hour()
-            {                
-                if ((comm_data.current_time - comm_data.prev_time) > 0.012)
+                if (comm_data.highpricegoods)
                 {
-                    System.Random rand = new System.Random();
-                    //DebugLog.LogToFileOnly((comm_data.current_time - comm_data.prev_time).ToString());
-                    if (rand.Next(100) < 10)
+                    pc_PrivateBuildingAI.good_import_price = (((float)rand.Next(50)/100f) + 1.5f) * pc_PrivateBuildingAI.good_import_price1;
+                } else
+                {
+                    pc_PrivateBuildingAI.good_import_price = pc_PrivateBuildingAI.good_import_price1;
+                }
+
+                if (comm_data.highdemand)
+                {
+                    if (comm_data.high_oil)
                     {
-                        DebugLog.LogWarning(language.OptionUI[15]);
+                        pc_PrivateBuildingAI.oil_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.oil_export_price1;
+                    }else
+                    {
+                        pc_PrivateBuildingAI.oil_export_price = pc_PrivateBuildingAI.oil_export_price1;
+                    }
+
+                    if (comm_data.high_ore)
+                    {
+                        pc_PrivateBuildingAI.ore_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.ore_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.ore_export_price = pc_PrivateBuildingAI.ore_export_price1;
+                    }
+
+                    if (comm_data.high_grain)
+                    {
+                        pc_PrivateBuildingAI.grain_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.oil_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.grain_export_price = pc_PrivateBuildingAI.grain_export_price1;
+                    }
+
+                    if (comm_data.high_logs)
+                    {
+                        pc_PrivateBuildingAI.log_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.log_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.log_export_price = pc_PrivateBuildingAI.log_export_price1;
+                    }
+
+                    if (comm_data.high_food)
+                    {
+                        pc_PrivateBuildingAI.food_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.food_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.food_export_price = pc_PrivateBuildingAI.food_export_price1;
+                    }
+
+                    if (comm_data.high_lumber)
+                    {
+                        pc_PrivateBuildingAI.lumber_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.lumber_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.lumber_export_price = pc_PrivateBuildingAI.lumber_export_price1;
+                    }
+
+                    if (comm_data.high_petrol)
+                    {
+                        pc_PrivateBuildingAI.petrol_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.lumber_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.petrol_export_price = pc_PrivateBuildingAI.petrol_export_price1;
+                    }
+
+                    if (comm_data.high_coal)
+                    {
+                        pc_PrivateBuildingAI.coal_export_price = (((float)rand.Next(50) / 100f) + 1.5f) * pc_PrivateBuildingAI.coal_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.coal_export_price = pc_PrivateBuildingAI.coal_export_price1;
                     }
                 }
+
+                if (comm_data.lowdemand)
+                {
+                    if (comm_data.high_oil)
+                    {
+                        pc_PrivateBuildingAI.oil_export_price *= (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.oil_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.oil_export_price = pc_PrivateBuildingAI.oil_export_price1;
+                    }
+
+                    if (comm_data.high_ore)
+                    {
+                        pc_PrivateBuildingAI.ore_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.ore_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.ore_export_price = pc_PrivateBuildingAI.ore_export_price1;
+                    }
+
+                    if (comm_data.high_grain)
+                    {
+                        pc_PrivateBuildingAI.grain_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.grain_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.grain_export_price = pc_PrivateBuildingAI.grain_export_price1;
+                    }
+
+                    if (comm_data.high_logs)
+                    {
+                        pc_PrivateBuildingAI.log_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.log_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.log_export_price = pc_PrivateBuildingAI.log_export_price1;
+                    }
+
+                    if (comm_data.high_food)
+                    {
+                        pc_PrivateBuildingAI.food_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.food_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.food_export_price = pc_PrivateBuildingAI.food_export_price1;
+                    }
+
+                    if (comm_data.high_lumber)
+                    {
+                        pc_PrivateBuildingAI.lumber_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.lumber_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.lumber_export_price = pc_PrivateBuildingAI.lumber_export_price1;
+                    }
+
+                    if (comm_data.high_petrol)
+                    {
+                        pc_PrivateBuildingAI.petrol_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.petrol_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.petrol_export_price = pc_PrivateBuildingAI.petrol_export_price1;
+                    }
+
+                    if (comm_data.high_coal)
+                    {
+                        pc_PrivateBuildingAI.coal_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.coal_export_price1;
+                    }
+                    else
+                    {
+                        pc_PrivateBuildingAI.coal_export_price = pc_PrivateBuildingAI.coal_export_price1;
+                    }
+                }
+
+                if (!comm_data.is_random_event)
+                {
+                    pc_PrivateBuildingAI.coal_export_price = pc_PrivateBuildingAI.coal_export_price1;
+                    pc_PrivateBuildingAI.petrol_export_price = pc_PrivateBuildingAI.petrol_export_price1;
+                    pc_PrivateBuildingAI.lumber_export_price = pc_PrivateBuildingAI.lumber_export_price1;
+                    pc_PrivateBuildingAI.food_export_price = pc_PrivateBuildingAI.food_export_price1;
+                    pc_PrivateBuildingAI.log_export_price = pc_PrivateBuildingAI.log_export_price1;
+                    pc_PrivateBuildingAI.grain_export_price = pc_PrivateBuildingAI.grain_export_price1;
+                    pc_PrivateBuildingAI.ore_export_price = pc_PrivateBuildingAI.ore_export_price1;
+                    pc_PrivateBuildingAI.oil_export_price = pc_PrivateBuildingAI.oil_export_price1;
+                    pc_PrivateBuildingAI.good_import_price = pc_PrivateBuildingAI.good_import_price1;
+                }
             }
+
+
 
             public void get_high_low_price(bool is_low)
             {
                 System.Random rand = new System.Random();
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_coal = true;
                 }
@@ -438,7 +599,7 @@ namespace RealCity
                 {
                     comm_data.high_coal = false;
                 }
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_petrol = true;
                 }
@@ -446,7 +607,7 @@ namespace RealCity
                 {
                     comm_data.high_petrol = false;
                 }
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_food = true;
                 }
@@ -454,7 +615,7 @@ namespace RealCity
                 {
                     comm_data.high_food = false;
                 }
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_lumber = true;
                 }
@@ -462,7 +623,7 @@ namespace RealCity
                 {
                     comm_data.high_lumber = false;
                 }
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_oil = true;
                 }
@@ -470,7 +631,7 @@ namespace RealCity
                 {
                     comm_data.high_oil = false;
                 }
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_ore = true;
                 }
@@ -478,7 +639,7 @@ namespace RealCity
                 {
                     comm_data.high_ore = false;
                 }
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_logs = true;
                 }
@@ -486,7 +647,7 @@ namespace RealCity
                 {
                     comm_data.high_logs = false;
                 }
-                if (rand.Next(1) == 0)
+                if (rand.Next(4) == 0)
                 {
                     comm_data.high_grain = true;
                 }
@@ -550,39 +711,37 @@ namespace RealCity
                     comm_data.is_random_event = false;
                     System.Random rand = new System.Random();
                     comm_data.lackofgoods = false;
-                    comm_data.highpricegoods = true;
-                    comm_data.highpricegoods = true;
-                    comm_data.Rich_immigrants = true;
-                    comm_data.highpricegoods = true;
-                    comm_data.hot_money = true;
-                    comm_data.money_flowout = true;
-                    comm_data.lowdemand = true;
-                    comm_data.highdemand = true;
+                    comm_data.highpricegoods = false;
+                    comm_data.refugees = false;
+                    comm_data.Rich_immigrants = false;
+                    comm_data.Virus_attack = false;
+                    comm_data.hot_money = false;
+                    comm_data.money_flowout = false;
+                    comm_data.lowdemand = false;
+                    comm_data.highdemand = false;
                     if (rand.Next(1000) < 10)
                     {
                         comm_data.is_random_event = true;
                         comm_data.event_num = 1000;
-                        switch (rand.Next(10))
+                        switch (rand.Next(9))
                         {
                             case 0:
                                 comm_data.lackofgoods = true;break;
                             case 1:
                                 comm_data.highpricegoods = true; break;
                             case 2:
-                                comm_data.highpricegoods = true; break;
-                            case 3:
                                 comm_data.refugees = true; break;
+                            case 3:
+                                comm_data.Virus_attack = true; break;
                             case 4:
                                 comm_data.Rich_immigrants = true; break;
                             case 5:
-                                comm_data.highpricegoods = true; break;
-                            case 6:
                                 comm_data.hot_money = true; break;
-                            case 7:
+                            case 6:
                                 comm_data.money_flowout = true; break;
-                            case 8:
+                            case 7:
                                 comm_data.lowdemand = true; get_high_low_price(true);break;
-                            case 9:
+                            case 8:
                                 comm_data.highdemand = true; get_high_low_price(false); break;
                             default:break;
                         }
@@ -705,146 +864,167 @@ namespace RealCity
                     {
                         if (comm_data.citizen_expense_per_family > 40)
                         {
-                            try_say_something(language.TipAndChirperMessage[0]);
-                            try_say_something(language.TipAndChirperMessage[1]);
-                            try_say_something(language.TipAndChirperMessage[2]);
-                            tip1_message_forgui = language.TipAndChirperMessage[3];
+                            tip1_message_forgui = language.TipAndChirperMessage[0];
 
                         }
                         else if (comm_data.citizen_average_transport_fee > 25)
                         {
-                            try_say_something(language.TipAndChirperMessage[4]);
-                            try_say_something(language.TipAndChirperMessage[5]);
-                            tip1_message_forgui = language.TipAndChirperMessage[6];
+                            tip1_message_forgui = language.TipAndChirperMessage[1];
                         }
                         else
                         {
-                            try_say_something(language.TipAndChirperMessage[7]);
-                            try_say_something(language.TipAndChirperMessage[8]);
-                            tip1_message_forgui = language.TipAndChirperMessage[9];
+                            tip1_message_forgui = language.TipAndChirperMessage[2];
                         }
                     }
                     else if (comm_data.citizen_salary_per_family < 40)
                     {
-                        try_say_something(language.TipAndChirperMessage[7]);
-                        try_say_something(language.TipAndChirperMessage[8]);
-                        tip1_message_forgui = language.TipAndChirperMessage[9];
+                        tip1_message_forgui = language.TipAndChirperMessage[2];
                     }
                     else
                     {
-                        try_say_something(language.TipAndChirperMessage[10]);
-                        tip1_message_forgui = language.TipAndChirperMessage[11];
+                        tip1_message_forgui = language.TipAndChirperMessage[3];
                     }
-
-
-                    int tip2_data = (int)comm_data.citizen_salary_per_family - (int)comm_data.citizen_expense_per_family - (int)(comm_data.citizen_salary_tax_total / comm_data.family_count);
-                    int tip2_data_1 = 0;
-                    if (tip2_data < 20)
-                    {
-                        tip2_data_1 = 10* comm_data.family_count / (16 * 60);
-                    } else
-                    {
-                        tip2_data_1 = tip2_data * comm_data.family_count / (16 * 60 * 2);
-                    }
-
-                    tip2_message_forgui = language.TipAndChirperMessage[13] + tip2_data_1.ToString() + " " + language.TipAndChirperMessage[16];
                 }
 
-                if (!pc_OutsideConnectionAI.have_maintain_road_building || (comm_data.road_connection))
-                {
-                    //try_say_something(language.TipAndChirperMessage[21]);
-                    tip3_message_forgui = language.TipAndChirperMessage[22];
-                }
-                else
-                {
-                    //try_say_something(language.TipAndChirperMessage[23]);
-                    tip3_message_forgui = language.TipAndChirperMessage[24];
-                }
 
-                if (!pc_OutsideConnectionAI.have_garbage_building && (comm_data.garbage_connection))
-                {
-                    try_say_something(language.TipAndChirperMessage[25]);
-                    tip4_message_forgui = language.TipAndChirperMessage[26];
-                }
-                else
-                {
-                    try_say_something(language.TipAndChirperMessage[27]);
-                    tip4_message_forgui = language.TipAndChirperMessage[28];
-                }
 
-                if (!pc_OutsideConnectionAI.have_cemetry_building || (!comm_data.dead_connection))
-                {
-                    try_say_something(language.TipAndChirperMessage[29]);
-                    tip5_message_forgui = language.TipAndChirperMessage[30];
-                }
-                else
-                {
-                    try_say_something(language.TipAndChirperMessage[31]);
-                    tip5_message_forgui = language.TipAndChirperMessage[32];
-                }
+                tip2_message_forgui = language.TipAndChirperMessage[4];
 
-                if (!pc_OutsideConnectionAI.have_hospital_building || (!comm_data.sick_connection))
-                {
-                    //try_say_something(language.TipAndChirperMessage[33]);
-                    tip6_message_forgui = language.TipAndChirperMessage[34];
-                }
-                else
-                {
-                    //try_say_something(language.TipAndChirperMessage[35]);
-                    tip6_message_forgui = language.TipAndChirperMessage[36];
-                }
+                tip3_message_forgui = language.TipAndChirperMessage[5];
 
-                if (!pc_OutsideConnectionAI.have_fire_building || (!comm_data.fire_connection))
-                {
-                    //try_say_something(language.TipAndChirperMessage[37]);
-                    tip7_message_forgui = language.TipAndChirperMessage[38];
-                }
-                else
-                {
-                    //try_say_something(language.TipAndChirperMessage[39]);
-                    tip7_message_forgui = language.TipAndChirperMessage[40];
-                }
+                tip4_message_forgui = language.TipAndChirperMessage[6];
 
-                if (!pc_OutsideConnectionAI.have_police_building || (!comm_data.crime_connection))
-                {
-                    //try_say_something(language.TipAndChirperMessage[41]);
-                    tip8_message_forgui = language.TipAndChirperMessage[42];
-                }
-                else
-                {
-                    //try_say_something(language.TipAndChirperMessage[43]);
-                    tip8_message_forgui = language.TipAndChirperMessage[44];
-                }
+                tip5_message_forgui = language.TipAndChirperMessage[7];
 
-                tip9_message_forgui = language.TipAndChirperMessage[45];
+                tip6_message_forgui = language.TipAndChirperMessage[8];
 
-                if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count/10) < 150)
+                if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count / 10) < 150)
                 {
-                    //try_say_something(language.TipAndChirperMessage[41]);
-                    tip10_message_forgui = "";
+                    tip7_message_forgui = "";
                 }
                 else if (comm_data.family_count != 0)
                 {
-                    try_say_something(language.TipAndChirperMessage[46]);
-                    tip10_message_forgui = language.TipAndChirperMessage[47];
+                    tip7_message_forgui = language.TipAndChirperMessage[9];
                 }
 
-
-            }
-
-            public void try_say_something(string message)
-            {
-                System.Random rand = new System.Random();
-                if (rand.Next(250) < 2)
+                if(comm_data.is_random_event)
                 {
-                    //DebugLog.LogToFileOnly("try_say_something" + message);
-                    MessageManager ms = Singleton<MessageManager>.instance;
-                    ms.QueueMessage(new Message(ms.GetRandomResidentID(), message));
+                    tip8_message_forgui = language.TipAndChirperMessage[10];
+                    if (comm_data.lackofgoods)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[11];
+                    }
+
+                    if (comm_data.highpricegoods)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[12];
+                    }
+
+                    if (comm_data.highdemand)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[13];
+                        if (comm_data.high_oil)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[20];
+                        }
+                        if (comm_data.high_ore)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[21];
+                        }
+                        if (comm_data.high_grain)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[22];
+                        }
+                        if (comm_data.high_logs)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[23];
+                        }
+                        if (comm_data.high_food)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[24];
+                        }
+                        if (comm_data.high_lumber)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[25];
+                        }
+                        if (comm_data.high_petrol)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[26];
+                        }
+                        if (comm_data.high_coal)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[27];
+                        }
+                    }
+
+                    if (comm_data.lowdemand)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[14];
+                        if (!comm_data.high_oil)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[20];
+                        }
+                        if (!comm_data.high_ore)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[21];
+                        }
+                        if (!comm_data.high_grain)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[22];
+                        }
+                        if (!comm_data.high_logs)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[23];
+                        }
+                        if (!comm_data.high_food)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[24];
+                        }
+                        if (!comm_data.high_lumber)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[25];
+                        }
+                        if (!comm_data.high_petrol)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[26];
+                        }
+                        if (!comm_data.high_coal)
+                        {
+                            tip8_message_forgui += language.TipAndChirperMessage[27];
+                        }
+                    }
+
+                    if (comm_data.Virus_attack)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[15];
+                    }
+
+                    if (comm_data.refugees)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[16];
+                    }
+
+                    if (comm_data.Rich_immigrants)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[17];
+                    }
+
+                    if (comm_data.hot_money)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[18];
+                    }
+
+                    if (comm_data.money_flowout)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[19];
+                    }
+
+                    tip8_message_forgui += language.TipAndChirperMessage[28] + comm_data.event_num.ToString();
+                } else
+                {
+                    tip8_message_forgui = language.TipAndChirperMessage[29];
                 }
             }
-
-
-
 
             public void caculate_goverment_employee_expense()
             {
@@ -1294,55 +1474,12 @@ namespace RealCity
                                     comm_data.building_money[i] = 0;
                                 }
                             }
-
-                            //if (pc_OutsideConnectionAI.have_fire_building && pc_OutsideConnectionAI.have_hospital_building && pc_OutsideConnectionAI.have_garbage_building && pc_OutsideConnectionAI.have_maintain_road_building && pc_OutsideConnectionAI.have_cemetry_building && pc_OutsideConnectionAI.have_police_building)
-                            //{
-                            //    break;
-                            //}
                         }
                     }
                 }
 
                 update_once = true;
 
-
-                int office_gen_num = pc_PrivateBuildingAI.all_office_level1_building_num_final + pc_PrivateBuildingAI.all_office_level2_building_num_final + pc_PrivateBuildingAI.all_office_level3_building_num_final;
-                int profit_building_num = 0;
-                int high_educated_data = 0;
-                int medium_educated_data = 0;
-                int low_educated_data = 0;
-                profit_building_num += pc_PrivateBuildingAI.all_farmer_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_foresty_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_oil_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_ore_building_profit_final;
-                profit_building_num += pc_PrivateBuildingAI.all_industry_building_profit_final;
-                if (office_gen_num != 0)
-                {
-                    if (comm_data.citizen_count != 0)
-                    {
-                        high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
-                        medium_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount;
-                        low_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount;
-                        //pc_PrivateBuildingAI.office_gen_salary_index = ((2.5f * high_educated_data + 1.5f * medium_educated_data + 0.5f * low_educated_data) * profit_building_num) / (comm_data.citizen_count * office_gen_num);
-                    }
-                }
-
-                if (pc_PrivateBuildingAI.all_office_high_tech_building_num_final != 0)
-                {
-                    if (comm_data.citizen_count != 0)
-                    {
-                        high_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount;
-                        medium_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount;
-                        low_educated_data = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount;
-                        //pc_PrivateBuildingAI.office_high_tech_salary_index = ((2.5f * high_educated_data + 1.5f * medium_educated_data + 0.5f * low_educated_data) * pc_PrivateBuildingAI.all_office_level3_building_num_final) / (comm_data.citizen_count * pc_PrivateBuildingAI.all_office_high_tech_building_num_final);
-                    }
-                }
-
-                //pc_PrivateBuildingAI.office_high_tech_salary_index = (pc_PrivateBuildingAI.office_high_tech_salary_index > 1) ? 1 : pc_PrivateBuildingAI.office_high_tech_salary_index;
-                //pc_PrivateBuildingAI.office_high_tech_salary_index = (pc_PrivateBuildingAI.office_high_tech_salary_index < 0.1f) ? 0.1f : pc_PrivateBuildingAI.office_high_tech_salary_index;
-
-                //pc_PrivateBuildingAI.office_gen_salary_index = (pc_PrivateBuildingAI.office_gen_salary_index > 1) ? 1 : pc_PrivateBuildingAI.office_gen_salary_index;
-                //pc_PrivateBuildingAI.office_gen_salary_index = (pc_PrivateBuildingAI.office_gen_salary_index < 0.1f) ? 0.1f : pc_PrivateBuildingAI.office_gen_salary_index;
             }
 
 

@@ -98,7 +98,7 @@ namespace RealCity
                     ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)comm_data.last_citizenid)].m_homeBuilding;
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     uint homeid = instance3.m_citizens.m_buffer[comm_data.last_citizenid].GetContainingUnit(comm_data.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                    this.buildingmoney.text = string.Format(language.BuildingUI[14] + " [{0}]", comm_data.citizen_money[homeid]);
+                    this.buildingmoney.text = string.Format(language.BuildingUI[14] + " [{0}]", comm_data.family_money[homeid]);
                     this.family_salary.text = string.Format(language.BuildingUI[20] + " [{0}]", caculate_family_salary(homeid));
                     HumanUI.refesh_once = false;
                 }
@@ -107,47 +107,31 @@ namespace RealCity
 
         public int caculate_family_salary(uint homeid)
         {
-            int aliveWorkerCount = 0;
-            int totalWorkerCount = 0;
             float num = 0f;
             uint temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen0;
-            ushort buildingID = 0;
             if (temp != 0)
             {
-                buildingID = Singleton<CitizenManager>.instance.m_citizens.m_buffer[temp].m_workBuilding;
-                num += BuildingUI.caculate_employee_outcome(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], buildingID, out aliveWorkerCount, out totalWorkerCount);
+                num += pc_ResidentAI.citizen_salary(temp);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen1;
-            aliveWorkerCount = 0;
-            totalWorkerCount = 0;
             if (temp != 0)
             {
-                buildingID = Singleton<CitizenManager>.instance.m_citizens.m_buffer[temp].m_workBuilding;
-                num += BuildingUI.caculate_employee_outcome(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], buildingID, out aliveWorkerCount, out totalWorkerCount);
+                num += pc_ResidentAI.citizen_salary(temp);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen2;
-            aliveWorkerCount = 0;
-            totalWorkerCount = 0;
             if (temp != 0)
             {
-                buildingID = Singleton<CitizenManager>.instance.m_citizens.m_buffer[temp].m_workBuilding;
-                num += BuildingUI.caculate_employee_outcome(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], buildingID, out aliveWorkerCount, out totalWorkerCount);
+                num += pc_ResidentAI.citizen_salary(temp);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen3;
-            aliveWorkerCount = 0;
-            totalWorkerCount = 0;
             if (temp != 0)
             {
-                buildingID = Singleton<CitizenManager>.instance.m_citizens.m_buffer[temp].m_workBuilding;
-                num += BuildingUI.caculate_employee_outcome(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], buildingID, out aliveWorkerCount, out totalWorkerCount);
+                num += pc_ResidentAI.citizen_salary(temp);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen4;
-            aliveWorkerCount = 0;
-            totalWorkerCount = 0;
             if (temp != 0)
             {
-                buildingID = Singleton<CitizenManager>.instance.m_citizens.m_buffer[temp].m_workBuilding;
-                num += BuildingUI.caculate_employee_outcome(Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], buildingID, out aliveWorkerCount, out totalWorkerCount);
+                num += pc_ResidentAI.citizen_salary(temp);
             }
             return (int)num;
         }

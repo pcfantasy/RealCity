@@ -52,26 +52,47 @@ namespace RealCity
         public const float goods_idex= 4f;
 
 
-        public const float good_export_price = 1.6f * comm_data.Commerical_price;
-        public const float petrol_export_price = 0.175f * comm_data.ConsumptionDivider * comm_data.Commerical_price;    //org 0.5 *comm_data.ConsumptionDivider /2.86f
-        public const float coal_export_price = 0.15f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // org 0.5 *comm_data.ConsumptionDivider /3.3f
-        public const float lumber_export_price = 0.125f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /4f
-        public const float food_export_price = 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /5f
-        public const float ore_export_price = 0.075f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /3.3f
-        public const float log_export_price = 0.0625f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4f
-        public const float oil_export_price = 0.0875f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.86f
-        public const float grain_export_price = 0.05f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public const float good_export_price1 = 1.6f * comm_data.Commerical_price;
+        public const float petrol_export_price1 = 0.175f * comm_data.ConsumptionDivider * comm_data.Commerical_price;    //org 0.5 *comm_data.ConsumptionDivider /2.86f
+        public const float coal_export_price1 = 0.15f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // org 0.5 *comm_data.ConsumptionDivider /3.3f
+        public const float lumber_export_price1 = 0.125f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /4f
+        public const float food_export_price1 = 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /5f
+        public const float ore_export_price1 = 0.075f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /3.3f
+        public const float log_export_price1 = 0.0625f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4f
+        public const float oil_export_price1 = 0.0875f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.86f
+        public const float grain_export_price1 = 0.05f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
 
-        public const float good_import_price = 2.7f * comm_data.Commerical_price;
-        public const float petrol_import_price = 0.315f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // 0.9
-        public const float coal_import_price = 0.27f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
-        public const float lumber_import_price = 0.225f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
-        public const float food_import_price = 0.18f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
-        public const float ore_import_price = 0.12f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;  //0.4
-        public const float log_import_price = 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
-        public const float oil_import_price = 0.14f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
-        public const float grain_import_price = 0.08f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
-         
+        public const float good_import_price1 = 2.7f * comm_data.Commerical_price;
+        public const float petrol_import_price1 = 0.315f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // 0.9
+        public const float coal_import_price1 = 0.27f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
+        public const float lumber_import_price1 = 0.225f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
+        public const float food_import_price1 = 0.18f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
+        public const float ore_import_price1 = 0.12f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;  //0.4
+        public const float log_import_price1 = 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
+        public const float oil_import_price1 = 0.14f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public const float grain_import_price1 = 0.08f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
+
+
+        public static float good_export_price = good_export_price1;
+        public static float petrol_export_price = petrol_export_price1;    //org 0.5 *comm_data.ConsumptionDivider /2.86f
+        public static float coal_export_price = coal_export_price1;  // org 0.5 *comm_data.ConsumptionDivider /3.3f
+        public static float lumber_export_price = lumber_export_price1; // org 0.5 *comm_data.ConsumptionDivider /4f
+        public static float food_export_price = food_export_price1; // org 0.5 *comm_data.ConsumptionDivider /5f
+        public static float ore_export_price = ore_export_price1;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /3.3f
+        public static float log_export_price = log_export_price1;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4f
+        public static float oil_export_price = oil_export_price1;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.86f
+        public static float grain_export_price = grain_export_price1;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+
+        public static float good_import_price = good_import_price1;
+        public static float petrol_import_price = petrol_import_price1;  // 0.9
+        public static float coal_import_price = coal_import_price1; //0.9
+        public static float lumber_import_price = lumber_import_price1; //0.9
+        public static float food_import_price = food_import_price1; //0.9
+        public static float ore_import_price = ore_import_price1;  //0.4
+        public static float log_import_price = log_import_price1; //0.4
+        public static float oil_import_price = oil_import_price1; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
+        public static float grain_import_price = grain_import_price1; //0.4
+
         public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
         public static float petrol_export_ratio = 1f;
@@ -181,148 +202,148 @@ namespace RealCity
         // PrivateBuildingAI
 
         public static byte[] save_data = new byte[316];
-        public static byte[] load_data = new byte[316];
+        //public static byte[] save_data = new byte[316];
 
         public static void load()
         {
             int i = 0;
-            resident_shopping_count = saveandrestore.load_ushort(ref i, load_data);
-            resident_leisure_count = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_level1_count = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_level2_count = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_level3_count = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            industy_goods_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            Grain_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            Grain_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            Grain_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            food_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            food_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            food_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            oil_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            oil_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            oil_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            Petrol_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            Petrol_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            Petrol_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            ore_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            ore_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            ore_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            coal_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            coal_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            coal_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            logs_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            logs_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            logs_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            lumber_to_outside_count = saveandrestore.load_ushort(ref i, load_data);
-            lumber_to_industy_count = saveandrestore.load_ushort(ref i, load_data);
-            lumber_from_outside_count = saveandrestore.load_ushort(ref i, load_data);
+            resident_shopping_count = saveandrestore.load_ushort(ref i, save_data);
+            resident_leisure_count = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_local_level1_count = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_local_level2_count = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_local_level3_count = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            industy_goods_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            Grain_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            Grain_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            Grain_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            food_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            food_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            food_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            oil_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            oil_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            oil_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            Petrol_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            Petrol_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            Petrol_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            ore_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            ore_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            ore_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            coal_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            coal_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            coal_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            logs_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            logs_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            logs_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            lumber_to_outside_count = saveandrestore.load_ushort(ref i, save_data);
+            lumber_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
+            lumber_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
 
-            good_export_ratio = saveandrestore.load_float(ref i, load_data);
-            food_export_ratio = saveandrestore.load_float(ref i, load_data);
-            lumber_export_ratio = saveandrestore.load_float(ref i, load_data);
-            coal_export_ratio = saveandrestore.load_float(ref i, load_data);
-            petrol_export_ratio = saveandrestore.load_float(ref i, load_data);
-            log_export_ratio = saveandrestore.load_float(ref i, load_data);
-            grain_export_ratio = saveandrestore.load_float(ref i, load_data);
-            oil_export_ratio = saveandrestore.load_float(ref i, load_data);
-            ore_export_ratio = saveandrestore.load_float(ref i, load_data);
+            good_export_ratio = saveandrestore.load_float(ref i, save_data);
+            food_export_ratio = saveandrestore.load_float(ref i, save_data);
+            lumber_export_ratio = saveandrestore.load_float(ref i, save_data);
+            coal_export_ratio = saveandrestore.load_float(ref i, save_data);
+            petrol_export_ratio = saveandrestore.load_float(ref i, save_data);
+            log_export_ratio = saveandrestore.load_float(ref i, save_data);
+            grain_export_ratio = saveandrestore.load_float(ref i, save_data);
+            oil_export_ratio = saveandrestore.load_float(ref i, save_data);
+            ore_export_ratio = saveandrestore.load_float(ref i, save_data);
 
-            good_import_ratio = saveandrestore.load_float(ref i, load_data);
-            food_import_ratio = saveandrestore.load_float(ref i, load_data);
-            lumber_import_ratio = saveandrestore.load_float(ref i, load_data);
-            coal_import_ratio = saveandrestore.load_float(ref i, load_data);
-            petrol_import_ratio = saveandrestore.load_float(ref i, load_data);
-            log_import_ratio = saveandrestore.load_float(ref i, load_data);
-            grain_import_ratio = saveandrestore.load_float(ref i, load_data);
-            oil_import_ratio = saveandrestore.load_float(ref i, load_data);
-            ore_import_ratio = saveandrestore.load_float(ref i, load_data);
+            good_import_ratio = saveandrestore.load_float(ref i, save_data);
+            food_import_ratio = saveandrestore.load_float(ref i, save_data);
+            lumber_import_ratio = saveandrestore.load_float(ref i, save_data);
+            coal_import_ratio = saveandrestore.load_float(ref i, save_data);
+            petrol_import_ratio = saveandrestore.load_float(ref i, save_data);
+            log_import_ratio = saveandrestore.load_float(ref i, save_data);
+            grain_import_ratio = saveandrestore.load_float(ref i, save_data);
+            oil_import_ratio = saveandrestore.load_float(ref i, save_data);
+            ore_import_ratio = saveandrestore.load_float(ref i, save_data);
 
-            good_level2_ratio = saveandrestore.load_float(ref i, load_data);
-            good_level3_ratio = saveandrestore.load_float(ref i, load_data);
+            good_level2_ratio = saveandrestore.load_float(ref i, save_data);
+            good_level3_ratio = saveandrestore.load_float(ref i, save_data);
 
-            all_comm_building_profit = saveandrestore.load_ushort(ref i, load_data);
-            all_industry_building_profit = saveandrestore.load_ushort(ref i, load_data);
-            all_foresty_building_profit = saveandrestore.load_ushort(ref i, load_data);
-            all_farmer_building_profit = saveandrestore.load_ushort(ref i, load_data);
-            all_oil_building_profit = saveandrestore.load_ushort(ref i, load_data);
-            all_ore_building_profit = saveandrestore.load_ushort(ref i, load_data);
-            all_comm_building_loss = saveandrestore.load_ushort(ref i, load_data);
-            all_industry_building_loss = saveandrestore.load_ushort(ref i, load_data);
-            all_foresty_building_loss = saveandrestore.load_ushort(ref i, load_data);
-            all_farmer_building_loss = saveandrestore.load_ushort(ref i, load_data);
-            all_oil_building_loss = saveandrestore.load_ushort(ref i, load_data);
-            all_ore_building_loss = saveandrestore.load_ushort(ref i, load_data);
-            total_cargo_vehical_time = saveandrestore.load_uint(ref i, load_data);
-            temp_total_cargo_vehical_time = saveandrestore.load_uint(ref i, load_data);
-            temp_total_cargo_vehical_time_last = saveandrestore.load_uint(ref i, load_data);
-            total_cargo_transfer_size = saveandrestore.load_uint(ref i, load_data);
-            total_train_transfer_size = saveandrestore.load_uint(ref i, load_data);
-            total_ship_transfer_size = saveandrestore.load_uint(ref i, load_data);
-            prebuidlingid = saveandrestore.load_uint(ref i, load_data);
+            all_comm_building_profit = saveandrestore.load_ushort(ref i, save_data);
+            all_industry_building_profit = saveandrestore.load_ushort(ref i, save_data);
+            all_foresty_building_profit = saveandrestore.load_ushort(ref i, save_data);
+            all_farmer_building_profit = saveandrestore.load_ushort(ref i, save_data);
+            all_oil_building_profit = saveandrestore.load_ushort(ref i, save_data);
+            all_ore_building_profit = saveandrestore.load_ushort(ref i, save_data);
+            all_comm_building_loss = saveandrestore.load_ushort(ref i, save_data);
+            all_industry_building_loss = saveandrestore.load_ushort(ref i, save_data);
+            all_foresty_building_loss = saveandrestore.load_ushort(ref i, save_data);
+            all_farmer_building_loss = saveandrestore.load_ushort(ref i, save_data);
+            all_oil_building_loss = saveandrestore.load_ushort(ref i, save_data);
+            all_ore_building_loss = saveandrestore.load_ushort(ref i, save_data);
+            total_cargo_vehical_time = saveandrestore.load_uint(ref i, save_data);
+            temp_total_cargo_vehical_time = saveandrestore.load_uint(ref i, save_data);
+            temp_total_cargo_vehical_time_last = saveandrestore.load_uint(ref i, save_data);
+            total_cargo_transfer_size = saveandrestore.load_uint(ref i, save_data);
+            total_train_transfer_size = saveandrestore.load_uint(ref i, save_data);
+            total_ship_transfer_size = saveandrestore.load_uint(ref i, save_data);
+            prebuidlingid = saveandrestore.load_uint(ref i, save_data);
 
-            resident_shopping_count_final = saveandrestore.load_ushort(ref i, load_data);
-            resident_leisure_count_final = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_count_level1_final = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_count_level2_final = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_local_count_level3_final = saveandrestore.load_ushort(ref i, load_data);
-            shop_get_goods_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            industy_goods_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            Grain_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            Grain_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            Grain_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            food_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            food_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            food_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            oil_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            oil_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            oil_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            Petrol_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            Petrol_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            Petrol_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            ore_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            ore_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            ore_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            coal_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            coal_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            coal_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            logs_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            logs_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            logs_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            lumber_to_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
-            lumber_to_industy_count_final = saveandrestore.load_ushort(ref i, load_data);
-            lumber_from_outside_count_final = saveandrestore.load_ushort(ref i, load_data);
+            resident_shopping_count_final = saveandrestore.load_ushort(ref i, save_data);
+            resident_leisure_count_final = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_local_count_level1_final = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_local_count_level2_final = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_local_count_level3_final = saveandrestore.load_ushort(ref i, save_data);
+            shop_get_goods_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            industy_goods_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            Grain_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            Grain_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            Grain_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            food_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            food_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            food_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            oil_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            oil_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            oil_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            Petrol_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            Petrol_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            Petrol_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            ore_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            ore_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            ore_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            coal_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            coal_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            coal_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            logs_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            logs_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            logs_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            lumber_to_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
+            lumber_to_industy_count_final = saveandrestore.load_ushort(ref i, save_data);
+            lumber_from_outside_count_final = saveandrestore.load_ushort(ref i, save_data);
 
-            all_comm_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
-            all_industry_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
-            all_foresty_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
-            all_farmer_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
-            all_oil_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
-            all_ore_building_profit_final = saveandrestore.load_ushort(ref i, load_data);
-            all_comm_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
-            all_industry_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
-            all_foresty_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
-            all_farmer_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
-            all_oil_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
-            all_ore_building_loss_final = saveandrestore.load_ushort(ref i, load_data);
+            all_comm_building_profit_final = saveandrestore.load_ushort(ref i, save_data);
+            all_industry_building_profit_final = saveandrestore.load_ushort(ref i, save_data);
+            all_foresty_building_profit_final = saveandrestore.load_ushort(ref i, save_data);
+            all_farmer_building_profit_final = saveandrestore.load_ushort(ref i, save_data);
+            all_oil_building_profit_final = saveandrestore.load_ushort(ref i, save_data);
+            all_ore_building_profit_final = saveandrestore.load_ushort(ref i, save_data);
+            all_comm_building_loss_final = saveandrestore.load_ushort(ref i, save_data);
+            all_industry_building_loss_final = saveandrestore.load_ushort(ref i, save_data);
+            all_foresty_building_loss_final = saveandrestore.load_ushort(ref i, save_data);
+            all_farmer_building_loss_final = saveandrestore.load_ushort(ref i, save_data);
+            all_oil_building_loss_final = saveandrestore.load_ushort(ref i, save_data);
+            all_ore_building_loss_final = saveandrestore.load_ushort(ref i, save_data);
 
-            all_office_level1_building_num = saveandrestore.load_ushort(ref i, load_data);
-            all_office_level2_building_num = saveandrestore.load_ushort(ref i, load_data);
-            all_office_level3_building_num = saveandrestore.load_ushort(ref i, load_data);
-            all_office_high_tech_building_num = saveandrestore.load_ushort(ref i, load_data);
+            all_office_level1_building_num = saveandrestore.load_ushort(ref i, save_data);
+            all_office_level2_building_num = saveandrestore.load_ushort(ref i, save_data);
+            all_office_level3_building_num = saveandrestore.load_ushort(ref i, save_data);
+            all_office_high_tech_building_num = saveandrestore.load_ushort(ref i, save_data);
 
-            all_office_level1_building_num_final = saveandrestore.load_ushort(ref i, load_data);
-            all_office_level2_building_num_final = saveandrestore.load_ushort(ref i, load_data);
-            all_office_level3_building_num_final = saveandrestore.load_ushort(ref i, load_data);
-            all_office_high_tech_building_num_final = saveandrestore.load_ushort(ref i, load_data);
+            all_office_level1_building_num_final = saveandrestore.load_ushort(ref i, save_data);
+            all_office_level2_building_num_final = saveandrestore.load_ushort(ref i, save_data);
+            all_office_level3_building_num_final = saveandrestore.load_ushort(ref i, save_data);
+            all_office_high_tech_building_num_final = saveandrestore.load_ushort(ref i, save_data);
 
-            greater_than_20000_profit_building_money = saveandrestore.load_long(ref i, load_data);
-            greater_than_20000_profit_building_money_final = saveandrestore.load_long(ref i, load_data);
-            greater_than_20000_profit_building_num = saveandrestore.load_ushort(ref i, load_data);
-            greater_than_20000_profit_building_num_final = saveandrestore.load_ushort(ref i, load_data);
+            greater_than_20000_profit_building_money = saveandrestore.load_long(ref i, save_data);
+            greater_than_20000_profit_building_money_final = saveandrestore.load_long(ref i, save_data);
+            greater_than_20000_profit_building_num = saveandrestore.load_ushort(ref i, save_data);
+            greater_than_20000_profit_building_num_final = saveandrestore.load_ushort(ref i, save_data);
 
-            //office_gen_salary_index = saveandrestore.load_float(ref i, load_data);
-            //office_high_tech_salary_index = saveandrestore.load_float(ref i, load_data);
+            //office_gen_salary_index = saveandrestore.load_float(ref i, save_data);
+            //office_high_tech_salary_index = saveandrestore.load_float(ref i, save_data);
 
             DebugLog.LogToFileOnly("save_data in private building is " + i.ToString());
 
@@ -679,7 +700,7 @@ namespace RealCity
         }
 
 
-      public void process_building_data_final(ushort buildingID, ref Building buildingData)
+        public void process_building_data_final(ushort buildingID, ref Building buildingData)
         {
             int i;
             if (prebuidlingid < buildingID)
@@ -713,85 +734,85 @@ namespace RealCity
                 {
                     comm_data.building_money[buildingID] = 0;
                 }
-                    
+
                 int asset = process_building_asset(buildingID, ref buildingData);
-                if (((buildingData.m_problems & (~Notification.Problem.NoCustomers)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoCustomers)) != Notification.Problem.None))
+                if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
                 {
-                    Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
-                    //if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
-                    //{
-                    System.Random rand = new System.Random();
-                    if ((comm_data.building_money[i] + asset) < -1000)
+                    if (((buildingData.m_problems & (~Notification.Problem.NoCustomers)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoCustomers)) != Notification.Problem.None))
                     {
-                        if (rand.Next(10) < 2)
+                        Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
+                        System.Random rand = new System.Random();
+                        if ((comm_data.building_money[i] + asset) < -1000)
                         {
-                            buildingData.m_majorProblemTimer = 192;
-                            buildingData.m_flags &= ~Building.Flags.Active;
-                            buildingData.m_flags |= Building.Flags.Abandoned;
-                            buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
-                            base.RemovePeople(buildingID, ref buildingData, 100);
-                            this.BuildingDeactivated(buildingID, ref buildingData);
-                            Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
-                        }
-                    }
-                    if ((comm_data.building_money[i] + asset) < -500)
-                    {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
-                    }
-                    else if ((comm_data.building_money[i] + asset) < 0)
-                    {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
-                    }
-                    buildingData.m_problems = problem;
-                }
-
-                if (((buildingData.m_problems & (~Notification.Problem.NoGoods)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoGoods)) != Notification.Problem.None))
-                {
-                    //mark no good
-                    if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
-                    {
-                        Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
-                        if (buildingData.m_customBuffer2 < 500)
-                        {
-                            if ((buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)  || (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialLow))
+                            if (rand.Next(10) < 2)
                             {
-                                byte district = Singleton<DistrictManager>.instance.GetDistrict(buildingData.m_position);
-                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                {
-                                    if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 30)
-                                    {
-                                        if (comm_data.building_money[buildingID] > 100)
-                                        {
-                                            this.StartUpgrading(buildingID, ref buildingData);
-                                        }
-                                    }
-                                }
-
-                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                {
-                                    if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 50)
-                                    {
-                                        if (comm_data.building_money[buildingID] > 500)
-                                        {
-                                            this.StartUpgrading(buildingID, ref buildingData);
-                                        }
-                                    }
-                                }
+                                buildingData.m_majorProblemTimer = 192;
+                                buildingData.m_flags &= ~Building.Flags.Active;
+                                buildingData.m_flags |= Building.Flags.Abandoned;
+                                buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
+                                base.RemovePeople(buildingID, ref buildingData, 100);
+                                this.BuildingDeactivated(buildingID, ref buildingData);
+                                Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
                             }
-                            problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
                         }
-                        else if (buildingData.m_customBuffer2 < 1000)
+                        if ((comm_data.building_money[i] + asset) < -500)
                         {
-                            problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
+                            problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
                         }
-                        else
+                        else if ((comm_data.building_money[i] + asset) < 0)
                         {
-
+                            problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
                         }
                         buildingData.m_problems = problem;
                     }
+
+                    if (((buildingData.m_problems & (~Notification.Problem.NoGoods)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoGoods)) != Notification.Problem.None))
+                    {
+                        //mark no good
+                        if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                        {
+                            Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
+                            if (buildingData.m_customBuffer2 < 500)
+                            {
+                                if ((buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh) || (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialLow))
+                                {
+                                    byte district = Singleton<DistrictManager>.instance.GetDistrict(buildingData.m_position);
+                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
+                                    {
+                                        if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 30)
+                                        {
+                                            if (comm_data.building_money[buildingID] > 100)
+                                            {
+                                                this.StartUpgrading(buildingID, ref buildingData);
+                                            }
+                                        }
+                                    }
+
+                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
+                                    {
+                                        if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 50)
+                                        {
+                                            if (comm_data.building_money[buildingID] > 500)
+                                            {
+                                                this.StartUpgrading(buildingID, ref buildingData);
+                                            }
+                                        }
+                                    }
+                                }
+                                problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
+                            }
+                            else if (buildingData.m_customBuffer2 < 1000)
+                            {
+                                problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
+                            }
+                            else
+                            {
+
+                            }
+                            buildingData.m_problems = problem;
+                        }
+                    }
                 }
-                // }
             }
             else
             {

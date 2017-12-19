@@ -40,9 +40,10 @@ namespace RealCity
                                 BuildingManager instance4 = Singleton<BuildingManager>.instance;
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                                 {
-                                    if (comm_data.citizen_money[num2] - num4 > 0)
+                                    if (comm_data.family_money[num2] - num4 > 0)
                                     {
-                                        comm_data.citizen_money[num2] = (short)(comm_data.citizen_money[num2] - num4 / comm_data.game_maintain_fee_decrease3);
+                                        comm_data.family_money[num2] = (float)(comm_data.family_money[num2] - num4 / comm_data.game_maintain_fee_decrease3);
+                                        comm_data.citizen_money[citizen] -= (float)(num4 / comm_data.game_maintain_fee_decrease3);
                                     } else
                                     {
                                         num4 = 0;

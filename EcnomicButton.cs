@@ -120,6 +120,10 @@ namespace RealCity
             {
                 this.EcButton.text = language.EconomicUI[0];
                 this.EcButton.tooltip = language.EconomicUI[0];
+                if (comm_data.is_random_event)
+                {
+                    this.EcButton.textColor = Color.red;
+                }
                 if (Input.GetMouseButton(2) && Input.GetKeyDown(KeyCode.R))
                 {
                     EcnomicButton.MoreeconomicUIToggle();

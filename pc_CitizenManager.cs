@@ -1,4 +1,5 @@
-﻿using ColossalFramework.Math;
+﻿using ColossalFramework;
+using ColossalFramework.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,5 +73,28 @@ namespace RealCity
             this.m_unitCount = (int)(this.m_units.ItemCount() - 1u);
             return true;
         }
+
+
+        private void ReleaseCitizenImplementation(uint citizen, ref Citizen data)
+        {
+            InstanceID id = default(InstanceID);
+            comm_data.citizen_money[citizen] = 0;
+            id.Citizen = citizen;
+            Singleton<InstanceManager>.instance.ReleaseInstance(id);
+            if (data.m_instance != 0)
+            {
+                this.ReleaseCitizenInstance(data.m_instance);
+                data.m_instance = 0;
+            }
+            data.SetHome(citizen, 0, 0u);
+            data.SetWorkplace(citizen, 0, 0u);
+            data.SetVisitplace(citizen, 0, 0u);
+            data.SetVehicle(citizen, 0, 0u);
+            data.SetParkedVehicle(citizen, 0);
+            data = default(Citizen);
+            this.m_citizens.ReleaseItem(citizen);
+            this.m_citizenCount = (int)(this.m_citizens.ItemCount() - 1u);
+        }
+
     }
 }
