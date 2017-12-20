@@ -195,6 +195,8 @@ namespace RealCity
             "tip7",
             "tip8",
             "tip8",
+            "tip9",
+            "tip9",
         };
 
 
@@ -228,7 +230,8 @@ namespace RealCity
         "Petrol ",
         "Coal ",
         "Remaining time:",
-        "No random event now(NSP yet, coming soon)"   
+        "No random event now(NSP yet, coming soon)",
+        "City Bank lack of money, No CI demand and outside movingin resident will be poor man"   
         };
 
 
@@ -337,7 +340,6 @@ namespace RealCity
             "infinity garbage,receive 200 garbagecars in 1000time,get 90K(cd time 2000,when family>500)",
             "infinity dead,receive 200 hearsecars in 1000time,get 50K(cd time 2500,when family>2000)",
             "crasy traffic,receive 4K feedthrough traffic in 2000time,get 70K(cd time 3000,when family>1000)",
-            "happy holiday,1.5x visitors come in, will spend 50K(cd time 3000,when family>4000)",
             "remaining_time",
             "task remaining_time",
             "remaining_num",
@@ -345,7 +347,10 @@ namespace RealCity
             "cooldown time",
             "task cooldown time",
             "If using rush hour, tell mod if it is weekend to disable Smart Public Transport function",
-            "City Data"
+            "City Data",
+            "City Bank",
+            "Get 1K from Bank",
+            "Get 1K from Bank, if Bank have money"
         };
 
 
@@ -537,6 +542,8 @@ namespace RealCity
             "提示7",
             "提示8",
             "提示8",
+            "提示9",
+            "提示9",
         };
 
 
@@ -549,7 +556,7 @@ namespace RealCity
         "最好用TMPE并且禁止车辆消失",
         "最好用Citizen Lifecycle Rebalance并把lifespan改成16(看工坊Q/A)",
         "可以用Favorite Cims mod看每个居民和他们家庭的情况",
-        "城市发展初期，医院和警务请让外部帮助",
+        "城市发展初期,医院和警务请让外部帮助",
         "石油矿业太多了,居民可能不愿意来城市定居",
         "当前事件:",
         "缺货危机 ",
@@ -570,7 +577,8 @@ namespace RealCity
         "汽油 ",
         "煤矿 ",
         "剩余时间:",
-        "当前没有随机事件(暂不支持,稍后发布)"
+        "当前没有随机事件(暂不支持,稍后发布)",
+        "城市银行缺钱,无工业商业需求,移民全是穷人"
         };
 
 
@@ -679,7 +687,6 @@ namespace RealCity
             "垃圾围城,1000时间接受200卡车垃圾,可获得9万克朗(冷却时间2000,500家庭有效)",
             "死尸围城,1000时间接受200灵车遗体,可获得5万克朗(冷却时间2500,1500家庭有效)",
             "疯狂运输,2000时间接受4000过境车辆,可获得7万克朗(冷却时间3000,1000家庭有效)",
-            "快乐假期,花费5W会得到一堆游客进城,持续3000时间(冷却时间3000,4000家庭有效)",
             "剩余时间",
             "任务剩余时间",
             "剩余数目",
@@ -687,7 +694,10 @@ namespace RealCity
             "冷却时间",
             "任务冷却时间",
             "用rush hour的话,告诉本MOD今天是不是节假日,可以关掉智能公交预算功能",
-            "城市情况"
+            "城市情况",
+            "城市银行",
+            "挪用银行1K",
+            "如果银行有钱,可以挪用1K"
         };
 
 

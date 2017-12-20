@@ -78,6 +78,11 @@ namespace RealCity
         private void ReleaseCitizenImplementation(uint citizen, ref Citizen data)
         {
             InstanceID id = default(InstanceID);
+
+            if (comm_data.citizen_money[citizen] > 0)
+            {
+                comm_data.city_bank -= comm_data.citizen_money[citizen];
+            }
             comm_data.citizen_money[citizen] = 0;
             id.Citizen = citizen;
             Singleton<InstanceManager>.instance.ReleaseInstance(id);

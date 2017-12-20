@@ -3,6 +3,7 @@ using ColossalFramework;
 using ColossalFramework.UI;
 using UnityEngine;
 using System.Collections;
+using System.Reflection;
 
 namespace RealCity
 {
@@ -104,13 +105,11 @@ namespace RealCity
         private UILabel infinity_garbage;
         private UILabel infinity_dead;
         private UILabel crasy_transport;
-        private UILabel happy_holiday;
         private UILabel is_weekend;
 
         public static UICheckBox infinity_garbage_Checkbox;
         public static UICheckBox infinity_dead_Checkbox;
         public static UICheckBox crasy_transport_Checkbox;
-        public static UICheckBox happy_holiday_Checkbox;
         public static UICheckBox is_weekend_Checkbox;
 
         private UILabel task_num;
@@ -189,6 +188,9 @@ namespace RealCity
         //all total income
         public static double all_total_income;
         public static bool refesh_onece = false;
+
+        private UILabel city_bank;
+        private UIButton m_getfromBank;
 
 
 
@@ -736,46 +738,15 @@ namespace RealCity
             };
 
 
-            happy_holiday_Checkbox = base.AddUIComponent<UICheckBox>();
-            happy_holiday_Checkbox.relativePosition = new Vector3(SPACING, crasy_transport_Checkbox.relativePosition.y + 30f);
-            this.happy_holiday = base.AddUIComponent<UILabel>();
-            this.happy_holiday.relativePosition = new Vector3(happy_holiday_Checkbox.relativePosition.x + happy_holiday_Checkbox.width + SPACING * 2f, happy_holiday_Checkbox.relativePosition.y + 5f);
-            this.happy_holiday.tooltip = language.RealCityUI1[103];
-            happy_holiday_Checkbox.height = 16f;
-            happy_holiday_Checkbox.width = 16f;
-            happy_holiday_Checkbox.label = this.happy_holiday;
-            happy_holiday_Checkbox.text = language.RealCityUI1[103];
-            UISprite uISprite7 = happy_holiday_Checkbox.AddUIComponent<UISprite>();
-            uISprite7.height = 20f;
-            uISprite7.width = 20f;
-            uISprite7.relativePosition = new Vector3(0f, 0f);
-            uISprite7.spriteName = "check-unchecked";
-            uISprite7.isVisible = true;
-            UISprite uISprite8 = happy_holiday_Checkbox.AddUIComponent<UISprite>();
-            uISprite8.height = 20f;
-            uISprite8.width = 20f;
-            uISprite8.relativePosition = new Vector3(0f, 0f);
-            uISprite8.spriteName = "check-checked";
-            happy_holiday_Checkbox.checkedBoxObject = uISprite8;
-            happy_holiday_Checkbox.isChecked = comm_data.happy_task;
-            happy_holiday_Checkbox.isEnabled = true;
-            happy_holiday_Checkbox.isVisible = true;
-            happy_holiday_Checkbox.canFocus = true;
-            happy_holiday_Checkbox.isInteractive = true;
-            happy_holiday_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
-            {
-                happy_holiday_Checkbox_OnCheckChanged(component, eventParam);
-            };
-
             is_weekend_Checkbox = base.AddUIComponent<UICheckBox>();
-            is_weekend_Checkbox.relativePosition = new Vector3(SPACING, happy_holiday_Checkbox.relativePosition.y + 30f);
+            is_weekend_Checkbox.relativePosition = new Vector3(SPACING, crasy_transport_Checkbox.relativePosition.y + 30f);
             this.is_weekend = base.AddUIComponent<UILabel>();
             this.is_weekend.relativePosition = new Vector3(is_weekend_Checkbox.relativePosition.x + is_weekend_Checkbox.width + SPACING * 2f, is_weekend_Checkbox.relativePosition.y + 5f);
-            this.is_weekend.tooltip = language.RealCityUI1[110];
+            this.is_weekend.tooltip = language.RealCityUI1[109];
             is_weekend_Checkbox.height = 16f;
             is_weekend_Checkbox.width = 16f;
             is_weekend_Checkbox.label = this.is_weekend;
-            is_weekend_Checkbox.text = language.RealCityUI1[110];
+            is_weekend_Checkbox.text = language.RealCityUI1[109];
             UISprite uISprite9 = is_weekend_Checkbox.AddUIComponent<UISprite>();
             uISprite9.height = 20f;
             uISprite9.width = 20f;
@@ -801,7 +772,7 @@ namespace RealCity
 
             this.task_time = base.AddUIComponent<UILabel>();
             this.task_time.text = "remaining_time: [0000]";
-            this.task_time.tooltip = language.RealCityUI1[105];
+            this.task_time.tooltip = language.RealCityUI1[104];
             this.task_time.relativePosition = new Vector3(SPACING, is_weekend_Checkbox.relativePosition.y + SPACING22 + 20f);
             this.task_time.autoSize = true;
             this.task_time.name = "Moreeconomic_Text_47";
@@ -809,17 +780,46 @@ namespace RealCity
 
             this.task_num = base.AddUIComponent<UILabel>();
             this.task_num.text = "remaining_num: [0000]";
-            this.task_num.tooltip = language.RealCityUI1[107];
+            this.task_num.tooltip = language.RealCityUI1[106];
             this.task_num.relativePosition = new Vector3(this.task_time.relativePosition.x + this.task_time.width + SPACING + 60f, this.task_time.relativePosition.y);
             this.task_num.autoSize = true;
             this.task_num.name = "Moreeconomic_Text_48";
 
             this.cd_num = base.AddUIComponent<UILabel>();
             this.cd_num.text = "cooldown_time: [0000]";
-            this.cd_num.tooltip = language.RealCityUI1[109];
+            this.cd_num.tooltip = language.RealCityUI1[108];
             this.cd_num.relativePosition = new Vector3(this.task_num.relativePosition.x + this.task_num.width + SPACING + 60f, this.task_num.relativePosition.y);
             this.cd_num.autoSize = true;
             this.cd_num.name = "Moreeconomic_Text_49";
+
+
+            this.city_bank = base.AddUIComponent<UILabel>();
+            this.city_bank.text = language.RealCityUI1[110];
+            this.city_bank.tooltip = language.RealCityUI1[110];
+            this.city_bank.relativePosition = new Vector3(SPACING, task_time.relativePosition.y + SPACING22 + 20f);
+            this.city_bank.autoSize = true;
+            this.city_bank.name = "Moreeconomic_Text_47";
+
+
+            this.m_getfromBank = base.AddUIComponent<UIButton>();
+            this.m_getfromBank.size = new Vector2(160f, 24f);
+            this.m_getfromBank.text = language.RealCityUI1[112];
+            this.m_getfromBank.tooltip = language.RealCityUI1[113];
+            this.m_getfromBank.textScale = 0.875f;
+            this.m_getfromBank.normalBgSprite = "ButtonMenu";
+            this.m_getfromBank.hoveredBgSprite = "ButtonMenuHovered";
+            this.m_getfromBank.pressedBgSprite = "ButtonMenuPressed";
+            this.m_getfromBank.disabledBgSprite = "ButtonMenuDisabled";
+            this.m_getfromBank.relativePosition = new Vector3(SPACING, this.city_bank.relativePosition.y + SPACING22 + 10f);
+            this.m_getfromBank.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            {
+                if (comm_data.city_bank > 100000)
+                {
+                    comm_data.city_bank -= 100000;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(100000, ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    refesh_onece = true;
+                }
+            };
         }
 
 
@@ -831,7 +831,7 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 500 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.garbage_task = true;
                         comm_data.task_num = 200;
@@ -842,7 +842,7 @@ namespace RealCity
             else
             {
                 comm_data.garbage_task = false;
-                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
+                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
                 {
                     comm_data.task_num = 0;
                     comm_data.task_time = 0;
@@ -857,7 +857,7 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 1500 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 1500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.dead_task = true;
                         comm_data.task_num = 200;
@@ -868,7 +868,7 @@ namespace RealCity
             else
             {
                 comm_data.dead_task = false;
-                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task ||comm_data.garbage_task))
+                if (!(comm_data.crasy_task || comm_data.dead_task ||comm_data.garbage_task))
                 {
                     comm_data.task_num = 0;
                     comm_data.task_time = 0;
@@ -883,7 +883,7 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 1000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 1000 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
                     {
                         comm_data.crasy_task = true;
                         comm_data.task_num = 4000;
@@ -894,33 +894,7 @@ namespace RealCity
             else
             {
                 comm_data.crasy_task = false;
-                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
-                {
-                    comm_data.task_num = 0;
-                    comm_data.task_time = 0;
-                }
-            }
-        }
-
-        public static void happy_holiday_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
-        {
-            if (bValue)
-            {
-                if (comm_data.cd_num < 0)
-                {
-                    if (comm_data.family_count > 4000 && (!comm_data.happy_task) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
-                    {
-                        comm_data.happy_task = true;
-                        comm_data.task_num = 1;
-                        comm_data.task_time = 3000;
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 5000000, ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
-                    }
-                }
-            }
-            else
-            {
-                comm_data.happy_task = false;
-                if (!(comm_data.happy_task || comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
+                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
                 {
                     comm_data.task_num = 0;
                     comm_data.task_time = 0;
@@ -1036,12 +1010,13 @@ namespace RealCity
                     infinity_garbage_Checkbox.text = language.RealCityUI1[100];
                     infinity_dead_Checkbox.text = language.RealCityUI1[101];
                     crasy_transport_Checkbox.text = language.RealCityUI1[102];
-                    happy_holiday_Checkbox.text = language.RealCityUI1[103];
-                    is_weekend_Checkbox.text = language.RealCityUI1[110];
+                    //happy_holiday_Checkbox.text = language.RealCityUI1[103];
+                    is_weekend_Checkbox.text = language.RealCityUI1[109];
 
-                    this.task_time.text = string.Format(language.RealCityUI1[104] + " [{0}]", comm_data.task_time);
-                    this.task_num.text = string.Format(language.RealCityUI1[106] + " [{0}]", comm_data.task_num);
-                    this.cd_num.text = string.Format(language.RealCityUI1[108] + " [{0}]", comm_data.cd_num);
+                    this.task_time.text = string.Format(language.RealCityUI1[103] + " [{0}]", comm_data.task_time);
+                    this.task_num.text = string.Format(language.RealCityUI1[105] + " [{0}]", comm_data.task_num);
+                    this.cd_num.text = string.Format(language.RealCityUI1[107] + " [{0}]", comm_data.cd_num);
+                    this.city_bank.text = string.Format(language.RealCityUI1[111] + " [{0}]", comm_data.city_bank /100);
                     refesh_onece = false;
                 }
             }

@@ -493,6 +493,10 @@
         public static bool Rich_immigrants = false;
         public static bool hot_money = false;
         public static bool money_flowout = false;
+        public static bool socialism = false;
+        public static bool free_trade = false;
+        public static bool prefer_farming = false;
+        public static bool false_alarm = false;
 
         public static bool high_oil = false;
         public static bool high_ore = false;
@@ -505,8 +509,10 @@
 
         public static int event_num = 0;
 
+        public static double city_bank = 0;
+
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[49025];
+        public static ushort[] reserved = new ushort[48991];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -679,8 +685,39 @@
 
             saveandrestore.save_bool(ref i, is_weekend, ref save_data);
 
+            saveandrestore.save_bool(ref i, is_random_event, ref save_data);
+            saveandrestore.save_bool(ref i, lackofgoods, ref save_data);
+            saveandrestore.save_bool(ref i, highpricegoods, ref save_data);
+            saveandrestore.save_bool(ref i, highdemand, ref save_data);
+            saveandrestore.save_bool(ref i, Virus_attack, ref save_data);
+            saveandrestore.save_bool(ref i, refugees, ref save_data);
+            saveandrestore.save_bool(ref i, Rich_immigrants, ref save_data);
+            saveandrestore.save_bool(ref i, hot_money, ref save_data);
+            saveandrestore.save_bool(ref i, money_flowout, ref save_data);
+            saveandrestore.save_bool(ref i, socialism, ref save_data);
+            saveandrestore.save_bool(ref i, free_trade, ref save_data);
+            saveandrestore.save_bool(ref i, prefer_farming, ref save_data);
+            saveandrestore.save_bool(ref i, false_alarm, ref save_data);
+
+            saveandrestore.save_bool(ref i, high_oil, ref save_data);
+            saveandrestore.save_bool(ref i, high_ore, ref save_data);
+            saveandrestore.save_bool(ref i, high_logs, ref save_data);
+            saveandrestore.save_bool(ref i, high_grain, ref save_data);
+            saveandrestore.save_bool(ref i, high_lumber, ref save_data);
+            saveandrestore.save_bool(ref i, high_petrol, ref save_data);
+            saveandrestore.save_bool(ref i, high_food, ref save_data);
+            saveandrestore.save_bool(ref i, high_coal, ref save_data);
+            saveandrestore.save_bool(ref i, prefer_farming, ref save_data);
+            saveandrestore.save_bool(ref i, false_alarm, ref save_data);
+
+            saveandrestore.save_int(ref i, event_num, ref save_data);
+            saveandrestore.save_double(ref i, city_bank, ref save_data);
+
+
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
+
+
 
 
 
@@ -810,7 +847,39 @@
             happy_task = saveandrestore.load_bool(ref i, save_data);
             is_weekend = saveandrestore.load_bool(ref i, save_data);
 
-            reserved = saveandrestore.load_ushorts(ref i, save_data ,reserved.Length);
+
+            is_random_event = saveandrestore.load_bool(ref i, save_data);
+            lackofgoods = saveandrestore.load_bool(ref i, save_data);
+            highpricegoods = saveandrestore.load_bool(ref i, save_data);
+            highdemand = saveandrestore.load_bool(ref i, save_data);
+            lowdemand = saveandrestore.load_bool(ref i, save_data);
+            Virus_attack = saveandrestore.load_bool(ref i, save_data);
+            refugees = saveandrestore.load_bool(ref i, save_data);
+            Rich_immigrants = saveandrestore.load_bool(ref i, save_data);
+            hot_money = saveandrestore.load_bool(ref i, save_data);
+            money_flowout = saveandrestore.load_bool(ref i, save_data);
+            socialism = saveandrestore.load_bool(ref i, save_data);
+            free_trade = saveandrestore.load_bool(ref i, save_data);
+            prefer_farming = saveandrestore.load_bool(ref i, save_data);
+            false_alarm = saveandrestore.load_bool(ref i, save_data);
+
+            high_oil = saveandrestore.load_bool(ref i, save_data);
+            high_ore = saveandrestore.load_bool(ref i, save_data);
+            high_logs = saveandrestore.load_bool(ref i, save_data);
+            high_grain = saveandrestore.load_bool(ref i, save_data);
+            high_lumber = saveandrestore.load_bool(ref i, save_data);
+            high_petrol = saveandrestore.load_bool(ref i, save_data);
+            high_food = saveandrestore.load_bool(ref i, save_data);
+            high_coal = saveandrestore.load_bool(ref i, save_data);
+
+            event_num = saveandrestore.load_int(ref i, save_data);
+
+            city_bank = saveandrestore.load_double(ref i, save_data);
+
+
+
+
+            reserved = saveandrestore.load_ushorts(ref i, save_data, reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, save_data, building_buffer2.Length);
 
             DebugLog.LogToFileOnly("save_data in comm_data is " + i.ToString());

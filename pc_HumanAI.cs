@@ -164,6 +164,7 @@ namespace RealCity
                     info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num1);
                     comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] + num1);
                     comm_data.citizen_money[citizen] += num1;
+                    comm_data.city_bank += num1;
                 }
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
@@ -234,6 +235,7 @@ namespace RealCity
                     {
                         comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] - tourism_fee);
                         comm_data.citizen_money[citizen] -= tourism_fee;
+                        comm_data.city_bank -= tourism_fee;
                         comm_data.building_money[citizenData.m_targetBuilding] += tourism_fee / 100f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }
@@ -279,6 +281,7 @@ namespace RealCity
                             {
                                 comm_data.citizen_money[citizen] -= ticketPrice / comm_data.game_maintain_fee_decrease3;
                                 comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] - (ticketPrice / comm_data.game_maintain_fee_decrease3));
+                                comm_data.city_bank -= (ticketPrice / comm_data.game_maintain_fee_decrease3);
                             }
                             else
                             {

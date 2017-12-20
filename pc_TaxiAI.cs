@@ -44,6 +44,7 @@ namespace RealCity
                                     {
                                         comm_data.family_money[num2] = (float)(comm_data.family_money[num2] - num4 / comm_data.game_maintain_fee_decrease3);
                                         comm_data.citizen_money[citizen] -= (float)(num4 / comm_data.game_maintain_fee_decrease3);
+                                        comm_data.city_bank -= (float)(num4 / comm_data.game_maintain_fee_decrease3);
                                     } else
                                     {
                                         num4 = 0;

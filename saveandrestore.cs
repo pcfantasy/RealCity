@@ -395,6 +395,11 @@ namespace RealCity
 
         public override void OnSaveData()
         {
+            pc_EconomyManager.save_data = new byte[2768];
+            comm_data.save_data1 = new byte[4194304];
+            pc_PrivateBuildingAI.save_data = new byte[316];
+            pc_ResidentAI.save_data = new byte[140];
+            comm_data.save_data = new byte[3063935];
             gather_save_data();
             saveandrestore._serializableData.SaveData("real_city pc_EconomyManager", pc_EconomyManager.save_data);
             saveandrestore._serializableData.SaveData("real_city comm_data", comm_data.save_data);

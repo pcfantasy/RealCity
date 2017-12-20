@@ -103,6 +103,11 @@ namespace RealCity
 
         public int OnCalculateCommercialDemand(ref int originalDemand)
         {
+            if (comm_data.city_bank < -1000000)
+            {
+                originalDemand = 0;
+            }
+
             if ((pc_PrivateBuildingAI.all_comm_building_loss_final + pc_PrivateBuildingAI.all_comm_building_profit_final) > 0)
             {
                 if ((comm_data.family_count / (pc_PrivateBuildingAI.all_comm_building_loss_final + pc_PrivateBuildingAI.all_comm_building_profit_final)) >= 20f)
@@ -167,6 +172,12 @@ namespace RealCity
             {
                 //do nothing
             }
+
+            if (comm_data.city_bank < -1000000)
+            {
+                originalDemand = 0;
+            }
+
             return originalDemand;
         }
 

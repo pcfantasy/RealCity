@@ -1993,6 +1993,22 @@ namespace RealCity
                 cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
                 _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
                 cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
+            } else if (taxRate == 116) //116 bank income
+            {
+                Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
+                service = ItemClass.Service.Industrial;
+                subService = ItemClass.SubService.IndustrialGeneric;
+                level = ItemClass.Level.Level3;
+                amount = amount * comm_data.game_income_expense_multiple;
+                int num = ClassIndex(service, subService, level);
+                if (num != -1)
+                {
+                    _income[num * 17 + 16] += (long)amount;
+                }
+                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
+                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
             }
             else if ((taxRate == 113) || (taxRate == 114))
             {

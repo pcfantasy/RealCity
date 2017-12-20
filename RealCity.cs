@@ -388,7 +388,7 @@ namespace RealCity
                     caculate_citizen_transport_fee();
                     generate_tips();
                     check_task_status();
-                    //check_event_status();
+                    check_event_status();
                     //change_outside_price();
 
                     comm_data.update_money_count++;
@@ -725,7 +725,8 @@ namespace RealCity
                     comm_data.money_flowout = false;
                     comm_data.lowdemand = false;
                     comm_data.highdemand = false;
-                    if (rand.Next(1000) < 10)
+                    comm_data.happy_task = false;
+                    if (rand.Next(1000) < 0)
                     {
                         comm_data.is_random_event = true;
                         comm_data.event_num = 1000;
@@ -773,7 +774,6 @@ namespace RealCity
                     comm_data.garbage_task = false;
                     comm_data.dead_task = false;
                     comm_data.crasy_task = false;
-                    comm_data.happy_task = false;
                 }
 
                 if (comm_data.task_time > 0)
@@ -802,12 +802,6 @@ namespace RealCity
                             comm_data.cd_num = 3000;
                             Singleton<EconomyManager>.instance.AddPrivateIncome(7000000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
-
-                        if (comm_data.happy_task)
-                        {
-                            comm_data.happy_task = false;
-                            comm_data.cd_num = 3000;
-                        }
                     }
                 }
                 else
@@ -831,12 +825,6 @@ namespace RealCity
                         comm_data.cd_num = 3000;
                         comm_data.crasy_task = false;
                     }
-
-                    if (comm_data.happy_task)
-                    {
-                        comm_data.cd_num = 3000;
-                        comm_data.happy_task = false;
-                    }
                 }
 
 
@@ -853,11 +841,6 @@ namespace RealCity
                 if (!comm_data.crasy_task)
                 {
                     RealCityUI.crasy_transport_Checkbox.isChecked = comm_data.crasy_task;
-                }
-
-                if (!comm_data.happy_task)
-                {
-                    RealCityUI.happy_holiday_Checkbox.isChecked = comm_data.happy_task;
                 }
             }
 
@@ -1029,6 +1012,27 @@ namespace RealCity
                 } else
                 {
                     tip8_message_forgui = language.TipAndChirperMessage[29];
+                }
+
+                FieldInfo cashAmount;
+                cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+                long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+
+                if (comm_data.city_bank < -1000000)
+                {
+                    tip9_message_forgui = language.TipAndChirperMessage[30];
+                } else
+                {
+                    tip9_message_forgui = "";
+                }
+
+                if (comm_data.city_bank < 0)
+                {
+                    if (_cashAmount > (long)(-comm_data.city_bank))
+                    {
+                        comm_data.city_bank += (int)(-comm_data.city_bank);
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(-comm_data.city_bank), ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
+                    }
                 }
             }
 

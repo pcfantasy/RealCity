@@ -107,6 +107,7 @@ namespace RealCity
         {
             float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(false, data, material);
             comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income1;
+            comm_data.city_bank -= trade_income1;
         }
 
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
@@ -123,7 +124,7 @@ namespace RealCity
                 trade_tax = 0f;
             }
             comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income + trade_tax));
-
+            comm_data.city_bank -= (trade_income + trade_tax);
         }
     }
 }

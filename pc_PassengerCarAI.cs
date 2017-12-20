@@ -86,6 +86,7 @@ namespace RealCity
                     {
                         //assume that 1 time will cost 5fen car oil money
                         comm_data.family_money[vehicleData.m_citizenUnits] = (float)(comm_data.family_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID] * 5);
+                        comm_data.city_bank -= comm_data.vehical_transfer_time[vehicleID] * 5;
                         if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
                         {
                             comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= comm_data.vehical_transfer_time[vehicleID] * 5;

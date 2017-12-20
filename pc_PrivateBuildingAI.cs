@@ -742,24 +742,27 @@ namespace RealCity
                     {
                         Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
                         System.Random rand = new System.Random();
-                        if ((comm_data.building_money[i] + asset) < -1000)
+                        if (comm_data.building_money[i] < -1000)
                         {
-                            if (rand.Next(10) < 2)
+                            if (comm_data.city_bank < -1000000)
                             {
-                                buildingData.m_majorProblemTimer = 192;
-                                buildingData.m_flags &= ~Building.Flags.Active;
-                                buildingData.m_flags |= Building.Flags.Abandoned;
-                                buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
-                                base.RemovePeople(buildingID, ref buildingData, 100);
-                                this.BuildingDeactivated(buildingID, ref buildingData);
-                                Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
+                                if (rand.Next(50) < 2)
+                                {
+                                    buildingData.m_majorProblemTimer = 192;
+                                    buildingData.m_flags &= ~Building.Flags.Active;
+                                    buildingData.m_flags |= Building.Flags.Abandoned;
+                                    buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
+                                    base.RemovePeople(buildingID, ref buildingData, 100);
+                                    this.BuildingDeactivated(buildingID, ref buildingData);
+                                    Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
+                                }
                             }
                         }
-                        if ((comm_data.building_money[i] + asset) < -500)
+                        if (comm_data.building_money[i] < -500)
                         {
                             problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
                         }
-                        else if ((comm_data.building_money[i] + asset) < 0)
+                        else if (comm_data.building_money[i] < 0)
                         {
                             problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
                         }
@@ -1019,10 +1022,12 @@ namespace RealCity
             if (comm_data.building_money[buildingID] > 60000000)
             {
                 comm_data.building_money[buildingID] = 60000000;
+                comm_data.city_bank -= (comm_data.building_money[buildingID] - 60000000);
             }
             else if (comm_data.building_money[buildingID] < -60000000)
             {
                 comm_data.building_money[buildingID] = -60000000;
+                comm_data.city_bank -= (comm_data.building_money[buildingID] + 60000000);
             }
 
             int asset = process_building_asset(buildingID, ref building);
@@ -1155,6 +1160,7 @@ namespace RealCity
                         }
 
                         greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex);
+                        comm_data.city_bank -= (comm_data.building_money[buildingID] - 30000);
                         comm_data.building_money[buildingID] = 30000f;
                     }
                 }
@@ -1168,6 +1174,7 @@ namespace RealCity
                     {
                         if (all_office_level1_building_num_final > 0)
                         {
+                            comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.05f / all_office_level1_building_num_final;
                             comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.05f / all_office_level1_building_num_final;
                         }
                     }
@@ -1175,6 +1182,7 @@ namespace RealCity
                     {
                         if (all_office_level2_building_num_final > 0)
                         {
+                            comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.15f / all_office_level2_building_num_final;
                             comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.15f / all_office_level2_building_num_final;
                         }
                     }
@@ -1182,6 +1190,7 @@ namespace RealCity
                     {
                         if (all_office_level3_building_num_final > 0)
                         {
+                            comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.25f / all_office_level3_building_num_final;
                             comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.25f / all_office_level3_building_num_final;
                         }
                     }
@@ -1190,6 +1199,7 @@ namespace RealCity
                 {
                     if (all_office_high_tech_building_num_final > 0)
                     {
+                        comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.35f / all_office_high_tech_building_num_final;
                         comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.35f / all_office_high_tech_building_num_final;
                     }
                 }
@@ -1224,6 +1234,7 @@ namespace RealCity
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
             {
                 comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
+                comm_data.city_bank -= (float)(num * num2) / 100;
             }
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
@@ -1382,7 +1393,7 @@ namespace RealCity
         {
 
             int cost = 5000;
-            if (data.Info.m_class.m_level == ItemClass.Level.Level2)
+            /*if (data.Info.m_class.m_level == ItemClass.Level.Level2)
             {
                 cost = cost << 1;
             }
@@ -1425,7 +1436,14 @@ namespace RealCity
             if (data.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
             {
                 cost = 5000 << 4;
+            }*/
+
+            if (comm_data.building_money[buildingID] > 0)
+            {
+                comm_data.city_bank -= comm_data.building_money[buildingID];
             }
+
+            comm_data.building_money[buildingID] = 0;
 
             if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
             {
