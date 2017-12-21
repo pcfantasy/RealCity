@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildingButton.cs" />
     <Compile Include="CityButton.cs" />
     <Compile Include="EcnomicButton.cs" />
     <Compile Include="PlayerBuildingUI.cs" />

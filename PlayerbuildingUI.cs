@@ -53,7 +53,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
-            //this.BringToFront();
+            this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.RefreshDisplayData();
@@ -78,21 +78,21 @@ namespace RealCity
             this.m_HeaderDataText.autoSize = true;
 
             this.buildingmoney = base.AddUIComponent<UILabel>();
-            this.buildingmoney.text = "Accumulating Money [000000000000000]";
+            this.buildingmoney.text = language.BuildingUI[17];
             this.buildingmoney.tooltip = language.BuildingUI[17];
             this.buildingmoney.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
             this.buildingmoney.autoSize = true;
             this.buildingmoney.name = "Moreeconomic_Text_0";
 
             this.aliveworkcount = base.AddUIComponent<UILabel>();
-            this.aliveworkcount.text = "aliveworkcont [000000000000000]";
+            this.aliveworkcount.text = language.BuildingUI[6];
             this.aliveworkcount.tooltip = language.BuildingUI[7];
             this.aliveworkcount.relativePosition = new Vector3(SPACING, this.buildingmoney.relativePosition.y + SPACING22);
             this.aliveworkcount.autoSize = true;
             this.aliveworkcount.name = "Moreeconomic_Text_3";
 
             this.employfee = base.AddUIComponent<UILabel>();
-            this.employfee.text = "employfee [000000000000000]";
+            this.employfee.text = language.BuildingUI[8];
             this.employfee.tooltip = language.BuildingUI[9];
             this.employfee.relativePosition = new Vector3(SPACING, this.aliveworkcount.relativePosition.y + SPACING22);
             this.employfee.autoSize = true;
@@ -127,6 +127,7 @@ namespace RealCity
                     this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
                     this.buildingmoney.text = string.Format(language.BuildingUI[17] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
                     PlayerBuildingUI.refesh_once = false;
+                    this.BringToFront();
                 }
             }
 

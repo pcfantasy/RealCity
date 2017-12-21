@@ -598,7 +598,7 @@ namespace RealCity
             }
         }
 
-        public static int process_building_asset(ushort buildingID, ref Building buildingData)
+        /*public static int process_building_asset(ushort buildingID, ref Building buildingData)
         {
             int asset = 0;
             if ((buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) || (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial))
@@ -697,7 +697,7 @@ namespace RealCity
                 }
             }
             return asset;
-        }
+        }*/
 
 
         public void process_building_data_final(ushort buildingID, ref Building buildingData)
@@ -735,7 +735,7 @@ namespace RealCity
                     comm_data.building_money[buildingID] = 0;
                 }
 
-                int asset = process_building_asset(buildingID, ref buildingData);
+                //int asset = process_building_asset(buildingID, ref buildingData);
                 if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
                 {
                     if (((buildingData.m_problems & (~Notification.Problem.NoCustomers)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoCustomers)) != Notification.Problem.None))
@@ -1030,7 +1030,7 @@ namespace RealCity
                 comm_data.city_bank -= (comm_data.building_money[buildingID] + 60000000);
             }
 
-            int asset = process_building_asset(buildingID, ref building);
+            //int asset = process_building_asset(buildingID, ref building);
 
 
             if ((building.Info.m_class.m_service == ItemClass.Service.Industrial)  || ((building.Info.m_class.m_service == ItemClass.Service.Commercial)))

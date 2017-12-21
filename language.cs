@@ -350,7 +350,8 @@ namespace RealCity
             "City Data",
             "City Bank",
             "Get 1K from Bank",
-            "Get 1K from Bank, if Bank have money"
+            "Get 1K from Bank, if Bank have money",
+            "Click to show BuildingUI"
         };
 
 
@@ -697,7 +698,8 @@ namespace RealCity
             "城市情况",
             "城市银行",
             "挪用银行1K",
-            "如果银行有钱,可以挪用1K"
+            "如果银行有钱,可以挪用1K",
+            "点击显示建筑界面"
         };
 
 

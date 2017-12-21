@@ -56,9 +56,9 @@ namespace RealCity
             base.name = "MoreeconomicUIPanel";
             base.width = 120f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 270f ), 5f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 320f ), 0f);
             this.BringToFront();
-            base.backgroundSprite = "MenuPanel";
+            //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;
             base.opacity = 1f;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -124,9 +124,9 @@ namespace RealCity
                 {
                     this.EcButton.textColor = Color.red;
                 }
-                if (Input.GetMouseButton(2) && Input.GetKeyDown(KeyCode.R))
+                if (comm_data.city_bank < -1000000)
                 {
-                    EcnomicButton.MoreeconomicUIToggle();
+                    this.EcButton.textColor = Color.red;
                 }
                 if (Loader.guiPanel.isVisible)
                 {

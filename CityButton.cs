@@ -56,9 +56,9 @@ namespace RealCity
             base.name = "RealCityUIPanel";
             base.width = 100f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 200f), 0f);
             this.BringToFront();
-            base.backgroundSprite = "MenuPanel";
+            //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;
             base.opacity = 1f;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -120,14 +120,6 @@ namespace RealCity
             {
                 this.RcButton.tooltip = language.RealCityUI1[111];
                 this.RcButton.text = language.RealCityUI1[111];
-                if (comm_data.city_bank < -1000000)
-                {
-                    this.RcButton.textColor = Color.red;
-                }
-                if (Input.GetMouseButton(2) && Input.GetKeyDown(KeyCode.M))
-                {
-                    CityButton.RealCityUIToggle();
-                }
                 if (Loader.guiPanel1.isVisible)
                 {
                     this.RcButton.Focus();

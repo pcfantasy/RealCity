@@ -41,6 +41,7 @@ namespace RealCity
 
         public static EcnomicButton EcMenuPanel;
         public static CityButton RcMenuPanel;
+        public static BuildingButton BMenuPanel;
 
         public static RedirectCallsState state1;
         public static RedirectCallsState state2;
@@ -188,6 +189,7 @@ namespace RealCity
             SetupPlayerBuidingGui();
             SetupEcnomicButton();
             SetupCityButton();
+            SetupBuildingButton();
 
             Loader.isGuiRunning = true;
         }
@@ -268,6 +270,18 @@ namespace RealCity
         }
 
 
+        public static void SetupBuildingButton()
+        {
+            if (BMenuPanel == null)
+            {
+                BMenuPanel = (buildingInfo.AddUIComponent(typeof(BuildingButton)) as BuildingButton);
+            }
+            BMenuPanel.RefPanel = buildingInfo;
+            BMenuPanel.Alignment = UIAlignAnchor.BottomLeft;
+            BMenuPanel.Show();
+        }
+
+
         public static void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
             guiPanel2.isEnabled = value;
@@ -279,8 +293,8 @@ namespace RealCity
                 Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
                 //DebugLog.LogToFileOnly("select building found!!!!!:\n");
                 //comm_data.current_buildingid = 0;
-                BuildingUI.refesh_once = true;
-                guiPanel2.Show();
+                //BuildingUI.refesh_once = true;
+                //guiPanel2.Show();
             }
             else
             {

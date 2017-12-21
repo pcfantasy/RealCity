@@ -175,14 +175,11 @@ namespace RealCity
         private UILabel tip9;
         //private UILabel tip10;
         public static bool refesh_onece = false;
+        private UILabel city_bank;
+        private UIButton m_getfromBank;
 
         public override void Update()
         {
-            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.M))
-            {
-                this.ProcessVisibility();
-                DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "ctrl+M found");
-            }
             this.RefreshDisplayData();
             base.Update();
         }
@@ -749,6 +746,34 @@ namespace RealCity
             this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
             this.tip10.autoSize = true;
             this.tip10.name = "Moreeconomic_Text_53";*/
+
+            this.city_bank = base.AddUIComponent<UILabel>();
+            this.city_bank.text = language.RealCityUI1[110];
+            this.city_bank.tooltip = language.RealCityUI1[110];
+            this.city_bank.relativePosition = new Vector3(SPACING, tip9.relativePosition.y + SPACING22 + 20f);
+            this.city_bank.autoSize = true;
+            this.city_bank.name = "Moreeconomic_Text_47";
+
+
+            this.m_getfromBank = base.AddUIComponent<UIButton>();
+            this.m_getfromBank.size = new Vector2(160f, 24f);
+            this.m_getfromBank.text = language.RealCityUI1[112];
+            this.m_getfromBank.tooltip = language.RealCityUI1[113];
+            this.m_getfromBank.textScale = 0.875f;
+            this.m_getfromBank.normalBgSprite = "ButtonMenu";
+            this.m_getfromBank.hoveredBgSprite = "ButtonMenuHovered";
+            this.m_getfromBank.pressedBgSprite = "ButtonMenuPressed";
+            this.m_getfromBank.disabledBgSprite = "ButtonMenuDisabled";
+            this.m_getfromBank.relativePosition = new Vector3(SPACING, this.city_bank.relativePosition.y + SPACING22 + 10f);
+            this.m_getfromBank.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            {
+                if (comm_data.city_bank > 100000)
+                {
+                    comm_data.city_bank -= 100000;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(100000, ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    refesh_onece = true;
+                }
+            };
         }
 
 
@@ -866,7 +891,12 @@ namespace RealCity
                         this.tip8.textColor = Color.red;
                     }
                     this.tip9.text = string.Format(language.EconomicUI[137] + "  " + RealCity.tip9_message_forgui);
+                    if (comm_data.city_bank < -1000000)
+                    {
+                        this.tip9.textColor = Color.red;
+                    }
                     //this.tip10.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip10_message_forgui);
+                    this.city_bank.text = string.Format(language.RealCityUI1[111] + " [{0}]", comm_data.city_bank / 100);
                     refesh_onece = false;
                 }
             }

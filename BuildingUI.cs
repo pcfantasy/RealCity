@@ -29,7 +29,7 @@ namespace RealCity
         private UILabel aliveworkcount;
         private UILabel employfee;
         private UILabel landrent;
-        private UILabel net_asset;
+        //private UILabel net_asset;
 
         private UILabel buy_price;
         private UILabel sell_price;
@@ -61,7 +61,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
-            //this.BringToFront();
+            this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.RefreshDisplayData();
@@ -76,84 +76,84 @@ namespace RealCity
         private void ShowOnGui()
         {
             this.buildingmoney = base.AddUIComponent<UILabel>();
-            this.buildingmoney.text = "Building Money [000000000000000]";
+            this.buildingmoney.text = language.BuildingUI[0];
             this.buildingmoney.tooltip = language.BuildingUI[1];
             this.buildingmoney.relativePosition = new Vector3(SPACING, 50f);
             this.buildingmoney.autoSize = true;
             this.buildingmoney.name = "Moreeconomic_Text_0";
 
             this.buildingincomebuffer = base.AddUIComponent<UILabel>();
-            this.buildingincomebuffer.text = "buildingincomebuffer [000000000000000]";
+            this.buildingincomebuffer.text = language.BuildingUI[2];
             this.buildingincomebuffer.tooltip = language.BuildingUI[3];
             this.buildingincomebuffer.relativePosition = new Vector3(SPACING, this.buildingmoney.relativePosition.y + SPACING22);
             this.buildingincomebuffer.autoSize = true;
             this.buildingincomebuffer.name = "Moreeconomic_Text_1";
 
             this.buildingoutgoingbuffer = base.AddUIComponent<UILabel>();
-            this.buildingoutgoingbuffer.text = "buildingoutgoingbuffer [000000000000000]";
+            this.buildingoutgoingbuffer.text = language.BuildingUI[4];
             this.buildingoutgoingbuffer.tooltip = language.BuildingUI[5];
             this.buildingoutgoingbuffer.relativePosition = new Vector3(SPACING, this.buildingincomebuffer.relativePosition.y + SPACING22);
             this.buildingoutgoingbuffer.autoSize = true;
             this.buildingoutgoingbuffer.name = "Moreeconomic_Text_2";
 
             this.aliveworkcount = base.AddUIComponent<UILabel>();
-            this.aliveworkcount.text = "aliveworkcont [000000000000000]";
+            this.aliveworkcount.text = language.BuildingUI[6];
             this.aliveworkcount.tooltip = language.BuildingUI[7];
             this.aliveworkcount.relativePosition = new Vector3(SPACING, this.buildingoutgoingbuffer.relativePosition.y + SPACING22);
             this.aliveworkcount.autoSize = true;
             this.aliveworkcount.name = "Moreeconomic_Text_3";
 
             this.employfee = base.AddUIComponent<UILabel>();
-            this.employfee.text = "employfee [000000000000000]";
+            this.employfee.text = language.BuildingUI[8];
             this.employfee.tooltip = language.BuildingUI[9];
             this.employfee.relativePosition = new Vector3(SPACING, this.aliveworkcount.relativePosition.y + SPACING22);
             this.employfee.autoSize = true;
             this.employfee.name = "Moreeconomic_Text_4";
 
             this.landrent = base.AddUIComponent<UILabel>();
-            this.landrent.text = "landrent [000000000000000]";
+            this.landrent.text = language.BuildingUI[10];
             this.landrent.tooltip = language.BuildingUI[11];
             this.landrent.relativePosition = new Vector3(SPACING, this.employfee.relativePosition.y + SPACING22);
             this.landrent.autoSize = true;
             this.landrent.name = "Moreeconomic_Text_5";
 
-            this.net_asset = base.AddUIComponent<UILabel>();
+            /*this.net_asset = base.AddUIComponent<UILabel>();
             this.net_asset.text = "net_asset [000000000000000]";
             this.net_asset.tooltip = language.BuildingUI[13];
             this.net_asset.relativePosition = new Vector3(SPACING, this.landrent.relativePosition.y + SPACING22);
             this.net_asset.autoSize = true;
-            this.net_asset.name = "Moreeconomic_Text_5";
+            this.net_asset.name = "Moreeconomic_Text_5";*/
 
             this.buy_price = base.AddUIComponent<UILabel>();
-            this.buy_price.text = "buy_price [000000000000000]";
+            this.buy_price.text = language.BuildingUI[18];
             this.buy_price.tooltip = language.BuildingUI[18];
-            this.buy_price.relativePosition = new Vector3(SPACING, this.net_asset.relativePosition.y + SPACING22);
+            this.buy_price.relativePosition = new Vector3(SPACING, this.landrent.relativePosition.y + SPACING22);
             this.buy_price.autoSize = true;
             this.buy_price.name = "Moreeconomic_Text_5";
 
             this.sell_price = base.AddUIComponent<UILabel>();
-            this.sell_price.text = "sell_price [000000000000000]";
+            this.sell_price.text = language.BuildingUI[19];
             this.sell_price.tooltip = language.BuildingUI[19];
             this.sell_price.relativePosition = new Vector3(SPACING, this.buy_price.relativePosition.y + SPACING22);
             this.sell_price.autoSize = true;
             this.sell_price.name = "Moreeconomic_Text_5";
 
             this.comsuptiondivide = base.AddUIComponent<UILabel>();
-            this.comsuptiondivide.text = "material/goods [000000000000000]";
+            this.comsuptiondivide.text = language.BuildingUI[21];
             this.comsuptiondivide.tooltip = language.BuildingUI[21];
             this.comsuptiondivide.relativePosition = new Vector3(SPACING, this.sell_price.relativePosition.y + SPACING22);
             this.comsuptiondivide.autoSize = true;
             this.comsuptiondivide.name = "Moreeconomic_Text_5";
 
             this.sell_tax = base.AddUIComponent<UILabel>();
-            this.sell_tax.text = "sell tax [000000000000000]";
+            this.sell_tax.text = language.BuildingUI[22];
             this.sell_tax.tooltip = language.BuildingUI[22];
             this.sell_tax.relativePosition = new Vector3(SPACING, this.comsuptiondivide.relativePosition.y + SPACING22);
             this.sell_tax.autoSize = true;
             this.sell_tax.name = "Moreeconomic_Text_5";
 
             this.buy2sell_profit = base.AddUIComponent<UILabel>();
-            this.buy2sell_profit.text = "BuytoSell profit [000000000000000]";
+            this.buy2sell_profit.text = language.BuildingUI[23];
             this.buy2sell_profit.tooltip = language.BuildingUI[23];
             this.buy2sell_profit.relativePosition = new Vector3(SPACING, this.sell_tax.relativePosition.y + SPACING22);
             this.buy2sell_profit.autoSize = true;
@@ -183,7 +183,7 @@ namespace RealCity
                         int totalWorkerCount = 0;
                         float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
                         int num1 = process_land_fee(buildingdata, comm_data.last_buildingid);
-                        int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);
+                        //int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);
                         this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
                         this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                         this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
@@ -208,7 +208,7 @@ namespace RealCity
                             this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
                         }
                         this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1 / 100f);
-                        this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
+                        //this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
                     }
                     //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
                     float price = 0f;
@@ -290,7 +290,7 @@ namespace RealCity
                         }
                     }
 
-
+                    this.BringToFront();
                     BuildingUI.refesh_once = false;
                 }
             }
