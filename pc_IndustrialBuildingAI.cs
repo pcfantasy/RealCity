@@ -201,6 +201,11 @@ namespace RealCity
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(false, data, material);
+            if (comm_data.building_flag[buildingID])
+            {
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)trade_income1, ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
+                trade_income1 = 0;
+            }
             comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income1;
             comm_data.city_bank -= trade_income1;
         }
@@ -211,12 +216,20 @@ namespace RealCity
             float trade_tax = 0;
             if ((comm_data.building_money[buildingID] - trade_income1) > 0)
             {
-                trade_tax = -trade_income1 * pc_PrivateBuildingAI.get_tax_rate(data, buildingID);
+                if (comm_data.building_flag[buildingID])
+                {
+                    trade_tax = -trade_income1;
+                }
+                else
+                {
+                    trade_tax = -trade_income1 * pc_PrivateBuildingAI.get_tax_rate(data, buildingID);
+                }                
                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             } else
             {
                 trade_tax = 0;
             }
+         
             comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income1 + trade_tax));
             comm_data.city_bank -= (trade_income1 + trade_tax);
         }

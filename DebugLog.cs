@@ -17,7 +17,7 @@ namespace RealCity
 
         public static void LogWarning(string msg)
         {
-            DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, msg);
+            DebugOutputPanel.AddMessage(PluginManager.MessageType.Warning, msg);
             //_logFile.WriteLine("Warning: " + msg);
         }
     }

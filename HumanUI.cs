@@ -121,27 +121,27 @@ namespace RealCity
             uint temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen0;
             if (temp != 0)
             {
-                num += pc_ResidentAI.citizen_salary(temp);
+                num += pc_ResidentAI.citizen_salary(temp, false);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen1;
             if (temp != 0)
             {
-                num += pc_ResidentAI.citizen_salary(temp);
+                num += pc_ResidentAI.citizen_salary(temp, false);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen2;
             if (temp != 0)
             {
-                num += pc_ResidentAI.citizen_salary(temp);
+                num += pc_ResidentAI.citizen_salary(temp, false);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen3;
             if (temp != 0)
             {
-                num += pc_ResidentAI.citizen_salary(temp);
+                num += pc_ResidentAI.citizen_salary(temp, false);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen4;
             if (temp != 0)
             {
-                num += pc_ResidentAI.citizen_salary(temp);
+                num += pc_ResidentAI.citizen_salary(temp, false);
             }
             return (int)num;
         }

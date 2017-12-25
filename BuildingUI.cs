@@ -26,10 +26,10 @@ namespace RealCity
         private UILabel buildingmoney;
         private UILabel buildingincomebuffer;
         private UILabel buildingoutgoingbuffer;
-        private UILabel aliveworkcount;
+        //private UILabel aliveworkcount;
         private UILabel employfee;
         private UILabel landrent;
-        //private UILabel net_asset;
+        private UILabel net_asset;
 
         private UILabel buy_price;
         private UILabel sell_price;
@@ -37,6 +37,10 @@ namespace RealCity
         private UILabel sell_tax;
         private UILabel buy2sell_profit;
         //private UILabel alivevisitcount;
+
+        private UILabel building_type;
+        private UIButton acquire;
+        private UIButton update_building;
 
         public override void Update()
         {
@@ -61,15 +65,17 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
-            this.BringToFront();
+            //this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.RefreshDisplayData();
+            base.Hide();
         }
 
         private void DoOnStartup()
         {
-            this.ShowOnGui();            
+            this.ShowOnGui();
+            base.Hide();          
         }
 
 
@@ -96,17 +102,17 @@ namespace RealCity
             this.buildingoutgoingbuffer.autoSize = true;
             this.buildingoutgoingbuffer.name = "Moreeconomic_Text_2";
 
-            this.aliveworkcount = base.AddUIComponent<UILabel>();
+            /*this.aliveworkcount = base.AddUIComponent<UILabel>();
             this.aliveworkcount.text = language.BuildingUI[6];
             this.aliveworkcount.tooltip = language.BuildingUI[7];
             this.aliveworkcount.relativePosition = new Vector3(SPACING, this.buildingoutgoingbuffer.relativePosition.y + SPACING22);
             this.aliveworkcount.autoSize = true;
-            this.aliveworkcount.name = "Moreeconomic_Text_3";
+            this.aliveworkcount.name = "Moreeconomic_Text_3";*/
 
             this.employfee = base.AddUIComponent<UILabel>();
             this.employfee.text = language.BuildingUI[8];
             this.employfee.tooltip = language.BuildingUI[9];
-            this.employfee.relativePosition = new Vector3(SPACING, this.aliveworkcount.relativePosition.y + SPACING22);
+            this.employfee.relativePosition = new Vector3(SPACING, this.buildingoutgoingbuffer.relativePosition.y + SPACING22);
             this.employfee.autoSize = true;
             this.employfee.name = "Moreeconomic_Text_4";
 
@@ -117,17 +123,17 @@ namespace RealCity
             this.landrent.autoSize = true;
             this.landrent.name = "Moreeconomic_Text_5";
 
-            /*this.net_asset = base.AddUIComponent<UILabel>();
+            this.net_asset = base.AddUIComponent<UILabel>();
             this.net_asset.text = "net_asset [000000000000000]";
             this.net_asset.tooltip = language.BuildingUI[13];
             this.net_asset.relativePosition = new Vector3(SPACING, this.landrent.relativePosition.y + SPACING22);
             this.net_asset.autoSize = true;
-            this.net_asset.name = "Moreeconomic_Text_5";*/
+            this.net_asset.name = "Moreeconomic_Text_5";
 
             this.buy_price = base.AddUIComponent<UILabel>();
             this.buy_price.text = language.BuildingUI[18];
             this.buy_price.tooltip = language.BuildingUI[18];
-            this.buy_price.relativePosition = new Vector3(SPACING, this.landrent.relativePosition.y + SPACING22);
+            this.buy_price.relativePosition = new Vector3(SPACING, this.net_asset.relativePosition.y + SPACING22);
             this.buy_price.autoSize = true;
             this.buy_price.name = "Moreeconomic_Text_5";
 
@@ -158,6 +164,80 @@ namespace RealCity
             this.buy2sell_profit.relativePosition = new Vector3(SPACING, this.sell_tax.relativePosition.y + SPACING22);
             this.buy2sell_profit.autoSize = true;
             this.buy2sell_profit.name = "Moreeconomic_Text_5";
+
+            this.acquire = base.AddUIComponent<UIButton>();
+            this.acquire.size = new Vector2(160f, 24f);
+            this.acquire.text = language.BuildingUI[26];
+            this.acquire.tooltip = language.BuildingUI[26];
+            this.acquire.textScale = 0.875f;
+            this.acquire.normalBgSprite = "ButtonMenu";
+            this.acquire.hoveredBgSprite = "ButtonMenuHovered";
+            this.acquire.pressedBgSprite = "ButtonMenuPressed";
+            this.acquire.disabledBgSprite = "ButtonMenuDisabled";
+            this.acquire.relativePosition = new Vector3(SPACING, this.buy2sell_profit.relativePosition.y + SPACING22 + 5f);
+            this.acquire.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            {
+                //comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+                if (!comm_data.building_flag[comm_data.last_buildingid])
+                {
+                    Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
+                    int acquire_money = 0;
+                    if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        acquire_money = 200000;
+                    }
+
+                    if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        acquire_money = 600000;
+                    }
+
+                    if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        acquire_money = 1800000;
+                    }
+                    comm_data.building_flag[comm_data.last_buildingid] = true;
+                    comm_data.building_money[comm_data.last_buildingid] = 0;
+                    refesh_once = true;
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)acquire_money, ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
+                }
+            };
+
+            this.building_type = base.AddUIComponent<UILabel>();
+            this.building_type.text = language.BuildingUI[27];
+            this.building_type.tooltip = language.BuildingUI[27];
+            this.building_type.relativePosition = new Vector3(this.acquire.relativePosition.x + this.acquire.width + SPACING + 40f, this.acquire.relativePosition.y);
+            this.building_type.autoSize = true;
+            this.building_type.name = "Moreeconomic_Text_10";
+
+            this.update_building = base.AddUIComponent<UIButton>();
+            this.update_building.size = new Vector2(160f, 24f);
+            this.update_building.text = language.BuildingUI[32];
+            this.update_building.tooltip = language.BuildingUI[32];
+            this.update_building.textScale = 0.875f;
+            this.update_building.normalBgSprite = "ButtonMenu";
+            this.update_building.hoveredBgSprite = "ButtonMenuHovered";
+            this.update_building.pressedBgSprite = "ButtonMenuPressed";
+            this.update_building.disabledBgSprite = "ButtonMenuDisabled";
+            this.update_building.relativePosition = new Vector3(SPACING, this.building_type.relativePosition.y + SPACING22 + 5f);
+            this.update_building.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            {
+                //comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+                Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
+                int update_money = 0;
+                if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level1)
+                {
+                    update_money = 500000;
+                }
+
+                if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level2)
+                {
+                    update_money = 1000000;
+                }
+                refesh_once = true;
+                comm_data.update_building = comm_data.last_buildingid;
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)update_money, ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
+            };
         }
 
         private void RefreshDisplayData()
@@ -183,11 +263,11 @@ namespace RealCity
                         int totalWorkerCount = 0;
                         float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
                         int num1 = process_land_fee(buildingdata, comm_data.last_buildingid);
-                        //int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);
+                        int asset = pc_PrivateBuildingAI.process_building_asset(comm_data.last_buildingid, ref buildingdata);
                         this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
                         this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
                         this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
-                        this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
+                        //this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
                         if (buildingdata.Info.m_class.m_service == ItemClass.Service.Office || buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
                         {
                             this.employfee.text = language.BuildingUI[8] + " " + num.ToString() + " " + language.BuildingUI[16];
@@ -208,7 +288,7 @@ namespace RealCity
                             this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
                         }
                         this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1 / 100f);
-                        //this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
+                        this.net_asset.text = string.Format(language.BuildingUI[12] + " [{0}]", comm_data.building_money[comm_data.last_buildingid] + asset);
                     }
                     //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
                     float price = 0f;
@@ -271,7 +351,13 @@ namespace RealCity
                     }
 
                     float sell_tax_1 = pc_PrivateBuildingAI.get_tax_rate(buildingdata, comm_data.last_buildingid);
-                    this.sell_tax.text = string.Format(language.BuildingUI[22] + " [{0}%]", (int)(sell_tax_1 * 100f));
+                    if (comm_data.have_tax_department)
+                    {
+                        this.sell_tax.text = string.Format(language.BuildingUI[22] + " [{0}%]", (int)(sell_tax_1 * 100f));
+                    } else
+                    {
+                        this.sell_tax.text = string.Format(language.BuildingUI[22] + " " + language.BuildingUI[30]);
+                    }
 
                     if (ConsumptionDivider == 0f)
                     {
@@ -279,7 +365,7 @@ namespace RealCity
                     }
                     else
                     {
-                        float temp = (price * (1 - sell_tax_1) - (price2 / ConsumptionDivider)) / price;
+                        float temp = (price2 * (1 - sell_tax_1) - (price / ConsumptionDivider)) / price2;
                         if (buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
                         {
                             this.buy2sell_profit.text = string.Format(language.BuildingUI[23] + " [{0}%]" + language.BuildingUI[24], (int)(temp * 100f));
@@ -290,8 +376,94 @@ namespace RealCity
                         }
                     }
 
+
+                    if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                    {
+                        int acquire_money = 0;
+                        if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            acquire_money = 200000;
+                        }
+
+                        if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            acquire_money = 600000;
+                        }
+
+                        if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            acquire_money = 1800000;
+                        }
+                        FieldInfo cashAmount;
+                        cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+                        long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+
+                        if (_cashAmount > acquire_money)
+                        {
+                            acquire.isEnabled = true;
+                        } else
+                        {
+                            acquire.isEnabled = false;
+                        }
+                        acquire.text = string.Format(language.BuildingUI[26] + ":" + acquire_money.ToString());
+                    } else
+                    {
+                        acquire.text = string.Format(language.BuildingUI[26]);
+                        acquire.isEnabled = false;
+                    }
+
+
+                    if (comm_data.building_flag[comm_data.last_buildingid])
+                    {
+                        building_type.text = string.Format(language.BuildingUI[28]);
+                        acquire.isEnabled = false;
+                    }
+                    else
+                    {
+                        building_type.text = string.Format(language.BuildingUI[27]);
+                    }
+
                     this.BringToFront();
                     BuildingUI.refesh_once = false;
+
+
+                    if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh  || buildingdata.Info.m_class.m_subService == ItemClass.SubService.CommercialLow || buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                    {
+                        int update_money = 0;
+                        if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            update_money = 300000;
+                        }
+
+                        if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            update_money = 900000;
+                        }
+
+                        FieldInfo cashAmount;
+                        cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+                        long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+
+                        if (_cashAmount > update_money)
+                        {
+                            update_building.isEnabled = true;
+                        }
+                        else
+                        {
+                            update_building.isEnabled = false;
+                        }
+                        update_building.text = string.Format(language.BuildingUI[32] + ":" + update_money.ToString());
+                    } else
+                    {
+                        update_building.text = string.Format(language.BuildingUI[32]);
+                        update_building.isEnabled = false;
+                    }
+
+                    if ((buildingdata.Info.m_class.m_level == ItemClass.Level.Level3) || (comm_data.update_building != 0))
+                    {
+                        update_building.text = string.Format(language.BuildingUI[32]);
+                        update_building.isEnabled = false;
+                    }
                 }
             }
 
@@ -368,7 +540,7 @@ namespace RealCity
             {
                 district = instance2.GetDistrict(building.m_position);
                 local_salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() + 50f) / 120f;
-                final_salary_idex = (local_salary_idex * 3f + comm_data.salary_idex) / 4f;
+                final_salary_idex = (local_salary_idex * 2f + comm_data.salary_idex) / 3f;
             }
 
 

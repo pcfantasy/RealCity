@@ -26,6 +26,7 @@ namespace RealCity
                 }
             }
 
+            comm_data.vehical_flag[vehicleID] = false;
             var inst = Singleton<PassengerCarAI>.instance;
             var Method = typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance , null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType()}, null);
             //if(Method == null)
@@ -47,16 +48,38 @@ namespace RealCity
             {
                 DebugLog.LogToFileOnly("Error: vehicle ID greater than 16384");
             }
-            BuildingManager instance = Singleton<BuildingManager>.instance;
+            
             CitizenManager instance2 = Singleton<CitizenManager>.instance;
-            bool flag1 = instance.m_buildings.m_buffer[(int)vehicleData.m_sourceBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable);
-			bool flag2 = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable);
-            if (flag1 || flag2)
+
+            bool is_dummy = false;
+            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
             {
-                DebugLog.LogToFileOnly("Moving in or leaving car, leave it away");
+                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
+            }
+            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
+            {
+                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
+            }
+            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
+            {
+                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
+            }
+            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
+            {
+                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
+            }
+            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
+            {
+                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
+            }
+
+            if (is_dummy)
+            {
+                //DebugLog.LogToFileOnly("feedthough traffic");
             }
             else
             {
+                //DebugLog.LogToFileOnly(vehicleData.m_transferType.ToString() + vehicleData.m_sourceBuilding.ToString() + vehicleData.m_targetBuilding.ToString());
                 //DebugLog.LogToFileOnly("finding a car, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
                 comm_data.temp_total_citizen_vehical_time = comm_data.temp_total_citizen_vehical_time + comm_data.vehical_transfer_time[vehicleID];
                 if (vehicleData.m_citizenUnits != 0)

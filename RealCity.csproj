@@ -83,6 +83,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pc_CommonBuildingAI.cs" />
+    <Compile Include="pc_VehicleAI.cs" />
+    <Compile Include="PlayerBuildingButton.cs" />
     <Compile Include="BuildingButton.cs" />
     <Compile Include="CityButton.cs" />
     <Compile Include="EcnomicButton.cs" />
@@ -97,7 +100,6 @@
     <Compile Include="pc_FireTruckAI.cs" />
     <Compile Include="pc_GarbageTruckAI.cs" />
     <Compile Include="pc_HearseAI.cs" />
-    <Compile Include="pc_MaintenanceTruckAI.cs" />
     <Compile Include="pc_OfficeBuildingAI.cs" />
     <Compile Include="pc_OutsideConnectionAI.cs" />
     <Compile Include="pc_PlayerBuildingAI.cs" />

@@ -395,27 +395,34 @@ namespace RealCity
 
         public override void OnSaveData()
         {
-            pc_EconomyManager.save_data = new byte[2768];
-            comm_data.save_data1 = new byte[4194304];
-            pc_PrivateBuildingAI.save_data = new byte[316];
-            pc_ResidentAI.save_data = new byte[140];
-            comm_data.save_data = new byte[3063935];
-            gather_save_data();
-            saveandrestore._serializableData.SaveData("real_city pc_EconomyManager", pc_EconomyManager.save_data);
-            saveandrestore._serializableData.SaveData("real_city comm_data", comm_data.save_data);
-            saveandrestore._serializableData.SaveData("real_city pc_ResidentAI", pc_ResidentAI.save_data);
-            saveandrestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", pc_PrivateBuildingAI.save_data);
-            saveandrestore._serializableData.SaveData("real_city citizen_money", comm_data.save_data1);
-            //saveandrestore._serializableData.SaveData("real_city pc_VehicleAI", pc_VehicleAI.save_data);
-            RealCity.SaveSetting();
+            if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+            {
+                DebugLog.LogToFileOnly("startsave");
+                pc_EconomyManager.save_data = new byte[2768];
+                comm_data.save_data1 = new byte[4194304];
+                comm_data.save_data2 = new byte[49152];
+                pc_PrivateBuildingAI.save_data = new byte[316];
+                pc_ResidentAI.save_data = new byte[140];
+                comm_data.save_data = new byte[3063935];
+                gather_save_data();
+                saveandrestore._serializableData.SaveData("real_city pc_EconomyManager", pc_EconomyManager.save_data);
+                saveandrestore._serializableData.SaveData("real_city comm_data", comm_data.save_data);
+                saveandrestore._serializableData.SaveData("real_city pc_ResidentAI", pc_ResidentAI.save_data);
+                saveandrestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", pc_PrivateBuildingAI.save_data);
+                saveandrestore._serializableData.SaveData("real_city citizen_money", comm_data.save_data1);
+                saveandrestore._serializableData.SaveData("real_city building_flag", comm_data.save_data2);
+                //saveandrestore._serializableData.SaveData("real_city pc_VehicleAI", pc_VehicleAI.save_data);
+                RealCity.SaveSetting();
+            }
         }
 
         public override void OnLoadData()
         {
             Loader.init_data();
             //DebugLog.LogToFileOnly("OnLoadData");
-            if (true) //Loader.CurrentLoadMode == LoadMode.LoadGame)
+            if (true)
             {
+                DebugLog.LogToFileOnly("startload");
                 pc_EconomyManager.save_data = saveandrestore._serializableData.LoadData("real_city pc_EconomyManager");
                 if (pc_EconomyManager.save_data == null)
                 {
@@ -460,6 +467,16 @@ namespace RealCity
                 if (comm_data.save_data1 == null)
                 {
                     DebugLog.LogToFileOnly("no comm_data save data1, please check");                    
+                }
+                else
+                {
+                    comm_data.load();
+                }
+
+                comm_data.save_data2 = saveandrestore._serializableData.LoadData("real_city building_flag");
+                if (comm_data.save_data2 == null)
+                {
+                    DebugLog.LogToFileOnly("no comm_data save data2, please check");
                 }
                 else
                 {

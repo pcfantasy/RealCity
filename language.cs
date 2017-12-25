@@ -53,7 +53,14 @@ namespace RealCity
             "Sell tax",
             "BuyToSell Profit",
             "(exclude visit income)",
-            "Family status:"
+            "Family status:",
+            "Acquire it",
+            "privately-owned",
+            "State-owned",
+            "No bank",
+            "No tax department",
+            "No toll department",
+            "Upgrade"
         };
 
         public static string[] EconomicUI_English =
@@ -348,7 +355,7 @@ namespace RealCity
             "task cooldown time",
             "If using rush hour, tell mod if it is weekend to disable Smart Public Transport function",
             "City Data",
-            "City Bank",
+            "City Bank(NSP yet, coming soon)",
             "Get 1K from Bank",
             "Get 1K from Bank, if Bank have money",
             "Click to show BuildingUI"
@@ -383,7 +390,14 @@ namespace RealCity
              "卖出收入交易税",
              "买入卖出利润率",
              "(不包括商业访问收入)",
-             "家庭状况"};
+             "家庭状况",
+            "收购它",
+            "私营",
+            "国营",
+            "无银行",
+            "无税务局",
+            "无收费站",
+            "升级建筑"};
 
     public static string[] OptionUI_Chinese =
         {
@@ -696,7 +710,7 @@ namespace RealCity
             "任务冷却时间",
             "用rush hour的话,告诉本MOD今天是不是节假日,可以关掉智能公交预算功能",
             "城市情况",
-            "城市银行",
+            "城市银行(即将发布)",
             "挪用银行1K",
             "如果银行有钱,可以挪用1K",
             "点击显示建筑界面"

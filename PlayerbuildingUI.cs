@@ -57,11 +57,13 @@ namespace RealCity
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.RefreshDisplayData();
+            base.Hide();
         }
 
         private void DoOnStartup()
         {
-            this.ShowOnGui();            
+            this.ShowOnGui();
+            base.Hide();          
         }
 
 
@@ -141,7 +143,7 @@ namespace RealCity
             aliveWorkerCount = 0;
             totalWorkerCount = 0;
             BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            num1 = (int)(behaviour.m_educated0Count * comm_data.road_education0 + behaviour.m_educated1Count * comm_data.road_education1 + behaviour.m_educated2Count * comm_data.road_education2 + behaviour.m_educated3Count * comm_data.road_education3);
+            num1 = (int)(behaviour.m_educated0Count * comm_data.goverment_education0 + behaviour.m_educated1Count * comm_data.goverment_education1 + behaviour.m_educated2Count * comm_data.goverment_education2 + behaviour.m_educated3Count * comm_data.goverment_education3);
                     
             System.Random rand = new System.Random();
 

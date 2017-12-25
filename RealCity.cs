@@ -242,7 +242,7 @@ namespace RealCity
             group1.AddCheckbox(language.OptionUI[5], comm_data.crime_connection, (index) => get_crime_connection(index));
             group1.AddCheckbox(language.OptionUI[6], comm_data.sick_connection, (index) => get_sick_connection(index));
             group1.AddCheckbox(language.OptionUI[10], comm_data.fire_connection, (index) => get_fire_connection(index));
-            group1.AddCheckbox(language.OptionUI[11], comm_data.road_connection, (index) => get_road_connection(index));
+            //group1.AddCheckbox(language.OptionUI[11], comm_data.road_connection, (index) => get_road_connection(index));
             //group1.AddCheckbox(language.OptionUI[12], comm_data.firehelp, (index) => outsidefirehelp(index));
             group1.AddCheckbox(language.OptionUI[13], comm_data.hospitalhelp, (index) => outsidehospitalhelp(index));
             group1.AddCheckbox(language.OptionUI[14], comm_data.policehelp, (index) => outsidepolicehelp(index));
@@ -373,45 +373,48 @@ namespace RealCity
                 //DebugLog.LogToFileOnly(Singleton<SimulationManager>.instance.m_currentDayTimeHour.ToString());
                 //here we process income_tax and goverment_salary_expense 
                 //to make goverment_salary_expense the same with in game unit
-                comm_data.current_time = Singleton<SimulationManager>.instance.m_currentDayTimeHour;
-                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                uint num2 = currentFrameIndex & 255u;
-                //DebugLog.LogToFileOnly("OnUpdateMoneyAmount num2 = " + num2.ToString());
-                if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
+                if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
                 {
-                    //DebugLog.LogToFileOnly("process once update money " + comm_data.current_time.ToString() + " " + comm_data.prev_time.ToString());
-                    citizen_status();
-                    vehicle_status();
-                    building_status();
-                    caculate_goverment_employee_expense();
-                    caculate_profit();
-                    caculate_citizen_transport_fee();
-                    generate_tips();
-                    check_task_status();
-                    check_event_status();
-                    //change_outside_price();
-
-                    comm_data.update_money_count++;
-                    if (comm_data.update_money_count == 17)
+                    comm_data.current_time = Singleton<SimulationManager>.instance.m_currentDayTimeHour;
+                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                    uint num2 = currentFrameIndex & 255u;
+                    //DebugLog.LogToFileOnly("OnUpdateMoneyAmount num2 = " + num2.ToString());
+                    if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
                     {
-                        comm_data.tourist_num_final = comm_data.tourist_num;
-                        comm_data.tourist_transport_fee_num_final = comm_data.tourist_transport_fee_num;
-                        comm_data.tourist_num = 0;
-                        comm_data.tourist_transport_fee_num = 0;
-                        comm_data.update_money_count = 0;
+                        //DebugLog.LogToFileOnly("process once update money " + comm_data.current_time.ToString() + " " + comm_data.prev_time.ToString());
+                        citizen_status();
+                        vehicle_status();
+                        generate_tips();
+                        building_status();
+                        caculate_goverment_employee_expense();
+                        caculate_profit();
+                        caculate_citizen_transport_fee();
+                        check_task_status();
+                        check_event_status();
+                        //change_outside_price();
+
+                        comm_data.update_money_count++;
+                        if (comm_data.update_money_count == 17)
+                        {
+                            comm_data.tourist_num_final = comm_data.tourist_num;
+                            comm_data.tourist_transport_fee_num_final = comm_data.tourist_transport_fee_num;
+                            comm_data.tourist_num = 0;
+                            comm_data.tourist_transport_fee_num = 0;
+                            comm_data.update_money_count = 0;
+                        }
+                        pc_EconomyManager.clean_current(comm_data.update_money_count);
+
+
+                        comm_data.prev_time = comm_data.current_time;
+                        //DebugLog.LogToFileOnly("update_money_count is " + comm_data.update_money_count.ToString());
                     }
-                    pc_EconomyManager.clean_current(comm_data.update_money_count);
-
-
-                    comm_data.prev_time = comm_data.current_time;
-                    //DebugLog.LogToFileOnly("update_money_count is " + comm_data.update_money_count.ToString());
+                    RealCityUI.refesh_onece = true;
+                    MoreeconomicUI.refesh_onece = true;
+                    PlayerBuildingUI.refesh_once = true;
+                    BuildingUI.refesh_once = true;
+                    HumanUI.refesh_once = true;
+                    comm_data.is_updated = true;
                 }
-                RealCityUI.refesh_onece = true;
-                MoreeconomicUI.refesh_onece = true;
-                PlayerBuildingUI.refesh_once = true;
-                BuildingUI.refesh_once = true;
-                HumanUI.refesh_once = true;
-                comm_data.is_updated = true;
 
                 return internalMoneyAmount;
             }
@@ -725,7 +728,7 @@ namespace RealCity
                     comm_data.money_flowout = false;
                     comm_data.lowdemand = false;
                     comm_data.highdemand = false;
-                    comm_data.happy_task = false;
+                    comm_data.happy_holiday = false;
                     if (rand.Next(1000) < 0)
                     {
                         comm_data.is_random_event = true;
@@ -1018,6 +1021,12 @@ namespace RealCity
                 cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
                 long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
 
+                if (!comm_data.have_bank_pre)
+                {
+                    comm_data.city_bank = 10;
+                }
+
+
                 if (comm_data.city_bank < -1000000)
                 {
                     tip9_message_forgui = language.TipAndChirperMessage[30];
@@ -1287,12 +1296,14 @@ namespace RealCity
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
                 update_once = false;
-                pc_OutsideConnectionAI.have_maintain_road_building = false;
                 pc_OutsideConnectionAI.have_garbage_building = false;
                 pc_OutsideConnectionAI.have_cemetry_building = false;
                 pc_OutsideConnectionAI.have_police_building = false;
                 pc_OutsideConnectionAI.have_fire_building = false;
                 pc_OutsideConnectionAI.have_hospital_building = false;
+                comm_data.have_bank = false;
+                comm_data.have_tax_department = false;
+                comm_data.have_toll_station = false;
                 checked
                 {
                     for (int i = 0; i < instance.m_buildings.m_buffer.Count<Building>(); i++)
@@ -1306,7 +1317,7 @@ namespace RealCity
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
                                 result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
-                                comm_data.building_money[i] -= (result /100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_cemetry_building = true;
 
                                 if (comm_data.update_outside_count == 63)
@@ -1332,29 +1343,6 @@ namespace RealCity
                                 comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_garbage_building = true;
                                 //DebugLog.LogToFileOnly("maintenaince is " + budget.ToString() + " " + result.ToString() + " " + instance.m_buildings.m_buffer[i].m_productionRate.ToString());
-
-                                if (comm_data.building_money[i] > 80000000)
-                                {
-                                    comm_data.building_money[i] = 80000000;
-                                }
-                                else if (comm_data.building_money[i] < -80000000)
-                                {
-                                    comm_data.building_money[i] = -80000000;
-                                }
-
-                                if (comm_data.update_outside_count == 63)
-                                {
-                                    comm_data.building_money[i] = 0;
-                                }
-                            }
-
-                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Road)
-                            {
-                                result = 0;
-                                budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
-                                result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
-                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
-                                pc_OutsideConnectionAI.have_maintain_road_building = true;
 
                                 if (comm_data.building_money[i] > 80000000)
                                 {
@@ -1399,7 +1387,7 @@ namespace RealCity
                                 result = 0;
                                 budget = Singleton<EconomyManager>.instance.GetBudget(instance.m_buildings.m_buffer[i].Info.m_class);
                                 result = instance.m_buildings.m_buffer[i].Info.m_buildingAI.GetMaintenanceCost() / 100;
-                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));                                
+                                comm_data.building_money[i] -= (result / 100f) * (float)(budget * (float)(instance.m_buildings.m_buffer[i].m_productionRate / 10000f));
                                 pc_OutsideConnectionAI.have_hospital_building = true;
 
                                 if (comm_data.building_money[i] > 80000000)
@@ -1484,65 +1472,129 @@ namespace RealCity
                                     comm_data.building_money[i] = 0;
                                 }
                             }
+
+                            if (is_special_building((ushort)i) == 1)
+                            {
+                                comm_data.have_bank = true;
+                            }
+                            else if (is_special_building((ushort)i) == 2)
+                            {
+                                comm_data.have_toll_station = true;
+                            }
+                            else if (is_special_building((ushort)i) == 3)
+                            {
+                                comm_data.have_tax_department = true;
+                            }
                         }
                     }
                 }
 
+                if (comm_data.have_bank && (!comm_data.have_bank_pre))
+                {
+                    caculate_bank_money(true);
+                } else if ((!comm_data.have_bank) && comm_data.have_bank_pre)
+                {
+                    caculate_bank_money(false);
+                }
+                else
+                {
+
+                }
+                comm_data.have_bank_pre = comm_data.have_bank;
                 update_once = true;
 
             }
 
+            public static byte is_special_building(ushort id)
+            {
+                BuildingManager instance = Singleton<BuildingManager>.instance;
+
+                //bank
+                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 1668000)
+                {
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetWaterConsumption().ToString());
+                    return 1;
+                }
+
+                //toll
+                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 108600)
+                {
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetWaterConsumption().ToString());
+                    return 2;
+                }
+
+                //tax
+                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 1008600)
+                {
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetWaterConsumption().ToString());
+                    return 3;
+                }
+
+                return 0;
+            }
+
+
+            public void caculate_bank_money(bool is_collection)
+            {
+                long bank_money = 0;
+                for (int i = 0; i < Singleton<BuildingManager>.instance.m_buildings.m_buffer.Count<Building>(); i++)
+                {
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Active) && !Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                    {
+                        if (comm_data.building_money[i] > -65000000)
+                        {
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Commercial)
+                            {
+                                bank_money += (long)comm_data.building_money[i];
+                            }
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Office)
+                            {
+                                bank_money += (long)comm_data.building_money[i];
+                            }
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Industrial)
+                            {
+                                bank_money += (long)comm_data.building_money[i];
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < Singleton<CitizenManager>.instance.m_citizens.m_buffer.Count<Citizen>(); i++)
+                {
+                    bank_money += (long)comm_data.citizen_money[i];
+                }
+
+                if (is_collection)
+                {
+                    comm_data.city_bank = bank_money;
+                } else
+                {
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(bank_money - comm_data.city_bank), ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
+                }
+            }
 
             public void citizen_status()
             {
                 comm_data.citizen_count = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount;
 
-                if (comm_data.citizen_count > 100)
+                uint medium_citizen = (uint)(comm_data.family_count - comm_data.family_weight_stable_high - comm_data.family_weight_stable_low);
+                if (medium_citizen < 0)
                 {
-                    uint medium_citizen = (uint)(comm_data.family_count - comm_data.family_weight_stable_high - comm_data.family_weight_stable_low);
-                    if (medium_citizen < 0)
-                    {
-                        DebugLog.LogToFileOnly("should be wrong, medium_citizen < 0");
-                        medium_citizen = 0;
-                    }
-                    if (comm_data.family_count != 0)
-                    {
-                        comm_data.resident_consumption_rate = (float)((float)(2 * comm_data.family_weight_stable_high + medium_citizen / 2) / (float)comm_data.family_count);
-                    }
-                }
-                else
-                {
-                    //do nothing
+                    DebugLog.LogToFileOnly("should be wrong, medium_citizen < 0");
+                    medium_citizen = 0;
                 }
 
 
-                comm_data.mantain_and_land_fee_decrease = (byte)(1000f / (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 10f));
+                //comm_data.mantain_and_land_fee_decrease = (byte)(1000f / (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 10f));
                 comm_data.salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 50f) / 120f;
-
-                /*CitizenManager instance = Singleton<CitizenManager>.instance;
-                for (int i = 0; i < 524288; i = i + 1)
-                {
-                    CitizenUnit citizenunit = instance.m_units.m_buffer[i];
-                    if (citizenunit.m_flags.IsFlagSet(CitizenUnit.Flags.Created))
-                    {
-                        int j;
-                        for (j = 0; j < 5; j++)
-                        {
-                            uint citizen = citizenunit.GetCitizen(j);
-                            if (citizen != 0u)
-                            {
-                                CitizenManager instance1 = Singleton<CitizenManager>.instance;
-                                CitizenInfo citizenInfo = instance1.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
-                                //DebugLog.LogToFileOnly("m_citizenAI is " + citizenInfo.m_citizenAI.GetType().ToString());
-                                if (citizenInfo.m_class.m_service == ItemClass.Service.Citizen)
-                                {
-                                    comm_data.citizen_count = comm_data.citizen_count + 1;
-                                }
-                            }
-                        }
-                    }
-                }*/
             }
+
             public void vehicle_status()
             {
                 VehicleManager instance = Singleton<VehicleManager>.instance;
@@ -1580,17 +1632,6 @@ namespace RealCity
                                 {
                                     Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
                                 }
-
-                                /*if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Petrol)
-                                {
-                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(9), rand.Next(9), vehicle.GetLastFramePosition(), 6f);
-                                }
-
-                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Coal)
-                                {
-                                    Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, rand.Next(10), rand.Next(10), vehicle.GetLastFramePosition(), 6f);
-                                }*/
-                                //DebugLog.LogToFileOnly("try give GarbageTruckAI Pollution");
                             }
                         }
                     }
@@ -1821,17 +1862,93 @@ namespace RealCity
             }
         }
 
-        /*public class ThreadingRealCityStatsMod : ThreadingExtensionBase
+        public class ThreadingRealCityStatsMod : ThreadingExtensionBase
         {
-            public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
+            public override void OnAfterSimulationFrame()
             {
-                if (!(Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment)) && (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount <= 1100))
+                base.OnAfterSimulationFrame();
+                if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
                 {
-                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount = 1600;
-                    Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_tempCount = 1600;
+                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                    int num4 = (int)(currentFrameIndex & 15u);
+                    int num5 = num4 * 1024;
+                    int num6 = (num4 + 1) * 1024 - 1;
+                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
+                    VehicleManager instance = Singleton<VehicleManager>.instance;
+
+                    if (comm_data.have_toll_station)
+                    {
+                        for (int i = num5; i <= num6; i = i + 1)
+                        {
+                            Vehicle vehicle = instance.m_vehicles.m_buffer[i];
+                            Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_sourceBuilding];
+                            Building building1 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_targetBuilding];
+                            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
+                            {
+                                ushort num = FindToll(vehicle.GetFramePosition(currentFrameIndex), 32f);
+                                if (num != 0)
+                                {
+                                    if (building.m_flags.IsFlagSet(Building.Flags.Untouchable) && building1.m_flags.IsFlagSet(Building.Flags.Untouchable) && (!comm_data.vehical_flag[i]))
+                                    {
+                                        if ((vehicle.Info.m_vehicleAI is PassengerCarAI) || (vehicle.Info.m_vehicleAI is CargoTruckAI))
+                                        {
+                                            comm_data.vehical_flag[i] = true;
+                                            Singleton<EconomyManager>.instance.AddPrivateIncome(500, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        }*/
+
+
+
+            public static ushort FindToll(Vector3 pos, float maxDistance)
+            {
+                int num = Mathf.Max((int)((pos.x - maxDistance) / 64f + 135f), 0);
+                int num2 = Mathf.Max((int)((pos.z - maxDistance) / 64f + 135f), 0);
+                int num3 = Mathf.Min((int)((pos.x + maxDistance) / 64f + 135f), 269);
+                int num4 = Mathf.Min((int)((pos.z + maxDistance) / 64f + 135f), 269);
+                ushort result = 0;
+                BuildingManager building = Singleton<BuildingManager>.instance;
+                float num5 = maxDistance * maxDistance;
+                for (int i = num2; i <= num4; i++)
+                {
+                    for (int j = num; j <= num3; j++)
+                    {
+                        ushort num6 = building.m_buildingGrid[i * 270 + j];
+                        int num7 = 0;
+                        while (num6 != 0)
+                        {
+                            BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
+                            if (RealCity.EconomyExtension.is_special_building((ushort)num6) == 2)
+                            {
+                                if (building.m_buildings.m_buffer[(int)num6].m_flags.IsFlagSet(Building.Flags.Active) || (!building.m_buildings.m_buffer[(int)num6].m_flags.IsFlagSet(Building.Flags.Deleted)))
+                                {
+                                    float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
+                                    if (num8 < num5)
+                                    {
+                                        result = num6;
+                                        num5 = num8;
+                                        break;
+                                    }
+                                }
+                            }
+                            num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
+                            if (++num7 >= 49152)
+                            {
+                                CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                                break;
+                            }
+                        }
+                    }
+                }
+                return result;
+            }
+
+        }
     }
 }
 

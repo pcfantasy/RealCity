@@ -584,14 +584,14 @@ namespace RealCity
             this.cemetery_income_title = base.AddUIComponent<UILabel>();
             this.cemetery_income_title.text = language.RealCityUI1[87];
             this.cemetery_income_title.tooltip = language.RealCityUI1[88];
-            this.cemetery_income_title.relativePosition = new Vector3(this.road_income_title.relativePosition.x + this.road_income_title.width + SPACING + 120f, this.road_income_title.relativePosition.y);
+            this.cemetery_income_title.relativePosition = new Vector3(this.road_income_title.relativePosition.x + this.road_income_title.width + SPACING + 140f, this.road_income_title.relativePosition.y);
             this.cemetery_income_title.autoSize = true;
             this.cemetery_income_title.name = "Moreeconomic_Text_43";
 
             this.garbage_income_title = base.AddUIComponent<UILabel>();
             this.garbage_income_title.text = language.RealCityUI1[89];
             this.garbage_income_title.tooltip = language.RealCityUI1[90];
-            this.garbage_income_title.relativePosition = new Vector3(this.cemetery_income_title.relativePosition.x + this.cemetery_income_title.width + SPACING + 120f, this.cemetery_income_title.relativePosition.y);
+            this.garbage_income_title.relativePosition = new Vector3(this.cemetery_income_title.relativePosition.x + this.cemetery_income_title.width + SPACING + 140f, this.cemetery_income_title.relativePosition.y);
             this.garbage_income_title.autoSize = true;
             this.garbage_income_title.name = "Moreeconomic_Text_44";
 
@@ -961,7 +961,13 @@ namespace RealCity
                     this.from_cable_car.text = string.Format(language.RealCityUI1[79] + " [{0}]", cablecar_income);
                     this.from_monorail.text = string.Format(language.RealCityUI1[81] + " [{0}]", monorail_income);
                     this.goverment_income_title.text = string.Format(language.RealCityUI1[83] + " [{0}]  [{1:N2}%]", city_playerbuilding_income_total, city_playerbuilding_income_percent * 100);
-                    this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [{0}]", road_income_forui);
+                    if (comm_data.have_toll_station)
+                    {
+                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [{0}]", road_income_forui);
+                    } else
+                    {
+                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " " + language.BuildingUI[31]);
+                    }
                     this.cemetery_income_title.text = string.Format(language.RealCityUI1[87] + " [{0}]", cemetery_income_forui);
                     this.garbage_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", garbage_income_forui);
                     this.police_income_title.text = string.Format(language.RealCityUI1[91] + " [{0}]", police_income_forui);

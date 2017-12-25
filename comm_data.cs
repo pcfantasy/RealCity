@@ -10,7 +10,7 @@
 
 
         //org 1,8,40
-        //new 6 30 45.
+        //new 5 30 45.
         public const float ConsumptionDivider = 6f;
         public const float ConsumptionDivider1 = 1.5f;
         public const float Commerical_price = 5f;
@@ -135,12 +135,12 @@
         public const byte office_high_tech_education3 = 155;*/
 
         //Road
-        public const byte road_education0 = 40;
-        public const byte road_education1 = 45;
-        public const byte road_education2 = 55;
-        public const byte road_education3 = 70;
+        public const byte goverment_education0 = 40;
+        public const byte goverment_education1 = 45;
+        public const byte goverment_education2 = 55;
+        public const byte goverment_education3 = 70;
 
-        //Electricity
+        /*//Electricity
         public const byte Electricity_education0 = 40;
         public const byte Electricity_education1 = 45;
         public const byte Electricity_education2 = 55;
@@ -252,7 +252,7 @@
         public const byte PublicTransport_cablecar_education0 = 40;
         public const byte PublicTransport_cablecar_education1 = 45;
         public const byte PublicTransport_cablecar_education2 = 55;
-        public const byte PublicTransport_cablecar_education3 = 70;
+        public const byte PublicTransport_cablecar_education3 = 70;*/
 
         public static int citizen_count = 0;
         public static int family_count = 0;
@@ -286,7 +286,7 @@
         public static long citizen_expense = 0;
         //1.2.2 transport fee  position.x unit(0.9m),in game, max distance (in x) is 18000m
         public static ushort[] vehical_transfer_time = new ushort[16384];
-        public static bool[] vehical_last_transfer_flag = new bool[16384];
+        public static bool[] vehical_flag = new bool[16384];
         public static uint temp_total_citizen_vehical_time = 0;//temp use
         public static uint temp_total_citizen_vehical_time_last = 0;//temp use
         public static uint total_citizen_vehical_time = 0;
@@ -478,7 +478,7 @@
 
         public static bool dead_task = false;
         public static bool crasy_task = false;
-        public static bool happy_task = false;
+        public static bool bank_task = false;
 
         public static bool is_weekend = false;
 
@@ -511,8 +511,18 @@
 
         public static double city_bank = 0;
 
+
+        //add
+        public static bool have_bank = false;
+        public static bool have_bank_pre = false;
+        public static bool have_toll_station = false;
+        public static bool have_tax_department = false;
+        public static bool happy_holiday = false;
+
+        public static ushort update_building = 0;
+
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[48991];
+        public static ushort[] reserved = new ushort[48984];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
@@ -522,12 +532,17 @@
         public static float[] citizen_money = new float[1048576];
         public static byte[] save_data1 = new byte[4194304];
 
+        public static bool[] building_flag = new bool[49152];
+        public static byte[] save_data2 = new byte[49152];
+
+
         public static void data_init()
         {
             for (int i = 0; i < comm_data.building_money.Length; i++)
             {
                 building_money[i] = 0;
                 building_buffer2[i] = 0;
+                building_flag[i] = false;
             }
             for (int i = 0; i < comm_data.reserved.Length; i++)
             {
@@ -537,9 +552,9 @@
             {
                 vehical_transfer_time[i] = 0;
             }
-            for (int i = 0; i < comm_data.vehical_last_transfer_flag.Length; i++)
+            for (int i = 0; i < comm_data.vehical_flag.Length; i++)
             {
-                vehical_last_transfer_flag[i] = false;
+                vehical_flag[i] = false;
             }
             for (int i = 0; i < comm_data.family_money.Length; i++)
             {
@@ -560,7 +575,7 @@
             saveandrestore.save_long(ref i, citizen_expense_per_family, ref save_data);
             saveandrestore.save_long(ref i, citizen_expense, ref save_data);
             saveandrestore.save_ushorts(ref i, vehical_transfer_time, ref save_data);
-            saveandrestore.save_bools(ref i, vehical_last_transfer_flag, ref save_data);
+            saveandrestore.save_bools(ref i, vehical_flag, ref save_data);
             saveandrestore.save_uint(ref i, temp_total_citizen_vehical_time, ref save_data);
             saveandrestore.save_uint(ref i, temp_total_citizen_vehical_time_last, ref save_data);
             saveandrestore.save_uint(ref i, total_citizen_vehical_time, ref save_data);
@@ -681,7 +696,7 @@
 
             saveandrestore.save_bool(ref i, dead_task, ref save_data);
             saveandrestore.save_bool(ref i, crasy_task, ref save_data);
-            saveandrestore.save_bool(ref i, happy_task, ref save_data);
+            saveandrestore.save_bool(ref i, bank_task, ref save_data);
 
             saveandrestore.save_bool(ref i, is_weekend, ref save_data);
 
@@ -714,6 +729,14 @@
             saveandrestore.save_double(ref i, city_bank, ref save_data);
 
 
+            saveandrestore.save_bool(ref i, have_bank, ref save_data);
+            saveandrestore.save_bool(ref i, have_bank_pre, ref save_data);
+            saveandrestore.save_bool(ref i, have_toll_station, ref save_data);
+            saveandrestore.save_bool(ref i, have_tax_department, ref save_data);
+            saveandrestore.save_bool(ref i, happy_holiday, ref save_data);
+            saveandrestore.save_ushort(ref i, update_building, ref save_data);
+
+
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
@@ -725,6 +748,10 @@
             saveandrestore.save_floats(ref i, citizen_money, ref save_data1);
 
 
+            i = 0;
+            saveandrestore.save_bools(ref i, building_flag, ref save_data2);
+
+
         }
 
         public static void load()
@@ -734,7 +761,7 @@
             citizen_expense_per_family = saveandrestore.load_long(ref i, save_data);
             citizen_expense = saveandrestore.load_long(ref i, save_data);
             vehical_transfer_time = saveandrestore.load_ushorts(ref i, save_data, vehical_transfer_time.Length);
-            vehical_last_transfer_flag = saveandrestore.load_bools(ref i, save_data, vehical_last_transfer_flag.Length);
+            vehical_flag = saveandrestore.load_bools(ref i, save_data, vehical_flag.Length);
             temp_total_citizen_vehical_time = saveandrestore.load_uint(ref i, save_data);
             temp_total_citizen_vehical_time_last = saveandrestore.load_uint(ref i, save_data);
             total_citizen_vehical_time = saveandrestore.load_uint(ref i, save_data);
@@ -844,7 +871,7 @@
 
             dead_task = saveandrestore.load_bool(ref i, save_data);
             crasy_task = saveandrestore.load_bool(ref i, save_data);
-            happy_task = saveandrestore.load_bool(ref i, save_data);
+            bank_task = saveandrestore.load_bool(ref i, save_data);
             is_weekend = saveandrestore.load_bool(ref i, save_data);
 
 
@@ -876,8 +903,12 @@
 
             city_bank = saveandrestore.load_double(ref i, save_data);
 
-
-
+            have_bank = saveandrestore.load_bool(ref i, save_data);
+            have_bank_pre = saveandrestore.load_bool(ref i, save_data);
+            have_toll_station = saveandrestore.load_bool(ref i, save_data);
+            have_tax_department = saveandrestore.load_bool(ref i, save_data);
+            happy_holiday = saveandrestore.load_bool(ref i, save_data);
+            update_building = saveandrestore.load_ushort(ref i, save_data);
 
             reserved = saveandrestore.load_ushorts(ref i, save_data, reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, save_data, building_buffer2.Length);
@@ -889,6 +920,10 @@
             citizen_money = saveandrestore.load_floats(ref i, save_data1, citizen_money.Length);
 
             DebugLog.LogToFileOnly("save_data1 in comm_data is " + i.ToString());
+
+            i = 0;
+            building_flag = saveandrestore.load_bools(ref i, save_data2, building_flag.Length);
+            DebugLog.LogToFileOnly("save_data2 in comm_data is " + i.ToString());
         }
     }
 }

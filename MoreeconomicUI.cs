@@ -154,7 +154,6 @@ namespace RealCity
         private UILabel m_outside_dead;
         private UILabel m_outside_crime;
         private UILabel m_outside_sick;
-        private UILabel m_outside_road;
         private UILabel m_outside_firestation;
 
         private UILabel m_hospital;
@@ -635,31 +634,24 @@ namespace RealCity
             this.m_outside_sick.autoSize = true;
             this.m_outside_sick.name = "Moreeconomic_Text_48";
 
-            this.m_outside_road = base.AddUIComponent<UILabel>();
-            this.m_outside_road.text = language.EconomicUI[109];
-            this.m_outside_road.tooltip = language.EconomicUI[110];
-            this.m_outside_road.relativePosition = new Vector3(SPACING, this.m_outside_garbage.relativePosition.y + SPACING22);
-            this.m_outside_road.autoSize = true;
-            this.m_outside_road.name = "Moreeconomic_Text_48";
-
             this.m_outside_firestation = base.AddUIComponent<UILabel>();
             this.m_outside_firestation.text = language.EconomicUI[111];
             this.m_outside_firestation.tooltip = language.EconomicUI[112];
-            this.m_outside_firestation.relativePosition = new Vector3(this.m_outside_road.relativePosition.x + this.m_outside_road.width + SPACING + 140f, this.m_outside_road.relativePosition.y);
+            this.m_outside_firestation.relativePosition = new Vector3(SPACING, this.m_outside_garbage.relativePosition.y + SPACING22);
             this.m_outside_firestation.autoSize = true;
             this.m_outside_firestation.name = "Moreeconomic_Text_48";
 
             this.m_hospital = base.AddUIComponent<UILabel>();
             this.m_hospital.text = language.EconomicUI[113];
             this.m_hospital.tooltip = language.EconomicUI[114];
-            this.m_hospital.relativePosition = new Vector3(SPACING, this.m_outside_road.relativePosition.y + SPACING22);
+            this.m_hospital.relativePosition = new Vector3(SPACING, this.m_outside_firestation.relativePosition.y + SPACING22);
             this.m_hospital.autoSize = true;
             this.m_hospital.name = "Moreeconomic_Text_48";
 
             this.m_ambulance = base.AddUIComponent<UILabel>();
             this.m_ambulance.text = language.EconomicUI[115];
             this.m_ambulance.tooltip = language.EconomicUI[116];
-            this.m_ambulance.relativePosition = new Vector3(this.m_outside_firestation.relativePosition.x, this.m_outside_firestation.relativePosition.y + SPACING22);
+            this.m_ambulance.relativePosition = new Vector3(this.m_hospital.relativePosition.x + this.m_outside_crime.width + SPACING + 200f, this.m_hospital.relativePosition.y);
             this.m_ambulance.autoSize = true;
             this.m_ambulance.name = "Moreeconomic_Text_48";
 
@@ -748,8 +740,8 @@ namespace RealCity
             this.tip10.name = "Moreeconomic_Text_53";*/
 
             this.city_bank = base.AddUIComponent<UILabel>();
-            this.city_bank.text = language.RealCityUI1[110];
-            this.city_bank.tooltip = language.RealCityUI1[110];
+            this.city_bank.text = language.RealCityUI1[111];
+            this.city_bank.tooltip = language.RealCityUI1[112];
             this.city_bank.relativePosition = new Vector3(SPACING, tip9.relativePosition.y + SPACING22 + 20f);
             this.city_bank.autoSize = true;
             this.city_bank.name = "Moreeconomic_Text_47";
@@ -863,14 +855,7 @@ namespace RealCity
                     this.m_outside_dead.text = string.Format(language.EconomicUI[103] + " [{0}]", comm_data.outside_dead_count);
                     this.m_outside_sick.text = string.Format(language.EconomicUI[105] + " [{0}]", comm_data.outside_sick_count);
                     this.m_outside_crime.text = string.Format(language.EconomicUI[107] + " [{0}]", comm_data.outside_crime_count);
-                    if (comm_data.outside_road_num_final != 0)
-                    {
-                        this.m_outside_road.text = string.Format(language.EconomicUI[109] + " [{0:N2}%]", (100f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 650f)));
-                    }
-                    else
-                    {
-                        this.m_outside_road.text = string.Format(language.EconomicUI[109] + " [{0:N2}%]", 0);
-                    }
+
                     this.m_outside_firestation.text = string.Format(language.EconomicUI[111] + " [{0}]", comm_data.outside_firestation_count);
 
                     this.m_hospital.text = string.Format(language.EconomicUI[113] + " [{0}/{1}]", comm_data.outside_patient, comm_data.outside_road_num_final * pc_OutsideConnectionAI.m_patientCapacity);
@@ -896,7 +881,17 @@ namespace RealCity
                         this.tip9.textColor = Color.red;
                     }
                     //this.tip10.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip10_message_forgui);
-                    this.city_bank.text = string.Format(language.RealCityUI1[111] + " [{0}]", comm_data.city_bank / 100);
+
+                    if (comm_data.have_bank_pre)
+                    {
+                        this.city_bank.text = string.Format(language.RealCityUI1[111] + " [{0}]", comm_data.city_bank / 100);
+                        this.m_getfromBank.isEnabled = true;
+                    }
+                    else
+                    {
+                        this.city_bank.text = string.Format(language.BuildingUI[29]);
+                        this.m_getfromBank.isEnabled = false;
+                    }
                     refesh_onece = false;
                 }
             }

@@ -577,7 +577,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if ((itemClass.m_service == ItemClass.Service.Road) && pc_OutsideConnectionAI.have_maintain_road_building)
+                    if (itemClass.m_service == ItemClass.Service.Road)
                     {
                         coefficient = (float)comm_data.game_maintain_fee_decrease2;
                     }

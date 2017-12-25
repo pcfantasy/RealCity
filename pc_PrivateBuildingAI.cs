@@ -598,7 +598,7 @@ namespace RealCity
             }
         }
 
-        /*public static int process_building_asset(ushort buildingID, ref Building buildingData)
+        public static int process_building_asset(ushort buildingID, ref Building buildingData)
         {
             int asset = 0;
             if ((buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) || (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial))
@@ -697,54 +697,34 @@ namespace RealCity
                 }
             }
             return asset;
-        }*/
+        }
 
 
         public void process_building_data_final(ushort buildingID, ref Building buildingData)
         {
-            int i;
             if (prebuidlingid < buildingID)
             {
-                for (i = (int)(prebuidlingid + 1); i < buildingID; i++)
-                {
-                    //70000000f is a flag for outside building
-                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service)
-                    {
-                        case ItemClass.Service.Road:
-                        case ItemClass.Service.Beautification:
-                        case ItemClass.Service.HealthCare:
-                        case ItemClass.Service.Monument:
-                        case ItemClass.Service.Garbage:
-                        case ItemClass.Service.PoliceDepartment:
-                        case ItemClass.Service.FireDepartment:
-                            break;
-                        default:
-                            if (comm_data.building_money[i] != 70000000f)
-                            {
-                                if (comm_data.building_money[i] != 0)
-                                {
-                                    comm_data.building_money[i] = 0;
-                                }
-                            }
-                            break;
-                    }
-                }
-
                 if (buildingData.Info.m_class.m_service == ItemClass.Service.Residential)
                 {
                     comm_data.building_money[buildingID] = 0;
                 }
 
-                //int asset = process_building_asset(buildingID, ref buildingData);
+                if (buildingID == comm_data.update_building)
+                {
+                    StartUpgrading(buildingID, ref buildingData);
+                    comm_data.update_building = 0;
+                }
+
+                int asset = process_building_asset(buildingID, ref buildingData);
                 if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
                 {
                     if (((buildingData.m_problems & (~Notification.Problem.NoCustomers)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoCustomers)) != Notification.Problem.None))
                     {
                         Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
                         System.Random rand = new System.Random();
-                        if (comm_data.building_money[i] < -1000)
+                        if (comm_data.building_money[buildingID] + asset < -1000)
                         {
-                            if (comm_data.city_bank < -1000000)
+                            if (true)//comm_data.city_bank < -1000000)
                             {
                                 if (rand.Next(50) < 2)
                                 {
@@ -758,11 +738,11 @@ namespace RealCity
                                 }
                             }
                         }
-                        if (comm_data.building_money[i] < -500)
+                        if (comm_data.building_money[buildingID] + asset < -500)
                         {
                             problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
                         }
-                        else if (comm_data.building_money[i] < 0)
+                        else if (comm_data.building_money[buildingID] + asset < 0)
                         {
                             problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
                         }
@@ -777,31 +757,6 @@ namespace RealCity
                             Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
                             if (buildingData.m_customBuffer2 < 500)
                             {
-                                if ((buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh) || (buildingData.Info.m_class.m_subService == ItemClass.SubService.CommercialLow))
-                                {
-                                    byte district = Singleton<DistrictManager>.instance.GetDistrict(buildingData.m_position);
-                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    {
-                                        if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 30)
-                                        {
-                                            if (comm_data.building_money[buildingID] > 100)
-                                            {
-                                                this.StartUpgrading(buildingID, ref buildingData);
-                                            }
-                                        }
-                                    }
-
-                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    {
-                                        if (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() > 50)
-                                        {
-                                            if (comm_data.building_money[buildingID] > 500)
-                                            {
-                                                this.StartUpgrading(buildingID, ref buildingData);
-                                            }
-                                        }
-                                    }
-                                }
                                 problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
                             }
                             else if (buildingData.m_customBuffer2 < 1000)
@@ -820,57 +775,6 @@ namespace RealCity
             else
             {
                 //DebugLog.LogToFileOnly("caculate building final status, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
-
-                for (i = (int)(prebuidlingid + 1); i < 49152; i++)
-                {
-                    //70000000f is a flag for outside building
-                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service)
-                    {
-                        case ItemClass.Service.Road:
-                        case ItemClass.Service.Beautification:
-                        case ItemClass.Service.HealthCare:
-                        case ItemClass.Service.Monument:
-                        case ItemClass.Service.Garbage:
-                        case ItemClass.Service.PoliceDepartment:
-                        case ItemClass.Service.FireDepartment:
-                            break;
-                        default:
-                            if (comm_data.building_money[i] != 70000000f)
-                            {
-                                if (comm_data.building_money[i] != 0)
-                                {
-                                    comm_data.building_money[i] = 0;
-                                }
-                            }
-                            break;
-                    }
-                }
-
-                for (i = 0; i < buildingID; i++)
-                {
-                    //70000000f is a flag for outside building
-                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[i].Info.m_class.m_service)
-                    {
-                        case ItemClass.Service.Road:
-                        case ItemClass.Service.Beautification:
-                        case ItemClass.Service.HealthCare:
-                        case ItemClass.Service.Monument:
-                        case ItemClass.Service.Garbage:
-                        case ItemClass.Service.PoliceDepartment:
-                        case ItemClass.Service.FireDepartment:
-                            break;
-                        default:
-                            if (comm_data.building_money[i] != 70000000f)
-                            {
-                                if (comm_data.building_money[i] != 0)
-                                {
-                                    comm_data.building_money[i] = 0;
-                                }
-                            }
-                            break;
-                    }
-                }
-
                 if (comm_data.update_outside_count == 63)
                 {
                     resident_shopping_count_final = resident_shopping_count;
@@ -985,7 +889,7 @@ namespace RealCity
 
         }
 
-        public void StartUpgrading(ushort buildingID, ref Building buildingData)
+        public static void StartUpgrading(ushort buildingID, ref Building buildingData)
         {
             buildingData.m_frame0.m_constructState = 0;
             buildingData.m_frame1.m_constructState = 0;
@@ -1008,11 +912,11 @@ namespace RealCity
                 Quaternion q;
                 buildingData.CalculateMeshPosition(out pos, out q);
                 Matrix4x4 matrix = Matrix4x4.TRS(pos, q, Vector3.one);
-                EffectInfo.SpawnArea spawnArea = new EffectInfo.SpawnArea(matrix, this.m_info.m_lodMeshData);
+                EffectInfo.SpawnArea spawnArea = new EffectInfo.SpawnArea(matrix, buildingData.Info.m_lodMeshData);
                 Singleton<EffectManager>.instance.DispatchEffect(levelupEffect, instance2, spawnArea, Vector3.zero, 0f, 1f, instance.m_audioGroup);
             }
             Vector3 position = buildingData.m_position;
-            position.y += this.m_info.m_size.y;
+            position.y += buildingData.Info.m_size.y;
             Singleton<NotificationManager>.instance.AddEvent(NotificationEvent.Type.LevelUp, position, 1f);
             Singleton<SimulationManager>.instance.m_currentBuildIndex += 1u;
         }
@@ -1023,6 +927,10 @@ namespace RealCity
             {
                 comm_data.building_money[buildingID] = 60000000;
                 comm_data.city_bank -= (comm_data.building_money[buildingID] - 60000000);
+            }
+            else if (comm_data.building_money[buildingID] < -65000000)
+            {
+                comm_data.building_money[buildingID] = 0;
             }
             else if (comm_data.building_money[buildingID] < -60000000)
             {
@@ -1233,8 +1141,11 @@ namespace RealCity
             //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
             {
-                comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
-                comm_data.city_bank -= (float)(num * num2) / 100;
+                if (!comm_data.building_flag[buildingID])
+                {
+                    comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
+                    comm_data.city_bank -= (float)(num * num2) / 100;
+                }
             }
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
@@ -1388,69 +1299,6 @@ namespace RealCity
             return false;
         }
 
-
-        public override void ReleaseBuilding(ushort buildingID, ref Building data)
-        {
-
-            int cost = 5000;
-            /*if (data.Info.m_class.m_level == ItemClass.Level.Level2)
-            {
-                cost = cost << 1;
-            }
-
-            if (data.Info.m_class.m_level == ItemClass.Level.Level3)
-            {
-                cost = cost << 2;
-            }
-
-            if (data.Info.m_class.m_level == ItemClass.Level.Level4)
-            {
-                cost = cost << 3;
-            }
-
-            if (data.Info.m_class.m_level == ItemClass.Level.Level5)
-            {
-                cost = cost << 4;
-            }
-
-            if (data.Info.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
-            {
-                cost = cost << 1;
-            }
-
-            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
-            {
-                cost = cost << 1;
-            }
-
-            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-            {
-                cost = 5000 << 1;
-            }
-
-            if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
-            {
-                cost = 5000 << 4;
-            }
-
-            if (data.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
-            {
-                cost = 5000 << 4;
-            }*/
-
-            if (comm_data.building_money[buildingID] > 0)
-            {
-                comm_data.city_bank -= comm_data.building_money[buildingID];
-            }
-
-            comm_data.building_money[buildingID] = 0;
-
-            if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
-            {
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, cost, data.Info.m_class.m_service, ItemClass.SubService.None, ItemClass.Level.Level1);
-            }
-            base.ReleaseBuilding(buildingID, ref data);
-        }
 
 
         public static float get_price(bool is_selling, Building data, TransferManager.TransferReason force_material)
@@ -1735,11 +1583,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.15f; break;
+                            tax = 0.40f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.20f; break;
+                            tax = 0.45f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.25f; break;
+                            tax = 0.50f; break;
                         default:
                             tax = 0; break;
                     }
@@ -1751,7 +1599,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.15f;
+                        tax = 0.18f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialForestry:
@@ -1761,7 +1609,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.15f;
+                        tax = 0.18f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOil:
@@ -1771,7 +1619,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.15f;
+                        tax = 0.18f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOre:
@@ -1781,7 +1629,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.15f;
+                        tax = 0.35f;
                     }
                     break;
                 case ItemClass.SubService.CommercialEco:
@@ -1792,7 +1640,14 @@ namespace RealCity
                     tax = 0.35f; break;
                 default: tax = 0f; break;
             }
-            return tax;
+
+            if (comm_data.have_tax_department)
+            {
+                return tax;
+            } else
+            {
+                return 0;
+            }
         }
 
         public static float get_comsumptiondivider(Building data, ushort buildingID)
@@ -1806,13 +1661,14 @@ namespace RealCity
 
             float work_efficiency = (float)behaviourData.m_efficiencyAccumulation / 100f;
 
+            
             if ((aliveWorkerCount / 10f) > 1f)
             {
-                work_efficiency = work_efficiency / 10f;
+                work_efficiency = work_efficiency / 8f;
             }
             else
             {
-                work_efficiency = work_efficiency / ((float)aliveWorkerCount);
+                work_efficiency = work_efficiency / ((float)aliveWorkerCount * 0.8f);
             }
 
             float final_idex = work_efficiency;

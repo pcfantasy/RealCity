@@ -89,7 +89,6 @@ namespace RealCity
 
         private static bool _init = false;
         */
-        public static bool have_maintain_road_building = false;
         public static bool have_garbage_building = false;
         public static bool have_cemetry_building = false;
         public static bool have_police_building = false;
@@ -143,14 +142,8 @@ namespace RealCity
                 }
 
 
-                if (comm_data.outside_road_num_final != 0)
-                {
-                    m_cargoCapacity = (int)((1f - (float)comm_data.outside_road_count / (comm_data.outside_road_num_final * 65000f)) * 40);
-                    //DebugLog.LogToFileOnly("m_cargoCapacity = " + m_cargoCapacity.ToString());
-                } else
-                {
-                    m_cargoCapacity = 20;
-                }
+
+                m_cargoCapacity = 20;
 
                 int family_minus_oilorebuiling = (int)(comm_data.family_count / 10) - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final;
                 if (family_minus_oilorebuiling > 0)
@@ -161,8 +154,11 @@ namespace RealCity
                 m_residentCapacity = 1000 + (family_minus_oilorebuiling*10);
                 float demand_idex = 1;
 
-                demand_idex = (float)(comm_data.family_weight_stable_high + comm_data.family_count - comm_data.family_weight_stable_low) / (float)(comm_data.family_count);
-                demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
+                if (comm_data.family_count > 0)
+                {
+                    demand_idex = (float)(comm_data.family_weight_stable_high + comm_data.family_count - comm_data.family_weight_stable_low) / (float)(comm_data.family_count);
+                    demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
+                }
 
                 if (comm_data.family_count > 100)
                 {
@@ -221,7 +217,7 @@ namespace RealCity
                 }
 
 
-                if (comm_data.happy_task)
+                if (comm_data.happy_holiday)
                 {
                     m_touristFactor0 = (int)(m_touristFactor0 * 1.5f);
                     m_touristFactor1 = (int)(m_touristFactor1 * 1.5f);
@@ -303,7 +299,6 @@ namespace RealCity
                 comm_data.outside_sick_count_temp += data.m_customBuffer2;
                 comm_data.outside_garbage_count_temp += data.m_garbageBuffer;
                 comm_data.outside_firestation_count_temp += data.m_electricityBuffer;
-                comm_data.outside_road_count_temp += data.m_waterBuffer;
                 //DebugLog.LogToFileOnly("data.m_waterBuffer = " + data.m_waterBuffer.ToString());
                 if (data.Info.m_class.m_service == ItemClass.Service.Road)
                 {
@@ -320,14 +315,12 @@ namespace RealCity
                 comm_data.outside_sick_count = comm_data.outside_sick_count_temp;
                 comm_data.outside_crime_count = comm_data.outside_crime_count_temp;
                 comm_data.outside_firestation_count = comm_data.outside_firestation_count_temp;
-                comm_data.outside_road_count = comm_data.outside_road_count_temp;
                 comm_data.outside_road_num_final = comm_data.outside_road_num;
                 comm_data.outside_dead_count_temp = 0;
                 comm_data.outside_crime_count_temp = 0;
                 comm_data.outside_sick_count_temp = 0;
                 comm_data.outside_garbage_count_temp = 0;
                 comm_data.outside_firestation_count_temp = 0;
-                comm_data.outside_road_count_temp = 0;
                 comm_data.outside_road_num = 0;
                 comm_data.outside_patient = 0;
                 comm_data.outside_ambulance_car = 0;
@@ -446,24 +439,6 @@ namespace RealCity
                         TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                         offer.Building = buildingID;
                         Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Fire, offer);
-                    }
-                    //road maintain
-                    if (have_maintain_road_building && comm_data.road_connection && have_maintain_road_building)
-                    {
-                        if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
-                        {
-                            data.m_waterBuffer = (ushort)(data.m_waterBuffer + 50);
-                        } else
-                        {
-                            data.m_waterBuffer = (ushort)(data.m_waterBuffer + 5);
-                        }
-                    }
-                    else if (RealCity.update_once && (data.m_waterBuffer != 32500))
-                    {
-                        data.m_waterBuffer = 32500;
-                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                        offer.Building = buildingID;
-                        Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
                     }
                 }
                 else
@@ -775,59 +750,6 @@ namespace RealCity
             }
         }
 
-        public void Addroadoffers(ushort buildingID, ref Building data)
-        {
-            TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-            if (have_maintain_road_building && comm_data.road_connection)
-            {
-                int num25 = 0;
-                int num26 = 0;
-                int num27 = 0;
-                int num28 = 0;
-                this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.RoadMaintenance, ref num25, ref num26, ref num27, ref num28);
-                //DebugLog.LogToFileOnly("Road offers " + data.m_waterBuffer.ToString() + " " + num27.ToString() + " " + num26.ToString());
-                int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
-                SimulationManager instance1 = Singleton<SimulationManager>.instance;
-                if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
-                {
-                    if (instance1.m_randomizer.Int32(128u) == 0)
-                    {
-                        DebugLog.LogToFileOnly("outside connection is not good for car in for roadoffers");
-                        if ((data.m_waterBuffer - (num27 - num26) * 100) > 200)
-                        {
-                            offer = default(TransferManager.TransferOffer);
-                            offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
-                            if (offer.Priority > 7)
-                            {
-                                offer.Priority = 7;
-                            }
-                            offer.Building = buildingID;
-                            offer.Position = data.m_position;
-                            offer.Amount = 1;
-                            offer.Active = false;
-                            Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
-                        }
-                    }
-                } else
-                {
-                    if ((data.m_waterBuffer - (num27 - num26) * 100) > 200)
-                    {
-                        offer = default(TransferManager.TransferOffer);
-                        offer.Priority = 1 + (data.m_waterBuffer - (num27 - num26) * 100) / 5;
-                        if (offer.Priority > 7)
-                        {
-                            offer.Priority = 7;
-                        }
-                        offer.Building = buildingID;
-                        offer.Position = data.m_position;
-                        offer.Amount = 1;
-                        offer.Active = false;
-                        Singleton<TransferManager>.instance.AddIncomingOffer(TransferManager.TransferReason.RoadMaintenance, offer);
-                    }
-                }
-            }
-        }
-
         public void Addfireoffers(ushort buildingID, ref Building data)
         {
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -947,7 +869,6 @@ namespace RealCity
                     Addpoliceoffers(buildingID, ref data);
                     Addfireoffers(buildingID, ref data);
                     Addsickoffers(buildingID, ref data);
-                    Addroadoffers(buildingID, ref data);
                 } else
                 {
                     Adddeadoffers(buildingID, ref data);
@@ -1168,29 +1089,6 @@ namespace RealCity
                         data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + amountDelta * 100);
                         comm_data.building_money[buildingID] += amountDelta * -70000f / 100f;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -70000f), ItemClass.Service.FireDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                    }
-                }
-                else if (material == TransferManager.TransferReason.RoadMaintenance)
-                {
-                    if (data.m_waterBuffer < 0)
-                    {
-                        DebugLog.LogToFileOnly("fire < 0 in outside building, should be wrong");
-                        amountDelta = 0;
-                    }
-                    else
-                    {
-                        if (data.m_waterBuffer + amountDelta * 100 <= 0)
-                        {
-                            amountDelta = -data.m_waterBuffer / 100;
-                        }
-                        else
-                        {
-
-                        }
-                        //DebugLog.LogToFileOnly("find outside maintain num = " + amountDelta.ToString());
-                        data.m_waterBuffer = (ushort)(data.m_waterBuffer + amountDelta * 100);
-                        comm_data.building_money[buildingID] += amountDelta * -7000f / 100f;
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -7000f), ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else

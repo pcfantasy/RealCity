@@ -118,8 +118,8 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.RcButton.tooltip = language.RealCityUI1[111];
-                this.RcButton.text = language.RealCityUI1[111];
+                this.RcButton.tooltip = language.RealCityUI1[110];
+                this.RcButton.text = language.RealCityUI1[110];
                 if (Loader.guiPanel1.isVisible)
                 {
                     this.RcButton.Focus();
