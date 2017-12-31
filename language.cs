@@ -204,6 +204,8 @@ namespace RealCity
             "tip8",
             "tip9",
             "tip9",
+            "Loan num from Bank",
+            "current interest"
         };
 
 
@@ -228,6 +230,10 @@ namespace RealCity
         "Rich immigrants ",
         "Hot Money ",
         "Money flowout ",
+        "Free trade ",
+        "Prefer farming ",
+        "False alarm ",
+        "Happy holiday ",
         "Oil ",
         "Ore ",
         "Grain ",
@@ -237,8 +243,8 @@ namespace RealCity
         "Petrol ",
         "Coal ",
         "Remaining time:",
-        "No random event now(NSP yet, coming soon)",
-        "City Bank lack of money, No CI demand and outside movingin resident will be poor man"   
+        "No random event now",
+        "City Bank lack of money, No CI demand and outside movingin resident will be poor man",
         };
 
 
@@ -344,7 +350,7 @@ namespace RealCity
             "7、City all total income",
             "City income data(unit:₡)",
             "Spercial Task(once at a time)",
-            "infinity garbage,receive 200 garbagecars in 1000time,get 90K(cd time 2000,when family>500)",
+            "infinity garbage,receive 4000000 garbages in 1000time,get 90K(cd time 2000,when family>500)",
             "infinity dead,receive 200 hearsecars in 1000time,get 50K(cd time 2500,when family>2000)",
             "crasy traffic,receive 4K feedthrough traffic in 2000time,get 70K(cd time 3000,when family>1000)",
             "remaining_time",
@@ -355,10 +361,11 @@ namespace RealCity
             "task cooldown time",
             "If using rush hour, tell mod if it is weekend to disable Smart Public Transport function",
             "City Data",
-            "City Bank(NSP yet, coming soon)",
+            "City Bank",
             "Get 1K from Bank",
             "Get 1K from Bank, if Bank have money",
-            "Click to show BuildingUI"
+            "Click to show BuildingUI",
+            "loan to outside,give outside 10W loan, get 20W back to bank in 1000times(cd time 4000)",
         };
 
 
@@ -559,6 +566,8 @@ namespace RealCity
             "提示8",
             "提示9",
             "提示9",
+            "贷款数目",
+            "单次利息"
         };
 
 
@@ -583,6 +592,10 @@ namespace RealCity
         "富裕移民 ",
         "热钱流入 ",
         "热钱流出 ",
+        "自由贸易 ",
+        "农业大国 ",
+        "诈弹威胁 ",
+        "黄金假期 ",
         "原油 ",
         "矿物 ",
         "谷物 ",
@@ -592,8 +605,8 @@ namespace RealCity
         "汽油 ",
         "煤矿 ",
         "剩余时间:",
-        "当前没有随机事件(暂不支持,稍后发布)",
-        "城市银行缺钱,无工业商业需求,移民全是穷人"
+        "当前没有随机事件",
+        "城市银行缺钱,无工业商业需求,移民全是穷人",
         };
 
 
@@ -699,7 +712,7 @@ namespace RealCity
             "7、城市总收入",
             "城市收入情况(单位:克朗)",
             "特殊任务(1次只接受点击一样)",
-            "垃圾围城,1000时间接受200卡车垃圾,可获得9万克朗(冷却时间2000,500家庭有效)",
+            "垃圾围城,1000时间接受4000000垃圾,可获得9万克朗(冷却时间2000,500家庭有效)",
             "死尸围城,1000时间接受200灵车遗体,可获得5万克朗(冷却时间2500,1500家庭有效)",
             "疯狂运输,2000时间接受4000过境车辆,可获得7万克朗(冷却时间3000,1000家庭有效)",
             "剩余时间",
@@ -710,10 +723,11 @@ namespace RealCity
             "任务冷却时间",
             "用rush hour的话,告诉本MOD今天是不是节假日,可以关掉智能公交预算功能",
             "城市情况",
-            "城市银行(即将发布)",
-            "挪用银行1K",
-            "如果银行有钱,可以挪用1K",
-            "点击显示建筑界面"
+            "城市银行",
+            "向银行贷款1K",
+            "如果银行有钱,可以贷款1K(利率2.5%,200时间内分次归还)",
+            "点击显示建筑界面",
+            "对外贷款,贷款10W,1000时间回收20W(冷却时间4000,随时有效)",
         };
 
 

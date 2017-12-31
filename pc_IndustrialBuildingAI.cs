@@ -200,7 +200,7 @@ namespace RealCity
 
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(false, data, material);
+            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(false, buildingID, data, material);
             if (comm_data.building_flag[buildingID])
             {
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)trade_income1, ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
@@ -212,7 +212,7 @@ namespace RealCity
 
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(true, data, material);
+            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(true, buildingID, data, material);
             float trade_tax = 0;
             if ((comm_data.building_money[buildingID] - trade_income1) > 0)
             {

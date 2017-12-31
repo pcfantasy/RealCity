@@ -470,7 +470,7 @@ namespace RealCity
                 }
                 else
                 {
-                    comm_data.load();
+                    comm_data.load1();
                 }
 
                 comm_data.save_data2 = saveandrestore._serializableData.LoadData("real_city building_flag");
@@ -480,7 +480,7 @@ namespace RealCity
                 }
                 else
                 {
-                    comm_data.load();
+                    comm_data.load2();
                 }
             }
 

@@ -148,6 +148,20 @@ namespace RealCity
             //Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
             if (citizen_id != 0u)
             {
+                if (comm_data.Virus_attack)
+                {
+                    if (rand.Next(1000) < rand.Next(10))
+                    {
+                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                        {
+                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                        }
+                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                        {
+                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                        }
+                    }
+                }
                 Citizen.Flags temp_flag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags;
                 if (((temp_flag & Citizen.Flags.Arrested) != Citizen.Flags.None) || ((temp_flag & Citizen.Flags.Student) != Citizen.Flags.None) || ((temp_flag & Citizen.Flags.Sick) != Citizen.Flags.None))
                 {
@@ -503,13 +517,17 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.goverment_education0) + rand.Next(1); PublicTransport_monorail += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education0) + rand.Next(1); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.goverment_education1) + rand.Next(2); PublicTransport_monorail += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education1) + rand.Next(2); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.goverment_education2) + rand.Next(3); PublicTransport_monorail += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education2) + rand.Next(3); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.goverment_education3) + rand.Next(4); PublicTransport_monorail += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education3) + rand.Next(4); break;
+                            }
+                            if (check_only)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * budget / 100f), Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class);
                             }
                             break; //
                         default: break;
@@ -549,18 +567,27 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.goverment_education0) + rand.Next(1); FireDepartment += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education0) + rand.Next(1); break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.goverment_education1) + rand.Next(2); FireDepartment += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education1) + rand.Next(2); break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.goverment_education2) + rand.Next(3); FireDepartment += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education2) + rand.Next(3); break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.goverment_education3) + rand.Next(4); FireDepartment += (int)(num * budget / 100f); break;
+                                    num = num + (int)(comm_data.goverment_education3) + rand.Next(4); break;
+                            }
+                            if (check_only)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * budget / 100f), Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class);
                             }
                             break; //
                         default:
                             break;
                     }
+
+
+
+
+
                     if (num == 0 && (!(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial)) && (!(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office)) && (!(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)))
                     {
                         DebugLog.LogToFileOnly("find unknown citizen workbuilding" + " building servise is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service + " building subservice is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService);
@@ -611,11 +638,15 @@ namespace RealCity
                             if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
                             {
                                 num = (int)((float)num * final_salary_idex / 3f + 0.5f);
-                                num = 0;
                             }
                             else
                             {
                                 num = (int)((float)num * final_salary_idex + 0.5f);
+                            }
+
+                            if (comm_data.hot_money)
+                            {
+                                num = num * 2;
                             }
 
                             num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_length) / 9f));
@@ -921,14 +952,14 @@ namespace RealCity
                 insurance = 0.2f * citizen_salary_current;
                 //company_insurance = 0.3f * citizen_salary_current;
                 comm_data.city_insurance_account += insurance;
-                citizen_salary_current = (int)(0.8f * citizen_salary_current);
+                //citizen_salary_current = (int)(0.8f * citizen_salary_current);
             }
             else
             {
                 insurance = 0.1f * citizen_salary_current;
                 //company_insurance = 0.1f * citizen_salary_current;
                 comm_data.city_insurance_account += insurance;
-                citizen_salary_current = (int)(0.9f * citizen_salary_current);
+                //citizen_salary_current = (int)(0.9f * citizen_salary_current);
             }
 
 
@@ -1040,7 +1071,7 @@ namespace RealCity
             }
 
 
-            temp_num = (temp_num > 100) ? 100 : temp_num;
+            temp_num = (temp_num > 40) ? 40 : temp_num;
 
             comm_data.family_money[homeID] = (float)(comm_data.family_money[homeID] - temp_num);
             comm_data.city_bank -= temp_num;
@@ -1792,6 +1823,10 @@ namespace RealCity
                 if (comm_data.family_money[homeid] > 0)
                 {
                     incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
+                    if (comm_data.hot_money)
+                    {
+                        incomeAccumulation = incomeAccumulation * 2;
+                    }
                 } else
                 {
                     incomeAccumulation = 0;
@@ -1912,11 +1947,22 @@ namespace RealCity
                 if (comm_data.citizen_salary_per_family > 0)
                 {
                     comm_data.citizen_money[data.m_citizen] = rand.Next(comm_data.citizen_salary_per_family + 1) * 100;
+                    comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
                 }
 
-                if (comm_data.city_bank < -1000000)
+                if ((comm_data.city_bank < -1000000))
                 {
                     comm_data.citizen_money[data.m_citizen] = 0;
+                }
+
+                if (comm_data.refugees)
+                {
+                    comm_data.citizen_money[data.m_citizen] = -rand.Next(10000);
+                    comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
+                } else if (comm_data.Rich_immigrants)
+                {
+                    comm_data.citizen_money[data.m_citizen] *= 5;
+                    comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
                 }
             }
         }

@@ -521,12 +521,14 @@
 
         public static ushort update_building = 0;
 
+        public static double get_from_bank = 0;
+
         // reserved some for futher used
-        public static ushort[] reserved = new ushort[48984];
+        public static ushort[] reserved = new ushort[48976];
         public static ushort[] building_buffer2 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
-        public static byte[] save_data = new byte[3063935];
+        public static byte[] save_data = new byte[3063829];
         //public static byte[] save_data = new byte[3063935];
 
         public static float[] citizen_money = new float[1048576];
@@ -582,23 +584,23 @@
             saveandrestore.save_long(ref i, public_transport_fee, ref save_data);
             saveandrestore.save_long(ref i, all_transport_fee, ref save_data);
 
-            // (3+2)*524288 = 1572864 + 2*524288
+            // (4+1)*524288 = 2621440       // 2670636
             saveandrestore.save_floats(ref i, family_money, ref save_data);
             //saveandrestore.save_bytes(ref i, citizen_very_profit_time_num, ref save_data);
             saveandrestore.save_bytes(ref i, family_profit_status, ref save_data);
             //saveandrestore.save_bytes(ref i, citizen_loss_time_num, ref save_data);
 
-            //5*4 = 20
+            //5*4 = 20      //2670656
             saveandrestore.save_uint(ref i, family_profit_money_num, ref save_data);
             saveandrestore.save_uint(ref i, family_loss_money_num, ref save_data);
             saveandrestore.save_uint(ref i, family_very_profit_money_num, ref save_data);
             saveandrestore.save_uint(ref i, family_weight_stable_high, ref save_data);
             saveandrestore.save_uint(ref i, family_weight_stable_low, ref save_data);
 
-            //49152*2 = 196608
+            //49152*2 = 196608  // 2867264
             saveandrestore.save_floats(ref i, building_money, ref save_data);
 
-            //20*4 = 80
+            //20*4 = 80    //2867344
             saveandrestore.save_int(ref i, Road, ref save_data);
             saveandrestore.save_int(ref i, Electricity, ref save_data);
             saveandrestore.save_int(ref i, Water, ref save_data);
@@ -620,34 +622,34 @@
             saveandrestore.save_int(ref i, PublicTransport_monorail, ref save_data);
             saveandrestore.save_int(ref i, Disaster, ref save_data);
 
-            //11
+            //11      //2867355
             saveandrestore.save_byte(ref i, outside_situation_index, ref save_data);
             saveandrestore.save_byte(ref i, update_money_count, ref save_data);
             saveandrestore.save_bool(ref i, is_updated, ref save_data);
             saveandrestore.save_float(ref i, current_time, ref save_data);
             saveandrestore.save_float(ref i, prev_time, ref save_data);
 
-            //9+1
+            //9+1     //2867365
             saveandrestore.save_float(ref i, resident_consumption_rate, ref save_data);
             saveandrestore.save_float(ref i, outside_consumption_rate, ref save_data);
             saveandrestore.save_byte(ref i, update_outside_count, ref save_data);
             saveandrestore.save_byte(ref i, mantain_and_land_fee_decrease, ref save_data);
 
-            //4
+            //4        //2867369
             saveandrestore.save_float(ref i, salary_idex, ref save_data);
 
-            //28
+            //28       //2867397
             saveandrestore.save_int(ref i, citizen_count, ref save_data);
             saveandrestore.save_int(ref i, family_count, ref save_data);
             saveandrestore.save_int(ref i, citizen_salary_per_family, ref save_data);
             saveandrestore.save_long(ref i, citizen_salary_total, ref save_data);
             saveandrestore.save_long(ref i, citizen_salary_tax_total, ref save_data);
 
-            //9
+            //9        //2867406
             saveandrestore.save_long(ref i, temp_public_transport_fee, ref save_data);
             saveandrestore.save_byte(ref i, last_language, ref save_data);
 
-            //32 + 2 + 7 + 16 + 4 = 61
+            //32 + 2 + 7 + 16 + 4 = 61     //2867467
             saveandrestore.save_uint(ref i, outside_crime_count, ref save_data);
             saveandrestore.save_uint(ref i, outside_sick_count, ref save_data);
             saveandrestore.save_uint(ref i, outside_garbage_count, ref save_data);
@@ -675,6 +677,8 @@
             saveandrestore.save_ushort(ref i, outside_road_num, ref save_data);
             saveandrestore.save_ushort(ref i, outside_road_num_final, ref save_data);
 
+
+            // 16 + 4 + 4 + 16 + 1 + 12 + 26 = 79    //2867546
             saveandrestore.save_double(ref i, city_insurance_account, ref save_data);
             saveandrestore.save_double(ref i, city_insurance_account_final, ref save_data);
 
@@ -704,6 +708,7 @@
             saveandrestore.save_bool(ref i, lackofgoods, ref save_data);
             saveandrestore.save_bool(ref i, highpricegoods, ref save_data);
             saveandrestore.save_bool(ref i, highdemand, ref save_data);
+            saveandrestore.save_bool(ref i, lowdemand, ref save_data);
             saveandrestore.save_bool(ref i, Virus_attack, ref save_data);
             saveandrestore.save_bool(ref i, refugees, ref save_data);
             saveandrestore.save_bool(ref i, Rich_immigrants, ref save_data);
@@ -722,9 +727,9 @@
             saveandrestore.save_bool(ref i, high_petrol, ref save_data);
             saveandrestore.save_bool(ref i, high_food, ref save_data);
             saveandrestore.save_bool(ref i, high_coal, ref save_data);
-            saveandrestore.save_bool(ref i, prefer_farming, ref save_data);
-            saveandrestore.save_bool(ref i, false_alarm, ref save_data);
 
+
+            // 4 + 8 + 5 + 2 + 8 =27     //
             saveandrestore.save_int(ref i, event_num, ref save_data);
             saveandrestore.save_double(ref i, city_bank, ref save_data);
 
@@ -736,12 +741,15 @@
             saveandrestore.save_bool(ref i, happy_holiday, ref save_data);
             saveandrestore.save_ushort(ref i, update_building, ref save_data);
 
+            saveandrestore.save_double(ref i, get_from_bank, ref save_data);
 
+            //
+            DebugLog.LogToFileOnly("(save)save_data in comm_data pre is " + i.ToString());
             saveandrestore.save_ushorts(ref i, reserved, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
 
 
-
+            DebugLog.LogToFileOnly("(save)save_data in comm_data is " + i.ToString());
 
 
             i = 0;
@@ -909,18 +917,28 @@
             have_tax_department = saveandrestore.load_bool(ref i, save_data);
             happy_holiday = saveandrestore.load_bool(ref i, save_data);
             update_building = saveandrestore.load_ushort(ref i, save_data);
-
+            DebugLog.LogToFileOnly("save_data in comm_data pre1 is " + i.ToString());
+            get_from_bank = saveandrestore.load_double(ref i, save_data);
+            DebugLog.LogToFileOnly("save_data in comm_data pre is " + i.ToString());
             reserved = saveandrestore.load_ushorts(ref i, save_data, reserved.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, save_data, building_buffer2.Length);
 
             DebugLog.LogToFileOnly("save_data in comm_data is " + i.ToString());
+        }
 
+        public static void load1()
+        {
+            int i = 0;
 
             i = 0;
             citizen_money = saveandrestore.load_floats(ref i, save_data1, citizen_money.Length);
 
             DebugLog.LogToFileOnly("save_data1 in comm_data is " + i.ToString());
+        }
 
+        public static void load2()
+        {
+            int i = 0;
             i = 0;
             building_flag = saveandrestore.load_bools(ref i, save_data2, building_flag.Length);
             DebugLog.LogToFileOnly("save_data2 in comm_data is " + i.ToString());

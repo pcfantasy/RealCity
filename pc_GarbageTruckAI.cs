@@ -127,7 +127,7 @@ namespace RealCity
                     {
                         if ((data.m_flags & Vehicle.Flags.Importing) == (Vehicle.Flags)0)
                         {
-                            comm_data.task_num--;
+                            comm_data.task_num -= num;
                         }
                     }
                 }

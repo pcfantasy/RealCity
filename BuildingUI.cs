@@ -197,6 +197,10 @@ namespace RealCity
                         acquire_money = 1800000;
                     }
                     comm_data.building_flag[comm_data.last_buildingid] = true;
+                    if (comm_data.building_money[comm_data.last_buildingid] > 0)
+                    {
+                        comm_data.city_bank -= comm_data.building_money[comm_data.last_buildingid];
+                    }
                     comm_data.building_money[comm_data.last_buildingid] = 0;
                     refesh_once = true;
                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)acquire_money, ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
@@ -301,20 +305,20 @@ namespace RealCity
                     {
                         if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                         {
-                            price += pc_PrivateBuildingAI.get_price(false, buildingdata, TransferManager.TransferReason.Coal);
-                            price += pc_PrivateBuildingAI.get_price(false, buildingdata, TransferManager.TransferReason.Lumber);
-                            price += pc_PrivateBuildingAI.get_price(false, buildingdata, TransferManager.TransferReason.Petrol);
-                            price += pc_PrivateBuildingAI.get_price(false, buildingdata, TransferManager.TransferReason.Food);
+                            price += pc_PrivateBuildingAI.get_price(false, comm_data.last_buildingid, buildingdata, TransferManager.TransferReason.Coal);
+                            price += pc_PrivateBuildingAI.get_price(false, comm_data.last_buildingid, buildingdata, TransferManager.TransferReason.Lumber);
+                            price += pc_PrivateBuildingAI.get_price(false, comm_data.last_buildingid, buildingdata, TransferManager.TransferReason.Petrol);
+                            price += pc_PrivateBuildingAI.get_price(false, comm_data.last_buildingid, buildingdata, TransferManager.TransferReason.Food);
                             price = price / 4f;
                         }
                         else
                         {
-                            price = pc_PrivateBuildingAI.get_price(false, buildingdata, TransferManager.TransferReason.None);
+                            price = pc_PrivateBuildingAI.get_price(false, comm_data.last_buildingid, buildingdata, TransferManager.TransferReason.None);
                         }
                         this.buy_price.text = string.Format(language.BuildingUI[18] + " [{0:N2}]", price);
                     }
 
-                    price2 = pc_PrivateBuildingAI.get_price(true, buildingdata, TransferManager.TransferReason.None);
+                    price2 = pc_PrivateBuildingAI.get_price(true, comm_data.last_buildingid, buildingdata, TransferManager.TransferReason.None);
 
                     if (buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
                     {

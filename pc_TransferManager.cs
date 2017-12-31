@@ -469,7 +469,7 @@ namespace RealCity
             }
 
 
-            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].m_flags.IsFlagSet(Building.Flags.Outgoing))
+            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].m_flags.IsFlagSet(Building.Flags.IncomingOutgoing))
             {
                 Random rand = new Random();
                 if (material == TransferManager.TransferReason.Family3)
@@ -488,7 +488,7 @@ namespace RealCity
                 {
                     if (comm_data.lackofgoods)
                     {
-                        if (rand.Next(1000) < 100)
+                        if (rand.Next(100) < 95)
                         {
                             return;
                         }

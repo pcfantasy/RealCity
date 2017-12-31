@@ -175,6 +175,8 @@ namespace RealCity
         //private UILabel tip10;
         public static bool refesh_onece = false;
         private UILabel city_bank;
+        private UILabel get_money_from_bank;
+        private UILabel current_interest;
         private UIButton m_getfromBank;
 
         public override void Update()
@@ -741,10 +743,24 @@ namespace RealCity
 
             this.city_bank = base.AddUIComponent<UILabel>();
             this.city_bank.text = language.RealCityUI1[111];
-            this.city_bank.tooltip = language.RealCityUI1[112];
+            this.city_bank.tooltip = language.RealCityUI1[111];
             this.city_bank.relativePosition = new Vector3(SPACING, tip9.relativePosition.y + SPACING22 + 20f);
             this.city_bank.autoSize = true;
             this.city_bank.name = "Moreeconomic_Text_47";
+
+            this.get_money_from_bank = base.AddUIComponent<UILabel>();
+            this.get_money_from_bank.text = language.EconomicUI[139];
+            this.get_money_from_bank.tooltip = language.EconomicUI[139];
+            this.get_money_from_bank.relativePosition = new Vector3(this.city_bank.relativePosition.x + this.city_bank.width + SPACING + 150f, this.city_bank.relativePosition.y);
+            this.get_money_from_bank.autoSize = true;
+            this.get_money_from_bank.name = "Moreeconomic_Text_47";
+
+            this.current_interest = base.AddUIComponent<UILabel>();
+            this.current_interest.text = language.EconomicUI[140];
+            this.current_interest.tooltip = language.EconomicUI[140];
+            this.current_interest.relativePosition = new Vector3(this.get_money_from_bank.relativePosition.x + this.get_money_from_bank.width + SPACING + 100f, this.get_money_from_bank.relativePosition.y);
+            this.current_interest.autoSize = true;
+            this.current_interest.name = "Moreeconomic_Text_47";
 
 
             this.m_getfromBank = base.AddUIComponent<UIButton>();
@@ -762,7 +778,8 @@ namespace RealCity
                 if (comm_data.city_bank > 100000)
                 {
                     comm_data.city_bank -= 100000;
-                    Singleton<EconomyManager>.instance.AddPrivateIncome(100000, ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    comm_data.get_from_bank += 100000;
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(100000, ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 116);
                     refesh_onece = true;
                 }
             };
@@ -874,11 +891,17 @@ namespace RealCity
                     if (comm_data.is_random_event)
                     {
                         this.tip8.textColor = Color.red;
+                    } else
+                    {
+                        this.tip8.textColor = Color.white;
                     }
                     this.tip9.text = string.Format(language.EconomicUI[137] + "  " + RealCity.tip9_message_forgui);
                     if (comm_data.city_bank < -1000000)
                     {
                         this.tip9.textColor = Color.red;
+                    } else
+                    {
+                        this.tip9.textColor = Color.white;
                     }
                     //this.tip10.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip10_message_forgui);
 
@@ -892,6 +915,10 @@ namespace RealCity
                         this.city_bank.text = string.Format(language.BuildingUI[29]);
                         this.m_getfromBank.isEnabled = false;
                     }
+
+                    this.get_money_from_bank.text = string.Format(language.EconomicUI[139] + " {0:N2}", comm_data.get_from_bank/100);
+
+                    this.current_interest.text = string.Format(language.EconomicUI[140] + " {0:N2}", (comm_data.get_from_bank*1.2/20000));
                     refesh_onece = false;
                 }
             }

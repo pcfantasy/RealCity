@@ -19,7 +19,7 @@ namespace RealCity
             ushort num = 0;
             if (comm_data.have_toll_station)
             {
-                num = RealCity.ThreadingRealCityStatsMod.FindToll(data.GetLastFramePosition(), 32f);
+                num = RealCity.ThreadingRealCityStatsMod.FindToll(data.GetLastFramePosition(), 16f);
             }
 
 

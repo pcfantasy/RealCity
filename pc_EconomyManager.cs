@@ -571,27 +571,21 @@ namespace RealCity
             float coefficient;
             if (resource == EconomyManager.Resource.Maintenance)
             {
-                if(itemClass.m_layer == ItemClass.Layer.Markers)
+                if (itemClass.m_service == ItemClass.Service.Road)
                 {
-                    coefficient = 16f / (float)comm_data.game_income_expense_multiple;
+                    coefficient = (float)comm_data.game_maintain_fee_decrease2;
                 }
-                else
+                else if ((itemClass.m_service == ItemClass.Service.Education) || (itemClass.m_service == ItemClass.Service.Monument) || (itemClass.m_service == ItemClass.Service.Beautification) || (itemClass.m_service == ItemClass.Service.PublicTransport))
                 {
-                    if (itemClass.m_service == ItemClass.Service.Road)
-                    {
-                        coefficient = (float)comm_data.game_maintain_fee_decrease2;
-                    }
-                    else if ((itemClass.m_service == ItemClass.Service.Education) || (itemClass.m_service == ItemClass.Service.Monument) || (itemClass.m_service == ItemClass.Service.Beautification) || (itemClass.m_service == ItemClass.Service.PublicTransport))
-                    {
-                        coefficient = (float)comm_data.game_maintain_fee_decrease2;
-                    } else if ((itemClass.m_service == ItemClass.Service.Garbage) || (itemClass.m_service == ItemClass.Service.FireDepartment) || (itemClass.m_service == ItemClass.Service.PoliceDepartment) || (itemClass.m_service == ItemClass.Service.HealthCare))
-                    {
-                        coefficient = (float)comm_data.game_maintain_fee_decrease3;
-                    } else
-                    {
-                        coefficient = (float)comm_data.game_maintain_fee_decrease;
-                    }
+                    coefficient = (float)comm_data.game_maintain_fee_decrease2;
+                } else if ((itemClass.m_service == ItemClass.Service.Garbage) || (itemClass.m_service == ItemClass.Service.FireDepartment) || (itemClass.m_service == ItemClass.Service.PoliceDepartment) || (itemClass.m_service == ItemClass.Service.HealthCare))
+                {
+                    coefficient = (float)comm_data.game_maintain_fee_decrease3;
+                } else
+                {
+                    coefficient = (float)comm_data.game_maintain_fee_decrease;
                 }
+
                 switch (itemClass.m_service)
                 {
                     case ItemClass.Service.Road:

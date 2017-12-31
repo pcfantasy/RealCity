@@ -73,7 +73,7 @@ namespace RealCity
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_tax = 0f;
-            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(true, data, material);
+            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(true, buildingID, data, material);
             if ((comm_data.building_money[buildingID] - trade_income1) > 0)
             {
                 trade_tax = -trade_income1 * pc_PrivateBuildingAI.get_tax_rate(data, buildingID);

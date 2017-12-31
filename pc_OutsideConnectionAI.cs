@@ -131,6 +131,7 @@ namespace RealCity
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyTrain;
                 }
+
                 m_dummyTrafficFactor = rand.Next(800) + 200;
 
                 if (comm_data.crasy_task)
@@ -172,12 +173,17 @@ namespace RealCity
                     m_residentCapacity = 0;
                 }
 
-                if (m_residentCapacity < 30)
+                if (m_residentCapacity < 20)
                 {
-                    if (rand.Next(200) < 30)
+                    if (rand.Next(200) < 20)
                     {
-                        m_residentCapacity = rand.Next(30);
+                        m_residentCapacity = rand.Next(20);
                     }
+                }
+
+                if (comm_data.refugees || comm_data.Rich_immigrants)
+                {
+                    m_residentCapacity = 1000;
                 }
 
                 int tourist_trans_fee = 0;
@@ -222,6 +228,11 @@ namespace RealCity
                     m_touristFactor0 = (int)(m_touristFactor0 * 1.5f);
                     m_touristFactor1 = (int)(m_touristFactor1 * 1.5f);
                     m_touristFactor2 = (int)(m_touristFactor2 * 1.5f);
+                } else if (comm_data.false_alarm)
+                {
+                    m_touristFactor0 = (int)(m_touristFactor0 * 0.5f);
+                    m_touristFactor1 = (int)(m_touristFactor1 * 0.5f);
+                    m_touristFactor2 = (int)(m_touristFactor2 * 0.5f);
                 }
 
                 if (data.Info.m_class.m_service == ItemClass.Service.PublicTransport)

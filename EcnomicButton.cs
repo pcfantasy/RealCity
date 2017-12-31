@@ -123,11 +123,14 @@ namespace RealCity
                 if (comm_data.is_random_event)
                 {
                     this.EcButton.textColor = Color.red;
-                }
-                if (comm_data.city_bank < -1000000)
+                } else if (comm_data.city_bank < -1000000)
                 {
                     this.EcButton.textColor = Color.red;
+                } else
+                {
+                    this.EcButton.textColor = Color.white;
                 }
+
                 if (Loader.guiPanel.isVisible)
                 {
                     this.EcButton.Focus();

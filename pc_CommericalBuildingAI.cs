@@ -105,7 +105,7 @@ namespace RealCity
 
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(false, data, material);
+            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.get_price(false, buildingID, data, material);
             comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income1;
             comm_data.city_bank -= trade_income1;
         }

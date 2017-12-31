@@ -106,11 +106,13 @@ namespace RealCity
         private UILabel infinity_dead;
         private UILabel crasy_transport;
         private UILabel is_weekend;
+        private UILabel bank_task;
 
         public static UICheckBox infinity_garbage_Checkbox;
         public static UICheckBox infinity_dead_Checkbox;
         public static UICheckBox crasy_transport_Checkbox;
         public static UICheckBox is_weekend_Checkbox;
+        public static UICheckBox bank_task_Checkbox;
 
         private UILabel task_num;
         private UILabel task_time;
@@ -761,11 +763,41 @@ namespace RealCity
                 is_weekend_Checkbox_OnCheckChanged(component, eventParam);
             };
 
+            bank_task_Checkbox = base.AddUIComponent<UICheckBox>();
+            bank_task_Checkbox.relativePosition = new Vector3(SPACING, is_weekend_Checkbox.relativePosition.y + 30f);
+            this.bank_task = base.AddUIComponent<UILabel>();
+            this.bank_task.relativePosition = new Vector3(bank_task_Checkbox.relativePosition.x + bank_task_Checkbox.width + SPACING * 2f, bank_task_Checkbox.relativePosition.y + 5f);
+            this.bank_task.tooltip = language.RealCityUI1[115];
+            bank_task_Checkbox.height = 16f;
+            bank_task_Checkbox.width = 16f;
+            bank_task_Checkbox.label = this.bank_task;
+            bank_task_Checkbox.text = language.RealCityUI1[115];
+            UISprite uISprite11 = bank_task_Checkbox.AddUIComponent<UISprite>();
+            uISprite11.height = 20f;
+            uISprite11.width = 20f;
+            uISprite11.relativePosition = new Vector3(0f, 0f);
+            uISprite11.spriteName = "check-unchecked";
+            uISprite11.isVisible = true;
+            UISprite uISprite12 = bank_task_Checkbox.AddUIComponent<UISprite>();
+            uISprite12.height = 20f;
+            uISprite12.width = 20f;
+            uISprite12.relativePosition = new Vector3(0f, 0f);
+            uISprite12.spriteName = "check-checked";
+            bank_task_Checkbox.checkedBoxObject = uISprite12;
+            bank_task_Checkbox.isChecked = comm_data.bank_task;
+            bank_task_Checkbox.isEnabled = true;
+            bank_task_Checkbox.isVisible = true;
+            bank_task_Checkbox.canFocus = true;
+            bank_task_Checkbox.isInteractive = true;
+            bank_task_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                bank_task_Checkbox_OnCheckChanged(component, eventParam);
+            };
 
             this.task_time = base.AddUIComponent<UILabel>();
             this.task_time.text = "remaining_time: [0000]";
             this.task_time.tooltip = language.RealCityUI1[104];
-            this.task_time.relativePosition = new Vector3(SPACING, is_weekend_Checkbox.relativePosition.y + SPACING22 + 20f);
+            this.task_time.relativePosition = new Vector3(SPACING, bank_task_Checkbox.relativePosition.y + SPACING22 + 20f);
             this.task_time.autoSize = true;
             this.task_time.name = "Moreeconomic_Text_47";
 
@@ -795,18 +827,19 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
                     {
                         comm_data.garbage_task = true;
-                        comm_data.task_num = 200;
+                        comm_data.task_num = 4000000;
                         comm_data.task_time = 1000;
+                        comm_data.cd_num = 2000;
                     }
                 }
             }
             else
             {
                 comm_data.garbage_task = false;
-                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
+                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task || comm_data.bank_task))
                 {
                     comm_data.task_num = 0;
                     comm_data.task_time = 0;
@@ -821,18 +854,19 @@ namespace RealCity
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 1500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 1500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
                     {
                         comm_data.dead_task = true;
                         comm_data.task_num = 200;
                         comm_data.task_time = 1000;
+                        comm_data.cd_num = 2500;
                     }
                 }
             }
             else
             {
                 comm_data.dead_task = false;
-                if (!(comm_data.crasy_task || comm_data.dead_task ||comm_data.garbage_task))
+                if (!(comm_data.crasy_task || comm_data.dead_task ||comm_data.garbage_task || comm_data.bank_task))
                 {
                     comm_data.task_num = 0;
                     comm_data.task_time = 0;
@@ -840,25 +874,53 @@ namespace RealCity
             }
         }
 
-
         public static void crasy_transport_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
         {
             if (bValue)
             {
                 if (comm_data.cd_num < 0)
                 {
-                    if (comm_data.family_count > 1000 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task))
+                    if (comm_data.family_count > 1000 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
                     {
                         comm_data.crasy_task = true;
                         comm_data.task_num = 4000;
                         comm_data.task_time = 2000;
+                        comm_data.cd_num = 3000;
                     }
                 }
             }
             else
             {
                 comm_data.crasy_task = false;
-                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task))
+                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task || comm_data.bank_task))
+                {
+                    comm_data.task_num = 0;
+                    comm_data.task_time = 0;
+                }
+            }
+        }
+
+
+        public static void bank_task_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                if (comm_data.cd_num < 0)
+                {
+                    if ((comm_data.city_bank > 10000000) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
+                    {
+                        comm_data.bank_task = true;
+                        comm_data.task_num = 0;
+                        comm_data.task_time = 1000;
+                        comm_data.cd_num = 4000;
+                        comm_data.city_bank -= 10000000;
+                    }
+                }
+            }
+            else
+            {
+                comm_data.bank_task = false;
+                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task || comm_data.bank_task))
                 {
                     comm_data.task_num = 0;
                     comm_data.task_time = 0;

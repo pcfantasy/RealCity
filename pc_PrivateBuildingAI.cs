@@ -943,96 +943,103 @@ namespace RealCity
 
             if ((building.Info.m_class.m_service == ItemClass.Service.Industrial)  || ((building.Info.m_class.m_service == ItemClass.Service.Commercial)))
             {
-                if (comm_data.building_money[buildingID] > 0)
+                if (!comm_data.building_flag[buildingID])
                 {
-                    switch (building.Info.m_class.m_subService)
+                    if (comm_data.building_money[buildingID] > 0)
                     {
-                        case ItemClass.SubService.IndustrialFarming:
-                            all_farmer_building_profit = (ushort)(all_farmer_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.IndustrialForestry:
-                            all_foresty_building_profit = (ushort)(all_foresty_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.IndustrialOil:
-                            all_oil_building_profit = (ushort)(all_oil_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.IndustrialOre:
-                            all_ore_building_profit = (ushort)(all_ore_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.IndustrialGeneric:
-                            all_industry_building_profit = (ushort)(all_industry_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.CommercialHigh:
-                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.CommercialLow:
-                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.CommercialLeisure:
-                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.CommercialTourist:
-                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                            break;
-                        case ItemClass.SubService.CommercialEco:
-                            all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                            break;
-                        default: break;
+                        switch (building.Info.m_class.m_subService)
+                        {
+                            case ItemClass.SubService.IndustrialFarming:
+                                all_farmer_building_profit = (ushort)(all_farmer_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.IndustrialForestry:
+                                all_foresty_building_profit = (ushort)(all_foresty_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.IndustrialOil:
+                                all_oil_building_profit = (ushort)(all_oil_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.IndustrialOre:
+                                all_ore_building_profit = (ushort)(all_ore_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.IndustrialGeneric:
+                                all_industry_building_profit = (ushort)(all_industry_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.CommercialHigh:
+                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.CommercialLow:
+                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.CommercialLeisure:
+                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.CommercialTourist:
+                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                                break;
+                            case ItemClass.SubService.CommercialEco:
+                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
+                                break;
+                            default: break;
+                        }
                     }
-                }
-                else
-                {
-                    switch (building.Info.m_class.m_subService)
+                    else
                     {
-                        case ItemClass.SubService.IndustrialFarming:
-                            if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                            {
-                                all_farmer_building_profit++;
-                            }
-                            else
-                            {
-                                all_farmer_building_loss = (ushort)(all_farmer_building_loss + 1);
-                            }
-                            break;
-                        case ItemClass.SubService.IndustrialForestry:
-                            all_foresty_building_loss = (ushort)(all_foresty_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.IndustrialOil:
-                            all_oil_building_loss = (ushort)(all_oil_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.IndustrialOre:
-                            all_ore_building_loss = (ushort)(all_ore_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.IndustrialGeneric:
-                            all_industry_building_loss = (ushort)(all_industry_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.CommercialHigh:
-                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.CommercialLow:
-                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.CommercialLeisure:
-                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.CommercialTourist:
-                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                            break;
-                        case ItemClass.SubService.CommercialEco:
-                            all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                            break;
-                        default: break;
+                        switch (building.Info.m_class.m_subService)
+                        {
+                            case ItemClass.SubService.IndustrialFarming:
+                                if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                                {
+                                    all_farmer_building_profit++;
+                                    if (comm_data.prefer_farming)
+                                    {
+                                        comm_data.building_money[buildingID] += 10f;
+                                    }
+                                }
+                                else
+                                {
+                                    all_farmer_building_loss = (ushort)(all_farmer_building_loss + 1);
+                                }
+                                break;
+                            case ItemClass.SubService.IndustrialForestry:
+                                all_foresty_building_loss = (ushort)(all_foresty_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.IndustrialOil:
+                                all_oil_building_loss = (ushort)(all_oil_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.IndustrialOre:
+                                all_ore_building_loss = (ushort)(all_ore_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.IndustrialGeneric:
+                                all_industry_building_loss = (ushort)(all_industry_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.CommercialHigh:
+                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.CommercialLow:
+                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.CommercialLeisure:
+                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.CommercialTourist:
+                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                                break;
+                            case ItemClass.SubService.CommercialEco:
+                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
+                                break;
+                            default: break;
+                        }
                     }
                 }
 
 
-                if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
+                /*if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
                     if (building.Info.m_buildingAI is IndustrialExtractorAI)
                     {
                         comm_data.Extractor_building++;
                     }
-                }
+                }*/
             }
 
 
@@ -1067,9 +1074,22 @@ namespace RealCity
                             idex = 0.9f;
                         }
 
-                        greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex);
+                        if (comm_data.money_flowout)
+                        {
+                            greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex * 0.5f);
+                        }
+                        else
+                        {
+                            greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex);
+                        }
                         comm_data.city_bank -= (comm_data.building_money[buildingID] - 30000);
                         comm_data.building_money[buildingID] = 30000f;
+
+                        if (comm_data.hot_money || comm_data.free_trade)
+                        {
+                            System.Random rand = new System.Random();
+                            greater_than_20000_profit_building_money += rand.Next(10000);
+                        }
                     }
                 }
             }
@@ -1135,6 +1155,10 @@ namespace RealCity
                 num = 0;
             }
             num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
+            if (comm_data.hot_money)
+            {
+                num = num * 2;
+            }
             //num = num / comm_data.mantain_and_land_fee_decrease;
 
             //do this to decrase land expense in early game;
@@ -1301,7 +1325,7 @@ namespace RealCity
 
 
 
-        public static float get_price(bool is_selling, Building data, TransferManager.TransferReason force_material)
+        public static float get_price(bool is_selling, ushort buildingID, Building data, TransferManager.TransferReason force_material)
         {
             TransferManager.TransferReason material = default(TransferManager.TransferReason);
             if (!is_selling)
@@ -1476,7 +1500,8 @@ namespace RealCity
                                 default:
                                     break;
                             }
-                        } break;
+                        }
+                        break;
                     case TransferManager.TransferReason.Logs:
                         price = log_import_price - ((1f - log_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);break;
                     case TransferManager.TransferReason.Grain:
@@ -1498,6 +1523,10 @@ namespace RealCity
                                 price = lumber_import_price - ((0.2f - (1f - lumber_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);
                                 break;
                         }
+                        if (comm_data.building_flag[buildingID])
+                        {
+                            price = lumber_import_price - ((0.2f - (1f - lumber_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);
+                        }
                         break;
                     case TransferManager.TransferReason.Coal:
                         switch (data.Info.m_class.m_level)
@@ -1511,6 +1540,10 @@ namespace RealCity
                             case ItemClass.Level.Level3:
                                 price = coal_import_price - ((0.2f - (1f - coal_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index);
                                 break;
+                        }
+                        if (comm_data.building_flag[buildingID])
+                        {
+                            price = coal_import_price - ((0.2f - (1f - coal_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index);
                         }
                         break;
                     case TransferManager.TransferReason.Food:
@@ -1526,6 +1559,10 @@ namespace RealCity
                                 price = food_import_price - ((0.2f - (1f - food_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index);
                                 break;
                         }
+                        if (comm_data.building_flag[buildingID])
+                        {
+                            price = food_import_price - ((0.2f - (1f - food_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index);
+                        }
                         break;
                     case TransferManager.TransferReason.Petrol:
                         switch (data.Info.m_class.m_level)
@@ -1539,6 +1576,10 @@ namespace RealCity
                             case ItemClass.Level.Level3:
                                 price = petrol_import_price - ((0.2f - (1f - petrol_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index);
                                 break;
+                        }
+                        if (comm_data.building_flag[buildingID])
+                        {
+                            price = petrol_import_price - ((0.2f - (1f - petrol_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index);
                         }
                         break;
                 }
@@ -1595,7 +1636,14 @@ namespace RealCity
                 case ItemClass.SubService.IndustrialFarming:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.5f;
+                        if (comm_data.prefer_farming)
+                        {
+                            tax = 0f;
+                        }
+                        else
+                        {
+                            tax = 0.5f;
+                        }
                     }
                     else
                     {
@@ -1643,6 +1691,10 @@ namespace RealCity
 
             if (comm_data.have_tax_department)
             {
+                if (comm_data.free_trade)
+                {
+                    tax = tax * 0.5f;
+                }
                 return tax;
             } else
             {
@@ -1661,14 +1713,19 @@ namespace RealCity
 
             float work_efficiency = (float)behaviourData.m_efficiencyAccumulation / 100f;
 
+            if (comm_data.building_flag[buildingID])
+            {
+                work_efficiency = 0.6f * aliveWorkerCount;
+            }
+
             
             if ((aliveWorkerCount / 10f) > 1f)
             {
-                work_efficiency = work_efficiency / 8f;
+                work_efficiency = work_efficiency / 8.5f;
             }
             else
             {
-                work_efficiency = work_efficiency / ((float)aliveWorkerCount * 0.8f);
+                work_efficiency = work_efficiency / ((float)aliveWorkerCount * 0.85f);
             }
 
             float final_idex = work_efficiency;

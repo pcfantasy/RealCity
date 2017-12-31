@@ -386,12 +386,12 @@ namespace RealCity
                         vehicle_status();
                         generate_tips();
                         building_status();
-                        caculate_goverment_employee_expense();
+                        //caculate_goverment_employee_expense();
                         caculate_profit();
                         caculate_citizen_transport_fee();
                         check_task_status();
                         check_event_status();
-                        //change_outside_price();
+                        change_outside_price();
 
                         comm_data.update_money_count++;
                         if (comm_data.update_money_count == 17)
@@ -426,10 +426,12 @@ namespace RealCity
 
                 if (comm_data.highpricegoods)
                 {
-                    pc_PrivateBuildingAI.good_import_price = (((float)rand.Next(50)/100f) + 1.5f) * pc_PrivateBuildingAI.good_import_price1;
+                    pc_PrivateBuildingAI.good_import_price = (((float)rand.Next(50)/100f) + 1.01f) * pc_PrivateBuildingAI.good_import_price1;
+                    pc_PrivateBuildingAI.good_export_price = (((float)rand.Next(50) / 100f) + 1.01f) * pc_PrivateBuildingAI.good_export_price1;
                 } else
                 {
                     pc_PrivateBuildingAI.good_import_price = pc_PrivateBuildingAI.good_import_price1;
+                    pc_PrivateBuildingAI.good_export_price = pc_PrivateBuildingAI.good_export_price1;
                 }
 
                 if (comm_data.highdemand)
@@ -508,16 +510,16 @@ namespace RealCity
 
                 if (comm_data.lowdemand)
                 {
-                    if (comm_data.high_oil)
+                    if (!comm_data.high_oil)
                     {
-                        pc_PrivateBuildingAI.oil_export_price *= (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.oil_export_price1;
+                        pc_PrivateBuildingAI.oil_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.oil_export_price1;
                     }
                     else
                     {
                         pc_PrivateBuildingAI.oil_export_price = pc_PrivateBuildingAI.oil_export_price1;
                     }
 
-                    if (comm_data.high_ore)
+                    if (!comm_data.high_ore)
                     {
                         pc_PrivateBuildingAI.ore_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.ore_export_price1;
                     }
@@ -526,7 +528,7 @@ namespace RealCity
                         pc_PrivateBuildingAI.ore_export_price = pc_PrivateBuildingAI.ore_export_price1;
                     }
 
-                    if (comm_data.high_grain)
+                    if (!comm_data.high_grain)
                     {
                         pc_PrivateBuildingAI.grain_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.grain_export_price1;
                     }
@@ -535,7 +537,7 @@ namespace RealCity
                         pc_PrivateBuildingAI.grain_export_price = pc_PrivateBuildingAI.grain_export_price1;
                     }
 
-                    if (comm_data.high_logs)
+                    if (!comm_data.high_logs)
                     {
                         pc_PrivateBuildingAI.log_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.log_export_price1;
                     }
@@ -544,7 +546,7 @@ namespace RealCity
                         pc_PrivateBuildingAI.log_export_price = pc_PrivateBuildingAI.log_export_price1;
                     }
 
-                    if (comm_data.high_food)
+                    if (!comm_data.high_food)
                     {
                         pc_PrivateBuildingAI.food_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.food_export_price1;
                     }
@@ -553,7 +555,7 @@ namespace RealCity
                         pc_PrivateBuildingAI.food_export_price = pc_PrivateBuildingAI.food_export_price1;
                     }
 
-                    if (comm_data.high_lumber)
+                    if (!comm_data.high_lumber)
                     {
                         pc_PrivateBuildingAI.lumber_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.lumber_export_price1;
                     }
@@ -562,7 +564,7 @@ namespace RealCity
                         pc_PrivateBuildingAI.lumber_export_price = pc_PrivateBuildingAI.lumber_export_price1;
                     }
 
-                    if (comm_data.high_petrol)
+                    if (!comm_data.high_petrol)
                     {
                         pc_PrivateBuildingAI.petrol_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.petrol_export_price1;
                     }
@@ -571,7 +573,7 @@ namespace RealCity
                         pc_PrivateBuildingAI.petrol_export_price = pc_PrivateBuildingAI.petrol_export_price1;
                     }
 
-                    if (comm_data.high_coal)
+                    if (!comm_data.high_coal)
                     {
                         pc_PrivateBuildingAI.coal_export_price = (((float)rand.Next(50) / 100f + 0.5f)) * pc_PrivateBuildingAI.coal_export_price1;
                     }
@@ -717,8 +719,15 @@ namespace RealCity
             {
                 if(comm_data.event_num <=0)
                 {
-                    comm_data.is_random_event = false;
                     System.Random rand = new System.Random();
+                    if (comm_data.Virus_attack)
+                    {
+                        if (comm_data.family_count > 0)
+                        {
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(comm_data.family_count * (rand.Next(5000) + 1), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        }
+                    }
+                    comm_data.is_random_event = false;
                     comm_data.lackofgoods = false;
                     comm_data.highpricegoods = false;
                     comm_data.refugees = false;
@@ -729,11 +738,14 @@ namespace RealCity
                     comm_data.lowdemand = false;
                     comm_data.highdemand = false;
                     comm_data.happy_holiday = false;
-                    if (rand.Next(1000) < 0)
+                    comm_data.free_trade = false;
+                    comm_data.prefer_farming = false;
+                    comm_data.false_alarm = false;
+                    if (rand.Next(1000) < 20)
                     {
                         comm_data.is_random_event = true;
                         comm_data.event_num = 1000;
-                        switch (rand.Next(9))
+                        switch (rand.Next(13))
                         {
                             case 0:
                                 comm_data.lackofgoods = true;break;
@@ -753,6 +765,14 @@ namespace RealCity
                                 comm_data.lowdemand = true; get_high_low_price(true);break;
                             case 8:
                                 comm_data.highdemand = true; get_high_low_price(false); break;
+                            case 9:
+                                comm_data.happy_holiday = true;break;
+                            case 10:
+                                comm_data.free_trade = true;break;
+                            case 11:
+                                comm_data.prefer_farming = true;break;
+                            case 12:
+                                comm_data.false_alarm = true;break;
                             default:break;
                         }
                     }
@@ -760,8 +780,58 @@ namespace RealCity
                 {
                     comm_data.event_num--;
                 }
+
+                check_event_available();
             }
 
+            public void check_event_available()
+            {
+                if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                {
+                    if (comm_data.Virus_attack)
+                    {
+                        comm_data.is_random_event = false;
+                        comm_data.Virus_attack = false;
+                    }
+                }
+                if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                {
+                    if (comm_data.Virus_attack)
+                    {
+                        comm_data.is_random_event = false;
+                        comm_data.Virus_attack = false;
+                    }
+                }
+
+                if (comm_data.have_tax_department)
+                {
+                    if (comm_data.free_trade || comm_data.prefer_farming)
+                    {
+                        comm_data.is_random_event = false;
+                        comm_data.free_trade = false;
+                        comm_data.prefer_farming = false;
+                    }
+                }
+
+                if (comm_data.family_count < 500)
+                {
+                    if (comm_data.refugees)
+                    {
+                        comm_data.is_random_event = false;
+                        comm_data.refugees = false;
+                    }
+                }
+
+                if (pc_PrivateBuildingAI.all_office_high_tech_building_num_final + pc_PrivateBuildingAI.all_office_level3_building_num_final + pc_PrivateBuildingAI.all_office_level2_building_num_final + pc_PrivateBuildingAI.all_office_level1_building_num_final > 0)
+                {
+                    if (comm_data.hot_money || comm_data.money_flowout)
+                    {
+                        comm_data.is_random_event = false;
+                        comm_data.hot_money = false;
+                        comm_data.money_flowout = false;
+                    }
+                }
+            }
 
 
             public void check_task_status()
@@ -771,12 +841,6 @@ namespace RealCity
                 if (comm_data.cd_num < -2)
                 {
                     comm_data.cd_num = -2;
-                }
-                else if (comm_data.cd_num > 0)
-                {
-                    comm_data.garbage_task = false;
-                    comm_data.dead_task = false;
-                    comm_data.crasy_task = false;
                 }
 
                 if (comm_data.task_time > 0)
@@ -788,21 +852,21 @@ namespace RealCity
                         if (comm_data.garbage_task)
                         {
                             comm_data.garbage_task = false;                            
-                            comm_data.cd_num = 2000;
+                            //comm_data.cd_num = 2000;
                             Singleton<EconomyManager>.instance.AddPrivateIncome(9000000, ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
 
                         if (comm_data.dead_task)
                         {
                             comm_data.dead_task = false;
-                            comm_data.cd_num = 2500;
+                            //comm_data.cd_num = 2500;
                             Singleton<EconomyManager>.instance.AddPrivateIncome(5000000, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
 
                         if (comm_data.crasy_task)
                         {
                             comm_data.crasy_task = false;
-                            comm_data.cd_num = 3000;
+                            //comm_data.cd_num = 3000;
                             Singleton<EconomyManager>.instance.AddPrivateIncome(7000000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
@@ -813,19 +877,19 @@ namespace RealCity
                     comm_data.task_num = 0;
                     if (comm_data.garbage_task)
                     {
-                        comm_data.cd_num = 2000;
+                        //comm_data.cd_num = 2000;
                         comm_data.garbage_task = false;
                     }
 
                     if (comm_data.dead_task)
                     {
-                        comm_data.cd_num = 2500;
+                        //comm_data.cd_num = 2500;
                         comm_data.dead_task = false;
                     }
 
                     if (comm_data.crasy_task)
                     {
-                        comm_data.cd_num = 3000;
+                        //comm_data.cd_num = 3000;
                         comm_data.crasy_task = false;
                     }
                 }
@@ -844,6 +908,18 @@ namespace RealCity
                 if (!comm_data.crasy_task)
                 {
                     RealCityUI.crasy_transport_Checkbox.isChecked = comm_data.crasy_task;
+                }
+
+                if (!comm_data.bank_task)
+                {
+                    RealCityUI.bank_task_Checkbox.isChecked = comm_data.bank_task;
+                }
+                else
+                {
+                    if (comm_data.task_time > 0)
+                    {
+                        comm_data.city_bank += 20000;
+                    }
                 }
             }
 
@@ -917,35 +993,35 @@ namespace RealCity
                         tip8_message_forgui += language.TipAndChirperMessage[13];
                         if (comm_data.high_oil)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[20];
+                            tip8_message_forgui += language.TipAndChirperMessage[24];
                         }
                         if (comm_data.high_ore)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[21];
+                            tip8_message_forgui += language.TipAndChirperMessage[25];
                         }
                         if (comm_data.high_grain)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[22];
+                            tip8_message_forgui += language.TipAndChirperMessage[26];
                         }
                         if (comm_data.high_logs)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[23];
+                            tip8_message_forgui += language.TipAndChirperMessage[27];
                         }
                         if (comm_data.high_food)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[24];
+                            tip8_message_forgui += language.TipAndChirperMessage[28];
                         }
                         if (comm_data.high_lumber)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[25];
+                            tip8_message_forgui += language.TipAndChirperMessage[29];
                         }
                         if (comm_data.high_petrol)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[26];
+                            tip8_message_forgui += language.TipAndChirperMessage[30];
                         }
                         if (comm_data.high_coal)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[27];
+                            tip8_message_forgui += language.TipAndChirperMessage[31];
                         }
                     }
 
@@ -954,35 +1030,35 @@ namespace RealCity
                         tip8_message_forgui += language.TipAndChirperMessage[14];
                         if (!comm_data.high_oil)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[20];
+                            tip8_message_forgui += language.TipAndChirperMessage[24];
                         }
                         if (!comm_data.high_ore)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[21];
+                            tip8_message_forgui += language.TipAndChirperMessage[25];
                         }
                         if (!comm_data.high_grain)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[22];
+                            tip8_message_forgui += language.TipAndChirperMessage[26];
                         }
                         if (!comm_data.high_logs)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[23];
+                            tip8_message_forgui += language.TipAndChirperMessage[27];
                         }
                         if (!comm_data.high_food)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[24];
+                            tip8_message_forgui += language.TipAndChirperMessage[28];
                         }
                         if (!comm_data.high_lumber)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[25];
+                            tip8_message_forgui += language.TipAndChirperMessage[29];
                         }
                         if (!comm_data.high_petrol)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[26];
+                            tip8_message_forgui += language.TipAndChirperMessage[30];
                         }
                         if (!comm_data.high_coal)
                         {
-                            tip8_message_forgui += language.TipAndChirperMessage[27];
+                            tip8_message_forgui += language.TipAndChirperMessage[31];
                         }
                     }
 
@@ -1011,10 +1087,30 @@ namespace RealCity
                         tip8_message_forgui += language.TipAndChirperMessage[19];
                     }
 
-                    tip8_message_forgui += language.TipAndChirperMessage[28] + comm_data.event_num.ToString();
+                    if (comm_data.free_trade)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[20];
+                    }
+
+                    if (comm_data.prefer_farming)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[21];
+                    }
+
+                    if (comm_data.false_alarm)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[22];
+                    }
+
+                    if (comm_data.happy_holiday)
+                    {
+                        tip8_message_forgui += language.TipAndChirperMessage[23];
+                    }
+
+                    tip8_message_forgui += language.TipAndChirperMessage[32] + comm_data.event_num.ToString();
                 } else
                 {
-                    tip8_message_forgui = language.TipAndChirperMessage[29];
+                    tip8_message_forgui = language.TipAndChirperMessage[33];
                 }
 
                 FieldInfo cashAmount;
@@ -1029,7 +1125,7 @@ namespace RealCity
 
                 if (comm_data.city_bank < -1000000)
                 {
-                    tip9_message_forgui = language.TipAndChirperMessage[30];
+                    tip9_message_forgui = language.TipAndChirperMessage[34];
                 } else
                 {
                     tip9_message_forgui = "";
@@ -1043,9 +1139,17 @@ namespace RealCity
                         Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(-comm_data.city_bank), ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
                     }
                 }
+
+                if (comm_data.get_from_bank > 0)
+                {
+                    double return_money = (comm_data.get_from_bank * 1.025) / 200;
+                    comm_data.get_from_bank -= return_money;
+                    comm_data.city_bank += return_money;
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(return_money), ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
+                }
             }
 
-            public void caculate_goverment_employee_expense()
+            /*public void caculate_goverment_employee_expense()
             {
                 if (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount > 0)
                 {
@@ -1192,7 +1296,7 @@ namespace RealCity
                     //    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.CitizenIncome, (int)(comm_data.citizen_salary_tax_total), temp);
                     //}
                 }
-            }
+            }*/
 
 
             public void caculate_citizen_transport_fee()
@@ -1524,6 +1628,7 @@ namespace RealCity
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetWaterConsumption().ToString());
+                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].m_flags.ToString());
                     return 2;
                 }
 
@@ -1575,6 +1680,8 @@ namespace RealCity
                     comm_data.city_bank = bank_money;
                 } else
                 {
+                    comm_data.get_from_bank = 0;
+                    //Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(bank_money - comm_data.city_bank), ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(bank_money - comm_data.city_bank), ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
             }
@@ -1885,15 +1992,55 @@ namespace RealCity
                             Building building1 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_targetBuilding];
                             if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
                             {
-                                ushort num = FindToll(vehicle.GetFramePosition(currentFrameIndex), 32f);
+                                ushort num = FindToll(vehicle.GetFramePosition(currentFrameIndex), 16f);
                                 if (num != 0)
                                 {
-                                    if (building.m_flags.IsFlagSet(Building.Flags.Untouchable) && building1.m_flags.IsFlagSet(Building.Flags.Untouchable) && (!comm_data.vehical_flag[i]))
+                                    bool flag1 = building.m_flags.IsFlagSet(Building.Flags.Untouchable) && building1.m_flags.IsFlagSet(Building.Flags.Untouchable);
+                                    bool flag2 = false;
+                                    bool flag3 = building.m_flags.IsFlagSet(Building.Flags.Untouchable);
+
+                                    if (vehicle.m_sourceBuilding != 0)
+                                    {
+                                        if (!building.m_flags.IsFlagSet(Building.Flags.Untouchable) && building1.m_flags.IsFlagSet(Building.Flags.Untouchable))
+                                        {
+                                            if (!comm_data.building_flag[vehicle.m_sourceBuilding])
+                                            {
+                                                if (!comm_data.have_tax_department)
+                                                {
+                                                    flag2 = true;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (flag1 && (!comm_data.vehical_flag[i]))
                                     {
                                         if ((vehicle.Info.m_vehicleAI is PassengerCarAI) || (vehicle.Info.m_vehicleAI is CargoTruckAI))
                                         {
                                             comm_data.vehical_flag[i] = true;
-                                            Singleton<EconomyManager>.instance.AddPrivateIncome(500, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                            Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                        }
+                                    } else if (flag3 && (!comm_data.vehical_flag[i]))
+                                    {
+                                        if (vehicle.Info.m_vehicleAI is CargoTruckAI)
+                                        {
+                                            if (!comm_data.have_tax_department)
+                                            {
+                                                //DebugLog.LogToFileOnly("vehicle is " + i.ToString());
+                                                comm_data.vehical_flag[i] = true;                                                
+                                                Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                            }
+                                        }
+                                    }
+
+                                    if (flag2 && (!comm_data.vehical_flag[i]))
+                                    {
+                                        if (vehicle.Info.m_vehicleAI is CargoTruckAI)
+                                        {
+                                            comm_data.vehical_flag[i] = true;
+                                            comm_data.building_money[vehicle.m_sourceBuilding] -= 1000;
+                                            comm_data.city_bank -= 1000;
+                                            Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                                         }
                                     }
                                 }

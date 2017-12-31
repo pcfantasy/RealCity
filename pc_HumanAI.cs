@@ -1,11 +1,44 @@
 ﻿using System;
 using ColossalFramework;
-
+using ColossalFramework.Math;
+using UnityEngine;
 
 namespace RealCity
 {
     public class pc_HumanAI : HumanAI
     {
+
+        protected virtual void GetBuildingTargetPosition_1(ushort instanceID, ref CitizenInstance citizenData, float minSqrDistance)
+        {
+            if (citizenData.m_targetBuilding == 0)
+            {
+                citizenData.m_flags &= ~(CitizenInstance.Flags.HangAround | CitizenInstance.Flags.Panicking | CitizenInstance.Flags.SittingDown | CitizenInstance.Flags.Cheering);
+                citizenData.m_targetDir = Vector2.zero;
+                return;
+            }
+            BuildingManager instance = Singleton<BuildingManager>.instance;
+            if (instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].m_fireIntensity != 0)
+            {
+                if (!instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                {
+                    citizenData.m_flags |= CitizenInstance.Flags.Panicking;
+                    citizenData.m_targetDir = Vector2.zero;
+                    return;
+                }
+            }
+            BuildingInfo info = instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
+            Randomizer randomizer = new Randomizer((int)instanceID << 8 | (int)citizenData.m_targetSeed);
+            Vector3 vector;
+            Vector3 vector2;
+            Vector2 targetDir;
+            CitizenInstance.Flags flags;
+            info.m_buildingAI.CalculateUnspawnPosition(citizenData.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], ref randomizer, this.m_info, instanceID, out vector, out vector2, out targetDir, out flags);
+            citizenData.m_flags = ((citizenData.m_flags & ~(CitizenInstance.Flags.HangAround | CitizenInstance.Flags.Panicking | CitizenInstance.Flags.SittingDown | CitizenInstance.Flags.Cheering)) | flags);
+            citizenData.m_targetPos = new Vector4(vector.x, vector.y, vector.z, 1f);
+            citizenData.m_targetDir = targetDir;
+        }
+
+
         protected virtual void ArriveAtDestination_1(ushort instanceID, ref CitizenInstance citizenData, bool success)
         {
             uint citizen = citizenData.m_citizen;
