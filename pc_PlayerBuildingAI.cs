@@ -29,7 +29,7 @@ namespace RealCity
 
         public static int GetProductionRate_1(int productionRate, int budget)
         {
-             return (productionRate * budget * budget + 9999) / 10000;
+             return (int)(productionRate * budget * Math.Sqrt(budget) + 9999) / 1000;
         }
     }
 }

@@ -155,7 +155,7 @@ namespace RealCity
                 m_residentCapacity = 1000 + (family_minus_oilorebuiling*10);
                 float demand_idex = 1;
 
-                if (comm_data.family_count > 0)
+                if (comm_data.family_count > 300)
                 {
                     demand_idex = (float)(comm_data.family_weight_stable_high + comm_data.family_count - comm_data.family_weight_stable_low) / (float)(comm_data.family_count);
                     demand_idex = (demand_idex < 0f) ? 0 : demand_idex;
@@ -361,10 +361,10 @@ namespace RealCity
                 {
                     if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 150);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
                     } else
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 50);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 100);
                     }
 
                     if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)

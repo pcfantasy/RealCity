@@ -25,7 +25,7 @@ namespace RealCity
 
             if (num != 0)
             {
-                return 1f;
+                return 1.5f;
             }
             else
             {

@@ -381,7 +381,7 @@ namespace RealCity
                     }
 
 
-                    if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                    if (buildingdata.Info.m_buildingAI is IndustrialBuildingAI)
                     {
                         int acquire_money = 0;
                         if (buildingdata.Info.m_class.m_level == ItemClass.Level.Level1)
@@ -558,10 +558,13 @@ namespace RealCity
                         //num1 =  (float)((float)num1 * final_salary_idex / 48f);
                         num1 = (float)((float)num1 * final_salary_idex / (3f * totalWorkerCount));
                     }
-                    else
+                    else if (!comm_data.building_flag[buildingID])
                     {
                         //num1 = (float)((float)num1 * final_salary_idex / 16f);
                         num1 = (float)((float)num1 * final_salary_idex / totalWorkerCount);
+                    } else
+                    {
+                        num1 = (float)((float)num1 / totalWorkerCount);
                     }
                 }
 

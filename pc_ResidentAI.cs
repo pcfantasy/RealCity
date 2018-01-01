@@ -639,17 +639,29 @@ namespace RealCity
                             {
                                 num = (int)((float)num * final_salary_idex / 3f + 0.5f);
                             }
-                            else
+                            else if (!comm_data.building_flag[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding])
                             {
                                 num = (int)((float)num * final_salary_idex + 0.5f);
                             }
 
-                            if (comm_data.hot_money)
+                            if (comm_data.hot_money && !comm_data.building_flag[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding])
                             {
                                 num = num * 2;
                             }
 
+
                             num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_length) / 9f));
+                            if ((Singleton<SimulationManager>.instance.m_currentFrameIndex & 16383u) < 16)
+                            {
+                                //bonus
+                                if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 0)
+                                {
+                                    if (totalworkcount != 0)
+                                    {
+                                        num = num + (int)(comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] * 0.2f / totalworkcount);
+                                    }
+                                }
+                            }
                             if (check_only)
                             {
                                 if (comm_data.building_flag[work_building])
@@ -805,8 +817,22 @@ namespace RealCity
                 comm_data.HealthCare = (int)(HealthCare * comm_data.salary_idex);
                 comm_data.Road = (int)(Road * comm_data.salary_idex);
                 comm_data.FireDepartment = (int)(FireDepartment * comm_data.salary_idex);
-                comm_data.family_weight_stable_high = family_weight_stable_high;
-                comm_data.family_weight_stable_low = family_weight_stable_low;
+                if (comm_data.family_count < comm_data.family_weight_stable_high)
+                {
+                    comm_data.family_weight_stable_high = (uint)comm_data.family_count;
+                }
+                else
+                {
+                    comm_data.family_weight_stable_high = family_weight_stable_high;
+                }
+                if (comm_data.family_count < comm_data.family_weight_stable_low)
+                {
+                    comm_data.family_weight_stable_low = (uint)comm_data.family_count;
+                }
+                else
+                {
+                    comm_data.family_weight_stable_low = family_weight_stable_low;
+                }
                 comm_data.city_insurance_account_final = comm_data.city_insurance_account;
                 citizen_goods = citizen_goods_temp;
                 family_very_profit_money_num = 0;
@@ -1055,18 +1081,18 @@ namespace RealCity
             System.Random rand = new System.Random();
             if (temp_num <= 20)
             {
-                temp_num = rand.Next(20);
+                temp_num = rand.Next(10);
                 family_loss_money_num = (uint)(family_loss_money_num + 1);
                 //try_move_family to do here;
             }
             else if (temp_num > 70)
             {
-                temp_num = rand.Next(temp_num);
+                temp_num = rand.Next((int)(temp_num / 2));
                 family_very_profit_money_num = (uint)(family_very_profit_money_num + 1);
             }
             else
             {
-                temp_num = rand.Next(temp_num);
+                temp_num = rand.Next((int)(temp_num/2));
                 family_profit_money_num = (uint)(family_profit_money_num + 1);
             }
 

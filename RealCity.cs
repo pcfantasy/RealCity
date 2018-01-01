@@ -786,30 +786,33 @@ namespace RealCity
 
             public void check_event_available()
             {
-                if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                if (!Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                 {
                     if (comm_data.Virus_attack)
                     {
                         comm_data.is_random_event = false;
                         comm_data.Virus_attack = false;
+                        comm_data.event_num = 100;
                     }
                 }
-                if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                if (!Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
                 {
                     if (comm_data.Virus_attack)
                     {
                         comm_data.is_random_event = false;
                         comm_data.Virus_attack = false;
+                        comm_data.event_num = 100;
                     }
                 }
 
-                if (comm_data.have_tax_department)
+                if (!comm_data.have_tax_department)
                 {
                     if (comm_data.free_trade || comm_data.prefer_farming)
                     {
                         comm_data.is_random_event = false;
                         comm_data.free_trade = false;
                         comm_data.prefer_farming = false;
+                        comm_data.event_num = 100;
                     }
                 }
 
@@ -819,16 +822,18 @@ namespace RealCity
                     {
                         comm_data.is_random_event = false;
                         comm_data.refugees = false;
+                        comm_data.event_num = 100;
                     }
                 }
 
-                if (pc_PrivateBuildingAI.all_office_high_tech_building_num_final + pc_PrivateBuildingAI.all_office_level3_building_num_final + pc_PrivateBuildingAI.all_office_level2_building_num_final + pc_PrivateBuildingAI.all_office_level1_building_num_final > 0)
+                if ((pc_PrivateBuildingAI.all_office_high_tech_building_num_final + pc_PrivateBuildingAI.all_office_level3_building_num_final + pc_PrivateBuildingAI.all_office_level2_building_num_final + pc_PrivateBuildingAI.all_office_level1_building_num_final) == 0)
                 {
                     if (comm_data.hot_money || comm_data.money_flowout)
                     {
                         comm_data.is_random_event = false;
                         comm_data.hot_money = false;
                         comm_data.money_flowout = false;
+                        comm_data.event_num = 100;
                     }
                 }
             }
@@ -2018,7 +2023,7 @@ namespace RealCity
                                         if ((vehicle.Info.m_vehicleAI is PassengerCarAI) || (vehicle.Info.m_vehicleAI is CargoTruckAI))
                                         {
                                             comm_data.vehical_flag[i] = true;
-                                            Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                            Singleton<EconomyManager>.instance.AddPrivateIncome(3000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                                         }
                                     } else if (flag3 && (!comm_data.vehical_flag[i]))
                                     {
@@ -2028,7 +2033,7 @@ namespace RealCity
                                             {
                                                 //DebugLog.LogToFileOnly("vehicle is " + i.ToString());
                                                 comm_data.vehical_flag[i] = true;                                                
-                                                Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                                Singleton<EconomyManager>.instance.AddPrivateIncome(3000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                                             }
                                         }
                                     }
@@ -2038,9 +2043,9 @@ namespace RealCity
                                         if (vehicle.Info.m_vehicleAI is CargoTruckAI)
                                         {
                                             comm_data.vehical_flag[i] = true;
-                                            comm_data.building_money[vehicle.m_sourceBuilding] -= 1000;
-                                            comm_data.city_bank -= 1000;
-                                            Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                            comm_data.building_money[vehicle.m_sourceBuilding] -= 2000;
+                                            comm_data.city_bank -= 2000;
+                                            Singleton<EconomyManager>.instance.AddPrivateIncome(2000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                                         }
                                     }
                                 }
