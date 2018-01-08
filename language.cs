@@ -205,7 +205,8 @@ namespace RealCity
             "tip9",
             "tip9",
             "Loan num from Bank",
-            "current interest"
+            "current interest",
+            "tip10"
         };
 
 
@@ -245,6 +246,7 @@ namespace RealCity
         "Remaining time:",
         "No random event now",
         "City Bank lack of money, No CI demand and outside movingin resident will be poor man",
+        "Bad city situation for resident, no one want to moving,remaining time:"
         };
 
 
@@ -417,7 +419,7 @@ namespace RealCity
             "接受外部急救支援的请求",
             "城市特殊政策",
             "居民养老失业保险",
-            "智能公共交通(早晚高峰车多维护费多，深夜钱少维护费少)",
+            "智能公共交通(早晚高峰车多维护费多,深夜钱少维护费少)",
             "接受外部消防安全检查的请求",
             "接受外部道路维护的请求",
             "接受外部消防帮助(就不会去外部消防检查)",
@@ -567,7 +569,8 @@ namespace RealCity
             "提示9",
             "提示9",
             "贷款数目",
-            "单次利息"
+            "单次利息",
+            "提示10"
         };
 
 
@@ -607,6 +610,7 @@ namespace RealCity
         "剩余时间:",
         "当前没有随机事件",
         "城市银行缺钱,无工业商业需求,移民全是穷人",
+        "城市苛捐杂税,居住环境恶劣,一段时间内无人愿意进来,剩余时间:"
         };
 
 

@@ -123,7 +123,7 @@ namespace RealCity
                 if (comm_data.is_random_event)
                 {
                     this.EcButton.textColor = Color.red;
-                } else if (comm_data.city_bank < -1000000)
+                } else if ((comm_data.city_bank < -1000000)  || (comm_data.Bad_reputation > 50))
                 {
                     this.EcButton.textColor = Color.red;
                 } else

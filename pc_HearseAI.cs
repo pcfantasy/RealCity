@@ -81,8 +81,11 @@ namespace RealCity
                     {
                         if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                         {
-                            comm_data.building_money[data.m_targetBuilding] += num * 5000f / 100f;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 5000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            double x = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.x - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.x;
+                            double z = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.z - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.z;
+                            double distance = Math.Sqrt(x * x + z * z);
+                            comm_data.building_money[data.m_sourceBuilding] += (float)(num * (distance / 30f));
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * (distance * 3.33f)), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
                     else

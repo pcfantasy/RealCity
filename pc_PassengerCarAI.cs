@@ -108,27 +108,27 @@ namespace RealCity
                     if (is_tourist == false)
                     {
                         //assume that 1 time will cost 5fen car oil money
-                        comm_data.family_money[vehicleData.m_citizenUnits] = (float)(comm_data.family_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID] * 5);
-                        comm_data.city_bank -= comm_data.vehical_transfer_time[vehicleID] * 5;
+                        comm_data.family_money[vehicleData.m_citizenUnits] = (float)(comm_data.family_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID]);
+                        comm_data.city_bank -= comm_data.vehical_transfer_time[vehicleID];
                         if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
                         {
-                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= comm_data.vehical_transfer_time[vehicleID] * 5;
+                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= comm_data.vehical_transfer_time[vehicleID];
                         }
                         else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
                         {
-                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1] -= comm_data.vehical_transfer_time[vehicleID] * 5;
+                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1] -= comm_data.vehical_transfer_time[vehicleID];
                         }
                         else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
                         {
-                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2] -= comm_data.vehical_transfer_time[vehicleID] * 5;
+                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2] -= comm_data.vehical_transfer_time[vehicleID];
                         }
                         else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
                         {
-                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3] -= comm_data.vehical_transfer_time[vehicleID] * 5;
+                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3] -= comm_data.vehical_transfer_time[vehicleID];
                         }
                         else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
                         {
-                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4] -= comm_data.vehical_transfer_time[vehicleID] * 5;
+                            comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4] -= comm_data.vehical_transfer_time[vehicleID];
                         }
                     }
                 }

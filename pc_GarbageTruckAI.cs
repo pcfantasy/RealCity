@@ -56,6 +56,14 @@ namespace RealCity
             //Turn around
             if ((instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
             {
+                if (!comm_data.garbage_task)
+                {
+                    double x = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.x - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.x;
+                    double z = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.z - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.z;
+                    double distance = (x + z) / 2f;
+                    comm_data.building_money[data.m_sourceBuilding] += (float)(-num * (distance / 200000f));
+                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)(-num * (distance / 2000f)), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                }
                 //DebugLog.LogToFileOnly("try turn around building = " + instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info.m_class.ToString());
                 ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position, 200f, info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
                 if (num3 != 0)
@@ -120,8 +128,11 @@ namespace RealCity
                     {
                         if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                         {
-                            comm_data.building_money[data.m_targetBuilding] += (num * 5f / 100f);
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * 5f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                            double x = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.x - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.x;
+                            double z = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.z - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.z;
+                            double distance = (x + z) / 2f;
+                            comm_data.building_money[data.m_targetBuilding] += (float)(num * (distance / 300000f));
+                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * (distance / 3000f)), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     } else
                     {

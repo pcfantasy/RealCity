@@ -566,6 +566,12 @@ namespace RealCity
                     {
                         num1 = (float)((float)num1 / totalWorkerCount);
                     }
+
+
+                    if (comm_data.hot_money && !comm_data.building_flag[buildingID])
+                    {
+                        num1 = num1 * 2;
+                    }
                 }
 
 

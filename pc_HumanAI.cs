@@ -257,7 +257,7 @@ namespace RealCity
                 {
                     //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
                     int temp = (comm_data.family_money[homeid]> 1f) ? (int)(comm_data.family_money[homeid]) : 1;
-                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.15f * comm_data.family_money[homeid]) : (int)(0.1f * comm_data.family_money[homeid]);
+                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.2f * comm_data.family_money[homeid]) : (int)(0.15f * comm_data.family_money[homeid]);
 
                     if (tourism_fee < 0)
                     {

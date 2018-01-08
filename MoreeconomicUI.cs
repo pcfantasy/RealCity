@@ -12,7 +12,7 @@ namespace RealCity
 
         public static float WIDTH = 750f;
 
-        private static readonly float HEIGHT = 950f;
+        private static readonly float HEIGHT = 1050f;
 
         private static readonly float HEADER = 40f;
 
@@ -172,7 +172,7 @@ namespace RealCity
         private UILabel tip7;
         private UILabel tip8;
         private UILabel tip9;
-        //private UILabel tip10;
+        private UILabel tip10;
         public static bool refesh_onece = false;
         private UILabel city_bank;
         private UILabel get_money_from_bank;
@@ -195,7 +195,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 900), (float)(Loader.parentGuiView.fixedHeight / 2 - 500));
+            base.relativePosition = new Vector3(100f, 5f);
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -734,17 +734,17 @@ namespace RealCity
             this.tip9.autoSize = true;
             this.tip9.name = "Moreeconomic_Text_53";
 
-            /*this.tip10 = base.AddUIComponent<UILabel>();
+            this.tip10 = base.AddUIComponent<UILabel>();
             this.tip10.text = language.EconomicUI[139];
             this.tip10.tooltip = language.EconomicUI[140];
             this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
             this.tip10.autoSize = true;
-            this.tip10.name = "Moreeconomic_Text_53";*/
+            this.tip10.name = "Moreeconomic_Text_53";
 
             this.city_bank = base.AddUIComponent<UILabel>();
             this.city_bank.text = language.RealCityUI1[111];
             this.city_bank.tooltip = language.RealCityUI1[111];
-            this.city_bank.relativePosition = new Vector3(SPACING, tip9.relativePosition.y + SPACING22 + 20f);
+            this.city_bank.relativePosition = new Vector3(SPACING, tip10.relativePosition.y + SPACING22 + 10f);
             this.city_bank.autoSize = true;
             this.city_bank.name = "Moreeconomic_Text_47";
 
@@ -903,11 +903,10 @@ namespace RealCity
                     {
                         this.tip9.textColor = Color.white;
                     }
-                    //this.tip10.text = string.Format(language.EconomicUI[139] + "  " + RealCity.tip10_message_forgui);
 
                     if (comm_data.have_bank_pre)
                     {
-                        this.city_bank.text = string.Format(language.RealCityUI1[111] + " [{0}]", comm_data.city_bank / 100);
+                        this.city_bank.text = string.Format(language.RealCityUI1[111] + " [{0:N2}]", comm_data.city_bank / 100);
                         this.m_getfromBank.isEnabled = true;
                     }
                     else
@@ -915,6 +914,17 @@ namespace RealCity
                         this.city_bank.text = string.Format(language.BuildingUI[29]);
                         this.m_getfromBank.isEnabled = false;
                     }
+
+                    if (comm_data.Bad_reputation > 50)
+                    {
+                        this.tip10.textColor = Color.red;
+                    }
+                    else
+                    {
+                        this.tip10.textColor = Color.white;
+                    }
+
+                    this.tip10.text = string.Format(language.EconomicUI[141] + "  " + RealCity.tip10_message_forgui);
 
                     this.get_money_from_bank.text = string.Format(language.EconomicUI[139] + " {0:N2}", comm_data.get_from_bank/100);
 

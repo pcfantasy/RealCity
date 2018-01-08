@@ -1626,9 +1626,9 @@ namespace RealCity
                         case ItemClass.Level.Level1:
                             tax = 0.40f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.45f; break;
+                            tax = 0.4f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.50f; break;
+                            tax = 0.4f; break;
                         default:
                             tax = 0; break;
                     }

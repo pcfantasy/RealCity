@@ -83,6 +83,17 @@ namespace RealCity
             {
                 comm_data.city_bank -= comm_data.citizen_money[citizen];
             }
+
+            if (data.GetCitizenInfo(citizen) != null)
+            {
+                if ((comm_data.citizen_money[citizen] < 500) && (data.GetCitizenInfo(citizen).m_citizenAI is ResidentAI) && !data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic) && !data.m_flags.IsFlagSet(Citizen.Flags.MovingIn) && !(data.m_flags == Citizen.Flags.Created))
+                {
+                    comm_data.Bad_reputation += 1;
+                    //DebugLog.LogToFileOnly("comm_data.citizen_money[citizen] = " + comm_data.citizen_money[citizen].ToString());
+                    //DebugLog.LogToFileOnly("AI is = " + data.GetCitizenInfo(citizen).m_citizenAI.ToString());
+                    //DebugLog.LogToFileOnly("Flag is = " + data.m_flags.ToString());
+                }
+            }
             comm_data.citizen_money[citizen] = 0;
             id.Citizen = citizen;
             Singleton<InstanceManager>.instance.ReleaseInstance(id);

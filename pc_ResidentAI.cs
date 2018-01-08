@@ -148,7 +148,7 @@ namespace RealCity
             //Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
             if (citizen_id != 0u)
             {
-                if (comm_data.Virus_attack)
+                if (comm_data.Virus_attack && check_only)
                 {
                     if (rand.Next(1000) < rand.Next(10))
                     {
@@ -156,10 +156,10 @@ namespace RealCity
                         {
                             Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
                         }
-                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
-                        {
-                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
-                        }
+                        //if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                        //{
+                        //    Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                        //}
                     }
                 }
                 Citizen.Flags temp_flag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags;
@@ -336,26 +336,29 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialForestry:
-                            if (rand.Next(10000) < 4)
+                            if (check_only)
                             {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                if (rand.Next(10000) < 4)
                                 {
-                                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                     {
-                                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                        {
+                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            if (rand.Next(10000) < 2)
-                            {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                if (rand.Next(10000) < 2)
                                 {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                     {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                                        if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
                                         {
-                                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                                            if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                                            {
+                                                Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                                            }
                                         }
                                     }
                                 }
@@ -379,13 +382,16 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOil:
-                            if (rand.Next(10000) < 10)
+                            if (check_only)
                             {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                if (rand.Next(10000) < 10)
                                 {
-                                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                     {
-                                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                        {
+                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                        }
                                     }
                                 }
                             }
@@ -409,26 +415,29 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOre:
-                            if (rand.Next(10000) < 6)
+                            if (check_only)
                             {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                if (rand.Next(10000) < 6)
                                 {
-                                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                     {
-                                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                        {
+                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            if (rand.Next(10000) < 3)
-                            {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                if (rand.Next(10000) < 3)
                                 {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
                                     {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                                        if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
                                         {
-                                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                                            if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                                            {
+                                                Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                                            }
                                         }
                                     }
                                 }
@@ -797,7 +806,7 @@ namespace RealCity
                 comm_data.citizen_expense = citizen_expense_count;
                 comm_data.citizen_salary_tax_total = citizen_salary_tax_total;
                 comm_data.citizen_salary_total = citizen_salary_count;
-                comm_data.Monument = (int)(Monument * comm_data.salary_idex);
+                /*comm_data.Monument = (int)(Monument * comm_data.salary_idex);
                 comm_data.PublicTransport_bus = (int)(PublicTransport_bus * comm_data.salary_idex);
                 comm_data.PublicTransport_tram = (int)(PublicTransport_tram * comm_data.salary_idex);
                 comm_data.PublicTransport_train = (int)(PublicTransport_train * comm_data.salary_idex);
@@ -816,7 +825,7 @@ namespace RealCity
                 comm_data.Garbage = (int)(Garbage * comm_data.salary_idex);
                 comm_data.HealthCare = (int)(HealthCare * comm_data.salary_idex);
                 comm_data.Road = (int)(Road * comm_data.salary_idex);
-                comm_data.FireDepartment = (int)(FireDepartment * comm_data.salary_idex);
+                comm_data.FireDepartment = (int)(FireDepartment * comm_data.salary_idex);*/
                 if (comm_data.family_count < comm_data.family_weight_stable_high)
                 {
                     comm_data.family_weight_stable_high = (uint)comm_data.family_count;
@@ -843,7 +852,7 @@ namespace RealCity
                 citizen_expense_count = 0;
                 citizen_salary_tax_total = 0;
                 temp_citizen_salary_tax_total = 0f;
-                PublicTransport_bus = 0;
+                /*PublicTransport_bus = 0;
                 PublicTransport_tram = 0;
                 PublicTransport_train = 0;
                 PublicTransport_ship = 0;
@@ -862,7 +871,7 @@ namespace RealCity
                 Water = 0;
                 Beautification = 0;
                 Garbage = 0;
-                Monument = 0;
+                Monument = 0;*/
                 family_weight_stable_high = 0;
                 family_weight_stable_low = 0;
                 citizen_goods_temp = 0;
@@ -891,13 +900,13 @@ namespace RealCity
             {
                 if (comm_data.family_profit_status[homeID] == 10)
                 {
-                    comm_data.family_profit_status[homeID] = 27;
+                    comm_data.family_profit_status[homeID] = 25;
                 }
             }else if (comm_data.family_money[homeID] > 20000)
             {
                 if (comm_data.family_profit_status[homeID] == 10)
                 {
-                    comm_data.family_profit_status[homeID] = 228;
+                    comm_data.family_profit_status[homeID] = 230;
                 }
             } else
             {
@@ -1970,15 +1979,13 @@ namespace RealCity
             uint containingUnit = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].GetContainingUnit(data.m_citizen, Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)homeBuilding1].m_citizenUnits, CitizenUnit.Flags.Home);
             if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_flags.IsFlagSet(Citizen.Flags.MovingIn))
             {
-                if (comm_data.citizen_salary_per_family > 0)
-                {
-                    comm_data.citizen_money[data.m_citizen] = rand.Next(comm_data.citizen_salary_per_family + 1) * 100;
-                    comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
-                }
+
+                comm_data.citizen_money[data.m_citizen] = rand.Next(2000);
+                comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
 
                 if ((comm_data.city_bank < -1000000))
                 {
-                    comm_data.citizen_money[data.m_citizen] = 0;
+                    comm_data.citizen_money[data.m_citizen] = -rand.Next(10000);
                 }
 
                 if (comm_data.refugees)
@@ -1987,7 +1994,7 @@ namespace RealCity
                     comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
                 } else if (comm_data.Rich_immigrants)
                 {
-                    comm_data.citizen_money[data.m_citizen] *= 5;
+                    comm_data.citizen_money[data.m_citizen] = rand.Next(200000);
                     comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
                 }
             }

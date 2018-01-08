@@ -391,7 +391,7 @@
         public static int PublicTransport_metro = 0;
         public static int PublicTransport_taxi = 0;
         public static int PublicTransport_cablecar = 0;
-        public static int PublicTransport_monorail = 0;
+        public static int Bad_reputation = 0;
 
         //4 outside connection
         public static byte outside_situation_index = 0;
@@ -619,7 +619,7 @@
             saveandrestore.save_int(ref i, PublicTransport_train, ref save_data);
             saveandrestore.save_int(ref i, PublicTransport_taxi, ref save_data);
             saveandrestore.save_int(ref i, PublicTransport_cablecar, ref save_data);
-            saveandrestore.save_int(ref i, PublicTransport_monorail, ref save_data);
+            saveandrestore.save_int(ref i, Bad_reputation, ref save_data);
             saveandrestore.save_int(ref i, Disaster, ref save_data);
 
             //11      //2867355
@@ -805,7 +805,7 @@
             PublicTransport_train = saveandrestore.load_int(ref i, save_data);
             PublicTransport_taxi = saveandrestore.load_int(ref i, save_data);
             PublicTransport_cablecar = saveandrestore.load_int(ref i, save_data);
-            PublicTransport_monorail = saveandrestore.load_int(ref i, save_data);
+            Bad_reputation = saveandrestore.load_int(ref i, save_data);
             Disaster = saveandrestore.load_int(ref i, save_data);
 
             outside_situation_index = saveandrestore.load_byte(ref i, save_data);

@@ -48,47 +48,6 @@ namespace RealCity
         public static int m_policeCarCount = 20;
 
 
-        /*public static void Init()
-        {
-            //DebugLog.Log("Init fake transfer manager");
-            try
-            {
-                var inst = Singleton<OutsideConnectionAI>.instance;
-                var cargoCapacity = typeof(OutsideConnectionAI).GetField("m_cargoCapacity", BindingFlags.Public | BindingFlags.Instance);
-                var residentCapacity = typeof(OutsideConnectionAI).GetField("m_residentCapacity", BindingFlags.Public | BindingFlags.Instance);
-                var touristFactor0 = typeof(OutsideConnectionAI).GetField("m_touristFactor0", BindingFlags.Public | BindingFlags.Instance);
-                var touristFactor1 = typeof(OutsideConnectionAI).GetField("m_touristFactor1", BindingFlags.Public | BindingFlags.Instance);
-                var touristFactor2 = typeof(OutsideConnectionAI).GetField("m_touristFactor2", BindingFlags.Public | BindingFlags.Instance);
-                var dummyTrafficReason = typeof(OutsideConnectionAI).GetField("m_dummyTrafficReason", BindingFlags.Public | BindingFlags.Instance);
-                var dummyTrafficFactor = typeof(OutsideConnectionAI).GetField("m_dummyTrafficFactor", BindingFlags.Public | BindingFlags.Instance);
-                if (inst == null)
-                {
-                    DebugLog.LogToFileOnly("No instance of OutsideConnectionAI found!");
-                    return;
-                }
-                _cargoCapacity = (int)cargoCapacity.GetValue(inst);
-                _residentCapacity = (int)residentCapacity.GetValue(inst);
-                _touristFactor0 = (int)touristFactor0.GetValue(inst);
-                _touristFactor1 = (int)touristFactor1.GetValue(inst);
-                _touristFactor2 = (int)touristFactor2.GetValue(inst);
-                _dummyTrafficFactor = (int)dummyTrafficFactor.GetValue(inst);
-                _dummyTrafficReason = (TransferManager.TransferReason)dummyTrafficReason.GetValue(inst);
-            }
-            catch (Exception ex)
-            {
-                DebugLog.LogToFileOnly("OutsideConnectionAI Exception: " + ex.Message);
-            }
-        }
-        private static int _cargoCapacity;
-        private static int _residentCapacity;
-        private static int _touristFactor0;
-        private static int _touristFactor1;
-        private static int _touristFactor2;
-        private static int _dummyTrafficFactor;
-        private static TransferManager.TransferReason _dummyTrafficReason;
-
-        private static bool _init = false;
-        */
         public static bool have_garbage_building = false;
         public static bool have_cemetry_building = false;
         public static bool have_police_building = false;
@@ -181,9 +140,14 @@ namespace RealCity
                     }
                 }
 
-                if (comm_data.refugees || comm_data.Rich_immigrants)
+                if (comm_data.refugees)
                 {
                     m_residentCapacity = 1000;
+                }
+
+                if (comm_data.Bad_reputation > 50)
+                {
+                    m_residentCapacity = 0;
                 }
 
                 int tourist_trans_fee = 0;
@@ -338,6 +302,8 @@ namespace RealCity
                 comm_data.outside_crime = 0;
                 comm_data.outside_police_car = 0;
                 comm_data.firetruck = 0;
+                comm_data.Bad_reputation--;
+                comm_data.Bad_reputation = (comm_data.Bad_reputation < 0) ? 0 : comm_data.Bad_reputation;
             }
 
             comm_data.outside_pre_building = buildingID;
@@ -352,19 +318,41 @@ namespace RealCity
 
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
             float currentDayTimeHour = instance2.m_currentDayTimeHour;
-            
+
+            FieldInfo cashDelta;
+            cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
+            long _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+
+            float idex = 1.5f;
+            if (_cashDelta != 0)
+            {
+                idex = (float)(1000f / (float)_cashDelta);
+            } 
+
+            if ((idex < 0) || (idex > 1.5f))
+            {
+                idex = 1.5f;
+            }
+
+            if (idex == -0.01f)
+            {
+                idex = 0;
+            }
+
 
             System.Random rand = new System.Random();
+
+            int probability = rand.Next((int)(10f / (idex + 0.01f)));
             if (data.Info.m_class.m_service == ItemClass.Service.Road)
             {
                 if (have_garbage_building && comm_data.garbage_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
                     if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200 * idex);
                     } else
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 100);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 100 * idex);
                     }
 
                     if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
@@ -397,12 +385,16 @@ namespace RealCity
                 {
                     if (have_police_building && comm_data.crime_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment) && (!comm_data.policehelp))
                     {
-                        if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                        if (probability < 5)
                         {
-                            data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 2);
-                        } else
-                        {
-                            data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + rand.Next(11) / 10);
+                            if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                            {
+                                data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 3);
+                            }
+                            else
+                            {
+                                data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + rand.Next(15) / 10);
+                            }
                         }
                     }
                     else if (RealCity.update_once && (data.m_crimeBuffer != 0))
@@ -415,13 +407,16 @@ namespace RealCity
                     //sick
                     if (have_hospital_building && comm_data.sick_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare) && (!comm_data.hospitalhelp))
                     {
-                        if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                        if (probability < 5)
                         {
-                            data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 2);
-                        }
-                        else
-                        {
-                            data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + rand.Next(11) / 10);
+                            if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                            {
+                                data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 3);
+                            }
+                            else
+                            {
+                                data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + rand.Next(15) / 10);
+                            }
                         }
                     }
                     else if (RealCity.update_once && (data.m_customBuffer2 != 0))
@@ -434,12 +429,16 @@ namespace RealCity
                     //fire
                     if (have_fire_building && comm_data.fire_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.FireDepartment) && (!comm_data.firehelp))
                     {
-                        if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                        if (probability < 5)
                         {
-                            data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + 2);
-                        } else
-                        {
-                            data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + rand.Next(11) / 10);
+                            if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                            {
+                                data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + 3);
+                            }
+                            else
+                            {
+                                data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + rand.Next(15) / 10);
+                            }
                         }
                         data.m_fireIntensity = 250;
                     }
@@ -457,12 +456,16 @@ namespace RealCity
                     //deadbuffer
                     if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
                     {
-                        if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                        if (probability < 5)
                         {
-                            data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(20) / 10);
-                        } else
-                        {
-                            data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(11) / 10);
+                            if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
+                            {
+                                data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(30) / 10);
+                            }
+                            else
+                            {
+                                data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(15) / 10);
+                            }
                         }
 
 
@@ -1023,11 +1026,6 @@ namespace RealCity
 
                         }
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
-                        if (!comm_data.garbage_task)
-                        {
-                            comm_data.building_money[buildingID] += (amountDelta * -7f / 100f);
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -7f), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                        }
                     }
                 }
                 else if (material == TransferManager.TransferReason.Crime)
@@ -1049,9 +1047,6 @@ namespace RealCity
                             {
 
                             }
-                            data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + amountDelta * 100);
-                            comm_data.building_money[buildingID] += amountDelta * -70000f / 100f;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -70000f), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
                 }
@@ -1074,9 +1069,6 @@ namespace RealCity
                             {
 
                             }
-                            data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + amountDelta * 100);
-                            comm_data.building_money[buildingID] += amountDelta * -70000f / 100f;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -70000f), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                         }
                     }
                 }
@@ -1097,9 +1089,6 @@ namespace RealCity
                         {
 
                         }
-                        data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + amountDelta * 100);
-                        comm_data.building_money[buildingID] += amountDelta * -70000f / 100f;
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(amountDelta * -70000f), ItemClass.Service.FireDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
                 else
