@@ -1252,7 +1252,7 @@ namespace RealCity
                 comm_data.have_toll_station = false;
                 for (int i = 0; i < instance.m_buildings.m_buffer.Count<Building>(); i++)
                 {
-                    if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Active) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                    if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate!=0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
                     {
                         int result = 0;
                         int budget = 0;
@@ -1804,7 +1804,7 @@ namespace RealCity
                             BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
                             if (RealCity.EconomyExtension.is_special_building((ushort)num6) == 2)
                             {
-                                if (building.m_buildings.m_buffer[(int)num6].m_flags.IsFlagSet(Building.Flags.Active) || (!building.m_buildings.m_buffer[(int)num6].m_flags.IsFlagSet(Building.Flags.Deleted)))
+                                if ((building.m_buildings.m_buffer[(int)num6].m_productionRate!=0) || (!building.m_buildings.m_buffer[(int)num6].m_flags.IsFlagSet(Building.Flags.Deleted)))
                                 {
                                     float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
                                     if (num8 < num5)

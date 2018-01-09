@@ -601,9 +601,9 @@ namespace RealCity
             var destMethod44 = typeof(pc_IndustrialBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
             state44 = RedirectionHelper.RedirectCalls(srcMethod44, destMethod44);
 
-            var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
-            var destMethod45 = typeof(pc_PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
-            state45 = RedirectionHelper.RedirectCalls(srcMethod45, destMethod45);
+            //var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
+            //var destMethod45 = typeof(pc_PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
+            //state45 = RedirectionHelper.RedirectCalls(srcMethod45, destMethod45);
 
             var srcMethod46 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             var destMethod46 = typeof(pc_CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -727,7 +727,7 @@ namespace RealCity
 
             //protected override void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
             var srcMethod44 = typeof(IndustrialBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
-            var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
+            //var srcMethod45 = typeof(PlayerBuildingAI).GetMethod("GetMaintenanceCost", BindingFlags.Public | BindingFlags.Instance);
             var srcMethod46 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             var srcMethod48 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort) }, null);
             //var srcMethod47 = typeof(PoliceCarAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
@@ -791,7 +791,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod42, state42);
             RedirectionHelper.RevertRedirect(srcMethod43, state43);
             RedirectionHelper.RevertRedirect(srcMethod44, state44);
-            RedirectionHelper.RevertRedirect(srcMethod45, state45);
+            //RedirectionHelper.RevertRedirect(srcMethod45, state45);
             RedirectionHelper.RevertRedirect(srcMethod46, state46);
             //RedirectionHelper.RevertRedirect(srcMethod47, state47);
             RedirectionHelper.RevertRedirect(srcMethod48, state48);

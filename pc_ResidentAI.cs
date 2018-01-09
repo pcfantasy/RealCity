@@ -586,6 +586,7 @@ namespace RealCity
                             }
                             if (check_only)
                             {
+                                //DebugLog.LogToFileOnly(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_flags.ToString());
                                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * budget / 100f), Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class);
                             }
                             break; //
