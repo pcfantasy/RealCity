@@ -60,6 +60,8 @@ namespace RealCity
                 {
                     double x = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.x - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.x;
                     double z = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.z - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.z;
+                    x = (x > 0) ? x : -x;
+                    z = (z > 0) ? z : -z;
                     double distance = (x + z) / 2f;
                     comm_data.building_money[data.m_sourceBuilding] += (float)(-num * (distance / 200000f));
                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)(-num * (distance / 2000f)), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
@@ -130,6 +132,8 @@ namespace RealCity
                         {
                             double x = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.x - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.x;
                             double z = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.z - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.z;
+                            x = (x > 0) ? x : -x;
+                            z = (z > 0) ? z : -z;
                             double distance = (x + z) / 2f;
                             comm_data.building_money[data.m_targetBuilding] += (float)(num * (distance / 300000f));
                             Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * (distance / 3000f)), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);

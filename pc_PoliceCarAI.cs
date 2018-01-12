@@ -29,6 +29,8 @@ namespace RealCity
                     //DebugLog.LogToFileOnly("try turn around building = " + instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info.m_class.ToString());
                     double x = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.x - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.x;
                     double z = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.z - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.z;
+                    x = (x > 0) ? x : -x;
+                    z = (z > 0) ? z : -z;
                     double distance = (x + z) / 2f;
                     comm_data.building_money[data.m_sourceBuilding] += (float)(-num * (distance / 20f));
                     Singleton<EconomyManager>.instance.AddPrivateIncome((int)(-num * (distance * 5f)), ItemClass.Service.PoliceDepartment, ItemClass.SubService.None, ItemClass.Level.Level3, 115);

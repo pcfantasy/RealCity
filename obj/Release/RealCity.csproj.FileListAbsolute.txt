@@ -14,4 +14,3 @@ C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Mono.Security.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\CSUtil.CameraControl.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\CSUtil.Commons.dll
-C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\RealCity.csprojResolveAssemblyReference.cache

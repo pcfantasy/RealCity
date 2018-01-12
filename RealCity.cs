@@ -732,7 +732,7 @@ namespace RealCity
                     comm_data.free_trade = false;
                     comm_data.prefer_farming = false;
                     comm_data.false_alarm = false;
-                    if (rand.Next(2000) < 10)
+                    if (rand.Next(20000) < 10)
                     {
                         comm_data.is_random_event = true;
                         comm_data.event_num = 1000;

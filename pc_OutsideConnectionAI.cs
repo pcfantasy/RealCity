@@ -326,7 +326,7 @@ namespace RealCity
             float idex = 1.5f;
             if (_cashDelta != 0)
             {
-                idex = (float)(1000f / (float)_cashDelta);
+                idex = (float)(100000f / (float)_cashDelta);
             } 
 
             if ((idex < 0) || (idex > 1.5f))

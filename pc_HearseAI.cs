@@ -83,6 +83,8 @@ namespace RealCity
                         {
                             double x = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.x - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.x;
                             double z = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position.z - instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position.z;
+                            x = (x > 0) ? x : -x;
+                            z = (z > 0) ? z : -z;
                             double distance = Math.Sqrt(x * x + z * z);
                             comm_data.building_money[data.m_sourceBuilding] += (float)(num * (distance / 30f));
                             Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * (distance * 3.33f)), ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
