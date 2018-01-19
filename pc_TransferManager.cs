@@ -472,17 +472,30 @@ namespace RealCity
             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].m_flags.IsFlagSet(Building.Flags.IncomingOutgoing))
             {
                 Random rand = new Random();
-                if (material == TransferManager.TransferReason.Family3)
+                if (material == TransferManager.TransferReason.Family3 || material == TransferManager.TransferReason.Family2 || material == TransferManager.TransferReason.Family1 || material == TransferManager.TransferReason.Family0)
                 {
                     //DebugLog.LogToFileOnly("reject outside moving in to live in 4-5 level house");
-                    if (rand.Next(2) == 0)
+                    if (material == TransferManager.TransferReason.Family3)
                     {
-                        material = TransferManager.TransferReason.Family2;
-                    } else
+                        if (rand.Next(2) == 0)
+                        {
+                            material = TransferManager.TransferReason.Family2;
+                        } else
+                        {
+                            material = TransferManager.TransferReason.Family1;
+                        }
+                    }
+
+                    if (comm_data.refugees || (comm_data.city_bank < -1000000))
                     {
-                        material = TransferManager.TransferReason.Family1;
+                        material = TransferManager.TransferReason.Family0;
+                    }
+                    else if (comm_data.Rich_immigrants)
+                    {
+                        material = TransferManager.TransferReason.Family3;
                     }
                 }
+
 
                 if (material == TransferManager.TransferReason.Goods)
                 {

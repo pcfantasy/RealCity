@@ -1159,7 +1159,7 @@ namespace RealCity
             {
                 if ((home_level == ItemClass.Level.Level1) || (home_level == ItemClass.Level.Level2) || (home_level == ItemClass.Level.Level3))
                 {
-                    if (rand.Next(100) < 20)
+                    if (rand.Next(100) < 10)
                     {
                         if (num3 != 0u)
                         {
@@ -1187,7 +1187,7 @@ namespace RealCity
             }
             else
             {
-                if (home_level == ItemClass.Level.Level1)
+                if ((home_level == ItemClass.Level.Level1) && (comm_data.family_profit_status[homeID] >= 70))
                 {
                     if (rand.Next(100) < 10)
                     {
@@ -1197,7 +1197,7 @@ namespace RealCity
                         }
                     }
                 }
-                else if ((home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5))
+                else if (((home_level == ItemClass.Level.Level4) || (home_level == ItemClass.Level.Level5)) && (comm_data.family_profit_status[homeID] <= 190))
                 {
                     if (rand.Next(100) < 10)
                     {
@@ -1980,23 +1980,28 @@ namespace RealCity
             uint containingUnit = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].GetContainingUnit(data.m_citizen, Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)homeBuilding1].m_citizenUnits, CitizenUnit.Flags.Home);
             if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_flags.IsFlagSet(Citizen.Flags.MovingIn))
             {
-
-                comm_data.citizen_money[data.m_citizen] = rand.Next(2000);
-                comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
-
-                if ((comm_data.city_bank < -1000000))
+                if (homeBuilding1 != 0)
                 {
-                    comm_data.citizen_money[data.m_citizen] = -rand.Next(10000);
-                }
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[homeBuilding1].Info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        comm_data.citizen_money[data.m_citizen] = rand.Next(5000);
+                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
+                    } else
+                    {
+                        comm_data.citizen_money[data.m_citizen] = 5000 + rand.Next(15000);
+                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
+                    }
 
-                if (comm_data.refugees)
-                {
-                    comm_data.citizen_money[data.m_citizen] = -rand.Next(10000);
-                    comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
-                } else if (comm_data.Rich_immigrants)
-                {
-                    comm_data.citizen_money[data.m_citizen] = rand.Next(200000);
-                    comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
+                    if (comm_data.refugees || (comm_data.city_bank < -1000000))
+                    {
+                        comm_data.citizen_money[data.m_citizen] = -rand.Next(10000);
+                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
+                    }
+                    else if (comm_data.Rich_immigrants)
+                    {
+                        comm_data.citizen_money[data.m_citizen] = rand.Next(200000);
+                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
+                    }
                 }
             }
         }

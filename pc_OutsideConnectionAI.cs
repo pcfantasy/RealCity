@@ -1047,6 +1047,7 @@ namespace RealCity
                             {
 
                             }
+                            data.m_electricityBuffer += (ushort)(amountDelta * 100);
                         }
                     }
                 }
@@ -1069,6 +1070,7 @@ namespace RealCity
                             {
 
                             }
+                            data.m_electricityBuffer += (ushort)(amountDelta * 100);
                         }
                     }
                 }
@@ -1089,6 +1091,7 @@ namespace RealCity
                         {
 
                         }
+                        data.m_electricityBuffer += (ushort)(amountDelta * 100);
                     }
                 }
                 else
