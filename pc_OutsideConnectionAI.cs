@@ -160,9 +160,9 @@ namespace RealCity
                 if (comm_data.family_count > 0)
                 {
                     int temp = (comm_data.family_count > 650) ? 650 : comm_data.family_count;
-                    m_touristFactor0 = rand.Next(temp) + family_minus_oilorebuiling / 4;
-                    m_touristFactor1 = rand.Next(temp) /2 + family_minus_oilorebuiling / 8;
-                    m_touristFactor2 = rand.Next(temp) /4 + family_minus_oilorebuiling / 16;
+                    m_touristFactor0 = temp >> 1 + family_minus_oilorebuiling / 4;
+                    m_touristFactor1 = temp >> 2 + family_minus_oilorebuiling / 8;
+                    m_touristFactor2 = temp >> 4 + family_minus_oilorebuiling / 16;
                 } else
                 {
                     m_touristFactor0 = 0;
@@ -319,22 +319,18 @@ namespace RealCity
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
             float currentDayTimeHour = instance2.m_currentDayTimeHour;
 
-            FieldInfo cashDelta;
-            cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
-            long _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
-
             float idex = 1.5f;
-            if (_cashDelta != 0)
+            if (RealCity.cache_delta != 0)
             {
-                idex = (float)(100000f / (float)_cashDelta);
+                idex = (float)((float)RealCity.cache_delta / 100000f);
             } 
 
-            if ((idex < 0) || (idex > 1.5f))
+            if (idex > 1.5f)
             {
                 idex = 1.5f;
             }
 
-            if (idex == -0.01f)
+            if (idex < 0f)
             {
                 idex = 0;
             }
@@ -349,10 +345,10 @@ namespace RealCity
                 {
                     if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200 * idex);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 200 / (idex + 0.5f));
                     } else
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 100 * idex);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 100 / (idex + 0.5f));
                     }
 
                     if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
@@ -367,7 +363,7 @@ namespace RealCity
                     {
                         if (comm_data.garbage_task)
                         {
-                            data.m_garbageBuffer = 60000;
+                            data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 2000);
                         }
                     }
                 }
@@ -385,7 +381,7 @@ namespace RealCity
                 {
                     if (have_police_building && comm_data.crime_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.PoliceDepartment) && (!comm_data.policehelp))
                     {
-                        if (probability < 5)
+                        if (probability > 5)
                         {
                             if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                             {
@@ -393,7 +389,7 @@ namespace RealCity
                             }
                             else
                             {
-                                data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + rand.Next(15) / 10);
+                                data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + 1);
                             }
                         }
                     }
@@ -407,7 +403,7 @@ namespace RealCity
                     //sick
                     if (have_hospital_building && comm_data.sick_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare) && (!comm_data.hospitalhelp))
                     {
-                        if (probability < 5)
+                        if (probability > 5)
                         {
                             if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                             {
@@ -415,7 +411,7 @@ namespace RealCity
                             }
                             else
                             {
-                                data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + rand.Next(15) / 10);
+                                data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + 1);
                             }
                         }
                     }
@@ -429,7 +425,7 @@ namespace RealCity
                     //fire
                     if (have_fire_building && comm_data.fire_connection && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.FireDepartment) && (!comm_data.firehelp))
                     {
-                        if (probability < 5)
+                        if (probability > 5)
                         {
                             if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                             {
@@ -437,7 +433,7 @@ namespace RealCity
                             }
                             else
                             {
-                                data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + rand.Next(15) / 10);
+                                data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + 1);
                             }
                         }
                         data.m_fireIntensity = 250;
@@ -456,22 +452,22 @@ namespace RealCity
                     //deadbuffer
                     if (have_cemetry_building && comm_data.dead_connection && Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
                     {
-                        if (probability < 5)
+                        if (probability > 5)
                         {
                             if (currentDayTimeHour > 17f || currentDayTimeHour < 5f)
                             {
-                                data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(30) / 10);
+                                data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 3);
                             }
                             else
                             {
-                                data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + rand.Next(15) / 10);
+                                data.m_customBuffer1 = (ushort)(data.m_customBuffer1 + 1);
                             }
                         }
 
 
                         if (comm_data.dead_task)
                         {
-                            data.m_garbageBuffer = 20;
+                            data.m_garbageBuffer = (ushort)(data.m_customBuffer1 + 12); ;
                         }
                     }
                     else if (RealCity.update_once && (data.m_customBuffer1 != 0))
@@ -629,9 +625,7 @@ namespace RealCity
                         this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
                         if (num25 < 100)
                         {
-                            if ((instance1.m_randomizer.Int32(20) > 12) || (!comm_data.garbage_task))
-                            {
-                                if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 12000)
+                                if (data.m_garbageBuffer > 12000)
                                 {
                                     offer = default(TransferManager.TransferOffer);
                                     offer.Priority = 1 + data.m_garbageBuffer / 5000;
@@ -645,7 +639,6 @@ namespace RealCity
                                     offer.Active = true;
                                     Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
                                 }
-                            }
                         }
                     }
                 }
@@ -690,8 +683,6 @@ namespace RealCity
                         this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
                         if (num25 < 100)
                         {
-                            if (instance1.m_randomizer.Int32(20) > 12 || (!comm_data.dead_task))
-                            {
                                 offer = default(TransferManager.TransferOffer);
                                 offer.Priority = 1 + data.m_customBuffer1 / 5;
                                 if (offer.Priority > 7)
@@ -703,7 +694,6 @@ namespace RealCity
                                 offer.Amount = 1;
                                 offer.Active = true;
                                 Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.DeadMove, offer);
-                            }
                         }
                     }
                 }
@@ -1047,7 +1037,7 @@ namespace RealCity
                             {
 
                             }
-                            data.m_electricityBuffer += (ushort)(amountDelta * 100);
+                            data.m_crimeBuffer = (ushort)(data.m_crimeBuffer + amountDelta * 100);
                         }
                     }
                 }
@@ -1070,7 +1060,7 @@ namespace RealCity
                             {
 
                             }
-                            data.m_electricityBuffer += (ushort)(amountDelta * 100);
+                            data.m_customBuffer2 = (ushort)(data.m_customBuffer2 + amountDelta * 100);
                         }
                     }
                 }
@@ -1091,7 +1081,7 @@ namespace RealCity
                         {
 
                         }
-                        data.m_electricityBuffer += (ushort)(amountDelta * 100);
+                        data.m_electricityBuffer = (ushort)(data.m_electricityBuffer + amountDelta * 100);
                     }
                 }
                 else

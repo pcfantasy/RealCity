@@ -140,6 +140,94 @@ namespace RealCity
         }
 
 
+        public void citizen_status(uint citizen_id)
+        {
+            System.Random rand = new System.Random();
+            if (citizen_id != 0u)
+            {
+                if (comm_data.Virus_attack)
+                {
+                    if (rand.Next(1000) < rand.Next(10))
+                    {
+                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                        {
+                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                        }
+                    }
+                }
+
+                int work_building = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding;
+                if (work_building != 0u)
+                {
+                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.IndustrialForestry:
+                            if (rand.Next(10000) < 4)
+                            {
+                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                {
+                                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                    {
+                                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                    }
+                                }
+                            }
+
+                            if (rand.Next(10000) < 2)
+                            {
+                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                {
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
+                                    {
+                                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                                        {
+                                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                                        }
+                                    }
+                                }
+                            }break;
+                        case ItemClass.SubService.IndustrialOil:     
+                                if (rand.Next(10000) < 6)
+                                {
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                    {
+                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                        {
+                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                        }
+                                    }
+                                }
+
+                            if (rand.Next(10000) < 3)
+                            {
+                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                {
+                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
+                                    {
+                                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
+                                        {
+                                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
+                                        }
+                                    }
+                                }
+                            }break;
+                        case ItemClass.SubService.IndustrialOre:
+                            if (rand.Next(10000) < 10)
+                            {
+                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
+                                {
+                                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
+                                    {
+                                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
+                                    }
+                                }
+                            }break;
+                        default:break;
+                    }
+                }
+            }
+        }
+
         public static int citizen_salary(uint citizen_id, bool check_only)
         {
             int num = 0;
@@ -148,20 +236,6 @@ namespace RealCity
             //Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
             if (citizen_id != 0u)
             {
-                if (comm_data.Virus_attack && check_only)
-                {
-                    if (rand.Next(1000) < rand.Next(10))
-                    {
-                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                        {
-                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                        }
-                        //if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
-                        //{
-                        //    Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
-                        //}
-                    }
-                }
                 Citizen.Flags temp_flag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags;
                 if (((temp_flag & Citizen.Flags.Arrested) != Citizen.Flags.None) || ((temp_flag & Citizen.Flags.Student) != Citizen.Flags.None) || ((temp_flag & Citizen.Flags.Sick) != Citizen.Flags.None))
                 {
@@ -336,33 +410,6 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialForestry:
-                            if (check_only)
-                            {
-                                if (rand.Next(10000) < 4)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                    {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                                        {
-                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                                        }
-                                    }
-                                }
-
-                                if (rand.Next(10000) < 2)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                    {
-                                        if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
-                                        {
-                                            if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
-                                            {
-                                                Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
@@ -382,19 +429,6 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOil:
-                            if (check_only)
-                            {
-                                if (rand.Next(10000) < 10)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                    {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                                        {
-                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                                        }
-                                    }
-                                }
-                            }
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
@@ -415,34 +449,6 @@ namespace RealCity
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOre:
-                            if (check_only)
-                            {
-                                if (rand.Next(10000) < 6)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                    {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                                        {
-                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                                        }
-                                    }
-                                }
-
-                                if (rand.Next(10000) < 3)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                    {
-                                        if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
-                                        {
-                                            if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
-                                            {
-                                                Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
@@ -920,14 +926,19 @@ namespace RealCity
             //here we caculate citizen income
             int temp_num;
             temp_num = citizen_salary(data.m_citizen0,true);
+            citizen_status(data.m_citizen0);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen1, true);
+            citizen_status(data.m_citizen1);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen2, true);
+            citizen_status(data.m_citizen2);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen3, true);
+            citizen_status(data.m_citizen3);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen4, true);
+            citizen_status(data.m_citizen4);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             //DebugLog.LogToFileOnly("Citzen " + homeID.ToString() + "salary is " + temp_num.ToString());
             citizen_salary_count = citizen_salary_count + temp_num;

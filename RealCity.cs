@@ -16,6 +16,8 @@ namespace RealCity
         public static bool IsEnabled = false;
         public static bool update_once = false;
 
+        public static long cache_delta = 0;
+
         public byte tip1_citizen = 0;
         public byte tip2_building = 0;
         public byte tip3_outside = 0;
@@ -1112,6 +1114,10 @@ namespace RealCity
                 FieldInfo cashAmount;
                 cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
                 long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+
+                FieldInfo cashDelta;
+                cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
+                cache_delta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
 
                 if (!comm_data.have_bank_pre)
                 {
