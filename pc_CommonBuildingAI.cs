@@ -19,6 +19,8 @@ namespace RealCity
             comm_data.building_money[buildingID] = 0;
             comm_data.building_buffer2[buildingID] = 0;
             comm_data.building_buffer1[buildingID] = 0;
+            comm_data.building_buffer3[buildingID] = 0;
+            comm_data.building_buffer4[buildingID] = 0;
 
             if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
             {

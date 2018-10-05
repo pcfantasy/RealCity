@@ -69,7 +69,7 @@ namespace RealCity
         public static void SaveSetting()
         {
             //save langugae
-            FileStream fs = File.Create("RealCity_setting.txt");
+            FileStream fs = File.Create("RealCityV2.0_setting.txt");
             StreamWriter streamWriter = new StreamWriter(fs);
             streamWriter.WriteLine(comm_data.last_language);
             streamWriter.WriteLine(comm_data.is_smart_pbtp);
@@ -79,9 +79,9 @@ namespace RealCity
 
         public static void LoadSetting()
         {
-            if (File.Exists("RealCity_setting.txt"))
+            if (File.Exists("RealCityV2.0_setting.txt"))
             {
-                FileStream fs = new FileStream("RealCity_setting.txt", FileMode.Open);
+                FileStream fs = new FileStream("RealCityV2.0_setting.txt", FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
                 string strLine = sr.ReadLine();
 
@@ -119,10 +119,8 @@ namespace RealCity
             language.language_switch(comm_data.last_language);
             UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
             group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文" }, comm_data.last_language, (index) => get_language_idex(index));
-
-            UIHelperBase group1 = helper.AddGroup(language.OptionUI[2]);
-            UIHelperBase group2 = helper.AddGroup(language.OptionUI[7]);
-            group2.AddCheckbox(language.OptionUI[9], comm_data.is_smart_pbtp, (index) => is_smart_pbtp(index));
+            UIHelperBase group2 = helper.AddGroup(language.OptionUI[2]);
+            group2.AddCheckbox(language.OptionUI[2], comm_data.is_smart_pbtp, (index) => is_smart_pbtp(index));
             SaveSetting();
         }
 
@@ -134,8 +132,14 @@ namespace RealCity
             MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
             method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
             Loader.RemoveGui();
-            Loader.SetupGui();
-            //DebugLog.LogToFileOnly("get_current language idex = " + language_idex.ToString());
+            if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+            {
+                if (RealCity.IsEnabled)
+                {
+                    Loader.SetupGui();
+                    //DebugLog.LogToFileOnly("get_current language idex = " + language_idex.ToString());
+                }
+            }
         }
 
         public void is_smart_pbtp(bool index)
@@ -158,7 +162,6 @@ namespace RealCity
                         citizen_status();
                         generate_tips();
                         building_status();
-                        caculate_profit();
                         caculate_citizen_transport_fee();
 
                         comm_data.update_money_count++;
@@ -225,7 +228,7 @@ namespace RealCity
 
                 tip5_message_forgui = language.TipAndChirperMessage[7];
 
-                tip6_message_forgui = language.TipAndChirperMessage[8];
+                /*tip6_message_forgui = language.TipAndChirperMessage[8];
 
                 if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count / 10) < 150)
                 {
@@ -242,7 +245,7 @@ namespace RealCity
 
                 FieldInfo cashDelta;
                 cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
-                cache_delta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                cache_delta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);*/
             }
 
 
@@ -349,11 +352,76 @@ namespace RealCity
                         else if (is_special_building((ushort)i) == 3)
                         {
                             comm_data.have_city_resource_department = true;
+                            process_city_resource_department_building((ushort)i, instance.m_buildings.m_buffer[i]);
                         }
                     }
                 }
                 update_once = true;
+            }
 
+
+            void process_city_resource_department_building (ushort buildingID, Building buildingData)
+            {
+                int num27 = 0;
+                int num28 = 0;
+                int num29 = 0;
+                int value = 0;
+                int num34 = 0;
+                TransferManager.TransferReason incomingTransferReason = default(TransferManager.TransferReason);
+
+                incomingTransferReason = TransferManager.TransferReason.Food;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 28000 - comm_data.building_buffer3[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 500;
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer3[buildingID] > 0 )
+                {
+                    comm_data.building_buffer3[buildingID] -= 200;
+                } 
+            }
+
+            protected void CalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+            {
+                VehicleManager instance = Singleton<VehicleManager>.instance;
+                ushort num = data.m_guestVehicles;
+                int num2 = 0;
+                while (num != 0)
+                {
+                    if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material)
+                    {
+                        VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                        int a;
+                        int num3;
+                        info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                        cargo += Mathf.Min(a, num3);
+                        capacity += num3;
+                        count++;
+                        if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                        {
+                            outside++;
+                        }
+                    }
+                    num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
+                    if (++num2 > 16384)
+                    {
+                        CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                        break;
+                    }
+                }
             }
 
             public static byte is_special_building(ushort id)
@@ -379,7 +447,8 @@ namespace RealCity
                     return 2;
                 }
 
-                //tax
+                //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost().ToString());
+                //city_resource_department
                 if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 1008600)
                 {
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
@@ -398,13 +467,13 @@ namespace RealCity
                 comm_data.salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 50f) / 120f;
             }
 
-            public void caculate_profit()
-            {
-                if (comm_data.update_outside_count > 64)
-                {
-                    comm_data.update_outside_count = 0;
-                }
-                comm_data.update_outside_count++;
+            //public void caculate_profit()
+            //{
+                //if (comm_data.update_outside_count > 64)
+                //{
+                //    comm_data.update_outside_count = 0;
+                //}
+                //comm_data.update_outside_count++;
                 //lumber
                 /*if ((pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
                 {
@@ -514,7 +583,7 @@ namespace RealCity
                     pc_PrivateBuildingAI.good_level3_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
                 }*/
 
-            }
+            //}
         }
 
         public class ThreadingRealCityStatsMod : ThreadingExtensionBase

@@ -25,9 +25,10 @@ namespace RealCity
         public static bool refesh_once = false;
 
         //1、citizen tax income
-        private UILabel buildingmoney;
-        private UILabel aliveworkcount;
-        private UILabel employfee;
+        private UILabel Food;
+        private UILabel Lumber;
+        private UILabel Coal;
+        private UILabel Petrol;
         //private UILabel alivevisitcount;
 
         public override void Update()
@@ -79,26 +80,33 @@ namespace RealCity
             this.m_HeaderDataText.relativePosition = new Vector3(SPACING, 50f);
             this.m_HeaderDataText.autoSize = true;
 
-            this.buildingmoney = base.AddUIComponent<UILabel>();
-            this.buildingmoney.text = language.BuildingUI[17];
-            this.buildingmoney.tooltip = language.BuildingUI[17];
-            this.buildingmoney.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
-            this.buildingmoney.autoSize = true;
-            this.buildingmoney.name = "Moreeconomic_Text_0";
+            this.Food = base.AddUIComponent<UILabel>();
+            this.Food.text = language.BuildingUI[27];
+            this.Food.tooltip = language.BuildingUI[27];
+            this.Food.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
+            this.Food.autoSize = true;
+            this.Food.name = "Moreeconomic_Text_0";
 
-            this.aliveworkcount = base.AddUIComponent<UILabel>();
-            this.aliveworkcount.text = language.BuildingUI[6];
-            this.aliveworkcount.tooltip = language.BuildingUI[7];
-            this.aliveworkcount.relativePosition = new Vector3(SPACING, this.buildingmoney.relativePosition.y + SPACING22);
-            this.aliveworkcount.autoSize = true;
-            this.aliveworkcount.name = "Moreeconomic_Text_3";
+            this.Lumber = base.AddUIComponent<UILabel>();
+            this.Lumber.text = language.BuildingUI[28];
+            this.Lumber.tooltip = language.BuildingUI[28];
+            this.Lumber.relativePosition = new Vector3(SPACING, this.Food.relativePosition.y + SPACING22);
+            this.Lumber.autoSize = true;
+            this.Lumber.name = "Moreeconomic_Text_3";
 
-            this.employfee = base.AddUIComponent<UILabel>();
-            this.employfee.text = language.BuildingUI[8];
-            this.employfee.tooltip = language.BuildingUI[9];
-            this.employfee.relativePosition = new Vector3(SPACING, this.aliveworkcount.relativePosition.y + SPACING22);
-            this.employfee.autoSize = true;
-            this.employfee.name = "Moreeconomic_Text_4";
+            this.Coal = base.AddUIComponent<UILabel>();
+            this.Coal.text = language.BuildingUI[29];
+            this.Coal.tooltip = language.BuildingUI[29];
+            this.Coal.relativePosition = new Vector3(SPACING, this.Lumber.relativePosition.y + SPACING22);
+            this.Coal.autoSize = true;
+            this.Coal.name = "Moreeconomic_Text_4";
+
+            this.Petrol = base.AddUIComponent<UILabel>();
+            this.Petrol.text = language.BuildingUI[30];
+            this.Petrol.tooltip = language.BuildingUI[30];
+            this.Petrol.relativePosition = new Vector3(SPACING, this.Coal.relativePosition.y + SPACING22);
+            this.Petrol.autoSize = true;
+            this.Petrol.name = "Moreeconomic_Text_5";
 
 
             /*this.alivevisitcount = base.AddUIComponent<UILabel>();
@@ -122,12 +130,10 @@ namespace RealCity
                     comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
 
                     Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
-                    int aliveWorkerCount = 0;
-                    int totalWorkerCount = 0;
-                    float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
-                    this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
-                    this.employfee.text = string.Format(language.BuildingUI[8] + " [{0:N2}]", (int)num);
-                    this.buildingmoney.text = string.Format(language.BuildingUI[17] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
+                    this.Food.text = string.Format(language.BuildingUI[27] + " [{0}]", comm_data.building_buffer3[comm_data.last_buildingid]);
+                    this.Lumber.text = string.Format(language.BuildingUI[28] + " [{0}]", comm_data.building_buffer4[comm_data.last_buildingid]);
+                    this.Coal.text = string.Format(language.BuildingUI[29] + " [{0}]", comm_data.building_buffer1[comm_data.last_buildingid]);
+                    this.Petrol.text = string.Format(language.BuildingUI[30] + " [{0}]", comm_data.building_buffer2[comm_data.last_buildingid]);
                     PlayerBuildingUI.refesh_once = false;
                     this.BringToFront();
                 }
@@ -136,7 +142,7 @@ namespace RealCity
         }
 
 
-        public float caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
+        /*public float caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
         {
             float num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
@@ -162,7 +168,7 @@ namespace RealCity
                 num1 = 0;
             }
             return num1;
-        }
+        }*/
 
     }
 }

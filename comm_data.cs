@@ -162,9 +162,11 @@
         // reserved some for futher used
         public static ushort[] building_buffer1 = new ushort[49152];
         public static ushort[] building_buffer2 = new ushort[49152];
+        public static ushort[] building_buffer3 = new ushort[49152];
+        public static ushort[] building_buffer4 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
-        public static byte[] save_data = new byte[3063829];
+        public static byte[] save_data = new byte[4063829];
         public static float[] citizen_money = new float[1048576];
         public static byte[] save_data1 = new byte[4194304];
         //public static byte[] save_data = new byte[3063935];
@@ -180,6 +182,8 @@
             for (int i = 0; i < comm_data.building_buffer1.Length; i++)
             {
                 building_buffer1[i] = 0;
+                building_buffer3[i] = 0;
+                building_buffer4[i] = 0;
             }
             for (int i = 0; i < comm_data.vehical_transfer_time.Length; i++)
             {
@@ -304,6 +308,8 @@
             saveandrestore.save_bool(ref i, have_city_resource_department, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer1, ref save_data);
             saveandrestore.save_ushorts(ref i, building_buffer2, ref save_data);
+            saveandrestore.save_ushorts(ref i, building_buffer3, ref save_data);
+            saveandrestore.save_ushorts(ref i, building_buffer4, ref save_data);
 
 
             DebugLog.LogToFileOnly("(save)save_data in comm_data is " + i.ToString());
@@ -394,6 +400,8 @@
             have_city_resource_department = saveandrestore.load_bool(ref i, save_data);
             building_buffer1 = saveandrestore.load_ushorts(ref i, save_data, building_buffer1.Length);
             building_buffer2 = saveandrestore.load_ushorts(ref i, save_data, building_buffer2.Length);
+            building_buffer3 = saveandrestore.load_ushorts(ref i, save_data, building_buffer3.Length);
+            building_buffer4 = saveandrestore.load_ushorts(ref i, save_data, building_buffer4.Length);
 
             DebugLog.LogToFileOnly("save_data in comm_data is " + i.ToString());
         }

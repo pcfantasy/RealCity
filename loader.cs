@@ -101,6 +101,7 @@ namespace RealCity
                     if (mode == LoadMode.NewGame)
                     {
                         init_data();
+                        DebugLog.LogToFileOnly("init_data");
                     }
                     //DebugLog.LogWarning(language.OptionUI[15]);
                     //DebugLog.LogWarning(language.OptionUI[16]);
@@ -118,6 +119,7 @@ namespace RealCity
             pc_PrivateBuildingAI.save_data = new byte[316];
             pc_ResidentAI.save_data = new byte[140];
             comm_data.save_data = new byte[3063935];
+            comm_data.save_data1 = new byte[4194304];
         }
 
         public override void OnLevelUnloading()
@@ -499,8 +501,8 @@ namespace RealCity
             var destMethod26 = typeof(pc_CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             state26 = RedirectionHelper.RedirectCalls(srcMethod26, destMethod26);
 
-            var srcMethod27 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort) }, null);
-            var destMethod27 = typeof(pc_ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort) }, null);
+            var srcMethod27 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort), typeof(bool) }, null);
+            var destMethod27 = typeof(pc_ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort), typeof(bool) }, null);
             state27 = RedirectionHelper.RedirectCalls(srcMethod27, destMethod27);
 
             var srcMethod28 = typeof(PlayerBuildingAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Static);
@@ -574,7 +576,7 @@ namespace RealCity
 
             //protected override void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
             var srcMethod26 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
-            var srcMethod27 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort) }, null);
+            var srcMethod27 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort), typeof(bool) }, null);
             var srcMethod28 = typeof(PlayerBuildingAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Static);
 
             var srcMethod29 = typeof(TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
@@ -622,16 +624,6 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod34, state34);
             RedirectionHelper.RevertRedirect(srcMethod35, state35);
             RedirectionHelper.RevertRedirect(srcMethod36, state36);
-            RedirectionHelper.RevertRedirect(srcMethod37, state37);
-            RedirectionHelper.RevertRedirect(srcMethod38, state38);
-            RedirectionHelper.RevertRedirect(srcMethod39, state39);
-            RedirectionHelper.RevertRedirect(srcMethod40, state40);
-            RedirectionHelper.RevertRedirect(srcMethod41, state41);
-            RedirectionHelper.RevertRedirect(srcMethod42, state42);
-            RedirectionHelper.RevertRedirect(srcMethod43, state43);
-            RedirectionHelper.RevertRedirect(srcMethod44, state44);
-            RedirectionHelper.RevertRedirect(srcMethod45, state45);
-            RedirectionHelper.RevertRedirect(srcMethod46, state46);
         }
     }
 }

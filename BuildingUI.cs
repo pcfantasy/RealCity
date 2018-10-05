@@ -284,6 +284,11 @@ namespace RealCity
                         }
                     }
 
+                    if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                    {
+                        ConsumptionDivider = ConsumptionDivider * 4f;
+                    }
+
                     float sell_tax_1 = pc_PrivateBuildingAI.get_tax_rate(buildingdata, comm_data.last_buildingid);
 
                     this.sell_tax.text = string.Format(language.BuildingUI[22] + " [{0}%]", (int)(sell_tax_1 * 100f));

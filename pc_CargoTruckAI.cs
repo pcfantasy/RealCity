@@ -101,6 +101,25 @@ namespace RealCity
             Building building1 = instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
 
+            if (RealCity.EconomyExtension.is_special_building(data.m_targetBuilding) == 3)
+            {
+                switch ((TransferManager.TransferReason)data.m_transferType)
+                {
+                    case TransferManager.TransferReason.Food:
+                        comm_data.building_buffer3[data.m_targetBuilding] += (ushort)num; break;
+                    case TransferManager.TransferReason.Lumber:
+                        comm_data.building_buffer4[data.m_targetBuilding] += (ushort)num; break;
+                    case TransferManager.TransferReason.Coal:
+                        comm_data.building_buffer1[data.m_targetBuilding] += (ushort)num; break;
+                    case TransferManager.TransferReason.Petrol:
+                        comm_data.building_buffer2[data.m_targetBuilding] += (ushort)num; break;
+                    default:
+                        DebugLog.LogToFileOnly("process_trade_tax_arrive_at_target, find a import trade size error = " + data.m_transferType.ToString());break;
+                }
+                DebugLog.LogToFileOnly("process_trade_tax_arrive_at_target, find a import trade size = " + num.ToString() + "comm_data.building_buffer3[data.m_targetBuilding]" + comm_data.building_buffer3[data.m_targetBuilding].ToString());
+                return;
+            }
+
             float import_tax = 0f;
             if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
             {

@@ -72,7 +72,7 @@ namespace RealCity
             this.RcButton.playAudioEvents = true;
             this.RcButton.name = "RcButton";
             this.RcButton.tooltipBox = aView.defaultTooltipBox;
-            this.RcButton.text = language.RealCityUI1[111];
+            this.RcButton.text = language.RealCityUI1[93];
             this.RcButton.size = new Vector2(100f, 40f);
             this.RcButton.relativePosition = new Vector3(0, 30f);
             this.RcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)

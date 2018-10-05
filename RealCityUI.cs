@@ -199,7 +199,7 @@ namespace RealCity
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
             this.m_title = base.AddUIComponent<UILabel>();
-            this.m_title.text = language.RealCityUI1[98];
+            this.m_title.text = language.RealCityUI1[92];
             this.m_title.relativePosition = new Vector3(WIDTH / 2f - this.m_title.width / 2f - 25f, HEADER / 2f - this.m_title.height / 2f);
             this.m_title.textAlignment = UIHorizontalAlignment.Center;
             this.m_closeButton = base.AddUIComponent<UIButton>();
@@ -554,29 +554,29 @@ namespace RealCity
             this.goverment_income_title.name = "Moreeconomic_Text_41";
 
             this.garbage_income_title = base.AddUIComponent<UILabel>();
-            this.garbage_income_title.text = language.RealCityUI1[89];
-            this.garbage_income_title.tooltip = language.RealCityUI1[90];
+            this.garbage_income_title.text = language.RealCityUI1[85];
+            this.garbage_income_title.tooltip = language.RealCityUI1[86];
             this.garbage_income_title.relativePosition = new Vector3(SPACING, this.goverment_income_title.relativePosition.y + SPACING22 + 10f);
             this.garbage_income_title.autoSize = true;
             this.garbage_income_title.name = "Moreeconomic_Text_44";
 
             this.school_income_title = base.AddUIComponent<UILabel>();
-            this.school_income_title.text = language.RealCityUI1[93];
-            this.school_income_title.tooltip = language.RealCityUI1[94];
+            this.school_income_title.text = language.RealCityUI1[87];
+            this.school_income_title.tooltip = language.RealCityUI1[88];
             this.school_income_title.relativePosition = new Vector3(this.garbage_income_title.relativePosition.x, this.garbage_income_title.relativePosition.y + SPACING22);
             this.school_income_title.autoSize = true;
             this.school_income_title.name = "Moreeconomic_Text_43";
 
             this.road_income_title = base.AddUIComponent<UILabel>();
-            this.road_income_title.text = language.RealCityUI1[85];
-            this.road_income_title.tooltip = language.RealCityUI1[86];
+            this.road_income_title.text = language.RealCityUI1[89];
+            this.road_income_title.tooltip = language.RealCityUI1[90];
             this.road_income_title.relativePosition = new Vector3(this.school_income_title.relativePosition.x, this.school_income_title.relativePosition.y + SPACING22);
             this.road_income_title.autoSize = true;
             this.road_income_title.name = "Moreeconomic_Text_42";
 
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
-            this.all_total_income_ui.text = language.RealCityUI1[97];
-            this.all_total_income_ui.tooltip = language.RealCityUI1[98];
+            this.all_total_income_ui.text = language.RealCityUI1[91];
+            this.all_total_income_ui.tooltip = language.RealCityUI1[92];
             this.all_total_income_ui.relativePosition = new Vector3(this.road_income_title.relativePosition.x, this.road_income_title.relativePosition.y + SPACING22);
             this.all_total_income_ui.autoSize = true;
             this.all_total_income_ui.name = "Moreeconomic_Text_44";
@@ -667,11 +667,11 @@ namespace RealCity
                         this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [{0}]", road_income_forui);
                     } else
                     {
-                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " " + language.BuildingUI[31]);
+                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " " + language.BuildingUI[26]);
                     }
-                    this.garbage_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", garbage_income_forui);
-                    this.school_income_title.text = string.Format(language.RealCityUI1[93] + " [{0}]", school_income_forui);
-                    this.all_total_income_ui.text = string.Format(language.RealCityUI1[97] + " [{0}]", all_total_income);
+                    this.garbage_income_title.text = string.Format(language.RealCityUI1[87] + " [{0}]", garbage_income_forui);
+                    this.school_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", school_income_forui);
+                    this.all_total_income_ui.text = string.Format(language.RealCityUI1[91] + " [{0}]", all_total_income);
                     refesh_onece = false;
                 }
             }
