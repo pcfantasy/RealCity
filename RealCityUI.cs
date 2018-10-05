@@ -90,33 +90,10 @@ namespace RealCity
         private UILabel goverment_income_title;
         private UILabel road_income_title;
         private UILabel garbage_income_title;
-        private UILabel cemetery_income_title;
-        private UILabel police_income_title;
-        private UILabel firestation_income_title;
         private UILabel school_income_title;
 
         //7、all total income
         private UILabel all_total_income_ui;
-
-
-        //7、task
-        private UILabel task_ui;
-
-        private UILabel infinity_garbage;
-        private UILabel infinity_dead;
-        private UILabel crasy_transport;
-        private UILabel is_weekend;
-        private UILabel bank_task;
-
-        public static UICheckBox infinity_garbage_Checkbox;
-        public static UICheckBox infinity_dead_Checkbox;
-        public static UICheckBox crasy_transport_Checkbox;
-        public static UICheckBox is_weekend_Checkbox;
-        public static UICheckBox bank_task_Checkbox;
-
-        private UILabel task_num;
-        private UILabel task_time;
-        private UILabel cd_num;
 
 
         //used for display
@@ -576,372 +553,34 @@ namespace RealCity
             this.goverment_income_title.autoSize = true;
             this.goverment_income_title.name = "Moreeconomic_Text_41";
 
-            this.road_income_title = base.AddUIComponent<UILabel>();
-            this.road_income_title.text = language.RealCityUI1[85];
-            this.road_income_title.tooltip = language.RealCityUI1[86];
-            this.road_income_title.relativePosition = new Vector3(SPACING, this.goverment_income_title.relativePosition.y + SPACING22);
-            this.road_income_title.autoSize = true;
-            this.road_income_title.name = "Moreeconomic_Text_42";
-
-            this.cemetery_income_title = base.AddUIComponent<UILabel>();
-            this.cemetery_income_title.text = language.RealCityUI1[87];
-            this.cemetery_income_title.tooltip = language.RealCityUI1[88];
-            this.cemetery_income_title.relativePosition = new Vector3(this.road_income_title.relativePosition.x + this.road_income_title.width + SPACING + 140f, this.road_income_title.relativePosition.y);
-            this.cemetery_income_title.autoSize = true;
-            this.cemetery_income_title.name = "Moreeconomic_Text_43";
-
             this.garbage_income_title = base.AddUIComponent<UILabel>();
             this.garbage_income_title.text = language.RealCityUI1[89];
             this.garbage_income_title.tooltip = language.RealCityUI1[90];
-            this.garbage_income_title.relativePosition = new Vector3(this.cemetery_income_title.relativePosition.x + this.cemetery_income_title.width + SPACING + 140f, this.cemetery_income_title.relativePosition.y);
+            this.garbage_income_title.relativePosition = new Vector3(SPACING, this.goverment_income_title.relativePosition.y + SPACING22 + 10f);
             this.garbage_income_title.autoSize = true;
             this.garbage_income_title.name = "Moreeconomic_Text_44";
-
-            this.police_income_title = base.AddUIComponent<UILabel>();
-            this.police_income_title.text = language.RealCityUI1[91];
-            this.police_income_title.tooltip = language.RealCityUI1[92];
-            this.police_income_title.relativePosition = new Vector3(SPACING, this.road_income_title.relativePosition.y + SPACING22);
-            this.police_income_title.autoSize = true;
-            this.police_income_title.name = "Moreeconomic_Text_42";
 
             this.school_income_title = base.AddUIComponent<UILabel>();
             this.school_income_title.text = language.RealCityUI1[93];
             this.school_income_title.tooltip = language.RealCityUI1[94];
-            this.school_income_title.relativePosition = new Vector3(this.cemetery_income_title.relativePosition.x, this.cemetery_income_title.relativePosition.y + SPACING22);
+            this.school_income_title.relativePosition = new Vector3(this.garbage_income_title.relativePosition.x, this.garbage_income_title.relativePosition.y + SPACING22);
             this.school_income_title.autoSize = true;
             this.school_income_title.name = "Moreeconomic_Text_43";
 
-            this.firestation_income_title = base.AddUIComponent<UILabel>();
-            this.firestation_income_title.text = language.RealCityUI1[95];
-            this.firestation_income_title.tooltip = language.RealCityUI1[96];
-            this.firestation_income_title.relativePosition = new Vector3(this.garbage_income_title.relativePosition.x, this.garbage_income_title.relativePosition.y + SPACING22);
-            this.firestation_income_title.autoSize = true;
-            this.firestation_income_title.name = "Moreeconomic_Text_44";
+            this.road_income_title = base.AddUIComponent<UILabel>();
+            this.road_income_title.text = language.RealCityUI1[85];
+            this.road_income_title.tooltip = language.RealCityUI1[86];
+            this.road_income_title.relativePosition = new Vector3(this.school_income_title.relativePosition.x, this.school_income_title.relativePosition.y + SPACING22);
+            this.road_income_title.autoSize = true;
+            this.road_income_title.name = "Moreeconomic_Text_42";
 
-            //6 all total
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
             this.all_total_income_ui.text = language.RealCityUI1[97];
-            this.all_total_income_ui.tooltip = "N/A";
-            this.all_total_income_ui.textScale = 1.2f;
-            this.all_total_income_ui.relativePosition = new Vector3(SPACING, this.firestation_income_title.relativePosition.y + SPACING22 + 15f);
+            this.all_total_income_ui.tooltip = language.RealCityUI1[98];
+            this.all_total_income_ui.relativePosition = new Vector3(this.road_income_title.relativePosition.x, this.road_income_title.relativePosition.y + SPACING22);
             this.all_total_income_ui.autoSize = true;
-            this.all_total_income_ui.name = "Moreeconomic_Text_45";
-
-
-            this.task_ui = base.AddUIComponent<UILabel>();
-            this.task_ui.text = language.RealCityUI1[99];
-            this.task_ui.tooltip = language.RealCityUI1[99];
-            this.task_ui.relativePosition = new Vector3(SPACING, this.all_total_income_ui.relativePosition.y + SPACING22 + 20f);
-            this.task_ui.autoSize = true;
-            this.task_ui.name = "Moreeconomic_Text_46";
-
-
-            infinity_garbage_Checkbox = base.AddUIComponent<UICheckBox>();
-            infinity_garbage_Checkbox.relativePosition = new Vector3(SPACING, this.task_ui.relativePosition.y + 30f);
-            this.infinity_garbage = base.AddUIComponent<UILabel>();
-            this.infinity_garbage.relativePosition = new Vector3(infinity_garbage_Checkbox.relativePosition.x + infinity_garbage_Checkbox.width + SPACING * 2f, infinity_garbage_Checkbox.relativePosition.y + 5f);
-            this.infinity_garbage.tooltip = language.RealCityUI1[100];
-            infinity_garbage_Checkbox.height = 16f;
-            infinity_garbage_Checkbox.width = 16f;
-            infinity_garbage_Checkbox.label = this.infinity_garbage;
-            infinity_garbage_Checkbox.text = language.RealCityUI1[100];
-            UISprite uISprite = infinity_garbage_Checkbox.AddUIComponent<UISprite>();
-            uISprite.height = 20f;
-            uISprite.width = 20f;
-            uISprite.relativePosition = new Vector3(0f, 0f);
-            uISprite.spriteName = "check-unchecked";
-            uISprite.isVisible = true;
-            UISprite uISprite2 = infinity_garbage_Checkbox.AddUIComponent<UISprite>();
-            uISprite2.height = 20f;
-            uISprite2.width = 20f;
-            uISprite2.relativePosition = new Vector3(0f, 0f);
-            uISprite2.spriteName = "check-checked";
-            infinity_garbage_Checkbox.checkedBoxObject = uISprite2;
-            infinity_garbage_Checkbox.isChecked = comm_data.garbage_task;
-            infinity_garbage_Checkbox.isEnabled = true;
-            infinity_garbage_Checkbox.isVisible = true;
-            infinity_garbage_Checkbox.canFocus = true;
-            infinity_garbage_Checkbox.isInteractive = true;
-            infinity_garbage_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
-            {
-                infinity_garbage_Checkbox_OnCheckChanged(component, eventParam);
-            };
-
-
-            infinity_dead_Checkbox = base.AddUIComponent<UICheckBox>();
-            infinity_dead_Checkbox.relativePosition = new Vector3(SPACING, infinity_garbage_Checkbox.relativePosition.y + 30f);
-            this.infinity_dead = base.AddUIComponent<UILabel>();
-            this.infinity_dead.relativePosition = new Vector3(infinity_dead_Checkbox.relativePosition.x + infinity_dead_Checkbox.width + SPACING * 2f, infinity_dead_Checkbox.relativePosition.y + 5f);
-            this.infinity_dead.tooltip = language.RealCityUI1[101];
-            infinity_dead_Checkbox.height = 16f;
-            infinity_dead_Checkbox.width = 16f;
-            infinity_dead_Checkbox.label = this.infinity_dead;
-            infinity_dead_Checkbox.text = language.RealCityUI1[101];
-            UISprite uISprite3 = infinity_dead_Checkbox.AddUIComponent<UISprite>();
-            uISprite3.height = 20f;
-            uISprite3.width = 20f;
-            uISprite3.relativePosition = new Vector3(0f, 0f);
-            uISprite3.spriteName = "check-unchecked";
-            uISprite3.isVisible = true;
-            UISprite uISprite4 = infinity_dead_Checkbox.AddUIComponent<UISprite>();
-            uISprite4.height = 20f;
-            uISprite4.width = 20f;
-            uISprite4.relativePosition = new Vector3(0f, 0f);
-            uISprite4.spriteName = "check-checked";
-            infinity_dead_Checkbox.checkedBoxObject = uISprite4;
-            infinity_dead_Checkbox.isChecked = comm_data.dead_task;
-            infinity_dead_Checkbox.isEnabled = true;
-            infinity_dead_Checkbox.isVisible = true;
-            infinity_dead_Checkbox.canFocus = true;
-            infinity_dead_Checkbox.isInteractive = true;
-            infinity_dead_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
-            {
-                infinity_dead_Checkbox_OnCheckChanged(component, eventParam);
-            };
-
-
-            crasy_transport_Checkbox = base.AddUIComponent<UICheckBox>();
-            crasy_transport_Checkbox.relativePosition = new Vector3(SPACING, infinity_dead_Checkbox.relativePosition.y + 30f);
-            this.crasy_transport = base.AddUIComponent<UILabel>();
-            this.crasy_transport.relativePosition = new Vector3(crasy_transport_Checkbox.relativePosition.x + crasy_transport_Checkbox.width + SPACING * 2f, crasy_transport_Checkbox.relativePosition.y + 5f);
-            this.crasy_transport.tooltip = language.RealCityUI1[102];
-            crasy_transport_Checkbox.height = 16f;
-            crasy_transport_Checkbox.width = 16f;
-            crasy_transport_Checkbox.label = this.crasy_transport;
-            crasy_transport_Checkbox.text = language.RealCityUI1[102];
-            UISprite uISprite5 = crasy_transport_Checkbox.AddUIComponent<UISprite>();
-            uISprite5.height = 20f;
-            uISprite5.width = 20f;
-            uISprite5.relativePosition = new Vector3(0f, 0f);
-            uISprite5.spriteName = "check-unchecked";
-            uISprite5.isVisible = true;
-            UISprite uISprite6 = crasy_transport_Checkbox.AddUIComponent<UISprite>();
-            uISprite6.height = 20f;
-            uISprite6.width = 20f;
-            uISprite6.relativePosition = new Vector3(0f, 0f);
-            uISprite6.spriteName = "check-checked";
-            crasy_transport_Checkbox.checkedBoxObject = uISprite6;
-            crasy_transport_Checkbox.isChecked = comm_data.crasy_task;
-            crasy_transport_Checkbox.isEnabled = true;
-            crasy_transport_Checkbox.isVisible = true;
-            crasy_transport_Checkbox.canFocus = true;
-            crasy_transport_Checkbox.isInteractive = true;
-            crasy_transport_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
-            {
-                crasy_transport_Checkbox_OnCheckChanged(component, eventParam);
-            };
-
-
-            is_weekend_Checkbox = base.AddUIComponent<UICheckBox>();
-            is_weekend_Checkbox.relativePosition = new Vector3(SPACING, crasy_transport_Checkbox.relativePosition.y + 30f);
-            this.is_weekend = base.AddUIComponent<UILabel>();
-            this.is_weekend.relativePosition = new Vector3(is_weekend_Checkbox.relativePosition.x + is_weekend_Checkbox.width + SPACING * 2f, is_weekend_Checkbox.relativePosition.y + 5f);
-            this.is_weekend.tooltip = language.RealCityUI1[109];
-            is_weekend_Checkbox.height = 16f;
-            is_weekend_Checkbox.width = 16f;
-            is_weekend_Checkbox.label = this.is_weekend;
-            is_weekend_Checkbox.text = language.RealCityUI1[109];
-            UISprite uISprite9 = is_weekend_Checkbox.AddUIComponent<UISprite>();
-            uISprite9.height = 20f;
-            uISprite9.width = 20f;
-            uISprite9.relativePosition = new Vector3(0f, 0f);
-            uISprite9.spriteName = "check-unchecked";
-            uISprite9.isVisible = true;
-            UISprite uISprite10 = is_weekend_Checkbox.AddUIComponent<UISprite>();
-            uISprite10.height = 20f;
-            uISprite10.width = 20f;
-            uISprite10.relativePosition = new Vector3(0f, 0f);
-            uISprite10.spriteName = "check-checked";
-            is_weekend_Checkbox.checkedBoxObject = uISprite10;
-            is_weekend_Checkbox.isChecked = comm_data.is_weekend;
-            is_weekend_Checkbox.isEnabled = true;
-            is_weekend_Checkbox.isVisible = true;
-            is_weekend_Checkbox.canFocus = true;
-            is_weekend_Checkbox.isInteractive = true;
-            is_weekend_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
-            {
-                is_weekend_Checkbox_OnCheckChanged(component, eventParam);
-            };
-
-            bank_task_Checkbox = base.AddUIComponent<UICheckBox>();
-            bank_task_Checkbox.relativePosition = new Vector3(SPACING, is_weekend_Checkbox.relativePosition.y + 30f);
-            this.bank_task = base.AddUIComponent<UILabel>();
-            this.bank_task.relativePosition = new Vector3(bank_task_Checkbox.relativePosition.x + bank_task_Checkbox.width + SPACING * 2f, bank_task_Checkbox.relativePosition.y + 5f);
-            this.bank_task.tooltip = language.RealCityUI1[115];
-            bank_task_Checkbox.height = 16f;
-            bank_task_Checkbox.width = 16f;
-            bank_task_Checkbox.label = this.bank_task;
-            bank_task_Checkbox.text = language.RealCityUI1[115];
-            UISprite uISprite11 = bank_task_Checkbox.AddUIComponent<UISprite>();
-            uISprite11.height = 20f;
-            uISprite11.width = 20f;
-            uISprite11.relativePosition = new Vector3(0f, 0f);
-            uISprite11.spriteName = "check-unchecked";
-            uISprite11.isVisible = true;
-            UISprite uISprite12 = bank_task_Checkbox.AddUIComponent<UISprite>();
-            uISprite12.height = 20f;
-            uISprite12.width = 20f;
-            uISprite12.relativePosition = new Vector3(0f, 0f);
-            uISprite12.spriteName = "check-checked";
-            bank_task_Checkbox.checkedBoxObject = uISprite12;
-            bank_task_Checkbox.isChecked = comm_data.bank_task;
-            bank_task_Checkbox.isEnabled = true;
-            bank_task_Checkbox.isVisible = true;
-            bank_task_Checkbox.canFocus = true;
-            bank_task_Checkbox.isInteractive = true;
-            bank_task_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
-            {
-                bank_task_Checkbox_OnCheckChanged(component, eventParam);
-            };
-
-            this.task_time = base.AddUIComponent<UILabel>();
-            this.task_time.text = "remaining_time: [0000]";
-            this.task_time.tooltip = language.RealCityUI1[104];
-            this.task_time.relativePosition = new Vector3(SPACING, bank_task_Checkbox.relativePosition.y + SPACING22 + 20f);
-            this.task_time.autoSize = true;
-            this.task_time.name = "Moreeconomic_Text_47";
-
-
-            this.task_num = base.AddUIComponent<UILabel>();
-            this.task_num.text = "remaining_num: [0000]";
-            this.task_num.tooltip = language.RealCityUI1[106];
-            this.task_num.relativePosition = new Vector3(this.task_time.relativePosition.x + this.task_time.width + SPACING + 60f, this.task_time.relativePosition.y);
-            this.task_num.autoSize = true;
-            this.task_num.name = "Moreeconomic_Text_48";
-
-            this.cd_num = base.AddUIComponent<UILabel>();
-            this.cd_num.text = "cooldown_time: [0000]";
-            this.cd_num.tooltip = language.RealCityUI1[108];
-            this.cd_num.relativePosition = new Vector3(this.task_num.relativePosition.x + this.task_num.width + SPACING + 60f, this.task_num.relativePosition.y);
-            this.cd_num.autoSize = true;
-            this.cd_num.name = "Moreeconomic_Text_49";
-
+            this.all_total_income_ui.name = "Moreeconomic_Text_44";
         }
-
-
-
-
-        public static void infinity_garbage_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
-        {
-            if (bValue)
-            {
-                if (comm_data.cd_num < 0)
-                {
-                    if (comm_data.family_count > 500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
-                    {
-                        comm_data.garbage_task = true;
-                        comm_data.task_num = 4000000;
-                        comm_data.task_time = 1000;
-                        comm_data.cd_num = 2000;
-                    }
-                }
-            }
-            else
-            {
-                comm_data.garbage_task = false;
-                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task || comm_data.bank_task))
-                {
-                    comm_data.task_num = 0;
-                    comm_data.task_time = 0;
-                }
-            }
-        }
-
-
-        public static void infinity_dead_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
-        {
-            if (bValue)
-            {
-                if (comm_data.cd_num < 0)
-                {
-                    if (comm_data.family_count > 1500 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
-                    {
-                        comm_data.dead_task = true;
-                        comm_data.task_num = 200;
-                        comm_data.task_time = 1000;
-                        comm_data.cd_num = 2500;
-                    }
-                }
-            }
-            else
-            {
-                comm_data.dead_task = false;
-                if (!(comm_data.crasy_task || comm_data.dead_task ||comm_data.garbage_task || comm_data.bank_task))
-                {
-                    comm_data.task_num = 0;
-                    comm_data.task_time = 0;
-                } 
-            }
-        }
-
-        public static void crasy_transport_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
-        {
-            if (bValue)
-            {
-                if (comm_data.cd_num < 0)
-                {
-                    if (comm_data.family_count > 1000 && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
-                    {
-                        comm_data.crasy_task = true;
-                        comm_data.task_num = 4000;
-                        comm_data.task_time = 2000;
-                        comm_data.cd_num = 3000;
-                    }
-                }
-            }
-            else
-            {
-                comm_data.crasy_task = false;
-                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task || comm_data.bank_task))
-                {
-                    comm_data.task_num = 0;
-                    comm_data.task_time = 0;
-                }
-            }
-        }
-
-
-        public static void bank_task_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
-        {
-            if (bValue)
-            {
-                if (comm_data.cd_num < 0)
-                {
-                    if ((comm_data.city_bank > 10000000) && (!comm_data.crasy_task) && (!comm_data.dead_task) && (!comm_data.garbage_task) && (!comm_data.bank_task))
-                    {
-                        comm_data.bank_task = true;
-                        comm_data.task_num = 0;
-                        comm_data.task_time = 1000;
-                        comm_data.cd_num = 4000;
-                        comm_data.city_bank -= 10000000;
-                    }
-                }
-            }
-            else
-            {
-                comm_data.bank_task = false;
-                if (!(comm_data.crasy_task || comm_data.dead_task || comm_data.garbage_task || comm_data.bank_task))
-                {
-                    comm_data.task_num = 0;
-                    comm_data.task_time = 0;
-                }
-            }
-        }
-
-        public static void is_weekend_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
-        {
-            if (bValue)
-            {
-                comm_data.is_weekend = true;
-            }
-            else
-            {
-                comm_data.is_weekend = false;
-            }
-        }
-
-
-
 
 
         /*private IEnumerator RefreshDisplayDataWrapper()
@@ -1030,24 +669,9 @@ namespace RealCity
                     {
                         this.road_income_title.text = string.Format(language.RealCityUI1[85] + " " + language.BuildingUI[31]);
                     }
-                    this.cemetery_income_title.text = string.Format(language.RealCityUI1[87] + " [{0}]", cemetery_income_forui);
                     this.garbage_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", garbage_income_forui);
-                    this.police_income_title.text = string.Format(language.RealCityUI1[91] + " [{0}]", police_income_forui);
                     this.school_income_title.text = string.Format(language.RealCityUI1[93] + " [{0}]", school_income_forui);
-                    this.firestation_income_title.text = string.Format(language.RealCityUI1[95] + " [{0}]", firestation_income_forui);
                     this.all_total_income_ui.text = string.Format(language.RealCityUI1[97] + " [{0}]", all_total_income);
-
-                    this.task_ui.text = language.RealCityUI1[99];
-
-                    infinity_garbage_Checkbox.text = language.RealCityUI1[100];
-                    infinity_dead_Checkbox.text = language.RealCityUI1[101];
-                    crasy_transport_Checkbox.text = language.RealCityUI1[102];
-                    //happy_holiday_Checkbox.text = language.RealCityUI1[103];
-                    is_weekend_Checkbox.text = language.RealCityUI1[109];
-
-                    this.task_time.text = string.Format(language.RealCityUI1[103] + " [{0}]", comm_data.task_time);
-                    this.task_num.text = string.Format(language.RealCityUI1[105] + " [{0}]", comm_data.task_num);
-                    this.cd_num.text = string.Format(language.RealCityUI1[107] + " [{0}]", comm_data.cd_num);
                     refesh_onece = false;
                 }
             }
@@ -1131,42 +755,42 @@ namespace RealCity
 
             for (i = 0; i < 17; i++)
             {
-                citizen_tax_income_forui += (double)pc_EconomyManager.citizen_tax_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                citizen_income_forui+= (double)pc_EconomyManager.citizen_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                tourist_income_forui+= (double)pc_EconomyManager.tourist_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                resident_high_landincome_forui+= (double)pc_EconomyManager.resident_high_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                resident_low_landincome_forui+= (double)pc_EconomyManager.resident_low_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                resident_high_eco_landincome_forui+= (double)pc_EconomyManager.resident_high_eco_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                resident_low_eco_landincome_forui+= (double)pc_EconomyManager.resident_low_eco_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_high_landincome_forui+= (double)pc_EconomyManager.comm_high_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_low_landincome_forui+= (double)pc_EconomyManager.comm_low_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_lei_landincome_forui+= (double)pc_EconomyManager.comm_lei_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_tou_landincome_forui+= (double)pc_EconomyManager.comm_tou_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_eco_landincome_forui+= (double)pc_EconomyManager.comm_eco_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_gen_landincome_forui+= (double)pc_EconomyManager.indu_gen_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_farmer_landincome_forui+= (double)pc_EconomyManager.indu_farmer_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_foresty_landincome_forui+= (double)pc_EconomyManager.indu_foresty_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_oil_landincome_forui+= (double)pc_EconomyManager.indu_oil_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_ore_landincome_forui+= (double)pc_EconomyManager.indu_ore_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                office_gen_landincome_forui+= (double)pc_EconomyManager.office_gen_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                office_high_tech_landincome_forui+= (double)pc_EconomyManager.office_high_tech_landincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_high_tradeincome_forui+= (double)pc_EconomyManager.comm_high_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_low_tradeincome_forui+= (double)pc_EconomyManager.comm_low_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_lei_tradeincome_forui+= (double)pc_EconomyManager.comm_lei_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_tou_tradeincome_forui+= (double)pc_EconomyManager.comm_tou_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                comm_eco_tradeincome_forui+= (double)pc_EconomyManager.comm_eco_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_gen_tradeincome_forui+= (double)pc_EconomyManager.indu_gen_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_farmer_tradeincome_forui+= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_foresty_tradeincome_forui+= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_oil_tradeincome_forui+= (double)pc_EconomyManager.indu_oil_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                indu_ore_tradeincome_forui+= (double)pc_EconomyManager.indu_ore_tradeincome_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
+                citizen_tax_income_forui += (double)pc_EconomyManager.citizen_tax_income_forui[i]  / 100f;
+                citizen_income_forui+= (double)pc_EconomyManager.citizen_income_forui[i]  / 100f;
+                tourist_income_forui+= (double)pc_EconomyManager.tourist_income_forui[i]  / 100f;
+                resident_high_landincome_forui+= (double)pc_EconomyManager.resident_high_landincome_forui[i]  / 100f;
+                resident_low_landincome_forui+= (double)pc_EconomyManager.resident_low_landincome_forui[i]  / 100f;
+                resident_high_eco_landincome_forui+= (double)pc_EconomyManager.resident_high_eco_landincome_forui[i]  / 100f;
+                resident_low_eco_landincome_forui+= (double)pc_EconomyManager.resident_low_eco_landincome_forui[i]  / 100f;
+                comm_high_landincome_forui+= (double)pc_EconomyManager.comm_high_landincome_forui[i]  / 100f;
+                comm_low_landincome_forui+= (double)pc_EconomyManager.comm_low_landincome_forui[i]  / 100f;
+                comm_lei_landincome_forui+= (double)pc_EconomyManager.comm_lei_landincome_forui[i]  / 100f;
+                comm_tou_landincome_forui+= (double)pc_EconomyManager.comm_tou_landincome_forui[i]  / 100f;
+                comm_eco_landincome_forui+= (double)pc_EconomyManager.comm_eco_landincome_forui[i]  / 100f;
+                indu_gen_landincome_forui+= (double)pc_EconomyManager.indu_gen_landincome_forui[i]  / 100f;
+                indu_farmer_landincome_forui+= (double)pc_EconomyManager.indu_farmer_landincome_forui[i]  / 100f;
+                indu_foresty_landincome_forui+= (double)pc_EconomyManager.indu_foresty_landincome_forui[i]  / 100f;
+                indu_oil_landincome_forui+= (double)pc_EconomyManager.indu_oil_landincome_forui[i]  / 100f;
+                indu_ore_landincome_forui+= (double)pc_EconomyManager.indu_ore_landincome_forui[i]  / 100f;
+                office_gen_landincome_forui+= (double)pc_EconomyManager.office_gen_landincome_forui[i]  / 100f;
+                office_high_tech_landincome_forui+= (double)pc_EconomyManager.office_high_tech_landincome_forui[i]  / 100f;
+                comm_high_tradeincome_forui+= (double)pc_EconomyManager.comm_high_tradeincome_forui[i]  / 100f;
+                comm_low_tradeincome_forui+= (double)pc_EconomyManager.comm_low_tradeincome_forui[i]  / 100f;
+                comm_lei_tradeincome_forui+= (double)pc_EconomyManager.comm_lei_tradeincome_forui[i]  / 100f;
+                comm_tou_tradeincome_forui+= (double)pc_EconomyManager.comm_tou_tradeincome_forui[i]  / 100f;
+                comm_eco_tradeincome_forui+= (double)pc_EconomyManager.comm_eco_tradeincome_forui[i]  / 100f;
+                indu_gen_tradeincome_forui+= (double)pc_EconomyManager.indu_gen_tradeincome_forui[i]  / 100f;
+                indu_farmer_tradeincome_forui+= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[i]  / 100f;
+                indu_foresty_tradeincome_forui+= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[i]  / 100f;
+                indu_oil_tradeincome_forui+= (double)pc_EconomyManager.indu_oil_tradeincome_forui[i]  / 100f;
+                indu_ore_tradeincome_forui+= (double)pc_EconomyManager.indu_ore_tradeincome_forui[i]  / 100f;
 
-                road_income_forui += (double)pc_EconomyManager.road_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                cemetery_income_forui += (double)pc_EconomyManager.cemetery_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                garbage_income_forui += (double)pc_EconomyManager.garbage_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                police_income_forui += (double)pc_EconomyManager.police_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                school_income_forui += (double)pc_EconomyManager.school_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
-                firestation_income_forui += (double)pc_EconomyManager.firestation_income_forui[i] * (float)comm_data.game_income_expense_multiple / 100f;
+                road_income_forui += (double)pc_EconomyManager.road_income_forui[i]  / 100f;
+                cemetery_income_forui += (double)pc_EconomyManager.cemetery_income_forui[i]  / 100f;
+                garbage_income_forui += (double)pc_EconomyManager.garbage_income_forui[i]  / 100f;
+                police_income_forui += (double)pc_EconomyManager.police_income_forui[i]  / 100f;
+                school_income_forui += (double)pc_EconomyManager.school_income_forui[i]  / 100f;
+                firestation_income_forui += (double)pc_EconomyManager.firestation_income_forui[i]  / 100f;
             }
             /*DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[0].ToString());
             DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[1].ToString());
@@ -1185,42 +809,42 @@ namespace RealCity
             DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[14].ToString());
             DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[15].ToString());
             DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[16].ToString());*/
-            citizen_tax_income_forui -= (double)pc_EconomyManager.citizen_tax_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            citizen_income_forui -= (double)pc_EconomyManager.citizen_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            tourist_income_forui -= (double)pc_EconomyManager.tourist_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            resident_high_landincome_forui -= (double)pc_EconomyManager.resident_high_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            resident_low_landincome_forui -= (double)pc_EconomyManager.resident_low_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            resident_high_eco_landincome_forui -= (double)pc_EconomyManager.resident_high_eco_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            resident_low_eco_landincome_forui -= (double)pc_EconomyManager.resident_low_eco_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_high_landincome_forui -= (double)pc_EconomyManager.comm_high_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_low_landincome_forui -= (double)pc_EconomyManager.comm_low_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_lei_landincome_forui -= (double)pc_EconomyManager.comm_lei_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_tou_landincome_forui -= (double)pc_EconomyManager.comm_tou_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_eco_landincome_forui -= (double)pc_EconomyManager.comm_eco_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_gen_landincome_forui -= (double)pc_EconomyManager.indu_gen_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_farmer_landincome_forui -= (double)pc_EconomyManager.indu_farmer_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_foresty_landincome_forui -= (double)pc_EconomyManager.indu_foresty_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_oil_landincome_forui -= (double)pc_EconomyManager.indu_oil_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_ore_landincome_forui -= (double)pc_EconomyManager.indu_ore_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            office_gen_landincome_forui -= (double)pc_EconomyManager.office_gen_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            office_high_tech_landincome_forui -= (double)pc_EconomyManager.office_high_tech_landincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_high_tradeincome_forui -= (double)pc_EconomyManager.comm_high_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_low_tradeincome_forui -= (double)pc_EconomyManager.comm_low_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_lei_tradeincome_forui -= (double)pc_EconomyManager.comm_lei_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_tou_tradeincome_forui -= (double)pc_EconomyManager.comm_tou_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            comm_eco_tradeincome_forui -= (double)pc_EconomyManager.comm_eco_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_gen_tradeincome_forui -= (double)pc_EconomyManager.indu_gen_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_farmer_tradeincome_forui -= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_foresty_tradeincome_forui -= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_oil_tradeincome_forui -= (double)pc_EconomyManager.indu_oil_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            indu_ore_tradeincome_forui -= (double)pc_EconomyManager.indu_ore_tradeincome_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
+            citizen_tax_income_forui -= (double)pc_EconomyManager.citizen_tax_income_forui[comm_data.update_money_count]  / 100f;
+            citizen_income_forui -= (double)pc_EconomyManager.citizen_income_forui[comm_data.update_money_count]  / 100f;
+            tourist_income_forui -= (double)pc_EconomyManager.tourist_income_forui[comm_data.update_money_count]  / 100f;
+            resident_high_landincome_forui -= (double)pc_EconomyManager.resident_high_landincome_forui[comm_data.update_money_count]  / 100f;
+            resident_low_landincome_forui -= (double)pc_EconomyManager.resident_low_landincome_forui[comm_data.update_money_count]  / 100f;
+            resident_high_eco_landincome_forui -= (double)pc_EconomyManager.resident_high_eco_landincome_forui[comm_data.update_money_count]  / 100f;
+            resident_low_eco_landincome_forui -= (double)pc_EconomyManager.resident_low_eco_landincome_forui[comm_data.update_money_count]  / 100f;
+            comm_high_landincome_forui -= (double)pc_EconomyManager.comm_high_landincome_forui[comm_data.update_money_count]  / 100f;
+            comm_low_landincome_forui -= (double)pc_EconomyManager.comm_low_landincome_forui[comm_data.update_money_count]  / 100f;
+            comm_lei_landincome_forui -= (double)pc_EconomyManager.comm_lei_landincome_forui[comm_data.update_money_count]  / 100f;
+            comm_tou_landincome_forui -= (double)pc_EconomyManager.comm_tou_landincome_forui[comm_data.update_money_count]  / 100f;
+            comm_eco_landincome_forui -= (double)pc_EconomyManager.comm_eco_landincome_forui[comm_data.update_money_count]  / 100f;
+            indu_gen_landincome_forui -= (double)pc_EconomyManager.indu_gen_landincome_forui[comm_data.update_money_count]  / 100f;
+            indu_farmer_landincome_forui -= (double)pc_EconomyManager.indu_farmer_landincome_forui[comm_data.update_money_count]  / 100f;
+            indu_foresty_landincome_forui -= (double)pc_EconomyManager.indu_foresty_landincome_forui[comm_data.update_money_count]  / 100f;
+            indu_oil_landincome_forui -= (double)pc_EconomyManager.indu_oil_landincome_forui[comm_data.update_money_count]  / 100f;
+            indu_ore_landincome_forui -= (double)pc_EconomyManager.indu_ore_landincome_forui[comm_data.update_money_count]  / 100f;
+            office_gen_landincome_forui -= (double)pc_EconomyManager.office_gen_landincome_forui[comm_data.update_money_count]  / 100f;
+            office_high_tech_landincome_forui -= (double)pc_EconomyManager.office_high_tech_landincome_forui[comm_data.update_money_count]  / 100f;
+            comm_high_tradeincome_forui -= (double)pc_EconomyManager.comm_high_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            comm_low_tradeincome_forui -= (double)pc_EconomyManager.comm_low_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            comm_lei_tradeincome_forui -= (double)pc_EconomyManager.comm_lei_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            comm_tou_tradeincome_forui -= (double)pc_EconomyManager.comm_tou_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            comm_eco_tradeincome_forui -= (double)pc_EconomyManager.comm_eco_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            indu_gen_tradeincome_forui -= (double)pc_EconomyManager.indu_gen_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            indu_farmer_tradeincome_forui -= (double)pc_EconomyManager.indu_farmer_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            indu_foresty_tradeincome_forui -= (double)pc_EconomyManager.indu_foresty_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            indu_oil_tradeincome_forui -= (double)pc_EconomyManager.indu_oil_tradeincome_forui[comm_data.update_money_count]  / 100f;
+            indu_ore_tradeincome_forui -= (double)pc_EconomyManager.indu_ore_tradeincome_forui[comm_data.update_money_count]  / 100f;
 
-            road_income_forui -= (double)pc_EconomyManager.road_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            cemetery_income_forui -= (double)pc_EconomyManager.cemetery_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            garbage_income_forui -= (double)pc_EconomyManager.garbage_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            firestation_income_forui -= (double)pc_EconomyManager.firestation_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            police_income_forui -= (double)pc_EconomyManager.police_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
-            school_income_forui -= (double)pc_EconomyManager.school_income_forui[comm_data.update_money_count] * (float)comm_data.game_income_expense_multiple / 100f;
+            road_income_forui -= (double)pc_EconomyManager.road_income_forui[comm_data.update_money_count]  / 100f;
+            cemetery_income_forui -= (double)pc_EconomyManager.cemetery_income_forui[comm_data.update_money_count]  / 100f;
+            garbage_income_forui -= (double)pc_EconomyManager.garbage_income_forui[comm_data.update_money_count]  / 100f;
+            firestation_income_forui -= (double)pc_EconomyManager.firestation_income_forui[comm_data.update_money_count]  / 100f;
+            police_income_forui -= (double)pc_EconomyManager.police_income_forui[comm_data.update_money_count]  / 100f;
+            school_income_forui -= (double)pc_EconomyManager.school_income_forui[comm_data.update_money_count]  / 100f;
 
             citizen_tax_income_total += citizen_tax_income_forui;
             city_land_income_total += resident_high_landincome_forui;

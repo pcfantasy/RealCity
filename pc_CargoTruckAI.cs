@@ -101,17 +101,6 @@ namespace RealCity
             Building building1 = instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
 
-            if (comm_data.crasy_task)
-            {
-                if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
-                {
-                    if (building1.m_flags.IsFlagSet(Building.Flags.Untouchable))
-                    {
-                        comm_data.task_num--;
-                    }
-                }
-            }
-
             float import_tax = 0f;
             if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
             {
@@ -123,60 +112,57 @@ namespace RealCity
                         if (((info.m_class.m_service == ItemClass.Service.Industrial) || (info.m_class.m_service == ItemClass.Service.Commercial)) && ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0))
                         {
                             //DebugLog.LogToFileOnly("process_trade_tax_arrive_at_target, find a import trade size = " + num.ToString());
-                            if (comm_data.have_tax_department)
+                            switch ((TransferManager.TransferReason)data.m_transferType)
                             {
-                                switch ((TransferManager.TransferReason)data.m_transferType)
-                                {
-                                    case TransferManager.TransferReason.Grain:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.food_import_price;
-                                        //import_tax = num * 0.25f * (pc_PrivateBuildingAI.grain_import_price - (1f - pc_PrivateBuildingAI.grain_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Logs:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.log_import_price;
-                                        //import_tax = num * 0.25f * (pc_PrivateBuildingAI.log_import_price - (1f - pc_PrivateBuildingAI.log_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Oil:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.oil_import_price;
-                                        //import_tax = num * 0.25f * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Ore:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.ore_import_price;
-                                        //import_tax = num * 0.25f * (pc_PrivateBuildingAI.ore_import_price - (1f - pc_PrivateBuildingAI.ore_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Lumber:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.lumber_import_price;
-                                        //import_tax = num * 0.35f * (pc_PrivateBuildingAI.lumber_import_price - (0.2f * comm_data.ConsumptionDivider / 4f) - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Coal:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.coal_import_price;
-                                        //import_tax = num * 0.35f * (pc_PrivateBuildingAI.coal_import_price - (0.2f * comm_data.ConsumptionDivider / 2.5f) - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Food:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.food_import_price;
-                                        //import_tax = num * 0.35f * (pc_PrivateBuildingAI.food_import_price - (0.2f * comm_data.ConsumptionDivider / 5f) - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Petrol:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.petrol_import_price;
-                                        //import_tax = num * 0.35f * (pc_PrivateBuildingAI.petrol_import_price - (0.2f * comm_data.ConsumptionDivider / 2f) - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    case TransferManager.TransferReason.Goods:
-                                        import_tax = num * 0.1f * pc_PrivateBuildingAI.good_import_price * comm_data.Commerical_price / 4f;
-                                        //amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4
-                                        //import_tax = num * 0.2f * ((pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / pc_PrivateBuildingAI.goods_idex);
-                                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
-                                        break;
-                                    default:
-                                        DebugLog.LogToFileOnly("find unknow building " + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString());
-                                        break;
-                                }
+                                case TransferManager.TransferReason.Grain:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.food_price;
+                                    //import_tax = num * 0.25f * (pc_PrivateBuildingAI.grain_import_price - (1f - pc_PrivateBuildingAI.grain_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Logs:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.log_price;
+                                    //import_tax = num * 0.25f * (pc_PrivateBuildingAI.log_import_price - (1f - pc_PrivateBuildingAI.log_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Oil:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.oil_price;
+                                    //import_tax = num * 0.25f * (pc_PrivateBuildingAI.oil_import_price - (1f - pc_PrivateBuildingAI.oil_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Ore:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.ore_price;
+                                    //import_tax = num * 0.25f * (pc_PrivateBuildingAI.ore_import_price - (1f - pc_PrivateBuildingAI.ore_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Lumber:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.lumber_price;
+                                    //import_tax = num * 0.35f * (pc_PrivateBuildingAI.lumber_import_price - (0.2f * comm_data.ConsumptionDivider / 4f) - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Coal:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.coal_price;
+                                    //import_tax = num * 0.35f * (pc_PrivateBuildingAI.coal_import_price - (0.2f * comm_data.ConsumptionDivider / 2.5f) - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Food:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.food_price;
+                                    //import_tax = num * 0.35f * (pc_PrivateBuildingAI.food_import_price - (0.2f * comm_data.ConsumptionDivider / 5f) - (1f - pc_PrivateBuildingAI.food_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.food_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Petrol:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.petrol_price;
+                                    //import_tax = num * 0.35f * (pc_PrivateBuildingAI.petrol_import_price - (0.2f * comm_data.ConsumptionDivider / 2f) - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                case TransferManager.TransferReason.Goods:
+                                    import_tax = num * 0.1f * pc_PrivateBuildingAI.good_price;
+                                    //amountDelta * (pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / 4
+                                    //import_tax = num * 0.2f * ((pc_PrivateBuildingAI.good_import_price - 0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) / pc_PrivateBuildingAI.goods_idex);
+                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, info.m_class.m_service, info.m_class.m_subService, info.m_class.m_level, 111);
+                                    break;
+                                default:
+                                    DebugLog.LogToFileOnly("find unknow building " + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString());
+                                    break;
                             }
                         }
                     }
@@ -186,45 +172,32 @@ namespace RealCity
                 {
                     import_tax = 0f;
                     float product_value = 0f;
-                    float product_value1 = 0f;
                     switch ((TransferManager.TransferReason)data.m_transferType)
                     {
                         case TransferManager.TransferReason.Petrol:
-                            product_value = num * (pc_PrivateBuildingAI.petrol_import_price- (0.2f * comm_data.ConsumptionDivider / 2f) - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price / pc_PrivateBuildingAI.petrol_index);
-                            product_value1 = num * pc_PrivateBuildingAI.petrol_import_price;
+                            product_value = num * pc_PrivateBuildingAI.petrol_price;
                             if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                             {
-                                if (comm_data.have_tax_department)
-                                {
-                                    import_tax = product_value1 * 0.1f;
-                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
-                                }
-                            }              
+                                import_tax = product_value * 0.1f;
+                                Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
+                            }             
                             Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
                             break;
                         case TransferManager.TransferReason.Coal:
-                            product_value1 = num * pc_PrivateBuildingAI.coal_import_price;
-                            product_value = num * (pc_PrivateBuildingAI.coal_import_price - (0.2f * comm_data.ConsumptionDivider / 2.5f) - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price/ pc_PrivateBuildingAI.coal_index);
+                            product_value = num * pc_PrivateBuildingAI.coal_price;
                             if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                             {
-                                if (comm_data.have_tax_department)
-                                {
-                                    import_tax = product_value1 * 0.1f;
-                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
-                                }
+                                import_tax = product_value * 0.1f;
+                                Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
                             }
                             Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
                             break;
                         case TransferManager.TransferReason.Goods:
-                            product_value1 = num * pc_PrivateBuildingAI.good_import_price * comm_data.Commerical_price / pc_PrivateBuildingAI.goods_idex;
-                            product_value = num * ((pc_PrivateBuildingAI.good_import_price - (0.2f - 0.6f * (1f - pc_PrivateBuildingAI.good_import_ratio) - 0.1f * pc_PrivateBuildingAI.good_level2_ratio - 0.2f * pc_PrivateBuildingAI.good_level3_ratio) * comm_data.Commerical_price) / pc_PrivateBuildingAI.goods_idex);
+                            product_value = num * pc_PrivateBuildingAI.good_price;
                             if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                             {
-                                if (comm_data.have_tax_department)
-                                {
-                                    import_tax = product_value1 * 0.1f;
-                                    Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
-                                }
+                                import_tax = product_value * 0.1f;
+                                Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
                             }
                             
                             Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
@@ -232,24 +205,6 @@ namespace RealCity
                         default: DebugLog.LogToFileOnly("find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                     }
                 }
-                //if ((building.m_flags.IsFlagSet(Building.Flags.Untouchable)) || (building1.m_flags.IsFlagSet(Building.Flags.Untouchable)))
-                //{
-                    //if (pc_OutsideConnectionAI.have_maintain_road_building)
-                    //{
-                        //DebugLog.LogToFileOnly("add road condition");
-                        //Singleton<EconomyManager>.instance.AddPrivateIncome(100, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                        //if (((building1.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming) && (building1.Info.m_class.m_service == ItemClass.Service.Road))
-                        //{
-                            //DebugLog.LogToFileOnly("add road condition1");
-                            //building1.m_waterBuffer += 10;
-                            //DebugLog.LogToFileOnly("add road condition2 building1.m_waterBuffer = " + building1.m_waterBuffer.ToString() + "building ID = " + data.m_targetBuilding.ToString());
-                            //if (building1.m_waterBuffer > 65000)
-                            //{
-                                //building1.m_waterBuffer = 65000;
-                            //}
-                        //}
-                    //}
-                //}
             }
             else
             {
@@ -322,15 +277,15 @@ namespace RealCity
                 switch ((TransferManager.TransferReason)data.m_transferType)
                 {
                     case TransferManager.TransferReason.Lumber:
-                        product_value = -num * (pc_PrivateBuildingAI.lumber_import_price - (1f - pc_PrivateBuildingAI.lumber_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.lumber_index);
+                        product_value = -num * pc_PrivateBuildingAI.lumber_price;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)product_value, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialForestry, ItemClass.Level.Level3, 111);
                         break;
                     case TransferManager.TransferReason.Coal:
-                        product_value = -num * (pc_PrivateBuildingAI.coal_import_price - (1f - pc_PrivateBuildingAI.coal_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.coal_index);
+                        product_value = -num * pc_PrivateBuildingAI.coal_price;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)product_value, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialOre, ItemClass.Level.Level3, 111);
                         break;
                     case TransferManager.TransferReason.Petrol:
-                        product_value = -num * (pc_PrivateBuildingAI.petrol_import_price - (1f - pc_PrivateBuildingAI.petrol_import_ratio) * 0.1f * comm_data.ConsumptionDivider / pc_PrivateBuildingAI.petrol_index);
+                        product_value = -num * pc_PrivateBuildingAI.petrol_price;
                         Singleton<EconomyManager>.instance.AddPrivateIncome((int)product_value, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialOil, ItemClass.Level.Level3, 111);
                         break;
                     default: DebugLog.LogToFileOnly("find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;

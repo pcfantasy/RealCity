@@ -120,10 +120,7 @@ namespace RealCity
             {
                 this.EcButton.text = language.EconomicUI[0];
                 this.EcButton.tooltip = language.EconomicUI[0];
-                if (comm_data.is_random_event)
-                {
-                    this.EcButton.textColor = Color.red;
-                } else if ((comm_data.city_bank < -1000000)  || (comm_data.Bad_reputation > 50))
+                if (false)  //lack of resource
                 {
                     this.EcButton.textColor = Color.red;
                 } else

@@ -139,99 +139,9 @@ namespace RealCity
             saveandrestore.save_long(ref i, citizen_goods_temp, ref save_data);
         }
 
-
-        public void citizen_status(uint citizen_id)
-        {
-            System.Random rand = new System.Random();
-            if (citizen_id != 0u)
-            {
-                if (comm_data.Virus_attack)
-                {
-                    if (rand.Next(1000) < rand.Next(10))
-                    {
-                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                        {
-                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                        }
-                    }
-                }
-
-                int work_building = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding;
-                if (work_building != 0u)
-                {
-                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService)
-                    {
-                        case ItemClass.SubService.IndustrialForestry:
-                            if (rand.Next(10000) < 4)
-                            {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                {
-                                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                                    {
-                                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                                    }
-                                }
-                            }
-
-                            if (rand.Next(10000) < 2)
-                            {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
-                                    {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
-                                        {
-                                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
-                                        }
-                                    }
-                                }
-                            }break;
-                        case ItemClass.SubService.IndustrialOil:     
-                                if (rand.Next(10000) < 6)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                    {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                                        {
-                                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                                        }
-                                    }
-                                }
-
-                            if (rand.Next(10000) < 3)
-                            {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                {
-                                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick == false)
-                                    {
-                                        if (Singleton<UnlockManager>.instance.Unlocked(UnlockManager.Feature.DeathCare))
-                                        {
-                                            Die(citizen_id, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id]);
-                                        }
-                                    }
-                                }
-                            }break;
-                        case ItemClass.SubService.IndustrialOre:
-                            if (rand.Next(10000) < 10)
-                            {
-                                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].CurrentLocation == Citizen.Location.Work)
-                                {
-                                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                                    {
-                                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].Sick = true;
-                                    }
-                                }
-                            }break;
-                        default:break;
-                    }
-                }
-            }
-        }
-
         public static int citizen_salary(uint citizen_id, bool check_only)
         {
             int num = 0;
-            int num1 = 0;
             System.Random rand = new System.Random();
             //Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
             if (citizen_id != 0u)
@@ -249,130 +159,101 @@ namespace RealCity
                 if (work_building != 0u)
                 {
                     budget = Singleton<EconomyManager>.instance.GetBudget(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class);
+                    BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
                     switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.CommercialHigh:
-                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
                             switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_level)
                             {
                                 case ItemClass.Level.Level1:
-                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                                     {
                                         if (totalworkcount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.2f / totalworkcount);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.2f / totalworkcount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level2:
-                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                                     {
                                         if (totalworkcount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.4f / totalworkcount);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.4f / totalworkcount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level3:
-                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                                     {
                                         if (totalworkcount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / totalworkcount);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.7f / totalworkcount);
                                         }
                                     }
                                     break;
-                            }
-                            if (check_only)
-                            {
-                                comm_data.building_money[work_building] -= num1;
-                                comm_data.city_bank -= num1;
                             }
                             break; //
                         case ItemClass.SubService.CommercialLow:
-                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
                             switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_level)
                             {
                                 case ItemClass.Level.Level1:
-                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                                     {
                                         if (totalworkcount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.1f / totalworkcount);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000))/ totalworkcount);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.1f / totalworkcount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level2:
-                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                                     {
                                         if (totalworkcount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.3f / totalworkcount);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.3f / totalworkcount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level3:
-                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                                     {
                                         if (totalworkcount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000 ))* 0.6f / totalworkcount);
-                                            num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.6f / totalworkcount);
                                         }
                                     }
                                     break;
-                            }
-                            if (check_only)
-                            {
-                                comm_data.building_money[work_building] -= num1;
-                                comm_data.city_bank -= num1;
                             }
                             break; //
                         case ItemClass.SubService.IndustrialGeneric:
                             switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_level)
                             {
                                 case ItemClass.Level.Level1:
-                                    switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.pre_good_price * 2000))
                                     {
-                                        case Citizen.Education.Uneducated:
-                                            num = num + (int)(comm_data.indus_gen_level1_education0) + rand.Next(1); break;
-                                        case Citizen.Education.OneSchool:
-                                            num = num + (int)(comm_data.indus_gen_level1_education1) + rand.Next(2); break;
-                                        case Citizen.Education.TwoSchools:
-                                            num = num + (int)(comm_data.indus_gen_level1_education2) + rand.Next(3); break;
-                                        case Citizen.Education.ThreeSchools:
-                                            num = num + (int)(comm_data.indus_gen_level1_education3) + rand.Next(4); break;
+                                        if (totalworkcount != 0)
+                                        {
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.pre_good_price * 2000)) * 0.1f / totalworkcount);
+                                        }
                                     }
                                     break;
                                 case ItemClass.Level.Level2:
-                                    switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.pre_good_price * 2000))
                                     {
-                                        case Citizen.Education.Uneducated:
-                                            num = num + (int)(comm_data.indus_gen_level2_education0) + rand.Next(1); break;
-                                        case Citizen.Education.OneSchool:
-                                            num = num + (int)(comm_data.indus_gen_level2_education1) + rand.Next(2); break;
-                                        case Citizen.Education.TwoSchools:
-                                            num = num + (int)(comm_data.indus_gen_level2_education2) + rand.Next(3); break;
-                                        case Citizen.Education.ThreeSchools:
-                                            num = num + (int)(comm_data.indus_gen_level2_education3) + rand.Next(4); break;
+                                        if (totalworkcount != 0)
+                                        {
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.pre_good_price * 2000)) * 0.3f / totalworkcount);
+                                        }
                                     }
                                     break;
                                 case ItemClass.Level.Level3:
-                                    switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                                    if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.pre_good_price * 2000))
                                     {
-                                        case Citizen.Education.Uneducated:
-                                            num = num + (int)(comm_data.indus_gen_level3_education0) + rand.Next(1); break;
-                                        case Citizen.Education.OneSchool:
-                                            num = num + (int)(comm_data.indus_gen_level3_education1) + rand.Next(2); break;
-                                        case Citizen.Education.TwoSchools:
-                                            num = num + (int)(comm_data.indus_gen_level3_education2) + rand.Next(3); break;
-                                        case Citizen.Education.ThreeSchools:
-                                            num = num + (int)(comm_data.indus_gen_level3_education3) + rand.Next(4); break;
+                                        if (totalworkcount != 0)
+                                        {
+                                            num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.pre_good_price * 2000)) * 0.6f / totalworkcount);
+                                        }
                                     }
                                     break;
                             }
@@ -387,132 +268,112 @@ namespace RealCity
                                     {
                                         num = (int)(comm_data.building_money[work_building] * 0.2f / totalworkcount);
                                     }
-                                    if (check_only)
+                                }
+                            }
+                            else
+                            {
+                                if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.grain_price * 2000))
+                                {
+                                    if (totalworkcount != 0)
                                     {
-                                        comm_data.building_money[work_building] -= num;
-                                        comm_data.city_bank -= num;
+                                        num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.grain_price * 2000)) * 0.2f / totalworkcount);
+                                    }
+                                }
+                            }
+                            break; //
+                        case ItemClass.SubService.IndustrialForestry:
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                                BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
+                                if (comm_data.building_money[work_building] > 0)
+                                {
+                                    if (totalworkcount != 0)
+                                    {
+                                        num = (int)(comm_data.building_money[work_building] * 0.2f / totalworkcount);
                                     }
                                 }
                             }
                             else
                             {
-                                switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
+                                if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.log_price * 2000))
                                 {
-                                    case Citizen.Education.Uneducated:
-                                        num = num + (int)(comm_data.indus_far_education0) + rand.Next(1); num = num >> 1; break;
-                                    case Citizen.Education.OneSchool:
-                                        num = num + (int)(comm_data.indus_far_education1) + rand.Next(2); num = num >> 1; break;
-                                    case Citizen.Education.TwoSchools:
-                                        num = num + (int)(comm_data.indus_far_education2) + rand.Next(3); num = num >> 1; break;
-                                    case Citizen.Education.ThreeSchools:
-                                        num = num + (int)(comm_data.indus_far_education3) + rand.Next(4); num = num >> 1; break;
+                                    if (totalworkcount != 0)
+                                    {
+                                        num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.log_price * 2000)) * 0.2f / totalworkcount);
+                                    }
                                 }
-                            }
-                            break; //
-                        case ItemClass.SubService.IndustrialForestry:
-                            switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
-                            {
-                                case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.indus_for_education0) + rand.Next(1); break;
-                                case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.indus_for_education1) + rand.Next(2); break;
-                                case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.indus_for_education2) + rand.Next(3); break;
-                                case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.indus_for_education3) + rand.Next(4); break;
-                            }
-                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
-                            {
-                            } else
-                            {
-                                num = num / 2;
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOil:
-                            switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
-                            {
-                                case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.indus_oil_education0) + rand.Next(1); break;
-                                case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.indus_oil_education1) + rand.Next(2); break;
-                                case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.indus_oil_education2) + rand.Next(3); break;
-                                case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.indus_oil_education3) + rand.Next(4); break;
-                            }
                             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
                             {
+                                BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
+                                if (comm_data.building_money[work_building] > 0)
+                                {
+                                    if (totalworkcount != 0)
+                                    {
+                                        num = (int)(comm_data.building_money[work_building] * 0.2f / totalworkcount);
+                                    }
+                                }
                             }
                             else
                             {
-                                num = num / 2;
+                                if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.petrol_price * 2000))
+                                {
+                                    if (totalworkcount != 0)
+                                    {
+                                        num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.petrol_price * 2000)) * 0.2f / totalworkcount);
+                                    }
+                                }
                             }
                             break; //
                         case ItemClass.SubService.IndustrialOre:
-                            switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].EducationLevel)
-                            {
-                                case Citizen.Education.Uneducated:
-                                    num = num + (int)(comm_data.indus_ore_education0) + rand.Next(1); break;
-                                case Citizen.Education.OneSchool:
-                                    num = num + (int)(comm_data.indus_ore_education1) + rand.Next(2); break;
-                                case Citizen.Education.TwoSchools:
-                                    num = num + (int)(comm_data.indus_ore_education2) + rand.Next(3); break;
-                                case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(comm_data.indus_ore_education3) + rand.Next(4); break;
-                            }
                             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI)
                             {
+                                BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
+                                if (comm_data.building_money[work_building] > 0)
+                                {
+                                    if (totalworkcount != 0)
+                                    {
+                                        num = (int)(comm_data.building_money[work_building] * 0.2f / totalworkcount);
+                                    }
+                                }
                             }
                             else
                             {
-                                num = num / 2;
+                                if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.coal_price * 2000))
+                                {
+                                    if (totalworkcount != 0)
+                                    {
+                                        num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.coal_price * 2000)) * 0.2f / totalworkcount);
+                                    }
+                                }
                             }
                             break;
                         case ItemClass.SubService.CommercialLeisure:
-                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
-                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                             {
                                 if (totalworkcount != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.7f / totalworkcount);
-                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
-                                }
-                                if (check_only)
-                                {
-                                    comm_data.building_money[work_building] -= num1;
-                                    comm_data.city_bank -= num1;
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.7f / totalworkcount);
                                 }
                             }
-                            break; 
+                            break;
                         case ItemClass.SubService.CommercialTourist:
-                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
-                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                             {
                                 if (totalworkcount != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.9f / totalworkcount);
-                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
-                                }
-                                if (check_only)
-                                {
-                                    comm_data.building_money[work_building] -= num1;
-                                    comm_data.city_bank -= num1;
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.9f / totalworkcount);
                                 }
                             }
-                            break; 
+                            break;
                         case ItemClass.SubService.CommercialEco:
-                            BuildingUI.GetWorkBehaviour((ushort)work_building, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building], ref behaviour, ref aliveworkcount, ref totalworkcount);
-                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_import_price * 2000))
+                            if (comm_data.building_money[work_building] > (pc_PrivateBuildingAI.good_price * 2000))
                             {
                                 if (totalworkcount != 0)
                                 {
-                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) * 0.05f / totalworkcount);
-                                    num1 = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_import_price * 2000)) / totalworkcount);
-                                }
-                                if (check_only)
-                                {
-                                    comm_data.building_money[work_building] -= num1;
-                                    comm_data.city_bank -= num1;
+                                    num = (int)((comm_data.building_money[work_building] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.05f / totalworkcount);
                                 }
                             }
                             break;
@@ -557,11 +418,6 @@ namespace RealCity
                                 {
                                     num = (int)(comm_data.building_money[work_building] / totalworkcount);
                                 }
-                                if (check_only)
-                                {
-                                    comm_data.building_money[work_building] -= num;
-                                    comm_data.city_bank -= num;
-                                }
                             }
                             break;
                         case ItemClass.Service.Disaster:
@@ -599,120 +455,12 @@ namespace RealCity
                         default:
                             break;
                     }
-
-
-
-
-
-                    if (num == 0 && (!(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial)) && (!(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office)) && (!(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)))
+                    if (check_only)
                     {
-                        DebugLog.LogToFileOnly("find unknown citizen workbuilding" + " building servise is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service + " building subservice is" + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService);
-                    }
-
-                    float local_salary_idex = 0.5f;
-                    float final_salary_idex = 0.5f;
-                    DistrictManager instance2 = Singleton<DistrictManager>.instance;
-                    byte district = 0;
-                    if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial))
-                    {
-                        district = instance2.GetDistrict(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_position);
-                        local_salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[district].GetLandValue() + 50f) / 120f;
-                        final_salary_idex = (local_salary_idex * 2f + comm_data.salary_idex) / 3f;
-                    }
-
-
-                    if (budget != 0)
-                    {
-                        num = (int)(num * budget / 100f);
-                        switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service)
-                        {
-                            case ItemClass.Service.HealthCare:
-                            case ItemClass.Service.PoliceDepartment:
-                            case ItemClass.Service.Road:
-                            case ItemClass.Service.Beautification:
-                            case ItemClass.Service.Monument:
-                            case ItemClass.Service.Garbage:
-                            case ItemClass.Service.FireDepartment:
-                                if (check_only)
-                                {
-                                    comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= (num / 100f);
-                                }
-                                break;
-                            default: comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] = 0; break;
-                        }
-                    }
-
-
-                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial)
-                    {
-                        if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming) && (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_buildingAI is IndustrialExtractorAI))
-                        {
-
-                        }
-                        else
-                        {
-                            if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] < 0)
-                            {
-                                num = (int)((float)num * final_salary_idex / 3f + 0.5f);
-                            }
-                            else if (!comm_data.building_flag[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding])
-                            {
-                                num = (int)((float)num * final_salary_idex + 0.5f);
-                            }
-
-                            if (comm_data.hot_money && !comm_data.building_flag[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding])
-                            {
-                                num = num * 2;
-                            }
-
-
-                            num = (int)((float)num * (float)(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_width * (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_length) / 9f));
-                            if ((Singleton<SimulationManager>.instance.m_currentFrameIndex & 16383u) < 16)
-                            {
-                                //bonus
-                                if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 0)
-                                {
-                                    if (totalworkcount != 0)
-                                    {
-                                        num = num + (int)(comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] * 0.2f / totalworkcount);
-                                    }
-                                }
-                            }
-                            if (check_only)
-                            {
-                                if (comm_data.building_flag[work_building])
-                                {
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(num)+rand.Next(1), ItemClass.Service.Beautification, ItemClass.SubService.None, ItemClass.Level.Level1);
-                                }
-                                else
-                                {
-                                    comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num;
-                                    comm_data.city_bank -= num;
-                                }
-                            }
-                        }
-                    }
-
-                    if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Commercial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Industrial) || (Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.m_service == ItemClass.Service.Office))
-                    {
-                        if (comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] > 0)
-                        {
-                            if (check_only)
-                            {
-                                comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.1f;
-                                comm_data.city_bank -= num * 0.1f;
-                                comm_data.city_insurance_account += num * 0.1f;
-                                if (comm_data.is_help_resident)
-                                {
-                                    comm_data.building_money[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_workBuilding] -= num * 0.2f;
-                                    comm_data.city_insurance_account += num * 0.2f;
-                                    comm_data.city_bank -= num * 0.2f;
-                                }
-                            }
-                        }
+                        comm_data.building_money[work_building] -= num;
                     }
                 }
-           }//if (citizen_id != 0u)
+            }
             return num;
         }//public
 
@@ -849,7 +597,6 @@ namespace RealCity
                 {
                     comm_data.family_weight_stable_low = family_weight_stable_low;
                 }
-                comm_data.city_insurance_account_final = comm_data.city_insurance_account;
                 citizen_goods = citizen_goods_temp;
                 family_very_profit_money_num = 0;
                 family_profit_money_num = 0;
@@ -882,7 +629,6 @@ namespace RealCity
                 family_weight_stable_high = 0;
                 family_weight_stable_low = 0;
                 citizen_goods_temp = 0;
-                comm_data.city_insurance_account = 0;
             }
             else if (precitizenid < homeID)
             {
@@ -926,19 +672,14 @@ namespace RealCity
             //here we caculate citizen income
             int temp_num;
             temp_num = citizen_salary(data.m_citizen0,true);
-            citizen_status(data.m_citizen0);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen1, true);
-            citizen_status(data.m_citizen1);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen2, true);
-            citizen_status(data.m_citizen2);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen3, true);
-            citizen_status(data.m_citizen3);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             temp_num = temp_num + citizen_salary(data.m_citizen4, true);
-            citizen_status(data.m_citizen4);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             //DebugLog.LogToFileOnly("Citzen " + homeID.ToString() + "salary is " + temp_num.ToString());
             citizen_salary_count = citizen_salary_count + temp_num;
@@ -994,20 +735,6 @@ namespace RealCity
             //some is paid by company
             float insurance = 0;
             float company_insurance = 0;
-            if (comm_data.is_help_resident)
-            {
-                insurance = 0.2f * citizen_salary_current;
-                //company_insurance = 0.3f * citizen_salary_current;
-                comm_data.city_insurance_account += insurance;
-                //citizen_salary_current = (int)(0.8f * citizen_salary_current);
-            }
-            else
-            {
-                insurance = 0.1f * citizen_salary_current;
-                //company_insurance = 0.1f * citizen_salary_current;
-                comm_data.city_insurance_account += insurance;
-                //citizen_salary_current = (int)(0.9f * citizen_salary_current);
-            }
 
 
             if (citizen_salary_current < 10)
@@ -1033,14 +760,6 @@ namespace RealCity
 
 
             tax = tax + insurance;
-
-
-            if (citizen_salary_current < (comm_data.citizen_salary_per_family / 2) && comm_data.is_help_resident)
-            {
-                Help_low_income_family(citizen_salary_current);
-                citizen_salary_current = comm_data.citizen_salary_per_family/2;
-                comm_data.city_insurance_account -= (int)(comm_data.citizen_salary_per_family / 2);
-            }
 
             temp_citizen_salary_tax_total = temp_citizen_salary_tax_total + (int)tax;
             citizen_salary_tax_total = (int)temp_citizen_salary_tax_total;
@@ -1097,7 +816,6 @@ namespace RealCity
             //income - expense
             temp_num = citizen_salary_current - (int)(tax) - temp_num - expenserate;// - comm_data.citizen_average_transport_fee;
             comm_data.family_money[homeID] = (float)(comm_data.family_money[homeID] + temp_num);
-            comm_data.city_bank += temp_num;
             //process citizen status
             System.Random rand = new System.Random();
             if (temp_num <= 20)
@@ -1121,7 +839,6 @@ namespace RealCity
             temp_num = (temp_num > 40) ? 40 : temp_num;
 
             comm_data.family_money[homeID] = (float)(comm_data.family_money[homeID] - temp_num);
-            comm_data.city_bank -= temp_num;
 
 
             if (comm_data.family_money[homeID] >= 20000)
@@ -1275,19 +992,6 @@ namespace RealCity
             //comm_data.citizen_shopping_idex = (byte)temp_num;
             return (byte)temp_num;
             //return to original game code.
-        }
-
-
-        public void Help_low_income_family(int citizen_salary_current)
-        {
-            int expense = (comm_data.citizen_salary_per_family / 2) - citizen_salary_current;
-            if (expense <= 0)
-            {
-                DebugLog.LogToFileOnly("we can not offer <0 money to citizen");
-            } else
-            {
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, expense * comm_data.game_maintain_fee_decrease, this.m_info.m_class);
-            }
         }
 
         public void TryMoveAwayFromHome_1(uint citizenID, ref Citizen data)
@@ -1870,10 +1574,6 @@ namespace RealCity
                 if (comm_data.family_money[homeid] > 0)
                 {
                     incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
-                    if (comm_data.hot_money)
-                    {
-                        incomeAccumulation = incomeAccumulation * 2;
-                    }
                 } else
                 {
                     incomeAccumulation = 0;
@@ -1917,56 +1617,7 @@ namespace RealCity
                 }
 
             }
-
-            if (UnlockManager.instance.Unlocked(ItemClass.Service.HealthCare))
-            {
-                if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen_id].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
-                {
-                    if ((comm_data.family_money[homeid] > 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
-                    {
-                        temp = temp + 30;
-                        // 10% is provide by citizen  90% is provide by goverment
-                        Singleton<EconomyManager>.instance.AddPrivateIncome(30, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 120, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 120;
-                    }
-                    else if ((comm_data.family_money[homeid] < 0) && pc_OutsideConnectionAI.have_hospital_building && !comm_data.hospitalhelp)
-                    {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 150, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 150;
-                    }
-                    else
-                    {
-                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, 150, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level1);
-                        comm_data.city_insurance_account -= 150;
-                    }
-                }
-            }
             return temp;
-        }
-
-        public static void Die(uint citizenID, ref Citizen data)
-        {
-            data.Sick = false;
-            data.Dead = true;
-            data.SetParkedVehicle(citizenID, 0);
-            if ((data.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
-            {
-                ushort num = data.GetBuildingByLocation();
-                if (num == 0)
-                {
-                    num = data.m_homeBuilding;
-                }
-                if (num != 0)
-                {
-                    DistrictManager instance = Singleton<DistrictManager>.instance;
-                    Vector3 position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)num].m_position;
-                    byte district = instance.GetDistrict(position);
-                    District[] expr_7D_cp_0_cp_0 = instance.m_districts.m_buffer;
-                    byte expr_7D_cp_0_cp_1 = district;
-                    expr_7D_cp_0_cp_0[(int)expr_7D_cp_0_cp_1].m_deathData.m_tempCount = expr_7D_cp_0_cp_0[(int)expr_7D_cp_0_cp_1].m_deathData.m_tempCount + 1u;
-                }
-            }
         }
 
         private bool IsRoadConnection(ushort building)
@@ -1996,28 +1647,145 @@ namespace RealCity
                     if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[homeBuilding1].Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         comm_data.citizen_money[data.m_citizen] = rand.Next(5000);
-                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
                     } else
                     {
                         comm_data.citizen_money[data.m_citizen] = 5000 + rand.Next(15000);
-                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
-                    }
-
-                    if (comm_data.refugees || (comm_data.city_bank < -1000000))
-                    {
-                        comm_data.citizen_money[data.m_citizen] = -rand.Next(10000);
-                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
-                    }
-                    else if (comm_data.Rich_immigrants)
-                    {
-                        comm_data.citizen_money[data.m_citizen] = rand.Next(200000);
-                        comm_data.city_bank += comm_data.citizen_money[data.m_citizen];
                     }
                 }
             }
         }
 
-        public override void SetTarget(ushort instanceID, ref CitizenInstance data, ushort targetBuilding)
+
+
+        public override void SetTarget(ushort instanceID, ref CitizenInstance data, ushort targetIndex, bool targetIsNode)
+        {
+            int dayTimeFrame = (int)Singleton<SimulationManager>.instance.m_dayTimeFrame;
+            int dAYTIME_FRAMES = (int)SimulationManager.DAYTIME_FRAMES;
+            int num = Mathf.Max(dAYTIME_FRAMES >> 2, Mathf.Abs(dayTimeFrame - (dAYTIME_FRAMES >> 1)));
+            if (Singleton<SimulationManager>.instance.m_randomizer.Int32((uint)dAYTIME_FRAMES >> 1) < num)
+            {
+                data.m_flags &= ~CitizenInstance.Flags.CannotUseTaxi;
+            }
+            else
+            {
+                data.m_flags |= CitizenInstance.Flags.CannotUseTaxi;
+            }
+            data.m_flags &= ~CitizenInstance.Flags.CannotUseTransport;
+            if (targetIndex != data.m_targetBuilding || targetIsNode != ((data.m_flags & CitizenInstance.Flags.TargetIsNode) != CitizenInstance.Flags.None))
+            {
+                if (data.m_targetBuilding != 0)
+                {
+                    if ((data.m_flags & CitizenInstance.Flags.TargetIsNode) != CitizenInstance.Flags.None)
+                    {
+                        Singleton<NetManager>.instance.m_nodes.m_buffer[(int)data.m_targetBuilding].RemoveTargetCitizen(instanceID, ref data);
+                        ushort num2 = 0;
+                        if (targetIsNode)
+                        {
+                            num2 = Singleton<NetManager>.instance.m_nodes.m_buffer[(int)data.m_targetBuilding].m_transportLine;
+                        }
+                        if ((data.m_flags & CitizenInstance.Flags.OnTour) != CitizenInstance.Flags.None)
+                        {
+                            ushort transportLine = Singleton<NetManager>.instance.m_nodes.m_buffer[(int)data.m_targetBuilding].m_transportLine;
+                            uint citizen = data.m_citizen;
+                            if (transportLine != 0 && transportLine != num2 && citizen != 0u)
+                            {
+                                TransportManager instance = Singleton<TransportManager>.instance;
+                                TransportInfo info = instance.m_lines.m_buffer[(int)transportLine].Info;
+                                if (info != null && info.m_vehicleType == VehicleInfo.VehicleType.None)
+                                {
+                                    data.m_flags &= ~CitizenInstance.Flags.OnTour;
+                                }
+                            }
+                        }
+                        if (!targetIsNode)
+                        {
+                            data.m_flags &= ~CitizenInstance.Flags.TargetIsNode;
+                        }
+                    }
+                    else
+                    {
+                        Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].RemoveTargetCitizen(instanceID, ref data);
+                    }
+                }
+                data.m_targetBuilding = targetIndex;
+                if (targetIsNode)
+                {
+                    data.m_flags |= CitizenInstance.Flags.TargetIsNode;
+                }
+                if (data.m_targetBuilding != 0)
+                {
+                    if ((data.m_flags & CitizenInstance.Flags.TargetIsNode) != CitizenInstance.Flags.None)
+                    {
+                        Singleton<NetManager>.instance.m_nodes.m_buffer[(int)data.m_targetBuilding].AddTargetCitizen(instanceID, ref data);
+                    }
+                    else
+                    {
+                        Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].AddTargetCitizen(instanceID, ref data);
+                    }
+                    data.m_targetSeed = (byte)Singleton<SimulationManager>.instance.m_randomizer.Int32(256u);
+                }
+            }
+            if (((data.m_flags & CitizenInstance.Flags.TargetIsNode) == CitizenInstance.Flags.None && this.IsRoadConnection(targetIndex)) || this.IsRoadConnection(data.m_sourceBuilding))
+            {
+                data.m_flags |= CitizenInstance.Flags.BorrowCar;
+                is_outside_movingin(instanceID, ref data, targetIndex);
+            }
+            else
+            {
+                data.m_flags &= ~CitizenInstance.Flags.BorrowCar;
+            }
+            if (targetIndex != 0 && (data.m_flags & (CitizenInstance.Flags.Character | CitizenInstance.Flags.TargetIsNode)) == CitizenInstance.Flags.None)
+            {
+                ushort eventIndex = 0;
+                if (data.m_citizen != 0u && Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_workBuilding != targetIndex)
+                {
+                    eventIndex = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)targetIndex].m_eventIndex;
+                }
+                Color32 eventCitizenColor = Singleton<EventManager>.instance.GetEventCitizenColor(eventIndex, data.m_citizen);
+                if (eventCitizenColor.a == 255)
+                {
+                    data.m_color = eventCitizenColor;
+                    data.m_flags |= CitizenInstance.Flags.CustomColor;
+                }
+            }
+
+            Citizen.AgePhase temp_agephase = data.Info.m_agePhase;
+            ushort temp_parkedVehicle = 0;
+            if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].CurrentLocation == Citizen.Location.Home) && (!(targetIndex == (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_workBuilding))))
+            {
+                data.Info.m_agePhase = canusetransport(instanceID, ref data, targetIndex);
+            }
+
+            if (data.Info.m_agePhase == Citizen.AgePhase.Child)
+            {
+                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_parkedVehicle != 0)
+                {
+                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].CurrentLocation == Citizen.Location.Home)
+                    {
+                        temp_parkedVehicle = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_parkedVehicle;
+                        Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_parkedVehicle = 0;
+                    }
+                }
+            }
+
+            if (!this.StartPathFind(instanceID, ref data))
+            {
+                data.Info.m_agePhase = temp_agephase;
+                data.Unspawn(instanceID);
+                if (temp_parkedVehicle != 0)
+                {
+                    Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_parkedVehicle = temp_parkedVehicle;
+                }
+            }
+            data.Info.m_agePhase = temp_agephase;
+            if (temp_parkedVehicle != 0)
+            {
+                Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_parkedVehicle = temp_parkedVehicle;
+            }
+        }
+
+
+       /* public override void SetTarget(ushort instanceID, ref CitizenInstance data, ushort targetBuilding)
         {
             int dayTimeFrame = (int)Singleton<SimulationManager>.instance.m_dayTimeFrame;
             int dAYTIME_FRAMES = (int)SimulationManager.DAYTIME_FRAMES;
@@ -2105,7 +1873,7 @@ namespace RealCity
             {
                 Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen)].m_parkedVehicle = temp_parkedVehicle;
             }
-        }
+        }*/
 
         public Citizen.AgePhase canusetransport (ushort instanceID, ref CitizenInstance citizenData, ushort targetBuilding)
         {

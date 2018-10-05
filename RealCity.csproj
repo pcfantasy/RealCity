@@ -85,16 +85,10 @@
     <Compile Include="BuildingUI.cs" />
     <Compile Include="language.cs" />
     <Compile Include="message.cs" />
-    <Compile Include="pc_AmbulanceAI.cs" />
     <Compile Include="pc_CargoTruckAI.cs" />
     <Compile Include="pc_CitizenManager.cs" />
-    <Compile Include="pc_FireTruckAI.cs" />
-    <Compile Include="pc_GarbageTruckAI.cs" />
-    <Compile Include="pc_HearseAI.cs" />
     <Compile Include="pc_OfficeBuildingAI.cs" />
-    <Compile Include="pc_OutsideConnectionAI.cs" />
     <Compile Include="pc_PlayerBuildingAI.cs" />
-    <Compile Include="pc_PoliceCarAI.cs" />
     <Compile Include="pc_TaxiAI.cs" />
     <Compile Include="pc_ZoneManager.cs" />
     <Compile Include="RealCityUI.cs" />

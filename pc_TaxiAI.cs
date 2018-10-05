@@ -31,7 +31,7 @@ namespace RealCity
                             Vector3 lastFramePosition2 = instance.m_instances.m_buffer[(int)instance2].GetLastFramePosition();
                             CitizenInfo info = instance.m_instances.m_buffer[(int)instance2].Info;
                             info.m_citizenAI.SetCurrentVehicle(instance2, ref instance.m_instances.m_buffer[(int)instance2], 0, 0u, data.m_targetPos0);
-                            int num4 = Mathf.RoundToInt((float)this.m_pricePerKilometer * Vector3.Distance(lastFramePosition2, lastFramePosition) * 0.001f);
+                            int num4 = Mathf.RoundToInt((float)this.m_transportInfo.m_ticketPrice * Vector3.Distance(lastFramePosition2, lastFramePosition) * 0.001f);
                             if (num4 != 0)
                             {
                                 //DebugLog.LogToFileOnly("UnloadPassengers ticketPrice pre = " + num4.ToString());
@@ -42,9 +42,8 @@ namespace RealCity
                                 {
                                     if (comm_data.family_money[num2] - num4 > 0)
                                     {
-                                        comm_data.family_money[num2] = (float)(comm_data.family_money[num2] - num4 / comm_data.game_maintain_fee_decrease3);
-                                        comm_data.citizen_money[citizen] -= (float)(num4 / comm_data.game_maintain_fee_decrease3);
-                                        comm_data.city_bank -= (float)(num4 / comm_data.game_maintain_fee_decrease3);
+                                        comm_data.family_money[num2] = (float)(comm_data.family_money[num2] - num4);
+                                        comm_data.citizen_money[citizen] -= (float)(num4);
                                     } else
                                     {
                                         num4 = 0;
@@ -63,7 +62,7 @@ namespace RealCity
                                         num4 = 5000;
                                     }
                                 }
-                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4 / comm_data.game_maintain_fee_decrease3, this.m_info.m_class);
+                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4, this.m_info.m_class);
                             }
                             num++;
                             if ((instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)

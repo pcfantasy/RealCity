@@ -17,15 +17,11 @@ namespace RealCity
 
 
             comm_data.building_money[buildingID] = 0;
-            comm_data.building_flag[buildingID] = false;
             comm_data.building_buffer2[buildingID] = 0;
+            comm_data.building_buffer1[buildingID] = 0;
 
             if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
             {
-                if (comm_data.building_money[buildingID] > 0)
-                {
-                    comm_data.city_bank -= comm_data.building_money[buildingID];
-                }
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, cost, data.Info.m_class.m_service, ItemClass.SubService.None, ItemClass.Level.Level1);
             }
             this.ManualDeactivation(buildingID, ref data);

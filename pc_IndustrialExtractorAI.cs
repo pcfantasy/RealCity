@@ -84,7 +84,6 @@ namespace RealCity
                 trade_tax = 0;
             }
             comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income1 + trade_tax));
-            comm_data.city_bank -= (trade_income1 + trade_tax);
         }
     }
 }

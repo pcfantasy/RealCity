@@ -45,55 +45,19 @@ namespace RealCity
         //public static ushort visit_shopping_count = 0;
         //public static ushort visit_leisure_count = 0;
 
-        public const float petrol_index = 2.86f;
-        public const float coal_index = 3.33f;
-        public const float lumber_index = 4f;
-        public const float food_index = 5f;
-        public const float goods_idex= 4f;
 
+        public const float good_price = 0.8f;
+        public const float petrol_price = 3.84f;
+        public const float coal_price = 2.88f;
+        public const float lumber_price = 1.92f;
+        public const float food_price = 0.96f;
+        public const float oil_price = 3.2f;
+        public const float ore_price = 2.4f;
+        public const float log_price = 1.6f;
+        public const float grain_price = 0.8f;
 
-        public const float good_export_price1 = 1.6f * comm_data.Commerical_price;
-        public const float petrol_export_price1 = 0.175f * comm_data.ConsumptionDivider * comm_data.Commerical_price;    //org 0.5 *comm_data.ConsumptionDivider /2.86f
-        public const float coal_export_price1 = 0.15f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // org 0.5 *comm_data.ConsumptionDivider /3.3f
-        public const float lumber_export_price1 = 0.125f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /4f
-        public const float food_export_price1 = 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price; // org 0.5 *comm_data.ConsumptionDivider /5f
-        public const float ore_export_price1 = 0.075f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /3.3f
-        public const float log_export_price1 = 0.0625f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4f
-        public const float oil_export_price1 = 0.0875f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.86f
-        public const float grain_export_price1 = 0.05f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
-
-        public const float good_import_price1 = 2.7f * comm_data.Commerical_price;
-        public const float petrol_import_price1 = 0.315f * comm_data.ConsumptionDivider * comm_data.Commerical_price;  // 0.9
-        public const float coal_import_price1 = 0.27f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
-        public const float lumber_import_price1 = 0.225f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
-        public const float food_import_price1 = 0.18f * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.9
-        public const float ore_import_price1 = 0.12f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price;  //0.4
-        public const float log_import_price1 = 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
-        public const float oil_import_price1 = 0.14f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
-        public const float grain_import_price1 = 0.08f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price; //0.4
-
-
-        public static float good_export_price = good_export_price1;
-        public static float petrol_export_price = petrol_export_price1;    //org 0.5 *comm_data.ConsumptionDivider /2.86f
-        public static float coal_export_price = coal_export_price1;  // org 0.5 *comm_data.ConsumptionDivider /3.3f
-        public static float lumber_export_price = lumber_export_price1; // org 0.5 *comm_data.ConsumptionDivider /4f
-        public static float food_export_price = food_export_price1; // org 0.5 *comm_data.ConsumptionDivider /5f
-        public static float ore_export_price = ore_export_price1;     // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /3.3f
-        public static float log_export_price = log_export_price1;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /4f
-        public static float oil_export_price = oil_export_price1;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /2.86f
-        public static float grain_export_price = grain_export_price1;    // org 0.25  *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
-
-        public static float good_import_price = good_import_price1;
-        public static float petrol_import_price = petrol_import_price1;  // 0.9
-        public static float coal_import_price = coal_import_price1; //0.9
-        public static float lumber_import_price = lumber_import_price1; //0.9
-        public static float food_import_price = food_import_price1; //0.9
-        public static float ore_import_price = ore_import_price1;  //0.4
-        public static float log_import_price = log_import_price1; //0.4
-        public static float oil_import_price = oil_import_price1; //0.4 *comm_data.ConsumptionDivider *comm_data.ConsumptionDivider /5
-        public static float grain_import_price = grain_import_price1; //0.4
-
-        public static float good_export_ratio = 1f;
+        public static float pre_good_price = (food_price + lumber_price + coal_price + petrol_price) / 4f;
+        /*public static float good_export_ratio = 1f;
         public static float food_export_ratio = 1f;
         public static float petrol_export_ratio = 1f;
         public static float coal_export_ratio = 1f;
@@ -111,24 +75,8 @@ namespace RealCity
         public static float oil_import_ratio = 1f;
         public static float ore_import_ratio = 1f;
         public static float grain_import_ratio = 1f;
-        public static float log_import_ratio = 1f;
+        public static float log_import_ratio = 1f;*/
 
-        public static float good_level2_ratio = 0f;
-        public static float good_level3_ratio = 0f;
-
-
-        public static ushort all_comm_building_profit = 0;
-        public static ushort all_industry_building_profit = 0;
-        public static ushort all_foresty_building_profit = 0;
-        public static ushort all_farmer_building_profit = 0;
-        public static ushort all_oil_building_profit = 0;
-        public static ushort all_ore_building_profit = 0;
-        public static ushort all_comm_building_loss = 0;
-        public static ushort all_industry_building_loss = 0;
-        public static ushort all_foresty_building_loss = 0;
-        public static ushort all_farmer_building_loss = 0;
-        public static ushort all_oil_building_loss = 0;
-        public static ushort all_ore_building_loss = 0;
         public static ushort all_buildings = 0;
         public static uint total_cargo_vehical_time = 0;
         public static uint temp_total_cargo_vehical_time = 0;//temp use
@@ -239,7 +187,7 @@ namespace RealCity
             lumber_to_industy_count = saveandrestore.load_ushort(ref i, save_data);
             lumber_from_outside_count = saveandrestore.load_ushort(ref i, save_data);
 
-            good_export_ratio = saveandrestore.load_float(ref i, save_data);
+            /*good_export_ratio = saveandrestore.load_float(ref i, save_data);
             food_export_ratio = saveandrestore.load_float(ref i, save_data);
             lumber_export_ratio = saveandrestore.load_float(ref i, save_data);
             coal_export_ratio = saveandrestore.load_float(ref i, save_data);
@@ -260,20 +208,8 @@ namespace RealCity
             ore_import_ratio = saveandrestore.load_float(ref i, save_data);
 
             good_level2_ratio = saveandrestore.load_float(ref i, save_data);
-            good_level3_ratio = saveandrestore.load_float(ref i, save_data);
+            good_level3_ratio = saveandrestore.load_float(ref i, save_data);*/
 
-            all_comm_building_profit = saveandrestore.load_ushort(ref i, save_data);
-            all_industry_building_profit = saveandrestore.load_ushort(ref i, save_data);
-            all_foresty_building_profit = saveandrestore.load_ushort(ref i, save_data);
-            all_farmer_building_profit = saveandrestore.load_ushort(ref i, save_data);
-            all_oil_building_profit = saveandrestore.load_ushort(ref i, save_data);
-            all_ore_building_profit = saveandrestore.load_ushort(ref i, save_data);
-            all_comm_building_loss = saveandrestore.load_ushort(ref i, save_data);
-            all_industry_building_loss = saveandrestore.load_ushort(ref i, save_data);
-            all_foresty_building_loss = saveandrestore.load_ushort(ref i, save_data);
-            all_farmer_building_loss = saveandrestore.load_ushort(ref i, save_data);
-            all_oil_building_loss = saveandrestore.load_ushort(ref i, save_data);
-            all_ore_building_loss = saveandrestore.load_ushort(ref i, save_data);
             total_cargo_vehical_time = saveandrestore.load_uint(ref i, save_data);
             temp_total_cargo_vehical_time = saveandrestore.load_uint(ref i, save_data);
             temp_total_cargo_vehical_time_last = saveandrestore.load_uint(ref i, save_data);
@@ -389,7 +325,7 @@ namespace RealCity
             saveandrestore.save_ushort(ref i, lumber_from_outside_count, ref save_data);
 
             //20 * 4 = 80
-            saveandrestore.save_float(ref i, good_export_ratio, ref save_data);
+            /*saveandrestore.save_float(ref i, good_export_ratio, ref save_data);
             saveandrestore.save_float(ref i, food_export_ratio, ref save_data);
             saveandrestore.save_float(ref i, lumber_export_ratio, ref save_data);
             saveandrestore.save_float(ref i, coal_export_ratio, ref save_data);
@@ -409,21 +345,9 @@ namespace RealCity
             saveandrestore.save_float(ref i, oil_import_ratio, ref save_data);
             saveandrestore.save_float(ref i, ore_import_ratio, ref save_data);
             saveandrestore.save_float(ref i, good_level2_ratio, ref save_data);
-            saveandrestore.save_float(ref i, good_level3_ratio, ref save_data);
+            saveandrestore.save_float(ref i, good_level3_ratio, ref save_data);*/
 
             //12*2 + 7*4 = 52
-            saveandrestore.save_ushort(ref i, all_comm_building_profit, ref save_data);
-            saveandrestore.save_ushort(ref i, all_industry_building_profit, ref save_data);
-            saveandrestore.save_ushort(ref i, all_foresty_building_profit, ref save_data);
-            saveandrestore.save_ushort(ref i, all_farmer_building_profit, ref save_data);
-            saveandrestore.save_ushort(ref i, all_oil_building_profit, ref save_data);
-            saveandrestore.save_ushort(ref i, all_ore_building_profit, ref save_data);
-            saveandrestore.save_ushort(ref i, all_comm_building_loss, ref save_data);
-            saveandrestore.save_ushort(ref i, all_industry_building_loss, ref save_data);
-            saveandrestore.save_ushort(ref i, all_foresty_building_loss, ref save_data);
-            saveandrestore.save_ushort(ref i, all_farmer_building_loss, ref save_data);
-            saveandrestore.save_ushort(ref i, all_oil_building_loss, ref save_data);
-            saveandrestore.save_ushort(ref i, all_ore_building_loss, ref save_data);
             saveandrestore.save_uint(ref i, total_cargo_vehical_time, ref save_data);
             saveandrestore.save_uint(ref i, temp_total_cargo_vehical_time, ref save_data);
             saveandrestore.save_uint(ref i, temp_total_cargo_vehical_time_last, ref save_data);
@@ -544,16 +468,175 @@ namespace RealCity
 
         public void process_addition_product(ushort buildingID, ref Building buildingData)
         {
-            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                float temp = get_comsumptiondivider(buildingData, buildingID) * comm_data.Commerical_price;
-                int delta_custom_buffer1 = comm_data.building_buffer2[buildingID] - buildingData.m_customBuffer1;
+                float temp = get_comsumptiondivider(buildingData, buildingID);
+                int delta_custom_buffer1 = comm_data.building_buffer1[buildingID] - buildingData.m_customBuffer1;
                 if (delta_custom_buffer1 > 0)
                 {
                     buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + delta_custom_buffer1 - (int)(delta_custom_buffer1 / temp));
                 }
-                comm_data.building_buffer2[buildingID] = buildingData.m_customBuffer1;
+                comm_data.building_buffer1[buildingID] = buildingData.m_customBuffer1;
             }
+        }
+
+        public static float get_price(bool is_selling, ushort buildingID, Building data, TransferManager.TransferReason force_material)
+        {
+            TransferManager.TransferReason material = default(TransferManager.TransferReason);
+            if (!is_selling)
+            {
+                if (data.Info.m_buildingAI is IndustrialExtractorAI)
+                {
+                }
+                else
+                {
+                    switch (data.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.CommercialHigh:
+                        case ItemClass.SubService.CommercialLow:
+                        case ItemClass.SubService.CommercialEco:
+                        case ItemClass.SubService.CommercialLeisure:
+                        case ItemClass.SubService.CommercialTourist:
+                            material = TransferManager.TransferReason.Goods; break;
+                        case ItemClass.SubService.IndustrialForestry:
+                            material = TransferManager.TransferReason.Logs; break;
+                        case ItemClass.SubService.IndustrialFarming:
+                            material = TransferManager.TransferReason.Grain; break;
+                        case ItemClass.SubService.IndustrialOil:
+                            material = TransferManager.TransferReason.Oil; break;
+                        case ItemClass.SubService.IndustrialOre:
+                            material = TransferManager.TransferReason.Ore; break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            {
+                                System.Random rand = new System.Random();
+                                if (force_material == TransferManager.TransferReason.None)
+                                {
+                                    switch (rand.Next(4))
+                                    {
+                                        case 0:
+                                            material = TransferManager.TransferReason.Lumber; break;
+                                        case 1:
+                                            material = TransferManager.TransferReason.Food; break;
+                                        case 2:
+                                            material = TransferManager.TransferReason.Petrol; break;
+                                        case 3:
+                                            material = TransferManager.TransferReason.Coal; break;
+                                        default:
+                                            material = TransferManager.TransferReason.None; break;
+                                    }
+                                }
+                                else
+                                {
+                                    material = force_material;
+                                }
+                            }
+                            break;
+                        default:
+                            material = TransferManager.TransferReason.None; break;
+                    }
+                }
+            }
+            else
+            {
+                if (data.Info.m_buildingAI is IndustrialExtractorAI)
+                {
+                    switch (data.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.IndustrialForestry:
+                            material = TransferManager.TransferReason.Logs; break;
+                        case ItemClass.SubService.IndustrialFarming:
+                            material = TransferManager.TransferReason.Grain; break;
+                        case ItemClass.SubService.IndustrialOil:
+                            material = TransferManager.TransferReason.Oil; break;
+                        case ItemClass.SubService.IndustrialOre:
+                            material = TransferManager.TransferReason.Ore; break;
+                        default:
+                            material = TransferManager.TransferReason.None; break;
+                    }
+                }
+                else
+                {
+                    switch (data.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.IndustrialForestry:
+                            material = TransferManager.TransferReason.Lumber; break;
+                        case ItemClass.SubService.IndustrialFarming:
+                            material = TransferManager.TransferReason.Food; break;
+                        case ItemClass.SubService.IndustrialOil:
+                            material = TransferManager.TransferReason.Petrol; break;
+                        case ItemClass.SubService.IndustrialOre:
+                            material = TransferManager.TransferReason.Coal; break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            material = TransferManager.TransferReason.Goods; break;
+                        default:
+                            material = TransferManager.TransferReason.None; break;
+                    }
+                }
+            }
+
+
+
+
+            float price = 0f;
+            if (is_selling)
+            {
+                switch (material)
+                {
+                    case TransferManager.TransferReason.Goods:
+                        price = good_price;
+                        break;
+                    case TransferManager.TransferReason.Lumber:
+                        price = lumber_price; break;
+                    case TransferManager.TransferReason.Petrol:
+                        price = petrol_price; break;
+                    case TransferManager.TransferReason.Food:
+                        price = food_price; break;
+                    case TransferManager.TransferReason.Coal:
+                        price = coal_price; break;
+                    case TransferManager.TransferReason.Grain:
+                        price = grain_price; break;
+                    case TransferManager.TransferReason.Oil:
+                        price = oil_price; break;
+                    case TransferManager.TransferReason.Logs:
+                        price = log_price; break;
+                    case TransferManager.TransferReason.Ore:
+                        price = ore_price; break;
+                }
+            }
+            else
+            {
+                switch (material)
+                {
+                    case TransferManager.TransferReason.Goods:
+                        if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
+                        {
+                            price = good_price;
+                        }
+                        break;
+                    case TransferManager.TransferReason.Logs:
+                        price = log_price; break;
+                    case TransferManager.TransferReason.Grain:
+                        price = grain_price; break;
+                    case TransferManager.TransferReason.Oil:
+                        price = oil_price; break;
+                    case TransferManager.TransferReason.Ore:
+                        price = ore_price; break;
+                    case TransferManager.TransferReason.Lumber:
+                        price = lumber_price;
+                        break;
+                    case TransferManager.TransferReason.Coal:
+                        price = coal_price;
+                        break;
+                    case TransferManager.TransferReason.Food:
+                        price = food_price;
+                        break;
+                    case TransferManager.TransferReason.Petrol:
+                        price = petrol_price;
+                        break;
+                }
+            }
+
+            return price;
         }
 
 
@@ -598,107 +681,6 @@ namespace RealCity
             }
         }
 
-        public static int process_building_asset(ushort buildingID, ref Building buildingData)
-        {
-            int asset = 0;
-            if ((buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) || (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial))
-            {
-                if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                    if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
-                    {
-                        asset = (int)(buildingData.m_customBuffer1 * log_export_price);
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
-                    {
-                        asset = (int)(buildingData.m_customBuffer1 * grain_export_price);
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
-                    {
-                        asset = (int)(buildingData.m_customBuffer1 * oil_export_price);
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
-                    {
-                        asset = (int)(buildingData.m_customBuffer1 * ore_export_price);
-                    }
-                }
-                else
-                {
-                    if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
-                    {
-                        if (buildingData.m_customBuffer1 > 4000)
-                        {
-                            asset = (int)((buildingData.m_customBuffer1 - 4000) * (good_export_price / 4f) + buildingData.m_customBuffer2);
-                        } else
-                        {
-                            asset = (int)buildingData.m_customBuffer2;
-                        }
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-                    {
-                        // 90%*0.5 + 10% * 1 =  
-                        if (buildingData.m_customBuffer1 > 4000)
-                        {
-                            asset = (int)((buildingData.m_customBuffer1 - 4000) * (lumber_export_price + food_export_price + petrol_export_price + coal_export_price) / 4f + buildingData.m_customBuffer2 * (good_export_price / 4f));
-                        }
-                        else
-                        {
-                            asset = (int)(buildingData.m_customBuffer2 * good_export_price / 4f);
-                        }
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
-                    {
-                        if (buildingData.m_customBuffer1 > 4000)
-                        {
-                            asset = (int)((buildingData.m_customBuffer1 -4000) * log_export_price + buildingData.m_customBuffer2 * lumber_export_price);
-                        }
-                        else
-                        {
-                            asset = (int)(buildingData.m_customBuffer2 * lumber_export_price);
-                        }
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
-                    {
-                        if (buildingData.m_customBuffer1 > 4000)
-                        {
-                            asset = (int)((buildingData.m_customBuffer1 - 4000) * grain_export_price + buildingData.m_customBuffer2 * food_export_price);
-                        }
-                        else
-                        {
-                            asset = (int)(buildingData.m_customBuffer2 * food_export_price);
-                        }
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
-                    {
-                        if (buildingData.m_customBuffer1 > 4000)
-                        {
-                            asset = (int)((buildingData.m_customBuffer1 - 4000) * oil_export_price + buildingData.m_customBuffer2 * petrol_export_price);
-                        }
-                        else
-                        {
-                            asset = (int)(buildingData.m_customBuffer2 * petrol_export_price);
-                        }
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
-                    {
-                        if (buildingData.m_customBuffer1 > 4000)
-                        {
-                            asset = (int)((buildingData.m_customBuffer1 - 4000) * ore_export_price + buildingData.m_customBuffer2 * coal_export_price);
-                        } else
-                        {
-                            asset = (int)(buildingData.m_customBuffer2 * coal_export_price);
-                        }
-                        //asset = (int)(buildingData.m_customBuffer2 * coal_export_price);
-                    }
-                    else
-                    {
-
-                    }
-                }
-            }
-            return asset;
-        }
-
 
         public void process_building_data_final(ushort buildingID, ref Building buildingData)
         {
@@ -709,66 +691,25 @@ namespace RealCity
                     comm_data.building_money[buildingID] = 0;
                 }
 
-                if (buildingID == comm_data.update_building)
+                if (((buildingData.m_problems & (~Notification.Problem.NoGoods)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoGoods)) != Notification.Problem.None))
                 {
-                    StartUpgrading(buildingID, ref buildingData);
-                    comm_data.update_building = 0;
-                }
-
-                int asset = process_building_asset(buildingID, ref buildingData);
-                if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
-                {
-                    if (((buildingData.m_problems & (~Notification.Problem.NoCustomers)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoCustomers)) != Notification.Problem.None))
+                    //mark no good
+                    if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                     {
-                        Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoCustomers);
-                        System.Random rand = new System.Random();
-                        if (comm_data.building_money[buildingID] + asset < -1000)
+                        Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
+                        if (buildingData.m_customBuffer2 < 500)
                         {
-                            if (true)//comm_data.city_bank < -1000000)
-                            {
-                                if (rand.Next(50) < 2)
-                                {
-                                    buildingData.m_majorProblemTimer = 192;
-                                    buildingData.m_flags &= ~Building.Flags.Active;
-                                    buildingData.m_flags |= Building.Flags.Abandoned;
-                                    buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
-                                    base.RemovePeople(buildingID, ref buildingData, 100);
-                                    this.BuildingDeactivated(buildingID, ref buildingData);
-                                    Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
-                                }
-                            }
+                            problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
                         }
-                        if (comm_data.building_money[buildingID] + asset < -500)
+                        else if (buildingData.m_customBuffer2 < 1000)
                         {
-                            problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers | Notification.Problem.MajorProblem);
+                            problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
                         }
-                        else if (comm_data.building_money[buildingID] + asset < 0)
+                        else
                         {
-                            problem = Notification.AddProblems(problem, Notification.Problem.NoCustomers);
+
                         }
                         buildingData.m_problems = problem;
-                    }
-
-                    if (((buildingData.m_problems & (~Notification.Problem.NoGoods)) == Notification.Problem.None) || ((buildingData.m_problems | (Notification.Problem.NoGoods)) != Notification.Problem.None))
-                    {
-                        //mark no good
-                        if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
-                        {
-                            Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
-                            if (buildingData.m_customBuffer2 < 500)
-                            {
-                                problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
-                            }
-                            else if (buildingData.m_customBuffer2 < 1000)
-                            {
-                                problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
-                            }
-                            else
-                            {
-
-                            }
-                            buildingData.m_problems = problem;
-                        }
                     }
                 }
             }
@@ -809,18 +750,6 @@ namespace RealCity
                     lumber_to_industy_count_final = lumber_to_industy_count;
                     lumber_from_outside_count_final = lumber_from_outside_count;
                 }
-                all_farmer_building_profit_final = all_farmer_building_profit;
-                all_foresty_building_profit_final = all_foresty_building_profit;
-                all_oil_building_profit_final = all_oil_building_profit;
-                all_ore_building_profit_final = all_ore_building_profit;
-                all_industry_building_profit_final = all_industry_building_profit;
-                all_comm_building_profit_final = all_comm_building_profit;
-                all_farmer_building_loss_final = all_farmer_building_loss;
-                all_foresty_building_loss_final = all_foresty_building_loss;
-                all_oil_building_loss_final = all_oil_building_loss;
-                all_ore_building_loss_final = all_ore_building_loss;
-                all_industry_building_loss_final = all_industry_building_loss;
-                all_comm_building_loss_final = all_comm_building_loss;
                 all_office_high_tech_building_num_final = all_office_high_tech_building_num;
                 all_office_level1_building_num_final = all_office_level1_building_num;
                 all_office_level2_building_num_final = all_office_level2_building_num;
@@ -829,19 +758,6 @@ namespace RealCity
                 greater_than_20000_profit_building_money_final = greater_than_20000_profit_building_money;
                 comm_data.Extractor_building_final = comm_data.Extractor_building;
 
-                all_buildings_final = 0;
-                all_farmer_building_profit = 0;
-                all_foresty_building_profit = 0;
-                all_oil_building_profit = 0;
-                all_ore_building_profit = 0;
-                all_industry_building_profit = 0;
-                all_comm_building_profit = 0;
-                all_farmer_building_loss = 0;
-                all_foresty_building_loss = 0;
-                all_oil_building_loss = 0;
-                all_ore_building_loss = 0;
-                all_industry_building_loss = 0;
-                all_comm_building_loss = 0;
                 greater_than_20000_profit_building_money = 0;
                 greater_than_20000_profit_building_num = 0;
                 comm_data.Extractor_building = 0;
@@ -926,7 +842,6 @@ namespace RealCity
             if (comm_data.building_money[buildingID] > 60000000)
             {
                 comm_data.building_money[buildingID] = 60000000;
-                comm_data.city_bank -= (comm_data.building_money[buildingID] - 60000000);
             }
             else if (comm_data.building_money[buildingID] < -65000000)
             {
@@ -935,111 +850,6 @@ namespace RealCity
             else if (comm_data.building_money[buildingID] < -60000000)
             {
                 comm_data.building_money[buildingID] = -60000000;
-                comm_data.city_bank -= (comm_data.building_money[buildingID] + 60000000);
-            }
-
-            //int asset = process_building_asset(buildingID, ref building);
-
-
-            if ((building.Info.m_class.m_service == ItemClass.Service.Industrial)  || ((building.Info.m_class.m_service == ItemClass.Service.Commercial)))
-            {
-                if (!comm_data.building_flag[buildingID])
-                {
-                    if (comm_data.building_money[buildingID] > 0)
-                    {
-                        switch (building.Info.m_class.m_subService)
-                        {
-                            case ItemClass.SubService.IndustrialFarming:
-                                all_farmer_building_profit = (ushort)(all_farmer_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.IndustrialForestry:
-                                all_foresty_building_profit = (ushort)(all_foresty_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.IndustrialOil:
-                                all_oil_building_profit = (ushort)(all_oil_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.IndustrialOre:
-                                all_ore_building_profit = (ushort)(all_ore_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.IndustrialGeneric:
-                                all_industry_building_profit = (ushort)(all_industry_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.CommercialHigh:
-                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.CommercialLow:
-                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.CommercialLeisure:
-                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.CommercialTourist:
-                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                                break;
-                            case ItemClass.SubService.CommercialEco:
-                                all_comm_building_profit = (ushort)(all_comm_building_profit + 1);
-                                break;
-                            default: break;
-                        }
-                    }
-                    else
-                    {
-                        switch (building.Info.m_class.m_subService)
-                        {
-                            case ItemClass.SubService.IndustrialFarming:
-                                if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                                {
-                                    all_farmer_building_profit++;
-                                    if (comm_data.prefer_farming)
-                                    {
-                                        comm_data.building_money[buildingID] += 10f;
-                                    }
-                                }
-                                else
-                                {
-                                    all_farmer_building_loss = (ushort)(all_farmer_building_loss + 1);
-                                }
-                                break;
-                            case ItemClass.SubService.IndustrialForestry:
-                                all_foresty_building_loss = (ushort)(all_foresty_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.IndustrialOil:
-                                all_oil_building_loss = (ushort)(all_oil_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.IndustrialOre:
-                                all_ore_building_loss = (ushort)(all_ore_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.IndustrialGeneric:
-                                all_industry_building_loss = (ushort)(all_industry_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.CommercialHigh:
-                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.CommercialLow:
-                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.CommercialLeisure:
-                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.CommercialTourist:
-                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                                break;
-                            case ItemClass.SubService.CommercialEco:
-                                all_comm_building_loss = (ushort)(all_comm_building_loss + 1);
-                                break;
-                            default: break;
-                        }
-                    }
-                }
-
-
-                /*if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
-                {
-                    if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                    {
-                        comm_data.Extractor_building++;
-                    }
-                }*/
             }
 
 
@@ -1074,22 +884,8 @@ namespace RealCity
                             idex = 0.9f;
                         }
 
-                        if (comm_data.money_flowout)
-                        {
-                            greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex * 0.5f);
-                        }
-                        else
-                        {
-                            greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex);
-                        }
-                        comm_data.city_bank -= (comm_data.building_money[buildingID] - 30000);
+                        greater_than_20000_profit_building_money += (long)((comm_data.building_money[buildingID] - 30000) * idex);
                         comm_data.building_money[buildingID] = 30000f;
-
-                        if (comm_data.hot_money || comm_data.free_trade)
-                        {
-                            System.Random rand = new System.Random();
-                            greater_than_20000_profit_building_money += rand.Next(10000);
-                        }
                     }
                 }
             }
@@ -1102,7 +898,6 @@ namespace RealCity
                     {
                         if (all_office_level1_building_num_final > 0)
                         {
-                            comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.05f / all_office_level1_building_num_final;
                             comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.05f / all_office_level1_building_num_final;
                         }
                     }
@@ -1110,7 +905,6 @@ namespace RealCity
                     {
                         if (all_office_level2_building_num_final > 0)
                         {
-                            comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.15f / all_office_level2_building_num_final;
                             comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.15f / all_office_level2_building_num_final;
                         }
                     }
@@ -1118,7 +912,6 @@ namespace RealCity
                     {
                         if (all_office_level3_building_num_final > 0)
                         {
-                            comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.25f / all_office_level3_building_num_final;
                             comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.25f / all_office_level3_building_num_final;
                         }
                     }
@@ -1127,7 +920,6 @@ namespace RealCity
                 {
                     if (all_office_high_tech_building_num_final > 0)
                     {
-                        comm_data.city_bank += greater_than_20000_profit_building_money_final * 0.35f / all_office_high_tech_building_num_final;
                         comm_data.building_money[buildingID] += greater_than_20000_profit_building_money_final * 0.35f / all_office_high_tech_building_num_final;
                     }
                 }
@@ -1146,7 +938,7 @@ namespace RealCity
             GetLandRent(out num);
             int num2;
             num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
-            if (comm_data.citizen_count < 500)
+            if (comm_data.building_money[buildingID] < 0)
             {
                 num2 = 0;
             }
@@ -1155,21 +947,13 @@ namespace RealCity
                 num = 0;
             }
             num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
-            if (comm_data.hot_money)
-            {
-                num = num * 2;
-            }
             //num = num / comm_data.mantain_and_land_fee_decrease;
 
             //do this to decrase land expense in early game;
             //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
             {
-                if (!comm_data.building_flag[buildingID])
-                {
-                    comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
-                    comm_data.city_bank -= (float)(num * num2) / 100;
-                }
+                comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (float)(num * num2) / 100);
             }
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
@@ -1323,272 +1107,6 @@ namespace RealCity
             return false;
         }
 
-
-
-        public static float get_price(bool is_selling, ushort buildingID, Building data, TransferManager.TransferReason force_material)
-        {
-            TransferManager.TransferReason material = default(TransferManager.TransferReason);
-            if (!is_selling)
-            {
-                if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                }
-                else
-                {
-                    switch (data.Info.m_class.m_subService)
-                    {
-                        case ItemClass.SubService.CommercialHigh:
-                        case ItemClass.SubService.CommercialLow:
-                        case ItemClass.SubService.CommercialEco:
-                        case ItemClass.SubService.CommercialLeisure:
-                        case ItemClass.SubService.CommercialTourist:
-                            material = TransferManager.TransferReason.Goods; break;
-                        case ItemClass.SubService.IndustrialForestry:
-                            material = TransferManager.TransferReason.Logs; break;
-                        case ItemClass.SubService.IndustrialFarming:
-                            material = TransferManager.TransferReason.Grain; break;
-                        case ItemClass.SubService.IndustrialOil:
-                            material = TransferManager.TransferReason.Oil; break;
-                        case ItemClass.SubService.IndustrialOre:
-                            material = TransferManager.TransferReason.Ore; break;
-                        case ItemClass.SubService.IndustrialGeneric:
-                            {
-                                System.Random rand = new System.Random();
-                                if (force_material == TransferManager.TransferReason.None)
-                                {
-                                    switch (rand.Next(4))
-                                    {
-                                        case 0:
-                                            material = TransferManager.TransferReason.Lumber; break;
-                                        case 1:
-                                            material = TransferManager.TransferReason.Food; break;
-                                        case 2:
-                                            material = TransferManager.TransferReason.Petrol; break;
-                                        case 3:
-                                            material = TransferManager.TransferReason.Coal; break;
-                                        default:
-                                            material = TransferManager.TransferReason.None; break;
-                                    }
-                                } else
-                                {
-                                    material = force_material;
-                                }
-                            }
-                            break;
-                        default:
-                            material = TransferManager.TransferReason.None; break;
-                    }
-                }
-            } else
-            {
-                if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                    switch (data.Info.m_class.m_subService)
-                    {
-                        case ItemClass.SubService.IndustrialForestry:
-                            material = TransferManager.TransferReason.Logs; break;
-                        case ItemClass.SubService.IndustrialFarming:
-                            material = TransferManager.TransferReason.Grain; break;
-                        case ItemClass.SubService.IndustrialOil:
-                            material = TransferManager.TransferReason.Oil; break;
-                        case ItemClass.SubService.IndustrialOre:
-                            material = TransferManager.TransferReason.Ore; break;
-                        default:
-                            material = TransferManager.TransferReason.None; break;
-                    }
-                } else
-                {
-                    switch (data.Info.m_class.m_subService)
-                    {
-                        case ItemClass.SubService.IndustrialForestry:
-                            material = TransferManager.TransferReason.Lumber; break;
-                        case ItemClass.SubService.IndustrialFarming:
-                            material = TransferManager.TransferReason.Food; break;
-                        case ItemClass.SubService.IndustrialOil:
-                            material = TransferManager.TransferReason.Petrol; break;
-                        case ItemClass.SubService.IndustrialOre:
-                            material = TransferManager.TransferReason.Coal; break;
-                        case ItemClass.SubService.IndustrialGeneric:
-                            material = TransferManager.TransferReason.Goods; break;
-                        default:
-                            material = TransferManager.TransferReason.None; break;
-                    }
-                }
-            }
-
-
-
-
-            float price = 0f;
-            if (is_selling)
-            {
-                switch (material)
-                {
-                    case TransferManager.TransferReason.Goods:
-                        switch (data.Info.m_class.m_level)
-                        {
-                            case ItemClass.Level.Level1:
-                                price = (good_export_price + (1f - good_export_ratio) * 0.5f * comm_data.Commerical_price) / 4f; break;
-                            case ItemClass.Level.Level2:
-                                price = (good_export_price + (0.1f + (1f - good_export_ratio) * 0.3f) * comm_data.Commerical_price) / 4f; break;
-                            case ItemClass.Level.Level3:
-                                price = (good_export_price + (0.2f + (1f - good_export_ratio) * 0.1f) * comm_data.Commerical_price) / 4f; break;
-                            default:
-                                price = 0; break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Lumber:
-                        price = lumber_export_price + ((1f - lumber_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index); break;
-                    case TransferManager.TransferReason.Petrol:
-                        price = petrol_export_price + ((1f - petrol_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index); break;
-                    case TransferManager.TransferReason.Food:
-                        price = food_export_price + ((1f - food_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index); break;
-                    case TransferManager.TransferReason.Coal:
-                        price = coal_export_price + ((1f - coal_export_ratio) * 0.1f * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index); break;
-                    case TransferManager.TransferReason.Grain:
-                        price = grain_export_price + ((1f - grain_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index); break;
-                    case TransferManager.TransferReason.Oil:
-                        price = oil_export_price + ((1f - oil_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index); break;
-                    case TransferManager.TransferReason.Logs:
-                        price = log_export_price + ((1f - log_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index); break;
-                    case TransferManager.TransferReason.Ore:
-                        price = ore_export_price + ((1f - ore_export_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index); break;
-                }
-            } else
-            {
-                switch (material)
-                {
-                    case TransferManager.TransferReason.Goods:
-                        if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLow)
-                        {
-                            switch (data.Info.m_class.m_level)
-                            {
-                                case ItemClass.Level.Level1:
-                                    price = (good_import_price - 0.6f * ((1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                case ItemClass.Level.Level2:
-                                    price = (good_import_price - (0.1f - 0.5f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                case ItemClass.Level.Level3:
-                                    price = (good_import_price - (0.2f - 0.4f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                default:
-                                    price = 0; break;
-                            }
-                        }
-                        else if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
-                        {
-                            switch (data.Info.m_class.m_level)
-                            {
-                                case ItemClass.Level.Level1:
-                                    price = (good_import_price - (0.3f - 0.3f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                case ItemClass.Level.Level2:
-                                    price = (good_import_price - (0.4f - 0.2f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                case ItemClass.Level.Level3:
-                                    price = (good_import_price - (0.5f - 0.1f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                default:
-                                    price = 0; break;
-                            }
-                        }
-                        else
-                        {
-                            switch (data.Info.m_class.m_subService)
-                            {
-                                case ItemClass.SubService.CommercialEco:
-                                    price = (good_import_price - (0.3f - 0.5f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                case ItemClass.SubService.CommercialLeisure:
-                                    price = (good_import_price - (0.3f - 0.5f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                case ItemClass.SubService.CommercialTourist:
-                                    price = (good_import_price - (0.3f - 0.5f * (1f - good_import_ratio) - 0.1f * good_level2_ratio - 0.2f * good_level3_ratio) * comm_data.Commerical_price) / 4; break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    case TransferManager.TransferReason.Logs:
-                        price = log_import_price - ((1f - log_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);break;
-                    case TransferManager.TransferReason.Grain:
-                        price = grain_import_price - ((1f - grain_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index); break;
-                    case TransferManager.TransferReason.Oil:
-                        price = oil_import_price - ((1f - oil_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index); break;
-                    case TransferManager.TransferReason.Ore:
-                        price = ore_import_price - ((1f - ore_import_ratio) * 0.1f * comm_data.ConsumptionDivider1 * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index); break;
-                    case TransferManager.TransferReason.Lumber:
-                        switch (data.Info.m_class.m_level)
-                        {
-                            case ItemClass.Level.Level1:
-                                price = lumber_import_price - ((1f - lumber_import_ratio) * 0.3f * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);
-                                break;
-                            case ItemClass.Level.Level2:
-                                price = lumber_import_price - ((0.1f - (1f - lumber_import_ratio) * 0.2f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);
-                                break;
-                            case ItemClass.Level.Level3:
-                                price = lumber_import_price - ((0.2f - (1f - lumber_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);
-                                break;
-                        }
-                        if (comm_data.building_flag[buildingID])
-                        {
-                            price = lumber_import_price - ((0.2f - (1f - lumber_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / lumber_index);
-                        }
-                        break;
-                    case TransferManager.TransferReason.Coal:
-                        switch (data.Info.m_class.m_level)
-                        {
-                            case ItemClass.Level.Level1:
-                                price = coal_import_price - ((1f - coal_import_ratio) * 0.3f * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index);
-                                break;
-                            case ItemClass.Level.Level2:
-                                price = coal_import_price - ((0.1f - (1f - coal_import_ratio) * 0.2f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index);
-                                break;
-                            case ItemClass.Level.Level3:
-                                price = coal_import_price - ((0.2f - (1f - coal_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index);
-                                break;
-                        }
-                        if (comm_data.building_flag[buildingID])
-                        {
-                            price = coal_import_price - ((0.2f - (1f - coal_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / coal_index);
-                        }
-                        break;
-                    case TransferManager.TransferReason.Food:
-                        switch (data.Info.m_class.m_level)
-                        {
-                            case ItemClass.Level.Level1:
-                                price = food_import_price - ((1f - food_import_ratio) * 0.3f * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index);
-                                break;
-                            case ItemClass.Level.Level2:
-                                price = food_import_price - ((0.1f - (1f - food_import_ratio) * 0.2f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index);
-                                break;
-                            case ItemClass.Level.Level3:
-                                price = food_import_price - ((0.2f - (1f - food_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index);
-                                break;
-                        }
-                        if (comm_data.building_flag[buildingID])
-                        {
-                            price = food_import_price - ((0.2f - (1f - food_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / food_index);
-                        }
-                        break;
-                    case TransferManager.TransferReason.Petrol:
-                        switch (data.Info.m_class.m_level)
-                        {
-                            case ItemClass.Level.Level1:
-                                price = petrol_import_price - ((1f - petrol_import_ratio) * 0.3f * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index);
-                                break;
-                            case ItemClass.Level.Level2:
-                                price = petrol_import_price - ((0.1f - (1f - petrol_import_ratio) * 0.2f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index);
-                                break;
-                            case ItemClass.Level.Level3:
-                                price = petrol_import_price - ((0.2f - (1f - petrol_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index);
-                                break;
-                        }
-                        if (comm_data.building_flag[buildingID])
-                        {
-                            price = petrol_import_price - ((0.2f - (1f - petrol_import_ratio) * 0.1f) * comm_data.ConsumptionDivider * comm_data.Commerical_price / petrol_index);
-                        }
-                        break;
-                }
-            }
-
-            return price;
-        }
-
-
         public static float get_tax_rate(Building data, ushort buildingID)
         {
             float tax = 0f;
@@ -1598,11 +1116,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.25f; break;
+                            tax = 0.1f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.27f; break;
+                            tax = 0.2f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.29f; break;
+                            tax = 0.3f; break;
                         default:
                             tax = 0; break;
                     }
@@ -1611,11 +1129,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.3f; break;
+                            tax = 0.15f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.32f; break;
+                            tax = 0.25f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.34f; break;
+                            tax = 0.35f; break;
                         default:
                             tax = 0; break;
                     }
@@ -1624,9 +1142,9 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.40f; break;
+                            tax = 0.2f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.4f; break;
+                            tax = 0.3f; break;
                         case ItemClass.Level.Level3:
                             tax = 0.4f; break;
                         default:
@@ -1636,28 +1154,21 @@ namespace RealCity
                 case ItemClass.SubService.IndustrialFarming:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        if (comm_data.prefer_farming)
-                        {
-                            tax = 0f;
-                        }
-                        else
-                        {
-                            tax = 0.5f;
-                        }
+                        tax = 0.5f;
                     }
                     else
                     {
-                        tax = 0.18f;
+                        tax = 0.2f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialForestry:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.85f;
+                        tax = 0.8f;
                     }
                     else
                     {
-                        tax = 0.18f;
+                        tax = 0.2f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOil:
@@ -1667,7 +1178,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.18f;
+                        tax = 0.2f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOre:
@@ -1677,7 +1188,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.35f;
+                        tax = 0.2f;
                     }
                     break;
                 case ItemClass.SubService.CommercialEco:
@@ -1689,17 +1200,7 @@ namespace RealCity
                 default: tax = 0f; break;
             }
 
-            if (comm_data.have_tax_department)
-            {
-                if (comm_data.free_trade)
-                {
-                    tax = tax * 0.5f;
-                }
-                return tax;
-            } else
-            {
-                return 0;
-            }
+            return tax;
         }
 
         public static float get_comsumptiondivider(Building data, ushort buildingID)
@@ -1708,31 +1209,12 @@ namespace RealCity
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-            int width = data.Width;
-            int length = data.Length;
 
-            float work_efficiency = (float)behaviourData.m_efficiencyAccumulation / 100f;
+            float final_idex = aliveWorkerCount / 10f;
 
-            if (comm_data.building_flag[buildingID])
+            if (final_idex < 1f)
             {
-                work_efficiency = 0.6f * aliveWorkerCount;
-            }
-
-            
-            if ((aliveWorkerCount / 10f) > 1f)
-            {
-                work_efficiency = work_efficiency / 8.5f;
-            }
-            else
-            {
-                work_efficiency = work_efficiency / ((float)aliveWorkerCount * 0.85f);
-            }
-
-            float final_idex = work_efficiency;
-
-            if (final_idex < 0.1f)
-            {
-                final_idex = 0.1f;
+                final_idex = 1f;
             }
             return final_idex;
         }

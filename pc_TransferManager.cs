@@ -475,11 +475,6 @@ namespace RealCity
                 if (material == TransferManager.TransferReason.Family3 || material == TransferManager.TransferReason.Family2 || material == TransferManager.TransferReason.Family1 || material == TransferManager.TransferReason.Family0)
                 {
                     //DebugLog.LogToFileOnly("reject outside moving in to live in 4-5 level house");
-                    if (comm_data.Bad_reputation > 50)
-                    {
-                        return;
-                    }
-
                     if (material == TransferManager.TransferReason.Family3)
                     {
                         if (rand.Next(2) == 0)
@@ -488,27 +483,6 @@ namespace RealCity
                         } else
                         {
                             material = TransferManager.TransferReason.Family1;
-                        }
-                    }
-
-                    if (comm_data.refugees || (comm_data.city_bank < -1000000))
-                    {
-                        material = TransferManager.TransferReason.Family0;
-                    }
-                    else if (comm_data.Rich_immigrants)
-                    {
-                        material = TransferManager.TransferReason.Family3;
-                    }
-                }
-
-
-                if (material == TransferManager.TransferReason.Goods)
-                {
-                    if (comm_data.lackofgoods)
-                    {
-                        if (rand.Next(100) < 95)
-                        {
-                            return;
                         }
                     }
                 }

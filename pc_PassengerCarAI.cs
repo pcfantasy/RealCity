@@ -14,18 +14,6 @@ namespace RealCity
             Building building = instance.m_buildings.m_buffer[(int)vehicleData.m_sourceBuilding];
             Building building1 = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding].Info;
-
-            if (comm_data.crasy_task)
-            {
-                if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
-                {
-                    if (building1.m_flags.IsFlagSet(Building.Flags.Untouchable))
-                    {
-                        comm_data.task_num--;
-                    }
-                }
-            }
-
             comm_data.vehical_flag[vehicleID] = false;
             var inst = Singleton<PassengerCarAI>.instance;
             var Method = typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance , null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType()}, null);
@@ -109,7 +97,6 @@ namespace RealCity
                     {
                         //assume that 1 time will cost 5fen car oil money
                         comm_data.family_money[vehicleData.m_citizenUnits] = (float)(comm_data.family_money[vehicleData.m_citizenUnits] - comm_data.vehical_transfer_time[vehicleID]);
-                        comm_data.city_bank -= comm_data.vehical_transfer_time[vehicleID];
                         if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
                         {
                             comm_data.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= comm_data.vehical_transfer_time[vehicleID];

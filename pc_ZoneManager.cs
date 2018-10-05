@@ -73,117 +73,17 @@ namespace RealCity
 
         public int OnCalculateResidentialDemand(ref int originalDemand)
         {
-            float demand_idex = 1f;
-
-            if ((comm_data.citizen_count > 1000) && (comm_data.family_count != 0))
-            {
-                int family_minus_oilorebuiling = (int)(comm_data.family_count / 10) - pc_PrivateBuildingAI.all_oil_building_profit_final - pc_PrivateBuildingAI.all_ore_building_profit_final - pc_PrivateBuildingAI.all_oil_building_loss_final - pc_PrivateBuildingAI.all_ore_building_loss_final;
-                demand_idex = demand_idex * (100 + family_minus_oilorebuiling) / 100;
-                if (demand_idex < 0)
-                {
-                    demand_idex = 0;
-                }
-                System.Random rand = new System.Random();
-                if (demand_idex == 0)
-                {
-                    if (rand.Next(8) == 0)
-                    {
-                        demand_idex = 1;
-                    }
-                }
-
-                originalDemand = (int)(originalDemand * demand_idex);
-            }
-            else
-            {
-                //do nothing
-            }
             return originalDemand;
         }
 
         public int OnCalculateCommercialDemand(ref int originalDemand)
         {
-            if (comm_data.city_bank < -1000000)
-            {
-                originalDemand = 0;
-            }
-
-            if ((pc_PrivateBuildingAI.all_comm_building_loss_final + pc_PrivateBuildingAI.all_comm_building_profit_final) > 0)
-            {
-                if ((comm_data.family_count / (pc_PrivateBuildingAI.all_comm_building_loss_final + pc_PrivateBuildingAI.all_comm_building_profit_final)) >= 20f)
-                {
-                    //do nothing
-                }
-                else
-                {
-                    //DebugLog.LogToFileOnly("not enough profit commerical building, demand = 0 now");
-                    originalDemand = 0;// (int)(((long)originalDemand * (long)pc_PrivateBuildingAI.all_comm_building_profit_final) / (long)pc_PrivateBuildingAI.all_comm_building_loss_final);
-                }
-            }
-            else
-            {
-                //do nothing
-            }
             return originalDemand;
         }
 
         public int OnCalculateWorkplaceDemand(ref int originalDemand)
         {
-            int profit_building_num = 0;
-            int loss_building_num = 0;
-            profit_building_num += pc_PrivateBuildingAI.all_farmer_building_profit_final;
-            profit_building_num += pc_PrivateBuildingAI.all_foresty_building_profit_final;
-            profit_building_num += pc_PrivateBuildingAI.all_oil_building_profit_final;
-            profit_building_num += pc_PrivateBuildingAI.all_ore_building_profit_final;
-            profit_building_num += pc_PrivateBuildingAI.all_industry_building_profit_final;
-
-            loss_building_num += pc_PrivateBuildingAI.all_farmer_building_loss_final;
-            loss_building_num += pc_PrivateBuildingAI.all_foresty_building_loss_final;
-            loss_building_num += pc_PrivateBuildingAI.all_oil_building_loss_final;
-            loss_building_num += pc_PrivateBuildingAI.all_ore_building_loss_final;
-            loss_building_num += pc_PrivateBuildingAI.all_industry_building_loss_final;
-
-            if ((profit_building_num + loss_building_num) > 50)
-            {
-                if (loss_building_num != 0)
-                {
-                    if ((profit_building_num / loss_building_num) >= 1f)
-                    {
-                        //do nothing
-                    }
-                    else
-                    {
-                        originalDemand = 0;// (int)(((long)originalDemand * (long)profit_building_num) / (long)loss_building_num);
-                    }
-                }
-                else
-                {
-                    if (profit_building_num != 0)
-                    {
-                        //do nothing
-                    }
-                    else
-                    {
-                        DebugLog.LogToFileOnly("should be wrong, industy building > 0, no loss and profit num");
-                    }
-                }
-            }
-            else
-            {
-                //do nothing
-            }
-
-            if (comm_data.city_bank < -1000000)
-            {
-                originalDemand = 0;
-            }
-
             return originalDemand;
         }
-
-        //public override int OnUpdateDemand(int lastDemand, int nextDemand, int targetDemand)
-        //{
-        //    return base.OnUpdateDemand(lastDemand, 2147483647, 2147483647);
-        //}
     }
 }

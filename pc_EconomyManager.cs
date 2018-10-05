@@ -571,21 +571,7 @@ namespace RealCity
             float coefficient;
             if (resource == EconomyManager.Resource.Maintenance)
             {
-                if (itemClass.m_service == ItemClass.Service.Road)
-                {
-                    coefficient = (float)comm_data.game_maintain_fee_decrease2;
-                }
-                else if ((itemClass.m_service == ItemClass.Service.Education) || (itemClass.m_service == ItemClass.Service.Monument) || (itemClass.m_service == ItemClass.Service.Beautification) || (itemClass.m_service == ItemClass.Service.PublicTransport))
-                {
-                    coefficient = (float)comm_data.game_maintain_fee_decrease2;
-                } else if ((itemClass.m_service == ItemClass.Service.Garbage) || (itemClass.m_service == ItemClass.Service.FireDepartment) || (itemClass.m_service == ItemClass.Service.PoliceDepartment) || (itemClass.m_service == ItemClass.Service.HealthCare))
-                {
-                    coefficient = (float)comm_data.game_maintain_fee_decrease3;
-                } else
-                {
-                    coefficient = (float)comm_data.game_maintain_fee_decrease;
-                }
-
+                coefficient = (float)comm_data.game_expense_divide;
                 switch (itemClass.m_service)
                 {
                     case ItemClass.Service.Road:
@@ -713,7 +699,7 @@ namespace RealCity
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
-                Policy_cost += (float)amount / (float)comm_data.game_maintain_fee_decrease;
+                Policy_cost += (float)amount / (float)comm_data.game_expense_divide;
                 //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString() + " " + amount.ToString());
                 if (Policy_cost > 1)
                 {
@@ -1977,7 +1963,6 @@ namespace RealCity
                 service = ItemClass.Service.Industrial;
                 subService = ItemClass.SubService.IndustrialGeneric;
                 level = ItemClass.Level.Level3;
-                amount = amount * comm_data.game_income_expense_multiple;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -1993,7 +1978,6 @@ namespace RealCity
                 service = ItemClass.Service.Industrial;
                 subService = ItemClass.SubService.IndustrialGeneric;
                 level = ItemClass.Level.Level3;
-                amount = amount * comm_data.game_income_expense_multiple;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -2011,7 +1995,6 @@ namespace RealCity
 
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddTourismIncome(amount, service, subService, level, taxRate);
-                amount = amount * comm_data.game_income_expense_multiple;
 
                 /*if (taxRate == 113)
                 {
@@ -2037,7 +2020,6 @@ namespace RealCity
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPersonalTaxIncome(amount, service, subService, level, taxRate);
-                amount = amount* comm_data.game_income_expense_multiple;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -2054,7 +2036,6 @@ namespace RealCity
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPrivateTradeIncome(amount, service, subService, level, taxRate);
-                amount = amount * comm_data.game_income_expense_multiple;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
@@ -2070,7 +2051,6 @@ namespace RealCity
                 taxRate = taxRate / 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPrivateLandIncome(amount, service, subService, level, taxRate);
-                amount = amount * comm_data.game_income_expense_multiple;
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {

@@ -73,44 +73,5 @@ namespace RealCity
             this.m_unitCount = (int)(this.m_units.ItemCount() - 1u);
             return true;
         }
-
-
-        private void ReleaseCitizenImplementation(uint citizen, ref Citizen data)
-        {
-            InstanceID id = default(InstanceID);
-
-            if (comm_data.citizen_money[citizen] > 0)
-            {
-                comm_data.city_bank -= comm_data.citizen_money[citizen];
-            }
-
-            if (data.GetCitizenInfo(citizen) != null)
-            {
-                if ((comm_data.citizen_money[citizen] < 500) && (data.GetCitizenInfo(citizen).m_citizenAI is ResidentAI) && !data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic) && !data.m_flags.IsFlagSet(Citizen.Flags.MovingIn) && !(data.m_flags == Citizen.Flags.Created))
-                {
-                    comm_data.Bad_reputation += 1;
-                    //DebugLog.LogToFileOnly("comm_data.citizen_money[citizen] = " + comm_data.citizen_money[citizen].ToString());
-                    //DebugLog.LogToFileOnly("AI is = " + data.GetCitizenInfo(citizen).m_citizenAI.ToString());
-                    //DebugLog.LogToFileOnly("Flag is = " + data.m_flags.ToString());
-                }
-            }
-            comm_data.citizen_money[citizen] = 0;
-            id.Citizen = citizen;
-            Singleton<InstanceManager>.instance.ReleaseInstance(id);
-            if (data.m_instance != 0)
-            {
-                this.ReleaseCitizenInstance(data.m_instance);
-                data.m_instance = 0;
-            }
-            data.SetHome(citizen, 0, 0u);
-            data.SetWorkplace(citizen, 0, 0u);
-            data.SetVisitplace(citizen, 0, 0u);
-            data.SetVehicle(citizen, 0, 0u);
-            data.SetParkedVehicle(citizen, 0);
-            data = default(Citizen);
-            this.m_citizens.ReleaseItem(citizen);
-            this.m_citizenCount = (int)(this.m_citizens.ItemCount() - 1u);
-        }
-
     }
 }
