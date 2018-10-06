@@ -12,7 +12,7 @@ namespace RealCity
 
         public static float WIDTH = 750f;
 
-        private static readonly float HEIGHT = 1050f;
+        private static readonly float HEIGHT = 800f;
 
         private static readonly float HEADER = 40f;
 
@@ -82,69 +82,6 @@ namespace RealCity
 
         //2 building   27 element
         private UILabel m_secondline_building; //fixed title
-        //2.1 building income
-        //public static float comm_profit = 5;
-        //public static float indu_profit = 5;
-        //public static float food_profit = 5;
-        //public static float petrol_profit = 5;
-        //public static float coal_profit = 5;
-        //public static float lumber_profit = 5;
-        //public static float oil_profit = 5;
-        //public static float ore_profit = 5;
-        //public static float grain_profit = 5;
-        //public static float log_profit = 5;
-        /*private UILabel good_import_ratio;
-        private UILabel food_import_ratio;
-        private UILabel petrol_import_ratio;
-        private UILabel coal_import_ratio;
-        private UILabel lumber_import_ratio;
-        private UILabel oil_import_ratio;
-        private UILabel ore_import_ratio;
-        private UILabel log_import_ratio;
-        private UILabel grain_import_ratio;
-
-        private UILabel good_export_ratio;
-        private UILabel food_export_ratio;
-        private UILabel petrol_export_ratio;
-        private UILabel coal_export_ratio;
-        private UILabel lumber_export_ratio;
-        private UILabel oil_export_ratio;
-        private UILabel ore_export_ratio;
-        private UILabel log_export_ratio;
-        private UILabel grain_export_ratio;*/
-
-        //2.2 building expense
-        //2.3 building money
-        //public static ushort all_comm_building_profit = 0;
-        //public static ushort all_industry_building_profit = 0;
-        //public static ushort all_foresty_building_profit = 0;
-        //public static ushort all_farmer_building_profit = 0;
-        //public static ushort all_oil_building_profit = 0;
-        //public static ushort all_ore_building_profit = 0;
-        //public static ushort all_comm_building_loss = 0;
-        //public static ushort all_industry_building_loss = 0;
-        //public static ushort all_foresty_building_loss = 0;
-        //public static ushort all_farmer_building_loss = 0;
-        //public static ushort all_oil_building_loss = 0;
-        //public static ushort all_ore_building_loss = 0;
-        //public static ushort all_buildings = 0;
-        //public static uint total_cargo_vehical_time = 0;
-        //public static uint total_cargo_transfer_size = 0;
-        //public static uint total_train_transfer_size = 0;
-        //public static uint total_train_ship_size = 0;
-        /*private UILabel all_comm_building_profit;
-        private UILabel all_comm_building_loss;
-        private UILabel all_industry_building_profit;
-        private UILabel all_industry_building_loss;
-        private UILabel all_foresty_building_profit;
-        private UILabel all_foresty_building_loss;
-        private UILabel all_farmer_building_profit;
-        private UILabel all_farmer_building_loss;
-        private UILabel all_oil_building_profit;
-        private UILabel all_oil_building_loss;
-        private UILabel all_ore_building_profit;
-        private UILabel all_ore_building_loss;*/
-
         private UILabel office_gen_salary_index;
         private UILabel office_high_tech_salary_index;
 
@@ -176,7 +113,8 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3(100f, 5f);
+            //base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
+            base.relativePosition = new Vector3(200f, 5f);
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -201,18 +139,8 @@ namespace RealCity
 
         private void DoOnStartup()
         {
-            this.GetDataNeeded();
             this.ShowOnGui();
-            //this.PopulateControlContainers();
-
-            //base.StartCoroutine(this.RefreshDisplayDataWrapper());
             this.RefreshDisplayData();
-        }
-
-        private void GetDataNeeded()
-        {
-            //this._tmpPopData = comm_data.last_pop;
-            //this._tmpdeadcount = comm_data.last_bank_count;
         }
 
         private void ShowOnGui()
@@ -352,7 +280,7 @@ namespace RealCity
             this.office_high_tech_salary_index = base.AddUIComponent<UILabel>();
             this.office_high_tech_salary_index.text = language.EconomicUI[35];
             this.office_high_tech_salary_index.tooltip = language.EconomicUI[36];
-            this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + 100f, this.office_gen_salary_index.relativePosition.y);
+            this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + 100f + this.office_gen_salary_index.width, this.office_gen_salary_index.relativePosition.y);
             this.office_high_tech_salary_index.autoSize = true;
             this.office_high_tech_salary_index.name = "Moreeconomic_Text_43";
 
@@ -461,7 +389,7 @@ namespace RealCity
                     this.family_weight_stable_low.text = string.Format(language.EconomicUI[28] + " [{0}]", comm_data.family_weight_stable_low);
                     if (comm_data.family_count != 0)
                     {
-                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", (float)(pc_ResidentAI.citizen_goods / (comm_data.family_count * 200f)));
+                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", (float)(pc_ResidentAI.citizenGoods / (comm_data.family_count * 200f)));
                     }
                     else
                     {
@@ -470,8 +398,8 @@ namespace RealCity
 
                     //building
                     this.m_secondline_building.text = language.EconomicUI[32];
-                    this.office_gen_salary_index.text = string.Format(language.EconomicUI[34] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_num_final);
-                    this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[36] + " [{0}]", pc_PrivateBuildingAI.greater_than_20000_profit_building_money_final);
+                    this.office_gen_salary_index.text = string.Format(language.EconomicUI[34] + " [{0}]", pc_PrivateBuildingAI.greaterThan20000ProfitBuildingCountFinal);
+                    this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[36] + " [{0}]", pc_PrivateBuildingAI.greaterThan20000ProfitBuildingMoneyFinal);
 
                     this.tip1.text = string.Format(language.EconomicUI[38] + "  " + RealCity.tip1_message_forgui);
                     this.tip2.text = string.Format(language.EconomicUI[40] + "  " + RealCity.tip2_message_forgui);

@@ -371,7 +371,7 @@ namespace RealCity
         {
             pc_EconomyManager.save();
             comm_data.save();
-            pc_ResidentAI.save();
+            pc_ResidentAI.Save();
             pc_PrivateBuildingAI.save();
             //pc_VehicleAI.save();
         }
@@ -400,14 +400,14 @@ namespace RealCity
                 DebugLog.LogToFileOnly("startsave");
                 pc_EconomyManager.save_data = new byte[2768];
                 comm_data.save_data1 = new byte[4194304];
-                pc_PrivateBuildingAI.save_data = new byte[316];
-                pc_ResidentAI.save_data = new byte[140];
-                comm_data.save_data = new byte[3063935];
+                pc_PrivateBuildingAI.saveData = new byte[44];
+                pc_ResidentAI.saveData = new byte[140];
+                comm_data.save_data = new byte[3260641];
                 gather_save_data();
                 saveandrestore._serializableData.SaveData("real_city pc_EconomyManager", pc_EconomyManager.save_data);
                 saveandrestore._serializableData.SaveData("real_city comm_data", comm_data.save_data);
-                saveandrestore._serializableData.SaveData("real_city pc_ResidentAI", pc_ResidentAI.save_data);
-                saveandrestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", pc_PrivateBuildingAI.save_data);
+                saveandrestore._serializableData.SaveData("real_city pc_ResidentAI", pc_ResidentAI.saveData);
+                saveandrestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", pc_PrivateBuildingAI.saveData);
                 saveandrestore._serializableData.SaveData("real_city citizen_money", comm_data.save_data1);
                 //saveandrestore._serializableData.SaveData("real_city pc_VehicleAI", pc_VehicleAI.save_data);
                 RealCity.SaveSetting();
@@ -441,24 +441,24 @@ namespace RealCity
                     comm_data.load();
                 }
 
-                pc_ResidentAI.save_data = saveandrestore._serializableData.LoadData("real_city pc_ResidentAI");
-                if (pc_ResidentAI.save_data == null)
+                pc_ResidentAI.saveData = saveandrestore._serializableData.LoadData("real_city pc_ResidentAI");
+                if (pc_ResidentAI.saveData == null)
                 {
                     DebugLog.LogToFileOnly("no pc_ResidentAI save data, please check");
                 }
                 else
                 {
-                    pc_ResidentAI.load();
+                    pc_ResidentAI.Load();
                 }
 
-                pc_PrivateBuildingAI.save_data = saveandrestore._serializableData.LoadData("real_city pc_PrivateBuildingAI");
-                if (pc_PrivateBuildingAI.save_data == null)
+                pc_PrivateBuildingAI.saveData = saveandrestore._serializableData.LoadData("real_city pc_PrivateBuildingAI");
+                if (pc_PrivateBuildingAI.saveData == null)
                 {
                     DebugLog.LogToFileOnly("no pc_PrivateBuildingAI save data, please check");
                 }
                 else
                 {
-                    pc_PrivateBuildingAI.load();
+                    pc_PrivateBuildingAI.Load();
                 }
                 comm_data.save_data1 = saveandrestore._serializableData.LoadData("real_city citizen_money");
                 if (comm_data.save_data1 == null)
@@ -472,27 +472,6 @@ namespace RealCity
             }
 
             RealCity.LoadSetting();
-
-            /*pc_VehicleAI.load_data = saveandrestore._serializableData.LoadData("real_city pc_VehicleAI");
-            if (pc_VehicleAI.load_data == null)
-            {
-                DebugLog.LogToFileOnly("no pc_VehicleAI save data, please check");
-            }
-            else
-            {
-                pc_VehicleAI.load();
-            }*/
         }
-
-        /*public void init_data()
-        {
-            comm_data.data_init();
-            pc_EconomyManager.data_init();
-            pc_EconomyManager.save_data = new byte[2768];
-            comm_data.save_data1 = new byte[4194304];
-            pc_PrivateBuildingAI.save_data = new byte[316];
-            pc_ResidentAI.save_data = new byte[140];
-            comm_data.save_data = new byte[3063935];
-        }*/
     }
 }

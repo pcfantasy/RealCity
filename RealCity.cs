@@ -14,9 +14,7 @@ namespace RealCity
     public class RealCity : IUserMod
     {
         public static bool IsEnabled = false;
-        public static bool update_once = false;
-
-        public static long cache_delta = 0;
+        public static bool updateOnce = false;
 
         public byte tip1_citizen = 0;
         public byte tip2_building = 0;
@@ -72,7 +70,8 @@ namespace RealCity
             FileStream fs = File.Create("RealCityV2.0_setting.txt");
             StreamWriter streamWriter = new StreamWriter(fs);
             streamWriter.WriteLine(comm_data.last_language);
-            streamWriter.WriteLine(comm_data.is_smart_pbtp);
+            streamWriter.WriteLine(comm_data.isSmartPbtp);
+            streamWriter.WriteLine(comm_data.isHellMode);
             streamWriter.Flush();
             fs.Close();
         }
@@ -98,14 +97,23 @@ namespace RealCity
 
                 if (strLine == "False")
                 {
-                    comm_data.is_smart_pbtp = false;
+                    comm_data.isSmartPbtp = false;
                 }
                 else
                 {
-                    comm_data.is_smart_pbtp = true;
+                    comm_data.isSmartPbtp = true;
                 }
 
                 strLine = sr.ReadLine();
+
+                if (strLine == "False")
+                {
+                    comm_data.isHellMode = false;
+                }
+                else
+                {
+                    comm_data.isHellMode = true;
+                }
                 sr.Close();
                 fs.Close();
             }
@@ -118,13 +126,15 @@ namespace RealCity
             LoadSetting();
             language.language_switch(comm_data.last_language);
             UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
-            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文" }, comm_data.last_language, (index) => get_language_idex(index));
+            group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文" }, comm_data.last_language, (index) => GetLanguageIdex(index));
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[2]);
-            group2.AddCheckbox(language.OptionUI[2], comm_data.is_smart_pbtp, (index) => is_smart_pbtp(index));
+            group2.AddCheckbox(language.OptionUI[2], comm_data.isSmartPbtp, (index) => IsSmartPbtp(index));
+            UIHelperBase group3 = helper.AddGroup(language.OptionUI[3]);
+            group3.AddCheckbox(language.OptionUI[3], comm_data.isHellMode, (index) => IsHellMode(index));
             SaveSetting();
         }
 
-        public void get_language_idex(int index)
+        public void GetLanguageIdex(int index)
         {
             language_idex = index;
             language.language_switch((byte)language_idex);
@@ -142,9 +152,15 @@ namespace RealCity
             }
         }
 
-        public void is_smart_pbtp(bool index)
+        public void IsSmartPbtp(bool index)
         {
-            comm_data.is_smart_pbtp = index;
+            comm_data.isSmartPbtp = index;
+            SaveSetting();
+        }
+
+        public void IsHellMode(bool index)
+        {
+            comm_data.isHellMode = index;
             SaveSetting();
         }
 
@@ -159,18 +175,32 @@ namespace RealCity
                     uint num2 = currentFrameIndex & 255u;
                     if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
                     {
+
+                        
                         citizen_status();
                         generate_tips();
+                        comm_data.isCoalsGetted = false;
+                        comm_data.isFoodsGetted = false;
+                        comm_data.isPetrolsGetted = false;
+                        comm_data.isLumbersGetted = false;
+                        comm_data.allFoods = 0;
+                        comm_data.allLumbers = 0;
+                        comm_data.allPetrols = 0;
+                        comm_data.allCoals = 0;
                         building_status();
+                        comm_data.isCoalsGettedFinal = comm_data.isCoalsGetted;
+                        comm_data.isFoodsGettedFinal = comm_data.isFoodsGetted;
+                        comm_data.isPetrolsGettedFinal = comm_data.isPetrolsGetted;
+                        comm_data.isLumbersGettedFinal = comm_data.isLumbersGetted;
+
+                        comm_data.allVehicles = 0;
+                        VehicleStatus();
+                        comm_data.allVehiclesFinal = comm_data.allVehicles;
                         caculate_citizen_transport_fee();
 
                         comm_data.update_money_count++;
                         if (comm_data.update_money_count == 17)
                         {
-                            comm_data.tourist_num_final = comm_data.tourist_num;
-                            comm_data.tourist_transport_fee_num_final = comm_data.tourist_transport_fee_num;
-                            comm_data.tourist_num = 0;
-                            comm_data.tourist_transport_fee_num = 0;
                             comm_data.update_money_count = 0;
                         }
                         pc_EconomyManager.clean_current(comm_data.update_money_count);
@@ -181,8 +211,12 @@ namespace RealCity
                     RealCityUI.refesh_onece = true;
                     MoreeconomicUI.refesh_onece = true;
                     PlayerBuildingUI.refesh_once = true;
-                    BuildingUI.refesh_once = true;
-                    HumanUI.refesh_once = true;
+                    BuildingUI.refeshOnce = true;
+                    HumanUI.refeshOnce = true;
+                    FoodButton.refeshOnce = true;
+                    CoalButton.refeshOnce = true;
+                    LumberButton.refeshOnce = true;
+                    PetrolButton.refeshOnce = true;
                     comm_data.is_updated = true;
                 }
                 return internalMoneyAmount;
@@ -228,24 +262,43 @@ namespace RealCity
 
                 tip5_message_forgui = language.TipAndChirperMessage[7];
 
-                /*tip6_message_forgui = language.TipAndChirperMessage[8];
-
-                if ((pc_PrivateBuildingAI.all_oil_building_profit_final + pc_PrivateBuildingAI.all_ore_building_profit_final + pc_PrivateBuildingAI.all_oil_building_loss_final + pc_PrivateBuildingAI.all_ore_building_loss_final - comm_data.family_count / 10) < 150)
+                if (!comm_data.have_city_resource_department)
                 {
-                    tip7_message_forgui = "";
+                    tip6_message_forgui = language.TipAndChirperMessage[8];
                 }
-                else if (comm_data.family_count != 0)
+                else
+                {
+                    tip6_message_forgui = "";
+                }
+
+                if (!comm_data.isFoodsGettedFinal)
                 {
                     tip7_message_forgui = language.TipAndChirperMessage[9];
                 }
+                else
+                {
+                    tip7_message_forgui = "";
+                }
 
-                FieldInfo cashAmount;
-                cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
-                long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                if (!comm_data.isLumbersGettedFinal || !comm_data.isCoalsGettedFinal)
+                {
+                    tip8_message_forgui = language.TipAndChirperMessage[10];
+                }
+                else
+                {
+                    tip8_message_forgui = "";
+                }
 
-                FieldInfo cashDelta;
-                cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
-                cache_delta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);*/
+                if (!comm_data.isPetrolsGettedFinal)
+                {
+                    tip9_message_forgui = language.TipAndChirperMessage[11];
+                }
+                else
+                {
+                    tip9_message_forgui = "";
+                }
+
+
             }
 
 
@@ -335,15 +388,14 @@ namespace RealCity
             public void building_status()
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
-                update_once = false;
+                updateOnce = false;
                 comm_data.have_toll_station = false;
                 for (int i = 0; i < instance.m_buildings.m_buffer.Count<Building>(); i++)
                 {
                     if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate!=0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
                     {
-                        if (is_special_building((ushort)i) == 1)
+                        if (false)
                         {
-
                         }
                         else if (is_special_building((ushort)i) == 2)
                         {
@@ -356,7 +408,7 @@ namespace RealCity
                         }
                     }
                 }
-                update_once = true;
+                updateOnce = true;
             }
 
 
@@ -369,6 +421,7 @@ namespace RealCity
                 int num34 = 0;
                 TransferManager.TransferReason incomingTransferReason = default(TransferManager.TransferReason);
 
+                //Foods
                 incomingTransferReason = TransferManager.TransferReason.Food;
                 if (incomingTransferReason != TransferManager.TransferReason.None)
                 {
@@ -388,10 +441,120 @@ namespace RealCity
                     Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
                 }
 
-                if (comm_data.building_buffer3[buildingID] > 0 )
+                if (comm_data.building_buffer3[buildingID] > 0 && !comm_data.isFoodsGetted)
                 {
-                    comm_data.building_buffer3[buildingID] -= 200;
-                } 
+                    if (comm_data.citizen_count >= 64)
+                    {
+                        comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count >> 6);
+                    }
+                    comm_data.isFoodsGetted = true;
+                }
+                comm_data.allFoods += comm_data.building_buffer3[buildingID];
+
+                //Petrol
+                incomingTransferReason = TransferManager.TransferReason.Petrol;
+                num27 = 0;
+                num28 = 0;
+                num29 = 0;
+                value = 0;
+                num34 = 0;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 28000 - comm_data.building_buffer2[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 500;
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer2[buildingID] > 0 && !comm_data.isPetrolsGetted)
+                {
+                    if (comm_data.allVehiclesFinal >= 32)
+                    {
+                        comm_data.building_buffer2[buildingID] -= (ushort)(comm_data.allVehiclesFinal >> 5);
+                    }
+                    comm_data.isPetrolsGetted = true;
+                }
+                comm_data.allPetrols += comm_data.building_buffer2[buildingID];
+
+                //Coal
+                incomingTransferReason = TransferManager.TransferReason.Coal;
+                num27 = 0;
+                num28 = 0;
+                num29 = 0;
+                value = 0;
+                num34 = 0;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 28000 - comm_data.building_buffer1[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 500;
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer1[buildingID] > 0 && !comm_data.isCoalsGetted)
+                {
+                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 32)
+                    {
+                        comm_data.building_buffer1[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal >> 5);
+                    }
+                    comm_data.isCoalsGetted = true;
+                }
+                comm_data.allCoals += comm_data.building_buffer1[buildingID];
+
+                //Lumber
+                incomingTransferReason = TransferManager.TransferReason.Lumber;
+                num27 = 0;
+                num28 = 0;
+                num29 = 0;
+                value = 0;
+                num34 = 0;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 28000 - comm_data.building_buffer4[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 500;
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer4[buildingID] > 0 && !comm_data.isLumbersGetted)
+                {
+                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 32)
+                    {
+                        comm_data.building_buffer4[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal >> 5);
+                    }
+                    comm_data.isLumbersGetted = true;
+                }
+                comm_data.allLumbers += comm_data.building_buffer4[buildingID];
             }
 
             protected void CalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
@@ -464,126 +627,176 @@ namespace RealCity
             public void citizen_status()
             {
                 comm_data.citizen_count = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount;
-                comm_data.salary_idex = (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() + 50f) / 120f;
             }
 
             //public void caculate_profit()
             //{
-                //if (comm_data.update_outside_count > 64)
-                //{
-                //    comm_data.update_outside_count = 0;
-                //}
-                //comm_data.update_outside_count++;
-                //lumber
-                /*if ((pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.lumber_import_ratio = (float)pc_PrivateBuildingAI.lumber_from_outside_count_final / (float)(pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
-                }
+            //if (comm_data.update_outside_count > 64)
+            //{
+            //    comm_data.update_outside_count = 0;
+            //}
+            //comm_data.update_outside_count++;
+            //lumber
+            /*if ((pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.lumber_import_ratio = (float)pc_PrivateBuildingAI.lumber_from_outside_count_final / (float)(pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.lumber_export_ratio = (float)pc_PrivateBuildingAI.lumber_to_outside_count_final / (float)(pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.lumber_export_ratio = (float)pc_PrivateBuildingAI.lumber_to_outside_count_final / (float)(pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
+            }
 
-                //food
-                if ((pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.food_import_ratio = (float)pc_PrivateBuildingAI.food_from_outside_count_final / (float)(pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
-                }
+            //food
+            if ((pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.food_import_ratio = (float)pc_PrivateBuildingAI.food_from_outside_count_final / (float)(pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.food_export_ratio = (float)pc_PrivateBuildingAI.food_to_outside_count_final / (float)(pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.food_export_ratio = (float)pc_PrivateBuildingAI.food_to_outside_count_final / (float)(pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
+            }
 
-                //petrol
-                if ((pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.petrol_import_ratio = (float)pc_PrivateBuildingAI.Petrol_from_outside_count_final / (float)(pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
-                }
+            //petrol
+            if ((pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.petrol_import_ratio = (float)pc_PrivateBuildingAI.Petrol_from_outside_count_final / (float)(pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.petrol_export_ratio = (float)pc_PrivateBuildingAI.Petrol_to_outside_count_final / (float)(pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.petrol_export_ratio = (float)pc_PrivateBuildingAI.Petrol_to_outside_count_final / (float)(pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
+            }
 
-                //coal
-                if ((pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.coal_import_ratio = (float)pc_PrivateBuildingAI.coal_from_outside_count_final / (float)(pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
-                }
+            //coal
+            if ((pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.coal_import_ratio = (float)pc_PrivateBuildingAI.coal_from_outside_count_final / (float)(pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.coal_export_ratio = (float)pc_PrivateBuildingAI.coal_to_outside_count_final / (float)(pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.coal_export_ratio = (float)pc_PrivateBuildingAI.coal_to_outside_count_final / (float)(pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
+            }
 
-                //logs
-                if ((pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.log_import_ratio = (float)pc_PrivateBuildingAI.logs_from_outside_count_final / (float)(pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
-                }
+            //logs
+            if ((pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.log_import_ratio = (float)pc_PrivateBuildingAI.logs_from_outside_count_final / (float)(pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.log_export_ratio = (float)pc_PrivateBuildingAI.logs_to_outside_count_final / (float)(pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.log_export_ratio = (float)pc_PrivateBuildingAI.logs_to_outside_count_final / (float)(pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
+            }
 
-                //grain
-                if ((pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.grain_import_ratio = (float)pc_PrivateBuildingAI.Grain_from_outside_count_final / (float)(pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
-                }
+            //grain
+            if ((pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.grain_import_ratio = (float)pc_PrivateBuildingAI.Grain_from_outside_count_final / (float)(pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.grain_export_ratio = (float)pc_PrivateBuildingAI.Grain_to_outside_count_final / (float)(pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.grain_export_ratio = (float)pc_PrivateBuildingAI.Grain_to_outside_count_final / (float)(pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
+            }
 
-                //oil
-                if ((pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.oil_import_ratio = (float)pc_PrivateBuildingAI.oil_from_outside_count_final / (float)(pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
-                }
+            //oil
+            if ((pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.oil_import_ratio = (float)pc_PrivateBuildingAI.oil_from_outside_count_final / (float)(pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.oil_export_ratio = (float)pc_PrivateBuildingAI.oil_to_outside_count_final / (float)(pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.oil_export_ratio = (float)pc_PrivateBuildingAI.oil_to_outside_count_final / (float)(pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
+            }
 
-                //ore
-                if ((pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.ore_import_ratio = (float)pc_PrivateBuildingAI.ore_from_outside_count_final / (float)(pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
-                }
+            //ore
+            if ((pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.ore_import_ratio = (float)pc_PrivateBuildingAI.ore_from_outside_count_final / (float)(pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.ore_export_ratio = (float)pc_PrivateBuildingAI.ore_to_outside_count_final / (float)(pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
-                }
+            if ((pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.ore_export_ratio = (float)pc_PrivateBuildingAI.ore_to_outside_count_final / (float)(pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
+            }
 
-                //good
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.good_import_ratio = (float)pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final);
-                }
+            //good
+            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.good_import_ratio = (float)pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)
-                {
-                    pc_PrivateBuildingAI.good_export_ratio = (float)pc_PrivateBuildingAI.industy_goods_to_outside_count_final / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final);
-                }
+            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)
+            {
+                pc_PrivateBuildingAI.good_export_ratio = (float)pc_PrivateBuildingAI.industy_goods_to_outside_count_final / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final);
+            }
 
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
-                {
-                    pc_PrivateBuildingAI.good_level2_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
-                }
+            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
+            {
+                pc_PrivateBuildingAI.good_level2_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
+            }
 
-                if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
-                {
-                    pc_PrivateBuildingAI.good_level3_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
-                }*/
+            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
+            {
+                pc_PrivateBuildingAI.good_level3_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
+            }*/
 
             //}
+
+            public void VehicleStatus()
+            {
+                VehicleManager instance = Singleton<VehicleManager>.instance;
+                //System.Random rand = new System.Random();
+                for (int i = 0; i < instance.m_vehicles.m_buffer.Count<Vehicle>(); i++)
+                {
+                    Vehicle vehicle = instance.m_vehicles.m_buffer[i];
+                    if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
+                    {
+                        if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
+                        {
+                            if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
+                            {
+                                comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
+                                if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
+                                {
+                                    if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is PassengerCarAI || vehicle.Info.m_vehicleAI is AmbulanceAI)
+                                    {
+                                        comm_data.allVehicles++;
+                                    }
+                                    if (vehicle.Info.m_vehicleAI is TaxiAI || vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is FireCopterAI)
+                                    {
+                                        comm_data.allVehicles++;
+                                    }
+                                    if (vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is HearseAI || vehicle.Info.m_vehicleAI is PoliceCarAI)
+                                    {
+                                        comm_data.allVehicles++;
+                                    }
+                                    if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI || vehicle.Info.m_vehicleAI is SnowTruckAI)
+                                    {
+                                        comm_data.allVehicles++;
+                                    }
+                                    if (vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI)
+                                    {
+                                        comm_data.allVehicles++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                comm_data.vehical_transfer_time[i] = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        comm_data.vehical_transfer_time[i] = 0;
+                    }
+                }
+            }
         }
 
         public class ThreadingRealCityStatsMod : ThreadingExtensionBase
@@ -603,10 +816,10 @@ namespace RealCity
                     
                     for (int i = num5; i <= num6; i = i + 1)
                     {
-                        if ((currentFrameIndex & 48) == 48)
-                        {
-                            vehicle_status(i);
-                        }
+                        //if ((currentFrameIndex & 48) == 48)
+                        //{
+                            //vehicle_status(i);
+                        //}
                         if (comm_data.have_toll_station)
                         {
                             Vehicle vehicle = instance.m_vehicles.m_buffer[i];
@@ -650,50 +863,6 @@ namespace RealCity
                             }
                         } // toll station
                     }
-                }
-            }
-
-            public void vehicle_status(int i)
-            {
-                VehicleManager instance = Singleton<VehicleManager>.instance;
-                //System.Random rand = new System.Random();
-                Vehicle vehicle = instance.m_vehicles.m_buffer[i];
-                if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
-                {
-                    if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
-                    {
-                        if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
-                        {
-                            comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
-                        }
-                        else
-                        {
-                            comm_data.vehical_transfer_time[i] = 0;
-                        }
-
-                        if (vehicle.Info.m_vehicleAI is GarbageTruckAI)
-                        {
-                            Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, 1, 1, vehicle.GetLastFramePosition(), 6f);
-                            //DebugLog.LogToFileOnly("try give GarbageTruckAI Pollution");
-                        }
-
-                        if (vehicle.Info.m_vehicleAI is CargoTruckAI)
-                        {
-                            if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Oil)
-                            {
-                                Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, 1, 1, vehicle.GetLastFramePosition(), 6f);
-                            }
-
-                            if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.Ore)
-                            {
-                                Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, 1, 1, vehicle.GetLastFramePosition(), 6f);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    comm_data.vehical_transfer_time[i] = 0;
                 }
             }
 

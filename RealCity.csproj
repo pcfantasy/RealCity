@@ -74,6 +74,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoalButton.cs" />
+    <Compile Include="LumberButton.cs" />
+    <Compile Include="PetrolButton.cs" />
+    <Compile Include="FoodButton.cs" />
+    <Compile Include="pc_OutsideConnectionAI.cs" />
     <Compile Include="pc_CommonBuildingAI.cs" />
     <Compile Include="pc_VehicleAI.cs" />
     <Compile Include="PlayerBuildingButton.cs" />
@@ -88,7 +93,6 @@
     <Compile Include="pc_CargoTruckAI.cs" />
     <Compile Include="pc_CitizenManager.cs" />
     <Compile Include="pc_OfficeBuildingAI.cs" />
-    <Compile Include="pc_PlayerBuildingAI.cs" />
     <Compile Include="pc_TaxiAI.cs" />
     <Compile Include="pc_ZoneManager.cs" />
     <Compile Include="RealCityUI.cs" />

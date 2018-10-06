@@ -130,34 +130,39 @@
         public static ushort last_buildingid = 0;
         public static uint last_citizenid = 0;
 
-        //resident consumption rate, outside consumption rate
-        public static float resident_consumption_rate = 0.1f;
-        public static float outside_consumption_rate = 1f;
-        public static byte update_outside_count = 0;
-
-        //use it to decrease mantain fee in early game time
-        public static byte mantain_and_land_fee_decrease = 50;
-        public static float salary_idex = 0.5f;
-        //use it to decrease land income in early game time for industry and commerical
-
-
         public static long temp_public_transport_fee = 0;
         public static byte last_language = 255;
 
-        public static bool is_smart_pbtp = false;
+        public static bool isSmartPbtp = false;
+        public static bool isHellMode = false;
 
         public static ushort Extractor_building = 0;
         public static ushort Extractor_building_final = 0;
 
-        public static ushort tourist_num = 0;
-        public static ushort tourist_num_final = 0;
+        //public static ushort tourist_num = 0;
+        //public static ushort tourist_num_final = 0;
 
-        public static long tourist_transport_fee_num = 0;
-        public static long tourist_transport_fee_num_final = 0;
+        //public static long tourist_transport_fee_num = 0;
+        //public static long tourist_transport_fee_num_final = 0;
 
         public static bool is_weekend = false;
         public static bool have_toll_station = false;
         public static bool have_city_resource_department = false;
+
+        public static bool isFoodsGetted = false;
+        public static bool isCoalsGetted = false;
+        public static bool isLumbersGetted = false;
+        public static bool isPetrolsGetted = false;
+        public static bool isFoodsGettedFinal = false;
+        public static bool isCoalsGettedFinal = false;
+        public static bool isLumbersGettedFinal = false;
+        public static bool isPetrolsGettedFinal = false;
+        public static int allFoods = 0;
+        public static int allLumbers = 0;
+        public static int allPetrols = 0;
+        public static int allCoals = 0;
+        public static ushort allVehicles = 0;
+        public static ushort allVehiclesFinal = 0;
 
         // reserved some for futher used
         public static ushort[] building_buffer1 = new ushort[49152];
@@ -166,7 +171,7 @@
         public static ushort[] building_buffer4 = new ushort[49152];
 
         //public static byte[] save_data = new byte[2867364];
-        public static byte[] save_data = new byte[4063829];
+        public static byte[] save_data = new byte[3260641];
         public static float[] citizen_money = new float[1048576];
         public static byte[] save_data1 = new byte[4194304];
         //public static byte[] save_data = new byte[3063935];
@@ -263,15 +268,6 @@
             saveandrestore.save_float(ref i, current_time, ref save_data);
             saveandrestore.save_float(ref i, prev_time, ref save_data);
 
-            //9+1     //2867365
-            saveandrestore.save_float(ref i, resident_consumption_rate, ref save_data);
-            saveandrestore.save_float(ref i, outside_consumption_rate, ref save_data);
-            saveandrestore.save_byte(ref i, update_outside_count, ref save_data);
-            saveandrestore.save_byte(ref i, mantain_and_land_fee_decrease, ref save_data);
-
-            //4        //2867369
-            saveandrestore.save_float(ref i, salary_idex, ref save_data);
-
             //28       //2867397
             saveandrestore.save_int(ref i, citizen_count, ref save_data);
             saveandrestore.save_int(ref i, family_count, ref save_data);
@@ -285,18 +281,33 @@
 
             //32 + 2 + 7 + 16 + 4 = 61     //2867467
 
-            saveandrestore.save_bool(ref i, is_smart_pbtp, ref save_data);
+            saveandrestore.save_bool(ref i, isSmartPbtp, ref save_data);
+            saveandrestore.save_bool(ref i, isHellMode, ref save_data);
+            saveandrestore.save_bool(ref i, isCoalsGetted, ref save_data);
+            saveandrestore.save_bool(ref i, isFoodsGetted, ref save_data);
+            saveandrestore.save_bool(ref i, isLumbersGetted, ref save_data);
+            saveandrestore.save_bool(ref i, isPetrolsGetted, ref save_data);
+            saveandrestore.save_bool(ref i, isCoalsGettedFinal, ref save_data);
+            saveandrestore.save_bool(ref i, isFoodsGettedFinal, ref save_data);
+            saveandrestore.save_bool(ref i, isLumbersGettedFinal, ref save_data);
+            saveandrestore.save_bool(ref i, isPetrolsGettedFinal, ref save_data);
+            saveandrestore.save_int(ref i, allCoals, ref save_data);
+            saveandrestore.save_int(ref i, allFoods, ref save_data);
+            saveandrestore.save_int(ref i, allLumbers, ref save_data);
+            saveandrestore.save_int(ref i, allPetrols, ref save_data);
+            saveandrestore.save_ushort(ref i, allVehicles, ref save_data);
+            saveandrestore.save_ushort(ref i, allVehiclesFinal, ref save_data);
 
 
             // 16 + 4 + 4 + 16 + 1 + 12 + 26 = 79    //2867546
             saveandrestore.save_ushort(ref i, Extractor_building, ref save_data);
             saveandrestore.save_ushort(ref i, Extractor_building_final, ref save_data);
 
-            saveandrestore.save_ushort(ref i, tourist_num, ref save_data);
-            saveandrestore.save_ushort(ref i, tourist_num_final, ref save_data);
+            //saveandrestore.save_ushort(ref i, tourist_num, ref save_data);
+            //saveandrestore.save_ushort(ref i, tourist_num_final, ref save_data);
 
-            saveandrestore.save_long(ref i, tourist_transport_fee_num, ref save_data);
-            saveandrestore.save_long(ref i, tourist_transport_fee_num_final, ref save_data);
+            //saveandrestore.save_long(ref i, tourist_transport_fee_num, ref save_data);
+            //saveandrestore.save_long(ref i, tourist_transport_fee_num_final, ref save_data);
 
 
             saveandrestore.save_bool(ref i, is_weekend, ref save_data);
@@ -370,12 +381,6 @@
 
             current_time = saveandrestore.load_float(ref i, save_data);
             prev_time = saveandrestore.load_float(ref i, save_data);
-            resident_consumption_rate = saveandrestore.load_float(ref i, save_data);
-            outside_consumption_rate = saveandrestore.load_float(ref i, save_data);
-            update_outside_count = saveandrestore.load_byte(ref i, save_data);
-            mantain_and_land_fee_decrease = saveandrestore.load_byte(ref i, save_data);
-
-            salary_idex = saveandrestore.load_float(ref i, save_data);
 
             citizen_count = saveandrestore.load_int(ref i, save_data);
             family_count = saveandrestore.load_int(ref i, save_data);
@@ -385,16 +390,32 @@
             temp_public_transport_fee = saveandrestore.load_long(ref i, save_data);
             last_language = saveandrestore.load_byte(ref i, save_data);
 
-            is_smart_pbtp = saveandrestore.load_bool(ref i, save_data);
+            isSmartPbtp = saveandrestore.load_bool(ref i, save_data);
+            isHellMode = saveandrestore.load_bool(ref i, save_data);
+            isCoalsGetted = saveandrestore.load_bool(ref i, save_data);
+            isFoodsGetted = saveandrestore.load_bool(ref i, save_data);
+            isLumbersGetted = saveandrestore.load_bool(ref i, save_data);
+            isPetrolsGetted = saveandrestore.load_bool(ref i, save_data);
+            isCoalsGettedFinal = saveandrestore.load_bool(ref i, save_data);
+            isFoodsGettedFinal = saveandrestore.load_bool(ref i, save_data);
+            isLumbersGettedFinal = saveandrestore.load_bool(ref i, save_data);
+            isPetrolsGettedFinal = saveandrestore.load_bool(ref i, save_data);
+            allCoals = saveandrestore.load_int(ref i, save_data);
+            allFoods = saveandrestore.load_int(ref i, save_data);
+            allLumbers = saveandrestore.load_int(ref i, save_data);
+            allPetrols = saveandrestore.load_int(ref i, save_data);
+            allVehicles = saveandrestore.load_ushort(ref i, save_data);
+            allVehiclesFinal = saveandrestore.load_ushort(ref i, save_data);
+
 
             Extractor_building = saveandrestore.load_ushort(ref i, save_data);
             Extractor_building_final = saveandrestore.load_ushort(ref i, save_data);
 
-            tourist_num = saveandrestore.load_ushort(ref i, save_data);
-            tourist_num_final = saveandrestore.load_ushort(ref i, save_data);
+            //tourist_num = saveandrestore.load_ushort(ref i, save_data);
+            //tourist_num_final = saveandrestore.load_ushort(ref i, save_data);
 
-            tourist_transport_fee_num = saveandrestore.load_long(ref i, save_data);
-            tourist_transport_fee_num_final = saveandrestore.load_long(ref i, save_data);
+            //tourist_transport_fee_num = saveandrestore.load_long(ref i, save_data);
+            //tourist_transport_fee_num_final = saveandrestore.load_long(ref i, save_data);
             is_weekend = saveandrestore.load_bool(ref i, save_data);
             have_toll_station = saveandrestore.load_bool(ref i, save_data);
             have_city_resource_department = saveandrestore.load_bool(ref i, save_data);

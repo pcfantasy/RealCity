@@ -10,115 +10,124 @@ namespace RealCity
     {
         public static string[] OptionUI_English =
         {
-            "Language",
-            "Language_Select",
-            "Smart Public Transport(more cars and maintenance in peek, less in troughs)",
+            "Language",                                                                                      //0
+            "Language_Select",                                                                               //1
+            "Smart Public Transport(more cars and maintenance in peek, less in troughs)",                    //2
+            "Hell mode(cut off import when you unlock farm foresty oil ore)"   //3
         };
 
         public static string[] BuildingUI_English = {
-            "Building Money(unit:1/100₡)",
-            "Only show industry and commerical building money",
-            "Material Buffer",
-            "Only show industry and commerical Material Buffer",
-            "Production Buffer",
-            "Only show industry and commerical Production Buffer",
-            "aliveworkcount",
-            "aliveworkcount",
-            "average employfee(resident time-period)",
-            "average employfee(resident time-period)",
-            "Building landrent",
-            "Building landrent",
-            "Building net asset",
-            "Building net asset",
-            "Family Money(unit:1/100₡)",
-            "Only show Family money",
-            "(profit-sharing)",
-            "Accumulating Money(unit:₡)",
-            "Buy price:",
-            "Sell price:",
-            "Family Salary:",
-            "Material/Production:",
-            "Sell tax",
-            "BuyToSell Profit",
-            "(exclude visit income)",
-            "Family status:",
-            "No toll department",
-            "Food stored",
-            "Lumber stored",
-            "Coal stored",
-            "Petrol stored",
+            "Building Money(unit:1/100₡)",                           //0
+            "Only show industry and commerical building money",      //1
+            "Material Buffer",                                       //2
+            "Only show industry and commerical Material Buffer",     //3
+            "Production Buffer",                                     //4
+            "Only show industry and commerical Production Buffer",   //5
+            "aliveworkcount",                                        //6
+            "aliveworkcount",                                        //7
+            "average employfee(resident time-period)",               //8
+            "average employfee(resident time-period)",               //9
+            "Building landrent",                                     //10
+            "Building landrent",                                     //11
+            "Building net asset",                                    //12
+            "Building net asset",                                    //13
+            "Family Money(unit:1/100₡)",                             //14
+            "Only show Family money",                                //15
+            "(profit-sharing)",                                      //16
+            "Accumulating Money(unit:₡)",                            //17
+            "Buy price:",                                            //18
+            "Sell price:",                                           //19
+            "Family Salary:",                                        //20
+            "Material/Production:",                                  //21
+            "Sell tax",                                              //22
+            "BuyToSell Profit",                                      //23
+            "(exclude visit income)",                                //24
+            "Family status:",                                        //25
+            "No toll department",                                    //26
+            "Food stored",                                           //27
+            "Lumber stored",                                         //28
+            "Coal stored",                                           //29
+            "Petrol stored",                                         //30
+            "Food",                                                  //31
+            "Coal",                                                  //32
+            "Lumber",                                                //33
+            "Petrol",                                                //34
         };
 
         public static string[] EconomicUI_English =
         {
-            "Economic Data",
-            "1、Citizen Status(unit: 1/100₡)",
-            "citizen_count",    //1
-            "total citizen_count",
-            "family_count",    //2
-            "total family_count",
-            "salary_per_family",
-            "citizen_salary_per_family",
-            "citizen_tax_per_family",   //1
-            "total_citizen_salary_tax_per_family",
-            "expense_per_family",    //2
-            "fixed_expense_per_family",
-            "average_trans_fee",
-            "citizen_average_transport_fee",
-            "public_trans_fee",
-            "public_transport_fee",
-            "citizen_vehical_time",
-            "total citizen_vehical_time",
-            "high_salary",    //1
-            "family_high_salary_num",
-            "medium_salary",    //2
-            "total family_medium_salary_num",
-            "low_salary",
-            "family_low_salary_num",
-            "wealth_high",    //1
-            "family_wealth_stable_high_num",
-            "wealth_medium",    //2
-            "family_wealth_stable_high_num",
-            "wealth_low",
-            "family_wealth_stable_low_num",
-            "satisfactions of goods",
-            "family satisfactions of goods",
-            "2、Building Status",
-            "very profit I&C building",
-            "very profit I&C building",
-            "external money for office",
-            "external money for office",
-            "tip1",
-            "tip1",
-            "tip2",
-            "tip2",
-            "tip3",
-            "tip3",
-            "tip4",
-            "tip4",
-            "tip5",
-            "tip5",
-            "tip6",
-            "tip6",
-            "tip7",
-            "tip7",
-            "tip8",
-            "tip8",
-            "tip9",
-            "tip9",
-            "tip10"
+            "Economic Data",                                         //0
+            "1、Citizen Status(unit: 1/100₡)",                       //1
+            "citizen_count",                                         //2
+            "total citizen_count",                                   //3
+            "family_count",                                          //4
+            "total family_count",                                    //5
+            "salary_per_family",                                     //6
+            "citizen_salary_per_family",                             //7
+            "citizen_tax_per_family",                                //8
+            "total_citizen_salary_tax_per_family",                   //9
+            "expense_per_family",                                    //10
+            "fixed_expense_per_family",                              //11
+            "average_trans_fee",                                     //12
+            "citizen_average_transport_fee",                         //13
+            "public_trans_fee",                                      //14
+            "public_transport_fee",                                  //15
+            "citizen_vehical_time",                                  //16
+            "total citizen_vehical_time",                            //17
+            "high_salary",                                           //18
+            "family_high_salary_num",                                //19
+            "medium_salary",                                         //20
+            "total family_medium_salary_num",                        //21
+            "low_salary",                                            //22
+            "family_low_salary_num",                                 //23
+            "wealth_high",                                           //24
+            "family_wealth_stable_high_num",                         //25
+            "wealth_medium",                                         //26
+            "family_wealth_stable_high_num",                         //27
+            "wealth_low",                                            //28
+            "family_wealth_stable_low_num",                          //29                         
+            "satisfactions of goods",                                //30
+            "family satisfactions of goods",                         //31
+            "2、Building Status",                                    //32
+            "very profit I&C building",                              //33
+            "very profit I&C building",                              //34
+            "external money for office",                             //35
+            "external money for office",                             //36
+            "tip1",                                                  //37
+            "tip1",                                                  //38
+            "tip2",                                                  //39
+            "tip2",                                                  //40
+            "tip3",                                                  //41
+            "tip3",                                                  //42
+            "tip4",                                                  //43
+            "tip4",                                                  //44
+            "tip5",                                                  //45
+            "tip5",                                                  //46
+            "tip6",                                                  //47
+            "tip6",                                                  //48
+            "tip7",                                                  //49
+            "tip7",                                                  //50
+            "tip8",                                                  //51
+            "tip8",                                                  //52
+            "tip9",                                                  //53
+            "tip9",                                                  //54
+            "tip10",                                                 //55
         };
 
 
         public static string[] TipAndChirperMessage_English = {
-        "Citizen are too poor, please decrease house tax",
-        "Citizen are too poor, try to develop public transport and deal with traffic congestion",
-        "Citizen are too poor, try to provide more jobs and make buildings profit",
-        "Citizen seems ok",
-        "Better set real time time speed to slowest",
-        "Better use TMPE and disable vehicle spawn",
-        "Better use Citizen Lifecycle Rebalance and set lifespan to 16, see Q/A in workshop",
-        "Can use Favorite Cims mod to watch every citizens and their family",
+        "Citizen are too poor, please decrease house tax",                                           //0
+        "Citizen are too poor, try to develop public transport and deal with traffic congestion",    //1
+        "Citizen are too poor, try to provide more jobs and make buildings profit",                  //2
+        "Citizen seems ok",                                                                          //3
+        "Better set real time time speed to slowest",                                                //4
+        "Better use TMPE and disable vehicle spawn",                                                 //5
+        "Better use Citizen Lifecycle Rebalance and set lifespan to 16, see Q/A in workshop",        //6
+        "Can use Favorite Cims mod to watch every citizens and their family",                        //7
+        "Build City Resource in Roal Panel(need asset)",                                             //8
+        "City Lack of Food, Leads to no movingin people and Citizens may get sick",                  //9
+        "City Lack of Lumber or Coal, Leads to no RICO demand",                                      //10
+        "City Lack of Petrol, goverment and citizens can not use car",                               //11
         };
 
 
@@ -218,6 +227,7 @@ namespace RealCity
             "7、City all total income",
             "City income data(unit:₡)",
             "City status",
+            "If using real time,tell mod if it is weekend to disable Smart Public Transport function",
         };
 
 
@@ -254,13 +264,19 @@ namespace RealCity
              "存储的食物",
              "存储的木材",
              "存储的矿物",
-             "存储的汽油",};
+             "存储的汽油",
+             "食物",                                                  //31
+             "矿物",                                                  //32
+             "木材",                                                //33
+             "汽油",                                                //34
+        };
 
     public static string[] OptionUI_Chinese =
         {
             "语言",
             "语言选择",
             "智能公共交通(早晚高峰车多维护费多,深夜钱少维护费少)",
+            "地狱模式(逐步断开外部进口,本地自给自足)"
         };
 
         public static string[] EconomicUI_Chinese =
@@ -333,6 +349,10 @@ namespace RealCity
         "最好用TMPE并且禁止车辆消失",
         "最好用Citizen Lifecycle Rebalance并把lifespan改成16(看工坊Q/A)",
         "可以用Favorite Cims mod看每个居民和他们家庭的情况",
+        "建立城市资源大厦(需要特殊资产)",                                                            //8
+        "城市缺少食物,会导致没外来人员而且居民会生病",                                               //9
+        "城市缺少木材和矿物品,没法建房子,所以没任何RICO需求",                                        //10
+        "城市缺少汽油,政府部门和居民都没法出车",                                                     //11
         };
 
 
@@ -431,7 +451,8 @@ namespace RealCity
             "学校",
             "7、城市总收入",
             "城市收入情况(单位:克朗)",
-            "城市情况"
+            "城市情况",
+            "如果用realtime,告诉MOD现在是不是周末,可以关闭智能交通控制功能",
         };
 
 

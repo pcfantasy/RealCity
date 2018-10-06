@@ -7,39 +7,90 @@ namespace RealCity
 {
     public class pc_HumanAI : HumanAI
     {
-
-        protected virtual void GetBuildingTargetPosition_1(ushort instanceID, ref CitizenInstance citizenData, float minSqrDistance)
+        private void WaitTouristVehicle(ushort instanceID, ref CitizenInstance citizenData, ushort stop)
         {
-            if (citizenData.m_targetBuilding == 0)
+            NetInfo info = Singleton<NetManager>.instance.m_nodes.m_buffer[(int)stop].Info;
+            citizenData.m_flags |= CitizenInstance.Flags.WaitingTransport;
+            citizenData.m_flags &= ~CitizenInstance.Flags.BoredOfWaiting;
+            citizenData.m_waitCounter = 0;
+            citizenData.m_flags = ((citizenData.m_flags & ~(CitizenInstance.Flags.Underground | CitizenInstance.Flags.InsideBuilding | CitizenInstance.Flags.Transition | CitizenInstance.Flags.OnBikeLane)) | info.m_setCitizenFlags);
+            if ((citizenData.m_flags & CitizenInstance.Flags.RidingBicycle) != CitizenInstance.Flags.None)
             {
-                citizenData.m_flags &= ~(CitizenInstance.Flags.HangAround | CitizenInstance.Flags.Panicking | CitizenInstance.Flags.SittingDown | CitizenInstance.Flags.Cheering);
-                citizenData.m_targetDir = Vector2.zero;
-                return;
-            }
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            if (instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].m_fireIntensity != 0)
-            {
-                if (!instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                if (citizenData.m_citizen != 0u)
                 {
-                    citizenData.m_flags |= CitizenInstance.Flags.Panicking;
-                    citizenData.m_targetDir = Vector2.zero;
-                    return;
+                    Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizenData.m_citizen)].SetVehicle(citizenData.m_citizen, 0, 0u);
+                }
+                citizenData.m_flags &= ~CitizenInstance.Flags.RidingBicycle;
+            }
+        }
+
+        protected virtual void ArriveAtDestination_1(ushort instanceID, ref CitizenInstance citizenData, bool success)
+        {
+            uint citizen = citizenData.m_citizen;
+            if (citizen != 0u)
+            {
+                CitizenManager instance = Singleton<CitizenManager>.instance;
+                instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetVehicle(citizen, 0, 0u);
+                if ((citizenData.m_flags & CitizenInstance.Flags.TargetIsNode) != CitizenInstance.Flags.None)
+                {
+                    if (success)
+                    {
+                        ushort num = citizenData.m_targetBuilding;
+                        if (num != 0)
+                        {
+                            ushort transportLine = Singleton<NetManager>.instance.m_nodes.m_buffer[(int)num].m_transportLine;
+                            if (transportLine != 0)
+                            {
+                                TransportInfo info = Singleton<TransportManager>.instance.m_lines.m_buffer[(int)transportLine].Info;
+                                if (info.m_vehicleType != VehicleInfo.VehicleType.None)
+                                {
+                                    citizenData.m_flags |= CitizenInstance.Flags.OnTour;
+                                    this.WaitTouristVehicle(instanceID, ref citizenData, num);
+                                    return;
+                                }
+                                if ((instanceID & 1) == 0)
+                                {
+                                    num = TransportLine.GetNextStop(num);
+                                }
+                                else
+                                {
+                                    num = TransportLine.GetPrevStop(num);
+                                }
+                                if (num != 0)
+                                {
+                                    citizenData.m_flags |= CitizenInstance.Flags.OnTour;
+                                    this.SetTarget(instanceID, ref citizenData, num, true);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (success)
+                    {
+                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetLocationByBuilding(citizen, citizenData.m_targetBuilding);
+                    }
+                    if (citizenData.m_targetBuilding != 0 && instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation == Citizen.Location.Visit)
+                    {
+                        BuildingManager instance2 = Singleton<BuildingManager>.instance;
+                        BuildingInfo info2 = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
+                        ProcessTourismIncome(instanceID, citizenData);
+                        info2.m_buildingAI.VisitorEnter(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], citizen);
+                    }
                 }
             }
-            BuildingInfo info = instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
-            Randomizer randomizer = new Randomizer((int)instanceID << 8 | (int)citizenData.m_targetSeed);
-            Vector3 vector;
-            Vector3 vector2;
-            Vector2 targetDir;
-            CitizenInstance.Flags flags;
-            info.m_buildingAI.CalculateUnspawnPosition(citizenData.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], ref randomizer, this.m_info, instanceID, out vector, out vector2, out targetDir, out flags);
-            citizenData.m_flags = ((citizenData.m_flags & ~(CitizenInstance.Flags.HangAround | CitizenInstance.Flags.Panicking | CitizenInstance.Flags.SittingDown | CitizenInstance.Flags.Cheering)) | flags);
-            citizenData.m_targetPos = new Vector4(vector.x, vector.y, vector.z, 1f);
-            citizenData.m_targetDir = targetDir;
+            if ((citizenData.m_flags & CitizenInstance.Flags.HangAround) == CitizenInstance.Flags.None || !success)
+            {
+                this.SetSource(instanceID, ref citizenData, 0);
+                base.SetTarget(instanceID, ref citizenData, 0);
+                citizenData.Unspawn(instanceID);
+            }
         }
 
 
-        protected virtual void ArriveAtDestination_1(ushort instanceID, ref CitizenInstance citizenData, bool success)
+        /*protected virtual void ArriveAtDestination_1(ushort instanceID, ref CitizenInstance citizenData, bool success)
         {
             uint citizen = citizenData.m_citizen;
             if (citizen != 0u)
@@ -54,9 +105,9 @@ namespace RealCity
                 {
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
-                    //int num = -100;
-                    process_tourism_income(instanceID,citizenData);
-                    //info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num);
+                    //new added begin
+                    ProcessTourismIncome(instanceID,citizenData);
+                    //new added end
                     if (info.m_class.m_service == ItemClass.Service.Beautification)
                     {
                         StatisticsManager instance3 = Singleton<StatisticsManager>.instance;
@@ -78,131 +129,53 @@ namespace RealCity
                 this.SetTarget(instanceID, ref citizenData, 0);
                 citizenData.Unspawn(instanceID);
             }
-        }
+        }*/
 
-
-        public static TransferManager.TransferReason get_shopping_reason(ushort buildingID, ref float idex)
-        {
-            BuildingManager instance2 = Singleton<BuildingManager>.instance;
-            TransferManager.TransferReason temp_transfer_reason = TransferManager.TransferReason.None;
-            System.Random rand = new System.Random();
-            int aliveWorkCount = 0;
-            int totalWorkCount = 0;
-            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-            BuildingUI.GetWorkBehaviour(buildingID, ref instance2.m_buildings.m_buffer[(int)buildingID], ref behaviour, ref aliveWorkCount, ref totalWorkCount);
-            idex = 0f;
-
-            switch (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_subService)
-            {
-                case ItemClass.SubService.CommercialLow:
-                    temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        idex = 0.2f;
-                    }
-                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        idex = 0.4f;
-                    }
-                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        idex = 0.7f;
-                    }
-                    break;
-                case ItemClass.SubService.CommercialHigh:
-                    temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        idex = 0.3f;
-                    }
-                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        idex = 0.5f;
-                    }
-                    if (instance2.m_buildings.m_buffer[(int)buildingID].Info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        idex = 0.8f;
-                    }
-                    break;
-                case ItemClass.SubService.CommercialLeisure:
-                    temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = 0.9f;
-                    break;
-                case ItemClass.SubService.CommercialTourist:
-                    temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = rand.Next(80 + aliveWorkCount * 6) / 100f;
-                    break;
-                case ItemClass.SubService.CommercialEco:
-                    temp_transfer_reason = TransferManager.TransferReason.Entertainment;
-                    idex = 0.4f;
-                    break;
-                default: temp_transfer_reason = TransferManager.TransferReason.Shopping; break;
-            }
-            return temp_transfer_reason;
-        }
-
-        public void process_tourism_income(ushort instanceID, CitizenInstance citizenData)
+        public void ProcessTourismIncome(ushort instanceID, CitizenInstance citizenData)
         {
             BuildingManager instance2 = Singleton<BuildingManager>.instance;
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint citizen = citizenData.m_citizen;
             BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
             ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-            uint homeid = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+            uint homeId = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
 
-            float idex = 1f;
-            int num = 0;
-
-
-            TransferManager.TransferReason temp_transfer_reason = get_shopping_reason(citizenData.m_targetBuilding, ref idex);
+            TransferManager.TransferReason tempTransferRreason = TransferManager.TransferReason.Entertainment;
             System.Random rand = new System.Random();
-
+            int num = 0;
             if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
             {
-                if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
+                if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        num = (comm_data.family_money[homeid] > 2000f) ? (int)(0.1f * comm_data.family_money[homeid]) : 0;
-                        num = (int)(num * idex);
-                        if (num > 0.15f * comm_data.family_money[homeid])
-                        {
-                            num = (int)(0.15f * comm_data.family_money[homeid]);
-                        }
-                    } else
+                        num = rand.Next(100) + 1;
+                    }
+                    else if (info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
                     {
-                        num = (comm_data.family_money[homeid] > 1000f) ? (int)(0.05f * comm_data.family_money[homeid]) : 0;
-                        num = (int)(num * idex);
-                        if (num > 0.1f * comm_data.family_money[homeid])
-                        {
-                            num = (int)(0.1f * comm_data.family_money[homeid]);
-                        }
+                        num = rand.Next(50) + 1;
+                    }
+                    else
+                    {
+                        num = rand.Next(25) + 1;
                     }
                 }
-
-                //num = (rand.Next(3) > 1) ? (int)(0.1f * comm_data.family_money[homeid]) : num;
-
-                if(num < 0)
-                {
-                    num = 0;
-                }
-
                 int num1 = -num;
-                if((num1 == -200 || num1 == -50))
+                if(num1 == -50)   //for rush hour
                 {
                     num1 = num1 + 1;
                 }
                 if (num != 0)
                 {
-                    info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num1);
-                    comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] + num1);
+                    info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], tempTransferRreason, ref num1);
+                    comm_data.family_money[homeId] = (float)(comm_data.family_money[homeId] + num1);
                 }
             }
             else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
-                if (temp_transfer_reason == TransferManager.TransferReason.Entertainment)
+                if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = rand.Next(1000);
+                    num = rand.Next(200);
                     if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         num = num * 4;
@@ -213,32 +186,22 @@ namespace RealCity
                     }
                 }
 
-                num = -(int)(num * idex);
+                num = -(int)(num);
                 if ((num == -200 || num == -50))
                 {
                     num = num + 1;
                 }
-                info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], temp_transfer_reason, ref num);
+                info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], tempTransferRreason, ref num);
                 num = -100;
                 info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num);
             }
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
-                int budget = Singleton<EconomyManager>.instance.GetBudget(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_class);
-                int result = (int)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].Info.m_buildingAI.GetMaintenanceCost() / 2.5f);
-                result = (int)(result *(float)(budget * (float)(instance2.m_buildings.m_buffer[citizenData.m_targetBuilding].m_productionRate / 1000f)));
-
-                if(result > 1000)
-                {
-                   result = 1000 + (int)((result-1000)/100f);
-                }
-
-                int tourism_fee = rand.Next(result);
+                int tourism_fee = rand.Next(500);
 
                 if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    //DebugLog.LogToFileOnly("tourist visit! " + instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width.ToString());
                     if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         tourism_fee = tourism_fee * 4;
@@ -247,29 +210,17 @@ namespace RealCity
                     {
                         tourism_fee = tourism_fee * 2;
                     }
-                    tourism_fee = (int)(tourism_fee * comm_data.outside_consumption_rate);
-                    comm_data.building_money[citizenData.m_targetBuilding] += tourism_fee /100f;
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
                 }
                 else
                 {
-                    //tourism_fee = (int)(tourism_fee * comm_data.resident_consumption_rate);
-                    int temp = (comm_data.family_money[homeid]> 1f) ? (int)(comm_data.family_money[homeid]) : 1;
-                    tourism_fee = (rand.Next(temp) > 5000) ? (int)(0.2f * comm_data.family_money[homeid]) : (int)(0.15f * comm_data.family_money[homeid]);
-
-                    if (tourism_fee < 0)
-                    {
-                        tourism_fee = 0;
-                    }
-
+                    tourism_fee = rand.Next(100) + 1;
                     if (tourism_fee != 0)
                     {
-                        comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] - tourism_fee);
-                        comm_data.building_money[citizenData.m_targetBuilding] += tourism_fee / 100f;
+                        comm_data.family_money[homeId] = (float)(comm_data.family_money[homeId] - tourism_fee);
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }
                 }
-                //DebugLog.LogToFileOnly("find a Beautification building width " + instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Width.ToString());
             }
         }
 
@@ -292,23 +243,17 @@ namespace RealCity
                     int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[(int)num]);
                     if (ticketPrice != 0)
                     {
+                        //new added begin
                         ticketPrice = (int)((float)ticketPrice);
-                        //DebugLog.LogToFileOnly("EnterVehicle_1 ticketPrice pre = " + ticketPrice.ToString());
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                        uint homeid = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-
-                        //if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Train)
-                        //{
-                        //    DebugLog.LogToFileOnly("train price before is " + ticketPrice.ToString());
-                        //}
-
+                        uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            if ((comm_data.family_money[homeid] - (ticketPrice)) > 0)
+                            if ((comm_data.family_money[homeId] - (ticketPrice)) > 0)
                             {
-                                comm_data.family_money[homeid] = (float)(comm_data.family_money[homeid] - (ticketPrice));
+                                comm_data.family_money[homeId] = (float)(comm_data.family_money[homeId] - (ticketPrice));
                             }
                             else
                             {
@@ -316,12 +261,6 @@ namespace RealCity
                             }
                         } else
                         {
-                            comm_data.tourist_transport_fee_num += ticketPrice;
-                            comm_data.tourist_num++;
-                            if (comm_data.tourist_transport_fee_num > 1000000000000000000)
-                            {
-                                comm_data.tourist_transport_fee_num = 1000000000000000000;
-                            }
                             if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Metro)
                             {
                                 if (ticketPrice > 500)
@@ -394,17 +333,248 @@ namespace RealCity
                                 }
                             }
                         }
-
-                        //if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Train)
-                        //{
-                            //DebugLog.LogToFileOnly("train price after is " + ticketPrice.ToString());
-                        //}
-                        //DebugLog.LogToFileOnly("ticketPrice post = " + ticketPrice.ToString() + "citizen money = " + comm_data.family_money[homeid].ToString());
+                        //new added end
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
                     }
                 }
             }
             return false;
+        }
+
+
+        public override void SimulationStep(ushort instanceID, ref CitizenInstance citizenData, ref CitizenInstance.Frame frameData, bool lodPhysics)
+        {
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            if ((ulong)(currentFrameIndex >> 4 & 63u) == (ulong)((long)(instanceID & 63)))
+            {
+                CitizenManager instance = Singleton<CitizenManager>.instance;
+                uint citizen = citizenData.m_citizen;
+                if (citizen != 0u && (instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_flags & Citizen.Flags.NeedGoods) != Citizen.Flags.None)
+                {
+                    BuildingManager instance2 = Singleton<BuildingManager>.instance;
+                    ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+                    ushort num = 0;
+
+                    //new added begin
+                    num = pc_ResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                    //new added end
+                    if (homeBuilding != 0 && num != 0)
+                    {
+                        BuildingInfo info = instance2.m_buildings.m_buffer[(int)num].Info;
+                        int num2 = -100;
+                        info.m_buildingAI.ModifyMaterialBuffer(num, ref instance2.m_buildings.m_buffer[(int)num], TransferManager.TransferReason.Shopping, ref num2);
+                        uint containingUnit1 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                        if (containingUnit1 != 0u)
+                        {
+                            CitizenUnit[] expr_127_cp_0 = instance.m_units.m_buffer;
+                            UIntPtr expr_127_cp_1 = (UIntPtr)containingUnit1;
+                            expr_127_cp_0[(int)expr_127_cp_1].m_goods = (ushort)(expr_127_cp_0[(int)expr_127_cp_1].m_goods + (ushort)(-(ushort)num2));
+                        }
+                        Citizen[] expr_14A_cp_0 = instance.m_citizens.m_buffer;
+                        UIntPtr expr_14A_cp_1 = (UIntPtr)citizen;
+                        if (instance.m_units.m_buffer[containingUnit1].m_goods > 20000)
+                        {
+                            expr_14A_cp_0[(int)expr_14A_cp_1].m_flags = (expr_14A_cp_0[(int)expr_14A_cp_1].m_flags & ~Citizen.Flags.NeedGoods);
+                        }
+                    }
+                }
+            }
+            base.SimulationStep(instanceID, ref citizenData, ref frameData, lodPhysics);
+        }
+
+
+        public override void StartTransfer(uint citizenID, ref Citizen data, TransferManager.TransferReason reason, TransferManager.TransferOffer offer)
+        {
+            if (data.m_flags == Citizen.Flags.None || (data.Dead && reason != TransferManager.TransferReason.Dead))
+            {
+                return;
+            }
+            switch (reason)
+            {
+                case TransferManager.TransferReason.Single0B:
+                case TransferManager.TransferReason.Single1B:
+                case TransferManager.TransferReason.Single2B:
+                case TransferManager.TransferReason.Single3B:
+                case TransferManager.TransferReason.Single0:
+                case TransferManager.TransferReason.Single1:
+                case TransferManager.TransferReason.Single2:
+                case TransferManager.TransferReason.Single3:
+                    uint num2 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)offer.Building].GetEmptyCitizenUnit(CitizenUnit.Flags.Home);
+                    if (num2 != 0)
+                    {
+                        data.SetHome(citizenID, 0, num2);
+                    }
+                    if (data.m_homeBuilding == 0 && (data.CurrentLocation != Citizen.Location.Visit || (data.m_flags & Citizen.Flags.Evacuating) == Citizen.Flags.None))
+                    {
+                        Singleton<CitizenManager>.instance.ReleaseCitizen(citizenID);
+                    }
+                    break;
+                case TransferManager.TransferReason.Family0:
+                case TransferManager.TransferReason.Family1:
+                case TransferManager.TransferReason.Family2:
+                case TransferManager.TransferReason.Family3:
+                    if (data.m_homeBuilding != 0 && offer.Building != 0)
+                    {
+                        uint num = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_homeBuilding].FindCitizenUnit(CitizenUnit.Flags.Home, citizenID);
+                        if (num != 0u)
+                        {
+                            this.MoveFamily(num, ref Singleton<CitizenManager>.instance.m_units.m_buffer[(int)((UIntPtr)num)], offer.Building);
+                        }
+                    }
+                    break;
+                case TransferManager.TransferReason.ShoppingB:
+                case TransferManager.TransferReason.ShoppingC:
+                case TransferManager.TransferReason.ShoppingD:
+                case TransferManager.TransferReason.ShoppingE:
+                case TransferManager.TransferReason.ShoppingF:
+                case TransferManager.TransferReason.ShoppingG:
+                case TransferManager.TransferReason.ShoppingH:
+                case TransferManager.TransferReason.Shopping:
+                    if (data.m_homeBuilding != 0 && !data.Sick)
+                    {
+                        data.m_flags &= ~Citizen.Flags.Evacuating;
+                        if (base.StartMoving(citizenID, ref data, 0, offer.Building))
+                        {
+                            data.SetVisitplace(citizenID, offer.Building, 0u);
+                            CitizenManager instance3 = Singleton<CitizenManager>.instance;
+                            BuildingManager instance4 = Singleton<BuildingManager>.instance;
+                            uint containingUnit = data.GetContainingUnit(citizenID, instance4.m_buildings.m_buffer[(int)data.m_homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                            if (containingUnit != 0u)
+                            {
+                                CitizenUnit[] expr_286_cp_0 = instance3.m_units.m_buffer;
+                                UIntPtr expr_286_cp_1 = (UIntPtr)containingUnit;
+                                expr_286_cp_0[(int)expr_286_cp_1].m_goods = (ushort)(expr_286_cp_0[(int)expr_286_cp_1].m_goods + 100);
+                            }
+                        }
+                    }
+                    break;
+                case TransferManager.TransferReason.EntertainmentB:
+                case TransferManager.TransferReason.EntertainmentC:
+                case TransferManager.TransferReason.EntertainmentD:
+                case TransferManager.TransferReason.Entertainment:
+                    if (data.m_homeBuilding != 0 && !data.Sick)
+                    {
+                        data.m_flags &= ~Citizen.Flags.Evacuating;
+                        if (base.StartMoving(citizenID, ref data, 0, offer.Building))
+                        {
+                            data.SetVisitplace(citizenID, offer.Building, 0u);
+                        }
+                    }
+                    break;
+                case TransferManager.TransferReason.Taxi:
+                case TransferManager.TransferReason.CriminalMove:
+                case TransferManager.TransferReason.Tram:
+                case TransferManager.TransferReason.Snow:
+                case TransferManager.TransferReason.SnowMove:
+                case TransferManager.TransferReason.RoadMaintenance:
+                case TransferManager.TransferReason.SickMove:
+                case TransferManager.TransferReason.ForestFire:
+                case TransferManager.TransferReason.Collapsed:
+                case TransferManager.TransferReason.Collapsed2:
+                case TransferManager.TransferReason.Fire2:
+                case TransferManager.TransferReason.Sick2:
+                case TransferManager.TransferReason.FloodWater:
+                case TransferManager.TransferReason.EvacuateA:
+                case TransferManager.TransferReason.EvacuateB:
+                case TransferManager.TransferReason.EvacuateC:
+                case TransferManager.TransferReason.EvacuateD:
+                case TransferManager.TransferReason.EvacuateVipA:
+                case TransferManager.TransferReason.EvacuateVipB:
+                case TransferManager.TransferReason.EvacuateVipC:
+                case TransferManager.TransferReason.EvacuateVipD:
+                    data.m_flags |= Citizen.Flags.Evacuating;
+                    if (base.StartMoving(citizenID, ref data, 0, offer.Building))
+                    {
+                        data.SetVisitplace(citizenID, offer.Building, 0u);
+                    }
+                    else
+                    {
+                        data.SetVisitplace(citizenID, offer.Building, 0u);
+                        if (data.m_visitBuilding == offer.Building)
+                        {
+                            data.CurrentLocation = Citizen.Location.Visit;
+                        }
+                    }
+                    break;
+                case TransferManager.TransferReason.Sick:
+                    if (data.Sick)
+                    {
+                        data.m_flags &= ~Citizen.Flags.Evacuating;
+                        if (base.StartMoving(citizenID, ref data, 0, offer.Building))
+                        {
+                            data.SetVisitplace(citizenID, offer.Building, 0u);
+                        }
+                    }
+                    break;
+                case TransferManager.TransferReason.Dead:
+                    if (data.Dead)
+                    {
+                        data.SetVisitplace(citizenID, offer.Building, 0u);
+                        if (data.m_visitBuilding != 0)
+                        {
+                            data.CurrentLocation = Citizen.Location.Visit;
+                        }
+                    }
+                    break;
+                case TransferManager.TransferReason.Worker0:
+                case TransferManager.TransferReason.Worker1:
+                case TransferManager.TransferReason.Worker2:
+                case TransferManager.TransferReason.Worker3:
+                    if (data.m_workBuilding == 0)
+                    {
+                        data.SetWorkplace(citizenID, offer.Building, 0u);
+                    }
+                    break;
+                case TransferManager.TransferReason.Student1:
+                case TransferManager.TransferReason.Student2:
+                case TransferManager.TransferReason.Student3:
+                    if (data.m_workBuilding == 0)
+                    {
+                        data.SetStudentplace(citizenID, offer.Building, 0u);
+                    }
+                    break;
+                case TransferManager.TransferReason.PartnerYoung:
+                case TransferManager.TransferReason.PartnerAdult:
+                    uint citizen = offer.Citizen;
+                    if (citizen != 0u)
+                    {
+                        CitizenManager instance = Singleton<CitizenManager>.instance;
+                        BuildingManager instance2 = Singleton<BuildingManager>.instance;
+                        ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+                        if (homeBuilding != 0 && !instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Dead)
+                        {
+                            uint num20 = instance2.m_buildings.m_buffer[(int)homeBuilding].FindCitizenUnit(CitizenUnit.Flags.Home, citizen);
+                            if (num20 != 0u)
+                            {
+                                data.SetHome(citizenID, 0, num20);
+                                data.m_family = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_family;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        private void MoveFamily(uint homeID, ref CitizenUnit data, ushort targetBuilding)
+        {
+            BuildingManager instance = Singleton<BuildingManager>.instance;
+            CitizenManager instance2 = Singleton<CitizenManager>.instance;
+            uint unitID = 0u;
+            if (targetBuilding != 0)
+            {
+                unitID = instance.m_buildings.m_buffer[(int)targetBuilding].GetEmptyCitizenUnit(CitizenUnit.Flags.Home);
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                uint citizen = data.GetCitizen(i);
+                if (citizen != 0u && !instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Dead)
+                {
+                    instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetHome(citizen, 0, unitID);
+                    if (instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding == 0)
+                    {
+                        instance2.ReleaseCitizen(citizen);
+                    }
+                }
+            }
         }
     }
 }

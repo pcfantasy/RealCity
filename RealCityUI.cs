@@ -13,7 +13,7 @@ namespace RealCity
 
         public static float WIDTH = 850f;
 
-        private static readonly float HEIGHT = 1000f;
+        private static readonly float HEIGHT = 800f;
 
         private static readonly float HEADER = 40f;
 
@@ -168,6 +168,8 @@ namespace RealCity
         public static double all_total_income;
         public static bool refesh_onece = false;
 
+        public static UICheckBox is_weekend_Checkbox;
+        private UILabel is_weekend;
 
 
 
@@ -192,7 +194,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 50f), 5f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -576,13 +578,54 @@ namespace RealCity
 
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
             this.all_total_income_ui.text = language.RealCityUI1[91];
-            this.all_total_income_ui.tooltip = language.RealCityUI1[92];
+            this.all_total_income_ui.tooltip = language.RealCityUI1[91];
             this.all_total_income_ui.relativePosition = new Vector3(this.road_income_title.relativePosition.x, this.road_income_title.relativePosition.y + SPACING22);
             this.all_total_income_ui.autoSize = true;
             this.all_total_income_ui.name = "Moreeconomic_Text_44";
+
+            is_weekend_Checkbox = base.AddUIComponent<UICheckBox>();
+            is_weekend_Checkbox.relativePosition = new Vector3(SPACING, all_total_income_ui.relativePosition.y + 30f);
+            this.is_weekend = base.AddUIComponent<UILabel>();
+            this.is_weekend.relativePosition = new Vector3(is_weekend_Checkbox.relativePosition.x + is_weekend_Checkbox.width + SPACING * 2f, is_weekend_Checkbox.relativePosition.y + 5f);
+            this.is_weekend.tooltip = language.RealCityUI1[94];
+            is_weekend_Checkbox.height = 16f;
+            is_weekend_Checkbox.width = 16f;
+            is_weekend_Checkbox.label = this.is_weekend;
+            is_weekend_Checkbox.text = language.RealCityUI1[94];
+            UISprite uISprite9 = is_weekend_Checkbox.AddUIComponent<UISprite>();
+            uISprite9.height = 20f;
+            uISprite9.width = 20f;
+            uISprite9.relativePosition = new Vector3(0f, 0f);
+            uISprite9.spriteName = "check-unchecked";
+            uISprite9.isVisible = true;
+            UISprite uISprite10 = is_weekend_Checkbox.AddUIComponent<UISprite>();
+            uISprite10.height = 20f;
+            uISprite10.width = 20f;
+            uISprite10.relativePosition = new Vector3(0f, 0f);
+            uISprite10.spriteName = "check-checked";
+            is_weekend_Checkbox.checkedBoxObject = uISprite10;
+            is_weekend_Checkbox.isChecked = comm_data.is_weekend;
+            is_weekend_Checkbox.isEnabled = true;
+            is_weekend_Checkbox.isVisible = true;
+            is_weekend_Checkbox.canFocus = true;
+            is_weekend_Checkbox.isInteractive = true;
+            is_weekend_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                is_weekend_Checkbox_OnCheckChanged(component, eventParam);
+            };
         }
 
-
+        public static void is_weekend_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                comm_data.is_weekend = true;
+            }
+            else
+            {
+                comm_data.is_weekend = false;
+            }
+        }
         /*private IEnumerator RefreshDisplayDataWrapper()
         {
             if (this.CoDisplayRefreshEnabled)
@@ -617,7 +660,7 @@ namespace RealCity
                     process_data();
                     //citizen
                     //this.citizen_count.text = string.Format(language.RealCityUI1[0] + " [{0}]", comm_data.citizen_count);
-                    this.m_title.text = language.RealCityUI1[98];
+                    this.m_title.text = language.RealCityUI1[92];
                     this.citizen_tax_income_title.text = string.Format(language.RealCityUI1[0] + " [{0}]  [{1:N2}%]", citizen_tax_income_total, citizen_tax_income_percent * 100);
                     this.citizen_tax_income.text = string.Format(language.RealCityUI1[1] + " [{0}]", citizen_tax_income_forui);
                     this.city_tourism_income_title.text = string.Format(language.RealCityUI1[3] + " [{0}]  [{1:N2}%]", city_tourism_income_total, city_tourism_income_percent * 100);

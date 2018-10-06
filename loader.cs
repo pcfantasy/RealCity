@@ -44,6 +44,11 @@ namespace RealCity
         public static BuildingButton BMenuPanel;
         public static PlayerBuildingButton PBMenuPanel;
 
+        public static FoodButton FMenuPanel;
+        public static CoalButton CMenuPanel;
+        public static LumberButton LMenuPanel;
+        public static PetrolButton PMenuPanel;
+
         public static RedirectCallsState state1;
         public static RedirectCallsState state2;
         public static RedirectCallsState state3;
@@ -71,7 +76,7 @@ namespace RealCity
         public static RedirectCallsState state25;
         public static RedirectCallsState state26;
         public static RedirectCallsState state27;
-        public static RedirectCallsState state28;
+        //public static RedirectCallsState state28;
         public static RedirectCallsState state29;
         public static RedirectCallsState state30;
         public static RedirectCallsState state31;
@@ -116,8 +121,8 @@ namespace RealCity
             comm_data.data_init();
             pc_EconomyManager.data_init();
             pc_EconomyManager.save_data = new byte[2768];
-            pc_PrivateBuildingAI.save_data = new byte[316];
-            pc_ResidentAI.save_data = new byte[140];
+            pc_PrivateBuildingAI.saveData = new byte[316];
+            pc_ResidentAI.saveData = new byte[140];
             comm_data.save_data = new byte[3063935];
             comm_data.save_data1 = new byte[4194304];
         }
@@ -146,22 +151,15 @@ namespace RealCity
         {
             Loader.parentGuiView = null;
             Loader.parentGuiView = UIView.GetAView();
-            //CTRL+M debug UI
             if (Loader.guiPanel == null)
             {
                 Loader.guiPanel = (MoreeconomicUI)Loader.parentGuiView.AddUIComponent(typeof(MoreeconomicUI));
             }
-            //CRTL+R game UI
             if (Loader.guiPanel1 == null)
             {
                 Loader.guiPanel1 = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
             }
 
-            //building UI
-            //if (Loader.guiPanel2 == null)
-            //{
-            //    Loader.guiPanel2 = (BuildingUI)Loader.parentGuiView.AddUIComponent(typeof(BuildingUI));
-            //}
             SetupBuidingGui();
             SetupHumanGui();
             SetupPlayerBuidingGui();
@@ -169,6 +167,10 @@ namespace RealCity
             SetupCityButton();
             SetupBuildingButton();
             SetupPlayerBuildingButton();
+            SetupFoodButton();
+            SetupCoalButton();
+            SetupLumberButton();
+            SetupPetrolButton();
 
             Loader.isGuiRunning = true;
         }
@@ -272,6 +274,43 @@ namespace RealCity
             PBMenuPanel.Show();
         }
 
+
+        public static void SetupFoodButton()
+        {
+            if (FMenuPanel == null)
+            {
+                FMenuPanel = (parentGuiView.AddUIComponent(typeof(FoodButton)) as FoodButton);
+            }
+            FMenuPanel.Show();
+        }
+
+        public static void SetupCoalButton()
+        {
+            if (CMenuPanel == null)
+            {
+                CMenuPanel = (parentGuiView.AddUIComponent(typeof(CoalButton)) as CoalButton);
+            }
+            CMenuPanel.Show();
+        }
+
+        public static void SetupLumberButton()
+        {
+            if (LMenuPanel == null)
+            {
+                LMenuPanel = (parentGuiView.AddUIComponent(typeof(LumberButton)) as LumberButton);
+            }
+            LMenuPanel.Show();
+        }
+
+        public static void SetupPetrolButton()
+        {
+            if (PMenuPanel == null)
+            {
+                PMenuPanel = (parentGuiView.AddUIComponent(typeof(PetrolButton)) as PetrolButton);
+            }
+            PMenuPanel.Show();
+        }
+
         public static void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
             guiPanel2.isEnabled = value;
@@ -325,7 +364,7 @@ namespace RealCity
                 Loader.guiPanel3.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
                 Loader.guiPanel3.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
                 Loader.guiPanel3.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
-                HumanUI.refesh_once = true;
+                HumanUI.refeshOnce = true;
                 guiPanel3.Show();
             }
             else
@@ -471,11 +510,8 @@ namespace RealCity
             var destMethod20 = typeof(pc_CitizenManager).GetMethod("CreateUnits_1", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
             state20 = RedirectionHelper.RedirectCalls(srcMethod20, destMethod20);
 
-            // BuildingManager
-            //public ushort FindBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
-            //public override void SimulationStep(ushort instanceID, ref CitizenInstance citizenData, ref CitizenInstance.Frame frameData, bool lodPhysics)
             var srcMethod21 = typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
-            var destMethod21 = typeof(pc_ResidentAI_1).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
+            var destMethod21 = typeof(pc_HumanAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
             state21 = RedirectionHelper.RedirectCalls(srcMethod21, destMethod21);
 
             var srcMethod22 = typeof(CargoTruckAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
@@ -505,9 +541,9 @@ namespace RealCity
             var destMethod27 = typeof(pc_ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort), typeof(bool) }, null);
             state27 = RedirectionHelper.RedirectCalls(srcMethod27, destMethod27);
 
-            var srcMethod28 = typeof(PlayerBuildingAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Static);
-            var destMethod28 = typeof(pc_PlayerBuildingAI).GetMethod("GetProductionRate_1", BindingFlags.Public | BindingFlags.Static);
-            state28 = RedirectionHelper.RedirectCalls(srcMethod28, destMethod28);
+            //var srcMethod28 = typeof(PlayerBuildingAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Static);
+            //var destMethod28 = typeof(pc_PlayerBuildingAI).GetMethod("GetProductionRate_1", BindingFlags.Public | BindingFlags.Static);
+            //state28 = RedirectionHelper.RedirectCalls(srcMethod28, destMethod28);
 
             var srcMethod29 = typeof(TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
             var destMethod29 = typeof(pc_TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
@@ -530,20 +566,16 @@ namespace RealCity
             state33 = RedirectionHelper.RedirectCalls(srcMethod33, destMethod33);
 
             var srcMethod34 = typeof(ResidentAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
-            var destMethod34 = typeof(pc_ResidentAI_1).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
+            var destMethod34 = typeof(pc_HumanAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             state34 = RedirectionHelper.RedirectCalls(srcMethod34, destMethod34);
 
             var srcMethod35 = typeof(VehicleAI).GetMethod("CalculateTargetSpeed", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(float), typeof(float) }, null);
             var destMethod35 = typeof(pc_VehicleAI).GetMethod("CalculateTargetSpeed_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(float), typeof(float) }, null);
             state35 = RedirectionHelper.RedirectCalls(srcMethod35, destMethod35);
 
-
-            //protected virtual void GetBuildingTargetPosition_1(ushort instanceID, ref CitizenInstance citizenData, float minSqrDistance)
-
-            var srcMethod36 = typeof(HumanAI).GetMethod("GetBuildingTargetPosition", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(float)}, null);
-            var destMethod36 = typeof(pc_HumanAI).GetMethod("GetBuildingTargetPosition_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(float) }, null);
-            state36 = RedirectionHelper.RedirectCalls(srcMethod36, destMethod36);
-
+            var srcMethod36 = typeof(OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            var destMethod36 = typeof(pc_OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            state36 = RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
         }
 
         public void revert_detour()
@@ -577,7 +609,7 @@ namespace RealCity
             //protected override void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
             var srcMethod26 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             var srcMethod27 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort), typeof(bool) }, null);
-            var srcMethod28 = typeof(PlayerBuildingAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Static);
+            //var srcMethod28 = typeof(PlayerBuildingAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Static);
 
             var srcMethod29 = typeof(TransferManager).GetMethod("AddOutgoingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
             var srcMethod30 = typeof(CommonBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
@@ -586,7 +618,7 @@ namespace RealCity
             var srcMethod33 = typeof(CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
             var srcMethod34 = typeof(ResidentAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             var srcMethod35 = typeof(VehicleAI).GetMethod("CalculateTargetSpeed", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(float), typeof(float) }, null);
-            var srcMethod36 = typeof(HumanAI).GetMethod("GetBuildingTargetPosition", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(float) }, null);
+            var srcMethod36 = typeof(OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
             RedirectionHelper.RevertRedirect(srcMethod2, state2);
@@ -615,7 +647,7 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod25, state25);
             RedirectionHelper.RevertRedirect(srcMethod26, state26);
             RedirectionHelper.RevertRedirect(srcMethod27, state27);
-            RedirectionHelper.RevertRedirect(srcMethod28, state28);
+            //RedirectionHelper.RevertRedirect(srcMethod28, state28);
             RedirectionHelper.RevertRedirect(srcMethod29, state29);
             RedirectionHelper.RevertRedirect(srcMethod30, state30);
             RedirectionHelper.RevertRedirect(srcMethod31, state31);

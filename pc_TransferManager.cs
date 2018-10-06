@@ -70,15 +70,14 @@ namespace RealCity
             return true;
         }
 
-        public void process_shopping_and_entertainment(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
+        public void ProcessShoppingAndEntertainment(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
             Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
             uint citizen = offerIn.Citizen;
             CitizenInfo citizenInfo = citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
             ushort homeBuilding = citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
             BuildingManager instance2 = Singleton<BuildingManager>.instance;
-            uint homeid = citizens.m_buffer[citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-            //DebugLog.LogToFileOnly("check wether citizen is too poor and can not use car? homeid =" + homeid.ToString());
+            uint homeId = citizens.m_buffer[citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
             switch (material)
             {
                 case TransferManager.TransferReason.Shopping:
@@ -93,9 +92,7 @@ namespace RealCity
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
-                    int temp = (comm_data.family_money[homeid] > 1) ? (int)comm_data.family_money[homeid] : 1;
-                    Random rand = new Random();
-                    if (((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) && rand.Next(temp) >= 4000f)
+                    if (((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) && comm_data.family_money[homeId] >= 2000f)
                     {
                         if (citizenInfo != null)
                         {
@@ -148,15 +145,7 @@ namespace RealCity
             }
             else if (active && offerIn.Citizen != 0u)
             {
-                process_shopping_and_entertainment(material, offerOut, offerIn, delta);
-/*Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
-                uint citizen = offerIn.Citizen;
-                CitizenInfo citizenInfo = citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
-                if (citizenInfo != null)
-                {
-                    offerOut.Amount = delta;
-                    citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
-                }*/
+                ProcessShoppingAndEntertainment(material, offerOut, offerIn, delta);
             }
             else if (active2 && offerOut.Citizen != 0u)
             {
@@ -181,173 +170,6 @@ namespace RealCity
                 BuildingInfo info3 = buildings.m_buffer[(int)building].Info;
                 offerIn.Amount = delta;
                 info3.m_buildingAI.StartTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
-                switch (material)
-                {
-                    case TransferManager.TransferReason.Goods:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            if (info3.m_class.m_level == ItemClass.Level.Level1)
-                            {
-                                pc_PrivateBuildingAI.shop_get_goods_from_local_level1_count++;
-                            }
-                            else if (info3.m_class.m_level == ItemClass.Level.Level2)
-                            {
-                                pc_PrivateBuildingAI.shop_get_goods_from_local_level2_count++;
-                            }
-                            else if (info3.m_class.m_level == ItemClass.Level.Level3)
-                            {
-                                pc_PrivateBuildingAI.shop_get_goods_from_local_level3_count++;
-                            }
-                            else
-                            {
-                                DebugLog.LogToFileOnly("no possible level4 level5 level0 building " + info3.m_class.ToString());
-                            }
-                                break;
-                        } else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position))) {
-                            pc_PrivateBuildingAI.shop_get_goods_from_outside_count++;
-                            break;
-                        } else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position))) {
-                            pc_PrivateBuildingAI.industy_goods_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Logs:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.logs_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.logs_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.logs_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Grain:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.Grain_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.Grain_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.Grain_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Oil:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.oil_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.oil_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.oil_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Ore:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.ore_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.ore_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.ore_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Lumber:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.lumber_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.lumber_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.lumber_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Food:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.food_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.food_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.food_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Petrol:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.Petrol_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.Petrol_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.Petrol_to_outside_count++;
-                            break;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Coal:
-                        if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.coal_to_industy_count++;
-                            break;
-                        }
-                        else if (IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (!IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.coal_from_outside_count++;
-                            break;
-                        }
-                        else if (!IsBuildingOutside(buildings.m_buffer[(int)building].m_position) && (IsBuildingOutside(buildings.m_buffer[(int)building1].m_position)))
-                        {
-                            pc_PrivateBuildingAI.coal_to_outside_count++;
-                            break;
-                        }
-                        break;
-                }
             }
             else if (active && offerIn.Building != 0)
             {
@@ -358,107 +180,6 @@ namespace RealCity
                 info4.m_buildingAI.StartTransfer(building2, ref buildings2.m_buffer[(int)building2], material, offerOut);
             }
         }
-
-
-        /*        public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
-                {
-                    // note: do NOT just use 
-                    //   DebugOutputPanel.AddMessage
-                    // here. This method is called so frequently that it will actually crash the game.
-                    if (!_init)
-                    {
-                        _init = true;
-                        Init();
-                    }
-                    //CitizenManager instance = Singleton<CitizenManager>.instance;
-                    //Citizen[] buffer1 = instance.m_citizens.m_buffer;
-                    //VehicleManager instance = Singleton<VehicleManager>.instance;
-                    //Vehicle[] buffer = instance.m_vehicles.m_buffer;
-                    BuildingManager instance1 = Singleton<BuildingManager>.instance;
-                    Building[] buffer = instance1.m_buildings.m_buffer;
-                    //DebugLog.LogToFileOnly("AddIncomingOffer" + " buildID " + offer.Building + " custom1_buffer " + buffer[13618].m_customBuffer1 + " custom2_buffer " + buffer[13618].m_customBuffer2); 
-                    if (material == TransferManager.TransferReason.Goods)
-                    {
-                    //DebugLog.LogToFileOnly("AddIncomingOfferx" + buffer[offer.Building].m_position.x.ToString() + " z " + buffer[offer.Building].m_position.z.ToString() + "for " + material + " from ");
-                    //DebugLog.LogToFileOnly("AddIncomingOffer" + " buildID " + offer.Building + " custom1_buffer " + buffer[offer.Building].m_customBuffer1 + " custom2_buffer " + buffer[offer.Building].m_customBuffer2);
-                    }
-
-                    //if (((material == TransferManager.TransferReason.Shopping) || (material == TransferManager.TransferReason.ShoppingB) || (material == TransferManager.TransferReason.ShoppingC)))
-                    //{
-                    //DebugLog.LogToFileOnly("AddIncomingOfferx" + material + buffer1[offer.Citizen].m_homeBuilding + Environment.StackTrace);
-                    //}
-                    // + Environment.StackTrace
-                    for (int priority = offer.Priority; priority >= 0; --priority)
-                    {
-                        int index = (int)material * 8 + priority;
-                        int count = _incomingCount[index];
-                        if (count < 256)
-                        {
-                            //here we caculate needs
-                            _incomingOffers[index * 256 + count] = offer;
-                            _incomingCount[index] = (ushort)(count + 1);
-                            _incomingAmount[(int)material] += offer.Amount;
-
-                            switch (material)
-                            {
-                                //shopping
-                                case TransferManager.TransferReason.Shopping:
-                                case TransferManager.TransferReason.ShoppingB:
-                                case TransferManager.TransferReason.ShoppingC:
-                                case TransferManager.TransferReason.ShoppingD:
-                                case TransferManager.TransferReason.ShoppingE:
-                                case TransferManager.TransferReason.ShoppingF:
-                                case TransferManager.TransferReason.ShoppingG:
-                                case TransferManager.TransferReason.ShoppingH:
-                                    //if (buffer1[offer.Citizen].m_homeBuilding == 0)
-                                    //{
-                                    //    ;
-                                    //}
-                                    //else
-                                    //{
-                                    //    ;
-                                    // }
-                                    break;
-                                //entertainment
-                                case TransferManager.TransferReason.Entertainment:
-                                case TransferManager.TransferReason.EntertainmentB:
-                                case TransferManager.TransferReason.EntertainmentC:
-                                case TransferManager.TransferReason.EntertainmentD:
-                                    /// if (buffer1[offer.Citizen].m_homeBuilding == 0)
-                                    // {
-                                    //     ;
-                                    // }
-                                    // else
-                                    // {
-                                    //     ;
-                                    // }
-                                    break;
-                                case TransferManager.TransferReason.Food:
-                                    // if ((buffer[offer.Building].m_position.x > 8600) || (buffer[offer.Building].m_position.x < -8600) || (buffer[offer.Building].m_position.z > 8600) || (buffer[offer.Building].m_position.z < -8600))
-                                    // {
-                                    //     ;
-                                    // }
-                                    // else
-                                    // {
-                                    //      ;
-                                    // }
-                                    break;
-                                case TransferManager.TransferReason.Goods:
-                                    // if ((buffer[offer.Building].m_position.x > 8600) || (buffer[offer.Building].m_position.x < -8600) || (buffer[offer.Building].m_position.z > 8600) || (buffer[offer.Building].m_position.z < -8600))
-                                    // {
-                                    //     ;
-                                    //  }
-                                    // else
-                                    //  {
-                                    //DebugLog.LogToFileOnly(offer.m_object.RawData.ToString());
-                                    //DebugLog.LogToFileOnly("AddIncomingOfferx goods" + offer.Priority.ToString() + "amount" + offer.Amount.ToString());
-                                    //  }
-                                    break;
-                            }
-                            break;
-                        }//endif
-                    }//endfor
-                }//end public*/
 
         public void AddOutgoingOffer(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {
@@ -471,56 +192,83 @@ namespace RealCity
 
             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].m_flags.IsFlagSet(Building.Flags.IncomingOutgoing))
             {
-                Random rand = new Random();
-                if (material == TransferManager.TransferReason.Family3 || material == TransferManager.TransferReason.Family2 || material == TransferManager.TransferReason.Family1 || material == TransferManager.TransferReason.Family0)
+                //Hell mode no import
+                if(comm_data.isHellMode)
                 {
-                    //DebugLog.LogToFileOnly("reject outside moving in to live in 4-5 level house");
-                    if (material == TransferManager.TransferReason.Family3)
+                    if(Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialFarming))
                     {
-                        if (rand.Next(2) == 0)
+                        if (material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Grain)
                         {
-                            material = TransferManager.TransferReason.Family2;
-                        } else
+                            return;
+                        }
+                    }
+
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialForestry))
+                    {
+                        if (material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Logs)
                         {
-                            material = TransferManager.TransferReason.Family1;
+                            return;
+                        }
+                    }
+
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOil))
+                    {
+                        if (material == TransferManager.TransferReason.Oil || material == TransferManager.TransferReason.Petrol)
+                        {
+                            return;
+                        }
+                    }
+
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOre))
+                    {
+                        if (material == TransferManager.TransferReason.Coal || material == TransferManager.TransferReason.Ore)
+                        {
+                            return;
                         }
                     }
                 }
             }
 
-            if (offer.Citizen != 0)
+            if (!comm_data.isPetrolsGettedFinal)
             {
-                BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                CitizenManager instance = Singleton<CitizenManager>.instance;
-                uint citizen = offer.Citizen;
-                ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-                //uint homeid = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                if (homeBuilding == 0)
+                if(material == TransferManager.TransferReason.Garbage || material == TransferManager.TransferReason.GarbageMove)
                 {
-                    Random rand = new Random();
-                    if (material == TransferManager.TransferReason.Single3B)
-                    {
-                        //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
-                        if (rand.Next(2) == 0)
-                        {
-                            material = TransferManager.TransferReason.Single2B;
-                        } else
-                        {
-                            material = TransferManager.TransferReason.Single1B;
-                        }
-                    }
-                    if (material == TransferManager.TransferReason.Single3)
-                    {
-                        //DebugLog.LogToFileOnly("reject Single3 outside moving in to live in 4-5 level house");
-                        if (rand.Next(2) == 0)
-                        {
-                            material = TransferManager.TransferReason.Single2;
-                        }
-                        else
-                        {
-                            material = TransferManager.TransferReason.Single1;
-                        }
-                    }
+                    return;
+                }
+
+                if (material == TransferManager.TransferReason.Fire || material == TransferManager.TransferReason.Fire2)
+                {
+                    return;
+                }
+
+                if (material == TransferManager.TransferReason.SickMove || material == TransferManager.TransferReason.Sick2 || material == TransferManager.TransferReason.Sick)
+                {
+                    return;
+                }
+
+                if (material == TransferManager.TransferReason.Dead || material == TransferManager.TransferReason.DeadMove)
+                {
+                    return;
+                }
+
+                if (material == TransferManager.TransferReason.RoadMaintenance || material == TransferManager.TransferReason.Taxi)
+                {
+                    return;
+                }
+
+                if (material == TransferManager.TransferReason.Snow || material == TransferManager.TransferReason.SnowMove)
+                {
+                    return;
+                }
+
+                if (material == TransferManager.TransferReason.Crime || material == TransferManager.TransferReason.CriminalMove)
+                {
+                    return;
+                }
+
+                if (material == TransferManager.TransferReason.Bus || material == TransferManager.TransferReason.TouristBus)
+                {
+                    return;
                 }
             }
 

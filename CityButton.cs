@@ -56,7 +56,7 @@ namespace RealCity
             base.name = "RealCityUIPanel";
             base.width = 100f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 200f), 0f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 500f), 0f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;

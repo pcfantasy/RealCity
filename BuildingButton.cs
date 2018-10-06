@@ -13,16 +13,6 @@ namespace RealCity
     {
         private UIButton BButton;
 
-        //private UIComponent BuildingUITrigger_paneltime;
-
-        //private UIComponent BuildingUITrigger_chirper;
-
-        //private UIComponent BuildingUITrigger_esc;
-
-        //private UIComponent BuildingUITrigger_infopanel;
-
-        //private UIComponent BuildingUITrigger_bottombars;
-
         private ItemClass.Availability CurrentMode;
 
         public static BuildingButton instance;
@@ -35,7 +25,7 @@ namespace RealCity
         {
             if (!Loader.guiPanel2.isVisible)
             {
-                BuildingUI.refesh_once = true;
+                BuildingUI.refeshOnce = true;
                 Loader.guiPanel2.Show();
             }
             else
@@ -43,14 +33,6 @@ namespace RealCity
                 Loader.guiPanel2.Hide();
             }
         }
-
-        /*public void BuildingUIOff()
-        {
-            if (Loader.guiPanel2.isVisible && !Loader.guiPanel2.containsMouse && !this.BButton.containsMouse && this.BuildingUITrigger_paneltime != null && !this.BuildingUITrigger_paneltime.containsMouse)
-            {
-                Loader.guiPanel2.Hide();
-            }
-        }*/
 
         public override void Start()
         {
@@ -80,39 +62,6 @@ namespace RealCity
             {
                 BuildingButton.BuildingUIToggle();
             };
-            /*this.BuildingUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
-            this.BuildingUITrigger_esc = UIView.Find<UIButton>("Esc");
-            this.BuildingUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
-            this.BuildingUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
-            this.BuildingUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
-            if (this.BuildingUITrigger_chirper != null && this.BuildingUITrigger_paneltime != null)
-            {
-                this.BuildingUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
-                    this.BuildingUIOff();
-                };
-            }
-            if (this.BuildingUITrigger_esc != null && this.BuildingUITrigger_paneltime != null)
-            {
-                this.BuildingUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
-                    this.BuildingUIOff();
-                };
-            }
-            if (this.BuildingUITrigger_infopanel != null && this.BuildingUITrigger_paneltime != null)
-            {
-                this.BuildingUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
-                    this.BuildingUIOff();
-                };
-            }
-            if (this.BuildingUITrigger_bottombars != null && this.BuildingUITrigger_paneltime != null)
-            {
-                this.BuildingUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
-                    this.BuildingUIOff();
-                };
-            }*/
         }
 
         public override void Update()

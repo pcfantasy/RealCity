@@ -56,7 +56,7 @@ namespace RealCity
             base.name = "MoreeconomicUIPanel";
             base.width = 120f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 320f ), 0f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 500f ), 0f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;
@@ -120,7 +120,7 @@ namespace RealCity
             {
                 this.EcButton.text = language.EconomicUI[0];
                 this.EcButton.tooltip = language.EconomicUI[0];
-                if (false)  //lack of resource
+                if (!comm_data.isCoalsGettedFinal || !comm_data.isFoodsGettedFinal || !comm_data.isPetrolsGettedFinal || !comm_data.isLumbersGettedFinal)  //lack of resource
                 {
                     this.EcButton.textColor = Color.red;
                 } else

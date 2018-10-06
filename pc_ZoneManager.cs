@@ -73,16 +73,28 @@ namespace RealCity
 
         public int OnCalculateResidentialDemand(ref int originalDemand)
         {
+            if (!comm_data.isFoodsGettedFinal|| !comm_data.isCoalsGettedFinal || !comm_data.isLumbersGettedFinal)
+            {
+                originalDemand = 0;
+            }
             return originalDemand;
         }
 
         public int OnCalculateCommercialDemand(ref int originalDemand)
         {
+            if (!comm_data.isCoalsGettedFinal || !comm_data.isLumbersGettedFinal)
+            {
+                originalDemand = 0;
+            }
             return originalDemand;
         }
 
         public int OnCalculateWorkplaceDemand(ref int originalDemand)
         {
+            if (!comm_data.isCoalsGettedFinal || !comm_data.isLumbersGettedFinal)
+            {
+                originalDemand = 0;
+            }
             return originalDemand;
         }
     }

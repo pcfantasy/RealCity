@@ -32,6 +32,7 @@ namespace RealCity
                             CitizenInfo info = instance.m_instances.m_buffer[(int)instance2].Info;
                             info.m_citizenAI.SetCurrentVehicle(instance2, ref instance.m_instances.m_buffer[(int)instance2], 0, 0u, data.m_targetPos0);
                             int num4 = Mathf.RoundToInt((float)this.m_transportInfo.m_ticketPrice * Vector3.Distance(lastFramePosition2, lastFramePosition) * 0.001f);
+                            //new added begin
                             if (num4 != 0)
                             {
                                 //DebugLog.LogToFileOnly("UnloadPassengers ticketPrice pre = " + num4.ToString());
@@ -51,12 +52,6 @@ namespace RealCity
                                 }
                                 else
                                 {
-                                    comm_data.tourist_transport_fee_num += num4;
-                                    comm_data.tourist_num++;
-                                    if (comm_data.tourist_transport_fee_num > 1000000000000000000)
-                                    {
-                                        comm_data.tourist_transport_fee_num = 1000000000000000000;
-                                    }
                                     if (num4 > 5000)
                                     {
                                         num4 = 5000;
@@ -64,6 +59,7 @@ namespace RealCity
                                 }
                                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4, this.m_info.m_class);
                             }
+                            //new added end
                             num++;
                             if ((instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                             {

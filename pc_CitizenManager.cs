@@ -47,7 +47,9 @@ namespace RealCity
                 if (i < homeCount)
                 {
                     citizenUnit.m_flags |= CitizenUnit.Flags.Home;
+                    //new added begin
                     citizenUnit.m_goods = 20000;
+                    //new added end
                 }
                 else if (i < homeCount + workCount)
                 {
@@ -77,7 +79,9 @@ namespace RealCity
         private void ReleaseCitizenImplementation(uint citizen, ref Citizen data)
         {
             InstanceID id = default(InstanceID);
+            //new added begin
             comm_data.citizen_money[citizen] = 0;
+            //new added end
             id.Citizen = citizen;
             Singleton<InstanceManager>.instance.ReleaseInstance(id);
             if (data.m_instance != 0)

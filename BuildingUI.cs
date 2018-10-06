@@ -20,21 +20,21 @@ namespace RealCity
 
         public ZonedBuildingWorldInfoPanel baseBuildingWindow;
 
-        public static bool refesh_once = false;
+        public static bool refeshOnce = false;
 
         //1、citizen tax income
-        private UILabel buildingmoney;
-        private UILabel buildingincomebuffer;
-        private UILabel buildingoutgoingbuffer;
+        private UILabel buildingMoney;
+        private UILabel buildingIncomeBuffer;
+        private UILabel buildingOutgoingBuffer;
         //private UILabel aliveworkcount;
-        private UILabel employfee;
-        private UILabel landrent;
+        private UILabel employFee;
+        private UILabel landRent;
 
-        private UILabel buy_price;
-        private UILabel sell_price;
-        private UILabel comsuptiondivide;
-        private UILabel sell_tax;
-        private UILabel buy2sell_profit;
+        private UILabel buyPrice;
+        private UILabel sellPrice;
+        private UILabel comsuptionDivide;
+        private UILabel sellTax;
+        private UILabel profit;
 
         public override void Update()
         {
@@ -75,82 +75,75 @@ namespace RealCity
 
         private void ShowOnGui()
         {
-            this.buildingmoney = base.AddUIComponent<UILabel>();
-            this.buildingmoney.text = language.BuildingUI[0];
-            this.buildingmoney.tooltip = language.BuildingUI[1];
-            this.buildingmoney.relativePosition = new Vector3(SPACING, 50f);
-            this.buildingmoney.autoSize = true;
-            this.buildingmoney.name = "Moreeconomic_Text_0";
+            this.buildingMoney = base.AddUIComponent<UILabel>();
+            this.buildingMoney.text = language.BuildingUI[0];
+            this.buildingMoney.tooltip = language.BuildingUI[1];
+            this.buildingMoney.relativePosition = new Vector3(SPACING, 50f);
+            this.buildingMoney.autoSize = true;
+            this.buildingMoney.name = "Moreeconomic_Text_0";
 
-            this.buildingincomebuffer = base.AddUIComponent<UILabel>();
-            this.buildingincomebuffer.text = language.BuildingUI[2];
-            this.buildingincomebuffer.tooltip = language.BuildingUI[3];
-            this.buildingincomebuffer.relativePosition = new Vector3(SPACING, this.buildingmoney.relativePosition.y + SPACING22);
-            this.buildingincomebuffer.autoSize = true;
-            this.buildingincomebuffer.name = "Moreeconomic_Text_1";
+            this.buildingIncomeBuffer = base.AddUIComponent<UILabel>();
+            this.buildingIncomeBuffer.text = language.BuildingUI[2];
+            this.buildingIncomeBuffer.tooltip = language.BuildingUI[3];
+            this.buildingIncomeBuffer.relativePosition = new Vector3(SPACING, this.buildingMoney.relativePosition.y + SPACING22);
+            this.buildingIncomeBuffer.autoSize = true;
+            this.buildingIncomeBuffer.name = "Moreeconomic_Text_1";
 
-            this.buildingoutgoingbuffer = base.AddUIComponent<UILabel>();
-            this.buildingoutgoingbuffer.text = language.BuildingUI[4];
-            this.buildingoutgoingbuffer.tooltip = language.BuildingUI[5];
-            this.buildingoutgoingbuffer.relativePosition = new Vector3(SPACING, this.buildingincomebuffer.relativePosition.y + SPACING22);
-            this.buildingoutgoingbuffer.autoSize = true;
-            this.buildingoutgoingbuffer.name = "Moreeconomic_Text_2";
+            this.buildingOutgoingBuffer = base.AddUIComponent<UILabel>();
+            this.buildingOutgoingBuffer.text = language.BuildingUI[4];
+            this.buildingOutgoingBuffer.tooltip = language.BuildingUI[5];
+            this.buildingOutgoingBuffer.relativePosition = new Vector3(SPACING, this.buildingIncomeBuffer.relativePosition.y + SPACING22);
+            this.buildingOutgoingBuffer.autoSize = true;
+            this.buildingOutgoingBuffer.name = "Moreeconomic_Text_2";
 
-            /*this.aliveworkcount = base.AddUIComponent<UILabel>();
-            this.aliveworkcount.text = language.BuildingUI[6];
-            this.aliveworkcount.tooltip = language.BuildingUI[7];
-            this.aliveworkcount.relativePosition = new Vector3(SPACING, this.buildingoutgoingbuffer.relativePosition.y + SPACING22);
-            this.aliveworkcount.autoSize = true;
-            this.aliveworkcount.name = "Moreeconomic_Text_3";*/
+            this.employFee = base.AddUIComponent<UILabel>();
+            this.employFee.text = language.BuildingUI[8];
+            this.employFee.tooltip = language.BuildingUI[9];
+            this.employFee.relativePosition = new Vector3(SPACING, this.buildingOutgoingBuffer.relativePosition.y + SPACING22);
+            this.employFee.autoSize = true;
+            this.employFee.name = "Moreeconomic_Text_4";
 
-            this.employfee = base.AddUIComponent<UILabel>();
-            this.employfee.text = language.BuildingUI[8];
-            this.employfee.tooltip = language.BuildingUI[9];
-            this.employfee.relativePosition = new Vector3(SPACING, this.buildingoutgoingbuffer.relativePosition.y + SPACING22);
-            this.employfee.autoSize = true;
-            this.employfee.name = "Moreeconomic_Text_4";
+            this.landRent = base.AddUIComponent<UILabel>();
+            this.landRent.text = language.BuildingUI[10];
+            this.landRent.tooltip = language.BuildingUI[11];
+            this.landRent.relativePosition = new Vector3(SPACING, this.employFee.relativePosition.y + SPACING22);
+            this.landRent.autoSize = true;
+            this.landRent.name = "Moreeconomic_Text_5";
 
-            this.landrent = base.AddUIComponent<UILabel>();
-            this.landrent.text = language.BuildingUI[10];
-            this.landrent.tooltip = language.BuildingUI[11];
-            this.landrent.relativePosition = new Vector3(SPACING, this.employfee.relativePosition.y + SPACING22);
-            this.landrent.autoSize = true;
-            this.landrent.name = "Moreeconomic_Text_5";
+            this.buyPrice = base.AddUIComponent<UILabel>();
+            this.buyPrice.text = language.BuildingUI[18];
+            this.buyPrice.tooltip = language.BuildingUI[18];
+            this.buyPrice.relativePosition = new Vector3(SPACING, this.landRent.relativePosition.y + SPACING22);
+            this.buyPrice.autoSize = true;
+            this.buyPrice.name = "Moreeconomic_Text_5";
 
-            this.buy_price = base.AddUIComponent<UILabel>();
-            this.buy_price.text = language.BuildingUI[18];
-            this.buy_price.tooltip = language.BuildingUI[18];
-            this.buy_price.relativePosition = new Vector3(SPACING, this.landrent.relativePosition.y + SPACING22);
-            this.buy_price.autoSize = true;
-            this.buy_price.name = "Moreeconomic_Text_5";
+            this.sellPrice = base.AddUIComponent<UILabel>();
+            this.sellPrice.text = language.BuildingUI[19];
+            this.sellPrice.tooltip = language.BuildingUI[19];
+            this.sellPrice.relativePosition = new Vector3(SPACING, this.buyPrice.relativePosition.y + SPACING22);
+            this.sellPrice.autoSize = true;
+            this.sellPrice.name = "Moreeconomic_Text_5";
 
-            this.sell_price = base.AddUIComponent<UILabel>();
-            this.sell_price.text = language.BuildingUI[19];
-            this.sell_price.tooltip = language.BuildingUI[19];
-            this.sell_price.relativePosition = new Vector3(SPACING, this.buy_price.relativePosition.y + SPACING22);
-            this.sell_price.autoSize = true;
-            this.sell_price.name = "Moreeconomic_Text_5";
+            this.comsuptionDivide = base.AddUIComponent<UILabel>();
+            this.comsuptionDivide.text = language.BuildingUI[21];
+            this.comsuptionDivide.tooltip = language.BuildingUI[21];
+            this.comsuptionDivide.relativePosition = new Vector3(SPACING, this.sellPrice.relativePosition.y + SPACING22);
+            this.comsuptionDivide.autoSize = true;
+            this.comsuptionDivide.name = "Moreeconomic_Text_5";
 
-            this.comsuptiondivide = base.AddUIComponent<UILabel>();
-            this.comsuptiondivide.text = language.BuildingUI[21];
-            this.comsuptiondivide.tooltip = language.BuildingUI[21];
-            this.comsuptiondivide.relativePosition = new Vector3(SPACING, this.sell_price.relativePosition.y + SPACING22);
-            this.comsuptiondivide.autoSize = true;
-            this.comsuptiondivide.name = "Moreeconomic_Text_5";
+            this.sellTax = base.AddUIComponent<UILabel>();
+            this.sellTax.text = language.BuildingUI[22];
+            this.sellTax.tooltip = language.BuildingUI[22];
+            this.sellTax.relativePosition = new Vector3(SPACING, this.comsuptionDivide.relativePosition.y + SPACING22);
+            this.sellTax.autoSize = true;
+            this.sellTax.name = "Moreeconomic_Text_5";
 
-            this.sell_tax = base.AddUIComponent<UILabel>();
-            this.sell_tax.text = language.BuildingUI[22];
-            this.sell_tax.tooltip = language.BuildingUI[22];
-            this.sell_tax.relativePosition = new Vector3(SPACING, this.comsuptiondivide.relativePosition.y + SPACING22);
-            this.sell_tax.autoSize = true;
-            this.sell_tax.name = "Moreeconomic_Text_5";
-
-            this.buy2sell_profit = base.AddUIComponent<UILabel>();
-            this.buy2sell_profit.text = language.BuildingUI[23];
-            this.buy2sell_profit.tooltip = language.BuildingUI[23];
-            this.buy2sell_profit.relativePosition = new Vector3(SPACING, this.sell_tax.relativePosition.y + SPACING22);
-            this.buy2sell_profit.autoSize = true;
-            this.buy2sell_profit.name = "Moreeconomic_Text_5";
+            this.profit = base.AddUIComponent<UILabel>();
+            this.profit.text = language.BuildingUI[23];
+            this.profit.tooltip = language.BuildingUI[23];
+            this.profit.relativePosition = new Vector3(SPACING, this.sellTax.relativePosition.y + SPACING22);
+            this.profit.autoSize = true;
+            this.profit.name = "Moreeconomic_Text_5";
         }
 
         private void RefreshDisplayData()
@@ -159,14 +152,14 @@ namespace RealCity
             uint num2 = currentFrameIndex & 255u;
 
 
-            if (refesh_once || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (refeshOnce || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 if (base.isVisible)
                 {
                     comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
-                    Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
-                    if (buildingdata.Info.m_class.m_service == ItemClass.Service.Residential)
+                    Building buildinData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
+                    if (buildinData.Info.m_class.m_service == ItemClass.Service.Residential)
                     {
                         base.Hide();
                     }
@@ -174,150 +167,150 @@ namespace RealCity
                     {
                         int aliveWorkerCount = 0;
                         int totalWorkerCount = 0;
-                        float num = caculate_employee_outcome(buildingdata, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
-                        int num1 = process_land_fee(buildingdata, comm_data.last_buildingid);
-                        this.buildingmoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
-                        this.buildingincomebuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingdata.m_customBuffer1);
-                        this.buildingoutgoingbuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingdata.m_customBuffer2);
+                        float num = CaculateEmployeeOutcome(buildinData, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
+                        int num1 = CaculateLandFee(buildinData, comm_data.last_buildingid);
+                        this.buildingMoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
+                        this.buildingIncomeBuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildinData.m_customBuffer1);
+                        this.buildingOutgoingBuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildinData.m_customBuffer2);
                         //this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
-                        this.employfee.text = language.BuildingUI[8] + " " + num.ToString() + " " + language.BuildingUI[16];                       
-                        this.landrent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1 / 100f);
+                        this.employFee.text = language.BuildingUI[8] + " " + num.ToString() + " " + language.BuildingUI[16];                       
+                        this.landRent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1 / 100f);
                     }
                     //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
                     float price = 0f;
                     float price2 = 0f;
-                    if (buildingdata.Info.m_buildingAI is IndustrialExtractorAI)
+                    if (buildinData.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        this.buy_price.text = string.Format(language.BuildingUI[18] + " N/A");
+                        this.buyPrice.text = string.Format(language.BuildingUI[18] + " N/A");
                     }
                     else
                     {
-                        if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                        if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                         {
-                            price = pc_PrivateBuildingAI.pre_good_price / 4f;
+                            price = pc_PrivateBuildingAI.preGoodPrice;
                         }
                         else
                         {
-                            if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
+                            if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
                             {
-                                price = pc_PrivateBuildingAI.food_price;
+                                price = pc_PrivateBuildingAI.foodPrice;
                             }
 
-                            if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
+                            if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                             {
-                                price = pc_PrivateBuildingAI.lumber_price;
+                                price = pc_PrivateBuildingAI.lumberPrice;
                             }
 
-                            if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
+                            if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
                             {
-                                price = pc_PrivateBuildingAI.petrol_price;
+                                price = pc_PrivateBuildingAI.petrolPrice;
                             }
 
-                            if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
+                            if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
                             {
-                                price = pc_PrivateBuildingAI.coal_price;
+                                price = pc_PrivateBuildingAI.coalPrice;
                             }
                         }
-                        this.buy_price.text = string.Format(language.BuildingUI[18] + " [{0:N2}]", price);
+                        this.buyPrice.text = string.Format(language.BuildingUI[18] + " [{0:N2}]", price);
                     }
 
 
 
-                    if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                    if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                     {
-                        price2 = pc_PrivateBuildingAI.good_price;
+                        price2 = pc_PrivateBuildingAI.goodPrice;
                     }
                     else
                     {
-                        if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
+                        if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
                         {
-                            price2 = pc_PrivateBuildingAI.grain_price;
+                            price2 = pc_PrivateBuildingAI.grainPrice;
                         }
 
-                        if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
+                        if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                         {
-                            price2 = pc_PrivateBuildingAI.log_price;
+                            price2 = pc_PrivateBuildingAI.logPrice;
                         }
 
-                        if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
+                        if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
                         {
-                            price2 = pc_PrivateBuildingAI.oil_price;
+                            price2 = pc_PrivateBuildingAI.oilPrice;
                         }
 
-                        if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
+                        if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
                         {
-                            price2 = pc_PrivateBuildingAI.ore_price;
+                            price2 = pc_PrivateBuildingAI.orePrice;
                         }
                     }
 
-                    if (buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
+                    if (buildinData.Info.m_class.m_service == ItemClass.Service.Commercial)
                     {
                         price2 = 1;
-                        this.sell_price.text = string.Format(language.BuildingUI[19] + " [{0:N2}]", price2);
+                        this.sellPrice.text = string.Format(language.BuildingUI[19] + " [{0:N2}]", price2);
                     }
                     else
                     {
-                        this.sell_price.text = string.Format(language.BuildingUI[19] + " [{0:N2}]", price2);
+                        this.sellPrice.text = string.Format(language.BuildingUI[19] + " [{0:N2}]", price2);
                     }
 
-                    float ConsumptionDivider = 0f;
-                    if (buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
+                    float consumptionDivider = 0f;
+                    if (buildinData.Info.m_class.m_service == ItemClass.Service.Commercial)
                     {
-                        ConsumptionDivider = (float)pc_PrivateBuildingAI.get_comsumptiondivider(buildingdata, comm_data.last_buildingid);
-                        this.comsuptiondivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", ConsumptionDivider);
+                        consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildinData, comm_data.last_buildingid);
+                        this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", consumptionDivider);
                     }
-                    else if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                    else if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                     {
-                        ConsumptionDivider = (float)pc_PrivateBuildingAI.get_comsumptiondivider(buildingdata, comm_data.last_buildingid);
-                        this.comsuptiondivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", ConsumptionDivider);
+                        consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildinData, comm_data.last_buildingid);
+                        this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]",consumptionDivider);
                     }
                     else
                     {
-                        if (buildingdata.Info.m_buildingAI is IndustrialBuildingAI)
+                        if (buildinData.Info.m_buildingAI is IndustrialBuildingAI)
                         {
-                            ConsumptionDivider = (float)pc_PrivateBuildingAI.get_comsumptiondivider(buildingdata, comm_data.last_buildingid);
-                            this.comsuptiondivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", ConsumptionDivider);
+                            consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildinData, comm_data.last_buildingid);
+                            this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", consumptionDivider);
                         }
                         else
                         {
-                            this.comsuptiondivide.text = string.Format(language.BuildingUI[21] + " N/A");
+                            this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " N/A");
                         }
                     }
 
-                    if (buildingdata.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                    if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                     {
-                        ConsumptionDivider = ConsumptionDivider * 4f;
+                        consumptionDivider = consumptionDivider * 4f;
                     }
 
-                    float sell_tax_1 = pc_PrivateBuildingAI.get_tax_rate(buildingdata, comm_data.last_buildingid);
+                    float sellTax = pc_PrivateBuildingAI.GetTaxRate(buildinData, comm_data.last_buildingid);
 
-                    this.sell_tax.text = string.Format(language.BuildingUI[22] + " [{0}%]", (int)(sell_tax_1 * 100f));
+                    this.sellTax.text = string.Format(language.BuildingUI[22] + " [{0}%]", (int)(sellTax * 100f));
 
 
-                    if (ConsumptionDivider == 0f)
+                    if (consumptionDivider == 0f)
                     {
-                        this.buy2sell_profit.text = string.Format(language.BuildingUI[23] + " N/A");
+                        this.profit.text = string.Format(language.BuildingUI[23] + " N/A");
                     }
                     else
                     {
-                        float temp = (price2 * (1 - sell_tax_1) - (price / ConsumptionDivider)) / price2;
-                        if (buildingdata.Info.m_class.m_service == ItemClass.Service.Commercial)
+                        float temp = (price2 * (1 - sellTax) - (price / consumptionDivider)) / price2;
+                        if (buildinData.Info.m_class.m_service == ItemClass.Service.Commercial)
                         {
-                            this.buy2sell_profit.text = string.Format(language.BuildingUI[23] + " [{0}%]" + language.BuildingUI[24], (int)(temp * 100f));
+                            this.profit.text = string.Format(language.BuildingUI[23] + " [{0}%]" + language.BuildingUI[24], (int)(temp * 100f));
                         }
                         else
                         {
-                            this.buy2sell_profit.text = string.Format(language.BuildingUI[23] + " [{0}%]", (int)(temp * 100f));
+                            this.profit.text = string.Format(language.BuildingUI[23] + " [{0}%]", (int)(temp * 100f));
                         }
                     }
 
                     this.BringToFront();
-                    BuildingUI.refesh_once = false;
+                    BuildingUI.refeshOnce = false;
                 }
             }
         }
 
-        public static float caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
+        public static float CaculateEmployeeOutcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
         {
             float num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
@@ -328,46 +321,46 @@ namespace RealCity
 
             if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.good_price * 2000))
+                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.goodPrice * 2000))
                 {
                     switch (building.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.CommercialLow:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.1f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.1f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.3f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.3f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.6f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.6f / totalWorkerCount);
                             }
                             break;
                         case ItemClass.SubService.CommercialHigh:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.2f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.2f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.4f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.4f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.7f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.7f / totalWorkerCount);
                             }
                             break;
                         case ItemClass.SubService.CommercialLeisure:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.7f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.7f / totalWorkerCount);
                             break;
                         case ItemClass.SubService.CommercialTourist:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.9f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.9f / totalWorkerCount);
                             break;
                         case ItemClass.SubService.CommercialEco:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.good_price * 2000)) * 0.05f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.05f / totalWorkerCount);
                             break;
                     }
                 }
@@ -379,19 +372,19 @@ namespace RealCity
 
             if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {
-                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.pre_good_price * 2000))
+                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.preGoodPrice * 2000))
                 {
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.pre_good_price * 2000)) * 0.1f / totalWorkerCount);
+                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.preGoodPrice * 2000)) * 0.1f / totalWorkerCount);
                     }
                     if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.pre_good_price * 2000)) * 0.3f / totalWorkerCount);
+                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.preGoodPrice * 2000)) * 0.3f / totalWorkerCount);
                     }
                     if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.pre_good_price * 2000)) * 0.6f / totalWorkerCount);
+                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.preGoodPrice * 2000)) * 0.6f / totalWorkerCount);
                     }
                 }
                 else
@@ -428,7 +421,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.grain_price * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.grainPrice * 2000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }
@@ -455,7 +448,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.log_price * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.logPrice * 2000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }
@@ -482,7 +475,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.oil_price * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.oilPrice * 2000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }
@@ -509,7 +502,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.ore_price * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.orePrice * 2000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }
@@ -546,7 +539,7 @@ namespace RealCity
             }
         }
 
-        public int process_land_fee(Building building, ushort buildingID)
+        public int CaculateLandFee(Building building, ushort buildingID)
         {
             DistrictManager instance = Singleton<DistrictManager>.instance;
             byte district = instance.GetDistrict(building.m_position);
