@@ -44,7 +44,7 @@ namespace RealCity
             this.FButton.name = "FButton";
             this.FButton.tooltipBox = aView.defaultTooltipBox;
             this.FButton.text = language.BuildingUI[31];
-            this.FButton.size = new Vector2(100f, 40f);
+            this.FButton.size = new Vector2(150f, 40f);
             this.FButton.relativePosition = new Vector3(0, 30f);
 
         }

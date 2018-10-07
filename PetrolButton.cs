@@ -44,7 +44,7 @@ namespace RealCity
             this.PButton.name = "PButton";
             this.PButton.tooltipBox = aView.defaultTooltipBox;
             this.PButton.text = language.BuildingUI[34];
-            this.PButton.size = new Vector2(100f, 40f);
+            this.PButton.size = new Vector2(150f, 40f);
             this.PButton.relativePosition = new Vector3(0, 30f);
 
         }

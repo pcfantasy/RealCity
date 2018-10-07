@@ -10,7 +10,7 @@ namespace RealCity
     {
         public static readonly string cacheName = "MoreeconomicUI";
 
-        public static float WIDTH = 750f;
+        public static float WIDTH = 600f;
 
         private static readonly float HEIGHT = 800f;
 
@@ -114,7 +114,7 @@ namespace RealCity
             this.isInteractive = true;
             this.BringToFront();
             //base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
-            base.relativePosition = new Vector3(200f, 5f);
+            base.relativePosition = new Vector3(200f, 50f);
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
@@ -349,7 +349,7 @@ namespace RealCity
 
             this.tip10 = base.AddUIComponent<UILabel>();
             this.tip10.text = language.EconomicUI[55];
-            this.tip10.tooltip = language.EconomicUI[56];
+            this.tip10.tooltip = language.EconomicUI[55];
             this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
             this.tip10.autoSize = true;
             this.tip10.name = "Moreeconomic_Text_53";
@@ -409,6 +409,8 @@ namespace RealCity
                     this.tip6.text = string.Format(language.EconomicUI[48] + "  " + RealCity.tip6_message_forgui);
                     this.tip7.text = string.Format(language.EconomicUI[50] + "  " + RealCity.tip7_message_forgui);
                     this.tip8.text = string.Format(language.EconomicUI[52] + "  " + RealCity.tip8_message_forgui);
+                    this.tip9.text = string.Format(language.EconomicUI[54] + "  " + RealCity.tip9_message_forgui);
+                    this.tip10.text = string.Format(language.EconomicUI[55] + "  " + RealCity.tip10_message_forgui);
                     refesh_onece = false;
                 }
             }

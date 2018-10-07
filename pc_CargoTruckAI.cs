@@ -213,32 +213,32 @@ namespace RealCity
                     switch ((TransferManager.TransferReason)data.m_transferType)
                     {
                         case TransferManager.TransferReason.Petrol:
-                            product_value = num * pc_PrivateBuildingAI.petrolPrice * comm_data.game_expense_divide;
+                            product_value = num * pc_PrivateBuildingAI.petrolPrice;
                             if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                             {
                                 import_tax = product_value * 0.1f;
                                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
                             }             
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value * comm_data.game_expense_divide, info.m_class);
                             break;
                         case TransferManager.TransferReason.Coal:
-                            product_value = num * pc_PrivateBuildingAI.coalPrice * comm_data.game_expense_divide;
+                            product_value = num * pc_PrivateBuildingAI.coalPrice;
                             if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                             {
                                 import_tax = product_value * 0.1f;
                                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
                             }
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value * comm_data.game_expense_divide, info.m_class);
                             break;
                         case TransferManager.TransferReason.Goods:
-                            product_value = num * pc_PrivateBuildingAI.goodPrice * comm_data.game_expense_divide;
+                            product_value = num * pc_PrivateBuildingAI.goodPrice;
                             if ((data.m_flags & Vehicle.Flags.Importing) != (Vehicle.Flags)0)
                             {
                                 import_tax = product_value * 0.1f;
                                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)import_tax, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialGeneric, ItemClass.Level.Level3, 111);
                             }
                             
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value, info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)product_value * comm_data.game_expense_divide, info.m_class);
                             break;
                         default: DebugLog.LogToFileOnly("find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                     }

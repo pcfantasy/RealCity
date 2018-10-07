@@ -2186,6 +2186,22 @@ namespace RealCity
                     }
                 }
             }
+
+            if (!comm_data.isPetrolsGettedFinal)
+            {
+                if (itemClass.m_service == ItemClass.Service.FireDepartment)
+                {
+                    budget = 1;
+                }
+                if (itemClass.m_service == ItemClass.Service.HealthCare || itemClass.m_service == ItemClass.Service.PoliceDepartment)
+                {
+                    budget = 1;
+                }
+                if (itemClass.m_service == ItemClass.Service.Garbage || itemClass.m_service == ItemClass.Service.Disaster)
+                {
+                    budget = 1;
+                }
+            }
             return budget;
         }
 

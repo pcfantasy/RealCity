@@ -44,7 +44,7 @@ namespace RealCity
             this.LButton.name = "LButton";
             this.LButton.tooltipBox = aView.defaultTooltipBox;
             this.LButton.text = language.BuildingUI[33];
-            this.LButton.size = new Vector2(100f, 40f);
+            this.LButton.size = new Vector2(150f, 40f);
             this.LButton.relativePosition = new Vector3(0, 30f);
 
         }

@@ -177,21 +177,25 @@ namespace RealCity
                     {
 
                         
-                        citizen_status();
+                        //citizen_status();
                         generate_tips();
-                        comm_data.isCoalsGetted = false;
-                        comm_data.isFoodsGetted = false;
-                        comm_data.isPetrolsGetted = false;
-                        comm_data.isLumbersGetted = false;
-                        comm_data.allFoods = 0;
-                        comm_data.allLumbers = 0;
-                        comm_data.allPetrols = 0;
-                        comm_data.allCoals = 0;
-                        building_status();
-                        comm_data.isCoalsGettedFinal = comm_data.isCoalsGetted;
-                        comm_data.isFoodsGettedFinal = comm_data.isFoodsGetted;
-                        comm_data.isPetrolsGettedFinal = comm_data.isPetrolsGetted;
-                        comm_data.isLumbersGettedFinal = comm_data.isLumbersGetted;
+
+                        if (comm_data.update_money_count == 16)
+                        {
+                            comm_data.isCoalsGetted = false;
+                            comm_data.isFoodsGetted = false;
+                            comm_data.isPetrolsGetted = false;
+                            comm_data.isLumbersGetted = false;
+                            comm_data.allFoods = 0;
+                            comm_data.allLumbers = 0;
+                            comm_data.allPetrols = 0;
+                            comm_data.allCoals = 0;
+                            building_status();
+                            comm_data.isCoalsGettedFinal = comm_data.isCoalsGetted;
+                            comm_data.isFoodsGettedFinal = comm_data.isFoodsGetted;
+                            comm_data.isPetrolsGettedFinal = comm_data.isPetrolsGetted;
+                            comm_data.isLumbersGettedFinal = comm_data.isLumbersGetted;
+                        }
 
                         comm_data.allVehicles = 0;
                         VehicleStatus();
@@ -296,6 +300,14 @@ namespace RealCity
                 else
                 {
                     tip9_message_forgui = "";
+                }
+
+                if(!comm_data.isHellMode)
+                {
+                    tip10_message_forgui = language.OptionUI[3];
+                } else
+                {
+                    tip10_message_forgui = "";
                 }
 
 
@@ -429,7 +441,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 28000 - comm_data.building_buffer3[buildingID] - num29;
+                num34 = 16000 - comm_data.building_buffer3[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -443,9 +455,15 @@ namespace RealCity
 
                 if (comm_data.building_buffer3[buildingID] > 0 && !comm_data.isFoodsGetted)
                 {
-                    if (comm_data.citizen_count >= 64)
+                    if (comm_data.citizen_count >= 1)
                     {
-                        comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count >> 6);
+                        if (comm_data.building_buffer3[buildingID] - comm_data.citizen_count > 0)
+                        {
+                            comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count);
+                        } else
+                        {
+                            comm_data.building_buffer3[buildingID] = 0;
+                        }
                     }
                     comm_data.isFoodsGetted = true;
                 }
@@ -464,7 +482,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 28000 - comm_data.building_buffer2[buildingID] - num29;
+                num34 = 16000 - comm_data.building_buffer2[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -478,9 +496,15 @@ namespace RealCity
 
                 if (comm_data.building_buffer2[buildingID] > 0 && !comm_data.isPetrolsGetted)
                 {
-                    if (comm_data.allVehiclesFinal >= 32)
+                    if (comm_data.allVehiclesFinal >= 1)
                     {
-                        comm_data.building_buffer2[buildingID] -= (ushort)(comm_data.allVehiclesFinal >> 5);
+                        if (comm_data.building_buffer2[buildingID] - comm_data.allVehiclesFinal > 0)
+                        {
+                            comm_data.building_buffer2[buildingID] -= (ushort)(comm_data.allVehiclesFinal);
+                        } else
+                        {
+                            comm_data.building_buffer2[buildingID] = 0;
+                        }
                     }
                     comm_data.isPetrolsGetted = true;
                 }
@@ -499,7 +523,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 28000 - comm_data.building_buffer1[buildingID] - num29;
+                num34 = 16000 - comm_data.building_buffer1[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -513,9 +537,15 @@ namespace RealCity
 
                 if (comm_data.building_buffer1[buildingID] > 0 && !comm_data.isCoalsGetted)
                 {
-                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 32)
+                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 1)
                     {
-                        comm_data.building_buffer1[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal >> 5);
+                        if (comm_data.building_buffer1[buildingID] - pc_PrivateBuildingAI.allBuildingsFinal > 0)
+                        {
+                            comm_data.building_buffer1[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal);
+                        } else
+                        {
+                            comm_data.building_buffer1[buildingID] = 0;
+                        }
                     }
                     comm_data.isCoalsGetted = true;
                 }
@@ -534,7 +564,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 28000 - comm_data.building_buffer4[buildingID] - num29;
+                num34 = 16000 - comm_data.building_buffer4[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -548,9 +578,16 @@ namespace RealCity
 
                 if (comm_data.building_buffer4[buildingID] > 0 && !comm_data.isLumbersGetted)
                 {
-                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 32)
+                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 1)
                     {
-                        comm_data.building_buffer4[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal >> 5);
+                        if (comm_data.building_buffer4[buildingID] - pc_PrivateBuildingAI.allBuildingsFinal > 0)
+                        {
+                            comm_data.building_buffer4[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal);
+                        }
+                        else
+                        {
+                            comm_data.building_buffer4[buildingID] = 0;
+                        }
                     }
                     comm_data.isLumbersGetted = true;
                 }
@@ -624,10 +661,10 @@ namespace RealCity
                 return 0;
             }
 
-            public void citizen_status()
-            {
-                comm_data.citizen_count = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount;
-            }
+            //public void citizen_status()
+            //{
+            //    comm_data.citizen_count = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount;
+            //}
 
             //public void caculate_profit()
             //{
@@ -763,25 +800,56 @@ namespace RealCity
                                 comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
                                 if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
                                 {
-                                    if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is PassengerCarAI || vehicle.Info.m_vehicleAI is AmbulanceAI)
+                                    if (vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
                                     {
                                         comm_data.allVehicles++;
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)10000, vehicle.Info.m_class);
                                     }
-                                    if (vehicle.Info.m_vehicleAI is TaxiAI || vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is FireCopterAI)
+
+                                    if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                                     {
-                                        comm_data.allVehicles++;
+                                        comm_data.allVehicles += 2;
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
                                     }
-                                    if (vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is HearseAI || vehicle.Info.m_vehicleAI is PoliceCarAI)
+
+                                    if (vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI)
                                     {
-                                        comm_data.allVehicles++;
+                                        comm_data.allVehicles += 2;
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
                                     }
-                                    if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI || vehicle.Info.m_vehicleAI is SnowTruckAI)
+
+                                    if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI || vehicle.Info.m_vehicleAI is CargoShipAI)
                                     {
-                                        comm_data.allVehicles++;
+                                        comm_data.allVehicles += 4;
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)40000, vehicle.Info.m_class);
                                     }
-                                    if (vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI)
+
+                                    if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                                     {
-                                        comm_data.allVehicles++;
+                                        comm_data.allVehicles += 8;
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)80000, vehicle.Info.m_class);
+                                    }
+
+                                    if (vehicle.Info.m_vehicleAI is PassengerTrainAI || vehicle.Info.m_vehicleAI is CargoTrainAI)
+                                    {
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)60000, vehicle.Info.m_class);
+                                    }
+
+                                    if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
+                                    {
+                                        comm_data.allVehicles += 8;
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)80000, vehicle.Info.m_class);
+                                    }
+
+                                    if (vehicle.Info.m_vehicleAI is BusAI)
+                                    {
+                                        comm_data.allVehicles += 2;
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
+                                    }
+
+                                    if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
+                                    {
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)30000, vehicle.Info.m_class);
                                     }
                                 }
                             }
@@ -816,10 +884,6 @@ namespace RealCity
                     
                     for (int i = num5; i <= num6; i = i + 1)
                     {
-                        //if ((currentFrameIndex & 48) == 48)
-                        //{
-                            //vehicle_status(i);
-                        //}
                         if (comm_data.have_toll_station)
                         {
                             Vehicle vehicle = instance.m_vehicles.m_buffer[i];
@@ -831,8 +895,6 @@ namespace RealCity
                                 if (num != 0)
                                 {
                                     bool flag1 = building.m_flags.IsFlagSet(Building.Flags.Untouchable) && building1.m_flags.IsFlagSet(Building.Flags.Untouchable);
-                                    bool flag2 = false;
-                                    bool flag3 = building.m_flags.IsFlagSet(Building.Flags.Untouchable);
 
                                     if (vehicle.m_sourceBuilding != 0)
                                     {
@@ -846,17 +908,7 @@ namespace RealCity
                                         if ((vehicle.Info.m_vehicleAI is PassengerCarAI) || (vehicle.Info.m_vehicleAI is CargoTruckAI))
                                         {
                                             comm_data.vehical_flag[i] = true;
-                                            Singleton<EconomyManager>.instance.AddPrivateIncome(3000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                                        }
-                                    }
-
-                                    if (flag2 && (!comm_data.vehical_flag[i]))
-                                    {
-                                        if (vehicle.Info.m_vehicleAI is CargoTruckAI)
-                                        {
-                                            comm_data.vehical_flag[i] = true;
-                                            comm_data.building_money[vehicle.m_sourceBuilding] -= 2000;
-                                            Singleton<EconomyManager>.instance.AddPrivateIncome(2000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                            Singleton<EconomyManager>.instance.AddPrivateIncome(100, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                                         }
                                     }
                                 }

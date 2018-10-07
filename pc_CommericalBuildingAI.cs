@@ -23,10 +23,11 @@ namespace RealCity
             return num;
         }
 
-        private TransferManager.TransferReason GetIncomingTransferReason()
-        {
-            return  TransferManager.TransferReason.Goods;
-        }
+        //public TransferManager.TransferReason GetIncomingTransferReason()
+        //{
+        //    DebugLog.LogToFileOnly("comm building GetIncomingTransferReason called");
+        //    return  TransferManager.TransferReason.Goods;
+        //}
 
         private DistrictPolicies.Specialization SpecialPolicyNeeded()
         {

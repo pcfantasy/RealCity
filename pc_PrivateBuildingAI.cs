@@ -154,7 +154,7 @@ namespace RealCity
                 {
                     buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
                 }
-                comm_data.building_buffer1[buildingID] = buildingData.m_customBuffer1;
+                comm_data.building_buffer1[buildingID] = (ushort)buildingData.m_customBuffer1;
             }
         }
 
@@ -651,7 +651,7 @@ namespace RealCity
             int num2 = 0;            
             while (num != 0)
             {
-                if (((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material) || IsGeneralIndustry(buildingID, data, material))
+                if (((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material) || IsGeneralIndustry(buildingID, data, material) || IsCommercialBuilding(buildingID, data, material))
                 {
                     VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
                     int a;
@@ -686,6 +686,18 @@ namespace RealCity
             return false;
         }
 
+        public static bool IsCommercialBuilding(ushort buildingID, Building data, TransferManager.TransferReason material)
+        {
+            if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
+            {
+                if ((material == TransferManager.TransferReason.Lumber) || (material == TransferManager.TransferReason.Food) || (material == TransferManager.TransferReason.Coal) || (material == TransferManager.TransferReason.Petrol))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static float GetTaxRate(Building data, ushort buildingID)
         {
             float tax = 0f;
@@ -695,11 +707,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.1f; break;
+                            tax = 0.05f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.2f; break;
+                            tax = 0.10f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.3f; break;
+                            tax = 0.15f; break;
                         default:
                             tax = 0; break;
                     }
@@ -708,11 +720,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.15f; break;
+                            tax = 0.05f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.25f; break;
+                            tax = 0.10f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.35f; break;
+                            tax = 0.15f; break;
                         default:
                             tax = 0; break;
                     }
@@ -721,11 +733,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.2f; break;
+                            tax = 0.05f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.3f; break;
+                            tax = 0.1f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.4f; break;
+                            tax = 0.15f; break;
                         default:
                             tax = 0; break;
                     }
@@ -737,27 +749,27 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.2f;
+                        tax = 0.1f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialForestry:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.8f;
+                        tax = 0.6f;
                     }
                     else
                     {
-                        tax = 0.2f;
+                        tax = 0.1f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOil:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.9f;
+                        tax = 0.95f;
                     }
                     else
                     {
-                        tax = 0.2f;
+                        tax = 0.1f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOre:
@@ -767,15 +779,15 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.2f;
+                        tax = 0.1f;
                     }
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    tax = 0.2f; break;
+                    tax = 0.1f; break;
                 case ItemClass.SubService.CommercialTourist:
                     tax = 0.5f; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    tax = 0.35f; break;
+                    tax = 0.15f; break;
                 default: tax = 0f; break;
             }
 

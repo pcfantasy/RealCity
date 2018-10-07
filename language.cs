@@ -13,7 +13,7 @@ namespace RealCity
             "Language",                                                                                      //0
             "Language_Select",                                                                               //1
             "Smart Public Transport(more cars and maintenance in peek, less in troughs)",                    //2
-            "Hell mode(cut off import when you unlock farm foresty oil ore)"   //3
+            "Hell mode(little import)"   //3
         };
 
         public static string[] BuildingUI_English = {
@@ -276,7 +276,7 @@ namespace RealCity
             "语言",
             "语言选择",
             "智能公共交通(早晚高峰车多维护费多,深夜钱少维护费少)",
-            "地狱模式(逐步断开外部进口,本地自给自足)"
+            "地狱模式(很少的进口支撑,后期要靠本地自给自足)"
         };
 
         public static string[] EconomicUI_Chinese =

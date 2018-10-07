@@ -44,7 +44,7 @@ namespace RealCity
             this.CButton.name = language.BuildingUI[32];
             this.CButton.tooltipBox = aView.defaultTooltipBox;
             this.CButton.text = "Coal";
-            this.CButton.size = new Vector2(100f, 40f);
+            this.CButton.size = new Vector2(150f, 40f);
             this.CButton.relativePosition = new Vector3(0, 30f);
 
         }

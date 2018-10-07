@@ -18,15 +18,15 @@ namespace RealCity
         /// 
         // TransferManager
 
-        public void Init()
+        public static void Init()
         {
             DebugLog.LogToFileOnly("Init fake transfer manager");
             try
             {
                 var inst = Singleton<TransferManager>.instance;
-                //var incomingCount = typeof(TransferManager).GetField("m_incomingCount", BindingFlags.NonPublic | BindingFlags.Instance);
-                //var incomingOffers = typeof(TransferManager).GetField("m_incomingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
-                //var incomingAmount = typeof(TransferManager).GetField("m_incomingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+                var incomingCount = typeof(TransferManager).GetField("m_incomingCount", BindingFlags.NonPublic | BindingFlags.Instance);
+                var incomingOffers = typeof(TransferManager).GetField("m_incomingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
+                var incomingAmount = typeof(TransferManager).GetField("m_incomingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
                 var outgoingCount = typeof(TransferManager).GetField("m_outgoingCount", BindingFlags.NonPublic | BindingFlags.Instance);
                 var outgoingOffers = typeof(TransferManager).GetField("m_outgoingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
                 var outgoingAmount = typeof(TransferManager).GetField("m_outgoingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -35,9 +35,9 @@ namespace RealCity
                     DebugLog.LogToFileOnly("No instance of TransferManager found!");
                     return;
                 }
-                //_incomingCount = incomingCount.GetValue(inst) as ushort[];
-                //_incomingOffers = incomingOffers.GetValue(inst) as TransferManager.TransferOffer[];
-                //_incomingAmount = incomingAmount.GetValue(inst) as int[];
+                _incomingCount = incomingCount.GetValue(inst) as ushort[];
+                _incomingOffers = incomingOffers.GetValue(inst) as TransferManager.TransferOffer[];
+                _incomingAmount = incomingAmount.GetValue(inst) as int[];
                 _outgoingCount = outgoingCount.GetValue(inst) as ushort[];
                 _outgoingOffers = outgoingOffers.GetValue(inst) as TransferManager.TransferOffer[];
                 _outgoingAmount = outgoingAmount.GetValue(inst) as int[];
@@ -54,9 +54,9 @@ namespace RealCity
         private static TransferManager.TransferOffer[] _outgoingOffers;
         private static ushort[] _outgoingCount;
         private static int[] _outgoingAmount;
-        //private static TransferManager.TransferOffer[] _incomingOffers;
-        //private static ushort[] _incomingCount;
-        //private static int[] _incomingAmount;
+        private static TransferManager.TransferOffer[] _incomingOffers;
+        private static ushort[] _incomingCount;
+        private static int[] _incomingAmount;
         private static bool _init = false;
 
 
@@ -181,7 +181,7 @@ namespace RealCity
             }
         }
 
-        public void AddOutgoingOffer(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+        /*public void AddOutgoingOffer(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {
             if (!_init)
             {
@@ -195,10 +195,12 @@ namespace RealCity
                 //Hell mode no import
                 if(comm_data.isHellMode)
                 {
+                    
                     if(Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialFarming))
                     {
                         if (material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Grain)
                         {
+                            DebugLog.LogToFileOnly("hell mode, no import");
                             return;
                         }
                     }
@@ -207,6 +209,7 @@ namespace RealCity
                     {
                         if (material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Logs)
                         {
+                            DebugLog.LogToFileOnly("hell mode, no import");
                             return;
                         }
                     }
@@ -215,6 +218,7 @@ namespace RealCity
                     {
                         if (material == TransferManager.TransferReason.Oil || material == TransferManager.TransferReason.Petrol)
                         {
+                            DebugLog.LogToFileOnly("hell mode, no import");
                             return;
                         }
                     }
@@ -223,6 +227,44 @@ namespace RealCity
                     {
                         if (material == TransferManager.TransferReason.Coal || material == TransferManager.TransferReason.Ore)
                         {
+                            DebugLog.LogToFileOnly("hell mode, no import");
+                            return;
+                        }
+                    }
+                } else
+                {
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialFarming))
+                    {
+                        if (material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Grain)
+                        {
+                            DebugLog.LogToFileOnly("not hell mode, can import");
+                            return;
+                        }
+                    }
+
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialForestry))
+                    {
+                        if (material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Logs)
+                        {
+                            DebugLog.LogToFileOnly("not hell mode, can import");
+                            return;
+                        }
+                    }
+
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOil))
+                    {
+                        if (material == TransferManager.TransferReason.Oil || material == TransferManager.TransferReason.Petrol)
+                        {
+                            DebugLog.LogToFileOnly("not hell mode, can import");
+                            return;
+                        }
+                    }
+
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOre))
+                    {
+                        if (material == TransferManager.TransferReason.Coal || material == TransferManager.TransferReason.Ore)
+                        {
+                            DebugLog.LogToFileOnly("not hell mode, can import");
                             return;
                         }
                     }
@@ -286,9 +328,50 @@ namespace RealCity
                     return;
                 }
             }
+        }*/
+
+        public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+        {
+            // note: do NOT just use 
+            //   DebugOutputPanel.AddMessage
+            // here. This method is called so frequently that it will actually crash the game.
+            if (!_init)
+            {
+                _init = true;
+                Init();
+            }
+
+
+            //DebugLog.LogToFileOnly("AddIncomingOffer");
+            //if (material == TransferManager.TransferReason.DummyCar)
+            //{
+                //DebugLog.LogToFileOnly("AddIncomingOffer, DummyCar");
+            //}
+
+            BuildingManager instance1 = Singleton<BuildingManager>.instance;
+            if (instance1.m_buildings.m_buffer[offer.Building].Info.m_class.m_service == ItemClass.Service.Commercial)
+            {
+                if (material == TransferManager.TransferReason.Petrol || material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Coal)
+                {
+                    //DebugLog.LogToFileOnly("find speical incoming request for comm building");
+                    material = TransferManager.TransferReason.Goods;
+                }
+            }
+
+            for (int priority = offer.Priority; priority >= 0; --priority)
+            {
+                int index = (int)material * 8 + priority;
+                int count = _incomingCount[index];
+                if (count < 256)
+                {
+                    //here we caculate needs
+                    _incomingOffers[index * 256 + count] = offer;
+                    _incomingCount[index] = (ushort)(count + 1);
+                    _incomingAmount[(int)material] += offer.Amount;
+                    return;
+                }
+            }
         }
-
-
 
     }//end publi
 }//end naming space 

@@ -215,6 +215,12 @@ namespace RealCity
                     }
 
 
+                    if (buildinData.Info.m_buildingAI is CommercialBuildingAI)
+                    {
+                        price = pc_PrivateBuildingAI.goodPrice;
+                        this.buyPrice.text = string.Format(language.BuildingUI[18] + " [{0:N2}]", price);
+                    }
+
 
                     if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                     {

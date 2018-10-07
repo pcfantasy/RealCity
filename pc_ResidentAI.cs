@@ -11,6 +11,7 @@ namespace RealCity
     {
         public static uint preCitizenId = 0;
         public static int familyCount = 0;
+        public static int citizenCount = 0;
         public static uint familyVeryProfitMoneyCount = 0;
         public static uint familyProfitMoneyCount = 0;
         public static uint familyLossMoneyCount = 0;
@@ -47,7 +48,7 @@ namespace RealCity
         public static long citizenGoodsTemp = 0;
         public static long citizenGoods = 0;
 
-        public static byte[] saveData = new byte[140];
+        public static byte[] saveData = new byte[144];
         //public static byte[] saveData = new byte[140];
 
         public static void Load()
@@ -89,6 +90,7 @@ namespace RealCity
 
             citizenGoods = saveandrestore.load_long(ref i, saveData);
             citizenGoodsTemp = saveandrestore.load_long(ref i, saveData);
+            citizenCount = saveandrestore.load_int(ref i, saveData);
 
             DebugLog.LogToFileOnly("saveData in residentAI is " + i.ToString());
         }
@@ -137,6 +139,7 @@ namespace RealCity
             //16
             saveandrestore.save_long(ref i, citizenGoods, ref saveData);
             saveandrestore.save_long(ref i, citizenGoodsTemp, ref saveData);
+            saveandrestore.save_int(ref i, citizenCount, ref saveData);
 
             DebugLog.LogToFileOnly("(save)save_data in residentAI is " + i.ToString());
         }
@@ -168,29 +171,29 @@ namespace RealCity
                             switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.m_level)
                             {
                                 case ItemClass.Level.Level1:
-                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                                     {
                                         if (totalWorkCount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.2f / totalWorkCount);
+                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.2f / totalWorkCount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level2:
-                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                                     {
                                         if (workBuilding != 0)
                                         {
-                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.4f / totalWorkCount);
+                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.4f / totalWorkCount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level3:
-                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                                     {
                                         if (totalWorkCount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.7f / totalWorkCount);
+                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.7f / totalWorkCount);
                                         }
                                     }
                                     break;
@@ -200,29 +203,29 @@ namespace RealCity
                             switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.m_level)
                             {
                                 case ItemClass.Level.Level1:
-                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                                     {
                                         if (totalWorkCount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.1f / totalWorkCount);
+                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.1f / totalWorkCount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level2:
-                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                                     {
                                         if (totalWorkCount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.3f / totalWorkCount);
+                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.3f / totalWorkCount);
                                         }
                                     }
                                     break;
                                 case ItemClass.Level.Level3:
-                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                                    if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                                     {
                                         if (totalWorkCount != 0)
                                         {
-                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.6f / totalWorkCount);
+                                            num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.6f / totalWorkCount);
                                         }
                                     }
                                     break;
@@ -273,11 +276,11 @@ namespace RealCity
                             }
                             else
                             {
-                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.grainPrice * 2000))
+                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.grainPrice * 8000))
                                 {
                                     if (totalWorkCount != 0)
                                     {
-                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.grainPrice * 2000)) * 0.2f / totalWorkCount);
+                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.grainPrice * 8000)) * 0.2f / totalWorkCount);
                                     }
                                 }
                             }
@@ -295,11 +298,11 @@ namespace RealCity
                             }
                             else
                             {
-                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.logPrice * 2000))
+                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.logPrice * 8000))
                                 {
                                     if (totalWorkCount != 0)
                                     {
-                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.logPrice * 2000)) * 0.2f / totalWorkCount);
+                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.logPrice * 8000)) * 0.2f / totalWorkCount);
                                     }
                                 }
                             }
@@ -317,11 +320,11 @@ namespace RealCity
                             }
                             else
                             {
-                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.petrolPrice * 2000))
+                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.oilPrice * 8000))
                                 {
                                     if (totalWorkCount != 0)
                                     {
-                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.petrolPrice * 2000)) * 0.2f / totalWorkCount);
+                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.oilPrice * 8000)) * 0.2f / totalWorkCount);
                                     }
                                 }
                             }
@@ -339,39 +342,39 @@ namespace RealCity
                             }
                             else
                             {
-                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.coalPrice * 2000))
+                                if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.orePrice * 8000))
                                 {
                                     if (totalWorkCount != 0)
                                     {
-                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.coalPrice * 2000)) * 0.2f / totalWorkCount);
+                                        num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.orePrice * 8000)) * 0.2f / totalWorkCount);
                                     }
                                 }
                             }
                             break;
                         case ItemClass.SubService.CommercialLeisure:
-                            if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                            if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                             {
                                 if (totalWorkCount != 0)
                                 {
-                                    num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.7f / totalWorkCount);
+                                    num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.7f / totalWorkCount);
                                 }
                             }
                             break;
                         case ItemClass.SubService.CommercialTourist:
-                            if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                            if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                             {
                                 if (totalWorkCount != 0)
                                 {
-                                    num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.9f / totalWorkCount);
+                                    num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.9f / totalWorkCount);
                                 }
                             }
                             break;
                         case ItemClass.SubService.CommercialEco:
-                            if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                            if (comm_data.building_money[workBuilding] > (pc_PrivateBuildingAI.goodPrice * 8000))
                             {
                                 if (totalWorkCount != 0)
                                 {
-                                    num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.05f / totalWorkCount);
+                                    num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.05f / totalWorkCount);
                                 }
                             }
                             break;
@@ -469,22 +472,27 @@ namespace RealCity
                 comm_data.family_money[homeID] = 0;
                 if (data.m_citizen0 != 0)
                 {
+                    citizenCount++;
                     comm_data.family_money[homeID] += comm_data.citizen_money[data.m_citizen0];
                 }
                 if (data.m_citizen1 != 0)
                 {
+                    citizenCount++;
                     comm_data.family_money[homeID] += comm_data.citizen_money[data.m_citizen1];
                 }
                 if (data.m_citizen2 != 0)
                 {
+                    citizenCount++;
                     comm_data.family_money[homeID] += comm_data.citizen_money[data.m_citizen2];
                 }
                 if (data.m_citizen3 != 0)
                 {
+                    citizenCount++;
                     comm_data.family_money[homeID] += comm_data.citizen_money[data.m_citizen3];
                 }
                 if (data.m_citizen4 != 0)
                 {
+                    citizenCount++;
                     comm_data.family_money[homeID] += comm_data.citizen_money[data.m_citizen4];
                 }
             } else
@@ -547,6 +555,7 @@ namespace RealCity
                 //DebugLog.LogToFileOnly("process once");
                 //citizen_process_done = true;
                 comm_data.family_count = familyCount;
+                comm_data.citizen_count = citizenCount;
                 comm_data.family_profit_money_num = familyProfitMoneyCount;
                 comm_data.family_very_profit_money_num = familyVeryProfitMoneyCount;
                 comm_data.family_loss_money_num = familyLossMoneyCount;
@@ -579,6 +588,7 @@ namespace RealCity
                 familyProfitMoneyCount = 0;
                 familyLossMoneyCount = 0;
                 familyCount = 0;
+                citizenCount = 0;
                 citizenSalaryCount = 0;
                 citizenExpenseCount = 0;
                 citizenSalaryTaxTotal = 0;
@@ -628,15 +638,15 @@ namespace RealCity
 
             //here we caculate citizen income
             int tempNum;
-            tempNum = CitizenSalary(data.m_citizen0,true);
+            tempNum = CitizenSalary(data.m_citizen0,false);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
-            tempNum = tempNum + CitizenSalary(data.m_citizen1, true);
+            tempNum = tempNum + CitizenSalary(data.m_citizen1, false);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
-            tempNum = tempNum + CitizenSalary(data.m_citizen2, true);
+            tempNum = tempNum + CitizenSalary(data.m_citizen2, false);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
-            tempNum = tempNum + CitizenSalary(data.m_citizen3, true);
+            tempNum = tempNum + CitizenSalary(data.m_citizen3, false);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
-            tempNum = tempNum + CitizenSalary(data.m_citizen4, true);
+            tempNum = tempNum + CitizenSalary(data.m_citizen4, false);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             //DebugLog.LogToFileOnly("Citzen " + homeID.ToString() + "salary is " + temp_num.ToString());
             citizenSalaryCount = citizenSalaryCount + tempNum;
@@ -707,6 +717,13 @@ namespace RealCity
                 tax = (citizenSalaryCurrent - 100) * 0.35f + 12f;
             }
 
+
+            //caculate food tax
+            if (tempNum > 0 && comm_data.family_money[homeID] > 0 && comm_data.isFoodsGettedFinal)
+            {
+                comm_data.family_money[homeID] -= pc_PrivateBuildingAI.foodPrice * tempNum;
+                tax += (pc_PrivateBuildingAI.foodPrice * tempNum + 0.5f);
+            }
 
             tempCitizenSalaryTaxTotal = tempCitizenSalaryTaxTotal + (int)tax;
             citizenSalaryTaxTotal = (int)tempCitizenSalaryTaxTotal;
@@ -1102,6 +1119,69 @@ namespace RealCity
             BuildingManager building = Singleton<BuildingManager>.instance;
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
 
+            for (int i = num2; i <= num4; i++)
+            {
+                for (int j = num; j <= num3; j++)
+                {
+                    int temp1 = (num2 * 270 + num);
+                    int temp2 = (num4 * 270 + num3);
+                    int temp = instance2.m_randomizer.Int32(temp1,temp2);
+                    ushort num6 = building.m_buildingGrid[temp];
+                    int num7 = 0;
+                    while (num6 != 0)
+                    {
+                        BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
+                        if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
+                        {
+                            Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
+                            if (info.m_class.m_service == ItemClass.Service.Commercial)
+                            {
+                                if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist) && (instance2.m_randomizer.Int32(100) < 97))
+                                {
+
+                                }
+                                else if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) && (instance2.m_randomizer.Int32(100) < 95))
+                                {
+
+                                }
+                                else
+                                {
+                                    if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
+                                    {
+                                        if (instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 500)
+                                        {
+                                            float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
+                                            result = num6;
+                                            num5 = num8;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
+                        if (++num7 >= 49152)
+                        {
+                            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        /*public static ushort FindNotSoCloseBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
+        {
+            int num = Mathf.Max((int)((pos.x - maxDistance) / 64f + 135f), 0);
+            int num2 = Mathf.Max((int)((pos.z - maxDistance) / 64f + 135f), 0);
+            int num3 = Mathf.Min((int)((pos.x + maxDistance) / 64f + 135f), 269);
+            int num4 = Mathf.Min((int)((pos.z + maxDistance) / 64f + 135f), 269);
+            ushort result = 0;
+            float num5 = maxDistance * maxDistance;
+            BuildingManager building = Singleton<BuildingManager>.instance;
+            SimulationManager instance2 = Singleton<SimulationManager>.instance;
+
             if ((num4 >= num2) && (num3 >= num))
             {
                 int[] source = new int[(num4 - num2 + 1) * (num3 - num + 1)];
@@ -1189,9 +1269,9 @@ namespace RealCity
                 }
             }
             return result;
-        }
+        }*/
 
-        public static void SetNum(ref int[] source, ref int[] array)
+        /*public static void SetNum(ref int[] source, ref int[] array)
         {
             System.Random rd = new System.Random();
             int range = array.Length;
@@ -1205,7 +1285,7 @@ namespace RealCity
                 source[pos] = source[range - 1];
                 range--;
             }
-        }
+        }*/
 
         // ResidentAI
         public void SimulationStep_1(uint homeID, ref CitizenUnit data)
@@ -1263,20 +1343,20 @@ namespace RealCity
 
             data.m_goods = (ushort)Mathf.Max(0, (int)(data.m_goods - temp_num)); //here we can adjust demand
 
-            if (data.m_goods < 20000)
+            if (data.m_goods < 19800)
             { 
                 SimulationManager instance2 = Singleton<SimulationManager>.instance;
                 float currentDayTimeHour = instance2.m_currentDayTimeHour;
                 if (currentDayTimeHour > 20f || currentDayTimeHour < 5f)
                 {
-                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < temp_num * 200)
+                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < temp_num * 1000)
                     {
                         ChanceToDoVitureShopping(homeID, ref data);
                     }
                 }
                 else
                 {
-                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < (temp_num * 140))
+                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < (temp_num * 500))
                     {
                         ChanceToDoVitureShopping(homeID, ref data);
                     }
@@ -1779,11 +1859,11 @@ namespace RealCity
         {
             uint citizen = citizenData.m_citizen;
             System.Random rand = new System.Random();
-            Citizen.AgePhase temp_agephase = citizenData.Info.m_agePhase;
+            Citizen.AgePhase tempAgePhase = citizenData.Info.m_agePhase;
             int homeBuilding1 = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
             uint containingUnit = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetContainingUnit(citizen, Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)homeBuilding1].m_citizenUnits, CitizenUnit.Flags.Home);
-            int temp_money = (comm_data.family_money[containingUnit] > 1) ? (int)comm_data.family_money[containingUnit] : 1;
-            if (rand.Next(temp_money) < 4000)
+            int tempMoney = (comm_data.family_money[containingUnit] > 1) ? (int)comm_data.family_money[containingUnit] : 1;
+            if (rand.Next(tempMoney) < 4000)
             {
                 BuildingManager instance3 = Singleton<BuildingManager>.instance;
                 DistrictManager instance4 = Singleton<DistrictManager>.instance;
@@ -1805,7 +1885,7 @@ namespace RealCity
                 DistrictPolicies.Event @event1 = instance4.m_districts.m_buffer[(int)district1].m_eventPolicies & Singleton<EventManager>.instance.GetEventPolicyMask();
                 citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTaxi);
                 citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTransport);
-                temp_agephase = Citizen.AgePhase.Child;
+                tempAgePhase = Citizen.AgePhase.Child;
                 if ((citizenData.m_sourceBuilding != 0) && (targetBuilding != 0))
                 {
                     if (((servicePolicies & DistrictPolicies.Services.FreeTransport) != DistrictPolicies.Services.None) || ((@event & DistrictPolicies.Event.ComeOneComeAll) != DistrictPolicies.Event.None))
@@ -1845,7 +1925,7 @@ namespace RealCity
 
                 if (rand.Next((int)comm_data.family_money[containingUnit]) < 5000)
                 {
-                    temp_agephase = Citizen.AgePhase.Child; // do not use car
+                    tempAgePhase = Citizen.AgePhase.Child; // do not use car
                 }                    //citizenData.m_flags = (citizenData.m_flags | CitizenInstance.Flags.CannotUseTransport);
                 if ((citizenData.m_sourceBuilding != 0) && (targetBuilding != 0))
                 {
@@ -1859,8 +1939,7 @@ namespace RealCity
                     }
                 }
             }
-
-            return temp_agephase;
+            return tempAgePhase;
         }
     }
 }

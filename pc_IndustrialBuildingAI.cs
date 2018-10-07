@@ -41,6 +41,7 @@ namespace RealCity
 
         public TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
         {
+            //DebugLog.LogToFileOnly("industrial building GetIncomingTransferReason called");
             switch (this.m_info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:
@@ -110,6 +111,7 @@ namespace RealCity
 
         public static TransferManager.TransferReason GetOutgoingTransferReason(Building data)
         {
+            //DebugLog.LogToFileOnly("industrial building GetoutgoingTransferReason called");
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:

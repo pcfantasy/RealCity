@@ -401,7 +401,7 @@ namespace RealCity
                 pc_EconomyManager.save_data = new byte[2768];
                 comm_data.save_data1 = new byte[4194304];
                 pc_PrivateBuildingAI.saveData = new byte[44];
-                pc_ResidentAI.saveData = new byte[140];
+                pc_ResidentAI.saveData = new byte[144];
                 comm_data.save_data = new byte[3260641];
                 gather_save_data();
                 saveandrestore._serializableData.SaveData("real_city pc_EconomyManager", pc_EconomyManager.save_data);
