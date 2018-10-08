@@ -327,46 +327,46 @@ namespace RealCity
 
             if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.goodPrice * 2000))
+                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.goodPrice * 8000))
                 {
                     switch (building.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.CommercialLow:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.1f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.1f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.3f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.3f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.6f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.6f / totalWorkerCount);
                             }
                             break;
                         case ItemClass.SubService.CommercialHigh:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.2f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.2f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.4f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.4f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.7f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.7f / totalWorkerCount);
                             }
                             break;
                         case ItemClass.SubService.CommercialLeisure:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.7f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.7f / totalWorkerCount);
                             break;
                         case ItemClass.SubService.CommercialTourist:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.9f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.9f / totalWorkerCount);
                             break;
                         case ItemClass.SubService.CommercialEco:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 2000)) * 0.05f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.05f / totalWorkerCount);
                             break;
                     }
                 }
@@ -427,7 +427,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.grainPrice * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.grainPrice * 8000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }
@@ -454,7 +454,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.logPrice * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.logPrice * 8000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }
@@ -481,7 +481,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.oilPrice * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.oilPrice * 8000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }
@@ -508,7 +508,7 @@ namespace RealCity
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.orePrice * 2000)
+                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.orePrice * 8000)
                     {
                         num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                     }

@@ -152,7 +152,7 @@ namespace RealCity
             if (citizenId != 0u)
             {
                 Citizen.Flags temp_flag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_flags;
-                if (((temp_flag & Citizen.Flags.Arrested) != Citizen.Flags.None) || ((temp_flag & Citizen.Flags.Student) != Citizen.Flags.None) || ((temp_flag & Citizen.Flags.Sick) != Citizen.Flags.None))
+                if ((temp_flag & Citizen.Flags.Student) != Citizen.Flags.None)
                 {
                     return num;
                 }
@@ -161,6 +161,11 @@ namespace RealCity
                 int totalWorkCount = 0;
                 Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                 int workBuilding = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_workBuilding;
+                if (checkOnly)
+                {
+                    DebugLog.LogToFileOnly("comm_data.building_money[workBuilding]:" + comm_data.building_money[workBuilding].ToString());
+                    DebugLog.LogToFileOnly(Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.ToString());
+                }
                 if (workBuilding != 0u)
                 {
                     budget = Singleton<EconomyManager>.instance.GetBudget(Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
@@ -208,6 +213,10 @@ namespace RealCity
                                         if (totalWorkCount != 0)
                                         {
                                             num = (int)((comm_data.building_money[workBuilding] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.1f / totalWorkCount);
+                                            if (checkOnly)
+                                            {
+                                                DebugLog.LogToFileOnly("salary is " + num.ToString());
+                                            }
                                         }
                                     }
                                     break;
@@ -409,6 +418,7 @@ namespace RealCity
                             break; //
                         default: break;
                     }
+
                     switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.m_service)
                     {
                         case ItemClass.Service.Office:
@@ -459,8 +469,11 @@ namespace RealCity
                     {
                         comm_data.building_money[workBuilding] -= num;
                     }
+                    //DebugLog.LogToFileOnly("salary4 is " + num.ToString());
                 }
+                //DebugLog.LogToFileOnly("salary3 is " + num.ToString());
             }
+            //DebugLog.LogToFileOnly("salary2 is " + num.ToString());
             return num;
         }//public
 
@@ -638,7 +651,7 @@ namespace RealCity
 
             //here we caculate citizen income
             int tempNum;
-            tempNum = CitizenSalary(data.m_citizen0,false);
+            tempNum = CitizenSalary(data.m_citizen0, false);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
             tempNum = tempNum + CitizenSalary(data.m_citizen1, false);
             //DebugLog.LogToFileOnly("in ResidentAI salary = " + temp_num.ToString());
@@ -1356,7 +1369,7 @@ namespace RealCity
 
 
             //sick
-            if (data.m_goods < 10000 || ((comm_data.family_money[homeID]) < 0 &&(comm_data.family_profit_status[homeID] < 10)))
+            if (data.m_goods < 19700)
             {
                 if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                 {
@@ -1368,7 +1381,7 @@ namespace RealCity
                         {
                             SimulationManager instance2 = Singleton<SimulationManager>.instance;
                             Citizen[] expr_2FA_cp_0 = instance.m_citizens.m_buffer;
-                            if (instance2.m_randomizer.Int32(data.m_goods) < 50)
+                            if (instance2.m_randomizer.Int32(data.m_goods) < 100)
                             {
                                 expr_2FA_cp_0[citizen].Sick = true;
                             }
@@ -1379,7 +1392,7 @@ namespace RealCity
             }
 
             //lack of food
-            if (comm_data.isFoodsGettedFinal)
+            if (!comm_data.isFoodsGettedFinal)
             {
                 if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
                 {

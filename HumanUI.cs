@@ -105,6 +105,7 @@ namespace RealCity
         public int CaculateFamilySalary(uint homeid)
         {
             float num = 0f;
+
             uint temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen0;
             if (temp != 0)
             {

@@ -14,4 +14,3 @@ C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\PopsApiWrapper.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\RealCity.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\RealCity.pdb
-C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\RealCity.csprojResolveAssemblyReference.cache
