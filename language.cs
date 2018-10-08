@@ -133,7 +133,7 @@ namespace RealCity
 
         public static string[] RealCityUI_English =
         {
-            "1、City resident salary-tax income(include all insurance)",
+            "1、City resident salary-tax income(include food fee)",
             "citizen salary-tax income",
             "total citizen salary tax income",
             "2、City tourism income",

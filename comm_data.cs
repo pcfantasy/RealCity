@@ -65,26 +65,26 @@
         //2 building
         //2.1 building expense
 
-        public const byte comm_high_level1 = 40;
-        public const byte comm_high_level2 = 60;
-        public const byte comm_high_level3 = 80;
+        public const byte comm_high_level1 = 10;
+        public const byte comm_high_level2 = 15;
+        public const byte comm_high_level3 = 20;
 
-        public const byte comm_low_level1 = 50;
-        public const byte comm_low_level2 = 75;
-        public const byte comm_low_level3 = 100;
+        public const byte comm_low_level1 = 10;
+        public const byte comm_low_level2 = 15;
+        public const byte comm_low_level3 = 20;
 
-        public const byte comm_tourist = 160;
-        public const byte comm_leisure = 180;
-        public const byte comm_eco = 30;
+        public const byte comm_tourist = 100;
+        public const byte comm_leisure = 30;
+        public const byte comm_eco = 10;
 
-        public const byte indu_gen_level1 = 35;
-        public const byte indu_gen_level2 = 50;
-        public const byte indu_gen_level3 = 70;
+        public const byte indu_gen_level1 = 10;
+        public const byte indu_gen_level2 = 15;
+        public const byte indu_gen_level3 = 20;
 
-        public const byte indu_forest = 60;
-        public const byte indu_farm = 80;
-        public const byte indu_oil = 120;
-        public const byte indu_ore = 120;
+        public const byte indu_forest = 10;
+        public const byte indu_farm = 15;
+        public const byte indu_oil = 20;
+        public const byte indu_ore = 20;
 
         public const byte office_gen_levell = 190;
         public const byte office_gen_level2 = 210;

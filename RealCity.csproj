@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pc_GarbageTruckAI.cs" />
     <Compile Include="CoalButton.cs" />
     <Compile Include="LumberButton.cs" />
     <Compile Include="PetrolButton.cs" />

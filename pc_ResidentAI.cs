@@ -721,7 +721,7 @@ namespace RealCity
             //caculate food tax
             if (tempNum > 0 && comm_data.family_money[homeID] > 0 && comm_data.isFoodsGettedFinal)
             {
-                comm_data.family_money[homeID] -= pc_PrivateBuildingAI.foodPrice * tempNum;
+                comm_data.family_money[homeID] -= pc_PrivateBuildingAI.foodPrice * tempNum * 0.5f;
                 tax += (pc_PrivateBuildingAI.foodPrice * tempNum + 0.5f);
             }
 
@@ -1344,22 +1344,13 @@ namespace RealCity
             data.m_goods = (ushort)Mathf.Max(0, (int)(data.m_goods - temp_num)); //here we can adjust demand
 
             if (data.m_goods < 19800)
-            { 
+            {
                 SimulationManager instance2 = Singleton<SimulationManager>.instance;
-                float currentDayTimeHour = instance2.m_currentDayTimeHour;
-                if (currentDayTimeHour > 20f || currentDayTimeHour < 5f)
+                //float currentDayTimeHour = instance2.m_currentDayTimeHour;
+                if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < temp_num * 1000)
                 {
-                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < temp_num * 1000)
-                    {
-                        ChanceToDoVitureShopping(homeID, ref data);
-                    }
-                }
-                else
-                {
-                    if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < (temp_num * 500))
-                    {
-                        ChanceToDoVitureShopping(homeID, ref data);
-                    }
+                    ChanceToDoVitureShopping(homeID, ref data);
+                    //DebugLog.LogToFileOnly("lack of good, buy it directly" + data.m_goods.ToString());
                 }
             }
 

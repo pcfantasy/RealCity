@@ -7,143 +7,33 @@ namespace RealCity
 {
     public class pc_HumanAI : HumanAI
     {
-        private void WaitTouristVehicle(ushort instanceID, ref CitizenInstance citizenData, ushort stop)
+        public virtual void VisitorEnter(ushort buildingID, ref Building data, uint citizen)
         {
-            NetInfo info = Singleton<NetManager>.instance.m_nodes.m_buffer[(int)stop].Info;
-            citizenData.m_flags |= CitizenInstance.Flags.WaitingTransport;
-            citizenData.m_flags &= ~CitizenInstance.Flags.BoredOfWaiting;
-            citizenData.m_waitCounter = 0;
-            citizenData.m_flags = ((citizenData.m_flags & ~(CitizenInstance.Flags.Underground | CitizenInstance.Flags.InsideBuilding | CitizenInstance.Flags.Transition | CitizenInstance.Flags.OnBikeLane)) | info.m_setCitizenFlags);
-            if ((citizenData.m_flags & CitizenInstance.Flags.RidingBicycle) != CitizenInstance.Flags.None)
+            //DebugLog.LogToFileOnly("VisitorEnter coming");
+            ProcessTourismIncome(buildingID, ref data, citizen);
+            ushort eventIndex = data.m_eventIndex;
+            if (eventIndex != 0)
             {
-                if (citizenData.m_citizen != 0u)
-                {
-                    Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizenData.m_citizen)].SetVehicle(citizenData.m_citizen, 0, 0u);
-                }
-                citizenData.m_flags &= ~CitizenInstance.Flags.RidingBicycle;
-            }
-        }
-
-        protected virtual void ArriveAtDestination_1(ushort instanceID, ref CitizenInstance citizenData, bool success)
-        {
-            uint citizen = citizenData.m_citizen;
-            if (citizen != 0u)
-            {
-                CitizenManager instance = Singleton<CitizenManager>.instance;
-                instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetVehicle(citizen, 0, 0u);
-                if ((citizenData.m_flags & CitizenInstance.Flags.TargetIsNode) != CitizenInstance.Flags.None)
-                {
-                    if (success)
-                    {
-                        ushort num = citizenData.m_targetBuilding;
-                        if (num != 0)
-                        {
-                            ushort transportLine = Singleton<NetManager>.instance.m_nodes.m_buffer[(int)num].m_transportLine;
-                            if (transportLine != 0)
-                            {
-                                TransportInfo info = Singleton<TransportManager>.instance.m_lines.m_buffer[(int)transportLine].Info;
-                                if (info.m_vehicleType != VehicleInfo.VehicleType.None)
-                                {
-                                    citizenData.m_flags |= CitizenInstance.Flags.OnTour;
-                                    this.WaitTouristVehicle(instanceID, ref citizenData, num);
-                                    return;
-                                }
-                                if ((instanceID & 1) == 0)
-                                {
-                                    num = TransportLine.GetNextStop(num);
-                                }
-                                else
-                                {
-                                    num = TransportLine.GetPrevStop(num);
-                                }
-                                if (num != 0)
-                                {
-                                    citizenData.m_flags |= CitizenInstance.Flags.OnTour;
-                                    this.SetTarget(instanceID, ref citizenData, num, true);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (success)
-                    {
-                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetLocationByBuilding(citizen, citizenData.m_targetBuilding);
-                    }
-                    if (citizenData.m_targetBuilding != 0 && instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation == Citizen.Location.Visit)
-                    {
-                        BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                        BuildingInfo info2 = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
-                        ProcessTourismIncome(instanceID, citizenData);
-                        info2.m_buildingAI.VisitorEnter(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], citizen);
-                    }
-                }
-            }
-            if ((citizenData.m_flags & CitizenInstance.Flags.HangAround) == CitizenInstance.Flags.None || !success)
-            {
-                this.SetSource(instanceID, ref citizenData, 0);
-                base.SetTarget(instanceID, ref citizenData, 0);
-                citizenData.Unspawn(instanceID);
+                EventManager instance = Singleton<EventManager>.instance;
+                EventInfo info = instance.m_events.m_buffer[(int)eventIndex].Info;
+                info.m_eventAI.VisitorEnter(eventIndex, ref instance.m_events.m_buffer[(int)eventIndex], buildingID, citizen);
             }
         }
 
 
-        /*protected virtual void ArriveAtDestination_1(ushort instanceID, ref CitizenInstance citizenData, bool success)
-        {
-            uint citizen = citizenData.m_citizen;
-            if (citizen != 0u)
-            {
-                CitizenManager instance = Singleton<CitizenManager>.instance;
-                instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetVehicle(citizen, 0, 0u);
-                if (success)
-                {
-                    instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetLocationByBuilding(citizen, citizenData.m_targetBuilding);
-                }
-                if (citizenData.m_targetBuilding != 0 && instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].CurrentLocation == Citizen.Location.Visit)
-                {
-                    BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                    BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
-                    //new added begin
-                    ProcessTourismIncome(instanceID,citizenData);
-                    //new added end
-                    if (info.m_class.m_service == ItemClass.Service.Beautification)
-                    {
-                        StatisticsManager instance3 = Singleton<StatisticsManager>.instance;
-                        StatisticBase statisticBase = instance3.Acquire<StatisticInt32>(StatisticType.ParkVisitCount);
-                        statisticBase.Add(1);
-                    }
-                    ushort eventIndex = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].m_eventIndex;
-                    if (eventIndex != 0)
-                    {
-                        EventManager instance4 = Singleton<EventManager>.instance;
-                        EventInfo info2 = instance4.m_events.m_buffer[(int)eventIndex].Info;
-                        info2.m_eventAI.VisitorEnter(eventIndex, ref instance4.m_events.m_buffer[(int)eventIndex], citizenData.m_targetBuilding, citizen);
-                    }
-                }
-            }
-            if ((citizenData.m_flags & CitizenInstance.Flags.HangAround) == CitizenInstance.Flags.None || !success)
-            {
-                this.SetSource(instanceID, ref citizenData, 0);
-                this.SetTarget(instanceID, ref citizenData, 0);
-                citizenData.Unspawn(instanceID);
-            }
-        }*/
-
-        public void ProcessTourismIncome(ushort instanceID, CitizenInstance citizenData)
+        public void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
         {
             BuildingManager instance2 = Singleton<BuildingManager>.instance;
             CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint citizen = citizenData.m_citizen;
-            BuildingInfo info = instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding].Info;
+            //uint citizen = citizenData.m_citizen;
+            BuildingInfo info = data.Info;
             ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-            uint homeId = instance.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+            uint homeId = instance.m_citizens.m_buffer[citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
 
             TransferManager.TransferReason tempTransferRreason = TransferManager.TransferReason.Entertainment;
             System.Random rand = new System.Random();
             int num = 0;
-            if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
+            if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
             {
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
@@ -167,20 +57,20 @@ namespace RealCity
                 }
                 if (num != 0)
                 {
-                    info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], tempTransferRreason, ref num1);
+                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num1);
                     comm_data.family_money[homeId] = (float)(comm_data.family_money[homeId] + num1);
                 }
             }
-            else if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+            else if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
                     num = rand.Next(200);
-                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         num = num * 4;
                     }
-                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.Medium)
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
                         num = num * 2;
                     }
@@ -191,22 +81,20 @@ namespace RealCity
                 {
                     num = num + 1;
                 }
-                info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], tempTransferRreason, ref num);
-                num = -100;
-                info.m_buildingAI.ModifyMaterialBuffer(citizenData.m_targetBuilding, ref instance2.m_buildings.m_buffer[(int)citizenData.m_targetBuilding], TransferManager.TransferReason.Shopping, ref num);
+                info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num);
             }
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
                 int tourism_fee = rand.Next(500);
 
-                if ((instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.High)
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         tourism_fee = tourism_fee * 4;
                     }
-                    if (instance.m_citizens.m_buffer[citizenData.m_citizen].WealthLevel == Citizen.Wealth.Medium)
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
                         tourism_fee = tourism_fee * 2;
                     }

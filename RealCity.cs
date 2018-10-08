@@ -402,9 +402,10 @@ namespace RealCity
                 BuildingManager instance = Singleton<BuildingManager>.instance;
                 updateOnce = false;
                 comm_data.have_toll_station = false;
+                pc_OutsideConnectionAI.have_garbage_building = false;
                 for (int i = 0; i < instance.m_buildings.m_buffer.Count<Building>(); i++)
                 {
-                    if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate!=0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                    if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
                     {
                         if (false)
                         {
@@ -417,6 +418,11 @@ namespace RealCity
                         {
                             comm_data.have_city_resource_department = true;
                             process_city_resource_department_building((ushort)i, instance.m_buildings.m_buffer[i]);
+                        }
+
+                        if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
+                        {
+                            pc_OutsideConnectionAI.have_garbage_building = true;
                         }
                     }
                 }
@@ -441,7 +447,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 16000 - comm_data.building_buffer3[buildingID] - num29;
+                num34 = 18000 - comm_data.building_buffer3[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -455,11 +461,11 @@ namespace RealCity
 
                 if (comm_data.building_buffer3[buildingID] > 0 && !comm_data.isFoodsGetted)
                 {
-                    if (comm_data.citizen_count >= 1)
+                    if (comm_data.citizen_count >= 2)
                     {
-                        if (comm_data.building_buffer3[buildingID] - comm_data.citizen_count > 0)
+                        if (comm_data.building_buffer3[buildingID] - (comm_data.citizen_count>>1) > 0)
                         {
-                            comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count);
+                            comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count>>1);
                         } else
                         {
                             comm_data.building_buffer3[buildingID] = 0;
@@ -482,7 +488,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 16000 - comm_data.building_buffer2[buildingID] - num29;
+                num34 = 18000 - comm_data.building_buffer2[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -523,7 +529,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 16000 - comm_data.building_buffer1[buildingID] - num29;
+                num34 = 18000 - comm_data.building_buffer1[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -564,7 +570,7 @@ namespace RealCity
                     buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                 }
 
-                num34 = 16000 - comm_data.building_buffer4[buildingID] - num29;
+                num34 = 18000 - comm_data.building_buffer4[buildingID] - num29;
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -649,7 +655,7 @@ namespace RealCity
 
                 //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost().ToString());
                 //city_resource_department
-                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 1008600)
+                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 508600)
                 {
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
@@ -808,8 +814,16 @@ namespace RealCity
 
                                     if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                                     {
-                                        comm_data.allVehicles += 2;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
+                                        if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
+                                        {
+                                            comm_data.allVehicles += 1;
+                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)10000, vehicle.Info.m_class);
+                                        }
+                                        else
+                                        {
+                                            comm_data.allVehicles += 2;
+                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
+                                        }
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI)

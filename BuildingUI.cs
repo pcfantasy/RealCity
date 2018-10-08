@@ -268,7 +268,7 @@ namespace RealCity
                     else if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                     {
                         consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildinData, comm_data.last_buildingid);
-                        this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]",consumptionDivider);
+                        this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]",consumptionDivider * 4f);
                     }
                     else
                     {

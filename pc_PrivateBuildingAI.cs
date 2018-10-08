@@ -436,7 +436,7 @@ namespace RealCity
             {
                 if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
-                    if ((building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming) && (building.Info.m_buildingAI is IndustrialExtractorAI))
+                    if (building.Info.m_buildingAI is IndustrialExtractorAI)
                     {
 
                     }
@@ -463,8 +463,8 @@ namespace RealCity
                             idex = 0.9f;
                         }
 
-                        greaterThan20000ProfitBuildingMoney += (long)((comm_data.building_money[buildingID] - 30000) * idex);
-                        comm_data.building_money[buildingID] = 30000f;
+                        greaterThan20000ProfitBuildingMoney += (long)((comm_data.building_money[buildingID] - 20000) * idex);
+                        comm_data.building_money[buildingID] = 20000f;
                     }
                 }
             }
@@ -709,9 +709,9 @@ namespace RealCity
                         case ItemClass.Level.Level1:
                             tax = 0.05f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.10f; break;
+                            tax = 0.07f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.15f; break;
+                            tax = 0.08f; break;
                         default:
                             tax = 0; break;
                     }
@@ -720,11 +720,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.05f; break;
+                            tax = 0.06f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.10f; break;
+                            tax = 0.08f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.15f; break;
+                            tax = 0.10f; break;
                         default:
                             tax = 0; break;
                     }
@@ -735,9 +735,9 @@ namespace RealCity
                         case ItemClass.Level.Level1:
                             tax = 0.05f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.1f; break;
+                            tax = 0.07f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.15f; break;
+                            tax = 0.08f; break;
                         default:
                             tax = 0; break;
                     }
