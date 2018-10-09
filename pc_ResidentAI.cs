@@ -1121,6 +1121,22 @@ namespace RealCity
             return false;
         }
 
+        public static void setNum(ref int[] source, ref int[] array)
+        {
+            System.Random rd = new System.Random();
+            int range = array.Length;
+            for (int i = 0; i < array.Length; i++)
+            {
+                //随机产生一个位置  
+                int pos = rd.Next(range);
+                //获取该位置的值  
+                array[i] = source[pos];
+                //改良：将最后一个数赋给被删除的索引所对应的值  
+                source[pos] = source[range - 1];
+                range--;
+            }
+        }
+
         public static ushort FindNotSoCloseBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
         {
             int num = Mathf.Max((int)((pos.x - maxDistance) / 64f + 135f), 0);
@@ -1131,52 +1147,86 @@ namespace RealCity
             float num5 = maxDistance * maxDistance;
             BuildingManager building = Singleton<BuildingManager>.instance;
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
-
-            for (int i = num2; i <= num4; i++)
+            System.Random rd = new System.Random();
+            ushort[] tempBuilding = new ushort[16];
+            for (int i = 0; i < 16; i++)
             {
-                for (int j = num; j <= num3; j++)
+                tempBuilding[i] = 0;
+            }
+
+            if ((num4 >= num2) && (num3 >= num))
+            {
+                int[] source = new int[(num4 - num2 + 1) * (num3 - num + 1)];
+                int[] array = new int[(num4 - num2 + 1) * (num3 - num + 1)];
+                int idex = 0;
+                for (int i = num2; i <= num4; i++)
                 {
-                    int temp1 = (num2 * 270 + num);
-                    int temp2 = (num4 * 270 + num3);
-                    int temp = instance2.m_randomizer.Int32(temp1,temp2);
-                    ushort num6 = building.m_buildingGrid[temp];
-                    int num7 = 0;
-                    while (num6 != 0)
+                    for (int j = num; j <= num3; j++)
                     {
-                        BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
-                        if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
+                        source[idex] = i * 270 + j;
+                        idex++;
+                    }
+                }
+
+                setNum(ref source, ref array);
+                idex = 0;
+
+                for (int i = 0; i <= num4 - num2; i++)
+                {
+                    for (int j = 0; j <= num3 - num; j++)
+                    {
+                        ushort num6 = building.m_buildingGrid[array[idex]];
+                        idex++;
+                        int num7 = 0;
+                        int tempBuildingIdex = 0;
+                        for (int z = 0; z < 16; z++)
                         {
-                            Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
-                            if (info.m_class.m_service == ItemClass.Service.Commercial)
+                            tempBuilding[z] = 0;
+                        }
+                        while (num6 != 0)
+                        {
+                            BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
+                            if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
                             {
-                                if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist) && (instance2.m_randomizer.Int32(100) < 97))
+                                Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
+                                if (info.m_class.m_service == ItemClass.Service.Commercial)
                                 {
-
-                                }
-                                else if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) && (instance2.m_randomizer.Int32(100) < 95))
-                                {
-
-                                }
-                                else
-                                {
-                                    if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
+                                    if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist) && (instance2.m_randomizer.Int32(100) < 97))
                                     {
-                                        if (instance2.m_randomizer.Int32(building.m_buildings.m_buffer[(int)num6].m_customBuffer2) > 500)
+
+                                    }
+                                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) && (instance2.m_randomizer.Int32(100) < 95))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
                                         {
-                                            float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
-                                            result = num6;
-                                            num5 = num8;
-                                            break;
+                                            if (building.m_buildings.m_buffer[(int)num6].m_customBuffer2 > 1000)
+                                            {
+                                                //float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
+                                                //result = num6;
+                                                //return result;
+                                                tempBuilding[tempBuildingIdex] = num6;
+                                                tempBuildingIdex++;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
-                        if (++num7 >= 49152)
-                        {
-                            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                            break;
+                            num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
+                            if (++num7 >= 49152)
+                            {
+                                CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                                break;
+                            }
+                            if (((num6 == 0) && (tempBuildingIdex != 0)) || (tempBuildingIdex == 16))
+                            {
+                                //DebugLog.LogToFileOnly("find comm building num = " + tempBuildingIdex.ToString());
+                                num6 = tempBuilding[rd.Next(tempBuildingIdex)];
+                                return num6;
+                            }
                         }
                     }
                 }
