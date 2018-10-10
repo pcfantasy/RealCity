@@ -14,12 +14,12 @@ namespace RealCity
         public const float goodPrice = 0.8f;
         public const float petrolPrice = 3.84f;
         public const float coalPrice = 2.88f;
-        public const float lumberPrice = 1.92f;
-        public const float foodPrice = 0.96f;
+        public const float lumberPrice = 1.44f;
+        public const float foodPrice = 1.44f;
         public const float oilPrice = 3.2f;
         public const float orePrice = 2.4f;
-        public const float logPrice = 1.6f;
-        public const float grainPrice = 0.8f;
+        public const float logPrice = 1.2f;
+        public const float grainPrice = 1.2f;
 
         public static float preGoodPrice = (foodPrice + lumberPrice + coalPrice + petrolPrice) / 4f;
 
@@ -432,7 +432,7 @@ namespace RealCity
             }
 
 
-            if (comm_data.building_money[buildingID] > 30000)
+            if (comm_data.building_money[buildingID] > 0)
             {
                 if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
@@ -448,23 +448,22 @@ namespace RealCity
 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = 0.2f;
+                            idex = 0.1f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.3f;
+                            idex = 0.05f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.5f;
+                            idex = 0.15f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.9f;
+                            idex = 0.3f;
                         }
 
-                        greaterThan20000ProfitBuildingMoney += (long)((comm_data.building_money[buildingID] - 20000) * idex);
-                        comm_data.building_money[buildingID] = 20000f;
+                        greaterThan20000ProfitBuildingMoney += (long)(comm_data.building_money[buildingID] * idex);
                     }
                 }
             }
@@ -745,7 +744,7 @@ namespace RealCity
                 case ItemClass.SubService.IndustrialFarming:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.5f;
+                        tax = 0.7f;
                     }
                     else
                     {
@@ -755,7 +754,7 @@ namespace RealCity
                 case ItemClass.SubService.IndustrialForestry:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.6f;
+                        tax = 0.7f;
                     }
                     else
                     {

@@ -818,6 +818,13 @@ namespace RealCity
 
             comm_data.family_money[homeID] = (float)(comm_data.family_money[homeID] - tempNum);
 
+            if (comm_data.family_money[homeID] < 0)
+            {
+                int num = (int)(-(comm_data.family_money[homeID]) + 0.5f);
+                comm_data.family_money[homeID] = 0;
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+            }
+
 
             if (comm_data.family_money[homeID] >= 20000)
             {

@@ -116,13 +116,13 @@ namespace RealCity
 
 
         public static string[] TipAndChirperMessage_English = {
-        "Citizen are too poor, please decrease house tax",                                           //0
-        "Citizen are too poor, try to develop public transport and deal with traffic congestion",    //1
-        "Citizen are too poor, try to provide more jobs and make buildings profit",                  //2
-        "Citizen seems ok",                                                                          //3
-        "Better set real time time speed to slowest",                                                //4
+        "",                                           //0
+        "",    //1
+        "",                  //2
+        "",                                                                          //3
+        "Better set real time time speed to 3x",                                                     //4
         "Better use TMPE and disable vehicle spawn",                                                 //5
-        "Better use Citizen Lifecycle Rebalance and set lifespan to 16, see Q/A in workshop",        //6
+        "",        //6
         "Can use Favorite Cims mod to watch every citizens and their family",                        //7
         "Build City Resource in Roal Panel(need asset)",                                             //8
         "City Lack of Food, Leads to no movingin people and Citizens may get sick",                  //9
@@ -341,13 +341,13 @@ namespace RealCity
 
 
         public static string[] TipAndChirperMessage_Chinese = {
-        "居民太穷，请调低税收",
-        "居民太穷了，需要建立更多公共交通，处理交通拥堵问题。",
-        "居民太穷了，请尝试提供更多工作岗位，让更多建筑盈利。",
-        "居民看起来还行",
-        "最好把RealTime的时间速度改成最慢",
+        "",
+        "",
+        "",
+        "",
+        "最好把RealTime的时间速度改成3X",
         "最好用TMPE并且禁止车辆消失",
-        "最好用Citizen Lifecycle Rebalance并把lifespan改成16(看工坊Q/A)",
+        "",
         "可以用Favorite Cims mod看每个居民和他们家庭的情况",
         "建立城市资源大厦(需要特殊资产)",                                                            //8
         "城市缺少食物,会导致没外来人员而且居民会生病",                                               //9
@@ -358,7 +358,7 @@ namespace RealCity
 
         public static string[] RealCityUI_Chinese =
         {
-            "1、城市居民所得税收入(包含养老失业医疗保险)",
+            "1、城市居民所得税收入(包含食品费)",
             "居民所得税收入",
             "居民所得税总收入",
             "2、城市旅游收入",

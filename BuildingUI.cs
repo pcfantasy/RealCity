@@ -193,22 +193,22 @@ namespace RealCity
                         {
                             if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
                             {
-                                price = pc_PrivateBuildingAI.foodPrice;
+                                price = pc_PrivateBuildingAI.grainPrice;
                             }
 
                             if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                             {
-                                price = pc_PrivateBuildingAI.lumberPrice;
+                                price = pc_PrivateBuildingAI.logPrice;
                             }
 
                             if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
                             {
-                                price = pc_PrivateBuildingAI.petrolPrice;
+                                price = pc_PrivateBuildingAI.oilPrice;
                             }
 
                             if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
                             {
-                                price = pc_PrivateBuildingAI.coalPrice;
+                                price = pc_PrivateBuildingAI.orePrice;
                             }
                         }
                         this.buyPrice.text = string.Format(language.BuildingUI[18] + " [{0:N2}]", price);
@@ -230,22 +230,22 @@ namespace RealCity
                     {
                         if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
                         {
-                            price2 = pc_PrivateBuildingAI.grainPrice;
+                            price2 = pc_PrivateBuildingAI.foodPrice;
                         }
 
                         if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                         {
-                            price2 = pc_PrivateBuildingAI.logPrice;
+                            price2 = pc_PrivateBuildingAI.lumberPrice;
                         }
 
                         if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
                         {
-                            price2 = pc_PrivateBuildingAI.oilPrice;
+                            price2 = pc_PrivateBuildingAI.petrolPrice;
                         }
 
                         if (buildinData.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
                         {
-                            price2 = pc_PrivateBuildingAI.orePrice;
+                            price2 = pc_PrivateBuildingAI.coalPrice;
                         }
                     }
 
@@ -429,7 +429,7 @@ namespace RealCity
                 {
                     if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.grainPrice * 8000)
                     {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
+                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.grainPrice * 8000) * 0.2f / totalWorkerCount);
                     }
                     else
                     {
@@ -456,7 +456,7 @@ namespace RealCity
                 {
                     if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.logPrice * 8000)
                     {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
+                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.logPrice * 8000) * 0.2f / totalWorkerCount);
                     }
                     else
                     {
@@ -483,7 +483,7 @@ namespace RealCity
                 {
                     if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.oilPrice * 8000)
                     {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
+                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.oilPrice * 8000) * 0.2f / totalWorkerCount);
                     }
                     else
                     {
@@ -510,7 +510,7 @@ namespace RealCity
                 {
                     if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.orePrice * 8000)
                     {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
+                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.orePrice * 8000) * 0.2f / totalWorkerCount);
                     }
                     else
                     {

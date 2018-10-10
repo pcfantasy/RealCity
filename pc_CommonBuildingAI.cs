@@ -12,7 +12,7 @@ namespace RealCity
         public override void ReleaseBuilding(ushort buildingID, ref Building data)
         {
 
-            int cost = 5000;
+            int cost = 1000;
 
 
 

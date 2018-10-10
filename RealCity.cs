@@ -809,7 +809,7 @@ namespace RealCity
                                     if (vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
                                     {
                                         comm_data.allVehicles++;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)10000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)2500, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
@@ -822,48 +822,53 @@ namespace RealCity
                                         else
                                         {
                                             comm_data.allVehicles += 2;
-                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
+                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)15000, vehicle.Info.m_class);
                                         }
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI)
                                     {
                                         comm_data.allVehicles += 2;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)5000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI || vehicle.Info.m_vehicleAI is CargoShipAI)
                                     {
                                         comm_data.allVehicles += 4;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)40000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)25000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                                     {
                                         comm_data.allVehicles += 8;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)80000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)60000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is PassengerTrainAI || vehicle.Info.m_vehicleAI is CargoTrainAI)
                                     {
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)60000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)50000, vehicle.Info.m_class);
+                                    }
+
+                                    if (vehicle.Info.m_vehicleAI is MetroTrainAI)
+                                    {
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)40000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
                                     {
                                         comm_data.allVehicles += 8;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)80000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)60000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is BusAI)
                                     {
                                         comm_data.allVehicles += 2;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)15000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
                                     {
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)30000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)20000, vehicle.Info.m_class);
                                     }
                                 }
                             }
@@ -921,8 +926,8 @@ namespace RealCity
                                     {
                                         if ((vehicle.Info.m_vehicleAI is PassengerCarAI) || (vehicle.Info.m_vehicleAI is CargoTruckAI))
                                         {
-                                            comm_data.vehical_flag[i] = true;
-                                            Singleton<EconomyManager>.instance.AddPrivateIncome(100, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                                comm_data.vehical_flag[i] = true;
+                                                Singleton<EconomyManager>.instance.AddPrivateIncome(500, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                                         }
                                     }
                                 }
