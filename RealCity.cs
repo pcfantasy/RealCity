@@ -461,11 +461,11 @@ namespace RealCity
 
                 if (comm_data.building_buffer3[buildingID] > 0 && !comm_data.isFoodsGetted)
                 {
-                    if (comm_data.citizen_count >= 2)
+                    if (comm_data.citizen_count >= 1)
                     {
-                        if (comm_data.building_buffer3[buildingID] - (comm_data.citizen_count>>1) > 0)
+                        if (comm_data.building_buffer3[buildingID] - (comm_data.citizen_count) > 0)
                         {
-                            comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count>>1);
+                            comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count);
                         } else
                         {
                             comm_data.building_buffer3[buildingID] = 0;
@@ -586,9 +586,9 @@ namespace RealCity
                 {
                     if (pc_PrivateBuildingAI.allBuildingsFinal >= 1)
                     {
-                        if (comm_data.building_buffer4[buildingID] - pc_PrivateBuildingAI.allBuildingsFinal > 0)
+                        if (comm_data.building_buffer4[buildingID] - (pc_PrivateBuildingAI.allBuildingsFinal <<1) > 0)
                         {
-                            comm_data.building_buffer4[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal);
+                            comm_data.building_buffer4[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal << 1);
                         }
                         else
                         {
@@ -927,7 +927,7 @@ namespace RealCity
                                         if ((vehicle.Info.m_vehicleAI is PassengerCarAI) || (vehicle.Info.m_vehicleAI is CargoTruckAI))
                                         {
                                                 comm_data.vehical_flag[i] = true;
-                                                Singleton<EconomyManager>.instance.AddPrivateIncome(500, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                                                Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                                         }
                                     }
                                 }

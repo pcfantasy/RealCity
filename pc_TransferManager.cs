@@ -60,7 +60,7 @@ namespace RealCity
         private static bool _init = false;
 
 
-        public static bool IsBuildingOutside(UnityEngine.Vector3 position)
+        /*public static bool IsBuildingOutside(UnityEngine.Vector3 position)
         {
             if ((position.x < 8600) && (position.x > -8600) && (position.z < 8600) && (position.z > -8600))
             {
@@ -68,9 +68,9 @@ namespace RealCity
 
             }
             return true;
-        }
+        }*/
 
-        public void ProcessShoppingAndEntertainment(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
+        /*public void ProcessShoppingAndEntertainment(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
             Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
             uint citizen = offerIn.Citizen;
@@ -179,7 +179,7 @@ namespace RealCity
                 offerOut.Amount = delta;
                 info4.m_buildingAI.StartTransfer(building2, ref buildings2.m_buffer[(int)building2], material, offerOut);
             }
-        }
+        }*/
 
         /*public void AddOutgoingOffer(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {
@@ -354,7 +354,7 @@ namespace RealCity
                 if (material == TransferManager.TransferReason.Petrol || material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Coal)
                 {
                     //DebugLog.LogToFileOnly("find speical incoming request for comm building");
-                    material = TransferManager.TransferReason.Goods;
+                    comm_data.building_buffer3[offer.Building] = 123;  //a flag
                 }
             }
 

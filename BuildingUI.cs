@@ -327,46 +327,46 @@ namespace RealCity
 
             if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.goodPrice * 8000))
+                if (comm_data.building_money[buildingID] > 0)
                 {
                     switch (building.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.CommercialLow:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.1f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID]) * 0.1f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.3f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID]) * 0.3f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.6f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID]) * 0.6f / totalWorkerCount);
                             }
                             break;
                         case ItemClass.SubService.CommercialHigh:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.2f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID]) * 0.2f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.4f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID]) * 0.4f / totalWorkerCount);
                             }
                             if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                             {
-                                num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.7f / totalWorkerCount);
+                                num1 = (int)((comm_data.building_money[buildingID]) * 0.7f / totalWorkerCount);
                             }
                             break;
                         case ItemClass.SubService.CommercialLeisure:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.7f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID]) * 0.7f / totalWorkerCount);
                             break;
                         case ItemClass.SubService.CommercialTourist:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.9f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID]) * 0.9f / totalWorkerCount);
                             break;
                         case ItemClass.SubService.CommercialEco:
-                            num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.goodPrice * 8000)) * 0.05f / totalWorkerCount);
+                            num1 = (int)((comm_data.building_money[buildingID]) * 0.5f / totalWorkerCount);
                             break;
                     }
                 }
@@ -378,19 +378,19 @@ namespace RealCity
 
             if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {
-                if (comm_data.building_money[buildingID] > (pc_PrivateBuildingAI.preGoodPrice * 2000))
+                if (comm_data.building_money[buildingID] > 0)
                 {
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.preGoodPrice * 2000)) * 0.1f / totalWorkerCount);
+                        num1 = (int)((comm_data.building_money[buildingID]) * 0.1f / totalWorkerCount);
                     }
                     if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.preGoodPrice * 2000)) * 0.3f / totalWorkerCount);
+                        num1 = (int)((comm_data.building_money[buildingID]) * 0.2f / totalWorkerCount);
                     }
                     if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        num1 = (int)((comm_data.building_money[buildingID] - (pc_PrivateBuildingAI.preGoodPrice * 2000)) * 0.6f / totalWorkerCount);
+                        num1 = (int)((comm_data.building_money[buildingID]) * 0.3f / totalWorkerCount);
                     }
                 }
                 else
@@ -412,112 +412,18 @@ namespace RealCity
                 }
             }
 
-            if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming)
+            if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
             {
-                if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                if (comm_data.building_money[buildingID] > 0)
                 {
-                    if (comm_data.building_money[buildingID] > 0)
-                    {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
+                    num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
                 }
                 else
                 {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.grainPrice * 8000)
-                    {
-                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.grainPrice * 8000) * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
+                    num1 = 0;
                 }
             }
 
-
-            if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
-            {
-                if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                    if (comm_data.building_money[buildingID] > 0)
-                    {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-                else
-                {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.logPrice * 8000)
-                    {
-                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.logPrice * 8000) * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-            }
-
-
-            if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil)
-            {
-                if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                    if (comm_data.building_money[buildingID] > 0)
-                    {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-                else
-                {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.oilPrice * 8000)
-                    {
-                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.oilPrice * 8000) * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-            }
-
-
-            if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre)
-            {
-                if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                    if (comm_data.building_money[buildingID] > 0)
-                    {
-                        num1 = (comm_data.building_money[buildingID] * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-                else
-                {
-                    if (comm_data.building_money[buildingID] > pc_PrivateBuildingAI.orePrice * 8000)
-                    {
-                        num1 = ((comm_data.building_money[buildingID] - pc_PrivateBuildingAI.orePrice * 8000) * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-            }
 
             return num1;
         }

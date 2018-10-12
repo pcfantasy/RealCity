@@ -8,6 +8,27 @@ namespace RealCity
 {
     public class pc_IndustrialBuildingAI : PrivateBuildingAI
     {
+        public override void CreateBuilding(ushort buildingID, ref Building data)
+        {
+            base.CreateBuilding(buildingID, ref data);
+            int width = data.Width;
+            int length = data.Length;
+            int num = 4000;
+            int num2 = this.CalculateProductionCapacity(new Randomizer((int)buildingID), width, length);
+            int consumptionDivider = GetConsumptionDivider(buildingID, data);
+            int num3 = Mathf.Max(num2 * 500 / consumptionDivider, num * 4);
+            data.m_customBuffer1 = 0;
+            DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
+            if (specialization != DistrictPolicies.Specialization.None)
+            {
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                byte district = instance.GetDistrict(data.m_position);
+                District[] expr_9C_cp_0 = instance.m_districts.m_buffer;
+                byte expr_9C_cp_1 = district;
+                expr_9C_cp_0[(int)expr_9C_cp_1].m_specializationPoliciesEffect = (expr_9C_cp_0[(int)expr_9C_cp_1].m_specializationPoliciesEffect | specialization);
+            }
+        }
+
         public static int CalculateProductionCapacity(Building data, Randomizer r, int width, int length)
         {
             ItemClass @class = data.Info.m_class;
@@ -182,6 +203,7 @@ namespace RealCity
                 }
                 caculate_trade_income(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
+                comm_data.building_buffer2[buildingID] = data.m_customBuffer2;
             }
             else
             {

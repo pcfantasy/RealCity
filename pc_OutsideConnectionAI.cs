@@ -39,23 +39,27 @@ namespace RealCity
                 if (data.Info.m_class.m_service == ItemClass.Service.Road)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyCar;
+                    m_dummyTrafficFactor = 1000 + rand.Next(1000);
                 }
                 else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportPlane)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyPlane;
+                    m_dummyTrafficFactor = 1000;
                 }
                 else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportShip)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyShip;
+                    m_dummyTrafficFactor = 1000;
                 }
                 else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportTrain)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyTrain;
+                    m_dummyTrafficFactor = rand.Next(1000);
                 }
 
 
                 //DebugLog.LogToFileOnly(m_dummyTrafficReason.ToString() + " " + m_dummyTrafficFactor.ToString() + " " + data.m_outgoingProblemTimer.ToString() + " " + data.m_education1.ToString());
-                m_dummyTrafficFactor = rand.Next(1600) + 200;
+                m_dummyTrafficFactor = 1000 + rand.Next(1000);
                 if (comm_data.isFoodsGettedFinal == false)
                 {
                     m_residentCapacity = 0;

@@ -12,14 +12,14 @@ namespace RealCity
         //2.1 building income
 
         public const float goodPrice = 0.8f;
-        public const float petrolPrice = 3.84f;
-        public const float coalPrice = 2.88f;
-        public const float lumberPrice = 1.44f;
-        public const float foodPrice = 1.44f;
-        public const float oilPrice = 3.2f;
-        public const float orePrice = 2.4f;
-        public const float logPrice = 1.2f;
-        public const float grainPrice = 1.2f;
+        public const float petrolPrice = 3.12f;
+        public const float coalPrice = 2.64f;
+        public const float lumberPrice = 2.16f;
+        public const float foodPrice = 1.68f;
+        public const float oilPrice = 2.6f;
+        public const float orePrice = 2.2f;
+        public const float logPrice = 1.8f;
+        public const float grainPrice = 1.4f;
 
         public static float preGoodPrice = (foodPrice + lumberPrice + coalPrice + petrolPrice) / 4f;
 
@@ -152,9 +152,27 @@ namespace RealCity
                 int deltaCustomBuffer1 = comm_data.building_buffer1[buildingID] - buildingData.m_customBuffer1;
                 if (deltaCustomBuffer1 > 0)
                 {
+                    if (deltaCustomBuffer1 > 500)
+                    {
+                        deltaCustomBuffer1 = 500;
+                    }
                     buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
                 }
                 comm_data.building_buffer1[buildingID] = (ushort)buildingData.m_customBuffer1;
+
+                if (Singleton<SimulationManager>.instance.m_isNightTime)
+                {
+                    int deltaCustomBuffer2 = buildingData.m_customBuffer2 - comm_data.building_buffer2[buildingID];
+                    if (deltaCustomBuffer2 > 0)
+                    {
+                        if (deltaCustomBuffer2 > 500)
+                        {
+                            deltaCustomBuffer2 = 500;
+                        }
+                        buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + deltaCustomBuffer2);
+                    }
+                    comm_data.building_buffer2[buildingID] = (ushort)buildingData.m_customBuffer2;
+                }
             }
         }
 
@@ -706,11 +724,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.05f; break;
+                            tax = 0.1f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.07f; break;
+                            tax = 0.12f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.08f; break;
+                            tax = 0.15f; break;
                         default:
                             tax = 0; break;
                     }
@@ -719,11 +737,11 @@ namespace RealCity
                     switch (data.Info.m_class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            tax = 0.06f; break;
+                            tax = 0.1f; break;
                         case ItemClass.Level.Level2:
-                            tax = 0.08f; break;
+                            tax = 0.12f; break;
                         case ItemClass.Level.Level3:
-                            tax = 0.10f; break;
+                            tax = 0.15f; break;
                         default:
                             tax = 0; break;
                     }
@@ -782,11 +800,11 @@ namespace RealCity
                     }
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    tax = 0.1f; break;
+                    tax = 0.2f; break;
                 case ItemClass.SubService.CommercialTourist:
                     tax = 0.5f; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    tax = 0.15f; break;
+                    tax = 0.2f; break;
                 default: tax = 0f; break;
             }
 
@@ -805,6 +823,12 @@ namespace RealCity
             if (finalIdex < 1f)
             {
                 finalIdex = 1f;
+            }
+
+            //comm building which import food petrol coal lumber
+            if (comm_data.building_buffer3[buildingID] == 123)
+            {
+                finalIdex = finalIdex * 4f;
             }
             return finalIdex;
         }

@@ -37,17 +37,17 @@ namespace RealCity
             {
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
-                    if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) || (info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
+                    if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
                     {
-                        num = rand.Next(100) + 1;
+                        num = rand.Next(400) + 1;
                     }
                     else if (info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
                     {
-                        num = rand.Next(50) + 1;
+                        num = rand.Next(200) + 1;
                     }
                     else
                     {
-                        num = rand.Next(25) + 1;
+                        num = rand.Next(100) + 1;
                     }
                 }
                 int num1 = -num;
