@@ -794,7 +794,7 @@ namespace RealCity
                 case ItemClass.SubService.IndustrialForestry:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.7f;
+                        tax = 0.75f;
                     }
                     else
                     {
@@ -804,7 +804,7 @@ namespace RealCity
                 case ItemClass.SubService.IndustrialOil:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.95f;
+                        tax = 0.85f;
                     }
                     else
                     {
@@ -814,7 +814,7 @@ namespace RealCity
                 case ItemClass.SubService.IndustrialOre:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
                     {
-                        tax = 0.9f;
+                        tax = 0.8f;
                     }
                     else
                     {

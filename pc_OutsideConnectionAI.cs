@@ -102,7 +102,7 @@ namespace RealCity
                 {
                     if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 50);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 40);
                     }
                     else
                     {
@@ -110,9 +110,9 @@ namespace RealCity
                     }
                 }
 
-                if (data.m_garbageBuffer > 20000)
+                if (data.m_garbageBuffer > 60000)
                 {
-                    data.m_garbageBuffer = 20000;
+                    data.m_garbageBuffer = 60000;
                 }
             }
             else if (RealCity.updateOnce && (data.m_garbageBuffer != 0))
@@ -185,37 +185,37 @@ namespace RealCity
                         data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
                     }
                 }
-                else
+            }
+            else
+            {
+                if (material == TransferManager.TransferReason.GarbageMove)
                 {
-                    if (material == TransferManager.TransferReason.GarbageMove)
+                    //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
+                    if (data.m_garbageBuffer < 0)
                     {
-                        //DebugLog.LogToFileOnly("starttransfer gabarge from outside to city, gather gabage");
-                        if (data.m_garbageBuffer < 0)
-                        {
-                            DebugLog.LogToFileOnly("garbarge < 0 in outside building, should be wrong");
-                            amountDelta = 0;
-                        }
-                        else
-                        {
-                            if (data.m_garbageBuffer + amountDelta <= 0)
-                            {
-                                amountDelta = -data.m_garbageBuffer;
-                            }
-                            else
-                            {
-
-                            }
-                            data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
-                        }
-                    }
-                    else if (material == TransferManager.TransferReason.Garbage)
-                    {
+                        DebugLog.LogToFileOnly("garbarge < 0 in outside building, should be wrong");
                         amountDelta = 0;
                     }
                     else
                     {
-                        //do nothing
+                        if (data.m_garbageBuffer + amountDelta <= 0)
+                        {
+                            amountDelta = -data.m_garbageBuffer;
+                        }
+                        else
+                        {
+
+                        }
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + amountDelta);
                     }
+                }
+                else if (material == TransferManager.TransferReason.Garbage)
+                {
+                    amountDelta = 0;
+                }
+                else
+                {
+                    //do nothing
                 }
             }
         }
