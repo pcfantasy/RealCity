@@ -351,10 +351,24 @@ namespace RealCity
             BuildingManager instance1 = Singleton<BuildingManager>.instance;
             if (instance1.m_buildings.m_buffer[offer.Building].Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                if (material == TransferManager.TransferReason.Petrol || material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Coal)
+                if (material == TransferManager.TransferReason.Petrol)
                 {
                     //DebugLog.LogToFileOnly("find speical incoming request for comm building");
                     comm_data.building_buffer3[offer.Building] = 123;  //a flag
+                }
+                else if (material == TransferManager.TransferReason.Food)
+                {
+                    comm_data.building_buffer3[offer.Building] = 124;
+                } else if (material == TransferManager.TransferReason.Lumber)
+                {
+                    comm_data.building_buffer3[offer.Building] = 125;
+                } else if (material == TransferManager.TransferReason.Coal)
+                {
+                    comm_data.building_buffer3[offer.Building] = 126;
+                }
+                else
+                {
+                    //DebugLog.LogToFileOnly("find speical incoming request for comm building" + material.ToString());
                 }
             }
 

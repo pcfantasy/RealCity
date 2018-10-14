@@ -10,9 +10,9 @@ namespace RealCity
     {
         public static readonly string cacheName = "MoreeconomicUI";
 
-        public static float WIDTH = 600f;
+        public static float WIDTH = 550f;
 
-        private static readonly float HEIGHT = 800f;
+        private static readonly float HEIGHT = 500f;
 
         private static readonly float HEADER = 40f;
 
@@ -114,7 +114,7 @@ namespace RealCity
             this.isInteractive = true;
             this.BringToFront();
             //base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
-            base.relativePosition = new Vector3(200f, 50f);
+            base.relativePosition = new Vector3(200f, 150f);
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;

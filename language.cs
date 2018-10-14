@@ -12,7 +12,7 @@ namespace RealCity
         {
             "Language",                                                                                      //0
             "Language_Select",                                                                               //1
-            "Smart Public Transport(more cars and maintenance in peek, less in troughs)",                    //2
+            "Smart Public Transport(more cars and maintenance in peek, less in trough)",                    //2
             "Hell mode(little import)",   //3
             "(click me)"                  //4
         };
@@ -26,10 +26,10 @@ namespace RealCity
             "Only show industry and commerical Production Buffer",   //5
             "aliveworkcount",                                        //6
             "aliveworkcount",                                        //7
-            "average employfee(resident time-period)",               //8
-            "average employfee(resident time-period)",               //9
-            "Building landrent",                                     //10
-            "Building landrent",                                     //11
+            "Average Employfee",                                     //8
+            "Average Employfee",                                     //9
+            "Building Landrent",                                     //10
+            "Building Landrent",                                     //11
             "Building net asset",                                    //12
             "Building net asset",                                    //13
             "Family Money(unit:1/100₡)",                             //14
@@ -59,41 +59,41 @@ namespace RealCity
         {
             "Economic Data",                                         //0
             "1、Citizen Status(unit: 1/100₡)",                       //1
-            "citizen_count",                                         //2
+            "citizenCount",                                         //2
             "total citizen_count",                                   //3
-            "family_count",                                          //4
+            "familyCount",                                          //4
             "total family_count",                                    //5
-            "salary_per_family",                                     //6
+            "salaryPerFamily",                                     //6
             "citizen_salary_per_family",                             //7
-            "citizen_tax_per_family",                                //8
+            "citizenTaxPerFamily",                                //8
             "total_citizen_salary_tax_per_family",                   //9
-            "expense_per_family",                                    //10
+            "expensePerFamily",                                    //10
             "fixed_expense_per_family",                              //11
-            "average_trans_fee",                                     //12
+            "averageTransFee",                                     //12
             "citizen_average_transport_fee",                         //13
-            "public_trans_fee",                                      //14
+            "publicTransFee",                                      //14
             "public_transport_fee",                                  //15
-            "citizen_vehical_time",                                  //16
+            "citizenVehicalTime",                                  //16
             "total citizen_vehical_time",                            //17
-            "high_salary",                                           //18
+            "highSalaryCount",                                           //18
             "family_high_salary_num",                                //19
-            "medium_salary",                                         //20
+            "mediumSalaryCount",                                         //20
             "total family_medium_salary_num",                        //21
-            "low_salary",                                            //22
+            "lowSalaryCount",                                            //22
             "family_low_salary_num",                                 //23
-            "wealth_high",                                           //24
+            "WealthHighCount",                                           //24
             "family_wealth_stable_high_num",                         //25
-            "wealth_medium",                                         //26
+            "WealthMediumCount",                                         //26
             "family_wealth_stable_high_num",                         //27
-            "wealth_low",                                            //28
+            "WealthLowCount",                                            //28
             "family_wealth_stable_low_num",                          //29                         
-            "satisfactions of goods",                                //30
+            "satisfactionsOfGoods",                                //30
             "family satisfactions of goods",                         //31
             "2、Building Status",                                    //32
-            "very profit I&C building",                              //33
-            "very profit I&C building",                              //34
-            "external money for office",                             //35
-            "external money for office",                             //36
+            "profit(I&C)Building",                              //33
+            "profit(I&C)Building",                              //34
+            "externalInvestments(for office)",                             //35
+            "externalInvestments(for office)",                             //36
             "tip1",                                                  //37
             "tip1",                                                  //38
             "tip2",                                                  //39
@@ -120,8 +120,8 @@ namespace RealCity
         "",                                           //0
         "",    //1
         "",                  //2
-        "",                                                                          //3
-        "Better set real time time speed to 3x",                                                     //4
+        "",                                                                                          //3
+        "",                                                     //4
         "Better use TMPE and disable vehicle spawn",                                                 //5
         "",        //6
         "Can use Favorite Cims mod to watch every citizens and their family",                        //7
@@ -316,8 +316,8 @@ namespace RealCity
             "家庭货物满足度",
             "家庭货物满足度",
             "2、建筑情况",
-            "非常赚钱的公司数目",
-            "非常赚钱的公司数目",
+            "赚钱的公司数目",
+            "赚钱的公司数目",
             "可用于投资办公的钱",
             "可用于投资办公的钱",
             "提示1",
@@ -347,7 +347,7 @@ namespace RealCity
         "",
         "",
         "",
-        "最好把RealTime的时间速度改成3X",
+        "",
         "最好用TMPE并且禁止车辆消失",
         "",
         "可以用Favorite Cims mod看每个居民和他们家庭的情况",
@@ -464,9 +464,9 @@ namespace RealCity
         public static string[] TipAndChirperMessage = new string[TipAndChirperMessage_Chinese.Length];
         public static string[] EconomicUI = new string[EconomicUI_Chinese.Length];
 
-        public static byte current_language = 255; 
+        public static byte currentLanguage = 255; 
 
-        public static void language_switch (byte language)
+        public static void LanguageSwitch (byte language)
         {
             if (language == 1)
             {
@@ -490,9 +490,9 @@ namespace RealCity
                 {
                     RealCityUI1[i] = RealCityUI_Chinese[i];
                 }
-                current_language = 1;
-                MoreeconomicUI.WIDTH = 650;
-                RealCityUI.WIDTH = 700;
+                currentLanguage = 1;
+                MoreeconomicUI.WIDTH = 600;
+                RealCityUI.WIDTH = 650;
             }
             else if (language == 0)
             {
@@ -516,9 +516,9 @@ namespace RealCity
                 {
                     RealCityUI1[i] = RealCityUI_English[i];
                 }
-                current_language = 0;
-                MoreeconomicUI.WIDTH = 800;
-                RealCityUI.WIDTH = 850;
+                currentLanguage = 0;
+                MoreeconomicUI.WIDTH = 700;
+                RealCityUI.WIDTH = 750;
             }
             else
             {
@@ -543,12 +543,12 @@ namespace RealCity
                 {
                     RealCityUI1[i] = RealCityUI_English[i];
                 }
-                current_language = 0;
+                currentLanguage = 0;
                 MoreeconomicUI.WIDTH = 800;
                 RealCityUI.WIDTH = 850;
             }
 
-            comm_data.last_language = current_language;
+            comm_data.last_language = currentLanguage;
         }
     }
 }

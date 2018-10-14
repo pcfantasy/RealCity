@@ -17,7 +17,8 @@ namespace RealCity
             int num2 = this.CalculateProductionCapacity(new Randomizer((int)buildingID), width, length);
             int consumptionDivider = GetConsumptionDivider(buildingID, data);
             int num3 = Mathf.Max(num2 * 500 / consumptionDivider, num * 4);
-            data.m_customBuffer1 = 0;
+            data.m_customBuffer1 = 8000;
+            comm_data.building_money[buildingID] -= 8000* pc_PrivateBuildingAI.GetPrice(false, buildingID, data);
             DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
             if (specialization != DistrictPolicies.Specialization.None)
             {
@@ -76,7 +77,7 @@ namespace RealCity
                 default:
                     {
                         System.Random rand = new System.Random();
-                        switch (rand.Next(4))
+                        switch (comm_data.building_buffer4[buildingID])
                         {
                             case 0:
                                 return TransferManager.TransferReason.Lumber;
@@ -87,6 +88,7 @@ namespace RealCity
                             case 3:
                                 return TransferManager.TransferReason.Coal;
                             default:
+                                DebugLog.LogToFileOnly("Error: should be 0-3 for industrial gen building");
                                 return TransferManager.TransferReason.None;
                         }
                     }
@@ -178,12 +180,12 @@ namespace RealCity
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == GetIncomingTransferReason(buildingID) || pc_PrivateBuildingAI.IsGeneralIndustry(buildingID, data , material))
+            if (material == GetIncomingTransferReason(buildingID) || pc_PrivateBuildingAI.IsGeneralIndustry(buildingID, data, material))
             {
                 int width = data.Width;
                 int length = data.Length;
                 int num = 16000;
-                int num2 = CalculateProductionCapacity(data,new Randomizer((int)buildingID), width, length);
+                int num2 = CalculateProductionCapacity(data, new Randomizer((int)buildingID), width, length);
                 float consumptionDivider = GetConsumptionDivider(buildingID, data);
                 int num3 = Mathf.Max((int)(num2 * 500 / consumptionDivider), num * 4);
                 num3 = 64000;
@@ -191,7 +193,37 @@ namespace RealCity
                 amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                 process_incoming(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
-                comm_data.building_buffer1[buildingID] = (ushort)(customBuffer + amountDelta);
+                comm_data.building_buffer1[buildingID] = data.m_customBuffer1;
+
+                if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                {
+                    comm_data.building_buffer4[buildingID]++;
+                    if (comm_data.building_buffer4[buildingID] > 3)
+                    {
+                        comm_data.building_buffer4[buildingID] = 0;
+                    }
+                    if (material == TransferManager.TransferReason.Petrol)
+                    {
+                        //DebugLog.LogToFileOnly("find speical incoming request for comm building");
+                        comm_data.building_buffer3[buildingID] = 123;  //a flag
+                    }
+                    else if (material == TransferManager.TransferReason.Food)
+                    {
+                        comm_data.building_buffer3[buildingID] = 124;
+                    }
+                    else if (material == TransferManager.TransferReason.Lumber)
+                    {
+                        comm_data.building_buffer3[buildingID] = 125;
+                    }
+                    else if (material == TransferManager.TransferReason.Coal)
+                    {
+                        comm_data.building_buffer3[buildingID] = 126;
+                    }
+                    else
+                    {
+                        DebugLog.LogToFileOnly("find speical incoming request for indus general building" + material.ToString());
+                    }
+                }
             }
             else if (material == GetOutgoingTransferReason(data))
             {
@@ -213,13 +245,13 @@ namespace RealCity
 
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(false, buildingID, data, material);
+            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(false, buildingID, data);
             comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income1;
         }
 
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(true, buildingID, data, material);
+            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(true, buildingID, data);
             float trade_tax = 0;
             trade_tax = -trade_income1 * pc_PrivateBuildingAI.GetTaxRate(data, buildingID);            
             Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);

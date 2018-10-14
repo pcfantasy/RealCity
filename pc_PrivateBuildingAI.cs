@@ -12,10 +12,10 @@ namespace RealCity
         //2.1 building income
 
         public const float goodPrice = 0.8f;
-        public const float petrolPrice = 3.12f;
-        public const float coalPrice = 2.64f;
-        public const float lumberPrice = 2.16f;
-        public const float foodPrice = 1.68f;
+        public const float petrolPrice = 3.1f;
+        public const float coalPrice = 2.7f;
+        public const float lumberPrice = 2.1f;
+        public const float foodPrice = 1.7f;
         public const float oilPrice = 2.6f;
         public const float orePrice = 2.2f;
         public const float logPrice = 1.8f;
@@ -176,7 +176,7 @@ namespace RealCity
             }
         }
 
-        public static float GetPrice(bool isSelling, ushort buildingID, Building data, TransferManager.TransferReason forceMaterial)
+        public static float GetPrice(bool isSelling, ushort buildingID, Building data)
         {
             TransferManager.TransferReason material = default(TransferManager.TransferReason);
             if (!isSelling)
@@ -193,7 +193,27 @@ namespace RealCity
                         case ItemClass.SubService.CommercialEco:
                         case ItemClass.SubService.CommercialLeisure:
                         case ItemClass.SubService.CommercialTourist:
-                            material = TransferManager.TransferReason.Goods; break;
+                            if (comm_data.building_buffer3[buildingID] == 123)
+                            {
+                                material = TransferManager.TransferReason.Petrol;
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 124)
+                            {
+                                material = TransferManager.TransferReason.Food;
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 125)
+                            {
+                                material = TransferManager.TransferReason.Lumber;
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 126)
+                            {
+                                material = TransferManager.TransferReason.Coal;
+                            }
+                            else
+                            {
+                                material = TransferManager.TransferReason.Goods;
+                            }
+                            break;
                         case ItemClass.SubService.IndustrialForestry:
                             material = TransferManager.TransferReason.Logs; break;
                         case ItemClass.SubService.IndustrialFarming:
@@ -203,28 +223,25 @@ namespace RealCity
                         case ItemClass.SubService.IndustrialOre:
                             material = TransferManager.TransferReason.Ore; break;
                         case ItemClass.SubService.IndustrialGeneric:
+                            if (comm_data.building_buffer3[buildingID] == 125)
                             {
-                                System.Random rand = new System.Random();
-                                if (forceMaterial == TransferManager.TransferReason.None)
-                                {
-                                    switch (rand.Next(4))
-                                    {
-                                        case 0:
-                                            material = TransferManager.TransferReason.Lumber; break;
-                                        case 1:
-                                            material = TransferManager.TransferReason.Food; break;
-                                        case 2:
-                                            material = TransferManager.TransferReason.Petrol; break;
-                                        case 3:
-                                            material = TransferManager.TransferReason.Coal; break;
-                                        default:
-                                            material = TransferManager.TransferReason.None; break;
-                                    }
-                                }
-                                else
-                                {
-                                    material = forceMaterial;
-                                }
+                                material = TransferManager.TransferReason.Lumber;
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 124)
+                            {
+                                material = TransferManager.TransferReason.Food;
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 123)
+                            {
+                                material = TransferManager.TransferReason.Petrol;
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 126)
+                            {
+                                material = TransferManager.TransferReason.Coal;
+                            }
+                            else
+                            {
+                                material = TransferManager.TransferReason.Worker0;
                             }
                             break;
                         default:
@@ -297,6 +314,8 @@ namespace RealCity
                         price = logPrice; break;
                     case TransferManager.TransferReason.Ore:
                         price = orePrice; break;
+                    default:
+                        price = 1f; break;
                 }
             }
             else
@@ -328,6 +347,9 @@ namespace RealCity
                         break;
                     case TransferManager.TransferReason.Petrol:
                         price = petrolPrice;
+                        break;
+                    case TransferManager.TransferReason.Worker0:
+                        price = preGoodPrice;
                         break;
                 }
             }
@@ -452,7 +474,7 @@ namespace RealCity
 
             if (comm_data.building_money[buildingID] > 0)
             {
-                if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
+                if (building.Info.m_class.m_service == ItemClass.Service.Industrial || building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
                     if (building.Info.m_buildingAI is IndustrialExtractorAI)
                     {
@@ -466,15 +488,15 @@ namespace RealCity
 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = 0.1f;
+                            idex = 0.05f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.05f;
+                            idex = 0.1f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.15f;
+                            idex = 0.2f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
@@ -826,8 +848,9 @@ namespace RealCity
             }
 
             //comm building which import food petrol coal lumber
-            if (comm_data.building_buffer3[buildingID] == 123)
+            if (comm_data.building_buffer3[buildingID] == 123 || comm_data.building_buffer3[buildingID] == 124 || comm_data.building_buffer3[buildingID] == 125 || comm_data.building_buffer3[buildingID] == 126)
             {
+                if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
                 finalIdex = finalIdex * 4f;
             }
             return finalIdex;

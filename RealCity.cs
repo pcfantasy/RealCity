@@ -54,13 +54,13 @@ namespace RealCity
             fs.Close();
             LoadSetting();
             SaveSetting();
-            language.language_switch((byte)language_idex);
+            language.LanguageSwitch((byte)language_idex);
         }
 
         public void OnDisabled()
         {
             RealCity.IsEnabled = false;
-            language.language_switch((byte)language_idex);
+            language.LanguageSwitch((byte)language_idex);
         }
 
 
@@ -124,7 +124,7 @@ namespace RealCity
         {
 
             LoadSetting();
-            language.language_switch(comm_data.last_language);
+            language.LanguageSwitch(comm_data.last_language);
             UIHelperBase group = helper.AddGroup(language.OptionUI[0]);
             group.AddDropdown(language.OptionUI[1], new string[] { "English", "简体中文" }, comm_data.last_language, (index) => GetLanguageIdex(index));
             UIHelperBase group2 = helper.AddGroup(language.OptionUI[2]);
@@ -137,7 +137,7 @@ namespace RealCity
         public void GetLanguageIdex(int index)
         {
             language_idex = index;
-            language.language_switch((byte)language_idex);
+            language.LanguageSwitch((byte)language_idex);
             SaveSetting();
             MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
             method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
@@ -451,7 +451,11 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 500;
+                    offer.Priority = num34 / 2000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
                     offer.Building = buildingID;
                     offer.Position = buildingData.m_position;
                     offer.Amount = 1;
@@ -492,7 +496,11 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 500;
+                    offer.Priority = num34 / 2000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
                     offer.Building = buildingID;
                     offer.Position = buildingData.m_position;
                     offer.Amount = 1;
@@ -533,7 +541,11 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 500;
+                    offer.Priority = num34 / 2000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
                     offer.Building = buildingID;
                     offer.Position = buildingData.m_position;
                     offer.Amount = 1;
@@ -574,7 +586,11 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 500;
+                    offer.Priority = num34 / 2000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
                     offer.Building = buildingID;
                     offer.Position = buildingData.m_position;
                     offer.Amount = 1;
@@ -655,7 +671,7 @@ namespace RealCity
 
                 //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost().ToString());
                 //city_resource_department
-                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 508600)
+                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 208600)
                 {
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
                     //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
@@ -809,7 +825,7 @@ namespace RealCity
                                     if (vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
                                     {
                                         comm_data.allVehicles++;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)2500, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)3000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
@@ -817,19 +833,19 @@ namespace RealCity
                                         if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
                                         {
                                             comm_data.allVehicles += 1;
-                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)10000, vehicle.Info.m_class);
+                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)6000, vehicle.Info.m_class);
                                         }
                                         else
                                         {
                                             comm_data.allVehicles += 2;
-                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)15000, vehicle.Info.m_class);
+                                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)12000, vehicle.Info.m_class);
                                         }
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI)
                                     {
                                         comm_data.allVehicles += 2;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)5000, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)15000, vehicle.Info.m_class);
                                     }
 
                                     if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI || vehicle.Info.m_vehicleAI is CargoShipAI)

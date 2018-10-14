@@ -107,12 +107,12 @@ namespace RealCity
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
                 {
                     SetupGui();
-                    detour();
+                    Detour();
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     if (mode == LoadMode.NewGame)
                     {
-                        init_data();
-                        DebugLog.LogToFileOnly("init_data");
+                        InitData();
+                        DebugLog.LogToFileOnly("InitData");
                     }
                     //DebugLog.LogWarning(language.OptionUI[15]);
                     //DebugLog.LogWarning(language.OptionUI[16]);
@@ -122,7 +122,7 @@ namespace RealCity
             }
         }
 
-        public static void init_data()
+        public static void InitData()
         {
             comm_data.data_init();
             pc_EconomyManager.data_init();
@@ -143,7 +143,7 @@ namespace RealCity
                 }
                 if (RealCity.IsEnabled)
                 {
-                    revert_detour();
+                    RevertDetour();
                 }
             }
         }
@@ -161,6 +161,7 @@ namespace RealCity
             {
                 Loader.guiPanel = (MoreeconomicUI)Loader.parentGuiView.AddUIComponent(typeof(MoreeconomicUI));
             }
+
             if (Loader.guiPanel1 == null)
             {
                 Loader.guiPanel1 = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
@@ -193,7 +194,7 @@ namespace RealCity
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) ZonedBuildingWorldInfoPanel\nAvailable panels are:\n");
             }
             guiPanel2.transform.parent = buildingInfo.transform;
-            guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y + 50f);
+            guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
             //guiPanel2.size = new Vector3(50,50);
             guiPanel2.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
             guiPanel2.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
@@ -434,7 +435,7 @@ namespace RealCity
         }
 
 
-        public void detour()
+        public void Detour()
         {
             //var srcMethod1 = typeof(TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance);
             //var destMethod1 = typeof(pc_TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -614,7 +615,7 @@ namespace RealCity
             state42 = RedirectionHelper.RedirectCalls(srcMethod42, destMethod42);
         }
 
-        public void revert_detour()
+        public void RevertDetour()
         {
             //var srcMethod1 = typeof(TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance);
             var srcMethod2 = typeof(IndustrialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);

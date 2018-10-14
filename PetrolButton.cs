@@ -27,7 +27,7 @@ namespace RealCity
             base.name = "PetrolButton";
             base.width = 150f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 300f), 0f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 250f), 30f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;

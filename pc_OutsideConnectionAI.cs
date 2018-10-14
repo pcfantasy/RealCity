@@ -39,27 +39,27 @@ namespace RealCity
                 if (data.Info.m_class.m_service == ItemClass.Service.Road)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyCar;
-                    m_dummyTrafficFactor = 1000 + rand.Next(1000);
+                    m_dummyTrafficFactor = 800 + rand.Next(1200);
                 }
                 else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportPlane)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyPlane;
-                    m_dummyTrafficFactor = 1000;
+                    m_dummyTrafficFactor = rand.Next(1000);
                 }
                 else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportShip)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyShip;
-                    m_dummyTrafficFactor = 1000;
+                    m_dummyTrafficFactor = rand.Next(1000);
                 }
                 else if (data.Info.m_class.m_subService == ItemClass.SubService.PublicTransportTrain)
                 {
                     m_dummyTrafficReason = TransferManager.TransferReason.DummyTrain;
-                    m_dummyTrafficFactor = rand.Next(1000);
+                    m_dummyTrafficFactor = rand.Next(600);
                 }
 
 
                 //DebugLog.LogToFileOnly(m_dummyTrafficReason.ToString() + " " + m_dummyTrafficFactor.ToString() + " " + data.m_outgoingProblemTimer.ToString() + " " + data.m_education1.ToString());
-                m_dummyTrafficFactor = 1000 + rand.Next(1000);
+                //m_dummyTrafficFactor = 1000 + rand.Next(1000);
                 if (comm_data.isFoodsGettedFinal == false)
                 {
                     m_residentCapacity = 0;
@@ -106,8 +106,13 @@ namespace RealCity
                     }
                     else
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 10);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 20);
                     }
+                }
+
+                if (data.m_garbageBuffer > 20000)
+                {
+                    data.m_garbageBuffer = 20000;
                 }
             }
             else if (RealCity.updateOnce && (data.m_garbageBuffer != 0))

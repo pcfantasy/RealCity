@@ -152,7 +152,7 @@ namespace RealCity
             if (citizenId != 0u)
             {
                 Citizen.Flags temp_flag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_flags;
-                if ((temp_flag & Citizen.Flags.Student) != Citizen.Flags.None)
+                if ((temp_flag & Citizen.Flags.Student) != Citizen.Flags.None || (temp_flag & Citizen.Flags.Sick) != Citizen.Flags.None)
                 {
                     return num;
                 }
@@ -576,7 +576,7 @@ namespace RealCity
                 DebugLog.LogToFileOnly("tempNum == 0 in ResidentAI");
             }
             float tax = 0;
-            //0-10 0% 10-30 5% 30-60 10% 60-100 20% >100 35%
+            //0-10 0% 10-40 5% 40-80 15% 80-130 30% >130 50%
 
             if (citizenSalaryCurrent < 0)
             {
@@ -588,21 +588,21 @@ namespace RealCity
             {
                 tax = 0;
             }
-            else if (citizenSalaryCurrent >= 10 && citizenSalaryCurrent <= 30)
+            else if (citizenSalaryCurrent >= 10 && citizenSalaryCurrent <= 40)
             {
                 tax = (citizenSalaryCurrent - 10) * 0.05f;
             }
-            else if (citizenSalaryCurrent > 30 && citizenSalaryCurrent <= 60)
+            else if (citizenSalaryCurrent > 40 && citizenSalaryCurrent <= 80)
             {
-                tax = (citizenSalaryCurrent - 30) * 0.1f + 1f;
+                tax = (citizenSalaryCurrent - 40) * 0.15f + 1.5f;
             }
-            else if (citizenSalaryCurrent > 60 && citizenSalaryCurrent <= 100)
+            else if (citizenSalaryCurrent > 80 && citizenSalaryCurrent <= 130)
             {
-                tax = (citizenSalaryCurrent - 60) * 0.2f + 4f;
+                tax = (citizenSalaryCurrent - 80) * 0.3f + 7.5f;
             }
-            else if (citizenSalaryCurrent > 100)
+            else if (citizenSalaryCurrent > 130)
             {
-                tax = (citizenSalaryCurrent - 100) * 0.35f + 12f;
+                tax = (citizenSalaryCurrent - 130) * 0.5f + 22.5f;
             }
 
 

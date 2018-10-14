@@ -65,17 +65,17 @@
         //2 building
         //2.1 building expense
 
-        public const byte comm_high_level1 = 10;
-        public const byte comm_high_level2 = 15;
-        public const byte comm_high_level3 = 20;
+        public const byte comm_high_level1 = 20;
+        public const byte comm_high_level2 = 25;
+        public const byte comm_high_level3 = 30;
 
-        public const byte comm_low_level1 = 10;
-        public const byte comm_low_level2 = 15;
-        public const byte comm_low_level3 = 20;
+        public const byte comm_low_level1 = 30;
+        public const byte comm_low_level2 = 35;
+        public const byte comm_low_level3 = 40;
 
         public const byte comm_tourist = 100;
-        public const byte comm_leisure = 30;
-        public const byte comm_eco = 10;
+        public const byte comm_leisure = 50;
+        public const byte comm_eco = 45;
 
         public const byte indu_gen_level1 = 10;
         public const byte indu_gen_level2 = 15;

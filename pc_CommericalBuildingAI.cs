@@ -31,7 +31,8 @@ namespace RealCity
             int num = 4000;
             int num2 = this.CalculateVisitplaceCount(new Randomizer((int)buildingID), width, length);
             int num3 = Mathf.Max(num2 * 500, num * 4);
-            data.m_customBuffer1 = 0;
+            data.m_customBuffer1 = 8000;
+            comm_data.building_money[buildingID] -= 8000 * pc_PrivateBuildingAI.goodPrice;
             DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
             if (specialization != DistrictPolicies.Specialization.None)
             {
@@ -126,7 +127,7 @@ namespace RealCity
 
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(false, buildingID, data, material);
+            float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(false, buildingID, data);
             comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income1;
         }
 

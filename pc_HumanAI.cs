@@ -41,10 +41,6 @@ namespace RealCity
                     {
                         num = rand.Next(400) + 1;
                     }
-                    else if (info.m_class.m_subService == ItemClass.SubService.CommercialHigh)
-                    {
-                        num = rand.Next(200) + 1;
-                    }
                     else
                     {
                         num = rand.Next(100) + 1;
@@ -86,10 +82,9 @@ namespace RealCity
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
-                int tourism_fee = rand.Next(500);
-
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
+                    int tourism_fee = rand.Next(500);
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         tourism_fee = tourism_fee * 4;
@@ -102,7 +97,7 @@ namespace RealCity
                 }
                 else
                 {
-                    tourism_fee = rand.Next(100) + 1;
+                    int tourism_fee = rand.Next(100) + 1;
                     if (tourism_fee != 0)
                     {
                         comm_data.family_money[homeId] = (float)(comm_data.family_money[homeId] - tourism_fee);

@@ -90,7 +90,6 @@
     <Compile Include="HumanUI.cs" />
     <Compile Include="BuildingUI.cs" />
     <Compile Include="language.cs" />
-    <Compile Include="message.cs" />
     <Compile Include="pc_CargoTruckAI.cs" />
     <Compile Include="pc_CitizenManager.cs" />
     <Compile Include="pc_OfficeBuildingAI.cs" />

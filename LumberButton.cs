@@ -27,7 +27,7 @@ namespace RealCity
             base.name = "LumberPanel";
             base.width = 150f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 100f ), 0f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 50f ), 30f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;

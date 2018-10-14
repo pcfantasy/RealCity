@@ -416,7 +416,7 @@ namespace RealCity
 
         public override void OnLoadData()
         {
-            Loader.init_data();
+            Loader.InitData();
             //DebugLog.LogToFileOnly("OnLoadData");
             if (true)
             {

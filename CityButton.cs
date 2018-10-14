@@ -56,7 +56,7 @@ namespace RealCity
             base.name = "RealCityUIPanel";
             base.width = 200f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 500f), 0f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 400f), 30f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;
@@ -118,8 +118,8 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.RcButton.tooltip = language.RealCityUI1[110] + language.OptionUI[4];
-                this.RcButton.text = language.RealCityUI1[110] + language.OptionUI[4];
+                this.RcButton.tooltip = language.RealCityUI1[93] + language.OptionUI[4];
+                this.RcButton.text = language.RealCityUI1[93] + language.OptionUI[4];
                 if (Loader.guiPanel1.isVisible)
                 {
                     this.RcButton.Focus();
