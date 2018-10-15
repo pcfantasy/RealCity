@@ -16,6 +16,11 @@ namespace RealCity
         public static bool IsEnabled = false;
         public static bool updateOnce = false;
 
+        public static int foodStillNeeded = 0;
+        public static int lumberStillNeeded = 0;
+        public static int coalStillNeeded = 0;
+        public static int PetrolStillNeeded = 0;
+
         public byte tip1_citizen = 0;
         public byte tip2_building = 0;
         public byte tip3_outside = 0;
@@ -178,7 +183,7 @@ namespace RealCity
 
                         
                         //citizen_status();
-                        generate_tips();
+                        GenerateTips();
 
                         if (comm_data.update_money_count == 16)
                         {
@@ -190,17 +195,22 @@ namespace RealCity
                             comm_data.allLumbers = 0;
                             comm_data.allPetrols = 0;
                             comm_data.allCoals = 0;
-                            building_status();
-                            comm_data.isCoalsGettedFinal = comm_data.isCoalsGetted;
-                            comm_data.isFoodsGettedFinal = comm_data.isFoodsGetted;
-                            comm_data.isPetrolsGettedFinal = comm_data.isPetrolsGetted;
-                            comm_data.isLumbersGettedFinal = comm_data.isLumbersGetted;
+                            foodStillNeeded = comm_data.citizen_count;
+                            lumberStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal << 1);
+                            coalStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal);
+                            PetrolStillNeeded = comm_data.allVehiclesFinal;
+                            BuildingStatus();
+
+                            comm_data.isCoalsGettedFinal = (coalStillNeeded <= 0);
+                            comm_data.isFoodsGettedFinal = (foodStillNeeded <= 0); ;
+                            comm_data.isPetrolsGettedFinal = (PetrolStillNeeded <= 0); ;
+                            comm_data.isLumbersGettedFinal = (lumberStillNeeded <= 0); ;
                         }
 
                         comm_data.allVehicles = 0;
                         VehicleStatus();
                         comm_data.allVehiclesFinal = comm_data.allVehicles;
-                        caculate_citizen_transport_fee();
+                        CaculateCitizenTransportFee();
 
                         comm_data.update_money_count++;
                         if (comm_data.update_money_count == 17)
@@ -226,95 +236,59 @@ namespace RealCity
                 return internalMoneyAmount;
             }
 
-            public void generate_tips()
+            public void GenerateTips()
             {
-                if (comm_data.family_count != 0)
-                {
-                    if (comm_data.citizen_salary_per_family - comm_data.citizen_expense_per_family - (int)(comm_data.citizen_salary_tax_total / comm_data.family_count) - comm_data.citizen_average_transport_fee < 10)
-                    {
-                        if (comm_data.citizen_expense_per_family > 40)
-                        {
-                            tip1_message_forgui = language.TipAndChirperMessage[0];
+                tip1_message_forgui = language.TipAndChirperMessage[5];
 
-                        }
-                        else if (comm_data.citizen_average_transport_fee > 25)
-                        {
-                            tip1_message_forgui = language.TipAndChirperMessage[1];
-                        }
-                        else
-                        {
-                            tip1_message_forgui = language.TipAndChirperMessage[2];
-                        }
-                    }
-                    else if (comm_data.citizen_salary_per_family < 40)
-                    {
-                        tip1_message_forgui = language.TipAndChirperMessage[2];
-                    }
-                    else
-                    {
-                        tip1_message_forgui = language.TipAndChirperMessage[3];
-                    }
-                }
-
-
-
-                tip2_message_forgui = language.TipAndChirperMessage[4];
-
-                tip3_message_forgui = language.TipAndChirperMessage[5];
-
-                tip4_message_forgui = language.TipAndChirperMessage[6];
-
-                tip5_message_forgui = language.TipAndChirperMessage[7];
+                tip2_message_forgui = language.TipAndChirperMessage[7];
 
                 if (!comm_data.have_city_resource_department)
                 {
-                    tip6_message_forgui = language.TipAndChirperMessage[8];
+                    tip3_message_forgui = language.TipAndChirperMessage[8];
+                }
+                else
+                {
+                    tip3_message_forgui = "";
+                }
+
+                if (!comm_data.isFoodsGettedFinal)
+                {
+                    tip4_message_forgui = language.TipAndChirperMessage[9];
+                }
+                else
+                {
+                    tip4_message_forgui = "";
+                }
+
+                if (!comm_data.isLumbersGettedFinal || !comm_data.isCoalsGettedFinal)
+                {
+                    tip5_message_forgui = language.TipAndChirperMessage[10];
+                }
+                else
+                {
+                    tip5_message_forgui = "";
+                }
+
+                if (!comm_data.isPetrolsGettedFinal)
+                {
+                    tip6_message_forgui = language.TipAndChirperMessage[11];
                 }
                 else
                 {
                     tip6_message_forgui = "";
                 }
 
-                if (!comm_data.isFoodsGettedFinal)
+                if (!comm_data.isHellMode)
                 {
-                    tip7_message_forgui = language.TipAndChirperMessage[9];
+                    tip7_message_forgui = language.OptionUI[3];
                 }
                 else
                 {
                     tip7_message_forgui = "";
                 }
-
-                if (!comm_data.isLumbersGettedFinal || !comm_data.isCoalsGettedFinal)
-                {
-                    tip8_message_forgui = language.TipAndChirperMessage[10];
-                }
-                else
-                {
-                    tip8_message_forgui = "";
-                }
-
-                if (!comm_data.isPetrolsGettedFinal)
-                {
-                    tip9_message_forgui = language.TipAndChirperMessage[11];
-                }
-                else
-                {
-                    tip9_message_forgui = "";
-                }
-
-                if(!comm_data.isHellMode)
-                {
-                    tip10_message_forgui = language.OptionUI[3];
-                } else
-                {
-                    tip10_message_forgui = "";
-                }
-
-
             }
 
-
-            public void caculate_citizen_transport_fee()
+            public void CaculateCitizenTransportFee()
             {
                 ItemClass temp = new ItemClass();
                 long temp1 = 0L;
@@ -397,7 +371,7 @@ namespace RealCity
             }
 
 
-            public void building_status()
+            public void BuildingStatus()
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
                 updateOnce = false;
@@ -410,14 +384,14 @@ namespace RealCity
                         if (false)
                         {
                         }
-                        else if (is_special_building((ushort)i) == 2)
+                        else if (IsSpecialBuilding((ushort)i) == 2)
                         {
                             comm_data.have_toll_station = true;
                         }
-                        else if (is_special_building((ushort)i) == 3)
+                        else if (IsSpecialBuilding((ushort)i) == 3)
                         {
                             comm_data.have_city_resource_department = true;
-                            process_city_resource_department_building((ushort)i, instance.m_buildings.m_buffer[i]);
+                            ProcessCityResourceDepartmentBuilding((ushort)i, instance.m_buildings.m_buffer[i]);
                         }
 
                         if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
@@ -430,7 +404,7 @@ namespace RealCity
             }
 
 
-            void process_city_resource_department_building (ushort buildingID, Building buildingData)
+            void ProcessCityResourceDepartmentBuilding (ushort buildingID, Building buildingData)
             {
                 int num27 = 0;
                 int num28 = 0;
@@ -451,7 +425,7 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 2000;
+                    offer.Priority = num34 / 1000;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;
@@ -465,17 +439,18 @@ namespace RealCity
 
                 if (comm_data.building_buffer3[buildingID] > 0 && !comm_data.isFoodsGetted)
                 {
-                    if (comm_data.citizen_count >= 1)
+                    if (foodStillNeeded >= 1)
                     {
-                        if (comm_data.building_buffer3[buildingID] - (comm_data.citizen_count) > 0)
+                        if (comm_data.building_buffer3[buildingID] - (foodStillNeeded) > 0)
                         {
-                            comm_data.building_buffer3[buildingID] -= (ushort)(comm_data.citizen_count);
+                            comm_data.building_buffer3[buildingID] -= (ushort)(foodStillNeeded);
+                            foodStillNeeded = 0;
                         } else
                         {
+                            foodStillNeeded -= comm_data.building_buffer3[buildingID];
                             comm_data.building_buffer3[buildingID] = 0;
                         }
                     }
-                    comm_data.isFoodsGetted = true;
                 }
                 comm_data.allFoods += comm_data.building_buffer3[buildingID];
 
@@ -496,7 +471,7 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 2000;
+                    offer.Priority = num34 / 1000;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;
@@ -510,17 +485,18 @@ namespace RealCity
 
                 if (comm_data.building_buffer2[buildingID] > 0 && !comm_data.isPetrolsGetted)
                 {
-                    if (comm_data.allVehiclesFinal >= 1)
+                    if (PetrolStillNeeded >= 1)
                     {
-                        if (comm_data.building_buffer2[buildingID] - comm_data.allVehiclesFinal > 0)
+                        if (comm_data.building_buffer2[buildingID] - PetrolStillNeeded > 0)
                         {
-                            comm_data.building_buffer2[buildingID] -= (ushort)(comm_data.allVehiclesFinal);
+                            PetrolStillNeeded = 0;
+                            comm_data.building_buffer2[buildingID] -= (ushort)(PetrolStillNeeded);
                         } else
                         {
+                            PetrolStillNeeded -= comm_data.building_buffer2[buildingID];
                             comm_data.building_buffer2[buildingID] = 0;
                         }
                     }
-                    comm_data.isPetrolsGetted = true;
                 }
                 comm_data.allPetrols += comm_data.building_buffer2[buildingID];
 
@@ -541,7 +517,7 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 2000;
+                    offer.Priority = num34 / 1000;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;
@@ -555,17 +531,18 @@ namespace RealCity
 
                 if (comm_data.building_buffer1[buildingID] > 0 && !comm_data.isCoalsGetted)
                 {
-                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 1)
+                    if (coalStillNeeded >= 1)
                     {
-                        if (comm_data.building_buffer1[buildingID] - pc_PrivateBuildingAI.allBuildingsFinal > 0)
+                        if (comm_data.building_buffer1[buildingID] - coalStillNeeded > 0)
                         {
-                            comm_data.building_buffer1[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal);
+                            comm_data.building_buffer1[buildingID] -= (ushort)(coalStillNeeded);
+                            coalStillNeeded = 0;
                         } else
                         {
+                            coalStillNeeded -= comm_data.building_buffer1[buildingID];
                             comm_data.building_buffer1[buildingID] = 0;
                         }
                     }
-                    comm_data.isCoalsGetted = true;
                 }
                 comm_data.allCoals += comm_data.building_buffer1[buildingID];
 
@@ -586,7 +563,7 @@ namespace RealCity
                 if (num34 >= 0)
                 {
                     TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 2000;
+                    offer.Priority = num34 / 1000;
                     if (offer.Priority > 7)
                     {
                         offer.Priority = 7;
@@ -600,18 +577,19 @@ namespace RealCity
 
                 if (comm_data.building_buffer4[buildingID] > 0 && !comm_data.isLumbersGetted)
                 {
-                    if (pc_PrivateBuildingAI.allBuildingsFinal >= 1)
+                    if (lumberStillNeeded >= 1)
                     {
-                        if (comm_data.building_buffer4[buildingID] - (pc_PrivateBuildingAI.allBuildingsFinal <<1) > 0)
+                        if (comm_data.building_buffer4[buildingID] - (lumberStillNeeded) > 0)
                         {
-                            comm_data.building_buffer4[buildingID] -= (ushort)(pc_PrivateBuildingAI.allBuildingsFinal << 1);
+                            comm_data.building_buffer4[buildingID] -= (ushort)(lumberStillNeeded);
+                            lumberStillNeeded = 0;
                         }
                         else
                         {
+                            lumberStillNeeded -= comm_data.building_buffer4[buildingID];
                             comm_data.building_buffer4[buildingID] = 0;
                         }
                     }
-                    comm_data.isLumbersGetted = true;
                 }
                 comm_data.allLumbers += comm_data.building_buffer4[buildingID];
             }
@@ -646,7 +624,7 @@ namespace RealCity
                 }
             }
 
-            public static byte is_special_building(ushort id)
+            public static byte IsSpecialBuilding(ushort id)
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
 
@@ -957,7 +935,7 @@ namespace RealCity
                         while (num6 != 0)
                         {
                             BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
-                            if (RealCity.EconomyExtension.is_special_building((ushort)num6) == 2)
+                            if (RealCity.EconomyExtension.IsSpecialBuilding((ushort)num6) == 2)
                             {
                                 if ((building.m_buildings.m_buffer[(int)num6].m_productionRate!=0) || (!building.m_buildings.m_buffer[(int)num6].m_flags.IsFlagSet(Building.Flags.Deleted)))
                                 {

@@ -55,7 +55,7 @@ namespace RealCity
             base.Start();
             //DebugLog.LogToFileOnly("buildingUI start now");
             //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "Go to UI now");
-            base.backgroundSprite = "MenuPanel";
+            //base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
@@ -167,86 +167,76 @@ namespace RealCity
                     {
                         int aliveWorkerCount = 0;
                         int totalWorkerCount = 0;
+                        string current = "";
+                        string current2 = "";
                         float num = CaculateEmployeeOutcome(buildingData, comm_data.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
                         int num1 = CaculateLandFee(buildingData, comm_data.last_buildingid);
+                        string type = pc_PrivateBuildingAI.GetProductionType(false, comm_data.last_buildingid, buildingData, ref current);
+                        string type2 = pc_PrivateBuildingAI.GetProductionType(true, comm_data.last_buildingid, buildingData, ref current2);
+                        float price = pc_PrivateBuildingAI.GetPrice(false, comm_data.last_buildingid, buildingData);
+                        float price2 = pc_PrivateBuildingAI.GetPrice(true, comm_data.last_buildingid, buildingData);
                         this.buildingMoney.text = string.Format(language.BuildingUI[0] + " [{0}]", comm_data.building_money[comm_data.last_buildingid]);
-                        this.buildingIncomeBuffer.text = string.Format(language.BuildingUI[2] + " [{0}]", buildingData.m_customBuffer1);
-                        this.buildingOutgoingBuffer.text = string.Format(language.BuildingUI[4] + " [{0}]", buildingData.m_customBuffer2);
+                        this.buildingIncomeBuffer.text = string.Format(language.BuildingUI[2] + " [{0}]" + " " + type, buildingData.m_customBuffer1);
+                        this.buildingOutgoingBuffer.text = string.Format(language.BuildingUI[4] + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
                         //this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
-                        this.employFee.text = language.BuildingUI[8] + " " + num.ToString() + " " + language.BuildingUI[16];                       
+                        this.employFee.text = language.BuildingUI[8] + " " + num.ToString() + " " + language.BuildingUI[16];
                         this.landRent.text = string.Format(language.BuildingUI[10] + " [{0:N2}]", (float)num1 / 100f);
-                    }
-                    //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
-                    float price = 0f;
-                    float price2 = 0f;
-                    if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
-                    {
-                        this.buyPrice.text = string.Format(language.BuildingUI[18] + " N/A");
-                    }
-                    else
-                    {
-                        price = pc_PrivateBuildingAI.GetPrice(false, comm_data.last_buildingid, buildingData);
-                        this.buyPrice.text = string.Format(language.BuildingUI[18] + " [{0:N2}]", price);
-                    }
+                        //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
 
-
-
-                    price2 = pc_PrivateBuildingAI.GetPrice(true, comm_data.last_buildingid, buildingData);
-                    this.sellPrice.text = string.Format(language.BuildingUI[19] + " [{0:N2}]", price2);
-
-                    float consumptionDivider = 0f;
-                    if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
-                    {
-                        consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildingData, comm_data.last_buildingid);
-                        this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", consumptionDivider);
-                    }
-                    else if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-                    {
-                        consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildingData, comm_data.last_buildingid);
-                        this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]",consumptionDivider * 4f);
-                    }
-                    else
-                    {
-                        if (buildingData.Info.m_buildingAI is IndustrialBuildingAI)
+                        if (current != "")
                         {
-                            consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildingData, comm_data.last_buildingid);
+                            this.buyPrice.text = string.Format(language.BuildingUI[18] + " " + current + language.BuildingUI[41] + "[{0:N2}]", price);
+                        } else
+                        {
+                            this.buyPrice.text = string.Format(language.BuildingUI[18] + " " + type + language.BuildingUI[41] + "[{0:N2}]", price);
+                        }
+                        this.sellPrice.text = string.Format(language.BuildingUI[19] + " " + type2 + language.BuildingUI[41] + " [{0:N2}]", price2);
+
+                        float consumptionDivider = 0f;
+                        if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                        {
+                            consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildingData, comm_data.last_buildingid) * 4f;
                             this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", consumptionDivider);
                         }
                         else
                         {
-                            this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " N/A");
+                            if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                                this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " N/A");
+                            }
+                            else
+                            {
+                                consumptionDivider = (float)pc_PrivateBuildingAI.GetComsumptionDivider(buildingData, comm_data.last_buildingid);
+                                this.comsuptionDivide.text = string.Format(language.BuildingUI[21] + " [1:{0:N2}]", consumptionDivider);
+                            }
                         }
-                    }
-
-                    if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-                    {
-                        consumptionDivider = consumptionDivider * 4f;
-                    }
-
-                    float sellTax = pc_PrivateBuildingAI.GetTaxRate(buildingData, comm_data.last_buildingid);
-
-                    this.sellTax.text = string.Format(language.BuildingUI[22] + " [{0}%]", (int)(sellTax * 100f));
 
 
-                    if (consumptionDivider == 0f)
-                    {
-                        this.profit.text = string.Format(language.BuildingUI[23] + " N/A");
-                    }
-                    else
-                    {
-                        float temp = (price2 * (1 - sellTax) - (price / consumptionDivider)) / price2;
-                        if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                        float sellTax = pc_PrivateBuildingAI.GetTaxRate(buildingData, comm_data.last_buildingid);
+
+                        this.sellTax.text = string.Format(language.BuildingUI[22] + " [{0}%]", (int)(sellTax * 100f));
+
+
+                        if (consumptionDivider == 0f)
                         {
-                            this.profit.text = string.Format(language.BuildingUI[23] + " [{0}%]" + language.BuildingUI[24], (int)(temp * 100f));
+                            this.profit.text = string.Format(language.BuildingUI[23] + " N/A");
                         }
                         else
                         {
-                            this.profit.text = string.Format(language.BuildingUI[23] + " [{0}%]", (int)(temp * 100f));
+                            float temp = (price2 * (1 - sellTax) - (price / consumptionDivider)) / price2;
+                            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                            {
+                                this.profit.text = string.Format(language.BuildingUI[23] + " [{0}%]" + language.BuildingUI[24], (int)(temp * 100f));
+                            }
+                            else
+                            {
+                                this.profit.text = string.Format(language.BuildingUI[23] + " [{0}%]", (int)(temp * 100f));
+                            }
                         }
-                    }
 
-                    this.BringToFront();
-                    BuildingUI.refeshOnce = false;
+                        this.BringToFront();
+                        BuildingUI.refeshOnce = false;
+                    }
                 }
             }
         }

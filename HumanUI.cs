@@ -40,7 +40,7 @@ namespace RealCity
         public override void Start()
         {
             base.Start();
-            base.backgroundSprite = "MenuPanel";
+            //base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;

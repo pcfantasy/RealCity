@@ -103,7 +103,7 @@ namespace RealCity
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
             float importTax1 = 0f;
             float productionValue1 = 0f;
-            if (RealCity.EconomyExtension.is_special_building(data.m_targetBuilding) == 3)
+            if (RealCity.EconomyExtension.IsSpecialBuilding(data.m_targetBuilding) == 3)
             {
                 switch ((TransferManager.TransferReason)data.m_transferType)
                 {

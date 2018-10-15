@@ -70,58 +70,6 @@ namespace RealCity
             return true;
         }*/
 
-        /*public void ProcessShoppingAndEntertainment(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
-        {
-            Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
-            uint citizen = offerIn.Citizen;
-            CitizenInfo citizenInfo = citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
-            ushort homeBuilding = citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-            BuildingManager instance2 = Singleton<BuildingManager>.instance;
-            uint homeId = citizens.m_buffer[citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-            switch (material)
-            {
-                case TransferManager.TransferReason.Shopping:
-                case TransferManager.TransferReason.ShoppingB:
-                case TransferManager.TransferReason.ShoppingC:
-                case TransferManager.TransferReason.ShoppingD:
-                case TransferManager.TransferReason.ShoppingE:
-                case TransferManager.TransferReason.ShoppingF:
-                case TransferManager.TransferReason.ShoppingG:
-                case TransferManager.TransferReason.ShoppingH:
-                case TransferManager.TransferReason.Entertainment:
-                case TransferManager.TransferReason.EntertainmentB:
-                case TransferManager.TransferReason.EntertainmentC:
-                case TransferManager.TransferReason.EntertainmentD:
-                    if (((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) && comm_data.family_money[homeId] >= 2000f)
-                    {
-                        if (citizenInfo != null)
-                        {
-                            offerOut.Amount = delta;
-                            citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
-                        }
-                    }
-                    else if ((citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
-                    {
-                        if (citizenInfo != null)
-                        {
-                            offerOut.Amount = delta;
-                            citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
-                        }
-                    }
-                    else
-                    {
-                        //DebugLog.LogToFileOnly("citizen is too poor and wont go to shopping and entertainment");
-                    }
-                    break;
-                default:
-                    if (citizenInfo != null)
-                    {
-                        offerOut.Amount = delta;
-                        citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
-                    }
-                    break;
-            }
-        }
 
         private void StartTransfer(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
@@ -145,21 +93,43 @@ namespace RealCity
             }
             else if (active && offerIn.Citizen != 0u)
             {
-                ProcessShoppingAndEntertainment(material, offerOut, offerIn, delta);
+                Array32<Citizen> citizens = Singleton<CitizenManager>.instance.m_citizens;
+                uint citizen = offerIn.Citizen;
+                CitizenInfo citizenInfo = citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
+                if (citizenInfo != null)
+                {
+                    offerOut.Amount = delta;
+                    citizenInfo.m_citizenAI.StartTransfer(citizen, ref citizens.m_buffer[(int)((UIntPtr)citizen)], material, offerOut);
+                }
             }
             else if (active2 && offerOut.Citizen != 0u)
             {
-                if (material == TransferManager.TransferReason.Shopping || material == TransferManager.TransferReason.ShoppingB || material == TransferManager.TransferReason.Entertainment || material == TransferManager.TransferReason.EntertainmentB)
-                {
-                    DebugLog.LogToFileOnly("citizen offout shopping??");
-                }
                 Array32<Citizen> citizens2 = Singleton<CitizenManager>.instance.m_citizens;
                 uint citizen2 = offerOut.Citizen;
                 CitizenInfo citizenInfo2 = citizens2.m_buffer[(int)((UIntPtr)citizen2)].GetCitizenInfo(citizen2);
                 if (citizenInfo2 != null)
                 {
                     offerIn.Amount = delta;
-                    citizenInfo2.m_citizenAI.StartTransfer(citizen2, ref citizens2.m_buffer[(int)((UIntPtr)citizen2)], material, offerIn);
+                    //new added begin
+                    if (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single1 || material == TransferManager.TransferReason.Single2 || material == TransferManager.TransferReason.Single3 || material == TransferManager.TransferReason.Single0B || material == TransferManager.TransferReason.Single1B || material == TransferManager.TransferReason.Single2B || material == TransferManager.TransferReason.Single3B)
+                    {
+                        //DebugLog.LogToFileOnly("citizen try to Co-lease");
+                        Citizen data = Singleton<CitizenManager>.instance.m_citizens.m_buffer[offerOut.Citizen];
+                        uint num2 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)offerIn.Building].GetEmptyCitizenUnit(CitizenUnit.Flags.Home);
+                        if (num2 != 0)
+                        {
+                            data.SetHome(offerOut.Citizen, 0, num2);
+                        }
+                        if (data.m_homeBuilding == 0 && (data.CurrentLocation != Citizen.Location.Visit || (data.m_flags & Citizen.Flags.Evacuating) == Citizen.Flags.None))
+                        {
+                            Singleton<CitizenManager>.instance.ReleaseCitizen(offerOut.Citizen);
+                        }
+                    }
+                    else
+                    {
+                        //new added end
+                        citizenInfo2.m_citizenAI.StartTransfer(citizen2, ref citizens2.m_buffer[(int)((UIntPtr)citizen2)], material, offerIn);
+                    }
                 }
             }
             else if (active2 && offerOut.Building != 0)
@@ -179,7 +149,7 @@ namespace RealCity
                 offerOut.Amount = delta;
                 info4.m_buildingAI.StartTransfer(building2, ref buildings2.m_buffer[(int)building2], material, offerOut);
             }
-        }*/
+        }
 
         /*public void AddOutgoingOffer(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {

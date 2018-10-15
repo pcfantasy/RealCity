@@ -2191,15 +2191,15 @@ namespace RealCity
             {
                 if (itemClass.m_service == ItemClass.Service.FireDepartment)
                 {
-                    budget = 1;
+                    budget = budget >> 2;
                 }
                 if (itemClass.m_service == ItemClass.Service.HealthCare || itemClass.m_service == ItemClass.Service.PoliceDepartment)
                 {
-                    budget = 1;
+                    budget = budget >> 2;
                 }
                 if (itemClass.m_service == ItemClass.Service.Garbage || itemClass.m_service == ItemClass.Service.Disaster)
                 {
-                    budget = 1;
+                    budget = budget >> 2 ;
                 }
             }
             return budget;

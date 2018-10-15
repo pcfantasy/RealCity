@@ -137,6 +137,10 @@ namespace RealCity
                     PlayerBuildingUI.refesh_once = false;
                     this.BringToFront();
                 }
+                else
+                {
+                    this.Hide();
+                }
             }
 
         }

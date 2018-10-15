@@ -36,8 +36,8 @@ namespace RealCity
             "Only show Family money",                                //15
             "(profit-sharing)",                                      //16
             "Accumulating Money(unit:₡)",                            //17
-            "Buy price:",                                            //18
-            "Sell price:",                                           //19
+            "Last Buy:",                                            //18
+            "Last Sell:",                                           //19
             "Family Salary:",                                        //20
             "Material/Production:",                                  //21
             "Sell tax",                                              //22
@@ -53,6 +53,13 @@ namespace RealCity
             "Coal",                                                  //32
             "Lumber",                                                //33
             "Petrol",                                                //34
+            "Grain or Meat",                                         //35
+            "Ore",                                                   //36
+            "Log",                                                   //37
+            "Oil",                                                   //38
+            "PreGoods",                                              //39
+            "Goods",                                                 //40
+            "Price:"                                                //41
         };
 
         public static string[] EconomicUI_English =
@@ -117,7 +124,7 @@ namespace RealCity
 
 
         public static string[] TipAndChirperMessage_English = {
-        "",                                           //0
+        "",                                                                             //0
         "",    //1
         "",                  //2
         "",                                                                                          //3
@@ -125,10 +132,10 @@ namespace RealCity
         "Better use TMPE and disable vehicle spawn",                                                 //5
         "",        //6
         "Can use Favorite Cims mod to watch every citizens and their family",                        //7
-        "Build City Resource in Roal Panel(need asset)",                                             //8
+        "Please Build City Resource in Roal Panel(need asset)",                              //8
         "City Lack of Food, Leads to no movingin people and Citizens may get sick",                  //9
         "City Lack of Lumber or Coal, Leads to no RICO demand",                                      //10
-        "City Lack of Petrol, goverment and citizens can not use car",                               //11
+        "City Lack of Petrol, goverment will use less car",                               //11
         };
 
 
@@ -253,8 +260,8 @@ namespace RealCity
             "居民家庭存款",
             "分红制(当次)",
             "累积赚或亏的钱(单位:克朗)",
-             "原料买入价格:",
-             "产品卖出价格:",
+             "上次原料买入:",
+             "上次产品卖出:",
              "家庭总工资:",
              "原料产品消耗比:",
              "卖出收入交易税",
@@ -270,6 +277,13 @@ namespace RealCity
              "矿物",                                                  //32
              "木材",                                                //33
              "汽油",                                                //34
+             "谷物或肉",                                         //35
+             "原矿石",                                                   //36
+             "原木",                                                   //37
+             "原油",                                                   //38
+             "库存商品",                                              //39
+             "货架商品",                                                 //40
+             "价格:"                                                //41
         };
 
     public static string[] OptionUI_Chinese =
@@ -351,10 +365,10 @@ namespace RealCity
         "最好用TMPE并且禁止车辆消失",
         "",
         "可以用Favorite Cims mod看每个居民和他们家庭的情况",
-        "建立城市资源大厦(需要特殊资产)",                                                            //8
-        "城市缺少食物,会导致没外来人员而且居民会生病",                                               //9
-        "城市缺少木材和矿物品,没法建房子,所以没任何RICO需求",                                        //10
-        "城市缺少汽油,政府部门和居民都没法出车",                                                     //11
+        "请建立城市资源大厦(需要特殊资产,道路界面)",                                         //8
+        "城市缺少食物,会导致没外来人员而且居民会生病",                                       //9
+        "城市缺少木材和矿物品,没法建房子,所以没任何建筑需求",                                //10
+        "城市缺少汽油,政府部门会少出车",                                                     //11
         };
 
 

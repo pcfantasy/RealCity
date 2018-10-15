@@ -176,6 +176,127 @@ namespace RealCity
             }
         }
 
+
+        public static string GetProductionType(bool isSelling, ushort buildingID, Building data, ref string current)
+        {
+            string material = "";
+            if (!isSelling)
+            {
+                if (data.Info.m_buildingAI is IndustrialExtractorAI)
+                {
+                }
+                else
+                {
+                    switch (data.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.CommercialHigh:
+                        case ItemClass.SubService.CommercialLow:
+                        case ItemClass.SubService.CommercialEco:
+                        case ItemClass.SubService.CommercialLeisure:
+                        case ItemClass.SubService.CommercialTourist:
+                            if (comm_data.building_buffer3[buildingID] == 123)
+                            {
+                                material = language.BuildingUI[34];
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 124)
+                            {
+                                material = language.BuildingUI[31];
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 125)
+                            {
+                                material = language.BuildingUI[33];
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 126)
+                            {
+                                material = language.BuildingUI[32];
+                            }
+                            else
+                            {
+                                material = language.BuildingUI[39];
+                            }
+                            break;
+                        case ItemClass.SubService.IndustrialForestry:
+                            material = language.BuildingUI[37]; break;
+                        case ItemClass.SubService.IndustrialFarming:
+                            material = language.BuildingUI[35]; break;
+                        case ItemClass.SubService.IndustrialOil:
+                            material = language.BuildingUI[38]; break;
+                        case ItemClass.SubService.IndustrialOre:
+                            material = language.BuildingUI[36]; break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            material = "(" + language.BuildingUI[31] + " " + language.BuildingUI[32] + " " + language.BuildingUI[33] + " " + language.BuildingUI[34] + ")";
+                            if (comm_data.building_buffer3[buildingID] == 123)
+                            {
+                                current = language.BuildingUI[34];
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 124)
+                            {
+                                current = language.BuildingUI[31];
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 125)
+                            {
+                                current = language.BuildingUI[33];
+                            }
+                            else if (comm_data.building_buffer3[buildingID] == 126)
+                            {
+                                current = language.BuildingUI[32];
+                            }
+                            else
+                            {
+                                current = "";
+                            }
+                            break;
+                        default:
+                            material = ""; break;
+                    }
+                }
+            }
+            else
+            {
+                if (data.Info.m_buildingAI is IndustrialExtractorAI)
+                {
+                    switch (data.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.IndustrialForestry:
+                            material = language.BuildingUI[37]; break;
+                        case ItemClass.SubService.IndustrialFarming:
+                            material = language.BuildingUI[35]; break;
+                        case ItemClass.SubService.IndustrialOil:
+                            material = language.BuildingUI[38]; break;
+                        case ItemClass.SubService.IndustrialOre:
+                            material = language.BuildingUI[36]; break;
+                        default:
+                            material = ""; break;
+                    }
+                }
+                else
+                {
+                    switch (data.Info.m_class.m_subService)
+                    {
+                        case ItemClass.SubService.IndustrialForestry:
+                            material = language.BuildingUI[33]; break;
+                        case ItemClass.SubService.IndustrialFarming:
+                            material = language.BuildingUI[31]; break;
+                        case ItemClass.SubService.IndustrialOil:
+                            material = language.BuildingUI[34]; break;
+                        case ItemClass.SubService.IndustrialOre:
+                            material = language.BuildingUI[32]; break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            material = language.BuildingUI[39]; break;
+                        case ItemClass.SubService.CommercialHigh:
+                        case ItemClass.SubService.CommercialLow:
+                        case ItemClass.SubService.CommercialEco:
+                        case ItemClass.SubService.CommercialLeisure:
+                        case ItemClass.SubService.CommercialTourist:
+                            material = language.BuildingUI[40]; break;
+                        default:
+                            material = ""; break;
+                    }
+                }
+            }
+            return material;
+        }
+
         public static float GetPrice(bool isSelling, ushort buildingID, Building data)
         {
             TransferManager.TransferReason material = default(TransferManager.TransferReason);
