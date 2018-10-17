@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace RealCity
 {
-    public class CityButton : UIPanel
+    public class RealCityButton : UIPanel
     {
         private UIButton RcButton;
 
@@ -25,7 +25,7 @@ namespace RealCity
 
         private ItemClass.Availability CurrentMode;
 
-        public static CityButton instance;
+        public static RealCityButton instance;
 
         private UIDragHandle m_DragHandler;
 
@@ -35,6 +35,10 @@ namespace RealCity
             {
                 RealCityUI.refesh_onece = true;
                 Loader.guiPanel1.Show();
+                if (Loader.guiPanel5.isVisible)
+                {
+                    Loader.guiPanel5.Hide();
+                }
             }
             else
             {
@@ -77,7 +81,7 @@ namespace RealCity
             this.RcButton.relativePosition = new Vector3(0, 30f);
             this.RcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                CityButton.RealCityUIToggle();
+                RealCityButton.RealCityUIToggle();
             };
             this.RealCityUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
             this.RealCityUITrigger_esc = UIView.Find<UIButton>("Esc");

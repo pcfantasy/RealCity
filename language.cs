@@ -62,6 +62,32 @@ namespace RealCity
             "Price:"                                                //41
         };
 
+
+        public static string[] PoliticsMessage_English = {
+        "Parliament Hall",                                      //0
+        "Parliament Seats",                                      //1
+        "Communist:",                               //2
+        "Green ",                                         //3
+        "Socialist ",                                   //4
+        "Liberal ",                                        //5
+        "National ",                                        //6
+        "Goverment:",                                      //7
+        "(Left union)",                                      //8
+        "(Wide left union)",                                    //9
+        "(Right union)",                                      //10
+        "(All union)",                                  //11
+        "执政风格:",                                      //12
+        "贸易保护 ",                                      //13
+        "社会主义 ",                                      //14
+        "保护环境 ",                                      //15
+        "免费交通 ",                                      //16
+        "低所得税 ",                                      //17
+        "高所得税 ",                                      //18
+        "Polls",
+        "No special politics",
+        "Next Vote",
+        };
+
         public static string[] EconomicUI_English =
         {
             "Economic Data",                                         //0
@@ -372,6 +398,31 @@ namespace RealCity
         };
 
 
+        public static string[] PoliticsMessage_Chinese = {
+        "议会大厅",                                      //0
+        "议会席位",                                      //1
+        "和谐党(你懂的) ",                               //2
+        "绿党 ",                                         //3
+        "社会党 ",                                       //4
+        "自由党 ",                                       //5
+        "国家党 ",                                       //6
+        "执政情况:",                                     //7
+        "(左派联合)",                                    //8
+        "(左派大联合)",                                  //9
+        "(右翼联盟)",                                    //10
+        "(全民团结政府)",                                  //11
+        "执政风格:",                                      //12
+        "贸易保护",                                      //13
+        "社会主义",                                      //14
+        "保护环境",                                      //15
+        "高福利",                                        //16
+        "低税收",                                      //17
+        "高税收",                                      //18
+        "民调:",                                          //19
+        "无特殊政策",                                      //20
+        "下次投票时间",
+        };
+
         public static string[] RealCityUI_Chinese =
         {
             "1、城市居民所得税收入(包含食品费)",
@@ -477,6 +528,7 @@ namespace RealCity
         public static string[] RealCityUI1 = new string[RealCityUI_Chinese.Length];
         public static string[] TipAndChirperMessage = new string[TipAndChirperMessage_Chinese.Length];
         public static string[] EconomicUI = new string[EconomicUI_Chinese.Length];
+        public static string[] PoliticsMessage = new string[PoliticsMessage_Chinese.Length];
 
         public static byte currentLanguage = 255; 
 
@@ -504,9 +556,14 @@ namespace RealCity
                 {
                     RealCityUI1[i] = RealCityUI_Chinese[i];
                 }
+                for (int i = 0; i < PoliticsMessage_English.Length; i++)
+                {
+                    PoliticsMessage[i] = PoliticsMessage_Chinese[i];
+                }
                 currentLanguage = 1;
-                MoreeconomicUI.WIDTH = 600;
+                EcnomicUI.WIDTH = 600;
                 RealCityUI.WIDTH = 650;
+                PoliticsUI.WIDTH = 750;
             }
             else if (language == 0)
             {
@@ -530,9 +587,14 @@ namespace RealCity
                 {
                     RealCityUI1[i] = RealCityUI_English[i];
                 }
+                for (int i = 0; i < PoliticsMessage_English.Length; i++)
+                {
+                    PoliticsMessage[i] = PoliticsMessage_English[i];
+                }
                 currentLanguage = 0;
-                MoreeconomicUI.WIDTH = 700;
+                EcnomicUI.WIDTH = 700;
                 RealCityUI.WIDTH = 750;
+                PoliticsUI.WIDTH = 800;
             }
             else
             {
@@ -557,9 +619,14 @@ namespace RealCity
                 {
                     RealCityUI1[i] = RealCityUI_English[i];
                 }
+                for (int i = 0; i < PoliticsMessage_English.Length; i++)
+                {
+                    PoliticsMessage[i] = PoliticsMessage_English[i];
+                }
                 currentLanguage = 0;
-                MoreeconomicUI.WIDTH = 800;
-                RealCityUI.WIDTH = 850;
+                EcnomicUI.WIDTH = 700;
+                RealCityUI.WIDTH = 750;
+                PoliticsUI.WIDTH = 800;
             }
 
             comm_data.last_language = currentLanguage;

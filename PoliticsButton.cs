@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace RealCity
 {
-    public class EcnomicButton : UIPanel
+    public class PoliticsButton : UIPanel
     {
-        private UIButton EcButton;
+        private UIButton PLButton;
 
         private UIComponent MoreeconomicUITrigger_paneltime;
 
@@ -25,38 +25,43 @@ namespace RealCity
 
         private ItemClass.Availability CurrentMode;
 
-        public static EcnomicButton instance;
+        public static PoliticsButton instance;
 
         private UIDragHandle m_DragHandler;
 
         public static void MoreeconomicUIToggle()
         {
-            if (!Loader.guiPanel.isVisible)
+            if (!Loader.guiPanel5.isVisible)
             {
-                EcnomicUI.refesh_onece = true;
-                Loader.guiPanel.Show();
+                PoliticsUI.refesh_onece = true;
+                Loader.guiPanel5.Show();
+
+                if (Loader.guiPanel1.isVisible)
+                {
+                    Loader.guiPanel1.Hide();
+                }
             }
             else
             {
-                Loader.guiPanel.Hide();
+                Loader.guiPanel5.Hide();
             }
         }
 
         public void MoreeconomicUIOff()
         {
-            if (Loader.guiPanel.isVisible && !Loader.guiPanel.containsMouse && !this.EcButton.containsMouse && this.MoreeconomicUITrigger_paneltime != null && !this.MoreeconomicUITrigger_paneltime.containsMouse)
+            if (Loader.guiPanel5.isVisible && !Loader.guiPanel5.containsMouse && !this.PLButton.containsMouse && this.MoreeconomicUITrigger_paneltime != null && !this.MoreeconomicUITrigger_paneltime.containsMouse)
             {
-                Loader.guiPanel.Hide();
+                Loader.guiPanel5.Hide();
             }
         }
 
         public override void Start()
         {
             UIView aView = UIView.GetAView();
-            base.name = "MoreeconomicUIPanel";
+            base.name = "PoliticsUIPanel";
             base.width = 200f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 400f ), 30f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 600f ), 30f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;
@@ -64,20 +69,20 @@ namespace RealCity
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
-            this.EcButton = base.AddUIComponent<UIButton>();
-            this.EcButton.normalBgSprite = "EcButton";
-            this.EcButton.hoveredBgSprite = "EcButtonHovered";
-            this.EcButton.focusedBgSprite = "EcButtonFocused";
-            this.EcButton.pressedBgSprite = "EcButtonPressed";
-            this.EcButton.playAudioEvents = true;
-            this.EcButton.name = "EcButton";
-            this.EcButton.tooltipBox = aView.defaultTooltipBox;
-            this.EcButton.text = language.EconomicUI[0] + language.OptionUI[4];
-            this.EcButton.size = new Vector2(200f, 40f);
-            this.EcButton.relativePosition = new Vector3(0, 30f);
-            this.EcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            this.PLButton = base.AddUIComponent<UIButton>();
+            this.PLButton.normalBgSprite = "PLButton";
+            this.PLButton.hoveredBgSprite = "PLButtonHovered";
+            this.PLButton.focusedBgSprite = "PLButtonFocused";
+            this.PLButton.pressedBgSprite = "PLButtonPressed";
+            this.PLButton.playAudioEvents = true;
+            this.PLButton.name = "PLButton";
+            this.PLButton.tooltipBox = aView.defaultTooltipBox;
+            this.PLButton.text = language.PoliticsMessage[0] + language.OptionUI[4];
+            this.PLButton.size = new Vector2(200f, 40f);
+            this.PLButton.relativePosition = new Vector3(0, 30f);
+            this.PLButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                EcnomicButton.MoreeconomicUIToggle();
+                PoliticsButton.MoreeconomicUIToggle();
             };
             this.MoreeconomicUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
             this.MoreeconomicUITrigger_esc = UIView.Find<UIButton>("Esc");
@@ -118,24 +123,24 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.EcButton.text = language.EconomicUI[0] + language.OptionUI[4];
-                this.EcButton.tooltip = language.EconomicUI[0];
-                if (!comm_data.isCoalsGettedFinal || !comm_data.isFoodsGettedFinal || !comm_data.isPetrolsGettedFinal || !comm_data.isLumbersGettedFinal)  //lack of resource
+                this.PLButton.text = language.PoliticsMessage[0] + language.OptionUI[4];
+                this.PLButton.tooltip = language.EconomicUI[0];
+                if (Politics.parliamentCount < 10)  //time is ok
                 {
-                    this.EcButton.textColor = Color.red;
+                    this.PLButton.textColor = Color.red;
                 } else
                 {
-                    this.EcButton.textColor = Color.white;
+                    this.PLButton.textColor = Color.white;
                 }
 
-                if (Loader.guiPanel.isVisible)
+                if (Loader.guiPanel5.isVisible)
                 {
-                    this.EcButton.Focus();
+                    this.PLButton.Focus();
                     base.Hide();
                 }
                 else
                 {
-                    this.EcButton.Unfocus();
+                    this.PLButton.Unfocus();
                     base.Show();
                 }
             }

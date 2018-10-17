@@ -74,6 +74,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PoliticsButton.cs" />
+    <Compile Include="PoliticsUI.cs" />
     <Compile Include="pc_GarbageTruckAI.cs" />
     <Compile Include="CoalButton.cs" />
     <Compile Include="LumberButton.cs" />
@@ -84,7 +86,7 @@
     <Compile Include="pc_VehicleAI.cs" />
     <Compile Include="PlayerBuildingButton.cs" />
     <Compile Include="BuildingButton.cs" />
-    <Compile Include="CityButton.cs" />
+    <Compile Include="RealCityButton.cs" />
     <Compile Include="EcnomicButton.cs" />
     <Compile Include="PlayerBuildingUI.cs" />
     <Compile Include="HumanUI.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="pc_OfficeBuildingAI.cs" />
     <Compile Include="pc_TaxiAI.cs" />
     <Compile Include="pc_ZoneManager.cs" />
+    <Compile Include="Politics.cs" />
     <Compile Include="RealCityUI.cs" />
     <Compile Include="pc_PrivateBuildingAI.cs" />
     <Compile Include="pc_PassengerCarAI.cs" />
@@ -110,7 +113,7 @@
     <Compile Include="RedirectionHelper.cs" />
     <Compile Include="saveandrestore.cs" />
     <Compile Include="comm_data.cs" />
-    <Compile Include="MoreeconomicUI.cs" />
+    <Compile Include="EcnomicUI.cs" />
     <Compile Include="loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

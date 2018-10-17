@@ -161,11 +161,7 @@ namespace RealCity
                 int totalWorkCount = 0;
                 Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                 int workBuilding = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_workBuilding;
-                if (checkOnly)
-                {
-                    DebugLog.LogToFileOnly("comm_data.building_money[workBuilding]:" + comm_data.building_money[workBuilding].ToString());
-                    DebugLog.LogToFileOnly(Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.ToString());
-                }
+
                 if (workBuilding != 0u)
                 {
                     budget = Singleton<EconomyManager>.instance.GetBudget(Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
@@ -389,21 +385,26 @@ namespace RealCity
                 if (data.m_citizen0 != 0)
                 {
                     temp++;
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0]);
                 }
                 if (data.m_citizen1 != 0)
                 {
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen1]);
                     temp++;
                 }
                 if (data.m_citizen2 != 0)
                 {
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen2]);
                     temp++;
                 }
                 if (data.m_citizen3 != 0)
                 {
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen3]);
                     temp++;
                 }
                 if (data.m_citizen4 != 0)
                 {
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen4]);
                     temp++;
                 }
 
@@ -1288,5 +1289,201 @@ namespace RealCity
             return temp;
         }
 
+
+        public void GetVoteTickets()
+        {
+            System.Random rand = new System.Random();
+            if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance != 500)
+            {
+                if (rand.Next(64) <= 1)
+                {
+                    DebugLog.LogToFileOnly("error, change is not equal 500 " + (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance).ToString());
+                }
+            }
+            int temp = rand.Next(500) + 1;
+            if (temp < Politics.cPartyChance)
+            {
+                Politics.cPartyTickets++;
+            }
+            else if (temp < Politics.cPartyChance + Politics.gPartyChance)
+            {
+                Politics.gPartyTickets++;
+            }
+            else if (temp < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance)
+            {
+                Politics.sPartyTickets++;
+            }
+            else if (temp < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance)
+            {
+                Politics.lPartyTickets++;
+            }
+            else
+            {
+                Politics.nPartyTickets++;
+            }
+
+            Politics.cPartySeatsPolls += ((float)Politics.cPartyChance / 500f);
+            Politics.gPartySeatsPolls += ((float)Politics.gPartyChance / 500f);
+            Politics.sPartySeatsPolls += ((float)Politics.sPartyChance / 500f);
+            Politics.lPartySeatsPolls += ((float)Politics.lPartyChance / 500f);
+            Politics.nPartySeatsPolls += ((float)Politics.nPartyChance / 500f);
+        }
+
+        public void GetVoteChance(uint citizenID, Citizen citizen)
+        {
+            if ((int)Citizen.GetAgeGroup(citizen.m_age) >= 2)
+            {
+                Politics.cPartyChance = 0;
+                Politics.gPartyChance = 0;
+                Politics.sPartyChance = 0;
+                Politics.lPartyChance = 0;
+                Politics.nPartyChance = 0;
+
+                Politics.cPartyChance += Politics.education[(int)citizen.EducationLevel, 0];
+                Politics.gPartyChance += Politics.education[(int)citizen.EducationLevel, 1];
+                Politics.sPartyChance += Politics.education[(int)citizen.EducationLevel, 2];
+                Politics.lPartyChance += Politics.education[(int)citizen.EducationLevel, 3];
+                Politics.nPartyChance += Politics.education[(int)citizen.EducationLevel, 4];
+
+                int idex = 14;
+                switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_service)
+                {
+                    case ItemClass.Service.Beautification:
+                    case ItemClass.Service.Road:
+                    case ItemClass.Service.Water:
+                    case ItemClass.Service.FireDepartment:
+                    case ItemClass.Service.PoliceDepartment:
+                    case ItemClass.Service.HealthCare:
+                    case ItemClass.Service.Garbage:
+                    case ItemClass.Service.PublicTransport:
+                    case ItemClass.Service.Disaster:
+                    case ItemClass.Service.Education:
+                    case ItemClass.Service.Electricity:
+                    case ItemClass.Service.Monument:
+                        idex = 0; break;
+                }
+
+                switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_subService)
+                {
+                    case ItemClass.SubService.CommercialLow:
+                    case ItemClass.SubService.CommercialHigh:
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            idex = 1;
+                        }
+                        else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            idex = 2;
+                        }
+                        else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            idex = 3;
+                        }
+                        break;
+                    case ItemClass.SubService.CommercialTourist:
+                    case ItemClass.SubService.CommercialLeisure:
+                        idex = 4; break;
+                    case ItemClass.SubService.CommercialEco:
+                        idex = 5; break;
+                    case ItemClass.SubService.IndustrialGeneric:
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            idex = 6;
+                        }
+                        else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            idex = 7;
+                        }
+                        else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            idex = 8;
+                        }
+                        break;
+                    case ItemClass.SubService.IndustrialFarming:
+                    case ItemClass.SubService.IndustrialForestry:
+                    case ItemClass.SubService.IndustrialOil:
+                    case ItemClass.SubService.IndustrialOre:
+                        idex = 9; break;
+                    case ItemClass.SubService.OfficeGeneric:
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            idex = 10;
+                        }
+                        else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            idex = 11;
+                        }
+                        else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            idex = 12;
+                        }
+                        break;
+                    case ItemClass.SubService.OfficeHightech:
+                        idex = 13; break;
+                }
+
+                if (idex < 0 || idex > 14)
+                {
+                    DebugLog.LogToFileOnly("Error workplace idex" + idex.ToString());
+                }
+
+
+                Politics.cPartyChance += Politics.workplace[idex, 0];
+                Politics.gPartyChance += Politics.workplace[idex, 1];
+                Politics.sPartyChance += Politics.workplace[idex, 2];
+                Politics.lPartyChance += Politics.workplace[idex, 3];
+                Politics.nPartyChance += Politics.workplace[idex, 4];
+
+                if (comm_data.citizen_money[(int)citizenID] <= 2000)
+                {
+                    idex = 0;
+                }
+
+                if (comm_data.citizen_money[(int)citizenID] >= 2000 && comm_data.citizen_money[(int)citizenID] <= 7000)
+                {
+                    idex = 1;
+                }
+
+                if (comm_data.citizen_money[(int)citizenID] >= 7000)
+                {
+                    idex = 2;
+                }
+
+                if (idex < 0 || idex > 3 )
+                {
+                    DebugLog.LogToFileOnly("Error money idex" + idex.ToString());
+                }
+                Politics.cPartyChance += Politics.money[idex, 0];
+                Politics.gPartyChance += Politics.money[idex, 1];
+                Politics.sPartyChance += Politics.money[idex, 2];
+                Politics.lPartyChance += Politics.money[idex, 3];
+                Politics.nPartyChance += Politics.money[idex, 4];
+
+                int temp = 0;
+
+                temp = (int)Citizen.GetAgeGroup(citizen.m_age) - 2;
+
+                if (temp < 0)
+                {
+                    DebugLog.LogToFileOnly(temp.ToString() + Citizen.GetAgeGroup(citizen.m_age).ToString());
+                }
+
+                Politics.cPartyChance += Politics.age[temp, 0];
+                Politics.gPartyChance += Politics.age[temp, 1];
+                Politics.sPartyChance += Politics.age[temp, 2];
+                Politics.lPartyChance += Politics.age[temp, 3];
+                Politics.nPartyChance += Politics.age[temp, 4];
+
+                temp = (int)Citizen.GetGender(citizenID);
+
+
+                Politics.cPartyChance += Politics.gender[temp, 0];
+                Politics.gPartyChance += Politics.gender[temp, 1];
+                Politics.sPartyChance += Politics.gender[temp, 2];
+                Politics.lPartyChance += Politics.gender[temp, 3];
+                Politics.nPartyChance += Politics.gender[temp, 4];
+                GetVoteTickets();
+            }
+        }
     }
 }

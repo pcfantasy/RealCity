@@ -20,7 +20,7 @@ namespace RealCity
 
         public static UIPanel HumanInfo;
 
-        public static MoreeconomicUI guiPanel;
+        public static EcnomicUI guiPanel;
 
         public static RealCityUI guiPanel1;
 
@@ -29,6 +29,8 @@ namespace RealCity
         public static HumanUI guiPanel3;
 
         public static PlayerBuildingUI guiPanel4;
+
+        public static PoliticsUI guiPanel5;
 
         public static GameObject buildingWindowGameObject;
 
@@ -39,8 +41,9 @@ namespace RealCity
         public static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
 
+        public static PoliticsButton PLPanel;
         public static EcnomicButton EcMenuPanel;
-        public static CityButton RcMenuPanel;
+        public static RealCityButton RcMenuPanel;
         public static BuildingButton BMenuPanel;
         public static PlayerBuildingButton PBMenuPanel;
 
@@ -159,7 +162,7 @@ namespace RealCity
             Loader.parentGuiView = UIView.GetAView();
             if (Loader.guiPanel == null)
             {
-                Loader.guiPanel = (MoreeconomicUI)Loader.parentGuiView.AddUIComponent(typeof(MoreeconomicUI));
+                Loader.guiPanel = (EcnomicUI)Loader.parentGuiView.AddUIComponent(typeof(EcnomicUI));
             }
 
             if (Loader.guiPanel1 == null)
@@ -167,10 +170,16 @@ namespace RealCity
                 Loader.guiPanel1 = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
             }
 
+            if (Loader.guiPanel5 == null)
+            {
+                Loader.guiPanel5 = (PoliticsUI)Loader.parentGuiView.AddUIComponent(typeof(PoliticsUI));
+            }
+
             SetupBuidingGui();
             SetupHumanGui();
             SetupPlayerBuidingGui();
             SetupEcnomicButton();
+            SetupPLButton();
             SetupCityButton();
             SetupBuildingButton();
             SetupPlayerBuildingButton();
@@ -252,7 +261,7 @@ namespace RealCity
         {
             if (RcMenuPanel == null)
             {
-                RcMenuPanel = (parentGuiView.AddUIComponent(typeof(CityButton)) as CityButton);
+                RcMenuPanel = (parentGuiView.AddUIComponent(typeof(RealCityButton)) as RealCityButton);
             }
             RcMenuPanel.Show();
         }
@@ -316,6 +325,15 @@ namespace RealCity
                 PMenuPanel = (parentGuiView.AddUIComponent(typeof(PetrolButton)) as PetrolButton);
             }
             PMenuPanel.Show();
+        }
+
+        public static void SetupPLButton()
+        {
+            if (PLPanel == null)
+            {
+                PLPanel = (parentGuiView.AddUIComponent(typeof(PoliticsButton)) as PoliticsButton);
+            }
+            PLPanel.Show();
         }
 
         public static void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
@@ -428,6 +446,15 @@ namespace RealCity
                     guiPanel4.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
                 }
             }
+
+            if (guiPanel5 != null)
+            {
+                if (guiPanel5.parent != null)
+                {
+                    guiPanel5.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
+                }
+            }
+
             if (PlayerbuildingWindowGameObject != null)
             {
                 UnityEngine.Object.Destroy(PlayerbuildingWindowGameObject);

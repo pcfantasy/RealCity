@@ -200,18 +200,23 @@ namespace RealCity
                             coalStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal);
                             PetrolStillNeeded = comm_data.allVehiclesFinal;
                             BuildingStatus();
-
                             comm_data.isCoalsGettedFinal = (coalStillNeeded <= 0);
                             comm_data.isFoodsGettedFinal = (foodStillNeeded <= 0); ;
-                            comm_data.isPetrolsGettedFinal = (PetrolStillNeeded <= 0); ;
-                            comm_data.isLumbersGettedFinal = (lumberStillNeeded <= 0); ;
+                            comm_data.isPetrolsGettedFinal = (PetrolStillNeeded <= 0);
+                            comm_data.isLumbersGettedFinal = (lumberStillNeeded <= 0);
+
+                            CitizenStatus();
+                            Politics.parliamentCount--;
+                            if (Politics.parliamentCount < 0)
+                            {
+                                Politics.parliamentCount = 4;
+                            }
                         }
 
                         comm_data.allVehicles = 0;
                         VehicleStatus();
                         comm_data.allVehiclesFinal = comm_data.allVehicles;
                         CaculateCitizenTransportFee();
-
                         comm_data.update_money_count++;
                         if (comm_data.update_money_count == 17)
                         {
@@ -222,8 +227,9 @@ namespace RealCity
 
                         comm_data.prev_time = comm_data.current_time;
                     }
+                    PoliticsUI.refesh_onece = true;
                     RealCityUI.refesh_onece = true;
-                    MoreeconomicUI.refesh_onece = true;
+                    EcnomicUI.refesh_onece = true;
                     PlayerBuildingUI.refesh_once = true;
                     BuildingUI.refeshOnce = true;
                     HumanUI.refeshOnce = true;
@@ -661,128 +667,209 @@ namespace RealCity
                 return 0;
             }
 
-            //public void citizen_status()
-            //{
-            //    comm_data.citizen_count = (int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_populationData.m_finalCount;
-            //}
-
-            //public void caculate_profit()
-            //{
-            //if (comm_data.update_outside_count > 64)
-            //{
-            //    comm_data.update_outside_count = 0;
-            //}
-            //comm_data.update_outside_count++;
-            //lumber
-            /*if ((pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
+            public void CitizenStatus()
             {
-                pc_PrivateBuildingAI.lumber_import_ratio = (float)pc_PrivateBuildingAI.lumber_from_outside_count_final / (float)(pc_PrivateBuildingAI.lumber_from_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
+                if (Politics.parliamentCount == 2)
+                {
+                    GetSeats(false);
+                    //DebugLog.LogToFileOnly("cPartySeats = " + Politics.cPartySeats.ToString());
+                    //DebugLog.LogToFileOnly("gPartySeats = " + Politics.gPartySeats.ToString());
+                    //DebugLog.LogToFileOnly("sPartySeats = " + Politics.sPartySeats.ToString());
+                    //DebugLog.LogToFileOnly("lPartySeats = " + Politics.lPartySeats.ToString());
+                    //DebugLog.LogToFileOnly("nPartySeats = " + Politics.nPartySeats.ToString());
+                    CreateGoverment();
+                } else
+                {
+                    GetSeats(true);
+                    CreateGoverment();
+                }
+
+
             }
 
-            if ((pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final) != 0)
+            public void CreateGoverment()
             {
-                pc_PrivateBuildingAI.lumber_export_ratio = (float)pc_PrivateBuildingAI.lumber_to_outside_count_final / (float)(pc_PrivateBuildingAI.lumber_to_outside_count_final + pc_PrivateBuildingAI.lumber_to_industy_count_final);
+                if (Politics.cPartySeats >= 50)
+                {
+                    //c only
+                    Politics.case1 = true;
+                    Politics.case2 = false;
+                    Politics.case3 = false;
+                    Politics.case4 = false;
+                    Politics.case5 = false;
+                    Politics.case6 = false;
+                    Politics.case7 = false;
+                    Politics.case8 = false;
+
+                } 
+                else if (Politics.gPartySeats >= 50)
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = true;
+                    Politics.case3 = false;
+                    Politics.case4 = false;
+                    Politics.case5 = false;
+                    Politics.case6 = false;
+                    Politics.case7 = false;
+                    Politics.case8 = false;
+                }
+                else if (Politics.sPartySeats >= 50)
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = false;
+                    Politics.case3 = true;
+                    Politics.case4 = false;
+                    Politics.case5 = false;
+                    Politics.case6 = false;
+                    Politics.case7 = false;
+                    Politics.case8 = false;
+                }
+                else if (Politics.lPartySeats >= 50)
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = false;
+                    Politics.case3 = false;
+                    Politics.case4 = true;
+                    Politics.case5 = false;
+                    Politics.case6 = false;
+                    Politics.case7 = false;
+                    Politics.case8 = false;
+                }
+                else if (Politics.nPartySeats >= 50)
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = false;
+                    Politics.case3 = false;
+                    Politics.case4 = false;
+                    Politics.case5 = true;
+                    Politics.case6 = false;
+                    Politics.case7 = false;
+                    Politics.case8 = false;
+                }
+                else if (Politics.sPartySeats + Politics.gPartySeats >= 50)
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = false;
+                    Politics.case3 = false;
+                    Politics.case4 = false;
+                    Politics.case5 = false;
+                    Politics.case6 = true;
+                    Politics.case7 = false;
+                    Politics.case8 = false;
+                }
+                else if (Politics.sPartySeats + Politics.gPartySeats + Politics.cPartySeats >= 50)
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = false;
+                    Politics.case3 = false;
+                    Politics.case4 = false;
+                    Politics.case5 = false;
+                    Politics.case6 = false;
+                    Politics.case7 = true;
+                    Politics.case8 = false;
+                }
+                else if (Politics.nPartySeats + Politics.lPartySeats >= 50)
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = false;
+                    Politics.case3 = false;
+                    Politics.case4 = false;
+                    Politics.case5 = false;
+                    Politics.case6 = false;
+                    Politics.case7 = false;
+                    Politics.case8 = true;
+                }
+                else
+                {
+                    Politics.case1 = false;
+                    Politics.case2 = false;
+                    Politics.case3 = false;
+                    Politics.case4 = false;
+                    Politics.case5 = false;
+                    Politics.case6 = false;
+                    Politics.case7 = false;
+                    Politics.case8 = false;
+                }
             }
 
-            //food
-            if ((pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
+            public void GetSeats(bool isPolls)
             {
-                pc_PrivateBuildingAI.food_import_ratio = (float)pc_PrivateBuildingAI.food_from_outside_count_final / (float)(pc_PrivateBuildingAI.food_from_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
+                if (!isPolls)
+                {
+                    int temp = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
+                    if (temp != 0)
+                    {
+                        Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / temp);
+                        Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / temp);
+                        Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / temp);
+                        Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / temp);
+                        Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / temp);
+                    }
+                    else
+                    {
+                        Politics.cPartySeats = 0;
+                        Politics.gPartySeats = 0;
+                        Politics.sPartySeats = 0;
+                        Politics.lPartySeats = 0;
+                        Politics.nPartySeats = 0;
+                    }
+                    Politics.cPartyTickets = 0;
+                    Politics.gPartyTickets = 0;
+                    Politics.sPartyTickets = 0;
+                    Politics.lPartyTickets = 0;
+                    Politics.nPartyTickets = 0;
+
+                    temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+                    if (temp < 99)
+                    {
+                        System.Random rand = new System.Random();
+                        switch (rand.Next(5))
+                        {
+                            case 0:
+                                Politics.cPartySeats += (ushort)(99 - temp); break;
+                            case 1:
+                                Politics.gPartySeats += (ushort)(99 - temp); break;
+                            case 2:
+                                Politics.sPartySeats += (ushort)(99 - temp); break;
+                            case 3:
+                                Politics.lPartySeats += (ushort)(99 - temp); break;
+                            case 4:
+                                Politics.nPartySeats += (ushort)(99 - temp); break;
+                        }
+                    }
+                }
+                else
+                {
+                    float temp = Politics.cPartySeatsPolls + Politics.gPartySeatsPolls + Politics.sPartySeatsPolls + Politics.lPartySeatsPolls + Politics.nPartySeatsPolls;
+                    if (temp != 0)
+                    {
+                        Politics.cPartySeatsPollsFinal = (float)(100 * Politics.cPartySeatsPolls / temp);
+                        Politics.gPartySeatsPollsFinal = (float)(100 * Politics.gPartySeatsPolls / temp);
+                        Politics.sPartySeatsPollsFinal = (float)(100 * Politics.sPartySeatsPolls / temp);
+                        Politics.lPartySeatsPollsFinal = (float)(100 * Politics.lPartySeatsPolls / temp);
+                        Politics.nPartySeatsPollsFinal = (float)(100 * Politics.nPartySeatsPolls / temp);
+                    }
+                    else
+                    {
+                        Politics.cPartySeatsPollsFinal = 0;
+                        Politics.gPartySeatsPollsFinal = 0;
+                        Politics.sPartySeatsPollsFinal = 0;
+                        Politics.lPartySeatsPollsFinal = 0;
+                        Politics.nPartySeatsPollsFinal = 0;
+                    }
+
+                    Politics.cPartyTickets = 0;
+                    Politics.gPartyTickets = 0;
+                    Politics.sPartyTickets = 0;
+                    Politics.lPartyTickets = 0;
+                    Politics.nPartyTickets = 0;
+                    Politics.cPartySeatsPolls = 0f;
+                    Politics.gPartySeatsPolls = 0f;
+                    Politics.sPartySeatsPolls = 0f;
+                    Politics.lPartySeatsPolls = 0f;
+                    Politics.nPartySeatsPolls = 0f;                    
+                }
             }
-
-            if ((pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.food_export_ratio = (float)pc_PrivateBuildingAI.food_to_outside_count_final / (float)(pc_PrivateBuildingAI.food_to_outside_count_final + pc_PrivateBuildingAI.food_to_industy_count_final);
-            }
-
-            //petrol
-            if ((pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.petrol_import_ratio = (float)pc_PrivateBuildingAI.Petrol_from_outside_count_final / (float)(pc_PrivateBuildingAI.Petrol_from_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.petrol_export_ratio = (float)pc_PrivateBuildingAI.Petrol_to_outside_count_final / (float)(pc_PrivateBuildingAI.Petrol_to_outside_count_final + pc_PrivateBuildingAI.Petrol_to_industy_count_final);
-            }
-
-            //coal
-            if ((pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.coal_import_ratio = (float)pc_PrivateBuildingAI.coal_from_outside_count_final / (float)(pc_PrivateBuildingAI.coal_from_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.coal_export_ratio = (float)pc_PrivateBuildingAI.coal_to_outside_count_final / (float)(pc_PrivateBuildingAI.coal_to_outside_count_final + pc_PrivateBuildingAI.coal_to_industy_count_final);
-            }
-
-            //logs
-            if ((pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.log_import_ratio = (float)pc_PrivateBuildingAI.logs_from_outside_count_final / (float)(pc_PrivateBuildingAI.logs_from_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.log_export_ratio = (float)pc_PrivateBuildingAI.logs_to_outside_count_final / (float)(pc_PrivateBuildingAI.logs_to_outside_count_final + pc_PrivateBuildingAI.logs_to_industy_count_final);
-            }
-
-            //grain
-            if ((pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.grain_import_ratio = (float)pc_PrivateBuildingAI.Grain_from_outside_count_final / (float)(pc_PrivateBuildingAI.Grain_from_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.grain_export_ratio = (float)pc_PrivateBuildingAI.Grain_to_outside_count_final / (float)(pc_PrivateBuildingAI.Grain_to_outside_count_final + pc_PrivateBuildingAI.Grain_to_industy_count_final);
-            }
-
-            //oil
-            if ((pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.oil_import_ratio = (float)pc_PrivateBuildingAI.oil_from_outside_count_final / (float)(pc_PrivateBuildingAI.oil_from_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.oil_export_ratio = (float)pc_PrivateBuildingAI.oil_to_outside_count_final / (float)(pc_PrivateBuildingAI.oil_to_outside_count_final + pc_PrivateBuildingAI.oil_to_industy_count_final);
-            }
-
-            //ore
-            if ((pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.ore_import_ratio = (float)pc_PrivateBuildingAI.ore_from_outside_count_final / (float)(pc_PrivateBuildingAI.ore_from_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.ore_export_ratio = (float)pc_PrivateBuildingAI.ore_to_outside_count_final / (float)(pc_PrivateBuildingAI.ore_to_outside_count_final + pc_PrivateBuildingAI.ore_to_industy_count_final);
-            }
-
-            //good
-            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.good_import_ratio = (float)pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final) != 0)
-            {
-                pc_PrivateBuildingAI.good_export_ratio = (float)pc_PrivateBuildingAI.industy_goods_to_outside_count_final / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.industy_goods_to_outside_count_final);
-            }
-
-            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
-            {
-                pc_PrivateBuildingAI.good_level2_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
-            }
-
-            if ((pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count) != 0)
-            {
-                pc_PrivateBuildingAI.good_level3_ratio = (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final) / (float)(pc_PrivateBuildingAI.shop_get_goods_from_local_count_level1_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level2_final + pc_PrivateBuildingAI.shop_get_goods_from_local_count_level3_final + pc_PrivateBuildingAI.shop_get_goods_from_outside_count);
-            }*/
-
-            //}
 
             public void VehicleStatus()
             {

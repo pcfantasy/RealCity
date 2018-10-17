@@ -6,9 +6,9 @@ using System.Collections;
 
 namespace RealCity
 {
-    public class MoreeconomicUI : UIPanel
+    public class EcnomicUI : UIPanel
     {
-        public static readonly string cacheName = "MoreeconomicUI";
+        public static readonly string cacheName = "EcnomicUI";
 
         public static float WIDTH = 550f;
 
@@ -22,7 +22,7 @@ namespace RealCity
 
         private ItemClass.Availability CurrentMode;
 
-        public static MoreeconomicUI instance;
+        public static EcnomicUI instance;
 
         private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
 

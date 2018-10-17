@@ -83,11 +83,11 @@ namespace RealCity
 
                 //if (rand.Next(8) == 0)
                 //{
-                    //fix sometime no dummy
-                 //   data.m_outgoingProblemTimer = 128;
-                 //   data.m_youngs = 128;
+                //fix sometime no dummy
+                //   data.m_outgoingProblemTimer = 128;
+                //   data.m_youngs = 128;
                 //}
-                AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
+                OutsideConnectionAI.AddConnectionOffers(buildingID, ref data, productionRate, m_cargoCapacity, m_residentCapacity, m_touristFactor0, m_touristFactor1, m_touristFactor2, m_dummyTrafficReason, m_dummyTrafficFactor);
                 ProcessOutsideDemand(buildingID, ref data);
                 AddGarbageOffers(buildingID, ref data);
             }
@@ -409,7 +409,7 @@ namespace RealCity
 
 
         // OutsideConnectionAI
-        public static void AddConnectionOffers(ushort buildingID, ref Building data, int productionRate, int cargoCapacity, int residentCapacity, int touristFactor0, int touristFactor1, int touristFactor2, TransferManager.TransferReason dummyTrafficReason, int dummyTrafficFactor)
+       /*public static void AddConnectionOffers(ushort buildingID, ref Building data, int productionRate, int cargoCapacity, int residentCapacity, int touristFactor0, int touristFactor1, int touristFactor2, TransferManager.TransferReason dummyTrafficReason, int dummyTrafficFactor)
         {
             SimulationManager instance = Singleton<SimulationManager>.instance;
             TransferManager instance2 = Singleton<TransferManager>.instance;
@@ -1011,7 +1011,7 @@ namespace RealCity
                     }
                 }
             }
-        }
+        }*/
 
         private static int TickPathfindStatus(ushort buildingID, ref Building data, BuildingAI.PathFindType type)
         {
@@ -1050,17 +1050,5 @@ namespace RealCity
             }
             return result;
         }
-
-        private static int DummyTrafficProbability()
-        {
-            uint vehicleCount = (uint)Singleton<VehicleManager>.instance.m_vehicleCount;
-            uint instanceCount = (uint)Singleton<CitizenManager>.instance.m_instanceCount;
-            if (vehicleCount * 65536u > instanceCount * 16384u)
-            {
-                return (int)(2048000u / (16384u + vehicleCount * 4u) - 25u);
-            }
-            return (int)(8192000u / (65536u + instanceCount * 4u) - 25u);
-        }
-
     }
 }
