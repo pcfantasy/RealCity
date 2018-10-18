@@ -39,13 +39,28 @@ namespace RealCity
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
                     {
-                        num = rand.Next(400) + 1;
+                        num = rand.Next(300) + 1;
                     }
                     else
                     {
                         num = rand.Next(100) + 1;
                     }
                 }
+
+                if ((comm_data.family_money[homeId] < 5000) && (comm_data.family_profit_status[homeId] <= 25))
+                {
+                    
+                }
+                else if ((comm_data.family_money[homeId] >= 20000) && (comm_data.family_profit_status[homeId] >= 230))
+                {
+                    num = (num << 2);
+                } 
+                else
+                {
+                    num = (num << 1);
+                }
+
+
                 int num1 = -num;
                 if(num1 == -50)   //for rush hour
                 {
@@ -98,6 +113,18 @@ namespace RealCity
                 else
                 {
                     int tourism_fee = rand.Next(100) + 1;
+                    if ((comm_data.family_money[homeId] < 5000) && (comm_data.family_profit_status[homeId] <= 25))
+                    {
+
+                    }
+                    else if ((comm_data.family_money[homeId] >= 20000) && (comm_data.family_profit_status[homeId] >= 230))
+                    {
+                        tourism_fee = (tourism_fee << 2);
+                    }
+                    else
+                    {
+                        tourism_fee = (tourism_fee << 1);
+                    }
                     if (tourism_fee != 0)
                     {
                         comm_data.family_money[homeId] = (float)(comm_data.family_money[homeId] - tourism_fee);
@@ -255,7 +282,7 @@ namespace RealCity
                         }
                         Citizen[] expr_14A_cp_0 = instance.m_citizens.m_buffer;
                         UIntPtr expr_14A_cp_1 = (UIntPtr)citizen;
-                        if (instance.m_units.m_buffer[containingUnit1].m_goods > 20000)
+                        if (instance.m_units.m_buffer[containingUnit1].m_goods > 200)
                         {
                             expr_14A_cp_0[(int)expr_14A_cp_1].m_flags = (expr_14A_cp_0[(int)expr_14A_cp_1].m_flags & ~Citizen.Flags.NeedGoods);
                         }

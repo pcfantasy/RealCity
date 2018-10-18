@@ -46,24 +46,24 @@ namespace RealCity
         public static void Load()
         {
             int i = 0;
-            preBuidlingId = saveandrestore.load_uint(ref i, saveData);
+            preBuidlingId = SaveAndRestore.load_uint(ref i, saveData);
 
-            allBuildings = saveandrestore.load_ushort(ref i, saveData);
-            allBuildingsFinal = saveandrestore.load_ushort(ref i, saveData);
-            allOfficeLevel1BuildingCount = saveandrestore.load_ushort(ref i, saveData);
-            allOfficeLevel2BuildingCount = saveandrestore.load_ushort(ref i, saveData);
-            allOfficeLevel3BuildingCount = saveandrestore.load_ushort(ref i, saveData);
-            allOfficeHighTechBuildingCount = saveandrestore.load_ushort(ref i, saveData);
+            allBuildings = SaveAndRestore.load_ushort(ref i, saveData);
+            allBuildingsFinal = SaveAndRestore.load_ushort(ref i, saveData);
+            allOfficeLevel1BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
+            allOfficeLevel2BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
+            allOfficeLevel3BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
+            allOfficeHighTechBuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
 
-            allOfficeLevel1BuildingCountFinal = saveandrestore.load_ushort(ref i, saveData);
-            allOfficeLevel2BuildingCountFinal = saveandrestore.load_ushort(ref i, saveData);
-            allOfficeLevel3BuildingCountFinal = saveandrestore.load_ushort(ref i, saveData);
-            allOfficeHighTechBuildingCountFinal = saveandrestore.load_ushort(ref i, saveData);
+            allOfficeLevel1BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
+            allOfficeLevel2BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
+            allOfficeLevel3BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
+            allOfficeHighTechBuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
 
-            greaterThan20000ProfitBuildingMoney = saveandrestore.load_long(ref i, saveData);
-            greaterThan20000ProfitBuildingMoneyFinal = saveandrestore.load_long(ref i, saveData);
-            greaterThan20000ProfitBuildingCount = saveandrestore.load_ushort(ref i, saveData);
-            greaterThan20000ProfitBuildingCountFinal = saveandrestore.load_ushort(ref i, saveData);
+            greaterThan20000ProfitBuildingMoney = SaveAndRestore.load_long(ref i, saveData);
+            greaterThan20000ProfitBuildingMoneyFinal = SaveAndRestore.load_long(ref i, saveData);
+            greaterThan20000ProfitBuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
+            greaterThan20000ProfitBuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
 
             //office_gen_salary_index = saveandrestore.load_float(ref i, saveData);
             //office_high_tech_salary_index = saveandrestore.load_float(ref i, saveData);
@@ -79,24 +79,24 @@ namespace RealCity
             int i = 0;
 
             //12*2 + 7*4 = 52
-            saveandrestore.save_uint(ref i, preBuidlingId, ref saveData);
+            SaveAndRestore.save_uint(ref i, preBuidlingId, ref saveData);
 
             //20 + 20
-            saveandrestore.save_ushort(ref i, allBuildings, ref saveData);
-            saveandrestore.save_ushort(ref i, allBuildingsFinal, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeLevel1BuildingCount, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeLevel2BuildingCount, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeLevel3BuildingCount, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeHighTechBuildingCount, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeLevel1BuildingCountFinal, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeLevel2BuildingCountFinal, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeLevel3BuildingCountFinal, ref saveData);
-            saveandrestore.save_ushort(ref i, allOfficeHighTechBuildingCountFinal, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allBuildings, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allBuildingsFinal, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeLevel1BuildingCount, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeLevel2BuildingCount, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeLevel3BuildingCount, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeHighTechBuildingCount, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeLevel1BuildingCountFinal, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeLevel2BuildingCountFinal, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeLevel3BuildingCountFinal, ref saveData);
+            SaveAndRestore.save_ushort(ref i, allOfficeHighTechBuildingCountFinal, ref saveData);
 
-            saveandrestore.save_long(ref i, greaterThan20000ProfitBuildingMoney, ref saveData);
-            saveandrestore.save_long(ref i, greaterThan20000ProfitBuildingMoneyFinal, ref saveData);
-            saveandrestore.save_ushort(ref i, greaterThan20000ProfitBuildingCount, ref saveData);
-            saveandrestore.save_ushort(ref i, greaterThan20000ProfitBuildingCountFinal, ref saveData);
+            SaveAndRestore.save_long(ref i, greaterThan20000ProfitBuildingMoney, ref saveData);
+            SaveAndRestore.save_long(ref i, greaterThan20000ProfitBuildingMoneyFinal, ref saveData);
+            SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCount, ref saveData);
+            SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCountFinal, ref saveData);
 
         }
         protected void SimulationStepActive_1(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
@@ -609,19 +609,19 @@ namespace RealCity
 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = 0.05f;
+                            idex = (0.075f - (float)Politics.stateOwnedPercent / 1000f);
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.1f;
+                            idex = (0.125f - (float)Politics.stateOwnedPercent / 1000f);
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.2f;
+                            idex = (0.225f - (float)Politics.stateOwnedPercent / 1000f);
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.3f;
+                            idex = (0.325f - (float)Politics.stateOwnedPercent / 1000f);
                         }
 
                         greaterThan20000ProfitBuildingMoney += (long)(comm_data.building_money[buildingID] * idex);
@@ -676,7 +676,7 @@ namespace RealCity
             int num = 0;
             GetLandRent(out num);
             int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
+            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies) + Politics.landRentOffset;
             if (comm_data.building_money[buildingID] < 0)
             {
                 num2 = 0;
@@ -704,6 +704,11 @@ namespace RealCity
             if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None)
             {
                 num = num * 95 / 100;
+            }
+
+            if (comm_data.buildingFlag[buildingID])
+            {
+                num = 0;
             }
 
             Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
@@ -864,43 +869,11 @@ namespace RealCity
             switch (data.Info.m_class.m_subService)
             {
                 case ItemClass.SubService.CommercialLow:
-                    switch (data.Info.m_class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            tax = 0.1f; break;
-                        case ItemClass.Level.Level2:
-                            tax = 0.12f; break;
-                        case ItemClass.Level.Level3:
-                            tax = 0.15f; break;
-                        default:
-                            tax = 0; break;
-                    }
-                    break;
                 case ItemClass.SubService.CommercialHigh:
-                    switch (data.Info.m_class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            tax = 0.1f; break;
-                        case ItemClass.Level.Level2:
-                            tax = 0.12f; break;
-                        case ItemClass.Level.Level3:
-                            tax = 0.15f; break;
-                        default:
-                            tax = 0; break;
-                    }
+                    tax = 0.10f;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
-                    switch (data.Info.m_class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            tax = 0.05f; break;
-                        case ItemClass.Level.Level2:
-                            tax = 0.07f; break;
-                        case ItemClass.Level.Level3:
-                            tax = 0.08f; break;
-                        default:
-                            tax = 0; break;
-                    }
+                    tax = 0.10f;
                     break;
                 case ItemClass.SubService.IndustrialFarming:
                     if (data.Info.m_buildingAI is IndustrialExtractorAI)
@@ -909,7 +882,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.1f;
+                        tax = 0.05f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialForestry:
@@ -919,7 +892,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.1f;
+                        tax = 0.05f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOil:
@@ -929,7 +902,7 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.1f;
+                        tax = 0.05f;
                     }
                     break;
                 case ItemClass.SubService.IndustrialOre:
@@ -939,18 +912,24 @@ namespace RealCity
                     }
                     else
                     {
-                        tax = 0.1f;
+                        tax = 0.05f;
                     }
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    tax = 0.2f; break;
+                    tax = 0.15f; break;
                 case ItemClass.SubService.CommercialTourist:
                     tax = 0.5f; break;
                 case ItemClass.SubService.CommercialLeisure:
-                    tax = 0.2f; break;
+                    tax = 0.15f; break;
                 default: tax = 0f; break;
             }
 
+            tax = (tax == 0) ? tax : (tax + Politics.tradeTaxOffset);
+
+            if (comm_data.buildingFlag[buildingID])
+            {
+                tax = 0;
+            }
             return tax;
         }
 

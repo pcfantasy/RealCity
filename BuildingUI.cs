@@ -35,6 +35,7 @@ namespace RealCity
         private UILabel comsuptionDivide;
         private UILabel sellTax;
         private UILabel profit;
+        private UILabel states;
 
         public override void Update()
         {
@@ -144,6 +145,13 @@ namespace RealCity
             this.profit.relativePosition = new Vector3(SPACING, this.sellTax.relativePosition.y + SPACING22);
             this.profit.autoSize = true;
             this.profit.name = "Moreeconomic_Text_5";
+
+            this.states = base.AddUIComponent<UILabel>();
+            this.states.text = language.BuildingUI[42];
+            this.states.tooltip = language.BuildingUI[42];
+            this.states.relativePosition = new Vector3(SPACING, this.profit.relativePosition.y + SPACING22);
+            this.states.autoSize = true;
+            this.states.name = "Moreeconomic_Text_5";
         }
 
         private void RefreshDisplayData()
@@ -232,6 +240,15 @@ namespace RealCity
                             {
                                 this.profit.text = string.Format(language.BuildingUI[23] + " [{0}%]", (int)(temp * 100f));
                             }
+                        }
+
+                        if (comm_data.buildingFlag[comm_data.last_buildingid])
+                        {
+                            this.states.text = string.Format(language.BuildingUI[42] + language.BuildingUI[43]);
+                        }
+                        else
+                        {
+                            this.states.text = string.Format(language.BuildingUI[42] + language.BuildingUI[44]);
                         }
 
                         this.BringToFront();

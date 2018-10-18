@@ -54,43 +54,43 @@ namespace RealCity
         public static void Load()
         {
             int i = 0;
-            preCitizenId = saveandrestore.load_uint(ref i, saveData);
-            familyCount = saveandrestore.load_int(ref i, saveData);
-            familyVeryProfitMoneyCount = saveandrestore.load_uint(ref i, saveData);
-            familyProfitMoneyCount = saveandrestore.load_uint(ref i, saveData);
-            familyLossMoneyCount = saveandrestore.load_uint(ref i, saveData);
-            citizenSalaryCount = saveandrestore.load_int(ref i, saveData);
-            citizenExpenseCount = saveandrestore.load_int(ref i, saveData);
-            citizenSalaryTaxTotal = saveandrestore.load_int(ref i, saveData);
-            tempCitizenSalaryTaxTotal = saveandrestore.load_float(ref i, saveData);
+            preCitizenId = SaveAndRestore.load_uint(ref i, saveData);
+            familyCount = SaveAndRestore.load_int(ref i, saveData);
+            familyVeryProfitMoneyCount = SaveAndRestore.load_uint(ref i, saveData);
+            familyProfitMoneyCount = SaveAndRestore.load_uint(ref i, saveData);
+            familyLossMoneyCount = SaveAndRestore.load_uint(ref i, saveData);
+            citizenSalaryCount = SaveAndRestore.load_int(ref i, saveData);
+            citizenExpenseCount = SaveAndRestore.load_int(ref i, saveData);
+            citizenSalaryTaxTotal = SaveAndRestore.load_int(ref i, saveData);
+            tempCitizenSalaryTaxTotal = SaveAndRestore.load_float(ref i, saveData);
 
-            Road = saveandrestore.load_int(ref i, saveData);
-            Electricity = saveandrestore.load_int(ref i, saveData);
-            Water = saveandrestore.load_int(ref i, saveData);
-            Beautification = saveandrestore.load_int(ref i, saveData);
-            Garbage = saveandrestore.load_int(ref i, saveData);
-            HealthCare = saveandrestore.load_int(ref i, saveData);
-            PoliceDepartment = saveandrestore.load_int(ref i, saveData);
-            Education = saveandrestore.load_int(ref i, saveData);
-            Monument = saveandrestore.load_int(ref i, saveData);
-            FireDepartment = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_bus = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_tram = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_ship = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_plane = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_metro = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_train = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_taxi = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_cablecar = saveandrestore.load_int(ref i, saveData);
-            PublicTransport_monorail = saveandrestore.load_int(ref i, saveData);
-            Disaster = saveandrestore.load_int(ref i, saveData);
+            Road = SaveAndRestore.load_int(ref i, saveData);
+            Electricity = SaveAndRestore.load_int(ref i, saveData);
+            Water = SaveAndRestore.load_int(ref i, saveData);
+            Beautification = SaveAndRestore.load_int(ref i, saveData);
+            Garbage = SaveAndRestore.load_int(ref i, saveData);
+            HealthCare = SaveAndRestore.load_int(ref i, saveData);
+            PoliceDepartment = SaveAndRestore.load_int(ref i, saveData);
+            Education = SaveAndRestore.load_int(ref i, saveData);
+            Monument = SaveAndRestore.load_int(ref i, saveData);
+            FireDepartment = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_bus = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_tram = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_ship = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_plane = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_metro = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_train = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_taxi = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_cablecar = SaveAndRestore.load_int(ref i, saveData);
+            PublicTransport_monorail = SaveAndRestore.load_int(ref i, saveData);
+            Disaster = SaveAndRestore.load_int(ref i, saveData);
 
-            familyWeightStableHigh = saveandrestore.load_uint(ref i, saveData);
-            familyWeightStableLow = saveandrestore.load_uint(ref i, saveData);
+            familyWeightStableHigh = SaveAndRestore.load_uint(ref i, saveData);
+            familyWeightStableLow = SaveAndRestore.load_uint(ref i, saveData);
 
-            citizenGoods = saveandrestore.load_long(ref i, saveData);
-            citizenGoodsTemp = saveandrestore.load_long(ref i, saveData);
-            citizenCount = saveandrestore.load_int(ref i, saveData);
+            citizenGoods = SaveAndRestore.load_long(ref i, saveData);
+            citizenGoodsTemp = SaveAndRestore.load_long(ref i, saveData);
+            citizenCount = SaveAndRestore.load_int(ref i, saveData);
 
             DebugLog.LogToFileOnly("saveData in residentAI is " + i.ToString());
         }
@@ -100,48 +100,48 @@ namespace RealCity
             int i = 0;
 
             //2*4 + 3*4 + 4*4 = 36
-            saveandrestore.save_uint(ref i, preCitizenId, ref saveData);
-            saveandrestore.save_int(ref i, familyCount, ref saveData);
-            saveandrestore.save_uint(ref i, familyVeryProfitMoneyCount, ref saveData);
-            saveandrestore.save_uint(ref i, familyProfitMoneyCount, ref saveData);
-            saveandrestore.save_uint(ref i, familyLossMoneyCount, ref saveData);
-            saveandrestore.save_int(ref i, citizenSalaryCount, ref saveData);
-            saveandrestore.save_int(ref i, citizenExpenseCount, ref saveData);
-            saveandrestore.save_int(ref i, citizenSalaryTaxTotal, ref saveData);
-            saveandrestore.save_float(ref i, tempCitizenSalaryTaxTotal, ref saveData);
+            SaveAndRestore.save_uint(ref i, preCitizenId, ref saveData);
+            SaveAndRestore.save_int(ref i, familyCount, ref saveData);
+            SaveAndRestore.save_uint(ref i, familyVeryProfitMoneyCount, ref saveData);
+            SaveAndRestore.save_uint(ref i, familyProfitMoneyCount, ref saveData);
+            SaveAndRestore.save_uint(ref i, familyLossMoneyCount, ref saveData);
+            SaveAndRestore.save_int(ref i, citizenSalaryCount, ref saveData);
+            SaveAndRestore.save_int(ref i, citizenExpenseCount, ref saveData);
+            SaveAndRestore.save_int(ref i, citizenSalaryTaxTotal, ref saveData);
+            SaveAndRestore.save_float(ref i, tempCitizenSalaryTaxTotal, ref saveData);
 
             //20 * 4 = 80
-            saveandrestore.save_int(ref i, Road, ref saveData);
-            saveandrestore.save_int(ref i, Electricity, ref saveData);
-            saveandrestore.save_int(ref i, Water, ref saveData);
-            saveandrestore.save_int(ref i, Beautification, ref saveData);
-            saveandrestore.save_int(ref i, Garbage, ref saveData);
-            saveandrestore.save_int(ref i, HealthCare, ref saveData);
-            saveandrestore.save_int(ref i, PoliceDepartment, ref saveData);
-            saveandrestore.save_int(ref i, Education, ref saveData);
-            saveandrestore.save_int(ref i, Monument, ref saveData);
-            saveandrestore.save_int(ref i, FireDepartment, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_bus, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_tram, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_ship, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_plane, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_metro, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_train, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_taxi, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_cablecar, ref saveData);
-            saveandrestore.save_int(ref i, PublicTransport_monorail, ref saveData);
-            saveandrestore.save_int(ref i, Disaster, ref saveData);
+            SaveAndRestore.save_int(ref i, Road, ref saveData);
+            SaveAndRestore.save_int(ref i, Electricity, ref saveData);
+            SaveAndRestore.save_int(ref i, Water, ref saveData);
+            SaveAndRestore.save_int(ref i, Beautification, ref saveData);
+            SaveAndRestore.save_int(ref i, Garbage, ref saveData);
+            SaveAndRestore.save_int(ref i, HealthCare, ref saveData);
+            SaveAndRestore.save_int(ref i, PoliceDepartment, ref saveData);
+            SaveAndRestore.save_int(ref i, Education, ref saveData);
+            SaveAndRestore.save_int(ref i, Monument, ref saveData);
+            SaveAndRestore.save_int(ref i, FireDepartment, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_bus, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_tram, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_ship, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_plane, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_metro, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_train, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_taxi, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_cablecar, ref saveData);
+            SaveAndRestore.save_int(ref i, PublicTransport_monorail, ref saveData);
+            SaveAndRestore.save_int(ref i, Disaster, ref saveData);
 
             //8
-            saveandrestore.save_uint(ref i, familyWeightStableHigh, ref saveData);
-            saveandrestore.save_uint(ref i, familyWeightStableLow, ref saveData);
+            SaveAndRestore.save_uint(ref i, familyWeightStableHigh, ref saveData);
+            SaveAndRestore.save_uint(ref i, familyWeightStableLow, ref saveData);
 
             //16
-            saveandrestore.save_long(ref i, citizenGoods, ref saveData);
-            saveandrestore.save_long(ref i, citizenGoodsTemp, ref saveData);
-            saveandrestore.save_int(ref i, citizenCount, ref saveData);
+            SaveAndRestore.save_long(ref i, citizenGoods, ref saveData);
+            SaveAndRestore.save_long(ref i, citizenGoodsTemp, ref saveData);
+            SaveAndRestore.save_int(ref i, citizenCount, ref saveData);
 
-            DebugLog.LogToFileOnly("(save)save_data in residentAI is " + i.ToString());
+            DebugLog.LogToFileOnly("(save)saveData in residentAI is " + i.ToString());
         }
 
         public static int CitizenSalary(uint citizenId, bool checkOnly)
@@ -336,6 +336,32 @@ namespace RealCity
                         default:
                             break;
                     }
+
+                    if (comm_data.buildingFlag[workBuilding])
+                    {
+                        switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
+                        {
+                            case Citizen.Education.Uneducated:
+                                num = num + (int)(comm_data.goverment_education0) + rand.Next(1); break;
+                            case Citizen.Education.OneSchool:
+                                num = num + (int)(comm_data.goverment_education1) + rand.Next(2); break;
+                            case Citizen.Education.TwoSchools:
+                                num = num + (int)(comm_data.goverment_education2) + rand.Next(3); break;
+                            case Citizen.Education.ThreeSchools:
+                                num = num + (int)(comm_data.goverment_education3) + rand.Next(4); break;
+                        }
+                        DistrictManager instance = Singleton<DistrictManager>.instance;
+                        byte district = instance.GetDistrict(Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].m_position);
+                        num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
+                        if (!checkOnly)
+                        {
+                            if (!comm_data.buildingFlag[workBuilding])
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(num * comm_data.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                            }
+                        }
+                    }
+
                     if (!checkOnly)
                     {
                         comm_data.building_money[workBuilding] -= num;
@@ -385,26 +411,26 @@ namespace RealCity
                 if (data.m_citizen0 != 0)
                 {
                     temp++;
-                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0]);
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0], homeID);
                 }
                 if (data.m_citizen1 != 0)
                 {
-                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen1]);
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen1], homeID);
                     temp++;
                 }
                 if (data.m_citizen2 != 0)
                 {
-                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen2]);
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen2], homeID);
                     temp++;
                 }
                 if (data.m_citizen3 != 0)
                 {
-                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen3]);
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen3], homeID);
                     temp++;
                 }
                 if (data.m_citizen4 != 0)
                 {
-                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen4]);
+                    GetVoteChance(data.m_citizen0, Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen4], homeID);
                     temp++;
                 }
 
@@ -591,19 +617,19 @@ namespace RealCity
             }
             else if (citizenSalaryCurrent >= 10 && citizenSalaryCurrent <= 40)
             {
-                tax = (citizenSalaryCurrent - 10) * 0.05f;
+                tax = (citizenSalaryCurrent - 10) * (0.05f + Politics.salaryTaxOffset);
             }
             else if (citizenSalaryCurrent > 40 && citizenSalaryCurrent <= 80)
             {
-                tax = (citizenSalaryCurrent - 40) * 0.15f + 1.5f;
+                tax = (citizenSalaryCurrent - 40) * (0.15f + Politics.salaryTaxOffset) + 30 * (0.05f + Politics.salaryTaxOffset);
             }
             else if (citizenSalaryCurrent > 80 && citizenSalaryCurrent <= 130)
             {
-                tax = (citizenSalaryCurrent - 80) * 0.3f + 7.5f;
+                tax = (citizenSalaryCurrent - 80) * (0.3f + Politics.salaryTaxOffset) +30 * (0.05f + Politics.salaryTaxOffset) + 40 * (0.15f + Politics.salaryTaxOffset);
             }
             else if (citizenSalaryCurrent > 130)
             {
-                tax = (citizenSalaryCurrent - 130) * 0.5f + 22.5f;
+                tax = (citizenSalaryCurrent - 130) * (0.5f + Politics.salaryTaxOffset) + 30 * (0.05f + Politics.salaryTaxOffset) + 40 * (0.15f + Politics.salaryTaxOffset) + 50 * (0.3f + Politics.salaryTaxOffset);
             }
 
 
@@ -694,15 +720,19 @@ namespace RealCity
 
             comm_data.family_money[homeID] = (float)(comm_data.family_money[homeID] - tempNum);
 
-            if (comm_data.family_money[homeID] < 0)
+            if (comm_data.family_money[homeID] < -Politics.benefitOffset)
             {
-                int num = (int)(-(comm_data.family_money[homeID]) + 0.5f);
+                int num = (int)(-(comm_data.family_money[homeID]) + 0.5f - Politics.benefitOffset);
                 comm_data.family_money[homeID] = 0;
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+            } else
+            {
+                comm_data.family_money[homeID] += Politics.benefitOffset;
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
             }
 
 
-            if (comm_data.family_money[homeID] >= 20000)
+            if (comm_data.family_money[homeID] >= 15000)
             {
                 comm_data.family_profit_status[homeID]++;
             }
@@ -746,7 +776,7 @@ namespace RealCity
             {
                 familyWeightStableLow = (ushort)(familyWeightStableLow + 1);
             }
-            else if ((comm_data.family_money[homeID] >= 20000) && (comm_data.family_profit_status[homeID] >= 230))
+            else if ((comm_data.family_money[homeID] >= 15000) && (comm_data.family_profit_status[homeID] >= 230))
             {
                 familyWeightStableHigh = (ushort)(familyWeightStableHigh + 1);
             }
@@ -788,6 +818,16 @@ namespace RealCity
                 comm_data.family_money[homeID] = 0;
                 comm_data.family_profit_status[homeID] = 128;
             }
+
+            //for V2.0 to V3.0
+            if (comm_data.family_count != 0)
+            {
+                if ((float)pc_ResidentAI.citizenGoods / (comm_data.family_count * 2f) > 5000f)
+                {
+                    data.m_goods = 200;
+                }
+            }
+
             preCitizenId = homeID;
             ProcessCitizen(homeID, ref data, false);
             return (byte)tempNum;
@@ -865,7 +905,7 @@ namespace RealCity
             return false;
         }
 
-        public static void setNum(ref int[] source, ref int[] array)
+        public static void SetNum(ref int[] source, ref int[] array)
         {
             System.Random rd = new System.Random();
             int range = array.Length;
@@ -912,7 +952,7 @@ namespace RealCity
                     }
                 }
 
-                setNum(ref source, ref array);
+                SetNum(ref source, ref array);
                 idex = 0;
 
                 for (int i = 0; i <= num4 - num2; i++)
@@ -1034,39 +1074,10 @@ namespace RealCity
 
             data.m_goods = (ushort)Mathf.Max(0, (int)(data.m_goods - temp_num)); //here we can adjust demand
 
-            if (data.m_goods < 19800)
+            if (data.m_goods < 10)
             {
                 SimulationManager instance2 = Singleton<SimulationManager>.instance;
-                //float currentDayTimeHour = instance2.m_currentDayTimeHour;
-                if (instance2.m_randomizer.Int32((uint)data.m_goods + 1) < temp_num * 1000)
-                {
-                    ChanceToDoVitureShopping(homeID, ref data);
-                    //DebugLog.LogToFileOnly("lack of good, buy it directly" + data.m_goods.ToString());
-                }
-            }
-
-
-            //sick
-            if (data.m_goods < 19700)
-            {
-                if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                {
-                    int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        uint citizen = data.GetCitizen((num2 + i) % 5);
-                        if (citizen != 0u)
-                        {
-                            SimulationManager instance2 = Singleton<SimulationManager>.instance;
-                            Citizen[] expr_2FA_cp_0 = instance.m_citizens.m_buffer;
-                            if (instance2.m_randomizer.Int32(data.m_goods) < 100)
-                            {
-                                expr_2FA_cp_0[citizen].Sick = true;
-                            }
-                            break;
-                        }
-                    }
-                }
+                ChanceToDoVitureShopping(homeID, ref data);
             }
 
             //lack of food
@@ -1092,7 +1103,7 @@ namespace RealCity
                 }
             }
 
-            if (data.m_goods < 20000)
+            if (data.m_goods < 200)
             {
                 int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
                 for (int i = 0; i < 5; i++)
@@ -1239,7 +1250,7 @@ namespace RealCity
                     }
                 }
                 int num2;
-                num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
+                num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies) + Politics.landRentOffset;
                 if (comm_data.family_money[homeid] > 0)
                 {
                     incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
@@ -1329,7 +1340,7 @@ namespace RealCity
             Politics.nPartySeatsPolls += ((float)Politics.nPartyChance / 500f);
         }
 
-        public void GetVoteChance(uint citizenID, Citizen citizen)
+        public void GetVoteChance(uint citizenID, Citizen citizen, uint homeID)
         {
             if ((int)Citizen.GetAgeGroup(citizen.m_age) >= 2)
             {
@@ -1434,19 +1445,17 @@ namespace RealCity
                 Politics.lPartyChance += Politics.workplace[idex, 3];
                 Politics.nPartyChance += Politics.workplace[idex, 4];
 
-                if (comm_data.citizen_money[(int)citizenID] <= 2000)
+                if ((comm_data.family_money[homeID] < 5000) && (comm_data.family_profit_status[homeID] <= 25))
                 {
                     idex = 0;
                 }
-
-                if (comm_data.citizen_money[(int)citizenID] >= 2000 && comm_data.citizen_money[(int)citizenID] <= 7000)
-                {
-                    idex = 1;
-                }
-
-                if (comm_data.citizen_money[(int)citizenID] >= 7000)
+                else if ((comm_data.family_money[homeID] >= 15000) && (comm_data.family_profit_status[homeID] >= 230))
                 {
                     idex = 2;
+                }
+                else
+                {
+                    idex = 1;
                 }
 
                 if (idex < 0 || idex > 3 )

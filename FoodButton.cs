@@ -56,7 +56,7 @@ namespace RealCity
                 if (refeshOnce)
                 {
                     this.FButton.tooltip = language.BuildingUI[31];
-                    this.FButton.text = language.BuildingUI[31] + ": " + comm_data.allFoods.ToString();
+                    this.FButton.text = language.BuildingUI[31] + ": " + comm_data.allFoodsFinal.ToString();
                     refeshOnce = false;
                 }
                 if (!comm_data.isFoodsGettedFinal)

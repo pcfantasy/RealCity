@@ -60,17 +60,6 @@ namespace RealCity
         private static bool _init = false;
 
 
-        /*public static bool IsBuildingOutside(UnityEngine.Vector3 position)
-        {
-            if ((position.x < 8600) && (position.x > -8600) && (position.z < 8600) && (position.z > -8600))
-            {
-                return false;
-
-            }
-            return true;
-        }*/
-
-
         private void StartTransfer(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
             bool active = offerIn.Active;

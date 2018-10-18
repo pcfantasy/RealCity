@@ -33,7 +33,7 @@ namespace RealCity
         {
             if (!Loader.guiPanel5.isVisible)
             {
-                PoliticsUI.refesh_onece = true;
+                PoliticsUI.refeshOnce = true;
                 Loader.guiPanel5.Show();
 
                 if (Loader.guiPanel1.isVisible)
@@ -125,7 +125,7 @@ namespace RealCity
             {
                 this.PLButton.text = language.PoliticsMessage[0] + language.OptionUI[4];
                 this.PLButton.tooltip = language.EconomicUI[0];
-                if (Politics.parliamentCount < 10)  //time is ok
+                if (Politics.parliamentCount < 5)  //time is ok
                 {
                     this.PLButton.textColor = Color.red;
                 } else

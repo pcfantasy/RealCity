@@ -56,7 +56,7 @@ namespace RealCity
                 if (refeshOnce)
                 {
                     this.LButton.tooltip = language.BuildingUI[33];
-                    this.LButton.text = language.BuildingUI[33] + ": " + comm_data.allLumbers.ToString();
+                    this.LButton.text = language.BuildingUI[33] + ": " + comm_data.allLumbersFinal.ToString();
                     refeshOnce = false;
                 }
                 if (!comm_data.isLumbersGettedFinal)

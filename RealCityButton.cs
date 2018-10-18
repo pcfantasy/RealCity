@@ -33,7 +33,7 @@ namespace RealCity
         {
             if (!Loader.guiPanel1.isVisible)
             {
-                RealCityUI.refesh_onece = true;
+                RealCityUI.refeshOnce = true;
                 Loader.guiPanel1.Show();
                 if (Loader.guiPanel5.isVisible)
                 {

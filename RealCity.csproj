@@ -83,7 +83,6 @@
     <Compile Include="FoodButton.cs" />
     <Compile Include="pc_OutsideConnectionAI.cs" />
     <Compile Include="pc_CommonBuildingAI.cs" />
-    <Compile Include="pc_VehicleAI.cs" />
     <Compile Include="PlayerBuildingButton.cs" />
     <Compile Include="BuildingButton.cs" />
     <Compile Include="RealCityButton.cs" />
@@ -111,7 +110,7 @@
     <Compile Include="pc_TransferManager.cs" />
     <Compile Include="RealCity.cs" />
     <Compile Include="RedirectionHelper.cs" />
-    <Compile Include="saveandrestore.cs" />
+    <Compile Include="SaveAndRestore.cs" />
     <Compile Include="comm_data.cs" />
     <Compile Include="EcnomicUI.cs" />
     <Compile Include="loader.cs" />

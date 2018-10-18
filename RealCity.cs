@@ -185,31 +185,44 @@ namespace RealCity
                         //citizen_status();
                         GenerateTips();
 
-                        if (comm_data.update_money_count == 16)
-                        {
+
                             comm_data.isCoalsGetted = false;
                             comm_data.isFoodsGetted = false;
                             comm_data.isPetrolsGetted = false;
                             comm_data.isLumbersGetted = false;
+                            comm_data.allFoodsFinal = comm_data.allFoods;
+                            comm_data.allLumbersFinal = comm_data.allLumbers;
+                            comm_data.allCoalsFinal = comm_data.allCoals;
+                            comm_data.allPetrolsFinal = comm_data.allPetrols;
+                            
+
+                            comm_data.isCoalsGettedFinal = (coalStillNeeded <= 0) && (comm_data.allFoods !=0);
+                            comm_data.isFoodsGettedFinal = (foodStillNeeded <= 0) && (comm_data.allLumbers != 0);
+                            comm_data.isPetrolsGettedFinal = (PetrolStillNeeded <= 0) && (comm_data.allPetrols != 0);
+                            comm_data.isLumbersGettedFinal = (lumberStillNeeded <= 0) && (comm_data.allCoals != 0);
+                            foodStillNeeded = (comm_data.citizen_count > 16)? (comm_data.citizen_count>>4) : 0;
+                            lumberStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal > 8)? (pc_PrivateBuildingAI.allBuildingsFinal>>3) : 0 ;
+                            coalStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal > 16)? (pc_PrivateBuildingAI.allBuildingsFinal>>4) : 0 ;
+                            PetrolStillNeeded = (comm_data.allVehiclesFinal > 16)? (comm_data.allVehiclesFinal>> 4) : 0;
                             comm_data.allFoods = 0;
                             comm_data.allLumbers = 0;
                             comm_data.allPetrols = 0;
                             comm_data.allCoals = 0;
-                            foodStillNeeded = comm_data.citizen_count;
-                            lumberStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal << 1);
-                            coalStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal);
-                            PetrolStillNeeded = comm_data.allVehiclesFinal;
-                            BuildingStatus();
-                            comm_data.isCoalsGettedFinal = (coalStillNeeded <= 0);
-                            comm_data.isFoodsGettedFinal = (foodStillNeeded <= 0); ;
-                            comm_data.isPetrolsGettedFinal = (PetrolStillNeeded <= 0);
-                            comm_data.isLumbersGettedFinal = (lumberStillNeeded <= 0);
+                        BuildingStatus();
 
+                        if (comm_data.update_money_count == 16)
+                        {
                             CitizenStatus();
                             Politics.parliamentCount--;
+                            Politics.parliamentMeetingCount--;
                             if (Politics.parliamentCount < 0)
                             {
-                                Politics.parliamentCount = 4;
+                                Politics.parliamentCount = 8;
+                            }
+
+                            if (Politics.parliamentMeetingCount < 0)
+                            {
+                                Politics.parliamentMeetingCount = 4;
                             }
                         }
 
@@ -227,9 +240,9 @@ namespace RealCity
 
                         comm_data.prev_time = comm_data.current_time;
                     }
-                    PoliticsUI.refesh_onece = true;
-                    RealCityUI.refesh_onece = true;
-                    EcnomicUI.refesh_onece = true;
+                    PoliticsUI.refeshOnce = true;
+                    RealCityUI.refeshOnce = true;
+                    EcnomicUI.refeshOnce = true;
                     PlayerBuildingUI.refesh_once = true;
                     BuildingUI.refeshOnce = true;
                     HumanUI.refeshOnce = true;
@@ -248,7 +261,7 @@ namespace RealCity
 
                 tip2_message_forgui = language.TipAndChirperMessage[7];
 
-                if (!comm_data.have_city_resource_department)
+                if (!comm_data.haveCityResourceDepartmentFinal)
                 {
                     tip3_message_forgui = language.TipAndChirperMessage[8];
                 }
@@ -381,286 +394,23 @@ namespace RealCity
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
                 updateOnce = false;
-                comm_data.have_toll_station = false;
-                pc_OutsideConnectionAI.have_garbage_building = false;
-                for (int i = 0; i < instance.m_buildings.m_buffer.Count<Building>(); i++)
-                {
-                    if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
-                    {
-                        if (false)
-                        {
-                        }
-                        else if (IsSpecialBuilding((ushort)i) == 2)
-                        {
-                            comm_data.have_toll_station = true;
-                        }
-                        else if (IsSpecialBuilding((ushort)i) == 3)
-                        {
-                            comm_data.have_city_resource_department = true;
-                            ProcessCityResourceDepartmentBuilding((ushort)i, instance.m_buildings.m_buffer[i]);
-                        }
+                pc_OutsideConnectionAI.haveGarbageBuildingFinal = pc_OutsideConnectionAI.haveGarbageBuilding;
+                comm_data.haveCityResourceDepartmentFinal = comm_data.haveCityResourceDepartment;
+                pc_OutsideConnectionAI.haveGarbageBuilding = false;
+                comm_data.haveCityResourceDepartment = false;
 
-                        if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
-                        {
-                            pc_OutsideConnectionAI.have_garbage_building = true;
-                        }
-                    }
-                }
                 updateOnce = true;
             }
 
 
-            void ProcessCityResourceDepartmentBuilding (ushort buildingID, Building buildingData)
-            {
-                int num27 = 0;
-                int num28 = 0;
-                int num29 = 0;
-                int value = 0;
-                int num34 = 0;
-                TransferManager.TransferReason incomingTransferReason = default(TransferManager.TransferReason);
-
-                //Foods
-                incomingTransferReason = TransferManager.TransferReason.Food;
-                if (incomingTransferReason != TransferManager.TransferReason.None)
-                {
-                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
-                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
-                }
-
-                num34 = 18000 - comm_data.building_buffer3[buildingID] - num29;
-                if (num34 >= 0)
-                {
-                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 1000;
-                    if (offer.Priority > 7)
-                    {
-                        offer.Priority = 7;
-                    }
-                    offer.Building = buildingID;
-                    offer.Position = buildingData.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
-                }
-
-                if (comm_data.building_buffer3[buildingID] > 0 && !comm_data.isFoodsGetted)
-                {
-                    if (foodStillNeeded >= 1)
-                    {
-                        if (comm_data.building_buffer3[buildingID] - (foodStillNeeded) > 0)
-                        {
-                            comm_data.building_buffer3[buildingID] -= (ushort)(foodStillNeeded);
-                            foodStillNeeded = 0;
-                        } else
-                        {
-                            foodStillNeeded -= comm_data.building_buffer3[buildingID];
-                            comm_data.building_buffer3[buildingID] = 0;
-                        }
-                    }
-                }
-                comm_data.allFoods += comm_data.building_buffer3[buildingID];
-
-                //Petrol
-                incomingTransferReason = TransferManager.TransferReason.Petrol;
-                num27 = 0;
-                num28 = 0;
-                num29 = 0;
-                value = 0;
-                num34 = 0;
-                if (incomingTransferReason != TransferManager.TransferReason.None)
-                {
-                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
-                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
-                }
-
-                num34 = 18000 - comm_data.building_buffer2[buildingID] - num29;
-                if (num34 >= 0)
-                {
-                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 1000;
-                    if (offer.Priority > 7)
-                    {
-                        offer.Priority = 7;
-                    }
-                    offer.Building = buildingID;
-                    offer.Position = buildingData.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
-                }
-
-                if (comm_data.building_buffer2[buildingID] > 0 && !comm_data.isPetrolsGetted)
-                {
-                    if (PetrolStillNeeded >= 1)
-                    {
-                        if (comm_data.building_buffer2[buildingID] - PetrolStillNeeded > 0)
-                        {
-                            PetrolStillNeeded = 0;
-                            comm_data.building_buffer2[buildingID] -= (ushort)(PetrolStillNeeded);
-                        } else
-                        {
-                            PetrolStillNeeded -= comm_data.building_buffer2[buildingID];
-                            comm_data.building_buffer2[buildingID] = 0;
-                        }
-                    }
-                }
-                comm_data.allPetrols += comm_data.building_buffer2[buildingID];
-
-                //Coal
-                incomingTransferReason = TransferManager.TransferReason.Coal;
-                num27 = 0;
-                num28 = 0;
-                num29 = 0;
-                value = 0;
-                num34 = 0;
-                if (incomingTransferReason != TransferManager.TransferReason.None)
-                {
-                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
-                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
-                }
-
-                num34 = 18000 - comm_data.building_buffer1[buildingID] - num29;
-                if (num34 >= 0)
-                {
-                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 1000;
-                    if (offer.Priority > 7)
-                    {
-                        offer.Priority = 7;
-                    }
-                    offer.Building = buildingID;
-                    offer.Position = buildingData.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
-                }
-
-                if (comm_data.building_buffer1[buildingID] > 0 && !comm_data.isCoalsGetted)
-                {
-                    if (coalStillNeeded >= 1)
-                    {
-                        if (comm_data.building_buffer1[buildingID] - coalStillNeeded > 0)
-                        {
-                            comm_data.building_buffer1[buildingID] -= (ushort)(coalStillNeeded);
-                            coalStillNeeded = 0;
-                        } else
-                        {
-                            coalStillNeeded -= comm_data.building_buffer1[buildingID];
-                            comm_data.building_buffer1[buildingID] = 0;
-                        }
-                    }
-                }
-                comm_data.allCoals += comm_data.building_buffer1[buildingID];
-
-                //Lumber
-                incomingTransferReason = TransferManager.TransferReason.Lumber;
-                num27 = 0;
-                num28 = 0;
-                num29 = 0;
-                value = 0;
-                num34 = 0;
-                if (incomingTransferReason != TransferManager.TransferReason.None)
-                {
-                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
-                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
-                }
-
-                num34 = 18000 - comm_data.building_buffer4[buildingID] - num29;
-                if (num34 >= 0)
-                {
-                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Priority = num34 / 1000;
-                    if (offer.Priority > 7)
-                    {
-                        offer.Priority = 7;
-                    }
-                    offer.Building = buildingID;
-                    offer.Position = buildingData.m_position;
-                    offer.Amount = 1;
-                    offer.Active = false;
-                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
-                }
-
-                if (comm_data.building_buffer4[buildingID] > 0 && !comm_data.isLumbersGetted)
-                {
-                    if (lumberStillNeeded >= 1)
-                    {
-                        if (comm_data.building_buffer4[buildingID] - (lumberStillNeeded) > 0)
-                        {
-                            comm_data.building_buffer4[buildingID] -= (ushort)(lumberStillNeeded);
-                            lumberStillNeeded = 0;
-                        }
-                        else
-                        {
-                            lumberStillNeeded -= comm_data.building_buffer4[buildingID];
-                            comm_data.building_buffer4[buildingID] = 0;
-                        }
-                    }
-                }
-                comm_data.allLumbers += comm_data.building_buffer4[buildingID];
-            }
-
-            protected void CalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
-            {
-                VehicleManager instance = Singleton<VehicleManager>.instance;
-                ushort num = data.m_guestVehicles;
-                int num2 = 0;
-                while (num != 0)
-                {
-                    if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material)
-                    {
-                        VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
-                        int a;
-                        int num3;
-                        info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
-                        cargo += Mathf.Min(a, num3);
-                        capacity += num3;
-                        count++;
-                        if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
-                        {
-                            outside++;
-                        }
-                    }
-                    num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
-                    if (++num2 > 16384)
-                    {
-                        CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                        break;
-                    }
-                }
-            }
+            
 
             public static byte IsSpecialBuilding(ushort id)
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
 
-                //bank
-                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 1668000)
-                {
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetWaterConsumption().ToString());
-                    return 1;
-                }
-
-                //toll
-                if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 108600)
-                {
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetWaterConsumption().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].m_flags.ToString());
-                    return 2;
-                }
-
-                //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost().ToString());
-                //city_resource_department
                 if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 208600)
                 {
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetMaintenanceCost().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetElectricityConsumption().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetWaterConsumption().ToString());
-                    //DebugLog.LogToFileOnly(instance.m_buildings.m_buffer[id].m_flags.ToString());
                     return 3;
                 }
 
@@ -669,7 +419,7 @@ namespace RealCity
 
             public void CitizenStatus()
             {
-                if (Politics.parliamentCount == 2)
+                if (Politics.parliamentCount == 1)
                 {
                     GetSeats(false);
                     //DebugLog.LogToFileOnly("cPartySeats = " + Politics.cPartySeats.ToString());
@@ -677,6 +427,7 @@ namespace RealCity
                     //DebugLog.LogToFileOnly("sPartySeats = " + Politics.sPartySeats.ToString());
                     //DebugLog.LogToFileOnly("lPartySeats = " + Politics.lPartySeats.ToString());
                     //DebugLog.LogToFileOnly("nPartySeats = " + Politics.nPartySeats.ToString());
+                    Politics.parliamentMeetingCount = 4;
                     CreateGoverment();
                 } else
                 {
@@ -684,7 +435,481 @@ namespace RealCity
                     CreateGoverment();
                 }
 
+                if (Politics.parliamentMeetingCount == 1)
+                {
+                    HoldMeeting();
+                }
 
+            }
+
+            public void HoldMeeting()
+            {
+                System.Random rand = new System.Random();
+                switch (rand.Next(14))
+                {
+                    case 0:
+                        if (Politics.salaryTaxOffset >= 0.1f)
+                        {
+                            Politics.currentIdx = 1;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 0;
+                        }
+                        break;
+                    case 1:
+                        if (Politics.salaryTaxOffset <= 0f)
+                        {
+                            Politics.currentIdx = 0;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 1;
+                        }
+                        break;
+                    case 4:
+                        if (Politics.tradeTaxOffset >= 0.1f)
+                        {
+                            Politics.currentIdx = 5;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 4;
+                        }
+                        break;
+                    case 5:
+                        if (Politics.tradeTaxOffset <= 0f)
+                        {
+                            Politics.currentIdx = 4;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 5;
+                        }
+                        break;
+                    case 2:
+                        if (Politics.benefitOffset >= 10)
+                        {
+                            Politics.currentIdx = 3;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 2;
+                        }
+                        break;
+                    case 3:
+                        if (Politics.benefitOffset <= 0)
+                        {
+                            Politics.currentIdx = 2;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 3;
+                        }
+                        break;
+                    case 6:
+                        if (Politics.importTaxOffset >= 0.4f)
+                        {
+                            Politics.currentIdx = 7;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 6;
+                        }
+                        break;
+                    case 7:
+                        if (Politics.importTaxOffset <= 0f)
+                        {
+                            Politics.currentIdx = 6;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 7;
+                        }
+                        break;
+                    case 8:
+                        if (Politics.stateOwnedPercent >= 50)
+                        {
+                            Politics.currentIdx = 9;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 8;
+                        }
+                        break;
+                    case 9:
+                        if (Politics.stateOwnedPercent <= 0)
+                        {
+                            Politics.currentIdx = 8;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 9;
+                        }
+                        break;
+                    case 10:
+                        if (!Politics.isOutSideGarbagePermit)
+                        {
+                            Politics.currentIdx = 11;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 10;
+                        }
+                        break;
+                    case 11:
+                        if (Politics.isOutSideGarbagePermit)
+                        {
+                            Politics.currentIdx = 10;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 11;
+                        }
+                        break;
+                    case 12:
+                        if (Politics.landRentOffset >= 10)
+                        {
+                            Politics.currentIdx = 13;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 12;
+                        }
+                        break;
+                    case 13:
+                        if (Politics.landRentOffset <= 0)
+                        {
+                            Politics.currentIdx = 12;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 13;
+                        }
+                        break;
+                    default: Politics.currentIdx = 14;break;
+                }
+                VoteResult(Politics.currentIdx);
+            }
+
+            public void VoteResult(int idex)
+            {
+                int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+                int yes = 0;
+                int no = 0;
+                int noAttend = 0;
+                int salaryTaxOffset = 10 - (int)(Politics.salaryTaxOffset * 200);
+                int benefitOffset = 10 - (int)(Politics.benefitOffset * 2);
+                int tradeOffset = 10 - (int)(Politics.tradeTaxOffset * 200);
+                int importOffset = 10 - (int)(Politics.importTaxOffset * 50);
+                int stateOwnedOffset = 10 - (int)(Politics.stateOwnedPercent * 2 / 5);
+                int landRentOffset = 10 - (int)(Politics.landRentOffset * 2);
+
+                if (temp == 99)
+                {
+                    switch (idex)
+                    {
+                        case 0:
+                            yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + salaryTaxOffset);
+                            yes += Politics.gPartySeats * (Politics.riseSalaryTax[1, 0] + salaryTaxOffset);
+                            yes += Politics.sPartySeats * (Politics.riseSalaryTax[2, 0] + salaryTaxOffset);
+                            yes += Politics.lPartySeats * (Politics.riseSalaryTax[3, 0] + salaryTaxOffset);
+                            yes += Politics.nPartySeats * (Politics.riseSalaryTax[4, 0] + salaryTaxOffset);
+                            no += Politics.cPartySeats * (Politics.riseSalaryTax[0, 1] - salaryTaxOffset);
+                            no += Politics.gPartySeats * (Politics.riseSalaryTax[1, 1] - salaryTaxOffset);
+                            no += Politics.sPartySeats * (Politics.riseSalaryTax[2, 1] - salaryTaxOffset);
+                            no += Politics.lPartySeats * (Politics.riseSalaryTax[3, 1] - salaryTaxOffset);
+                            no += Politics.nPartySeats * (Politics.riseSalaryTax[4, 1] - salaryTaxOffset);
+                            noAttend += Politics.cPartySeats * Politics.riseSalaryTax[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.riseSalaryTax[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.riseSalaryTax[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.riseSalaryTax[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.riseSalaryTax[4, 2];
+                            break;
+                        case 1:
+                            yes += Politics.cPartySeats * (Politics.fallSalaryTax[0, 0] - salaryTaxOffset);
+                            yes += Politics.gPartySeats * (Politics.fallSalaryTax[1, 0] - salaryTaxOffset);
+                            yes += Politics.sPartySeats * (Politics.fallSalaryTax[2, 0] - salaryTaxOffset);
+                            yes += Politics.lPartySeats * (Politics.fallSalaryTax[3, 0] - salaryTaxOffset);
+                            yes += Politics.nPartySeats * (Politics.fallSalaryTax[4, 0] - salaryTaxOffset);
+                            no += Politics.cPartySeats * (Politics.fallSalaryTax[0, 1] + salaryTaxOffset);
+                            no += Politics.gPartySeats * (Politics.fallSalaryTax[1, 1] + salaryTaxOffset);
+                            no += Politics.sPartySeats * (Politics.fallSalaryTax[2, 1] + salaryTaxOffset);
+                            no += Politics.lPartySeats * (Politics.fallSalaryTax[3, 1] + salaryTaxOffset);
+                            no += Politics.nPartySeats * (Politics.fallSalaryTax[4, 1] + salaryTaxOffset);
+                            noAttend += Politics.cPartySeats * Politics.fallSalaryTax[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.fallSalaryTax[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.fallSalaryTax[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.fallSalaryTax[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.fallSalaryTax[4, 2];
+                            break;
+                        case 4:
+                            yes += Politics.cPartySeats * (Politics.riseTradeTax[0, 0] + tradeOffset);
+                            yes += Politics.gPartySeats * (Politics.riseTradeTax[1, 0] + tradeOffset);
+                            yes += Politics.sPartySeats * (Politics.riseTradeTax[2, 0] + tradeOffset);
+                            yes += Politics.lPartySeats * (Politics.riseTradeTax[3, 0] + tradeOffset);
+                            yes += Politics.nPartySeats * (Politics.riseTradeTax[4, 0] + tradeOffset);
+                            no += Politics.cPartySeats * (Politics.riseTradeTax[0, 1] - tradeOffset);
+                            no += Politics.gPartySeats * (Politics.riseTradeTax[1, 1] - tradeOffset);
+                            no += Politics.sPartySeats * (Politics.riseTradeTax[2, 1] - tradeOffset);
+                            no += Politics.lPartySeats * (Politics.riseTradeTax[3, 1] - tradeOffset);
+                            no += Politics.nPartySeats * (Politics.riseTradeTax[4, 1] - tradeOffset);
+                            noAttend += Politics.cPartySeats * Politics.riseTradeTax[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.riseTradeTax[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.riseTradeTax[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.riseTradeTax[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.riseTradeTax[4, 2];
+                            break;
+                        case 5:
+                            yes += Politics.cPartySeats * (Politics.fallTradeTax[0, 0] - tradeOffset);
+                            yes += Politics.gPartySeats * (Politics.fallTradeTax[1, 0] - tradeOffset);
+                            yes += Politics.sPartySeats * (Politics.fallTradeTax[2, 0] - tradeOffset);
+                            yes += Politics.lPartySeats * (Politics.fallTradeTax[3, 0] - tradeOffset);
+                            yes += Politics.nPartySeats * (Politics.fallTradeTax[4, 0] - tradeOffset);
+                            no += Politics.cPartySeats * (Politics.fallTradeTax[0, 1] + tradeOffset);
+                            no += Politics.gPartySeats * (Politics.fallTradeTax[1, 1] + tradeOffset);
+                            no += Politics.sPartySeats * (Politics.fallTradeTax[2, 1] + tradeOffset);
+                            no += Politics.lPartySeats * (Politics.fallTradeTax[3, 1] + tradeOffset);
+                            no += Politics.nPartySeats * (Politics.fallTradeTax[4, 1] + tradeOffset);
+                            noAttend += Politics.cPartySeats * Politics.fallTradeTax[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.fallTradeTax[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.fallTradeTax[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.fallTradeTax[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.fallTradeTax[4, 2];
+                            break;
+                        case 2:
+                            yes += Politics.cPartySeats * (Politics.riseBenefit[0, 0] + benefitOffset);
+                            yes += Politics.gPartySeats * (Politics.riseBenefit[1, 0] + benefitOffset);
+                            yes += Politics.sPartySeats * (Politics.riseBenefit[2, 0] + benefitOffset);
+                            yes += Politics.lPartySeats * (Politics.riseBenefit[3, 0] + benefitOffset);
+                            yes += Politics.nPartySeats * (Politics.riseBenefit[4, 0] + benefitOffset);
+                            no += Politics.cPartySeats * (Politics.riseBenefit[0, 1] - benefitOffset);
+                            no += Politics.gPartySeats * (Politics.riseBenefit[1, 1] - benefitOffset);
+                            no += Politics.sPartySeats * (Politics.riseBenefit[2, 1] - benefitOffset);
+                            no += Politics.lPartySeats * (Politics.riseBenefit[3, 1] - benefitOffset);
+                            no += Politics.nPartySeats * (Politics.riseBenefit[4, 1] - benefitOffset);
+                            noAttend += Politics.cPartySeats * Politics.riseBenefit[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.riseBenefit[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.riseBenefit[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.riseBenefit[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.riseBenefit[4, 2];
+                            break;
+                        case 3:
+                            yes += Politics.cPartySeats * (Politics.fallBenefit[0, 0] - benefitOffset);
+                            yes += Politics.gPartySeats * (Politics.fallBenefit[1, 0] - benefitOffset);
+                            yes += Politics.sPartySeats * (Politics.fallBenefit[2, 0] - benefitOffset);
+                            yes += Politics.lPartySeats * (Politics.fallBenefit[3, 0] - benefitOffset);
+                            yes += Politics.nPartySeats * (Politics.fallBenefit[4, 0] - benefitOffset);
+                            no += Politics.cPartySeats * (Politics.fallBenefit[0, 1] + benefitOffset);
+                            no += Politics.gPartySeats * (Politics.fallBenefit[1, 1] + benefitOffset);
+                            no += Politics.sPartySeats * (Politics.fallBenefit[2, 1] + benefitOffset);
+                            no += Politics.lPartySeats * (Politics.fallBenefit[3, 1] + benefitOffset);
+                            no += Politics.nPartySeats * (Politics.fallBenefit[4, 1] + benefitOffset);
+                            noAttend += Politics.cPartySeats * Politics.fallBenefit[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.fallBenefit[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.fallBenefit[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.fallBenefit[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.fallBenefit[4, 2];
+                            break;
+                        case 6:
+                            yes += Politics.cPartySeats * (Politics.riseImportTax[0, 0] + importOffset);
+                            yes += Politics.gPartySeats * (Politics.riseImportTax[1, 0] + importOffset);
+                            yes += Politics.sPartySeats * (Politics.riseImportTax[2, 0] + importOffset);
+                            yes += Politics.lPartySeats * (Politics.riseImportTax[3, 0] + importOffset);
+                            yes += Politics.nPartySeats * (Politics.riseImportTax[4, 0] + importOffset);
+                            no += Politics.cPartySeats * (Politics.riseImportTax[0, 1] - importOffset);
+                            no += Politics.gPartySeats * (Politics.riseImportTax[1, 1] - importOffset);
+                            no += Politics.sPartySeats * (Politics.riseImportTax[2, 1] - importOffset);
+                            no += Politics.lPartySeats * (Politics.riseImportTax[3, 1] - importOffset);
+                            no += Politics.nPartySeats * (Politics.riseImportTax[4, 1] - importOffset);
+                            noAttend += Politics.cPartySeats * Politics.riseImportTax[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.riseImportTax[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.riseImportTax[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.riseImportTax[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.riseImportTax[4, 2];
+                            break;
+                        case 7:
+                            yes += Politics.cPartySeats * (Politics.fallImportTax[0, 0] - importOffset);
+                            yes += Politics.gPartySeats * (Politics.fallImportTax[1, 0] - importOffset);
+                            yes += Politics.sPartySeats * (Politics.fallImportTax[2, 0] - importOffset);
+                            yes += Politics.lPartySeats * (Politics.fallImportTax[3, 0] - importOffset);
+                            yes += Politics.nPartySeats * (Politics.fallImportTax[4, 0] - importOffset);
+                            no += Politics.cPartySeats * (Politics.fallImportTax[0, 1] + importOffset);
+                            no += Politics.gPartySeats * (Politics.fallImportTax[1, 1] + importOffset);
+                            no += Politics.sPartySeats * (Politics.fallImportTax[2, 1] + importOffset);
+                            no += Politics.lPartySeats * (Politics.fallImportTax[3, 1] + importOffset);
+                            no += Politics.nPartySeats * (Politics.fallImportTax[4, 1] + importOffset);
+                            noAttend += Politics.cPartySeats * Politics.fallImportTax[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.fallImportTax[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.fallImportTax[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.fallImportTax[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.fallImportTax[4, 2];
+                            break;
+                        case 8:
+                            yes += Politics.cPartySeats * (Politics.riseStateOwned[0, 0] + stateOwnedOffset);
+                            yes += Politics.gPartySeats * (Politics.riseStateOwned[1, 0] + stateOwnedOffset);
+                            yes += Politics.sPartySeats * (Politics.riseStateOwned[2, 0] + stateOwnedOffset);
+                            yes += Politics.lPartySeats * (Politics.riseStateOwned[3, 0] + stateOwnedOffset);
+                            yes += Politics.nPartySeats * (Politics.riseStateOwned[4, 0] + stateOwnedOffset);
+                            no += Politics.cPartySeats * (Politics.riseStateOwned[0, 1] - stateOwnedOffset);
+                            no += Politics.gPartySeats * (Politics.riseStateOwned[1, 1] - stateOwnedOffset);
+                            no += Politics.sPartySeats * (Politics.riseStateOwned[2, 1] - stateOwnedOffset);
+                            no += Politics.lPartySeats * (Politics.riseStateOwned[3, 1] - stateOwnedOffset);
+                            no += Politics.nPartySeats * (Politics.riseStateOwned[4, 1] - stateOwnedOffset);
+                            noAttend += Politics.cPartySeats * Politics.riseStateOwned[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.riseStateOwned[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.riseStateOwned[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.riseStateOwned[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.riseStateOwned[4, 2];
+                            break;
+                        case 9:
+                            yes += Politics.cPartySeats * (Politics.fallStateOwned[0, 0] - stateOwnedOffset);
+                            yes += Politics.gPartySeats * (Politics.fallStateOwned[1, 0] - stateOwnedOffset);
+                            yes += Politics.sPartySeats * (Politics.fallStateOwned[2, 0] - stateOwnedOffset);
+                            yes += Politics.lPartySeats * (Politics.fallStateOwned[3, 0] - stateOwnedOffset);
+                            yes += Politics.nPartySeats * (Politics.fallStateOwned[4, 0] - stateOwnedOffset);
+                            no += Politics.cPartySeats * (Politics.fallStateOwned[0, 1] + stateOwnedOffset);
+                            no += Politics.gPartySeats * (Politics.fallStateOwned[1, 1] + stateOwnedOffset);
+                            no += Politics.sPartySeats * (Politics.fallStateOwned[2, 1] + stateOwnedOffset);
+                            no += Politics.lPartySeats * (Politics.fallStateOwned[3, 1] + stateOwnedOffset);
+                            no += Politics.nPartySeats * (Politics.fallStateOwned[4, 1] + stateOwnedOffset);
+                            noAttend += Politics.cPartySeats * Politics.fallStateOwned[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.fallStateOwned[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.fallStateOwned[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.fallStateOwned[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.fallStateOwned[4, 2];
+                            break;
+                        case 11:
+                            yes += Politics.cPartySeats * Politics.allowGarbage[0, 0];
+                            yes += Politics.gPartySeats * Politics.allowGarbage[1, 0];
+                            yes += Politics.sPartySeats * Politics.allowGarbage[2, 0];
+                            yes += Politics.lPartySeats * Politics.allowGarbage[3, 0];
+                            yes += Politics.nPartySeats * Politics.allowGarbage[4, 0];
+                            no += Politics.cPartySeats * Politics.allowGarbage[0, 1];
+                            no += Politics.gPartySeats * Politics.allowGarbage[1, 1];
+                            no += Politics.sPartySeats * Politics.allowGarbage[2, 1];
+                            no += Politics.lPartySeats * Politics.allowGarbage[3, 1];
+                            no += Politics.nPartySeats * Politics.allowGarbage[4, 1];
+                            noAttend += Politics.cPartySeats * Politics.allowGarbage[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.allowGarbage[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.allowGarbage[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.allowGarbage[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.allowGarbage[4, 2];
+                            break;
+                        case 10:
+                            yes += Politics.cPartySeats * Politics.notAllowGarbage[0, 0];
+                            yes += Politics.gPartySeats * Politics.notAllowGarbage[1, 0];
+                            yes += Politics.sPartySeats * Politics.notAllowGarbage[2, 0];
+                            yes += Politics.lPartySeats * Politics.notAllowGarbage[3, 0];
+                            yes += Politics.nPartySeats * Politics.notAllowGarbage[4, 0];
+                            no += Politics.cPartySeats * Politics.notAllowGarbage[0, 1];
+                            no += Politics.gPartySeats * Politics.notAllowGarbage[1, 1];
+                            no += Politics.sPartySeats * Politics.notAllowGarbage[2, 1];
+                            no += Politics.lPartySeats * Politics.notAllowGarbage[3, 1];
+                            no += Politics.nPartySeats * Politics.notAllowGarbage[4, 1];
+                            noAttend += Politics.cPartySeats * Politics.notAllowGarbage[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.notAllowGarbage[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.notAllowGarbage[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.notAllowGarbage[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.notAllowGarbage[4, 2];
+                            break;
+                        case 12:
+                            yes += Politics.cPartySeats * (Politics.riseLandRent[0, 0] + landRentOffset);
+                            yes += Politics.gPartySeats * (Politics.riseLandRent[1, 0] + landRentOffset);
+                            yes += Politics.sPartySeats * (Politics.riseLandRent[2, 0] + landRentOffset);
+                            yes += Politics.lPartySeats * (Politics.riseLandRent[3, 0] + landRentOffset);
+                            yes += Politics.nPartySeats * (Politics.riseLandRent[4, 0] + landRentOffset);
+                            no += Politics.cPartySeats * (Politics.riseLandRent[0, 1] - landRentOffset);
+                            no += Politics.gPartySeats * (Politics.riseLandRent[1, 1] - landRentOffset);
+                            no += Politics.sPartySeats * (Politics.riseLandRent[2, 1] - landRentOffset);
+                            no += Politics.lPartySeats * (Politics.riseLandRent[3, 1] - landRentOffset);
+                            no += Politics.nPartySeats * (Politics.riseLandRent[4, 1] - landRentOffset);
+                            noAttend += Politics.cPartySeats * Politics.riseLandRent[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.riseLandRent[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.riseLandRent[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.riseLandRent[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.riseLandRent[4, 2];
+                            break;
+                        case 13:
+                            yes += Politics.cPartySeats * (Politics.fallLandRent[0, 0] - landRentOffset);
+                            yes += Politics.gPartySeats * (Politics.fallLandRent[1, 0] - landRentOffset);
+                            yes += Politics.sPartySeats * (Politics.fallLandRent[2, 0] - landRentOffset);
+                            yes += Politics.lPartySeats * (Politics.fallLandRent[3, 0] - landRentOffset);
+                            yes += Politics.nPartySeats * (Politics.fallLandRent[4, 0] - landRentOffset);
+                            no += Politics.cPartySeats * (Politics.fallLandRent[0, 1] + landRentOffset);
+                            no += Politics.gPartySeats * (Politics.fallLandRent[1, 1] + landRentOffset);
+                            no += Politics.sPartySeats * (Politics.fallLandRent[2, 1] + landRentOffset);
+                            no += Politics.lPartySeats * (Politics.fallLandRent[3, 1] + landRentOffset);
+                            no += Politics.nPartySeats * (Politics.fallLandRent[4, 1] + landRentOffset);
+                            noAttend += Politics.cPartySeats * Politics.fallLandRent[0, 2];
+                            noAttend += Politics.gPartySeats * Politics.fallLandRent[1, 2];
+                            noAttend += Politics.sPartySeats * Politics.fallLandRent[2, 2];
+                            noAttend += Politics.lPartySeats * Politics.fallLandRent[3, 2];
+                            noAttend += Politics.nPartySeats * Politics.fallLandRent[4, 2];
+                            break;
+                    }
+
+                    int temp1 = yes + no + noAttend;
+
+
+                    yes = (int)(yes * 99f / temp1);
+                    no = (int)(no * 99f / temp1);
+                    noAttend = (int)(noAttend * 99f / temp1);
+
+                    temp1 = yes + no + noAttend;
+                    if (temp1 < 99)
+                    {
+                        System.Random rand = new System.Random();
+                        switch (rand.Next(3))
+                        {
+                            case 0:
+                                yes += 99 - temp1; break;
+                            case 1:
+                                no += 99 - temp1; break;
+                            case 2:
+                                noAttend += 99 - temp1; break;
+                        }
+                    }
+
+                    Politics.currentYes = (byte)yes;
+                    Politics.currentNo = (byte)no;
+                    Politics.currentNoAttend = (byte)noAttend;
+
+                    if (Politics.currentYes >= 50)
+                    {
+                        switch (idex)
+                        {
+                            case 0:
+                                Politics.salaryTaxOffset += 0.01f; break;
+                            case 1:
+                                Politics.salaryTaxOffset -= 0.01f; break;
+                            case 4:
+                                Politics.tradeTaxOffset += 0.01f; break;
+                            case 5:
+                                Politics.tradeTaxOffset -= 0.01f; break;
+                            case 2:
+                                Politics.benefitOffset += 1; break;
+                            case 3:
+                                Politics.benefitOffset -= 1; break;
+                            case 6:
+                                Politics.importTaxOffset += 0.04f; break;
+                            case 7:
+                                Politics.importTaxOffset -= 0.04f; break;
+                            case 8:
+                                Politics.stateOwnedPercent += 5; break;
+                            case 9:
+                                Politics.stateOwnedPercent -= 5; break;
+                            case 10:
+                                Politics.isOutSideGarbagePermit = false; break;
+                            case 11:
+                                Politics.isOutSideGarbagePermit = true; break;
+                            case 12:
+                                Politics.landRentOffset += 1; break;
+                            case 13:
+                                Politics.landRentOffset -= 1; break;
+                        }
+                    }
+                }
             }
 
             public void CreateGoverment()
@@ -961,90 +1186,254 @@ namespace RealCity
                 if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
                 {
                     uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                    int num4 = (int)(currentFrameIndex & 15u);
-                    int num5 = num4 * 1024;
-                    int num6 = (num4 + 1) * 1024 - 1;
+                    int num4 = (int)(currentFrameIndex & 255u);
+                    int num5 = num4 * 192;
+                    int num6 = (num4 + 1) * 192 - 1;
                     //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
-                    VehicleManager instance = Singleton<VehicleManager>.instance;
+                    BuildingManager instance = Singleton<BuildingManager>.instance;
 
-                    
+
                     for (int i = num5; i <= num6; i = i + 1)
                     {
-                        if (comm_data.have_toll_station)
+                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
                         {
-                            Vehicle vehicle = instance.m_vehicles.m_buffer[i];
-                            Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_sourceBuilding];
-                            Building building1 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_targetBuilding];
-                            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
+                            if (RealCity.EconomyExtension.IsSpecialBuilding((ushort)i) == 3)
                             {
-                                ushort num = FindToll(vehicle.GetFramePosition(currentFrameIndex), 16f);
-                                if (num != 0)
-                                {
-                                    bool flag1 = building.m_flags.IsFlagSet(Building.Flags.Untouchable) && building1.m_flags.IsFlagSet(Building.Flags.Untouchable);
-
-                                    if (vehicle.m_sourceBuilding != 0)
-                                    {
-                                        if (!building.m_flags.IsFlagSet(Building.Flags.Untouchable) && building1.m_flags.IsFlagSet(Building.Flags.Untouchable))
-                                        {
-                                        }
-                                    }
-
-                                    if (flag1 && (!comm_data.vehical_flag[i]))
-                                    {
-                                        if ((vehicle.Info.m_vehicleAI is PassengerCarAI) || (vehicle.Info.m_vehicleAI is CargoTruckAI))
-                                        {
-                                                comm_data.vehical_flag[i] = true;
-                                                Singleton<EconomyManager>.instance.AddPrivateIncome(1000, ItemClass.Service.Road, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
-                                        }
-                                    }
-                                }
+                                comm_data.haveCityResourceDepartment = true;
+                                ProcessCityResourceDepartmentBuilding((ushort)i, instance.m_buildings.m_buffer[i]);
                             }
-                        } // toll station
-                    }
-                }
-            }
 
-            public static ushort FindToll(Vector3 pos, float maxDistance)
-            {
-                int num = Mathf.Max((int)((pos.x - maxDistance) / 64f + 135f), 0);
-                int num2 = Mathf.Max((int)((pos.z - maxDistance) / 64f + 135f), 0);
-                int num3 = Mathf.Min((int)((pos.x + maxDistance) / 64f + 135f), 269);
-                int num4 = Mathf.Min((int)((pos.z + maxDistance) / 64f + 135f), 269);
-                ushort result = 0;
-                BuildingManager building = Singleton<BuildingManager>.instance;
-                float num5 = maxDistance * maxDistance;
-                for (int i = num2; i <= num4; i++)
-                {
-                    for (int j = num; j <= num3; j++)
-                    {
-                        ushort num6 = building.m_buildingGrid[i * 270 + j];
-                        int num7 = 0;
-                        while (num6 != 0)
-                        {
-                            BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
-                            if (RealCity.EconomyExtension.IsSpecialBuilding((ushort)num6) == 2)
+                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
                             {
-                                if ((building.m_buildings.m_buffer[(int)num6].m_productionRate!=0) || (!building.m_buildings.m_buffer[(int)num6].m_flags.IsFlagSet(Building.Flags.Deleted)))
-                                {
-                                    float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
-                                    if (num8 < num5)
-                                    {
-                                        result = num6;
-                                        num5 = num8;
-                                        break;
-                                    }
-                                }
-                            }
-                            num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
-                            if (++num7 >= 49152)
-                            {
-                                CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                                break;
+                                pc_OutsideConnectionAI.haveGarbageBuilding = true;
                             }
                         }
                     }
                 }
-                return result;
+            }
+
+
+            void ProcessCityResourceDepartmentBuilding(ushort buildingID, Building buildingData)
+            {
+                int num27 = 0;
+                int num28 = 0;
+                int num29 = 0;
+                int value = 0;
+                int num34 = 0;
+                TransferManager.TransferReason incomingTransferReason = default(TransferManager.TransferReason);
+
+                //Foods
+                incomingTransferReason = TransferManager.TransferReason.Food;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 18000 - comm_data.building_buffer3[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 1000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer3[buildingID] > 0)
+                {
+                    if (foodStillNeeded >= 1)
+                    {
+                        if (comm_data.building_buffer3[buildingID] - (foodStillNeeded) > 0)
+                        {
+                            comm_data.building_buffer3[buildingID] -= (ushort)(foodStillNeeded);
+                            foodStillNeeded = 0;
+                        }
+                        else
+                        {
+                            foodStillNeeded -= comm_data.building_buffer3[buildingID];
+                            comm_data.building_buffer3[buildingID] = 0;
+                        }
+                    }
+                }
+                comm_data.allFoods += comm_data.building_buffer3[buildingID];
+
+                //Petrol
+                incomingTransferReason = TransferManager.TransferReason.Petrol;
+                num27 = 0;
+                num28 = 0;
+                num29 = 0;
+                value = 0;
+                num34 = 0;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 18000 - comm_data.building_buffer2[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 1000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer2[buildingID] > 0)
+                {
+                    if (PetrolStillNeeded >= 1)
+                    {
+                        if (comm_data.building_buffer2[buildingID] - PetrolStillNeeded > 0)
+                        {
+                            PetrolStillNeeded = 0;
+                            comm_data.building_buffer2[buildingID] -= (ushort)(PetrolStillNeeded);
+                        }
+                        else
+                        {
+                            PetrolStillNeeded -= comm_data.building_buffer2[buildingID];
+                            comm_data.building_buffer2[buildingID] = 0;
+                        }
+                    }
+                }
+                comm_data.allPetrols += comm_data.building_buffer2[buildingID];
+
+                //Coal
+                incomingTransferReason = TransferManager.TransferReason.Coal;
+                num27 = 0;
+                num28 = 0;
+                num29 = 0;
+                value = 0;
+                num34 = 0;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 18000 - comm_data.building_buffer1[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 1000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer1[buildingID] > 0)
+                {
+                    if (coalStillNeeded >= 1)
+                    {
+                        if (comm_data.building_buffer1[buildingID] - coalStillNeeded > 0)
+                        {
+                            comm_data.building_buffer1[buildingID] -= (ushort)(coalStillNeeded);
+                            coalStillNeeded = 0;
+                        }
+                        else
+                        {
+                            coalStillNeeded -= comm_data.building_buffer1[buildingID];
+                            comm_data.building_buffer1[buildingID] = 0;
+                        }
+                    }
+                }
+                comm_data.allCoals += comm_data.building_buffer1[buildingID];
+
+                //Lumber
+                incomingTransferReason = TransferManager.TransferReason.Lumber;
+                num27 = 0;
+                num28 = 0;
+                num29 = 0;
+                value = 0;
+                num34 = 0;
+                if (incomingTransferReason != TransferManager.TransferReason.None)
+                {
+                    CalculateGuestVehicles(buildingID, ref buildingData, incomingTransferReason, ref num27, ref num28, ref num29, ref value);
+                    buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
+                }
+
+                num34 = 18000 - comm_data.building_buffer4[buildingID] - num29;
+                if (num34 >= 0)
+                {
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Priority = num34 / 1000;
+                    if (offer.Priority > 7)
+                    {
+                        offer.Priority = 7;
+                    }
+                    offer.Building = buildingID;
+                    offer.Position = buildingData.m_position;
+                    offer.Amount = 1;
+                    offer.Active = false;
+                    Singleton<TransferManager>.instance.AddIncomingOffer(incomingTransferReason, offer);
+                }
+
+                if (comm_data.building_buffer4[buildingID] > 0)
+                {
+                    if (lumberStillNeeded >= 1)
+                    {
+                        if (comm_data.building_buffer4[buildingID] - (lumberStillNeeded) > 0)
+                        {
+                            comm_data.building_buffer4[buildingID] -= (ushort)(lumberStillNeeded);
+                            lumberStillNeeded = 0;
+                        }
+                        else
+                        {
+                            lumberStillNeeded -= comm_data.building_buffer4[buildingID];
+                            comm_data.building_buffer4[buildingID] = 0;
+                        }
+                    }
+                }
+                comm_data.allLumbers += comm_data.building_buffer4[buildingID];
+            }
+
+            protected void CalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+            {
+                VehicleManager instance = Singleton<VehicleManager>.instance;
+                ushort num = data.m_guestVehicles;
+                int num2 = 0;
+                while (num != 0)
+                {
+                    if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material)
+                    {
+                        VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                        int a;
+                        int num3;
+                        info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                        cargo += Mathf.Min(a, num3);
+                        capacity += num3;
+                        count++;
+                        if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                        {
+                            outside++;
+                        }
+                    }
+                    num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
+                    if (++num2 > 16384)
+                    {
+                        CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                        break;
+                    }
+                }
             }
 
         }

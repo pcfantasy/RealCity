@@ -11,7 +11,7 @@ namespace RealCity
 {
     public class pc_OutsideConnectionAI : BuildingAI
     {
-        public static int m_cargoCapacity = 40;
+        public static int m_cargoCapacity = 30;
 
         public static int m_residentCapacity = 1000;
 
@@ -25,7 +25,8 @@ namespace RealCity
 
         public static int m_dummyTrafficFactor = 1000;
 
-        public static bool have_garbage_building = false;
+        public static bool haveGarbageBuilding = false;
+        public static bool haveGarbageBuildingFinal = false;
 
         public override void SimulationStep(ushort buildingID, ref Building data)
         {
@@ -57,7 +58,7 @@ namespace RealCity
                     m_dummyTrafficFactor = rand.Next(600);
                 }
 
-
+                m_cargoCapacity = 45 - (int)(Politics.importTaxOffset * 100);
                 //DebugLog.LogToFileOnly(m_dummyTrafficReason.ToString() + " " + m_dummyTrafficFactor.ToString() + " " + data.m_outgoingProblemTimer.ToString() + " " + data.m_education1.ToString());
                 //m_dummyTrafficFactor = 1000 + rand.Next(1000);
                 if (comm_data.isFoodsGettedFinal == false)
@@ -98,7 +99,7 @@ namespace RealCity
         {
             if (data.Info.m_class.m_service == ItemClass.Service.Road)
             {
-                if (have_garbage_building && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                 {
                     if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                     {
@@ -110,9 +111,9 @@ namespace RealCity
                     }
                 }
 
-                if (data.m_garbageBuffer > 60000)
+                if (data.m_garbageBuffer > 20000)
                 {
-                    data.m_garbageBuffer = 60000;
+                    data.m_garbageBuffer = 20000;
                 }
             }
             else if (RealCity.updateOnce && (data.m_garbageBuffer != 0))
@@ -225,7 +226,7 @@ namespace RealCity
         {
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
 
-            if (have_garbage_building && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+            if (!Politics.isOutSideGarbagePermit && haveGarbageBuildingFinal && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
             {
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {

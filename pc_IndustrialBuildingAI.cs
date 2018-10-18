@@ -19,6 +19,11 @@ namespace RealCity
             int num3 = Mathf.Max(num2 * 500 / consumptionDivider, num * 4);
             data.m_customBuffer1 = 8000;
             comm_data.building_money[buildingID] -= 8000* pc_PrivateBuildingAI.GetPrice(false, buildingID, data);
+            System.Random rand = new System.Random();
+            if (rand.Next(100) < Politics.stateOwnedPercent)
+            {
+                comm_data.buildingFlag[buildingID] = true;
+            }
             DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
             if (specialization != DistrictPolicies.Specialization.None)
             {
@@ -246,17 +251,32 @@ namespace RealCity
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(false, buildingID, data);
-            comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income1;
+            if (!comm_data.buildingFlag[buildingID])
+            {
+                comm_data.building_money[buildingID] = comm_data.building_money[buildingID] - trade_income1;
+            }
+            else
+            {
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(trade_income1 * comm_data.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class);
+            }
         }
 
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_income1 = (float)amountDelta * pc_PrivateBuildingAI.GetPrice(true, buildingID, data);
             float trade_tax = 0;
-            trade_tax = -trade_income1 * pc_PrivateBuildingAI.GetTaxRate(data, buildingID);            
-            Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+            trade_tax = -trade_income1 * pc_PrivateBuildingAI.GetTaxRate(data, buildingID);
+            if (!comm_data.buildingFlag[buildingID])
+            {
+                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+                comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income1 + trade_tax));
+            }
+            else
+            {
+                Singleton<EconomyManager>.instance.AddPrivateIncome((int)-trade_income1, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+            }
          
-            comm_data.building_money[buildingID] = (comm_data.building_money[buildingID] - (trade_income1 + trade_tax));
+            
         }
     }
 }

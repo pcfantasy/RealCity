@@ -33,7 +33,7 @@ namespace RealCity
         {
             if (!Loader.guiPanel.isVisible)
             {
-                EcnomicUI.refesh_onece = true;
+                EcnomicUI.refeshOnce = true;
                 Loader.guiPanel.Show();
             }
             else

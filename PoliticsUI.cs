@@ -12,7 +12,7 @@ namespace RealCity
 
         public static float WIDTH = 850f;
 
-        private static readonly float HEIGHT = 400f;
+        private static readonly float HEIGHT = 700f;
 
         private static readonly float HEADER = 40f;
 
@@ -41,8 +41,6 @@ namespace RealCity
 
         private UILabel goverment;
 
-
-        private UILabel style;
         private UILabel polls;
         private UILabel communistPolls;
         private UILabel greenPolls;
@@ -50,8 +48,20 @@ namespace RealCity
         private UILabel liberalPolls;
         private UILabel nationalPolls;
         private UILabel nextVote;
+        private UILabel nextMeeting;
+        private UILabel currentMeetingItem;
+        private UILabel voteResult;
+        private UILabel currentPolitics;
 
-        public static bool refesh_onece = false;
+        private UILabel salary;
+        private UILabel benefit;
+        private UILabel trade;
+        private UILabel import;
+        private UILabel stateOwned;
+        private UILabel garbage;
+        private UILabel landRent;
+
+        public static bool refeshOnce = false;
 
         public override void Update()
         {
@@ -153,19 +163,12 @@ namespace RealCity
             goverment.autoSize = true;
             goverment.name = "Moreeconomic_Text_0";
 
-            style = base.AddUIComponent<UILabel>();
-            style.text = language.PoliticsMessage[12];
-            style.tooltip = language.PoliticsMessage[12];
-            style.relativePosition = new Vector3(SPACING, goverment.relativePosition.y + SPACING22 + 20f);
-            style.autoSize = true;
-            style.name = "Moreeconomic_Text_11";
-
             //citizen
             this.polls = base.AddUIComponent<UILabel>();
             this.polls.text = language.PoliticsMessage[19];
             this.polls.textScale = 1.1f;
             this.polls.tooltip = "N/A";
-            this.polls.relativePosition = new Vector3(SPACING, style.relativePosition.y + SPACING22 + 20f);
+            this.polls.relativePosition = new Vector3(SPACING, goverment.relativePosition.y + SPACING22 + 20f);
             this.polls.autoSize = true;
 
             //data
@@ -211,6 +214,85 @@ namespace RealCity
             this.nextVote.autoSize = true;
             this.nextVote.name = "Moreeconomic_Text_0";
 
+            this.nextMeeting = base.AddUIComponent<UILabel>();
+            this.nextMeeting.text = language.PoliticsMessage[22];
+            this.nextMeeting.tooltip = language.PoliticsMessage[22];
+            this.nextMeeting.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22 + 20f);
+            this.nextMeeting.autoSize = true;
+            this.nextMeeting.name = "Moreeconomic_Text_0";
+
+            this.currentMeetingItem = base.AddUIComponent<UILabel>();
+            this.currentMeetingItem.text = language.PoliticsMessage[23];
+            this.currentMeetingItem.tooltip = language.PoliticsMessage[23];
+            this.currentMeetingItem.textScale = 1.1f;
+            this.currentMeetingItem.relativePosition = new Vector3(SPACING, this.nextMeeting.relativePosition.y + SPACING22 + 20f);
+            this.currentMeetingItem.autoSize = true;
+            this.currentMeetingItem.name = "Moreeconomic_Text_0";
+
+            this.voteResult = base.AddUIComponent<UILabel>();
+            this.voteResult.text = language.PoliticsMessage[36];
+            this.voteResult.tooltip = language.PoliticsMessage[36];
+            this.voteResult.relativePosition = new Vector3(SPACING, this.currentMeetingItem.relativePosition.y + SPACING22 + 20f);
+            this.voteResult.autoSize = true;
+            this.voteResult.name = "Moreeconomic_Text_0";
+
+            this.currentPolitics = base.AddUIComponent<UILabel>();
+            this.currentPolitics.text = language.PoliticsMessage[40];
+            this.currentPolitics.tooltip = language.PoliticsMessage[40];
+            this.currentPolitics.textScale = 1.1f;
+            this.currentPolitics.relativePosition = new Vector3(SPACING, this.voteResult.relativePosition.y + SPACING22 + 20f);
+            this.currentPolitics.autoSize = true;
+            this.currentPolitics.name = "Moreeconomic_Text_0";
+
+            this.salary = base.AddUIComponent<UILabel>();
+            this.salary.text = language.PoliticsMessage[41];
+            this.salary.tooltip = language.PoliticsMessage[41];
+            this.salary.relativePosition = new Vector3(SPACING, this.currentPolitics.relativePosition.y + SPACING22);
+            this.salary.autoSize = true;
+            this.salary.name = "Moreeconomic_Text_0";
+
+            this.benefit = base.AddUIComponent<UILabel>();
+            this.benefit.text = language.PoliticsMessage[42];
+            this.benefit.tooltip = language.PoliticsMessage[42];
+            this.benefit.relativePosition = new Vector3(SPACING, this.salary.relativePosition.y + SPACING22);
+            this.benefit.autoSize = true;
+            this.benefit.name = "Moreeconomic_Text_0";
+
+            this.trade = base.AddUIComponent<UILabel>();
+            this.trade.text = language.PoliticsMessage[43];
+            this.trade.tooltip = language.PoliticsMessage[43];
+            this.trade.relativePosition = new Vector3(SPACING, this.benefit.relativePosition.y + SPACING22);
+            this.trade.autoSize = true;
+            this.trade.name = "Moreeconomic_Text_0";
+
+            this.import = base.AddUIComponent<UILabel>();
+            this.import.text = language.PoliticsMessage[44];
+            this.import.tooltip = language.PoliticsMessage[44];
+            this.import.relativePosition = new Vector3(SPACING, this.trade.relativePosition.y + SPACING22);
+            this.import.autoSize = true;
+            this.import.name = "Moreeconomic_Text_0";
+
+            this.stateOwned = base.AddUIComponent<UILabel>();
+            this.stateOwned.text = language.PoliticsMessage[45];
+            this.stateOwned.tooltip = language.PoliticsMessage[45];
+            this.stateOwned.relativePosition = new Vector3(SPACING, this.import.relativePosition.y + SPACING22);
+            this.stateOwned.autoSize = true;
+            this.stateOwned.name = "Moreeconomic_Text_0";
+
+            this.garbage = base.AddUIComponent<UILabel>();
+            this.garbage.text = language.PoliticsMessage[46];
+            this.garbage.tooltip = language.PoliticsMessage[46];
+            this.garbage.relativePosition = new Vector3(SPACING, this.stateOwned.relativePosition.y + SPACING22);
+            this.garbage.autoSize = true;
+            this.garbage.name = "Moreeconomic_Text_0";
+
+            this.landRent = base.AddUIComponent<UILabel>();
+            this.landRent.text = language.PoliticsMessage[48];
+            this.landRent.tooltip = language.PoliticsMessage[48];
+            this.landRent.relativePosition = new Vector3(SPACING, this.garbage.relativePosition.y + SPACING22);
+            this.landRent.autoSize = true;
+            this.landRent.name = "Moreeconomic_Text_0";
+
         }
 
 
@@ -219,7 +301,7 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (refesh_onece)
+            if (refeshOnce)
             {
                 if (base.isVisible)
                 {
@@ -238,57 +320,71 @@ namespace RealCity
                     this.nationalPolls.text = string.Format(language.PoliticsMessage[6] + " [{0:N1}%]", Politics.nPartySeatsPollsFinal);
 
                     this.nextVote.text = string.Format(language.PoliticsMessage[21] + " [{0}]", Politics.parliamentCount);
+                    this.nextMeeting.text = string.Format(language.PoliticsMessage[22] + " [{0}]", Politics.parliamentMeetingCount);
+
+                    if (Politics.currentIdx > 13)
+                    {
+                        this.currentMeetingItem.text = string.Format(language.PoliticsMessage[23] + ": N/A");
+                    }
+                    else
+                    {
+
+                        this.currentMeetingItem.text = string.Format(language.PoliticsMessage[23] + ":" + language.PoliticsMessage[24 + (int)Politics.currentIdx]);
+                    }
+
+                    this.voteResult.text = string.Format(language.PoliticsMessage[38] + ": " + language.PoliticsMessage[39] + ":" + Politics.currentYes.ToString() + " " + language.PoliticsMessage[40] + ":" + Politics.currentNo.ToString() + " " + language.PoliticsMessage[41] + ":" + Politics.currentNoAttend.ToString());
+
+                    this.currentPolitics.text = string.Format(language.PoliticsMessage[42] + language.PoliticsMessage[49]);
+
+                    this.salary.text = string.Format(language.PoliticsMessage[43] + Politics.salaryTaxOffset.ToString());
+                    this.benefit.text = string.Format(language.PoliticsMessage[44] + Politics.benefitOffset.ToString());
+                    this.trade.text = string.Format(language.PoliticsMessage[45] + Politics.tradeTaxOffset.ToString());
+                    this.import.text = string.Format(language.PoliticsMessage[46] + Politics.importTaxOffset.ToString());
+                    this.stateOwned.text = string.Format(language.PoliticsMessage[47] + Politics.stateOwnedPercent.ToString());
+                    this.garbage.text = string.Format(language.PoliticsMessage[48] + (!Politics.isOutSideGarbagePermit).ToString());
+                    this.landRent.text = string.Format(language.PoliticsMessage[50] + Politics.landRentOffset.ToString());
 
                     if (Politics.case1)
                     {
                         //c only
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[2]);
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[14] + language.PoliticsMessage[16]);
                     }
                     else if (Politics.case2)
                     {
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[3]);
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[15] + language.PoliticsMessage[16]);
                     }
                     else if (Politics.case3)
                     {
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[4]);
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[17] + language.PoliticsMessage[16]);
                     }
                     else if (Politics.case4)
                     {
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[5]);
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[18]);
                     }
                     else if (Politics.case5)
                     {
                         this.goverment.text = string.Format(language.PoliticsMessage[7]);
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[20] + language.PoliticsMessage[18]);
                     }
                     else if (Politics.case6)
                     {
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[17] + language.PoliticsMessage[15] + language.PoliticsMessage[16]);
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[4] + language.PoliticsMessage[3] + language.PoliticsMessage[8]);
                     }
                     else if (Politics.case7)
                     {
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[16]);
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[4] + language.PoliticsMessage[3] + language.PoliticsMessage[2] + language.PoliticsMessage[9]);
                     }
                     else if (Politics.case8)
                     {
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[18]);
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[6] + language.PoliticsMessage[5] + language.PoliticsMessage[10]);
                     }
                     else
                     {
-                        this.style.text = string.Format(language.PoliticsMessage[12] + language.PoliticsMessage[20]);
                         this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[2] + language.PoliticsMessage[3] + language.PoliticsMessage[4] + language.PoliticsMessage[5] + language.PoliticsMessage[6] + language.PoliticsMessage[11]);
                     }
 
                     this.polls.text = language.PoliticsMessage[19];
 
-                    refesh_onece = false;
+                    refeshOnce = false;
                 }
             }
         }
@@ -297,7 +393,7 @@ namespace RealCity
         {
             if (!base.isVisible)
             {
-                refesh_onece = true;
+                refeshOnce = true;
                 base.Show();
             }
             else

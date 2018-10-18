@@ -166,7 +166,7 @@ namespace RealCity
 
         //all total income
         public static double all_total_income;
-        public static bool refesh_onece = false;
+        public static bool refeshOnce = false;
 
         public static UICheckBox is_weekend_Checkbox;
         private UILabel is_weekend;
@@ -653,7 +653,7 @@ namespace RealCity
             //isRefreshing = true;
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
-            if (refesh_onece)
+            if (refeshOnce)
             {
                 if (base.isVisible)
                 {
@@ -715,7 +715,7 @@ namespace RealCity
                     this.garbage_income_title.text = string.Format(language.RealCityUI1[87] + " [{0}]", garbage_income_forui);
                     this.school_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", school_income_forui);
                     this.all_total_income_ui.text = string.Format(language.RealCityUI1[91] + " [{0}]", all_total_income);
-                    refesh_onece = false;
+                    refeshOnce = false;
                 }
             }
 
@@ -728,7 +728,7 @@ namespace RealCity
         {
             if (!base.isVisible)
             {
-                refesh_onece = true;
+                refeshOnce = true;
                 base.Show();
                 /*if (!this.CoDisplayRefreshEnabled)
                 {

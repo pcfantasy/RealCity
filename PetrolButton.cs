@@ -56,7 +56,7 @@ namespace RealCity
                 if (refeshOnce)
                 {
                     this.PButton.tooltip = language.BuildingUI[34];
-                    this.PButton.text = language.BuildingUI[34] + ": " + comm_data.allPetrols.ToString();
+                    this.PButton.text = language.BuildingUI[34] + ": " + comm_data.allPetrolsFinal.ToString();
                     refeshOnce = false;
                 }
                 if (!comm_data.isPetrolsGettedFinal)

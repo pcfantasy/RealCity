@@ -59,7 +59,10 @@ namespace RealCity
             "Oil",                                                   //38
             "PreGoods",                                              //39
             "Goods",                                                 //40
-            "Price:"                                                //41
+            "Price:" ,                                               //41
+             "所有权:",                                               //42
+             "国营",                                                  //43
+             "私营",                                                  //44
         };
 
 
@@ -86,6 +89,36 @@ namespace RealCity
         "Polls",
         "No special politics",
         "Next Vote",
+        "Next Meeting",                                    //22
+        "Current Meeting Item ",                                  //23
+        "riseSalaryTax",                                   //24
+        "fallSalaryTax",                                   //25
+        "riseBenefit",                                   //26
+        "fallBenefit",                                   //27
+        "riseTradeTax",                                   //28
+        "fallTradeTax",                                   //29
+        "riseImportTax",                                   //30
+        "fallImportTax",                                   //31
+        "riseStateOwned",                                   //32
+        "fallStateOwned",                                   //33
+        "allowOutsideGarbage",                                   //34
+        "notAllowOutsideGarbage",                                   //35
+        "riseLandRent",                                   //36
+        "fallLandRent",                                   //37
+        "VoteResult: ",                                       //38
+        "Yes",                                       //39
+        "No",                                       //40
+        "NoAttend",                                       //41
+        "Current Politics",                                    //42
+        "salaryOffset:",                              //43
+        "benefitOffset:",                                    //44
+        "tradeTaxOffset:",                                  //45
+        "importTaxOffset:",                                  //46
+        "stateOwnedPercent:",                              //47
+        "isAllowOutsideGarbage:",                              //48
+        "(compared with mod standard value, only for debug)",                 //49
+        "landRentOffset:",                              //50
+
         };
 
         public static string[] EconomicUI_English =
@@ -309,7 +342,10 @@ namespace RealCity
              "原油",                                                   //38
              "库存商品",                                              //39
              "货架商品",                                                 //40
-             "价格:"                                                //41
+             "价格:" ,                                               //41
+             "所有权:",                                               //42
+             "国营",                                                  //43
+             "私营",                                                  //44
         };
 
     public static string[] OptionUI_Chinese =
@@ -420,7 +456,36 @@ namespace RealCity
         "高税收",                                      //18
         "民调:",                                          //19
         "无特殊政策",                                      //20
-        "下次投票时间",
+        "下次选举时间",                                    //21
+        "下次会议时间",                                    //22
+        "目前审理的议题",                                  //23
+        "升高个人所得税",                                   //24
+        "降低个人所得税",                                   //25
+        "增加福利",                                   //26
+        "降低福利",                                   //27
+        "增加交易税",                                   //28
+        "降低交易税",                                   //29
+        "增加进口税",                                   //30
+        "降低进口税",                                   //31
+        "增加国有企业",                                   //32
+        "降低国有企业",                                   //33
+        "允许外来垃圾",                                   //34
+        "禁止外来垃圾",                                   //35
+        "增加土地税",                                   //36
+        "降低土地税",                                   //37
+        "投票结果",                                     //38
+        "赞成",                                       //39
+        "反对",                                       //40
+        "弃权",                                       //41
+        "目前政策",                                    //42
+        "个人所得税偏差:",                              //43
+        "福利指数:",                                    //44
+        "交易税偏差:",                                  //45
+        "进口税偏差:",                                  //46
+        "国营企业百分比:",                              //47
+        "允许外来垃圾:",                              //48
+        "(值是相对于原MOD的,debug用)",                 //49
+        "土地税偏差:",                              //50
         };
 
         public static string[] RealCityUI_Chinese =

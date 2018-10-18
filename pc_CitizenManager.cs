@@ -10,7 +10,7 @@ namespace RealCity
 {
     public class pc_CitizenManager:CitizenManager
     {
-        public bool CreateUnits_1(out uint firstUnit, ref Randomizer randomizer, ushort building, ushort vehicle, int homeCount, int workCount, int visitCount, int passengerCount, int studentCount)
+        /*public bool CreateUnits_1(out uint firstUnit, ref Randomizer randomizer, ushort building, ushort vehicle, int homeCount, int workCount, int visitCount, int passengerCount, int studentCount)
         {
             firstUnit = 0u;
             workCount = (workCount + 4) / 5;
@@ -74,7 +74,7 @@ namespace RealCity
             this.m_units.m_buffer[(int)((UIntPtr)num2)] = citizenUnit;
             this.m_unitCount = (int)(this.m_units.ItemCount() - 1u);
             return true;
-        }
+        }*/
 
         private void ReleaseCitizenImplementation(uint citizen, ref Citizen data)
         {

@@ -56,7 +56,7 @@ namespace RealCity
                 if (refeshOnce)
                 {
                     this.CButton.tooltip = language.BuildingUI[32];
-                    this.CButton.text = language.BuildingUI[32] + ": " + comm_data.allCoals.ToString();
+                    this.CButton.text = language.BuildingUI[32] + ": " + comm_data.allCoalsFinal.ToString();
                     refeshOnce = false;
                 }
                 if (!comm_data.isCoalsGettedFinal)

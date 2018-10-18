@@ -95,7 +95,7 @@ namespace RealCity
         //private UILabel tip8;
         //private UILabel tip9;
         //private UILabel tip10;
-        public static bool refesh_onece = false;
+        public static bool refeshOnce = false;
 
         public override void Update()
         {
@@ -361,7 +361,7 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (refesh_onece)
+            if (refeshOnce)
             {
                 if (base.isVisible)
                 {
@@ -389,7 +389,7 @@ namespace RealCity
                     this.family_weight_stable_low.text = string.Format(language.EconomicUI[28] + " [{0}]", comm_data.family_weight_stable_low);
                     if (comm_data.family_count != 0)
                     {
-                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", (float)(pc_ResidentAI.citizenGoods / (comm_data.family_count * 200f)));
+                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", (float)(pc_ResidentAI.citizenGoods / (comm_data.family_count * 2f)));
                     }
                     else
                     {
@@ -411,7 +411,7 @@ namespace RealCity
                     /*this.tip8.text = string.Format(language.EconomicUI[52] + "  " + RealCity.tip8_message_forgui);
                     this.tip9.text = string.Format(language.EconomicUI[54] + "  " + RealCity.tip9_message_forgui);
                     this.tip10.text = string.Format(language.EconomicUI[55] + "  " + RealCity.tip10_message_forgui);*/
-                    refesh_onece = false;
+                    refeshOnce = false;
                 }
             }
         }
@@ -420,7 +420,7 @@ namespace RealCity
         {
             if (!base.isVisible)
             {
-                refesh_onece = true;
+                refeshOnce = true;
                 base.Show();
             }
             else
