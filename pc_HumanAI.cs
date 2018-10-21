@@ -47,11 +47,11 @@ namespace RealCity
                     }
                 }
 
-                if ((comm_data.family_money[homeId] < 5000) && (comm_data.family_profit_status[homeId] <= 25))
+                if (comm_data.family_money[homeId] < 5000)
                 {
                     
                 }
-                else if ((comm_data.family_money[homeId] >= 20000) && (comm_data.family_profit_status[homeId] >= 230))
+                else if (comm_data.family_money[homeId] >= 15000)
                 {
                     num = (num << 2);
                 } 
@@ -113,11 +113,11 @@ namespace RealCity
                 else
                 {
                     int tourism_fee = rand.Next(100) + 1;
-                    if ((comm_data.family_money[homeId] < 5000) && (comm_data.family_profit_status[homeId] <= 25))
+                    if (comm_data.family_money[homeId] < 5000)
                     {
 
                     }
-                    else if ((comm_data.family_money[homeId] >= 20000) && (comm_data.family_profit_status[homeId] >= 230))
+                    else if (comm_data.family_money[homeId] >= 15000)
                     {
                         tourism_fee = (tourism_fee << 2);
                     }

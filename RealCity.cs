@@ -40,11 +40,14 @@ namespace RealCity
         //public static string tip2_message = "";
         //public static string tip3_message = "";
 
+        public static byte partyTrend = 0;
+        public static ushort partyTrendStrength = 0;
+
         public static int language_idex = 0;
 
         public string Name
         {
-            get { return "Real City Mod"; }
+            get { return "Real City"; }
         }
 
         public string Description
@@ -181,54 +184,53 @@ namespace RealCity
                     if ((num2 == 255u) && (comm_data.current_time != comm_data.prev_time))
                     {
 
-                        
+
                         //citizen_status();
                         GenerateTips();
 
 
-                            comm_data.isCoalsGetted = false;
-                            comm_data.isFoodsGetted = false;
-                            comm_data.isPetrolsGetted = false;
-                            comm_data.isLumbersGetted = false;
-                            comm_data.allFoodsFinal = comm_data.allFoods;
-                            comm_data.allLumbersFinal = comm_data.allLumbers;
-                            comm_data.allCoalsFinal = comm_data.allCoals;
-                            comm_data.allPetrolsFinal = comm_data.allPetrols;
-                            
+                        comm_data.isCoalsGetted = false;
+                        comm_data.isFoodsGetted = false;
+                        comm_data.isPetrolsGetted = false;
+                        comm_data.isLumbersGetted = false;
+                        comm_data.allFoodsFinal = comm_data.allFoods;
+                        comm_data.allLumbersFinal = comm_data.allLumbers;
+                        comm_data.allCoalsFinal = comm_data.allCoals;
+                        comm_data.allPetrolsFinal = comm_data.allPetrols;
+                        comm_data.allVehiclesFinal = comm_data.allVehicles;
 
-                            comm_data.isCoalsGettedFinal = (coalStillNeeded <= 0) && (comm_data.allFoods !=0);
-                            comm_data.isFoodsGettedFinal = (foodStillNeeded <= 0) && (comm_data.allLumbers != 0);
-                            comm_data.isPetrolsGettedFinal = (PetrolStillNeeded <= 0) && (comm_data.allPetrols != 0);
-                            comm_data.isLumbersGettedFinal = (lumberStillNeeded <= 0) && (comm_data.allCoals != 0);
-                            foodStillNeeded = (comm_data.citizen_count > 16)? (comm_data.citizen_count>>4) : 0;
-                            lumberStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal > 8)? (pc_PrivateBuildingAI.allBuildingsFinal>>3) : 0 ;
-                            coalStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal > 16)? (pc_PrivateBuildingAI.allBuildingsFinal>>4) : 0 ;
-                            PetrolStillNeeded = (comm_data.allVehiclesFinal > 16)? (comm_data.allVehiclesFinal>> 4) : 0;
-                            comm_data.allFoods = 0;
-                            comm_data.allLumbers = 0;
-                            comm_data.allPetrols = 0;
-                            comm_data.allCoals = 0;
+
+                        comm_data.isCoalsGettedFinal = (coalStillNeeded <= 0) && (comm_data.allCoals != 0);
+                        comm_data.isFoodsGettedFinal = (foodStillNeeded <= 0) && (comm_data.allFoods != 0);
+                        comm_data.isPetrolsGettedFinal = (PetrolStillNeeded <= 0) && (comm_data.allPetrols != 0);
+                        comm_data.isLumbersGettedFinal = (lumberStillNeeded <= 0) && (comm_data.allLumbers != 0);
+                        foodStillNeeded = (comm_data.citizen_count > 16) ? (comm_data.citizen_count >> 4) : 0;
+                        lumberStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal > 8) ? (pc_PrivateBuildingAI.allBuildingsFinal >> 3) : 0;
+                        coalStillNeeded = (pc_PrivateBuildingAI.allBuildingsFinal > 16) ? (pc_PrivateBuildingAI.allBuildingsFinal >> 4) : 0;
+                        PetrolStillNeeded = comm_data.allVehiclesFinal;
+                        comm_data.allVehicles = 0;
+                        comm_data.allFoods = 0;
+                        comm_data.allLumbers = 0;
+                        comm_data.allPetrols = 0;
+                        comm_data.allCoals = 0;
                         BuildingStatus();
 
                         if (comm_data.update_money_count == 16)
                         {
-                            CitizenStatus();
                             Politics.parliamentCount--;
                             Politics.parliamentMeetingCount--;
                             if (Politics.parliamentCount < 0)
                             {
-                                Politics.parliamentCount = 8;
+                                Politics.parliamentCount = 30;
                             }
-
                             if (Politics.parliamentMeetingCount < 0)
                             {
-                                Politics.parliamentMeetingCount = 4;
+                                Politics.parliamentMeetingCount = 2;
                             }
+                            CitizenStatus();
                         }
 
-                        comm_data.allVehicles = 0;
-                        VehicleStatus();
-                        comm_data.allVehiclesFinal = comm_data.allVehicles;
+
                         CaculateCitizenTransportFee();
                         comm_data.update_money_count++;
                         if (comm_data.update_money_count == 17)
@@ -419,177 +421,191 @@ namespace RealCity
 
             public void CitizenStatus()
             {
-                if (Politics.parliamentCount == 1)
+                System.Random rand = new System.Random();
+                partyTrend = (byte)rand.Next(5);
+                partyTrendStrength = (byte)rand.Next(800);
+
+                if (Politics.parliamentCount == 0)
                 {
                     GetSeats(false);
-                    //DebugLog.LogToFileOnly("cPartySeats = " + Politics.cPartySeats.ToString());
-                    //DebugLog.LogToFileOnly("gPartySeats = " + Politics.gPartySeats.ToString());
-                    //DebugLog.LogToFileOnly("sPartySeats = " + Politics.sPartySeats.ToString());
-                    //DebugLog.LogToFileOnly("lPartySeats = " + Politics.lPartySeats.ToString());
-                    //DebugLog.LogToFileOnly("nPartySeats = " + Politics.nPartySeats.ToString());
-                    Politics.parliamentMeetingCount = 4;
+                    GetSeats(true);
+                    Politics.parliamentMeetingCount = 2;
                     CreateGoverment();
-                } else
+                }
+                else
                 {
                     GetSeats(true);
                     CreateGoverment();
                 }
 
-                if (Politics.parliamentMeetingCount == 1)
+                if (Politics.parliamentMeetingCount <= 0)
                 {
                     HoldMeeting();
                 }
 
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
             }
 
             public void HoldMeeting()
             {
-                System.Random rand = new System.Random();
-                switch (rand.Next(14))
+                int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+                if (temp == 99)
                 {
-                    case 0:
-                        if (Politics.salaryTaxOffset >= 0.1f)
-                        {
-                            Politics.currentIdx = 1;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 0;
-                        }
-                        break;
-                    case 1:
-                        if (Politics.salaryTaxOffset <= 0f)
-                        {
-                            Politics.currentIdx = 0;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 1;
-                        }
-                        break;
-                    case 4:
-                        if (Politics.tradeTaxOffset >= 0.1f)
-                        {
-                            Politics.currentIdx = 5;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 4;
-                        }
-                        break;
-                    case 5:
-                        if (Politics.tradeTaxOffset <= 0f)
-                        {
-                            Politics.currentIdx = 4;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 5;
-                        }
-                        break;
-                    case 2:
-                        if (Politics.benefitOffset >= 10)
-                        {
-                            Politics.currentIdx = 3;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 2;
-                        }
-                        break;
-                    case 3:
-                        if (Politics.benefitOffset <= 0)
-                        {
-                            Politics.currentIdx = 2;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 3;
-                        }
-                        break;
-                    case 6:
-                        if (Politics.importTaxOffset >= 0.4f)
-                        {
-                            Politics.currentIdx = 7;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 6;
-                        }
-                        break;
-                    case 7:
-                        if (Politics.importTaxOffset <= 0f)
-                        {
-                            Politics.currentIdx = 6;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 7;
-                        }
-                        break;
-                    case 8:
-                        if (Politics.stateOwnedPercent >= 50)
-                        {
-                            Politics.currentIdx = 9;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 8;
-                        }
-                        break;
-                    case 9:
-                        if (Politics.stateOwnedPercent <= 0)
-                        {
-                            Politics.currentIdx = 8;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 9;
-                        }
-                        break;
-                    case 10:
-                        if (!Politics.isOutSideGarbagePermit)
-                        {
-                            Politics.currentIdx = 11;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 10;
-                        }
-                        break;
-                    case 11:
-                        if (Politics.isOutSideGarbagePermit)
-                        {
-                            Politics.currentIdx = 10;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 11;
-                        }
-                        break;
-                    case 12:
-                        if (Politics.landRentOffset >= 10)
-                        {
-                            Politics.currentIdx = 13;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 12;
-                        }
-                        break;
-                    case 13:
-                        if (Politics.landRentOffset <= 0)
-                        {
-                            Politics.currentIdx = 12;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 13;
-                        }
-                        break;
-                    default: Politics.currentIdx = 14;break;
+                    System.Random rand = new System.Random();
+                    switch (rand.Next(14))
+                    {
+                        case 0:
+                            if (Politics.salaryTaxOffset >= 0.099f)
+                            {
+                                Politics.currentIdx = 1;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 0;
+                            }
+                            break;
+                        case 1:
+                            if (Politics.salaryTaxOffset <= 0f)
+                            {
+                                Politics.currentIdx = 0;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 1;
+                            }
+                            break;
+                        case 4:
+                            if (Politics.tradeTaxOffset >= 0.099f)
+                            {
+                                Politics.currentIdx = 5;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 4;
+                            }
+                            break;
+                        case 5:
+                            if (Politics.tradeTaxOffset <= 0f)
+                            {
+                                Politics.currentIdx = 4;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 5;
+                            }
+                            break;
+                        case 2:
+                            if (Politics.benefitOffset >= 10)
+                            {
+                                Politics.currentIdx = 3;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 2;
+                            }
+                            break;
+                        case 3:
+                            if (Politics.benefitOffset <= 0)
+                            {
+                                Politics.currentIdx = 2;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 3;
+                            }
+                            break;
+                        case 6:
+                            if (Politics.importTaxOffset >= 0.399f)
+                            {
+                                Politics.currentIdx = 7;
+                                //DebugLog.LogToFileOnly("Politics.importTaxOffset case 6, change to 7 " + Politics.importTaxOffset.ToString());
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 6;
+                                //DebugLog.LogToFileOnly("Politics.importTaxOffset case 6" + Politics.importTaxOffset.ToString());
+                            }
+                            break;
+                        case 7:
+                            if (Politics.importTaxOffset <= 0f)
+                            {
+                                Politics.currentIdx = 6;
+                                //DebugLog.LogToFileOnly("Politics.importTaxOffset case 7 change to 6 " + Politics.importTaxOffset.ToString());
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 7;
+                                //DebugLog.LogToFileOnly("Politics.importTaxOffset case 7 " + Politics.importTaxOffset.ToString());
+                            }
+                            break;
+                        case 8:
+                            if (Politics.stateOwnedPercent >= 50)
+                            {
+                                Politics.currentIdx = 9;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 8;
+                            }
+                            break;
+                        case 9:
+                            if (Politics.stateOwnedPercent <= 0)
+                            {
+                                Politics.currentIdx = 8;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 9;
+                            }
+                            break;
+                        case 10:
+                            if (!Politics.isOutSideGarbagePermit)
+                            {
+                                Politics.currentIdx = 11;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 10;
+                            }
+                            break;
+                        case 11:
+                            if (Politics.isOutSideGarbagePermit)
+                            {
+                                Politics.currentIdx = 10;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 11;
+                            }
+                            break;
+                        case 12:
+                            if (Politics.landRentOffset >= 10)
+                            {
+                                Politics.currentIdx = 13;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 12;
+                            }
+                            break;
+                        case 13:
+                            if (Politics.landRentOffset <= 0)
+                            {
+                                Politics.currentIdx = 12;
+                            }
+                            else
+                            {
+                                Politics.currentIdx = 13;
+                            }
+                            break;
+                        default: Politics.currentIdx = 14; break;
+                    }
+                    VoteResult(Politics.currentIdx);
                 }
-                VoteResult(Politics.currentIdx);
             }
 
             public void VoteResult(int idex)
@@ -604,6 +620,72 @@ namespace RealCity
                 int importOffset = 10 - (int)(Politics.importTaxOffset * 50);
                 int stateOwnedOffset = 10 - (int)(Politics.stateOwnedPercent * 2 / 5);
                 int landRentOffset = 10 - (int)(Politics.landRentOffset * 2);
+
+
+                int temp2 = 0; //((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
+                int temp3 = 0;
+
+                FieldInfo cashAmount;
+                cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+                long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+
+                if (_cashAmount < 0)
+                {
+                    temp3 = -1000;
+                }
+                else if (_cashAmount > 5000000)
+                {
+                    temp3 = 1000;
+                }
+                else if (_cashAmount > 3000000)
+                {
+                    temp3 = 500;
+                }
+                else if (_cashAmount < 1000000)
+                {
+                    temp3 = -500;
+                }
+
+
+                if (Politics.tryFallLandTax)
+                {
+                    temp2 = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
+                    idex = 13;
+                    Politics.currentIdx = 13;
+                }
+                else if (Politics.tryFallImportTax)
+                {
+                    temp2 = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
+                    idex = 7;
+                    Politics.currentIdx = 7;
+                }
+                else if (Politics.tryFallTradeTax)
+                {
+                    temp2 = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
+                    idex = 5;
+                    Politics.currentIdx = 5;
+                }
+                else if (Politics.tryRiseImportTax)
+                {
+                    temp2 = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
+                    idex = 6;
+                    Politics.currentIdx = 6;
+                }
+                else if (Politics.tryRiseTradeTax)
+                {
+                    temp2 = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
+                    idex = 4;
+                    Politics.currentIdx = 4;
+                }
+
+
+                Politics.tryRiseImportTax = false;
+                Politics.tryFallImportTax = false;
+                Politics.tryFallLandTax = false;
+                Politics.tryRiseTradeTax = false;
+                Politics.tryFallTradeTax = false;
+
+
 
                 if (temp == 99)
                 {
@@ -625,6 +707,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.riseSalaryTax[2, 2];
                             noAttend += Politics.lPartySeats * Politics.riseSalaryTax[3, 2];
                             noAttend += Politics.nPartySeats * Politics.riseSalaryTax[4, 2];
+                            yes -= temp3;
                             break;
                         case 1:
                             yes += Politics.cPartySeats * (Politics.fallSalaryTax[0, 0] - salaryTaxOffset);
@@ -642,6 +725,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.fallSalaryTax[2, 2];
                             noAttend += Politics.lPartySeats * Politics.fallSalaryTax[3, 2];
                             noAttend += Politics.nPartySeats * Politics.fallSalaryTax[4, 2];
+                            yes += temp3;
                             break;
                         case 4:
                             yes += Politics.cPartySeats * (Politics.riseTradeTax[0, 0] + tradeOffset);
@@ -659,6 +743,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.riseTradeTax[2, 2];
                             noAttend += Politics.lPartySeats * Politics.riseTradeTax[3, 2];
                             noAttend += Politics.nPartySeats * Politics.riseTradeTax[4, 2];
+                            yes -= temp3;
                             break;
                         case 5:
                             yes += Politics.cPartySeats * (Politics.fallTradeTax[0, 0] - tradeOffset);
@@ -676,6 +761,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.fallTradeTax[2, 2];
                             noAttend += Politics.lPartySeats * Politics.fallTradeTax[3, 2];
                             noAttend += Politics.nPartySeats * Politics.fallTradeTax[4, 2];
+                            yes += temp3;
                             break;
                         case 2:
                             yes += Politics.cPartySeats * (Politics.riseBenefit[0, 0] + benefitOffset);
@@ -693,6 +779,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.riseBenefit[2, 2];
                             noAttend += Politics.lPartySeats * Politics.riseBenefit[3, 2];
                             noAttend += Politics.nPartySeats * Politics.riseBenefit[4, 2];
+                            yes += temp3;
                             break;
                         case 3:
                             yes += Politics.cPartySeats * (Politics.fallBenefit[0, 0] - benefitOffset);
@@ -710,6 +797,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.fallBenefit[2, 2];
                             noAttend += Politics.lPartySeats * Politics.fallBenefit[3, 2];
                             noAttend += Politics.nPartySeats * Politics.fallBenefit[4, 2];
+                            yes -= temp3;
                             break;
                         case 6:
                             yes += Politics.cPartySeats * (Politics.riseImportTax[0, 0] + importOffset);
@@ -727,6 +815,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.riseImportTax[2, 2];
                             noAttend += Politics.lPartySeats * Politics.riseImportTax[3, 2];
                             noAttend += Politics.nPartySeats * Politics.riseImportTax[4, 2];
+                            yes -= temp3;
                             break;
                         case 7:
                             yes += Politics.cPartySeats * (Politics.fallImportTax[0, 0] - importOffset);
@@ -744,6 +833,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.fallImportTax[2, 2];
                             noAttend += Politics.lPartySeats * Politics.fallImportTax[3, 2];
                             noAttend += Politics.nPartySeats * Politics.fallImportTax[4, 2];
+                            yes += temp3;
                             break;
                         case 8:
                             yes += Politics.cPartySeats * (Politics.riseStateOwned[0, 0] + stateOwnedOffset);
@@ -761,6 +851,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.riseStateOwned[2, 2];
                             noAttend += Politics.lPartySeats * Politics.riseStateOwned[3, 2];
                             noAttend += Politics.nPartySeats * Politics.riseStateOwned[4, 2];
+                            yes -= temp3;
                             break;
                         case 9:
                             yes += Politics.cPartySeats * (Politics.fallStateOwned[0, 0] - stateOwnedOffset);
@@ -778,8 +869,9 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.fallStateOwned[2, 2];
                             noAttend += Politics.lPartySeats * Politics.fallStateOwned[3, 2];
                             noAttend += Politics.nPartySeats * Politics.fallStateOwned[4, 2];
+                            yes += temp3;
                             break;
-                        case 11:
+                        case 10:
                             yes += Politics.cPartySeats * Politics.allowGarbage[0, 0];
                             yes += Politics.gPartySeats * Politics.allowGarbage[1, 0];
                             yes += Politics.sPartySeats * Politics.allowGarbage[2, 0];
@@ -795,8 +887,9 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.allowGarbage[2, 2];
                             noAttend += Politics.lPartySeats * Politics.allowGarbage[3, 2];
                             noAttend += Politics.nPartySeats * Politics.allowGarbage[4, 2];
+                            yes -= temp3;
                             break;
-                        case 10:
+                        case 11:
                             yes += Politics.cPartySeats * Politics.notAllowGarbage[0, 0];
                             yes += Politics.gPartySeats * Politics.notAllowGarbage[1, 0];
                             yes += Politics.sPartySeats * Politics.notAllowGarbage[2, 0];
@@ -812,6 +905,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.notAllowGarbage[2, 2];
                             noAttend += Politics.lPartySeats * Politics.notAllowGarbage[3, 2];
                             noAttend += Politics.nPartySeats * Politics.notAllowGarbage[4, 2];
+                            yes += temp3;
                             break;
                         case 12:
                             yes += Politics.cPartySeats * (Politics.riseLandRent[0, 0] + landRentOffset);
@@ -829,6 +923,7 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.riseLandRent[2, 2];
                             noAttend += Politics.lPartySeats * Politics.riseLandRent[3, 2];
                             noAttend += Politics.nPartySeats * Politics.riseLandRent[4, 2];
+                            yes -= temp3;
                             break;
                         case 13:
                             yes += Politics.cPartySeats * (Politics.fallLandRent[0, 0] - landRentOffset);
@@ -846,9 +941,12 @@ namespace RealCity
                             noAttend += Politics.sPartySeats * Politics.fallLandRent[2, 2];
                             noAttend += Politics.lPartySeats * Politics.fallLandRent[3, 2];
                             noAttend += Politics.nPartySeats * Politics.fallLandRent[4, 2];
+                            yes += temp3;
                             break;
                     }
 
+
+                    yes += temp2;
                     int temp1 = yes + no + noAttend;
 
 
@@ -1095,24 +1193,315 @@ namespace RealCity
                     Politics.nPartySeatsPolls = 0f;                    
                 }
             }
+        }
 
-            public void VehicleStatus()
+        public class ThreadingRealCityStatsMod : ThreadingExtensionBase
+        {
+
+            public override void OnBeforeSimulationFrame()
+            {
+                base.OnBeforeSimulationFrame();
+                if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+                {
+                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                    int num4 = (int)(currentFrameIndex & 255u);
+                    int num5 = num4 * 192;
+                    int num6 = (num4 + 1) * 192 - 1;
+                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
+                    BuildingManager instance = Singleton<BuildingManager>.instance;
+
+
+                    for (int i = num5; i <= num6; i = i + 1)
+                    {
+                        if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
+                        {
+                            //DebugLog.LogToFileOnly("find outside building");
+
+                            if (comm_data.isHellMode)
+                            {
+                                //DebugLog.LogToFileOnly("hell mode, little import pre = " + instance.m_buildings.m_buffer[i].m_teens.ToString());
+                                instance.m_buildings.m_buffer[i].m_teens = 0;
+                                //DebugLog.LogToFileOnly("hell mode, little import = " + instance.m_buildings.m_buffer[i].m_teens.ToString());
+                            }
+                            ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                        }
+                    }
+                }
+            }
+
+            public void ProcessOutsideDemand(ushort buildingID, ref Building data)
+            {
+                if (data.Info.m_class.m_service == ItemClass.Service.Road)
+                {
+                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                    {
+                        if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+                        {
+                            data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 40);
+                        }
+                        else
+                        {
+                            data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 20);
+                        }
+                    }
+
+                    if (data.m_garbageBuffer > 20000)
+                    {
+                        data.m_garbageBuffer = 20000;
+                    }
+                }
+                else if (RealCity.updateOnce && (data.m_garbageBuffer != 0))
+                {
+                    data.m_garbageBuffer = 0;
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Building = buildingID;
+                    Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                    Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+                }
+                else
+                {
+                    data.m_garbageBuffer = 0;
+                }
+            }
+
+
+            public void AddGarbageOffers(ushort buildingID, ref Building data)
+            {
+                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+
+                if (!Politics.isOutSideGarbagePermit && pc_OutsideConnectionAI.haveGarbageBuildingFinal && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                {
+                    if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+                    {
+                        int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
+                        SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                        if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
+                        {
+                            if (instance1.m_randomizer.Int32(128u) == 0)
+                            {
+                                DebugLog.LogToFileOnly("outside connection is not good for car in for garbageoffers");
+                                int num24 = (int)data.m_garbageBuffer;
+                                if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                                {
+                                    int num25 = 0;
+                                    int num26 = 0;
+                                    int num27 = 0;
+                                    int num28 = 0;
+                                    this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
+                                    num24 -= num27 - num26;
+                                    //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
+                                    if (num24 >= 200)
+                                    {
+                                        offer = default(TransferManager.TransferOffer);
+                                        offer.Priority = num24 / 1000;
+                                        if (offer.Priority > 7)
+                                        {
+                                            offer.Priority = 7;
+                                        }
+                                        offer.Building = buildingID;
+                                        offer.Position = data.m_position;
+                                        offer.Amount = 1;
+                                        offer.Active = false;
+                                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            int num24 = (int)data.m_garbageBuffer;
+                            if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                            {
+                                int num25 = 0;
+                                int num26 = 0;
+                                int num27 = 0;
+                                int num28 = 0;
+                                CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
+                                num24 -= num27 - num26;
+                                //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
+                                if (num24 >= 200)
+                                {
+                                    offer = default(TransferManager.TransferOffer);
+                                    offer.Priority = num24 / 1000;
+                                    if (offer.Priority > 7)
+                                    {
+                                        offer.Priority = 7;
+                                    }
+                                    offer.Building = buildingID;
+                                    offer.Position = data.m_position;
+                                    offer.Amount = 1;
+                                    offer.Active = false;
+                                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int car_valid_path = TickPathfindStatus(ref data.m_teens, ref data.m_serviceProblemTimer);
+                        SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                        if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
+                        {
+                            if (instance1.m_randomizer.Int32(32u) == 0)
+                            {
+                                //DebugLog.LogToFileOnly("outside connection is not good for car out for garbagemoveoffers");
+                                if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 4000)
+                                {
+                                    offer = default(TransferManager.TransferOffer);
+                                    offer.Priority = 1 + data.m_garbageBuffer / 5000;
+                                    if (offer.Priority > 7)
+                                    {
+                                        offer.Priority = 7;
+                                    }
+                                    offer.Building = buildingID;
+                                    offer.Position = data.m_position;
+                                    offer.Amount = 1;
+                                    offer.Active = true;
+                                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            int num25 = 0;
+                            int num26 = 0;
+                            int num27 = 0;
+                            int num28 = 0;
+                            this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
+                            if (num25 < 100)
+                            {
+                                if (data.m_garbageBuffer > 12000)
+                                {
+                                    offer = default(TransferManager.TransferOffer);
+                                    offer.Priority = 1 + data.m_garbageBuffer / 5000;
+                                    if (offer.Priority > 7)
+                                    {
+                                        offer.Priority = 7;
+                                    }
+                                    offer.Building = buildingID;
+                                    offer.Position = data.m_position;
+                                    offer.Amount = 1;
+                                    offer.Active = true;
+                                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            protected void CalculateOwnVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+            {
+                VehicleManager instance = Singleton<VehicleManager>.instance;
+                ushort num = data.m_ownVehicles;
+                int num2 = 0;
+                while (num != 0)
+                {
+                    if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material)
+                    {
+                        VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                        int a;
+                        int num3;
+                        info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                        cargo += Mathf.Min(a, num3);
+                        capacity += num3;
+                        count++;
+                        if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                        {
+                            outside++;
+                        }
+                    }
+                    num = instance.m_vehicles.m_buffer[(int)num].m_nextOwnVehicle;
+                    if (++num2 > 16384)
+                    {
+                        CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                        break;
+                    }
+                }
+            }
+
+            // OutsideConnectionAI
+            private static int TickPathfindStatus(ref byte success, ref byte failure)
+            {
+                int result = ((int)success << 8) / Mathf.Max(1, (int)(success + failure));
+                if (success > failure)
+                {
+                    success = (byte)(success + 1 >> 1);
+                    failure = (byte)(failure >> 1);
+                }
+                else
+                {
+                    success = (byte)(success >> 1);
+                    failure = (byte)(failure + 1 >> 1);
+                }
+                return result;
+            }
+
+
+            public override void OnAfterSimulationFrame()
+            {
+                base.OnAfterSimulationFrame();
+                if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+                {
+                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                    int num4 = (int)(currentFrameIndex & 255u);
+                    int num5 = num4 * 192;
+                    int num6 = (num4 + 1) * 192 - 1;
+                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
+                    BuildingManager instance = Singleton<BuildingManager>.instance;
+
+
+                    for (int i = num5; i <= num6; i = i + 1)
+                    {
+                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                        {
+                            if (RealCity.EconomyExtension.IsSpecialBuilding((ushort)i) == 3)
+                            {
+                                comm_data.haveCityResourceDepartment = true;
+                                ProcessCityResourceDepartmentBuilding((ushort)i, instance.m_buildings.m_buffer[i]);
+                            }
+
+                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
+                            {
+                                pc_OutsideConnectionAI.haveGarbageBuilding = true;
+                            }
+                        }
+                    }
+
+
+                    int num7 = (int)(currentFrameIndex & 15u);
+                    int num8 = num7 * 1024;
+                    int num9 = (num7 + 1) * 1024 - 1;
+                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
+                    VehicleManager instance1 = Singleton<VehicleManager>.instance;
+                    for (int i = num8; i <= num9; i = i + 1)
+                    {
+                        VehicleStatus(i, currentFrameIndex);
+                    }
+                }
+            }
+
+
+            public void VehicleStatus(int i, uint currentFrameIndex)
             {
                 VehicleManager instance = Singleton<VehicleManager>.instance;
                 //System.Random rand = new System.Random();
-                for (int i = 0; i < instance.m_vehicles.m_buffer.Count<Vehicle>(); i++)
+                Vehicle vehicle = instance.m_vehicles.m_buffer[i];
+                int num4 = (int)(currentFrameIndex & 255u);
+                if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
                 {
-                    Vehicle vehicle = instance.m_vehicles.m_buffer[i];
-                    if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
+                    if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
                     {
-                        if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
+                        if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
                         {
-                            if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
+                            comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
+                            if (num4 >= 240)
                             {
-                                comm_data.vehical_transfer_time[i] = (ushort)(comm_data.vehical_transfer_time[i] + 1);
                                 if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
                                 {
-                                    if ( vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
+                                    if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
                                     {
                                         comm_data.allVehicles++;
                                         Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)3000, vehicle.Info.m_class);
@@ -1164,51 +1553,16 @@ namespace RealCity
                                     }
                                 }
                             }
-                            else
-                            {
-                                comm_data.vehical_transfer_time[i] = 0;
-                            }
                         }
-                    }
-                    else
-                    {
-                        comm_data.vehical_transfer_time[i] = 0;
+                        else
+                        {
+                            comm_data.vehical_transfer_time[i] = 0;
+                        }
                     }
                 }
-            }
-        }
-
-        public class ThreadingRealCityStatsMod : ThreadingExtensionBase
-        {
-            public override void OnAfterSimulationFrame()
-            {
-                base.OnAfterSimulationFrame();
-                if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+                else
                 {
-                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                    int num4 = (int)(currentFrameIndex & 255u);
-                    int num5 = num4 * 192;
-                    int num6 = (num4 + 1) * 192 - 1;
-                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
-                    BuildingManager instance = Singleton<BuildingManager>.instance;
-
-
-                    for (int i = num5; i <= num6; i = i + 1)
-                    {
-                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
-                        {
-                            if (RealCity.EconomyExtension.IsSpecialBuilding((ushort)i) == 3)
-                            {
-                                comm_data.haveCityResourceDepartment = true;
-                                ProcessCityResourceDepartmentBuilding((ushort)i, instance.m_buildings.m_buffer[i]);
-                            }
-
-                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
-                            {
-                                pc_OutsideConnectionAI.haveGarbageBuilding = true;
-                            }
-                        }
-                    }
+                    comm_data.vehical_transfer_time[i] = 0;
                 }
             }
 
@@ -1299,8 +1653,8 @@ namespace RealCity
                     {
                         if (comm_data.building_buffer2[buildingID] - PetrolStillNeeded > 0)
                         {
-                            PetrolStillNeeded = 0;
                             comm_data.building_buffer2[buildingID] -= (ushort)(PetrolStillNeeded);
+                            PetrolStillNeeded = 0;
                         }
                         else
                         {

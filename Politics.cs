@@ -10,9 +10,9 @@ namespace RealCity
     public class Politics
     {
         public static byte[,] education = { {30, 0,  10, 10, 50},
-                                            {25, 10, 20, 20, 25},
-                                            {20, 20, 25, 25, 10},
-                                            {15 ,30, 30, 20, 5}};
+                                            {20, 10, 25, 20, 25},
+                                            {10, 20, 30, 30, 10},
+                                            {5 , 25, 40, 25, 5}};
 
         //0  govement
         //1  comm level1
@@ -32,13 +32,13 @@ namespace RealCity
         public static byte[,] workplace = { {0,  20, 40, 40, 0},      //goverment
                                             {20, 10, 40, 30, 0},      //comm level1
                                             {10, 15, 35, 35, 5},      //comm level2
-                                            {0, 20, 30, 40, 10},      //comm level3
+                                            {0,  20, 30, 40, 10},      //comm level3
                                             {0,  30, 25, 45, 0},      //comm tour leisure
                                             {35, 10, 5,  20, 30},     //comm eco
-                                            {35, 0,  40, 20, 5},      //indus gen level1
-                                            {20, 5,  35, 25, 15},     //indus gen level2
-                                            {15, 10, 30, 30, 15},     //indus gen level3
-                                            {25, 5,  20, 15, 35},     //9  indus farming foresty oil ore
+                                            {50, 0,  25, 10, 15},      //indus gen level1
+                                            {30, 5,  35, 15, 15},     //indus gen level2
+                                            {15, 10, 40, 20, 15},     //indus gen level3
+                                            {25, 5,  20, 20, 30},     //9  indus farming foresty oil ore
                                             {10, 30, 30, 30, 0},      //office level1
                                             {5 , 35, 25, 35, 0},      //office level2
                                             {0,  40, 10, 35, 15},     //office level3
@@ -66,45 +66,45 @@ namespace RealCity
 
         //riseSalaryTax
         public static byte[,] riseSalaryTax = {
-                                                {40, 50, 10},
+                                                {55, 40, 5},
                                                 {10, 80, 10},
-                                                {0,  90, 10},
-                                                {90, 10, 0},
-                                                {40, 50, 10},
+                                                {30, 70, 0},
+                                                {70, 30, 0},
+                                                {35, 55, 10},
                                               };
 
         //fallSalaryTax
         public static byte[,] fallSalaryTax = {
-                                                {50, 40, 10},
+                                                {40, 55, 5},
                                                 {80, 10, 10},
-                                                {90, 0,  10},
-                                                {10, 90, 0},
-                                                {50, 40, 10},
+                                                {70, 30, 0},
+                                                {30, 70, 0},
+                                                {55, 35, 10},
                                               };
 
         //riseSalaryTax
         public static byte[,] riseTradeTax = {
-                                                {40, 60, 0},
+                                                {80, 20, 0},
                                                 {70, 20, 10},
-                                                {60, 30, 10},
+                                                {55, 40, 5},
                                                 {10, 90, 0},
-                                                {30, 60, 10},
+                                                {45, 45, 10},
                                               };
 
         //fallSalaryTax
         public static byte[,] fallTradeTax = {
-                                                {60, 40, 0},
+                                                {20, 80, 0},
                                                 {20, 70, 10},
-                                                {30, 60, 10},
+                                                {40, 55, 5},
                                                 {90, 10, 0},
-                                                {50, 40, 10},
+                                                {45, 45, 10},
                                               };
 
         //riseSalaryTax
         public static byte[,] riseBenefit = {
                                                 {40, 50, 10},
                                                 {70, 20, 10},
-                                                {100,0, 0},
+                                                {90, 10, 0},
                                                 {10, 90, 0},
                                                 {30, 60, 10},
                                               };
@@ -112,8 +112,8 @@ namespace RealCity
         //fallSalaryTax
         public static byte[,] fallBenefit = {
                                                 {50, 40, 10},
-                                                {20, 70,  10},
-                                                {0, 100,  0},
+                                                {20, 70, 10},
+                                                {10, 90, 0},
                                                 {90, 10, 0},
                                                 {60, 30, 10},
                                               };
@@ -122,25 +122,25 @@ namespace RealCity
         //riseSalaryTax
         public static byte[,] riseImportTax = {
                                                 {70, 20, 10},
-                                                {30, 55, 15},
-                                                {20, 80, 0},
-                                                {65, 10, 15},
+                                                {30, 60, 10},
+                                                {10, 80, 10},
+                                                {60, 30, 10},
                                                 {90, 10,  0},
                                               };
 
         //fallSalaryTax
         public static byte[,] fallImportTax = {
                                                 {20, 70, 10},
-                                                {55, 30, 15},
-                                                {80, 20, 10},
-                                                {10, 5,  15},
+                                                {60, 30, 10},
+                                                {80, 10, 10},
+                                                {30, 60, 10},
                                                 {10, 90, 0},
                                               };
 
 
         //riseSalaryTax
         public static byte[,] riseStateOwned = {
-                                                {100, 0, 0},
+                                                {90, 10, 0},
                                                 {40, 50, 10},
                                                 {60, 30, 10},
                                                 {20, 70, 10},
@@ -149,7 +149,7 @@ namespace RealCity
 
         //fallSalaryTax
         public static byte[,] fallStateOwned = {
-                                                {0,  100, 0},
+                                                {10, 90, 0},
                                                 {50, 40, 10},
                                                 {30, 60, 10},
                                                 {70, 20, 10},
@@ -158,39 +158,46 @@ namespace RealCity
 
         //riseSalaryTax
         public static byte[,] allowGarbage = {
-                                                {80, 10, 10},
-                                                {0,  100,0},
-                                                {30, 60, 10},
-                                                {40, 50, 10},
-                                                {70, 20, 10},
+                                                {90, 5,  5},
+                                                {0,  100, 0},
+                                                {40, 55, 5},
+                                                {50, 45, 5},
+                                                {75, 20, 5},
                                               };
 
         //fallSalaryTax
         public static byte[,] notAllowGarbage = {
-                                                {10, 80, 10},
-                                                {0, 100, 0},
-                                                {60, 40, 10},
-                                                {50, 40, 10},
-                                                {20, 70, 10},
+                                                {5,  90, 5},
+                                                {100, 0, 0},
+                                                {55, 40, 5},
+                                                {45, 50, 5},
+                                                {20, 75, 5},
                                               };
 
         //riseSalaryTax
         public static byte[,] riseLandRent = {
-                                                {10, 80, 10},
-                                                {50, 35, 15},
-                                                {70, 30, 0},
-                                                {90, 5,  5},
+                                                {70, 20, 10},
                                                 {40, 50, 10},
+                                                {45, 55, 0},
+                                                {20, 70, 10},
+                                                {65, 35, 0},
                                               };
 
         //fallSalaryTax
         public static byte[,] fallLandRent = {
-                                                {80, 10, 10},
-                                                {35, 50, 15},
-                                                {30, 70, 0},
-                                                {5,  90, 5},
+                                                {20, 70, 10},
                                                 {50, 40, 10},
+                                                {55, 45, 0},
+                                                {70, 20, 10},
+                                                {35, 65, 0},
                                               };
+
+        public static bool tryRiseImportTax = false;
+        public static bool tryFallImportTax = false;
+        public static bool tryFallLandTax = false;
+        public static bool tryRiseTradeTax = false;
+        public static bool tryFallTradeTax = false;
+
 
         public static bool isOutSideGarbagePermit = false;
 
@@ -241,12 +248,12 @@ namespace RealCity
         public static byte currentYes = 0;
         public static byte currentNo = 0;
         public static byte currentNoAttend = 0;
-        public static float tradeTaxOffset = 0.05f;     //(0-0.1f)
-        public static float salaryTaxOffset = 0.05f;    //(0-0.1f)
+        public static float tradeTaxOffset = 0.01f;     //(0-0.1f)
+        public static float salaryTaxOffset = 0.01f;    //(0-0.1f)
         public static float importTaxOffset = 0.2f;    //(0-0.4f)
-        public static short stateOwnedPercent = 25;    //(0-50)
-        public static short benefitOffset = 5;         //(0-10)
-        public static short landRentOffset = 5;         //(0-10)
+        public static short stateOwnedPercent = 5;    //(0-50)
+        public static short benefitOffset = 1;         //(0-10)
+        public static short landRentOffset = 1;         //(0-10)
 
         public static byte[] saveData = new byte[105];
 

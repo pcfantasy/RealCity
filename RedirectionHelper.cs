@@ -70,6 +70,7 @@ namespace RealCity
         public static void RevertRedirect(MethodInfo from, RedirectCallsState state)
         {
             var fptr1 = from.MethodHandle.GetFunctionPointer();
+            //DebugLog.LogToFileOnly("Revert Patching from " + fptr1 + " to " + state);
             RevertJumpTo(fptr1, state);
         }
 

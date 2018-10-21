@@ -707,10 +707,10 @@ namespace RealCity
                     this.goverment_income_title.text = string.Format(language.RealCityUI1[83] + " [{0}]  [{1:N2}%]", city_playerbuilding_income_total, city_playerbuilding_income_percent * 100);
                     if (comm_data.have_toll_station)
                     {
-                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [{0}]", road_income_forui);
+                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [wait new dlc]");//, road_income_forui);
                     } else
                     {
-                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " " + language.BuildingUI[26]);
+                        this.road_income_title.text = string.Format(language.RealCityUI1[85] + " [wait new dlc]");// + language.BuildingUI[26]);
                     }
                     this.garbage_income_title.text = string.Format(language.RealCityUI1[87] + " [{0}]", garbage_income_forui);
                     this.school_income_title.text = string.Format(language.RealCityUI1[89] + " [{0}]", school_income_forui);

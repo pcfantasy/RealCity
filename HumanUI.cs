@@ -23,7 +23,6 @@ namespace RealCity
 
         private UILabel familyMoney;
         private UILabel familySalary;
-        private UILabel familyStatus;
 
         public override void Update()
         {
@@ -71,13 +70,6 @@ namespace RealCity
             this.familySalary.relativePosition = new Vector3(SPACING, this.familyMoney.relativePosition.y + SPACING22);
             this.familySalary.autoSize = true;
             this.familySalary.name = "Moreeconomic_Text_1";
-
-            this.familyStatus = base.AddUIComponent<UILabel>();
-            this.familyStatus.text = language.BuildingUI[25];
-            this.familyStatus.tooltip = language.BuildingUI[25];
-            this.familyStatus.relativePosition = new Vector3(SPACING, this.familySalary.relativePosition.y + SPACING22);
-            this.familyStatus.autoSize = true;
-            this.familyStatus.name = "Moreeconomic_Text_2";
         }
 
         private void RefreshDisplayData()
@@ -96,7 +88,6 @@ namespace RealCity
                     uint homeId = instance3.m_citizens.m_buffer[comm_data.last_citizenid].GetContainingUnit(comm_data.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                     this.familyMoney.text = string.Format(language.BuildingUI[14] + " [{0}]", comm_data.family_money[homeId]);
                     this.familySalary.text = string.Format(language.BuildingUI[20] + " [{0}]", CaculateFamilySalary(homeId));
-                    this.familyStatus.text = string.Format(language.BuildingUI[25] + " [{0}]", comm_data.family_profit_status[homeId]);
                     HumanUI.refeshOnce = false;
                 }
             }

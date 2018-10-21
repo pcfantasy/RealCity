@@ -123,7 +123,6 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.PBButton.tooltip = language.RealCityUI1[114];
                 this.PBButton.text = "B";
             }
         }

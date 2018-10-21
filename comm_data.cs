@@ -207,7 +207,6 @@
             for (int i = 0; i < comm_data.family_money.Length; i++)
             {
                 family_money[i] = 0f;
-                family_profit_status[i] = 128;
             }
             for (int i = 0; i < comm_data.citizen_money.Length; i++)
             {

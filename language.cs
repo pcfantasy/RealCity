@@ -80,11 +80,11 @@ namespace RealCity
         "(Right union)",                                      //10
         "(All union)",                                  //11
         "执政风格:",                                      //12
-        "贸易保护 ",                                      //13
-        "社会主义 ",                                      //14
-        "保护环境 ",                                      //15
-        "免费交通 ",                                      //16
-        "低所得税 ",                                      //17
+        "SuggestRiseImportTax(not available if importTaxOffset >= 0.4)",  //13
+        "SuggestFallImportTax(not available if importTaxOffset <= 0)",   //14
+        "SuggestFallLandRent(not available if landRentOffset <= 0)",   //15
+        "SuggestRiseTradeTax(not available if tradTaxOffset >= 0.1)", //16
+        "SuggestFallTradeTax(not available if tradTaxOffset <= 0)",   //17
         "高所得税 ",                                      //18
         "Polls",
         "No special politics",
@@ -105,7 +105,7 @@ namespace RealCity
         "notAllowOutsideGarbage",                                   //35
         "riseLandRent",                                   //36
         "fallLandRent",                                   //37
-        "VoteResult: ",                                       //38
+        "VoteResult ",                                       //38
         "Yes",                                       //39
         "No",                                       //40
         "NoAttend",                                       //41
@@ -446,14 +446,14 @@ namespace RealCity
         "(左派联合)",                                    //8
         "(左派大联合)",                                  //9
         "(右翼联盟)",                                    //10
-        "(全民团结政府)",                                  //11
+        "(全民团结政府)",                                 //11
         "执政风格:",                                      //12
-        "贸易保护",                                      //13
-        "社会主义",                                      //14
-        "保护环境",                                      //15
-        "高福利",                                        //16
-        "低税收",                                      //17
-        "高税收",                                      //18
+        "建议升高进口税(如果进口税偏差>=0.4点击不可用)",  //13
+        "建议降低进口税(如果进口税偏差<=0点击不可用)",   //14
+        "建议降低土地税(如果土地税偏差<=0点击不可用)",   //15
+        "建议升高交易税(如果进口税偏差>=0.1点击不可用)", //16
+        "建议降低交易税(如果进口税偏差<=0点击不可用)",   //17
+        "高税收",                                          //18
         "民调:",                                          //19
         "无特殊政策",                                      //20
         "下次选举时间",                                    //21
@@ -481,11 +481,11 @@ namespace RealCity
         "个人所得税偏差:",                              //43
         "福利指数:",                                    //44
         "交易税偏差:",                                  //45
-        "进口税偏差:",                                  //46
+        "进口税偏差(值越高外部进出口会减少):",                                  //46
         "国营企业百分比:",                              //47
         "允许外来垃圾:",                              //48
         "(值是相对于原MOD的,debug用)",                 //49
-        "土地税偏差:",                              //50
+        "土地税偏差(和控制面板税率叠加效果):",                              //50
         };
 
         public static string[] RealCityUI_Chinese =

@@ -355,16 +355,16 @@ namespace RealCity
                         num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
                         if (!checkOnly)
                         {
-                            if (!comm_data.buildingFlag[workBuilding])
-                            {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(num * comm_data.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
-                            }
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(num * comm_data.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                         }
                     }
 
                     if (!checkOnly)
                     {
-                        comm_data.building_money[workBuilding] -= num;
+                        if (!comm_data.buildingFlag[workBuilding])
+                        {
+                            comm_data.building_money[workBuilding] -= num;
+                        }
                     }
                     //DebugLog.LogToFileOnly("salary4 is " + num.ToString());
                 }
@@ -512,12 +512,13 @@ namespace RealCity
                 familyWeightStableLow = 0;
                 citizenGoodsTemp = 0;
             }
-            else if (preCitizenId < homeID)
+            else
             {
                 //citizen_process_done = false;
-                familyCount++;
-                citizenGoodsTemp += data.m_goods;
             }
+
+            familyCount++;
+            citizenGoodsTemp += data.m_goods;
 
             if (homeID > 524288)
             {
@@ -530,26 +531,6 @@ namespace RealCity
             }*/
 
             ProcessCitizen(homeID, ref data, true);
-
-            if (comm_data.family_money[homeID] < 5000)
-            {
-                if (comm_data.family_profit_status[homeID] == 10)
-                {
-                    comm_data.family_profit_status[homeID] = 25;
-                }
-            }else if (comm_data.family_money[homeID] > 20000)
-            {
-                if (comm_data.family_profit_status[homeID] == 10)
-                {
-                    comm_data.family_profit_status[homeID] = 230;
-                }
-            } else
-            {
-                if (comm_data.family_profit_status[homeID] == 10)
-                {
-                    comm_data.family_profit_status[homeID] = (byte)(comm_data.family_money[homeID] / 100);
-                }
-            }
 
             //here we caculate citizen income
             int tempNum;
@@ -617,19 +598,19 @@ namespace RealCity
             }
             else if (citizenSalaryCurrent >= 10 && citizenSalaryCurrent <= 40)
             {
-                tax = (citizenSalaryCurrent - 10) * (0.05f + Politics.salaryTaxOffset);
+                tax = (citizenSalaryCurrent - 10) * (0.00f + Politics.salaryTaxOffset);
             }
             else if (citizenSalaryCurrent > 40 && citizenSalaryCurrent <= 80)
             {
-                tax = (citizenSalaryCurrent - 40) * (0.15f + Politics.salaryTaxOffset) + 30 * (0.05f + Politics.salaryTaxOffset);
+                tax = (citizenSalaryCurrent - 40) * (0.10f + Politics.salaryTaxOffset) + 30 * (0.00f + Politics.salaryTaxOffset);
             }
             else if (citizenSalaryCurrent > 80 && citizenSalaryCurrent <= 130)
             {
-                tax = (citizenSalaryCurrent - 80) * (0.3f + Politics.salaryTaxOffset) +30 * (0.05f + Politics.salaryTaxOffset) + 40 * (0.15f + Politics.salaryTaxOffset);
+                tax = (citizenSalaryCurrent - 80) * (0.25f + Politics.salaryTaxOffset) +30 * (0.00f + Politics.salaryTaxOffset) + 40 * (0.10f + Politics.salaryTaxOffset);
             }
             else if (citizenSalaryCurrent > 130)
             {
-                tax = (citizenSalaryCurrent - 130) * (0.5f + Politics.salaryTaxOffset) + 30 * (0.05f + Politics.salaryTaxOffset) + 40 * (0.15f + Politics.salaryTaxOffset) + 50 * (0.3f + Politics.salaryTaxOffset);
+                tax = (citizenSalaryCurrent - 130) * (0.45f + Politics.salaryTaxOffset) + 30 * (0.00f + Politics.salaryTaxOffset) + 40 * (0.10f + Politics.salaryTaxOffset) + 50 * (0.25f + Politics.salaryTaxOffset);
             }
 
 
@@ -732,27 +713,6 @@ namespace RealCity
             }
 
 
-            if (comm_data.family_money[homeID] >= 15000)
-            {
-                comm_data.family_profit_status[homeID]++;
-            }
-            else if (comm_data.family_money[homeID] < 5000)
-            {
-                comm_data.family_profit_status[homeID]--;
-            }
-            else
-            {
-                if (comm_data.family_profit_status[homeID] > 128)
-                {
-                    comm_data.family_profit_status[homeID]--;
-                } else
-                {
-                    comm_data.family_profit_status[homeID]++;
-                }
-            }
-
-
-
             if (comm_data.family_money[homeID] > 32000000f)
             {
                 comm_data.family_money[homeID] = 32000000f;
@@ -763,60 +723,20 @@ namespace RealCity
                 comm_data.family_money[homeID] = -32000000f;
             }
 
-            if (comm_data.family_profit_status[homeID] > 250)
-            {
-                comm_data.family_profit_status[homeID] = 250;
-            }
-            if (comm_data.family_profit_status[homeID] < 15)
-            {
-                comm_data.family_profit_status[homeID] = 15;
-            }
-
-            if ((comm_data.family_money[homeID] < 5000) && (comm_data.family_profit_status[homeID] <= 25))
+            if (comm_data.family_money[homeID] < 5000)
             {
                 familyWeightStableLow = (ushort)(familyWeightStableLow + 1);
             }
-            else if ((comm_data.family_money[homeID] >= 15000) && (comm_data.family_profit_status[homeID] >= 230))
+            else if (comm_data.family_money[homeID] >= 15000)
             {
                 familyWeightStableHigh = (ushort)(familyWeightStableHigh + 1);
             }
 
             //DebugLog.LogToFileOnly("comm_data.family_profit_status[" + homeID.ToString() +"] = " + comm_data.family_profit_status[homeID].ToString() + "money = " + comm_data.family_money[homeID].ToString());
             //set other non-exist citizen status to 0
-            uint i;
-            if (preCitizenId < homeID)
-            {
-                for (i = (preCitizenId + 1); i < homeID; i++)
-                {
-                    if (comm_data.family_profit_status[i] != 10)
-                    {
-                        //comm_data.family_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200 ;
-                        comm_data.family_profit_status[i] = 10;
-                    }
-                }
-            } else
-            {
-                for (i = (preCitizenId + 1); i < 524288; i++)
-                {
-                    if (comm_data.family_profit_status[i] != 10)
-                    {
-                        //comm_data.family_money[i] = rand.Next(comm_data.citizen_salary_per_family + 1) * 200;
-                        comm_data.family_profit_status[i] = 10;
-                    }
-                }
-
-                for (i = 0; i < homeID; i++)
-                {
-                    if (comm_data.family_profit_status[i] != 10)
-                    {
-                        comm_data.family_profit_status[i] = 10;
-                    }
-                }
-            }
             if (comm_data.citizen_count == 0)
             {
                 comm_data.family_money[homeID] = 0;
-                comm_data.family_profit_status[homeID] = 128;
             }
 
             //for V2.0 to V3.0
@@ -1304,14 +1224,14 @@ namespace RealCity
         public void GetVoteTickets()
         {
             System.Random rand = new System.Random();
-            if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance != 500)
+            if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance != (800 + RealCity.partyTrendStrength))
             {
                 if (rand.Next(64) <= 1)
                 {
-                    DebugLog.LogToFileOnly("error, change is not equal 500 " + (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance).ToString());
+                    DebugLog.LogToFileOnly("error, change is not equal 800 " + (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance).ToString());
                 }
             }
-            int temp = rand.Next(500) + 1;
+            int temp = rand.Next(800 + RealCity.partyTrendStrength) + 1;
             if (temp < Politics.cPartyChance)
             {
                 Politics.cPartyTickets++;
@@ -1333,11 +1253,11 @@ namespace RealCity
                 Politics.nPartyTickets++;
             }
 
-            Politics.cPartySeatsPolls += ((float)Politics.cPartyChance / 500f);
-            Politics.gPartySeatsPolls += ((float)Politics.gPartyChance / 500f);
-            Politics.sPartySeatsPolls += ((float)Politics.sPartyChance / 500f);
-            Politics.lPartySeatsPolls += ((float)Politics.lPartyChance / 500f);
-            Politics.nPartySeatsPolls += ((float)Politics.nPartyChance / 500f);
+            Politics.cPartySeatsPolls += ((float)Politics.cPartyChance / (800f + RealCity.partyTrendStrength));
+            Politics.gPartySeatsPolls += ((float)Politics.gPartyChance / (800f + RealCity.partyTrendStrength));
+            Politics.sPartySeatsPolls += ((float)Politics.sPartyChance / (800f + RealCity.partyTrendStrength));
+            Politics.lPartySeatsPolls += ((float)Politics.lPartyChance / (800f + RealCity.partyTrendStrength));
+            Politics.nPartySeatsPolls += ((float)Politics.nPartyChance / (800f + RealCity.partyTrendStrength));
         }
 
         public void GetVoteChance(uint citizenID, Citizen citizen, uint homeID)
@@ -1350,11 +1270,11 @@ namespace RealCity
                 Politics.lPartyChance = 0;
                 Politics.nPartyChance = 0;
 
-                Politics.cPartyChance += Politics.education[(int)citizen.EducationLevel, 0];
-                Politics.gPartyChance += Politics.education[(int)citizen.EducationLevel, 1];
-                Politics.sPartyChance += Politics.education[(int)citizen.EducationLevel, 2];
-                Politics.lPartyChance += Politics.education[(int)citizen.EducationLevel, 3];
-                Politics.nPartyChance += Politics.education[(int)citizen.EducationLevel, 4];
+                Politics.cPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 0] << 1);
+                Politics.gPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 1] << 1);
+                Politics.sPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 2] << 1);
+                Politics.lPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 3] << 1);
+                Politics.nPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 4] << 1);
 
                 int idex = 14;
                 switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_service)
@@ -1439,17 +1359,17 @@ namespace RealCity
                 }
 
 
-                Politics.cPartyChance += Politics.workplace[idex, 0];
-                Politics.gPartyChance += Politics.workplace[idex, 1];
-                Politics.sPartyChance += Politics.workplace[idex, 2];
-                Politics.lPartyChance += Politics.workplace[idex, 3];
-                Politics.nPartyChance += Politics.workplace[idex, 4];
+                Politics.cPartyChance += (ushort)(Politics.workplace[idex, 0] << 1);
+                Politics.gPartyChance += (ushort)(Politics.workplace[idex, 1] << 1);
+                Politics.sPartyChance += (ushort)(Politics.workplace[idex, 2] << 1);
+                Politics.lPartyChance += (ushort)(Politics.workplace[idex, 3] << 1);
+                Politics.nPartyChance += (ushort)(Politics.workplace[idex, 4] << 1);
 
-                if ((comm_data.family_money[homeID] < 5000) && (comm_data.family_profit_status[homeID] <= 25))
+                if (comm_data.family_money[homeID] < 5000)
                 {
                     idex = 0;
                 }
-                else if ((comm_data.family_money[homeID] >= 15000) && (comm_data.family_profit_status[homeID] >= 230))
+                else if (comm_data.family_money[homeID] >= 15000)
                 {
                     idex = 2;
                 }
@@ -1462,11 +1382,11 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Error money idex" + idex.ToString());
                 }
-                Politics.cPartyChance += Politics.money[idex, 0];
-                Politics.gPartyChance += Politics.money[idex, 1];
-                Politics.sPartyChance += Politics.money[idex, 2];
-                Politics.lPartyChance += Politics.money[idex, 3];
-                Politics.nPartyChance += Politics.money[idex, 4];
+                Politics.cPartyChance += (ushort)(Politics.money[idex, 0] << 1);
+                Politics.gPartyChance += (ushort)(Politics.money[idex, 1] << 1);
+                Politics.sPartyChance += (ushort)(Politics.money[idex, 2] << 1);
+                Politics.lPartyChance += (ushort)(Politics.money[idex, 3] << 1);
+                Politics.nPartyChance += (ushort)(Politics.money[idex, 4] << 1);
 
                 int temp = 0;
 
@@ -1491,6 +1411,32 @@ namespace RealCity
                 Politics.sPartyChance += Politics.gender[temp, 2];
                 Politics.lPartyChance += Politics.gender[temp, 3];
                 Politics.nPartyChance += Politics.gender[temp, 4];
+
+                if (RealCity.partyTrend == 0)
+                {
+                    Politics.cPartyChance += RealCity.partyTrendStrength;
+                }
+                else if (RealCity.partyTrend == 1)
+                {
+                    Politics.gPartyChance += RealCity.partyTrendStrength;
+                }
+                else if (RealCity.partyTrend == 2)
+                {
+                    Politics.sPartyChance += RealCity.partyTrendStrength;
+                }
+                else if (RealCity.partyTrend == 3)
+                {
+                    Politics.lPartyChance += RealCity.partyTrendStrength;
+                }
+                else if (RealCity.partyTrend == 4)
+                {
+                    Politics.nPartyChance += RealCity.partyTrendStrength;
+                }
+                else
+                {
+                    DebugLog.LogToFileOnly("Error partyTrend" + RealCity.partyTrend.ToString());
+                }
+
                 GetVoteTickets();
             }
         }

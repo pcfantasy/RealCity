@@ -23,6 +23,8 @@ namespace RealCity
             if (rand.Next(100) < Politics.stateOwnedPercent)
             {
                 comm_data.buildingFlag[buildingID] = true;
+                comm_data.building_money[buildingID] = 0;
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(-comm_data.building_money[buildingID] * comm_data.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class);
             }
             DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
             if (specialization != DistrictPolicies.Specialization.None)

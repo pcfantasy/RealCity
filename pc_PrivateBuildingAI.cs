@@ -141,7 +141,6 @@ namespace RealCity
             ProcessBuildingDataFinal(buildingID, ref buildingData);
             LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessAdditionProduct(buildingID, ref buildingData);
-
         }
 
         public void ProcessAdditionProduct(ushort buildingID, ref Building buildingData)
@@ -609,19 +608,19 @@ namespace RealCity
 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = (0.075f - (float)Politics.stateOwnedPercent / 1000f);
+                            idex = 0.05f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = (0.125f - (float)Politics.stateOwnedPercent / 1000f);
+                            idex = 0.1f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = (0.225f - (float)Politics.stateOwnedPercent / 1000f);
+                            idex = 0.2f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = (0.325f - (float)Politics.stateOwnedPercent / 1000f);
+                            idex = 0.3f;
                         }
 
                         greaterThan20000ProfitBuildingMoney += (long)(comm_data.building_money[buildingID] * idex);
@@ -870,7 +869,7 @@ namespace RealCity
             {
                 case ItemClass.SubService.CommercialLow:
                 case ItemClass.SubService.CommercialHigh:
-                    tax = 0.10f;
+                    tax = 0.07f;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
                     tax = 0.10f;
@@ -918,7 +917,7 @@ namespace RealCity
                 case ItemClass.SubService.CommercialEco:
                     tax = 0.15f; break;
                 case ItemClass.SubService.CommercialTourist:
-                    tax = 0.5f; break;
+                    tax = 0.45f; break;
                 case ItemClass.SubService.CommercialLeisure:
                     tax = 0.15f; break;
                 default: tax = 0f; break;

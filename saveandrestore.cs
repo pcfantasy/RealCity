@@ -22,7 +22,7 @@ namespace RealCity
             idex = idex + temp_data.Length;
         }
 
-        public static void save_double(ref int idex, double item, ref byte[] container)
+        /*public static void save_double(ref int idex, double item, ref byte[] container)
         {
             int i;
             byte[] temp_data;
@@ -32,7 +32,7 @@ namespace RealCity
                 container[idex + i] = temp_data[i];
             }
             idex = idex + temp_data.Length;
-        }
+        }*/
 
         public static void save_float(ref int idex, float item, ref byte[] container)
         {
@@ -117,7 +117,7 @@ namespace RealCity
             idex = idex + item.Length;
         }
 
-        public static void save_shorts(ref int idex, short[] item, ref byte[] container)
+        /*public static void save_shorts(ref int idex, short[] item, ref byte[] container)
         {
             int i; int j;
             byte[] temp_data;
@@ -130,7 +130,7 @@ namespace RealCity
                 }
                 idex = idex + temp_data.Length;
             }
-        }
+        }*/
 
         public static void save_short(ref int idex, short item, ref byte[] container)
         {
@@ -202,7 +202,15 @@ namespace RealCity
         public static bool load_bool(ref int idex, byte[] container)
         {
             bool tmp;
-            tmp = BitConverter.ToBoolean(container, idex);
+            if (idex < container.Length)
+            {
+                tmp = BitConverter.ToBoolean(container, idex);
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+                tmp = false;
+            }
             idex = idex + 1;
             return tmp;
         }
@@ -210,19 +218,38 @@ namespace RealCity
         public static bool[] load_bools(ref int idex, byte[] container, int length)
         {
             bool[] tmp = new bool[length];
-            int i;
-            for (i = 0; i < length; i++)
+            if (idex < container.Length)
             {
-                tmp[i] = BitConverter.ToBoolean(container, idex);
-                idex = idex + 1;
+                int i;
+                for (i = 0; i < length; i++)
+                {
+                    tmp[i] = BitConverter.ToBoolean(container, idex);
+                    idex = idex + 1;
+                }
+            }
+            else
+            {
+                int i;
+                for (i = 0; i < length; i++)
+                {
+                    idex = idex + 1;
+                }
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
             return tmp;
         }
 
         public static int load_int(ref int idex, byte[] container)
         {
-            int tmp;
-            tmp = BitConverter.ToInt32(container, idex);
+            int tmp = 0;
+            if (idex < container.Length)
+            {
+                tmp = BitConverter.ToInt32(container, idex);
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+            }
             idex = idex + 4;
             return tmp;
         }
@@ -230,19 +257,38 @@ namespace RealCity
         public static int[] load_ints(ref int idex, byte[] container, int length)
         {
             int[] tmp = new int[length];
-            int i;
-            for (i = 0; i < length; i++)
+            if (idex < container.Length)
             {
-                tmp[i] = BitConverter.ToInt32(container, idex);
-                idex = idex + 4;
+                int i;
+                for (i = 0; i < length; i++)
+                {
+                    tmp[i] = BitConverter.ToInt32(container, idex);
+                    idex = idex + 4;
+                }
+            }
+            else
+            {
+                int i;
+                for (i = 0; i < length; i++)
+                {
+                    idex = idex + 4;
+                }
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
             return tmp;
         }
 
         public static float load_float(ref int idex, byte[] container)
         {
-            float tmp;
-            tmp = BitConverter.ToSingle(container, idex);
+            float tmp = 0;
+            if (idex < container.Length)
+            {
+                tmp = BitConverter.ToSingle(container, idex);
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+            }
             idex = idex + 4;
             return tmp;
         }
@@ -251,18 +297,36 @@ namespace RealCity
         {
             float[] tmp = new float[length];
             int i;
-            for (i = 0; i < length; i++)
+            if (idex < container.Length)
             {
-                tmp[i] = BitConverter.ToSingle(container, idex);
-                idex = idex + 4;
+                for (i = 0; i < length; i++)
+                {
+                    tmp[i] = BitConverter.ToSingle(container, idex);
+                    idex = idex + 4;
+                }
+            }
+            else
+            {
+                for (i = 0; i < length; i++)
+                {
+                    idex = idex + 4;
+                }
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
             return tmp;
         }
 
         public static uint load_uint(ref int idex, byte[] container)
         {
-            uint tmp;
-            tmp = BitConverter.ToUInt32(container, idex);
+            uint tmp = 0;
+            if (idex < container.Length)
+            {
+                tmp = BitConverter.ToUInt32(container, idex);
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+            }
             idex = idex + 4;
             return tmp;
         }
@@ -271,18 +335,36 @@ namespace RealCity
         {
             uint[] tmp = new uint[length];
             int i;
-            for (i = 0; i < length; i++)
+            if (idex < container.Length)
             {
-                tmp[i] = BitConverter.ToUInt32(container, idex);
-                idex = idex + 4;
+                for (i = 0; i < length; i++)
+                {
+                    tmp[i] = BitConverter.ToUInt32(container, idex);
+                    idex = idex + 4;
+                }
+            }
+            else
+            {
+                for (i = 0; i < length; i++)
+                {
+                    idex = idex + 4;
+                }
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
             return tmp;
         }
 
         public static ushort load_ushort(ref int idex, byte[] container)
         {
-            ushort tmp;
-            tmp = BitConverter.ToUInt16(container, idex);
+            ushort tmp = 0;
+            if (idex < container.Length)
+            {
+                tmp = BitConverter.ToUInt16(container, idex);
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+            }
             idex = idex + 2;
             return tmp;
         }
@@ -291,23 +373,41 @@ namespace RealCity
         {
             ushort[] tmp = new ushort[length];
             int i;
-            for (i = 0; i < length; i++)
+            if (idex < container.Length)
             {
-                tmp[i] = BitConverter.ToUInt16(container, idex);
-                idex = idex + 2;
+                for (i = 0; i < length; i++)
+                {
+                    tmp[i] = BitConverter.ToUInt16(container, idex);
+                    idex = idex + 2;
+                }
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+                for (i = 0; i < length; i++)
+                {
+                    idex = idex + 2;
+                }
             }
             return tmp;
         }
 
         public static short load_short(ref int idex, byte[] container)
         {
-            short tmp;
-            tmp = BitConverter.ToInt16(container, idex);
+            short tmp = 0;
+            if (idex < container.Length)
+            {
+                tmp = BitConverter.ToInt16(container, idex);
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+            }
             idex = idex + 2;
             return tmp;
         }
 
-        public static short[] load_shorts(ref int idex, byte[] container, int length)
+        /*public static short[] load_shorts(ref int idex, byte[] container, int length)
         {
             short[] tmp = new short[length];
             int i;
@@ -317,25 +417,32 @@ namespace RealCity
                 idex = idex + 2;
             }
             return tmp;
-        }
+        }*/
 
         public static long load_long(ref int idex, byte[] container)
         {
-            long tmp;
-            tmp = BitConverter.ToInt64(container, idex);
+            long tmp = 0;
+            if (idex < container.Length)
+            {
+                tmp = BitConverter.ToInt64(container, idex);
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+            }
             idex = idex + 8;
             return tmp;
         }
 
-        public static double load_double(ref int idex, byte[] container)
+        /*public static double load_double(ref int idex, byte[] container)
         {
             double tmp;
             tmp = BitConverter.ToDouble(container, idex);
             idex = idex + 8;
             return tmp;
-        }
+        }*/
 
-        public static long[] load_longs(ref int idex, byte[] container, int length)
+        /*public static long[] load_longs(ref int idex, byte[] container, int length)
         {
             long[] tmp = new long[length];
             int i;
@@ -345,12 +452,19 @@ namespace RealCity
                 idex = idex + 8;
             }
             return tmp;
-        }
+        }*/
 
         public static byte load_byte(ref int idex, byte[] container)
         {
-            byte tmp;
-            tmp = container[idex];
+            byte tmp = 0;
+            if (idex < container.Length)
+            {
+                tmp = container[idex];
+            }
+            else
+            {
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
+            }
             idex = idex + 1;
             return tmp;
         }
@@ -359,10 +473,21 @@ namespace RealCity
         {
             byte[] tmp = new byte[length];
             int i;
-            for (i = 0; i < length; i++)
+            if (idex < container.Length)
             {
-                tmp[i] = container[idex];
-                idex = idex + 1;
+                for (i = 0; i < length; i++)
+                {
+                    tmp[i] = container[idex];
+                    idex = idex + 1;
+                }
+            }
+            else
+            {
+                for (i = 0; i < length; i++)
+                {
+                    idex = idex + 1;
+                }
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
             return tmp;
         }
@@ -418,7 +543,8 @@ namespace RealCity
         public override void OnLoadData()
         {
             Loader.InitData();
-            //DebugLog.LogToFileOnly("OnLoadData");
+            DebugLog.LogToFileOnly("OnLoadData");
+            //DebugLog.LogToFileOnly("comm_data save data length pre is " + comm_data.saveData.Length);
             if (true)
             {
                 DebugLog.LogToFileOnly("startload");
@@ -439,6 +565,7 @@ namespace RealCity
                 }
                 else
                 {
+                    //DebugLog.LogToFileOnly("comm_data save data length is " + comm_data.saveData.Length);
                     comm_data.load();
                 }
 

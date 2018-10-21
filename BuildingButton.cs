@@ -68,7 +68,6 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.BButton.tooltip = language.RealCityUI1[114];
                 this.BButton.text = "B";
             }
         }

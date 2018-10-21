@@ -389,7 +389,7 @@ namespace RealCity
                     this.family_weight_stable_low.text = string.Format(language.EconomicUI[28] + " [{0}]", comm_data.family_weight_stable_low);
                     if (comm_data.family_count != 0)
                     {
-                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", (float)(pc_ResidentAI.citizenGoods / (comm_data.family_count * 2f)));
+                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", (float)(pc_ResidentAI.citizenGoods / (comm_data.family_count * 4f)));
                     }
                     else
                     {

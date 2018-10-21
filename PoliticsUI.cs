@@ -61,6 +61,20 @@ namespace RealCity
         private UILabel garbage;
         private UILabel landRent;
 
+        public static UICheckBox riseTradeTax_Checkbox;
+        private UILabel riseTradeTax;
+        public static UICheckBox fallTradeTax_Checkbox;
+        private UILabel fallTradeTax;
+
+        public static UICheckBox riseImportTax_Checkbox;
+        private UILabel riseImportTax;
+        public static UICheckBox fallImportTax_Checkbox;
+        private UILabel fallImportTax;
+
+        public static UICheckBox fallLandTax_Checkbox;
+        private UILabel fallLandTax;
+
+
         public static bool refeshOnce = false;
 
         public override void Update()
@@ -217,7 +231,7 @@ namespace RealCity
             this.nextMeeting = base.AddUIComponent<UILabel>();
             this.nextMeeting.text = language.PoliticsMessage[22];
             this.nextMeeting.tooltip = language.PoliticsMessage[22];
-            this.nextMeeting.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22 + 20f);
+            this.nextMeeting.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22);
             this.nextMeeting.autoSize = true;
             this.nextMeeting.name = "Moreeconomic_Text_0";
 
@@ -232,7 +246,7 @@ namespace RealCity
             this.voteResult = base.AddUIComponent<UILabel>();
             this.voteResult.text = language.PoliticsMessage[36];
             this.voteResult.tooltip = language.PoliticsMessage[36];
-            this.voteResult.relativePosition = new Vector3(SPACING, this.currentMeetingItem.relativePosition.y + SPACING22 + 20f);
+            this.voteResult.relativePosition = new Vector3(SPACING, this.currentMeetingItem.relativePosition.y + SPACING22);
             this.voteResult.autoSize = true;
             this.voteResult.name = "Moreeconomic_Text_0";
 
@@ -293,6 +307,294 @@ namespace RealCity
             this.landRent.autoSize = true;
             this.landRent.name = "Moreeconomic_Text_0";
 
+            riseImportTax_Checkbox = base.AddUIComponent<UICheckBox>();
+            riseImportTax_Checkbox.relativePosition = new Vector3(SPACING, landRent.relativePosition.y + 30f);
+            this.riseImportTax = base.AddUIComponent<UILabel>();
+            this.riseImportTax.relativePosition = new Vector3(riseImportTax_Checkbox.relativePosition.x + riseImportTax_Checkbox.width + SPACING * 2f, riseImportTax_Checkbox.relativePosition.y + 5f);
+            this.riseImportTax.tooltip = language.PoliticsMessage[13];
+            riseImportTax_Checkbox.height = 16f;
+            riseImportTax_Checkbox.width = 16f;
+            riseImportTax_Checkbox.label = this.riseImportTax;
+            riseImportTax_Checkbox.text = language.PoliticsMessage[13];
+            UISprite uISprite9 = riseImportTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite9.height = 20f;
+            uISprite9.width = 20f;
+            uISprite9.relativePosition = new Vector3(0f, 0f);
+            uISprite9.spriteName = "check-unchecked";
+            uISprite9.isVisible = true;
+            UISprite uISprite10 = riseImportTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite10.height = 20f;
+            uISprite10.width = 20f;
+            uISprite10.relativePosition = new Vector3(0f, 0f);
+            uISprite10.spriteName = "check-checked";
+            riseImportTax_Checkbox.checkedBoxObject = uISprite10;
+            riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+            riseImportTax_Checkbox.isEnabled = true;
+            riseImportTax_Checkbox.isVisible = true;
+            riseImportTax_Checkbox.canFocus = true;
+            riseImportTax_Checkbox.isInteractive = true;
+            riseImportTax_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                riseImportTax_Checkbox_OnCheckChanged(component, eventParam);
+            };
+
+            fallImportTax_Checkbox = base.AddUIComponent<UICheckBox>();
+            fallImportTax_Checkbox.relativePosition = new Vector3(SPACING, riseImportTax_Checkbox.relativePosition.y + 30f);
+            this.fallImportTax = base.AddUIComponent<UILabel>();
+            this.fallImportTax.relativePosition = new Vector3(fallImportTax_Checkbox.relativePosition.x + fallImportTax_Checkbox.width + SPACING * 2f, fallImportTax_Checkbox.relativePosition.y + 5f);
+            this.fallImportTax.tooltip = language.PoliticsMessage[14];
+            fallImportTax_Checkbox.height = 16f;
+            fallImportTax_Checkbox.width = 16f;
+            fallImportTax_Checkbox.label = this.fallImportTax;
+            fallImportTax_Checkbox.text = language.PoliticsMessage[14];
+            UISprite uISprite0 = fallImportTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite0.height = 20f;
+            uISprite0.width = 20f;
+            uISprite0.relativePosition = new Vector3(0f, 0f);
+            uISprite0.spriteName = "check-unchecked";
+            uISprite0.isVisible = true;
+            UISprite uISprite1 = fallImportTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite1.height = 20f;
+            uISprite1.width = 20f;
+            uISprite1.relativePosition = new Vector3(0f, 0f);
+            uISprite1.spriteName = "check-checked";
+            fallImportTax_Checkbox.checkedBoxObject = uISprite1;
+            fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+            fallImportTax_Checkbox.isEnabled = true;
+            fallImportTax_Checkbox.isVisible = true;
+            fallImportTax_Checkbox.canFocus = true;
+            fallImportTax_Checkbox.isInteractive = true;
+            fallImportTax_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                fallImportTax_Checkbox_OnCheckChanged(component, eventParam);
+            };
+
+
+            fallLandTax_Checkbox = base.AddUIComponent<UICheckBox>();
+            fallLandTax_Checkbox.relativePosition = new Vector3(SPACING, fallImportTax_Checkbox.relativePosition.y + 30f);
+            this.fallLandTax = base.AddUIComponent<UILabel>();
+            this.fallLandTax.relativePosition = new Vector3(fallLandTax_Checkbox.relativePosition.x + fallLandTax_Checkbox.width + SPACING * 2f, fallLandTax_Checkbox.relativePosition.y + 5f);
+            this.fallLandTax.tooltip = language.PoliticsMessage[15];
+            fallLandTax_Checkbox.height = 16f;
+            fallLandTax_Checkbox.width = 16f;
+            fallLandTax_Checkbox.label = this.fallLandTax;
+            fallLandTax_Checkbox.text = language.PoliticsMessage[15];
+            UISprite uISprite2 = fallLandTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite2.height = 20f;
+            uISprite2.width = 20f;
+            uISprite2.relativePosition = new Vector3(0f, 0f);
+            uISprite2.spriteName = "check-unchecked";
+            uISprite2.isVisible = true;
+            UISprite uISprite3 = fallLandTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite3.height = 20f;
+            uISprite3.width = 20f;
+            uISprite3.relativePosition = new Vector3(0f, 0f);
+            uISprite3.spriteName = "check-checked";
+            fallLandTax_Checkbox.checkedBoxObject = uISprite3;
+            fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+            fallLandTax_Checkbox.isEnabled = true;
+            fallLandTax_Checkbox.isVisible = true;
+            fallLandTax_Checkbox.canFocus = true;
+            fallLandTax_Checkbox.isInteractive = true;
+            fallLandTax_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                fallLandTax_Checkbox_OnCheckChanged(component, eventParam);
+            };
+
+
+            riseTradeTax_Checkbox = base.AddUIComponent<UICheckBox>();
+            riseTradeTax_Checkbox.relativePosition = new Vector3(SPACING, fallLandTax_Checkbox.relativePosition.y + 30f);
+            this.riseTradeTax = base.AddUIComponent<UILabel>();
+            this.riseTradeTax.relativePosition = new Vector3(riseTradeTax_Checkbox.relativePosition.x + riseTradeTax_Checkbox.width + SPACING * 2f, riseTradeTax_Checkbox.relativePosition.y + 5f);
+            this.riseTradeTax.tooltip = language.PoliticsMessage[16];
+            riseTradeTax_Checkbox.height = 16f;
+            riseTradeTax_Checkbox.width = 16f;
+            riseTradeTax_Checkbox.label = this.riseTradeTax;
+            riseTradeTax_Checkbox.text = language.PoliticsMessage[16];
+            UISprite uISprite4 = riseTradeTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite4.height = 20f;
+            uISprite4.width = 20f;
+            uISprite4.relativePosition = new Vector3(0f, 0f);
+            uISprite4.spriteName = "check-unchecked";
+            uISprite4.isVisible = true;
+            UISprite uISprite5 = riseTradeTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite5.height = 20f;
+            uISprite5.width = 20f;
+            uISprite5.relativePosition = new Vector3(0f, 0f);
+            uISprite5.spriteName = "check-checked";
+            riseTradeTax_Checkbox.checkedBoxObject = uISprite5;
+            riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            riseTradeTax_Checkbox.isEnabled = true;
+            riseTradeTax_Checkbox.isVisible = true;
+            riseTradeTax_Checkbox.canFocus = true;
+            riseTradeTax_Checkbox.isInteractive = true;
+            riseTradeTax_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                riseTradeTax_Checkbox_OnCheckChanged(component, eventParam);
+            };
+
+            fallTradeTax_Checkbox = base.AddUIComponent<UICheckBox>();
+            fallTradeTax_Checkbox.relativePosition = new Vector3(SPACING, riseTradeTax_Checkbox.relativePosition.y + 30f);
+            this.fallTradeTax = base.AddUIComponent<UILabel>();
+            this.fallTradeTax.relativePosition = new Vector3(fallTradeTax_Checkbox.relativePosition.x + fallTradeTax_Checkbox.width + SPACING * 2f, fallTradeTax_Checkbox.relativePosition.y + 5f);
+            this.fallTradeTax.tooltip = language.PoliticsMessage[17];
+            fallTradeTax_Checkbox.height = 16f;
+            fallTradeTax_Checkbox.width = 16f;
+            fallTradeTax_Checkbox.label = this.fallTradeTax;
+            fallTradeTax_Checkbox.text = language.PoliticsMessage[17];
+            UISprite uISprite6 = fallTradeTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite6.height = 20f;
+            uISprite6.width = 20f;
+            uISprite6.relativePosition = new Vector3(0f, 0f);
+            uISprite6.spriteName = "check-unchecked";
+            uISprite6.isVisible = true;
+            UISprite uISprite7 = fallTradeTax_Checkbox.AddUIComponent<UISprite>();
+            uISprite7.height = 20f;
+            uISprite7.width = 20f;
+            uISprite7.relativePosition = new Vector3(0f, 0f);
+            uISprite7.spriteName = "check-checked";
+            fallTradeTax_Checkbox.checkedBoxObject = uISprite7;
+            fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+            fallTradeTax_Checkbox.isEnabled = true;
+            fallTradeTax_Checkbox.isVisible = true;
+            fallTradeTax_Checkbox.canFocus = true;
+            fallTradeTax_Checkbox.isInteractive = true;
+            fallTradeTax_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
+            {
+                fallTradeTax_Checkbox_OnCheckChanged(component, eventParam);
+            };
+
+        }
+
+
+        public static void riseImportTax_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                Politics.tryRiseImportTax = (Politics.importTaxOffset < 0.39f);
+                Politics.tryFallImportTax = false;
+                Politics.tryFallLandTax = false;
+                Politics.tryRiseTradeTax = false;
+                Politics.tryFallTradeTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+            else
+            {
+                Politics.tryRiseImportTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+        }
+
+        public static void fallImportTax_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                Politics.tryRiseImportTax = false;
+                Politics.tryFallImportTax = (Politics.importTaxOffset > 0f);
+                Politics.tryFallLandTax = false;
+                Politics.tryRiseTradeTax = false;
+                Politics.tryFallTradeTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+            else
+            {
+                Politics.tryFallImportTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+        }
+
+        public static void fallLandTax_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                Politics.tryRiseImportTax = false;
+                Politics.tryFallImportTax = false;
+                Politics.tryFallLandTax = (Politics.landRentOffset > 0f);
+                Politics.tryRiseTradeTax = false;
+                Politics.tryFallTradeTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+            else
+            {
+                Politics.tryFallLandTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+        }
+
+        public static void riseTradeTax_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                Politics.tryRiseImportTax = false;
+                Politics.tryFallImportTax = false;
+                Politics.tryFallLandTax = false;
+                Politics.tryRiseTradeTax = (Politics.tradeTaxOffset < 0.099f);
+                Politics.tryFallTradeTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+            else
+            {
+                Politics.tryRiseTradeTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+        }
+
+        public static void fallTradeTax_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
+        {
+            if (bValue)
+            {
+                Politics.tryRiseImportTax = false;
+                Politics.tryFallImportTax = false;
+                Politics.tryFallLandTax = false;
+                Politics.tryRiseTradeTax = false;
+                Politics.tryFallTradeTax = (Politics.tradeTaxOffset > 0f);
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
+            else
+            {
+                Politics.tryFallTradeTax = false;
+                PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
+                PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
+                PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
+                PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
+                PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
+            }
         }
 
 
