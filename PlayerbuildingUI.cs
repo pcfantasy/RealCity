@@ -81,29 +81,29 @@ namespace RealCity
             this.m_HeaderDataText.autoSize = true;
 
             this.Food = base.AddUIComponent<UILabel>();
-            this.Food.text = language.BuildingUI[27];
-            this.Food.tooltip = language.BuildingUI[27];
+            this.Food.text = Language.BuildingUI[27];
+            this.Food.tooltip = Language.BuildingUI[27];
             this.Food.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
             this.Food.autoSize = true;
             this.Food.name = "Moreeconomic_Text_0";
 
             this.Lumber = base.AddUIComponent<UILabel>();
-            this.Lumber.text = language.BuildingUI[28];
-            this.Lumber.tooltip = language.BuildingUI[28];
+            this.Lumber.text = Language.BuildingUI[28];
+            this.Lumber.tooltip = Language.BuildingUI[28];
             this.Lumber.relativePosition = new Vector3(SPACING, this.Food.relativePosition.y + SPACING22);
             this.Lumber.autoSize = true;
             this.Lumber.name = "Moreeconomic_Text_3";
 
             this.Coal = base.AddUIComponent<UILabel>();
-            this.Coal.text = language.BuildingUI[29];
-            this.Coal.tooltip = language.BuildingUI[29];
+            this.Coal.text = Language.BuildingUI[29];
+            this.Coal.tooltip = Language.BuildingUI[29];
             this.Coal.relativePosition = new Vector3(SPACING, this.Lumber.relativePosition.y + SPACING22);
             this.Coal.autoSize = true;
             this.Coal.name = "Moreeconomic_Text_4";
 
             this.Petrol = base.AddUIComponent<UILabel>();
-            this.Petrol.text = language.BuildingUI[30];
-            this.Petrol.tooltip = language.BuildingUI[30];
+            this.Petrol.text = Language.BuildingUI[30];
+            this.Petrol.tooltip = Language.BuildingUI[30];
             this.Petrol.relativePosition = new Vector3(SPACING, this.Coal.relativePosition.y + SPACING22);
             this.Petrol.autoSize = true;
             this.Petrol.name = "Moreeconomic_Text_5";
@@ -122,18 +122,18 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
      
-            if (PlayerBuildingUI.refesh_once  || (comm_data.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (PlayerBuildingUI.refesh_once  || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 if (base.isVisible)
                 {
-                    comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+                    MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
 
-                    Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[comm_data.last_buildingid];
-                    this.Food.text = string.Format(language.BuildingUI[27] + " [{0}]", comm_data.building_buffer3[comm_data.last_buildingid]);
-                    this.Lumber.text = string.Format(language.BuildingUI[28] + " [{0}]", comm_data.building_buffer4[comm_data.last_buildingid]);
-                    this.Coal.text = string.Format(language.BuildingUI[29] + " [{0}]", comm_data.building_buffer1[comm_data.last_buildingid]);
-                    this.Petrol.text = string.Format(language.BuildingUI[30] + " [{0}]", comm_data.building_buffer2[comm_data.last_buildingid]);
+                    Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
+                    this.Food.text = string.Format(Language.BuildingUI[27] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
+                    this.Lumber.text = string.Format(Language.BuildingUI[28] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
+                    this.Coal.text = string.Format(Language.BuildingUI[29] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
+                    this.Petrol.text = string.Format(Language.BuildingUI[30] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
                     PlayerBuildingUI.refesh_once = false;
                     this.BringToFront();
                 }

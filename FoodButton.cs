@@ -43,7 +43,7 @@ namespace RealCity
             this.FButton.playAudioEvents = false;
             this.FButton.name = "FButton";
             this.FButton.tooltipBox = aView.defaultTooltipBox;
-            this.FButton.text = language.BuildingUI[31];
+            this.FButton.text = Language.BuildingUI[31];
             this.FButton.size = new Vector2(150f, 40f);
             this.FButton.relativePosition = new Vector3(0, 30f);
 
@@ -55,11 +55,11 @@ namespace RealCity
             {
                 if (refeshOnce)
                 {
-                    this.FButton.tooltip = language.BuildingUI[31];
-                    this.FButton.text = language.BuildingUI[31] + ": " + comm_data.allFoodsFinal.ToString();
+                    this.FButton.tooltip = Language.BuildingUI[31];
+                    this.FButton.text = Language.BuildingUI[31] + ": " + MainDataStore.allFoodsFinal.ToString();
                     refeshOnce = false;
                 }
-                if (!comm_data.isFoodsGettedFinal)
+                if (!MainDataStore.isFoodsGettedFinal)
                 {
                     this.FButton.textColor = Color.red;
                 }

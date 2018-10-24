@@ -43,7 +43,7 @@ namespace RealCity
             this.LButton.playAudioEvents = false;
             this.LButton.name = "LButton";
             this.LButton.tooltipBox = aView.defaultTooltipBox;
-            this.LButton.text = language.BuildingUI[33];
+            this.LButton.text = Language.BuildingUI[33];
             this.LButton.size = new Vector2(150f, 40f);
             this.LButton.relativePosition = new Vector3(0, 30f);
 
@@ -55,11 +55,11 @@ namespace RealCity
             {
                 if (refeshOnce)
                 {
-                    this.LButton.tooltip = language.BuildingUI[33];
-                    this.LButton.text = language.BuildingUI[33] + ": " + comm_data.allLumbersFinal.ToString();
+                    this.LButton.tooltip = Language.BuildingUI[33];
+                    this.LButton.text = Language.BuildingUI[33] + ": " + MainDataStore.allLumbersFinal.ToString();
                     refeshOnce = false;
                 }
-                if (!comm_data.isLumbersGettedFinal)
+                if (!MainDataStore.isLumbersGettedFinal)
                 {
                     this.LButton.textColor = Color.red;
                 }

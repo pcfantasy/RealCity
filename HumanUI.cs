@@ -58,15 +58,15 @@ namespace RealCity
         private void ShowOnGui()
         { 
             this.familyMoney = base.AddUIComponent<UILabel>();
-            this.familyMoney.text = language.BuildingUI[14];
-            this.familyMoney.tooltip = language.BuildingUI[15];
+            this.familyMoney.text = Language.BuildingUI[14];
+            this.familyMoney.tooltip = Language.BuildingUI[15];
             this.familyMoney.relativePosition = new Vector3(SPACING, 50f);
             this.familyMoney.autoSize = true;
             this.familyMoney.name = "Moreeconomic_Text_0";
 
             this.familySalary = base.AddUIComponent<UILabel>();
-            this.familySalary.text = language.BuildingUI[20];
-            this.familySalary.tooltip = language.BuildingUI[20];
+            this.familySalary.text = Language.BuildingUI[20];
+            this.familySalary.tooltip = Language.BuildingUI[20];
             this.familySalary.relativePosition = new Vector3(SPACING, this.familyMoney.relativePosition.y + SPACING22);
             this.familySalary.autoSize = true;
             this.familySalary.name = "Moreeconomic_Text_1";
@@ -77,17 +77,17 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (refeshOnce || (comm_data.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
+            if (refeshOnce || (MainDataStore.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
                 if (base.isVisible)
                 {
-                    comm_data.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
+                    MainDataStore.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
                     CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                    ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)comm_data.last_citizenid)].m_homeBuilding;
+                    ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)MainDataStore.last_citizenid)].m_homeBuilding;
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                    uint homeId = instance3.m_citizens.m_buffer[comm_data.last_citizenid].GetContainingUnit(comm_data.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                    this.familyMoney.text = string.Format(language.BuildingUI[14] + " [{0}]", comm_data.family_money[homeId]);
-                    this.familySalary.text = string.Format(language.BuildingUI[20] + " [{0}]", CaculateFamilySalary(homeId));
+                    uint homeId = instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].GetContainingUnit(MainDataStore.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                    this.familyMoney.text = string.Format(Language.BuildingUI[14] + " [{0}]", MainDataStore.family_money[homeId]);
+                    this.familySalary.text = string.Format(Language.BuildingUI[20] + " [{0}]", CaculateFamilySalary(homeId));
                     HumanUI.refeshOnce = false;
                 }
             }
@@ -100,27 +100,27 @@ namespace RealCity
             uint temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen0;
             if (temp != 0)
             {
-                num += pc_ResidentAI.CitizenSalary(temp, true);
+                num += RealCityResidentAI.CitizenSalary(temp, true);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen1;
             if (temp != 0)
             {
-                num += pc_ResidentAI.CitizenSalary(temp, true);
+                num += RealCityResidentAI.CitizenSalary(temp, true);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen2;
             if (temp != 0)
             {
-                num += pc_ResidentAI.CitizenSalary(temp, true);
+                num += RealCityResidentAI.CitizenSalary(temp, true);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen3;
             if (temp != 0)
             {
-                num += pc_ResidentAI.CitizenSalary(temp, true);
+                num += RealCityResidentAI.CitizenSalary(temp, true);
             }
             temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen4;
             if (temp != 0)
             {
-                num += pc_ResidentAI.CitizenSalary(temp, true);
+                num += RealCityResidentAI.CitizenSalary(temp, true);
             }
             return (int)num;
         }

@@ -76,7 +76,7 @@ namespace RealCity
             this.RcButton.playAudioEvents = true;
             this.RcButton.name = "RcButton";
             this.RcButton.tooltipBox = aView.defaultTooltipBox;
-            this.RcButton.text = language.RealCityUI1[93] + language.OptionUI[4];
+            this.RcButton.text = Language.RealCityUI1[93] + Language.OptionUI[4];
             this.RcButton.size = new Vector2(200f, 40f);
             this.RcButton.relativePosition = new Vector3(0, 30f);
             this.RcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
@@ -122,8 +122,8 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.RcButton.tooltip = language.RealCityUI1[93] + language.OptionUI[4];
-                this.RcButton.text = language.RealCityUI1[93] + language.OptionUI[4];
+                this.RcButton.tooltip = Language.RealCityUI1[93] + Language.OptionUI[4];
+                this.RcButton.text = Language.RealCityUI1[93] + Language.OptionUI[4];
                 if (Loader.guiPanel1.isVisible)
                 {
                     this.RcButton.Focus();

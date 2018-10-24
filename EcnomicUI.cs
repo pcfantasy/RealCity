@@ -91,7 +91,7 @@ namespace RealCity
         private UILabel tip4;
         private UILabel tip5;
         private UILabel tip6;
-        private UILabel tip7;
+        //private UILabel tip7;
         //private UILabel tip8;
         //private UILabel tip9;
         //private UILabel tip10;
@@ -121,7 +121,7 @@ namespace RealCity
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
             this.m_title = base.AddUIComponent<UILabel>();
-            this.m_title.text = language.EconomicUI[0];
+            this.m_title.text = Language.EconomicUI[0];
             this.m_title.relativePosition = new Vector3(WIDTH / 2f - this.m_title.width / 2f - 25f, HEADER / 2f - this.m_title.height / 2f);
             this.m_title.textAlignment = UIHorizontalAlignment.Center;
             this.m_closeButton = base.AddUIComponent<UIButton>();
@@ -147,7 +147,7 @@ namespace RealCity
         {
             //citizen
             this.m_firstline_citizen = base.AddUIComponent<UILabel>();
-            this.m_firstline_citizen.text = language.EconomicUI[1];
+            this.m_firstline_citizen.text = Language.EconomicUI[1];
             this.m_firstline_citizen.textScale = 1.1f;
             this.m_firstline_citizen.tooltip = "N/A";
             this.m_firstline_citizen.relativePosition = new Vector3(SPACING, 50f);
@@ -155,43 +155,43 @@ namespace RealCity
 
             //data
             this.citizen_count = base.AddUIComponent<UILabel>();
-            this.citizen_count.text = language.EconomicUI[2];
-            this.citizen_count.tooltip = language.EconomicUI[3];
+            this.citizen_count.text = Language.EconomicUI[2];
+            this.citizen_count.tooltip = Language.EconomicUI[3];
             this.citizen_count.relativePosition = new Vector3(SPACING, this.m_firstline_citizen.relativePosition.y + SPACING22);
             this.citizen_count.autoSize = true;
             this.citizen_count.name = "Moreeconomic_Text_0";
 
             this.family_count = base.AddUIComponent<UILabel>();
-            this.family_count.text = language.EconomicUI[4];
-            this.family_count.tooltip = language.EconomicUI[5];
+            this.family_count.text = Language.EconomicUI[4];
+            this.family_count.tooltip = Language.EconomicUI[5];
             this.family_count.relativePosition = new Vector3(this.citizen_count.relativePosition.x + this.citizen_count.width + SPACING + 140f, this.citizen_count.relativePosition.y);
             this.family_count.autoSize = true;
             this.family_count.name = "Moreeconomic_Text_1";
 
             this.citizen_salary_per_family = base.AddUIComponent<UILabel>();
-            this.citizen_salary_per_family.text = language.EconomicUI[6];
-            this.citizen_salary_per_family.tooltip = language.EconomicUI[7];
+            this.citizen_salary_per_family.text = Language.EconomicUI[6];
+            this.citizen_salary_per_family.tooltip = Language.EconomicUI[7];
             this.citizen_salary_per_family.relativePosition = new Vector3(this.family_count.relativePosition.x + this.family_count.width + SPACING + 110f, this.family_count.relativePosition.y);
             this.citizen_salary_per_family.autoSize = true;
             this.citizen_salary_per_family.name = "Moreeconomic_Text_2";
 
             this.citizen_salary_tax_per_family = base.AddUIComponent<UILabel>();
-            this.citizen_salary_tax_per_family.text = language.EconomicUI[8];
-            this.citizen_salary_tax_per_family.tooltip = language.EconomicUI[9];
+            this.citizen_salary_tax_per_family.text = Language.EconomicUI[8];
+            this.citizen_salary_tax_per_family.tooltip = Language.EconomicUI[9];
             this.citizen_salary_tax_per_family.relativePosition = new Vector3(SPACING, this.citizen_count.relativePosition.y + SPACING22);
             this.citizen_salary_tax_per_family.autoSize = true;
             this.citizen_salary_tax_per_family.name = "Moreeconomic_Text_4";
 
             this.citizen_expense_per_family = base.AddUIComponent<UILabel>();
-            this.citizen_expense_per_family.text = language.EconomicUI[10];
-            this.citizen_expense_per_family.tooltip = language.EconomicUI[11];
+            this.citizen_expense_per_family.text = Language.EconomicUI[10];
+            this.citizen_expense_per_family.tooltip = Language.EconomicUI[11];
             this.citizen_expense_per_family.relativePosition = new Vector3(this.family_count.relativePosition.x, this.family_count.relativePosition.y + SPACING22);
             this.citizen_expense_per_family.autoSize = true;
             this.citizen_expense_per_family.name = "Moreeconomic_Text_5";
 
             this.citizen_average_transport_fee = base.AddUIComponent<UILabel>();
-            this.citizen_average_transport_fee.text = language.EconomicUI[12];
-            this.citizen_average_transport_fee.tooltip = language.EconomicUI[13];
+            this.citizen_average_transport_fee.text = Language.EconomicUI[12];
+            this.citizen_average_transport_fee.tooltip = Language.EconomicUI[13];
             this.citizen_average_transport_fee.relativePosition = new Vector3(this.citizen_salary_per_family.relativePosition.x, this.citizen_salary_per_family.relativePosition.y + SPACING22);
             this.citizen_average_transport_fee.autoSize = true;
             this.citizen_average_transport_fee.name = "Moreeconomic_Text_14";
@@ -211,52 +211,52 @@ namespace RealCity
             this.total_citizen_vehical_time.name = "Moreeconomic_Text_8";*/
 
             this.family_very_profit_num = base.AddUIComponent<UILabel>();
-            this.family_very_profit_num.text = language.EconomicUI[18];
-            this.family_very_profit_num.tooltip = language.EconomicUI[19];
+            this.family_very_profit_num.text = Language.EconomicUI[18];
+            this.family_very_profit_num.tooltip = Language.EconomicUI[19];
             this.family_very_profit_num.relativePosition = new Vector3(SPACING, this.citizen_salary_tax_per_family.relativePosition.y + SPACING22);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.family_very_profit_num.autoSize = true;
             this.family_very_profit_num.name = "Moreeconomic_Text_11";
 
             this.family_profit_money_num = base.AddUIComponent<UILabel>();
-            this.family_profit_money_num.text = language.EconomicUI[20];
-            this.family_profit_money_num.tooltip = language.EconomicUI[21];
+            this.family_profit_money_num.text = Language.EconomicUI[20];
+            this.family_profit_money_num.tooltip = Language.EconomicUI[21];
             this.family_profit_money_num.relativePosition = new Vector3(this.citizen_expense_per_family.relativePosition.x, this.citizen_expense_per_family.relativePosition.y + SPACING22);
             this.family_profit_money_num.autoSize = true;
             this.family_profit_money_num.name = "Moreeconomic_Text_9";
 
             this.family_loss_money_num = base.AddUIComponent<UILabel>();
-            this.family_loss_money_num.text = language.EconomicUI[22];
-            this.family_loss_money_num.tooltip = language.EconomicUI[23];
+            this.family_loss_money_num.text = Language.EconomicUI[22];
+            this.family_loss_money_num.tooltip = Language.EconomicUI[23];
             this.family_loss_money_num.relativePosition = new Vector3(this.citizen_average_transport_fee.relativePosition.x, this.citizen_average_transport_fee.relativePosition.y + SPACING22);
             this.family_loss_money_num.autoSize = true;
             this.family_loss_money_num.name = "Moreeconomic_Text_10";
 
             this.family_weight_stable_high = base.AddUIComponent<UILabel>();
-            this.family_weight_stable_high.text = language.EconomicUI[24];
-            this.family_weight_stable_high.tooltip = language.EconomicUI[25];
+            this.family_weight_stable_high.text = Language.EconomicUI[24];
+            this.family_weight_stable_high.tooltip = Language.EconomicUI[25];
             this.family_weight_stable_high.relativePosition = new Vector3(SPACING, this.family_very_profit_num.relativePosition.y + SPACING22);
             this.family_weight_stable_high.autoSize = true;
             this.family_weight_stable_high.name = "Moreeconomic_Text_12";
 
             this.family_weight_stable_medium = base.AddUIComponent<UILabel>();
-            this.family_weight_stable_medium.text = language.EconomicUI[26];
-            this.family_weight_stable_medium.tooltip = language.EconomicUI[27];
+            this.family_weight_stable_medium.text = Language.EconomicUI[26];
+            this.family_weight_stable_medium.tooltip = Language.EconomicUI[27];
             this.family_weight_stable_medium.relativePosition = new Vector3(this.family_profit_money_num.relativePosition.x, this.family_profit_money_num.relativePosition.y + SPACING22);
             this.family_weight_stable_medium.autoSize = true;
             this.family_weight_stable_medium.name = "Moreeconomic_Text_44";
 
             this.family_weight_stable_low = base.AddUIComponent<UILabel>();
-            this.family_weight_stable_low.text = language.EconomicUI[28];
-            this.family_weight_stable_low.tooltip = language.EconomicUI[29];
+            this.family_weight_stable_low.text = Language.EconomicUI[28];
+            this.family_weight_stable_low.tooltip = Language.EconomicUI[29];
             this.family_weight_stable_low.relativePosition = new Vector3(this.family_loss_money_num.relativePosition.x, this.family_loss_money_num.relativePosition.y + SPACING22);
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.family_weight_stable_low.autoSize = true;
             this.family_weight_stable_low.name = "Moreeconomic_Text_13";
 
             this.family_satisfactios_of_goods = base.AddUIComponent<UILabel>();
-            this.family_satisfactios_of_goods.text = language.EconomicUI[30];
-            this.family_satisfactios_of_goods.tooltip = language.EconomicUI[31];
+            this.family_satisfactios_of_goods.text = Language.EconomicUI[30];
+            this.family_satisfactios_of_goods.tooltip = Language.EconomicUI[31];
             this.family_satisfactios_of_goods.relativePosition = new Vector3(SPACING, this.family_weight_stable_high.relativePosition.y + SPACING22); ;
             //this.m_money_forest.relativePosition = new Vector3(this.m_money_farmer.relativePosition.x + this.m_money_farmer.width + SPACING, this.m_money_farmer.relativePosition.y);
             this.family_satisfactios_of_goods.autoSize = true;
@@ -264,74 +264,74 @@ namespace RealCity
 
             //building
             this.m_secondline_building = base.AddUIComponent<UILabel>();
-            this.m_secondline_building.text = language.EconomicUI[32];
+            this.m_secondline_building.text = Language.EconomicUI[32];
             this.m_secondline_building.tooltip = "N/A";
             this.m_secondline_building.textScale = 1.1f;
             this.m_secondline_building.relativePosition = new Vector3(SPACING, this.family_satisfactios_of_goods.relativePosition.y + SPACING22 + 10f);
             this.m_secondline_building.autoSize = true;
 
             this.office_gen_salary_index = base.AddUIComponent<UILabel>();
-            this.office_gen_salary_index.text = language.EconomicUI[33];
-            this.office_gen_salary_index.tooltip = language.EconomicUI[34];
+            this.office_gen_salary_index.text = Language.EconomicUI[33];
+            this.office_gen_salary_index.tooltip = Language.EconomicUI[34];
             this.office_gen_salary_index.relativePosition = new Vector3(SPACING, this.m_secondline_building.relativePosition.y + SPACING22);
             this.office_gen_salary_index.autoSize = true;
             this.office_gen_salary_index.name = "Moreeconomic_Text_42";
 
             this.office_high_tech_salary_index = base.AddUIComponent<UILabel>();
-            this.office_high_tech_salary_index.text = language.EconomicUI[35];
-            this.office_high_tech_salary_index.tooltip = language.EconomicUI[36];
+            this.office_high_tech_salary_index.text = Language.EconomicUI[35];
+            this.office_high_tech_salary_index.tooltip = Language.EconomicUI[36];
             this.office_high_tech_salary_index.relativePosition = new Vector3(this.office_gen_salary_index.relativePosition.x + 100f + this.office_gen_salary_index.width, this.office_gen_salary_index.relativePosition.y);
             this.office_high_tech_salary_index.autoSize = true;
             this.office_high_tech_salary_index.name = "Moreeconomic_Text_43";
 
             this.tip1 = base.AddUIComponent<UILabel>();
-            this.tip1.text = language.EconomicUI[37];
-            this.tip1.tooltip = language.EconomicUI[38];
+            this.tip1.text = Language.EconomicUI[37];
+            this.tip1.tooltip = Language.EconomicUI[38];
             this.tip1.relativePosition = new Vector3(SPACING, this.office_gen_salary_index.relativePosition.y + SPACING22 + 10f);
             this.tip1.autoSize = true;
             this.tip1.name = "Moreeconomic_Text_49";
 
             this.tip2 = base.AddUIComponent<UILabel>();
-            this.tip2.text = language.EconomicUI[39];
-            this.tip2.tooltip = language.EconomicUI[40];
+            this.tip2.text = Language.EconomicUI[39];
+            this.tip2.tooltip = Language.EconomicUI[40];
             this.tip2.relativePosition = new Vector3(SPACING, this.tip1.relativePosition.y + SPACING22);
             this.tip2.autoSize = true;
             this.tip2.name = "Moreeconomic_Text_50";
 
             this.tip3 = base.AddUIComponent<UILabel>();
-            this.tip3.text = language.EconomicUI[41];
-            this.tip3.tooltip = language.EconomicUI[42];
+            this.tip3.text = Language.EconomicUI[41];
+            this.tip3.tooltip = Language.EconomicUI[42];
             this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
             this.tip3.autoSize = true;
             this.tip3.name = "Moreeconomic_Text_51";
 
             this.tip4 = base.AddUIComponent<UILabel>();
-            this.tip4.text = language.EconomicUI[43];
-            this.tip4.tooltip = language.EconomicUI[44];
+            this.tip4.text = Language.EconomicUI[43];
+            this.tip4.tooltip = Language.EconomicUI[44];
             this.tip4.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
             this.tip4.autoSize = true;
             this.tip4.name = "Moreeconomic_Text_52";
 
             this.tip5 = base.AddUIComponent<UILabel>();
-            this.tip5.text = language.EconomicUI[45];
-            this.tip5.tooltip = language.EconomicUI[46];
+            this.tip5.text = Language.EconomicUI[45];
+            this.tip5.tooltip = Language.EconomicUI[46];
             this.tip5.relativePosition = new Vector3(SPACING, this.tip4.relativePosition.y + SPACING22);
             this.tip5.autoSize = true;
             this.tip5.name = "Moreeconomic_Text_53";
 
             this.tip6 = base.AddUIComponent<UILabel>();
-            this.tip6.text = language.EconomicUI[47];
-            this.tip6.tooltip = language.EconomicUI[48];
+            this.tip6.text = Language.EconomicUI[47];
+            this.tip6.tooltip = Language.EconomicUI[48];
             this.tip6.relativePosition = new Vector3(SPACING, this.tip5.relativePosition.y + SPACING22);
             this.tip6.autoSize = true;
             this.tip6.name = "Moreeconomic_Text_50";
 
-            this.tip7 = base.AddUIComponent<UILabel>();
-            this.tip7.text = language.EconomicUI[49];
-            this.tip7.tooltip = language.EconomicUI[50];
-            this.tip7.relativePosition = new Vector3(SPACING, this.tip6.relativePosition.y + SPACING22);
-            this.tip7.autoSize = true;
-            this.tip7.name = "Moreeconomic_Text_51";
+            //this.tip7 = base.AddUIComponent<UILabel>();
+            //this.tip7.text = Language.EconomicUI[49];
+            //this.tip7.tooltip = Language.EconomicUI[50];
+            //this.tip7.relativePosition = new Vector3(SPACING, this.tip6.relativePosition.y + SPACING22);
+            ///this.tip7.autoSize = true;
+            //this.tip7.name = "Moreeconomic_Text_51";
 
             /*this.tip8 = base.AddUIComponent<UILabel>();
             this.tip8.text = language.EconomicUI[51];
@@ -366,51 +366,60 @@ namespace RealCity
                 if (base.isVisible)
                 {
                     //citizen
-                    this.m_title.text = language.EconomicUI[0];
-                    this.m_firstline_citizen.text = language.EconomicUI[1];
-                    this.citizen_count.text = string.Format(language.EconomicUI[2] + " [{0}]", comm_data.citizen_count);
-                    this.family_count.text = string.Format(language.EconomicUI[4] + " [{0}]", comm_data.family_count);
-                    this.citizen_salary_per_family.text = string.Format(language.EconomicUI[6] + " [{0}]", comm_data.citizen_salary_per_family);
+                    this.m_title.text = Language.EconomicUI[0];
+                    this.m_firstline_citizen.text = Language.EconomicUI[1];
+                    this.citizen_count.text = string.Format(Language.EconomicUI[2] + " [{0}]", MainDataStore.citizen_count);
+                    this.family_count.text = string.Format(Language.EconomicUI[4] + " [{0}]", MainDataStore.family_count);
+                    this.citizen_salary_per_family.text = string.Format(Language.EconomicUI[6] + " [{0}]", MainDataStore.citizen_salary_per_family);
 
-                    if (comm_data.family_count != 0)
+                    if (MainDataStore.family_count != 0)
                     {
-                        this.citizen_salary_tax_per_family.text = string.Format(language.EconomicUI[8] + " [{0}]", comm_data.citizen_salary_tax_total / comm_data.family_count);
+                        this.citizen_salary_tax_per_family.text = string.Format(Language.EconomicUI[8] + " [{0}]", MainDataStore.citizen_salary_tax_total / MainDataStore.family_count);
                     }
-                    this.citizen_expense_per_family.text = string.Format(language.EconomicUI[10] + " [{0}]", comm_data.citizen_expense_per_family);
-                    this.citizen_average_transport_fee.text = string.Format(language.EconomicUI[12] + " [{0}]", comm_data.citizen_average_transport_fee);
+                    this.citizen_expense_per_family.text = string.Format(Language.EconomicUI[10] + " [{0}]", MainDataStore.citizen_expense_per_family);
+                    this.citizen_average_transport_fee.text = string.Format(Language.EconomicUI[12] + " [{0}]", MainDataStore.citizen_average_transport_fee);
 
                     //this.public_transport_fee.text = string.Format(language.EconomicUI[16] + " [{0}]", comm_data.public_transport_fee * comm_data.game_income_expense_multiple);
                     //this.total_citizen_vehical_time.text = string.Format(language.EconomicUI[18] + " [{0}]", comm_data.temp_total_citizen_vehical_time_last);
-                    this.family_very_profit_num.text = string.Format(language.EconomicUI[18] + " [{0}]", comm_data.family_very_profit_money_num);
-                    this.family_profit_money_num.text = string.Format(language.EconomicUI[20] + " [{0}]", comm_data.family_profit_money_num);
-                    this.family_loss_money_num.text = string.Format(language.EconomicUI[22] + " [{0}]", comm_data.family_loss_money_num);
-                    this.family_weight_stable_high.text = string.Format(language.EconomicUI[24] + " [{0}]", comm_data.family_weight_stable_high);
-                    this.family_weight_stable_medium.text = string.Format(language.EconomicUI[26] + " [{0}]", comm_data.family_count - comm_data.family_weight_stable_high - comm_data.family_weight_stable_low);
-                    this.family_weight_stable_low.text = string.Format(language.EconomicUI[28] + " [{0}]", comm_data.family_weight_stable_low);
-                    if (comm_data.family_count != 0)
+                    this.family_very_profit_num.text = string.Format(Language.EconomicUI[18] + " [{0}]", MainDataStore.family_very_profit_money_num);
+                    this.family_profit_money_num.text = string.Format(Language.EconomicUI[20] + " [{0}]", MainDataStore.family_profit_money_num);
+                    this.family_loss_money_num.text = string.Format(Language.EconomicUI[22] + " [{0}]", MainDataStore.family_loss_money_num);
+                    this.family_weight_stable_high.text = string.Format(Language.EconomicUI[24] + " [{0}]", MainDataStore.family_weight_stable_high);
+                    this.family_weight_stable_medium.text = string.Format(Language.EconomicUI[26] + " [{0}]", MainDataStore.family_count - MainDataStore.family_weight_stable_high - MainDataStore.family_weight_stable_low);
+                    this.family_weight_stable_low.text = string.Format(Language.EconomicUI[28] + " [{0}]", MainDataStore.family_weight_stable_low);
+                    if (MainDataStore.family_count != 0)
                     {
-                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", (float)(pc_ResidentAI.citizenGoods / (comm_data.family_count * 4f)));
+                        this.family_satisfactios_of_goods.text = string.Format(Language.EconomicUI[30] + " [{0:N3}%]", (float)(RealCityResidentAI.citizenGoods / (MainDataStore.family_count * 4f)));
                     }
                     else
                     {
-                        this.family_satisfactios_of_goods.text = string.Format(language.EconomicUI[30] + " [{0:N3}%]", 0);
+                        this.family_satisfactios_of_goods.text = string.Format(Language.EconomicUI[30] + " [{0:N3}%]", 0);
                     }
 
                     //building
-                    this.m_secondline_building.text = language.EconomicUI[32];
-                    this.office_gen_salary_index.text = string.Format(language.EconomicUI[34] + " [{0}]", pc_PrivateBuildingAI.greaterThan20000ProfitBuildingCountFinal);
-                    this.office_high_tech_salary_index.text = string.Format(language.EconomicUI[36] + " [{0}]", pc_PrivateBuildingAI.greaterThan20000ProfitBuildingMoneyFinal);
+                    this.m_secondline_building.text = Language.EconomicUI[32];
+                    this.office_gen_salary_index.text = string.Format(Language.EconomicUI[34] + " [{0}]", RealCityPrivateBuildingAI.greaterThan20000ProfitBuildingCountFinal);
+                    this.office_high_tech_salary_index.text = string.Format(Language.EconomicUI[36] + " [{0}]", RealCityPrivateBuildingAI.greaterThan20000ProfitBuildingMoneyFinal);
 
-                    this.tip1.text = string.Format(language.EconomicUI[38] + "  " + RealCity.tip1_message_forgui);
-                    this.tip2.text = string.Format(language.EconomicUI[40] + "  " + RealCity.tip2_message_forgui);
-                    this.tip3.text = string.Format(language.EconomicUI[42] + "  " + RealCity.tip3_message_forgui);
-                    this.tip4.text = string.Format(language.EconomicUI[44] + "  " + RealCity.tip4_message_forgui);
-                    this.tip5.text = string.Format(language.EconomicUI[46] + "  " + RealCity.tip5_message_forgui);
-                    this.tip6.text = string.Format(language.EconomicUI[48] + "  " + RealCity.tip6_message_forgui);
-                    this.tip7.text = string.Format(language.EconomicUI[50] + "  " + RealCity.tip7_message_forgui);
-                    /*this.tip8.text = string.Format(language.EconomicUI[52] + "  " + RealCity.tip8_message_forgui);
-                    this.tip9.text = string.Format(language.EconomicUI[54] + "  " + RealCity.tip9_message_forgui);
-                    this.tip10.text = string.Format(language.EconomicUI[55] + "  " + RealCity.tip10_message_forgui);*/
+                    this.tip1.text = string.Format(Language.EconomicUI[38] + "  " + RealCityEconomyExtension.tip1_message_forgui);
+                    this.tip2.text = string.Format(Language.EconomicUI[40] + "  " + RealCityEconomyExtension.tip2_message_forgui);
+                    this.tip3.text = string.Format(Language.EconomicUI[42] + "  " + RealCityEconomyExtension.tip3_message_forgui);
+                    this.tip4.text = string.Format(Language.EconomicUI[44] + "  " + RealCityEconomyExtension.tip4_message_forgui);
+                    this.tip5.text = string.Format(Language.EconomicUI[46] + "  " + RealCityEconomyExtension.tip5_message_forgui);
+                    this.tip6.text = string.Format(Language.EconomicUI[48] + "  " + RealCityEconomyExtension.tip6_message_forgui);
+
+                    if (!MainDataStore.haveCityResourceDepartmentFinal)
+                    {
+                        if (this.tip3.textColor == Color.red)
+                        {
+                            this.tip3.textColor = Color.white;
+                        }
+                        else
+                        {
+                            this.tip3.textColor = Color.red;
+                        }
+                    }
+
                     refeshOnce = false;
                 }
             }

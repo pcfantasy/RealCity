@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RealCity
 {
-    public class language
+    public class Language
     {
         public static string[] OptionUI_English =
         {
@@ -451,8 +451,8 @@ namespace RealCity
         "建议升高进口税(如果进口税偏差>=0.4点击不可用)",  //13
         "建议降低进口税(如果进口税偏差<=0点击不可用)",   //14
         "建议降低土地税(如果土地税偏差<=0点击不可用)",   //15
-        "建议升高交易税(如果进口税偏差>=0.1点击不可用)", //16
-        "建议降低交易税(如果进口税偏差<=0点击不可用)",   //17
+        "建议升高交易税(如果交易税偏差>=0.1点击不可用)", //16
+        "建议降低交易税(如果交易税偏差<=0点击不可用)",   //17
         "高税收",                                          //18
         "民调:",                                          //19
         "无特殊政策",                                      //20
@@ -694,7 +694,7 @@ namespace RealCity
                 PoliticsUI.WIDTH = 800;
             }
 
-            comm_data.last_language = currentLanguage;
+            MainDataStore.last_language = currentLanguage;
         }
     }
 }

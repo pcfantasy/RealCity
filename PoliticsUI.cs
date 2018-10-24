@@ -101,7 +101,7 @@ namespace RealCity
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
             this.m_title = base.AddUIComponent<UILabel>();
-            this.m_title.text = language.PoliticsMessage[0];
+            this.m_title.text = Language.PoliticsMessage[0];
             this.m_title.relativePosition = new Vector3(WIDTH / 2f - this.m_title.width / 2f - 25f, HEADER / 2f - this.m_title.height / 2f);
             this.m_title.textAlignment = UIHorizontalAlignment.Center;
             this.m_closeButton = base.AddUIComponent<UIButton>();
@@ -127,7 +127,7 @@ namespace RealCity
         {
             //citizen
             this.parliamentSeats = base.AddUIComponent<UILabel>();
-            this.parliamentSeats.text = language.PoliticsMessage[1];
+            this.parliamentSeats.text = Language.PoliticsMessage[1];
             this.parliamentSeats.textScale = 1.1f;
             this.parliamentSeats.tooltip = "N/A";
             this.parliamentSeats.relativePosition = new Vector3(SPACING, 50f);
@@ -135,51 +135,51 @@ namespace RealCity
 
             //data
             this.communist = base.AddUIComponent<UILabel>();
-            this.communist.text = language.PoliticsMessage[2];
-            this.communist.tooltip = language.PoliticsMessage[2];
+            this.communist.text = Language.PoliticsMessage[2];
+            this.communist.tooltip = Language.PoliticsMessage[2];
             this.communist.relativePosition = new Vector3(SPACING, this.parliamentSeats.relativePosition.y + SPACING22);
             this.communist.autoSize = true;
             this.communist.name = "Moreeconomic_Text_0";
 
             this.green = base.AddUIComponent<UILabel>();
-            this.green.text = language.PoliticsMessage[3];
-            this.green.tooltip = language.PoliticsMessage[3];
+            this.green.text = Language.PoliticsMessage[3];
+            this.green.tooltip = Language.PoliticsMessage[3];
             this.green.relativePosition = new Vector3(this.communist.relativePosition.x + this.communist.width + SPACING + 70f, this.communist.relativePosition.y);
             this.green.autoSize = true;
             this.green.name = "Moreeconomic_Text_1";
 
             this.socialist = base.AddUIComponent<UILabel>();
-            this.socialist.text = language.PoliticsMessage[4];
-            this.socialist.tooltip = language.PoliticsMessage[4];
+            this.socialist.text = Language.PoliticsMessage[4];
+            this.socialist.tooltip = Language.PoliticsMessage[4];
             this.socialist.relativePosition = new Vector3(this.green.relativePosition.x + this.green.width + SPACING + 70f, this.green.relativePosition.y);
             this.socialist.autoSize = true;
             this.socialist.name = "Moreeconomic_Text_2";
 
             this.liberal = base.AddUIComponent<UILabel>();
-            this.liberal.text = language.PoliticsMessage[5];
-            this.liberal.tooltip = language.PoliticsMessage[5];
+            this.liberal.text = Language.PoliticsMessage[5];
+            this.liberal.tooltip = Language.PoliticsMessage[5];
             this.liberal.relativePosition = new Vector3(this.socialist.relativePosition.x + this.socialist.width + SPACING + 70f, this.socialist.relativePosition.y);
             this.liberal.autoSize = true;
             this.liberal.name = "Moreeconomic_Text_2";
 
             this.national = base.AddUIComponent<UILabel>();
-            this.national.text = language.PoliticsMessage[6];
-            this.national.tooltip = language.PoliticsMessage[6];
+            this.national.text = Language.PoliticsMessage[6];
+            this.national.tooltip = Language.PoliticsMessage[6];
             this.national.relativePosition = new Vector3(this.liberal.relativePosition.x + this.liberal.width + SPACING + 70f, this.liberal.relativePosition.y);
             this.national.autoSize = true;
             this.national.name = "Moreeconomic_Text_2";
 
 
             goverment = base.AddUIComponent<UILabel>();
-            goverment.text = language.PoliticsMessage[7];
-            goverment.tooltip = language.PoliticsMessage[7];
+            goverment.text = Language.PoliticsMessage[7];
+            goverment.tooltip = Language.PoliticsMessage[7];
             goverment.relativePosition = new Vector3(SPACING, this.communist.relativePosition.y + SPACING22 + 20f);
             goverment.autoSize = true;
             goverment.name = "Moreeconomic_Text_0";
 
             //citizen
             this.polls = base.AddUIComponent<UILabel>();
-            this.polls.text = language.PoliticsMessage[19];
+            this.polls.text = Language.PoliticsMessage[19];
             this.polls.textScale = 1.1f;
             this.polls.tooltip = "N/A";
             this.polls.relativePosition = new Vector3(SPACING, goverment.relativePosition.y + SPACING22 + 20f);
@@ -187,122 +187,122 @@ namespace RealCity
 
             //data
             this.communistPolls = base.AddUIComponent<UILabel>();
-            this.communistPolls.text = language.PoliticsMessage[2];
-            this.communistPolls.tooltip = language.PoliticsMessage[2];
+            this.communistPolls.text = Language.PoliticsMessage[2];
+            this.communistPolls.tooltip = Language.PoliticsMessage[2];
             this.communistPolls.relativePosition = new Vector3(SPACING, this.polls.relativePosition.y + SPACING22);
             this.communistPolls.autoSize = true;
             this.communistPolls.name = "Moreeconomic_Text_0";
 
             this.greenPolls = base.AddUIComponent<UILabel>();
-            this.greenPolls.text = language.PoliticsMessage[3];
-            this.greenPolls.tooltip = language.PoliticsMessage[3];
+            this.greenPolls.text = Language.PoliticsMessage[3];
+            this.greenPolls.tooltip = Language.PoliticsMessage[3];
             this.greenPolls.relativePosition = new Vector3(this.communistPolls.relativePosition.x + this.communistPolls.width + SPACING + 70f, this.communistPolls.relativePosition.y);
             this.greenPolls.autoSize = true;
             this.greenPolls.name = "Moreeconomic_Text_1";
 
             this.socialistPolls = base.AddUIComponent<UILabel>();
-            this.socialistPolls.text = language.PoliticsMessage[4];
-            this.socialistPolls.tooltip = language.PoliticsMessage[4];
+            this.socialistPolls.text = Language.PoliticsMessage[4];
+            this.socialistPolls.tooltip = Language.PoliticsMessage[4];
             this.socialistPolls.relativePosition = new Vector3(this.greenPolls.relativePosition.x + this.greenPolls.width + SPACING + 70f, this.greenPolls.relativePosition.y);
             this.socialistPolls.autoSize = true;
             this.socialistPolls.name = "Moreeconomic_Text_2";
 
             this.liberalPolls = base.AddUIComponent<UILabel>();
-            this.liberalPolls.text = language.PoliticsMessage[5];
-            this.liberalPolls.tooltip = language.PoliticsMessage[5];
+            this.liberalPolls.text = Language.PoliticsMessage[5];
+            this.liberalPolls.tooltip = Language.PoliticsMessage[5];
             this.liberalPolls.relativePosition = new Vector3(this.socialistPolls.relativePosition.x + this.socialistPolls.width + SPACING + 70f, this.socialistPolls.relativePosition.y);
             this.liberalPolls.autoSize = true;
             this.liberalPolls.name = "Moreeconomic_Text_2";
 
             this.nationalPolls = base.AddUIComponent<UILabel>();
-            this.nationalPolls.text = language.PoliticsMessage[6];
-            this.nationalPolls.tooltip = language.PoliticsMessage[6];
+            this.nationalPolls.text = Language.PoliticsMessage[6];
+            this.nationalPolls.tooltip = Language.PoliticsMessage[6];
             this.nationalPolls.relativePosition = new Vector3(this.liberalPolls.relativePosition.x + this.liberalPolls.width + SPACING + 70f, this.liberalPolls.relativePosition.y);
             this.nationalPolls.autoSize = true;
             this.nationalPolls.name = "Moreeconomic_Text_2";
 
             this.nextVote = base.AddUIComponent<UILabel>();
-            this.nextVote.text = language.PoliticsMessage[21];
-            this.nextVote.tooltip = language.PoliticsMessage[21];
+            this.nextVote.text = Language.PoliticsMessage[21];
+            this.nextVote.tooltip = Language.PoliticsMessage[21];
             this.nextVote.relativePosition = new Vector3(SPACING, this.communistPolls.relativePosition.y + SPACING22 + 20f);
             this.nextVote.autoSize = true;
             this.nextVote.name = "Moreeconomic_Text_0";
 
             this.nextMeeting = base.AddUIComponent<UILabel>();
-            this.nextMeeting.text = language.PoliticsMessage[22];
-            this.nextMeeting.tooltip = language.PoliticsMessage[22];
+            this.nextMeeting.text = Language.PoliticsMessage[22];
+            this.nextMeeting.tooltip = Language.PoliticsMessage[22];
             this.nextMeeting.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22);
             this.nextMeeting.autoSize = true;
             this.nextMeeting.name = "Moreeconomic_Text_0";
 
             this.currentMeetingItem = base.AddUIComponent<UILabel>();
-            this.currentMeetingItem.text = language.PoliticsMessage[23];
-            this.currentMeetingItem.tooltip = language.PoliticsMessage[23];
+            this.currentMeetingItem.text = Language.PoliticsMessage[23];
+            this.currentMeetingItem.tooltip = Language.PoliticsMessage[23];
             this.currentMeetingItem.textScale = 1.1f;
             this.currentMeetingItem.relativePosition = new Vector3(SPACING, this.nextMeeting.relativePosition.y + SPACING22 + 20f);
             this.currentMeetingItem.autoSize = true;
             this.currentMeetingItem.name = "Moreeconomic_Text_0";
 
             this.voteResult = base.AddUIComponent<UILabel>();
-            this.voteResult.text = language.PoliticsMessage[36];
-            this.voteResult.tooltip = language.PoliticsMessage[36];
+            this.voteResult.text = Language.PoliticsMessage[36];
+            this.voteResult.tooltip = Language.PoliticsMessage[36];
             this.voteResult.relativePosition = new Vector3(SPACING, this.currentMeetingItem.relativePosition.y + SPACING22);
             this.voteResult.autoSize = true;
             this.voteResult.name = "Moreeconomic_Text_0";
 
             this.currentPolitics = base.AddUIComponent<UILabel>();
-            this.currentPolitics.text = language.PoliticsMessage[40];
-            this.currentPolitics.tooltip = language.PoliticsMessage[40];
+            this.currentPolitics.text = Language.PoliticsMessage[40];
+            this.currentPolitics.tooltip = Language.PoliticsMessage[40];
             this.currentPolitics.textScale = 1.1f;
             this.currentPolitics.relativePosition = new Vector3(SPACING, this.voteResult.relativePosition.y + SPACING22 + 20f);
             this.currentPolitics.autoSize = true;
             this.currentPolitics.name = "Moreeconomic_Text_0";
 
             this.salary = base.AddUIComponent<UILabel>();
-            this.salary.text = language.PoliticsMessage[41];
-            this.salary.tooltip = language.PoliticsMessage[41];
+            this.salary.text = Language.PoliticsMessage[41];
+            this.salary.tooltip = Language.PoliticsMessage[41];
             this.salary.relativePosition = new Vector3(SPACING, this.currentPolitics.relativePosition.y + SPACING22);
             this.salary.autoSize = true;
             this.salary.name = "Moreeconomic_Text_0";
 
             this.benefit = base.AddUIComponent<UILabel>();
-            this.benefit.text = language.PoliticsMessage[42];
-            this.benefit.tooltip = language.PoliticsMessage[42];
+            this.benefit.text = Language.PoliticsMessage[42];
+            this.benefit.tooltip = Language.PoliticsMessage[42];
             this.benefit.relativePosition = new Vector3(SPACING, this.salary.relativePosition.y + SPACING22);
             this.benefit.autoSize = true;
             this.benefit.name = "Moreeconomic_Text_0";
 
             this.trade = base.AddUIComponent<UILabel>();
-            this.trade.text = language.PoliticsMessage[43];
-            this.trade.tooltip = language.PoliticsMessage[43];
+            this.trade.text = Language.PoliticsMessage[43];
+            this.trade.tooltip = Language.PoliticsMessage[43];
             this.trade.relativePosition = new Vector3(SPACING, this.benefit.relativePosition.y + SPACING22);
             this.trade.autoSize = true;
             this.trade.name = "Moreeconomic_Text_0";
 
             this.import = base.AddUIComponent<UILabel>();
-            this.import.text = language.PoliticsMessage[44];
-            this.import.tooltip = language.PoliticsMessage[44];
+            this.import.text = Language.PoliticsMessage[44];
+            this.import.tooltip = Language.PoliticsMessage[44];
             this.import.relativePosition = new Vector3(SPACING, this.trade.relativePosition.y + SPACING22);
             this.import.autoSize = true;
             this.import.name = "Moreeconomic_Text_0";
 
             this.stateOwned = base.AddUIComponent<UILabel>();
-            this.stateOwned.text = language.PoliticsMessage[45];
-            this.stateOwned.tooltip = language.PoliticsMessage[45];
+            this.stateOwned.text = Language.PoliticsMessage[45];
+            this.stateOwned.tooltip = Language.PoliticsMessage[45];
             this.stateOwned.relativePosition = new Vector3(SPACING, this.import.relativePosition.y + SPACING22);
             this.stateOwned.autoSize = true;
             this.stateOwned.name = "Moreeconomic_Text_0";
 
             this.garbage = base.AddUIComponent<UILabel>();
-            this.garbage.text = language.PoliticsMessage[46];
-            this.garbage.tooltip = language.PoliticsMessage[46];
+            this.garbage.text = Language.PoliticsMessage[46];
+            this.garbage.tooltip = Language.PoliticsMessage[46];
             this.garbage.relativePosition = new Vector3(SPACING, this.stateOwned.relativePosition.y + SPACING22);
             this.garbage.autoSize = true;
             this.garbage.name = "Moreeconomic_Text_0";
 
             this.landRent = base.AddUIComponent<UILabel>();
-            this.landRent.text = language.PoliticsMessage[48];
-            this.landRent.tooltip = language.PoliticsMessage[48];
+            this.landRent.text = Language.PoliticsMessage[48];
+            this.landRent.tooltip = Language.PoliticsMessage[48];
             this.landRent.relativePosition = new Vector3(SPACING, this.garbage.relativePosition.y + SPACING22);
             this.landRent.autoSize = true;
             this.landRent.name = "Moreeconomic_Text_0";
@@ -311,11 +311,11 @@ namespace RealCity
             riseImportTax_Checkbox.relativePosition = new Vector3(SPACING, landRent.relativePosition.y + 30f);
             this.riseImportTax = base.AddUIComponent<UILabel>();
             this.riseImportTax.relativePosition = new Vector3(riseImportTax_Checkbox.relativePosition.x + riseImportTax_Checkbox.width + SPACING * 2f, riseImportTax_Checkbox.relativePosition.y + 5f);
-            this.riseImportTax.tooltip = language.PoliticsMessage[13];
+            this.riseImportTax.tooltip = Language.PoliticsMessage[13];
             riseImportTax_Checkbox.height = 16f;
             riseImportTax_Checkbox.width = 16f;
             riseImportTax_Checkbox.label = this.riseImportTax;
-            riseImportTax_Checkbox.text = language.PoliticsMessage[13];
+            riseImportTax_Checkbox.text = Language.PoliticsMessage[13];
             UISprite uISprite9 = riseImportTax_Checkbox.AddUIComponent<UISprite>();
             uISprite9.height = 20f;
             uISprite9.width = 20f;
@@ -342,11 +342,11 @@ namespace RealCity
             fallImportTax_Checkbox.relativePosition = new Vector3(SPACING, riseImportTax_Checkbox.relativePosition.y + 30f);
             this.fallImportTax = base.AddUIComponent<UILabel>();
             this.fallImportTax.relativePosition = new Vector3(fallImportTax_Checkbox.relativePosition.x + fallImportTax_Checkbox.width + SPACING * 2f, fallImportTax_Checkbox.relativePosition.y + 5f);
-            this.fallImportTax.tooltip = language.PoliticsMessage[14];
+            this.fallImportTax.tooltip = Language.PoliticsMessage[14];
             fallImportTax_Checkbox.height = 16f;
             fallImportTax_Checkbox.width = 16f;
             fallImportTax_Checkbox.label = this.fallImportTax;
-            fallImportTax_Checkbox.text = language.PoliticsMessage[14];
+            fallImportTax_Checkbox.text = Language.PoliticsMessage[14];
             UISprite uISprite0 = fallImportTax_Checkbox.AddUIComponent<UISprite>();
             uISprite0.height = 20f;
             uISprite0.width = 20f;
@@ -374,11 +374,11 @@ namespace RealCity
             fallLandTax_Checkbox.relativePosition = new Vector3(SPACING, fallImportTax_Checkbox.relativePosition.y + 30f);
             this.fallLandTax = base.AddUIComponent<UILabel>();
             this.fallLandTax.relativePosition = new Vector3(fallLandTax_Checkbox.relativePosition.x + fallLandTax_Checkbox.width + SPACING * 2f, fallLandTax_Checkbox.relativePosition.y + 5f);
-            this.fallLandTax.tooltip = language.PoliticsMessage[15];
+            this.fallLandTax.tooltip = Language.PoliticsMessage[15];
             fallLandTax_Checkbox.height = 16f;
             fallLandTax_Checkbox.width = 16f;
             fallLandTax_Checkbox.label = this.fallLandTax;
-            fallLandTax_Checkbox.text = language.PoliticsMessage[15];
+            fallLandTax_Checkbox.text = Language.PoliticsMessage[15];
             UISprite uISprite2 = fallLandTax_Checkbox.AddUIComponent<UISprite>();
             uISprite2.height = 20f;
             uISprite2.width = 20f;
@@ -406,11 +406,11 @@ namespace RealCity
             riseTradeTax_Checkbox.relativePosition = new Vector3(SPACING, fallLandTax_Checkbox.relativePosition.y + 30f);
             this.riseTradeTax = base.AddUIComponent<UILabel>();
             this.riseTradeTax.relativePosition = new Vector3(riseTradeTax_Checkbox.relativePosition.x + riseTradeTax_Checkbox.width + SPACING * 2f, riseTradeTax_Checkbox.relativePosition.y + 5f);
-            this.riseTradeTax.tooltip = language.PoliticsMessage[16];
+            this.riseTradeTax.tooltip = Language.PoliticsMessage[16];
             riseTradeTax_Checkbox.height = 16f;
             riseTradeTax_Checkbox.width = 16f;
             riseTradeTax_Checkbox.label = this.riseTradeTax;
-            riseTradeTax_Checkbox.text = language.PoliticsMessage[16];
+            riseTradeTax_Checkbox.text = Language.PoliticsMessage[16];
             UISprite uISprite4 = riseTradeTax_Checkbox.AddUIComponent<UISprite>();
             uISprite4.height = 20f;
             uISprite4.width = 20f;
@@ -437,11 +437,11 @@ namespace RealCity
             fallTradeTax_Checkbox.relativePosition = new Vector3(SPACING, riseTradeTax_Checkbox.relativePosition.y + 30f);
             this.fallTradeTax = base.AddUIComponent<UILabel>();
             this.fallTradeTax.relativePosition = new Vector3(fallTradeTax_Checkbox.relativePosition.x + fallTradeTax_Checkbox.width + SPACING * 2f, fallTradeTax_Checkbox.relativePosition.y + 5f);
-            this.fallTradeTax.tooltip = language.PoliticsMessage[17];
+            this.fallTradeTax.tooltip = Language.PoliticsMessage[17];
             fallTradeTax_Checkbox.height = 16f;
             fallTradeTax_Checkbox.width = 16f;
             fallTradeTax_Checkbox.label = this.fallTradeTax;
-            fallTradeTax_Checkbox.text = language.PoliticsMessage[17];
+            fallTradeTax_Checkbox.text = Language.PoliticsMessage[17];
             UISprite uISprite6 = fallTradeTax_Checkbox.AddUIComponent<UISprite>();
             uISprite6.height = 20f;
             uISprite6.width = 20f;
@@ -608,83 +608,83 @@ namespace RealCity
                 if (base.isVisible)
                 {
                     //citizen
-                    this.m_title.text = language.PoliticsMessage[0];
-                    this.communist.text = string.Format(language.PoliticsMessage[2] + " [{0}]", Politics.cPartySeats);
-                    this.green.text = string.Format(language.PoliticsMessage[3] + " [{0}]", Politics.gPartySeats);
-                    this.socialist.text = string.Format(language.PoliticsMessage[4] + " [{0}]", Politics.sPartySeats);
-                    this.liberal.text = string.Format(language.PoliticsMessage[5] + " [{0}]", Politics.lPartySeats);
-                    this.national.text = string.Format(language.PoliticsMessage[6] + " [{0}]", Politics.nPartySeats);
+                    this.m_title.text = Language.PoliticsMessage[0];
+                    this.communist.text = string.Format(Language.PoliticsMessage[2] + " [{0}]", Politics.cPartySeats);
+                    this.green.text = string.Format(Language.PoliticsMessage[3] + " [{0}]", Politics.gPartySeats);
+                    this.socialist.text = string.Format(Language.PoliticsMessage[4] + " [{0}]", Politics.sPartySeats);
+                    this.liberal.text = string.Format(Language.PoliticsMessage[5] + " [{0}]", Politics.lPartySeats);
+                    this.national.text = string.Format(Language.PoliticsMessage[6] + " [{0}]", Politics.nPartySeats);
 
-                    this.communistPolls.text = string.Format(language.PoliticsMessage[2] + " [{0:N1}%]", Politics.cPartySeatsPollsFinal);
-                    this.greenPolls.text = string.Format(language.PoliticsMessage[3] + " [{0:N1}%]", Politics.gPartySeatsPollsFinal);
-                    this.socialistPolls.text = string.Format(language.PoliticsMessage[4] + " [{0:N1}%]", Politics.sPartySeatsPollsFinal);
-                    this.liberalPolls.text = string.Format(language.PoliticsMessage[5] + " [{0:N1}%]", Politics.lPartySeatsPollsFinal);
-                    this.nationalPolls.text = string.Format(language.PoliticsMessage[6] + " [{0:N1}%]", Politics.nPartySeatsPollsFinal);
+                    this.communistPolls.text = string.Format(Language.PoliticsMessage[2] + " [{0:N1}%]", Politics.cPartySeatsPollsFinal);
+                    this.greenPolls.text = string.Format(Language.PoliticsMessage[3] + " [{0:N1}%]", Politics.gPartySeatsPollsFinal);
+                    this.socialistPolls.text = string.Format(Language.PoliticsMessage[4] + " [{0:N1}%]", Politics.sPartySeatsPollsFinal);
+                    this.liberalPolls.text = string.Format(Language.PoliticsMessage[5] + " [{0:N1}%]", Politics.lPartySeatsPollsFinal);
+                    this.nationalPolls.text = string.Format(Language.PoliticsMessage[6] + " [{0:N1}%]", Politics.nPartySeatsPollsFinal);
 
-                    this.nextVote.text = string.Format(language.PoliticsMessage[21] + " [{0}]", Politics.parliamentCount);
-                    this.nextMeeting.text = string.Format(language.PoliticsMessage[22] + " [{0}]", Politics.parliamentMeetingCount);
+                    this.nextVote.text = string.Format(Language.PoliticsMessage[21] + " [{0}]", Politics.parliamentCount);
+                    this.nextMeeting.text = string.Format(Language.PoliticsMessage[22] + " [{0}]", Politics.parliamentMeetingCount);
 
                     if (Politics.currentIdx > 13)
                     {
-                        this.currentMeetingItem.text = string.Format(language.PoliticsMessage[23] + ": N/A");
+                        this.currentMeetingItem.text = string.Format(Language.PoliticsMessage[23] + ": N/A");
                     }
                     else
                     {
 
-                        this.currentMeetingItem.text = string.Format(language.PoliticsMessage[23] + ":" + language.PoliticsMessage[24 + (int)Politics.currentIdx]);
+                        this.currentMeetingItem.text = string.Format(Language.PoliticsMessage[23] + ":" + Language.PoliticsMessage[24 + (int)Politics.currentIdx]);
                     }
 
-                    this.voteResult.text = string.Format(language.PoliticsMessage[38] + ": " + language.PoliticsMessage[39] + ":" + Politics.currentYes.ToString() + " " + language.PoliticsMessage[40] + ":" + Politics.currentNo.ToString() + " " + language.PoliticsMessage[41] + ":" + Politics.currentNoAttend.ToString());
+                    this.voteResult.text = string.Format(Language.PoliticsMessage[38] + ": " + Language.PoliticsMessage[39] + ":" + Politics.currentYes.ToString() + " " + Language.PoliticsMessage[40] + ":" + Politics.currentNo.ToString() + " " + Language.PoliticsMessage[41] + ":" + Politics.currentNoAttend.ToString());
 
-                    this.currentPolitics.text = string.Format(language.PoliticsMessage[42] + language.PoliticsMessage[49]);
+                    this.currentPolitics.text = string.Format(Language.PoliticsMessage[42] + Language.PoliticsMessage[49]);
 
-                    this.salary.text = string.Format(language.PoliticsMessage[43] + Politics.salaryTaxOffset.ToString());
-                    this.benefit.text = string.Format(language.PoliticsMessage[44] + Politics.benefitOffset.ToString());
-                    this.trade.text = string.Format(language.PoliticsMessage[45] + Politics.tradeTaxOffset.ToString());
-                    this.import.text = string.Format(language.PoliticsMessage[46] + Politics.importTaxOffset.ToString());
-                    this.stateOwned.text = string.Format(language.PoliticsMessage[47] + Politics.stateOwnedPercent.ToString());
-                    this.garbage.text = string.Format(language.PoliticsMessage[48] + (!Politics.isOutSideGarbagePermit).ToString());
-                    this.landRent.text = string.Format(language.PoliticsMessage[50] + Politics.landRentOffset.ToString());
+                    this.salary.text = string.Format(Language.PoliticsMessage[43] + Politics.salaryTaxOffset.ToString());
+                    this.benefit.text = string.Format(Language.PoliticsMessage[44] + Politics.benefitOffset.ToString());
+                    this.trade.text = string.Format(Language.PoliticsMessage[45] + Politics.tradeTaxOffset.ToString());
+                    this.import.text = string.Format(Language.PoliticsMessage[46] + Politics.importTaxOffset.ToString());
+                    this.stateOwned.text = string.Format(Language.PoliticsMessage[47] + Politics.stateOwnedPercent.ToString());
+                    this.garbage.text = string.Format(Language.PoliticsMessage[48] + (!Politics.isOutSideGarbagePermit).ToString());
+                    this.landRent.text = string.Format(Language.PoliticsMessage[50] + Politics.landRentOffset.ToString());
 
                     if (Politics.case1)
                     {
                         //c only
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[2]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[2]);
                     }
                     else if (Politics.case2)
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[3]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[3]);
                     }
                     else if (Politics.case3)
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[4]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[4]);
                     }
                     else if (Politics.case4)
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[5]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[5]);
                     }
                     else if (Politics.case5)
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7]);
                     }
                     else if (Politics.case6)
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[4] + language.PoliticsMessage[3] + language.PoliticsMessage[8]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[4] + Language.PoliticsMessage[3] + Language.PoliticsMessage[8]);
                     }
                     else if (Politics.case7)
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[4] + language.PoliticsMessage[3] + language.PoliticsMessage[2] + language.PoliticsMessage[9]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[4] + Language.PoliticsMessage[3] + Language.PoliticsMessage[2] + Language.PoliticsMessage[9]);
                     }
                     else if (Politics.case8)
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[6] + language.PoliticsMessage[5] + language.PoliticsMessage[10]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[6] + Language.PoliticsMessage[5] + Language.PoliticsMessage[10]);
                     }
                     else
                     {
-                        this.goverment.text = string.Format(language.PoliticsMessage[7] + language.PoliticsMessage[2] + language.PoliticsMessage[3] + language.PoliticsMessage[4] + language.PoliticsMessage[5] + language.PoliticsMessage[6] + language.PoliticsMessage[11]);
+                        this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[2] + Language.PoliticsMessage[3] + Language.PoliticsMessage[4] + Language.PoliticsMessage[5] + Language.PoliticsMessage[6] + Language.PoliticsMessage[11]);
                     }
 
-                    this.polls.text = language.PoliticsMessage[19];
+                    this.polls.text = Language.PoliticsMessage[19];
 
                     refeshOnce = false;
                 }

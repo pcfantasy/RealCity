@@ -36,8 +36,8 @@ namespace RealCity
             if (!Loader.guiPanel4.isVisible)
             {
                 PlayerBuildingUI.refesh_once = true;
-                comm_data.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
-                if (RealCity.EconomyExtension.IsSpecialBuilding(comm_data.last_buildingid) == 3)
+                MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+                if (RealCityEconomyExtension.IsSpecialBuilding(MainDataStore.last_buildingid) == 3)
                 {
                     Loader.guiPanel4.Show();
                 }
