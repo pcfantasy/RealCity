@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using ColossalFramework.UI;
 using ICities;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,11 @@ namespace RealCity
         public static ushort partyTrendStrength = 0;
 
         public static byte citizenStatus = 0;
-        public static byte isBuildingNoMaterialCount = 0;
-        public static byte isBuildingNoBuyerCount = 0;
+        public static ushort industrialLackMoneyCount = 0;
+        public static ushort industrialEarnMoneyCount = 0;
+
+        public static ushort commericalLackMoneyCount = 0;
+        public static ushort commericalEarnMoneyCount = 0;
 
         public static byte isStateOwnedCount = 0;
 
@@ -31,10 +35,6 @@ namespace RealCity
         public static string tip4_message_forgui = "";
         public static string tip5_message_forgui = "";
         public static string tip6_message_forgui = "";
-        //public static string tip7_message_forgui = "";
-        //public static string tip8_message_forgui = "";
-        ////public static string tip9_message_forgui = "";
-        //public static string tip10_message_forgui = "";
 
 
         public override long OnUpdateMoneyAmount(long internalMoneyAmount)
@@ -46,9 +46,6 @@ namespace RealCity
                 uint num2 = currentFrameIndex & 255u;
                 if ((num2 == 255u) && (MainDataStore.current_time != MainDataStore.prev_time))
                 {
-
-
-                    //citizen_status();
                     GenerateTips();
 
                     MainDataStore.landPrice = Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() / 10f;
@@ -127,13 +124,13 @@ namespace RealCity
 
         public void GenerateTips()
         {
-            tip1_message_forgui = Language.TipAndChirperMessage[5];
+            tip1_message_forgui = Language.TipAndChirperMessage[0];
 
-            tip2_message_forgui = Language.TipAndChirperMessage[7];
+            tip2_message_forgui = Language.TipAndChirperMessage[1];
 
             if (!MainDataStore.haveCityResourceDepartmentFinal)
             {
-                tip3_message_forgui = Language.TipAndChirperMessage[8];
+                tip3_message_forgui = Language.TipAndChirperMessage[2];
                 Loader.guiPanel.Show();
             }
             else
@@ -143,7 +140,7 @@ namespace RealCity
 
             if (!MainDataStore.isFoodsGettedFinal)
             {
-                tip4_message_forgui = Language.TipAndChirperMessage[9];
+                tip4_message_forgui = Language.TipAndChirperMessage[3];
             }
             else
             {
@@ -152,7 +149,7 @@ namespace RealCity
 
             if (!MainDataStore.isLumbersGettedFinal || !MainDataStore.isCoalsGettedFinal)
             {
-                tip5_message_forgui = Language.TipAndChirperMessage[10];
+                tip5_message_forgui = Language.TipAndChirperMessage[4];
             }
             else
             {
@@ -161,21 +158,12 @@ namespace RealCity
 
             if (!MainDataStore.isPetrolsGettedFinal)
             {
-                tip6_message_forgui = Language.TipAndChirperMessage[11];
+                tip6_message_forgui = Language.TipAndChirperMessage[5];
             }
             else
             {
                 tip6_message_forgui = "";
             }
-
-            //if (!MainDataStore.isHellMode)
-            //{
-            //    tip7_message_forgui = Language.OptionUI[3];
-            //}
-            //else
-            //{
-            //    tip7_message_forgui = "";
-            //}
         }
 
         public void CaculateCitizenTransportFee()
@@ -311,12 +299,6 @@ namespace RealCity
             {
                 HoldMeeting();
             }
-
-            PoliticsUI.fallLandTax_Checkbox.isChecked = Politics.tryFallLandTax;
-            PoliticsUI.fallImportTax_Checkbox.isChecked = Politics.tryFallImportTax;
-            PoliticsUI.fallTradeTax_Checkbox.isChecked = Politics.tryFallTradeTax;
-            PoliticsUI.riseImportTax_Checkbox.isChecked = Politics.tryRiseImportTax;
-            PoliticsUI.riseTradeTax_Checkbox.isChecked = Politics.tryRiseTradeTax;
         }
 
         public void HoldMeeting()
@@ -325,10 +307,10 @@ namespace RealCity
             if (temp == 99)
             {
                 System.Random rand = new System.Random();
-                switch (rand.Next(14))
+                switch (rand.Next(10))
                 {
                     case 0:
-                        if (Politics.salaryTaxOffset >= 0.099f)
+                        if (Politics.residentTax >= 20)
                         {
                             Politics.currentIdx = 1;
                         }
@@ -338,7 +320,7 @@ namespace RealCity
                         }
                         break;
                     case 1:
-                        if (Politics.salaryTaxOffset <= 0f)
+                        if (Politics.residentTax <= 1)
                         {
                             Politics.currentIdx = 0;
                         }
@@ -347,28 +329,8 @@ namespace RealCity
                             Politics.currentIdx = 1;
                         }
                         break;
-                    case 4:
-                        if (Politics.tradeTaxOffset >= 0.099f)
-                        {
-                            Politics.currentIdx = 5;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 4;
-                        }
-                        break;
-                    case 5:
-                        if (Politics.tradeTaxOffset <= 0f)
-                        {
-                            Politics.currentIdx = 4;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 5;
-                        }
-                        break;
                     case 2:
-                        if (Politics.benefitOffset >= 10)
+                        if (Politics.benefitOffset >= 20)
                         {
                             Politics.currentIdx = 3;
                         }
@@ -387,32 +349,48 @@ namespace RealCity
                             Politics.currentIdx = 3;
                         }
                         break;
+                    case 4:
+                        if (Politics.commericalTax >= 20)
+                        {
+                            Politics.currentIdx = 5;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 4;
+                        }
+                        break;
+                    case 5:
+                        if (Politics.commericalTax <= 1)
+                        {
+                            Politics.currentIdx = 4;
+                        }
+                        else
+                        {
+                            Politics.currentIdx = 5;
+                        }
+                        break;
                     case 6:
-                        if (Politics.importTaxOffset >= 0.399f)
+                        if (Politics.industryTax >= 20)
                         {
                             Politics.currentIdx = 7;
-                            //DebugLog.LogToFileOnly("Politics.importTaxOffset case 6, change to 7 " + Politics.importTaxOffset.ToString());
                         }
                         else
                         {
                             Politics.currentIdx = 6;
-                            //DebugLog.LogToFileOnly("Politics.importTaxOffset case 6" + Politics.importTaxOffset.ToString());
                         }
                         break;
                     case 7:
-                        if (Politics.importTaxOffset <= 0f)
+                        if (Politics.industryTax <= 1)
                         {
                             Politics.currentIdx = 6;
-                            //DebugLog.LogToFileOnly("Politics.importTaxOffset case 7 change to 6 " + Politics.importTaxOffset.ToString());
                         }
                         else
                         {
                             Politics.currentIdx = 7;
-                            //DebugLog.LogToFileOnly("Politics.importTaxOffset case 7 " + Politics.importTaxOffset.ToString());
                         }
                         break;
                     case 8:
-                        if (Politics.stateOwnedPercent >= 50)
+                        if (!Politics.isOutSideGarbagePermit)
                         {
                             Politics.currentIdx = 9;
                         }
@@ -422,7 +400,7 @@ namespace RealCity
                         }
                         break;
                     case 9:
-                        if (Politics.stateOwnedPercent <= 0)
+                        if (Politics.isOutSideGarbagePermit)
                         {
                             Politics.currentIdx = 8;
                         }
@@ -431,90 +409,15 @@ namespace RealCity
                             Politics.currentIdx = 9;
                         }
                         break;
-                    case 10:
-                        if (!Politics.isOutSideGarbagePermit)
-                        {
-                            Politics.currentIdx = 11;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 10;
-                        }
-                        break;
-                    case 11:
-                        if (Politics.isOutSideGarbagePermit)
-                        {
-                            Politics.currentIdx = 10;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 11;
-                        }
-                        break;
-                    case 12:
-                        if (Politics.landRentOffset >= 10)
-                        {
-                            Politics.currentIdx = 13;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 12;
-                        }
-                        break;
-                    case 13:
-                        if (Politics.landRentOffset <= 0)
-                        {
-                            Politics.currentIdx = 12;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 13;
-                        }
-                        break;
-                    default: Politics.currentIdx = 14; break;
+                    default: Politics.currentIdx = 10; break;
                 }
                 VoteResult(Politics.currentIdx);
             }
         }
 
 
-        public void VoteOffset(ref int idex, ref int adviseOffset, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset)
+        public void VoteOffset(ref int idex, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset)
         {
-            //adviseOffset
-            adviseOffset = 0;
-            if (Politics.tryFallLandTax)
-            {
-                adviseOffset = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
-                idex = 13;
-                Politics.currentIdx = 13;
-            }
-            else if (Politics.tryFallImportTax)
-            {
-                adviseOffset = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
-                idex = 7;
-                Politics.currentIdx = 7;
-            }
-            else if (Politics.tryFallTradeTax)
-            {
-                adviseOffset = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
-                idex = 5;
-                Politics.currentIdx = 5;
-            }
-            else if (Politics.tryRiseImportTax)
-            {
-                adviseOffset = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
-                idex = 6;
-                Politics.currentIdx = 6;
-            }
-            else if (Politics.tryRiseTradeTax)
-            {
-                adviseOffset = ((Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80)) > 0 ? ((int)Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_finalHappiness - 80) << 7 : 0;
-                idex = 4;
-                Politics.currentIdx = 4;
-            }
-
-
-
             //MoneyOffset;
             MoneyOffset = 0;
             FieldInfo cashAmount;
@@ -523,6 +426,44 @@ namespace RealCity
             if (_cashAmount < 0)
             {
                 MoneyOffset = -1000;
+                System.Random rand = new System.Random();
+                if (rand.Next(10) < 8)
+                {
+                    switch (rand.Next(5))
+                    {
+                        case 0:
+                            if (Politics.residentTax < 20)
+                            {
+                                idex = 0;
+                            }
+                            break;
+                        case 1:
+                            if (Politics.benefitOffset > 1)
+                            {
+                                idex = 3;
+                            }
+                            break;
+                        case 2:
+                            if (Politics.commericalTax < 20)
+                            {
+                                idex = 4;
+                            }
+                            break;
+                        case 3:
+                            if (Politics.industryTax < 20)
+                            {
+                                idex = 6;
+                            }
+                            break;
+                        case 4:
+                            if (Politics.isOutSideGarbagePermit)
+                            {
+                                idex = 8;
+                            }
+                            break;
+                    }
+                }
+                Politics.currentIdx = (byte)idex;
             }
             else if (_cashAmount > 6000000)
             {
@@ -543,44 +484,55 @@ namespace RealCity
                 temp = (int)(MainDataStore.citizen_salary_per_family - (MainDataStore.citizen_salary_tax_total / MainDataStore.family_count) - MainDataStore.citizen_expense_per_family);
             }
 
-            if (temp < 30)
+            if (temp < 40)
             {
                 citizenOffset = 1500;
             }
-            else if (temp > 60)
+            else if (temp > 90)
             {
                 citizenOffset = -1500;
             }
             else
             {
-                citizenOffset = 1500 - 100 * temp;
+                citizenOffset = 3900 - 60 * temp;
             }
 
             //buildingOffset
             buildingOffset = 0;
-            if (isBuildingNoBuyerCount + isBuildingNoMaterialCount > 0)
+            if (industrialEarnMoneyCount + industrialLackMoneyCount > 0)
             {
-                buildingOffset = (isBuildingNoBuyerCount + isBuildingNoMaterialCount) << 4;
-                MoneyOffset = 0;
-                if (buildingOffset > 2000)
+                buildingOffset = ((int)(100f * (float)(industrialEarnMoneyCount - industrialLackMoneyCount) / (float)(industrialEarnMoneyCount + industrialLackMoneyCount))) << 5;
+                if (buildingOffset > 2500)
                 {
-                    buildingOffset = 2000;
+                    buildingOffset = 2500;
                 }
-                if (Politics.tryFallImportTax || Politics.tryFallLandTax || Politics.tryFallTradeTax || Politics.tryRiseImportTax || Politics.tryRiseTradeTax)
+
+                if (buildingOffset < -2500)
                 {
+                    buildingOffset = -2500;
                 }
-                else
+            }
+
+            commBuildingOffset = 0;
+            if (commericalEarnMoneyCount + commericalLackMoneyCount > 0)
+            {
+                buildingOffset = ((int)(100f * (float)(commericalEarnMoneyCount - commericalLackMoneyCount) / (float)(commericalEarnMoneyCount + commericalLackMoneyCount))) << 5;
+                if (commBuildingOffset > 2500)
                 {
-                    idex = 7;
-                    Politics.currentIdx = 7;
+                    commBuildingOffset = 2500;
+                }
+
+                if (commBuildingOffset < -2500)
+                {
+                    commBuildingOffset = -2500;
                 }
             }
 
 
             //DebugLog.LogToFileOnly("isBuildingNoBuyerCount = " + isBuildingNoBuyerCount.ToString());
             //DebugLog.LogToFileOnly("isBuildingNoMaterialCount = " + isBuildingNoMaterialCount.ToString());
-            isBuildingNoBuyerCount = 0;
-            isBuildingNoMaterialCount = 0;
+            //isBuildingNoBuyerCount = 0;
+            //isBuildingNoMaterialCount = 0;
 
         }
 
@@ -590,27 +542,18 @@ namespace RealCity
             int yes = 0;
             int no = 0;
             int noAttend = 0;
-            int salaryTaxOffset = 10 - (int)(Politics.salaryTaxOffset * 200);
-            int benefitOffset = 10 - (int)(Politics.benefitOffset * 2);
-            int tradeOffset = 10 - (int)(Politics.tradeTaxOffset * 200);
-            int importOffset = 10 - (int)(Politics.importTaxOffset * 50);
-            int stateOwnedOffset = 10 - (int)(Politics.stateOwnedPercent * 2 / 5);
-            int landRentOffset = 10 - (int)(Politics.landRentOffset * 2);
+            int residentTax = 10 - (int)(Politics.residentTax);
+            int benefitOffset = 10 - (int)(Politics.benefitOffset);
+            int commericalTax = 10 - (int)(Politics.commericalTax);
+            int industryTax = 10 - (int)(Politics.industryTax);
 
-
-            int temp2 = 0; // suggest offset
             int temp3 = 0; // money offset
             int temp4 = 0; // citizen offset
             int temp5 = 0; //building offset
+            int temp6 = 0; //commbuilding offset
 
-            VoteOffset(ref idex, ref temp2, ref temp3, ref temp4, ref temp5);
+            VoteOffset(ref idex, ref temp3, ref temp4, ref temp5, ref temp6);
 
-
-            Politics.tryRiseImportTax = false;
-            Politics.tryFallImportTax = false;
-            Politics.tryFallLandTax = false;
-            Politics.tryRiseTradeTax = false;
-            Politics.tryFallTradeTax = false;
 
 
 
@@ -619,16 +562,16 @@ namespace RealCity
                 switch (idex)
                 {
                     case 0:
-                        yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + salaryTaxOffset);
-                        yes += Politics.gPartySeats * (Politics.riseSalaryTax[1, 0] + salaryTaxOffset);
-                        yes += Politics.sPartySeats * (Politics.riseSalaryTax[2, 0] + salaryTaxOffset);
-                        yes += Politics.lPartySeats * (Politics.riseSalaryTax[3, 0] + salaryTaxOffset);
-                        yes += Politics.nPartySeats * (Politics.riseSalaryTax[4, 0] + salaryTaxOffset);
-                        no += Politics.cPartySeats * (Politics.riseSalaryTax[0, 1] - salaryTaxOffset);
-                        no += Politics.gPartySeats * (Politics.riseSalaryTax[1, 1] - salaryTaxOffset);
-                        no += Politics.sPartySeats * (Politics.riseSalaryTax[2, 1] - salaryTaxOffset);
-                        no += Politics.lPartySeats * (Politics.riseSalaryTax[3, 1] - salaryTaxOffset);
-                        no += Politics.nPartySeats * (Politics.riseSalaryTax[4, 1] - salaryTaxOffset);
+                        yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + residentTax);
+                        yes += Politics.gPartySeats * (Politics.riseSalaryTax[1, 0] + residentTax);
+                        yes += Politics.sPartySeats * (Politics.riseSalaryTax[2, 0] + residentTax);
+                        yes += Politics.lPartySeats * (Politics.riseSalaryTax[3, 0] + residentTax);
+                        yes += Politics.nPartySeats * (Politics.riseSalaryTax[4, 0] + residentTax);
+                        no += Politics.cPartySeats * (Politics.riseSalaryTax[0, 1] - residentTax);
+                        no += Politics.gPartySeats * (Politics.riseSalaryTax[1, 1] - residentTax);
+                        no += Politics.sPartySeats * (Politics.riseSalaryTax[2, 1] - residentTax);
+                        no += Politics.lPartySeats * (Politics.riseSalaryTax[3, 1] - residentTax);
+                        no += Politics.nPartySeats * (Politics.riseSalaryTax[4, 1] - residentTax);
                         noAttend += Politics.cPartySeats * Politics.riseSalaryTax[0, 2];
                         noAttend += Politics.gPartySeats * Politics.riseSalaryTax[1, 2];
                         noAttend += Politics.sPartySeats * Politics.riseSalaryTax[2, 2];
@@ -638,16 +581,16 @@ namespace RealCity
                         yes -= temp4;
                         break;
                     case 1:
-                        yes += Politics.cPartySeats * (Politics.fallSalaryTax[0, 0] - salaryTaxOffset);
-                        yes += Politics.gPartySeats * (Politics.fallSalaryTax[1, 0] - salaryTaxOffset);
-                        yes += Politics.sPartySeats * (Politics.fallSalaryTax[2, 0] - salaryTaxOffset);
-                        yes += Politics.lPartySeats * (Politics.fallSalaryTax[3, 0] - salaryTaxOffset);
-                        yes += Politics.nPartySeats * (Politics.fallSalaryTax[4, 0] - salaryTaxOffset);
-                        no += Politics.cPartySeats * (Politics.fallSalaryTax[0, 1] + salaryTaxOffset);
-                        no += Politics.gPartySeats * (Politics.fallSalaryTax[1, 1] + salaryTaxOffset);
-                        no += Politics.sPartySeats * (Politics.fallSalaryTax[2, 1] + salaryTaxOffset);
-                        no += Politics.lPartySeats * (Politics.fallSalaryTax[3, 1] + salaryTaxOffset);
-                        no += Politics.nPartySeats * (Politics.fallSalaryTax[4, 1] + salaryTaxOffset);
+                        yes += Politics.cPartySeats * (Politics.fallSalaryTax[0, 0] - residentTax);
+                        yes += Politics.gPartySeats * (Politics.fallSalaryTax[1, 0] - residentTax);
+                        yes += Politics.sPartySeats * (Politics.fallSalaryTax[2, 0] - residentTax);
+                        yes += Politics.lPartySeats * (Politics.fallSalaryTax[3, 0] - residentTax);
+                        yes += Politics.nPartySeats * (Politics.fallSalaryTax[4, 0] - residentTax);
+                        no += Politics.cPartySeats * (Politics.fallSalaryTax[0, 1] + residentTax);
+                        no += Politics.gPartySeats * (Politics.fallSalaryTax[1, 1] + residentTax);
+                        no += Politics.sPartySeats * (Politics.fallSalaryTax[2, 1] + residentTax);
+                        no += Politics.lPartySeats * (Politics.fallSalaryTax[3, 1] + residentTax);
+                        no += Politics.nPartySeats * (Politics.fallSalaryTax[4, 1] + residentTax);
                         noAttend += Politics.cPartySeats * Politics.fallSalaryTax[0, 2];
                         noAttend += Politics.gPartySeats * Politics.fallSalaryTax[1, 2];
                         noAttend += Politics.sPartySeats * Politics.fallSalaryTax[2, 2];
@@ -655,42 +598,6 @@ namespace RealCity
                         noAttend += Politics.nPartySeats * Politics.fallSalaryTax[4, 2];
                         yes += temp3;
                         yes += temp4;
-                        break;
-                    case 4:
-                        yes += Politics.cPartySeats * (Politics.riseTradeTax[0, 0] + tradeOffset);
-                        yes += Politics.gPartySeats * (Politics.riseTradeTax[1, 0] + tradeOffset);
-                        yes += Politics.sPartySeats * (Politics.riseTradeTax[2, 0] + tradeOffset);
-                        yes += Politics.lPartySeats * (Politics.riseTradeTax[3, 0] + tradeOffset);
-                        yes += Politics.nPartySeats * (Politics.riseTradeTax[4, 0] + tradeOffset);
-                        no += Politics.cPartySeats * (Politics.riseTradeTax[0, 1] - tradeOffset);
-                        no += Politics.gPartySeats * (Politics.riseTradeTax[1, 1] - tradeOffset);
-                        no += Politics.sPartySeats * (Politics.riseTradeTax[2, 1] - tradeOffset);
-                        no += Politics.lPartySeats * (Politics.riseTradeTax[3, 1] - tradeOffset);
-                        no += Politics.nPartySeats * (Politics.riseTradeTax[4, 1] - tradeOffset);
-                        noAttend += Politics.cPartySeats * Politics.riseTradeTax[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.riseTradeTax[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.riseTradeTax[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.riseTradeTax[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.riseTradeTax[4, 2];
-                        yes -= temp3;
-                        break;
-                    case 5:
-                        yes += Politics.cPartySeats * (Politics.fallTradeTax[0, 0] - tradeOffset);
-                        yes += Politics.gPartySeats * (Politics.fallTradeTax[1, 0] - tradeOffset);
-                        yes += Politics.sPartySeats * (Politics.fallTradeTax[2, 0] - tradeOffset);
-                        yes += Politics.lPartySeats * (Politics.fallTradeTax[3, 0] - tradeOffset);
-                        yes += Politics.nPartySeats * (Politics.fallTradeTax[4, 0] - tradeOffset);
-                        no += Politics.cPartySeats * (Politics.fallTradeTax[0, 1] + tradeOffset);
-                        no += Politics.gPartySeats * (Politics.fallTradeTax[1, 1] + tradeOffset);
-                        no += Politics.sPartySeats * (Politics.fallTradeTax[2, 1] + tradeOffset);
-                        no += Politics.lPartySeats * (Politics.fallTradeTax[3, 1] + tradeOffset);
-                        no += Politics.nPartySeats * (Politics.fallTradeTax[4, 1] + tradeOffset);
-                        noAttend += Politics.cPartySeats * Politics.fallTradeTax[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.fallTradeTax[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.fallTradeTax[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.fallTradeTax[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.fallTradeTax[4, 2];
-                        yes += temp3;
                         break;
                     case 2:
                         yes += Politics.cPartySeats * (Politics.riseBenefit[0, 0] + benefitOffset);
@@ -728,81 +635,83 @@ namespace RealCity
                         noAttend += Politics.nPartySeats * Politics.fallBenefit[4, 2];
                         yes -= temp3;
                         break;
+                    case 4:
+                        yes += Politics.cPartySeats * (Politics.riseCommericalTax[0, 0] + commericalTax);
+                        yes += Politics.gPartySeats * (Politics.riseCommericalTax[1, 0] + commericalTax);
+                        yes += Politics.sPartySeats * (Politics.riseCommericalTax[2, 0] + commericalTax);
+                        yes += Politics.lPartySeats * (Politics.riseCommericalTax[3, 0] + commericalTax);
+                        yes += Politics.nPartySeats * (Politics.riseCommericalTax[4, 0] + commericalTax);
+                        no += Politics.cPartySeats * (Politics.riseCommericalTax[0, 1] - commericalTax);
+                        no += Politics.gPartySeats * (Politics.riseCommericalTax[1, 1] - commericalTax);
+                        no += Politics.sPartySeats * (Politics.riseCommericalTax[2, 1] - commericalTax);
+                        no += Politics.lPartySeats * (Politics.riseCommericalTax[3, 1] - commericalTax);
+                        no += Politics.nPartySeats * (Politics.riseCommericalTax[4, 1] - commericalTax);
+                        noAttend += Politics.cPartySeats * Politics.riseCommericalTax[0, 2];
+                        noAttend += Politics.gPartySeats * Politics.riseCommericalTax[1, 2];
+                        noAttend += Politics.sPartySeats * Politics.riseCommericalTax[2, 2];
+                        noAttend += Politics.lPartySeats * Politics.riseCommericalTax[3, 2];
+                        noAttend += Politics.nPartySeats * Politics.riseCommericalTax[4, 2];
+                        yes -= temp3;
+                        yes -= temp6;
+                        break;
+                    case 5:
+                        yes += Politics.cPartySeats * (Politics.fallCommericalTax[0, 0] - commericalTax);
+                        yes += Politics.gPartySeats * (Politics.fallCommericalTax[1, 0] - commericalTax);
+                        yes += Politics.sPartySeats * (Politics.fallCommericalTax[2, 0] - commericalTax);
+                        yes += Politics.lPartySeats * (Politics.fallCommericalTax[3, 0] - commericalTax);
+                        yes += Politics.nPartySeats * (Politics.fallCommericalTax[4, 0] - commericalTax);
+                        no += Politics.cPartySeats * (Politics.fallCommericalTax[0, 1] + commericalTax);
+                        no += Politics.gPartySeats * (Politics.fallCommericalTax[1, 1] + commericalTax);
+                        no += Politics.sPartySeats * (Politics.fallCommericalTax[2, 1] + commericalTax);
+                        no += Politics.lPartySeats * (Politics.fallCommericalTax[3, 1] + commericalTax);
+                        no += Politics.nPartySeats * (Politics.fallCommericalTax[4, 1] + commericalTax);
+                        noAttend += Politics.cPartySeats * Politics.fallCommericalTax[0, 2];
+                        noAttend += Politics.gPartySeats * Politics.fallCommericalTax[1, 2];
+                        noAttend += Politics.sPartySeats * Politics.fallCommericalTax[2, 2];
+                        noAttend += Politics.lPartySeats * Politics.fallCommericalTax[3, 2];
+                        noAttend += Politics.nPartySeats * Politics.fallCommericalTax[4, 2];
+                        yes += temp3;
+                        yes += temp6;
+                        break;
                     case 6:
-                        yes += Politics.cPartySeats * (Politics.riseImportTax[0, 0] + importOffset);
-                        yes += Politics.gPartySeats * (Politics.riseImportTax[1, 0] + importOffset);
-                        yes += Politics.sPartySeats * (Politics.riseImportTax[2, 0] + importOffset);
-                        yes += Politics.lPartySeats * (Politics.riseImportTax[3, 0] + importOffset);
-                        yes += Politics.nPartySeats * (Politics.riseImportTax[4, 0] + importOffset);
-                        no += Politics.cPartySeats * (Politics.riseImportTax[0, 1] - importOffset);
-                        no += Politics.gPartySeats * (Politics.riseImportTax[1, 1] - importOffset);
-                        no += Politics.sPartySeats * (Politics.riseImportTax[2, 1] - importOffset);
-                        no += Politics.lPartySeats * (Politics.riseImportTax[3, 1] - importOffset);
-                        no += Politics.nPartySeats * (Politics.riseImportTax[4, 1] - importOffset);
-                        noAttend += Politics.cPartySeats * Politics.riseImportTax[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.riseImportTax[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.riseImportTax[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.riseImportTax[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.riseImportTax[4, 2];
+                        yes += Politics.cPartySeats * (Politics.riseIndustryTax[0, 0] + industryTax);
+                        yes += Politics.gPartySeats * (Politics.riseIndustryTax[1, 0] + industryTax);
+                        yes += Politics.sPartySeats * (Politics.riseIndustryTax[2, 0] + industryTax);
+                        yes += Politics.lPartySeats * (Politics.riseIndustryTax[3, 0] + industryTax);
+                        yes += Politics.nPartySeats * (Politics.riseIndustryTax[4, 0] + industryTax);
+                        no += Politics.cPartySeats * (Politics.riseIndustryTax[0, 1] - industryTax);
+                        no += Politics.gPartySeats * (Politics.riseIndustryTax[1, 1] - industryTax);
+                        no += Politics.sPartySeats * (Politics.riseIndustryTax[2, 1] - industryTax);
+                        no += Politics.lPartySeats * (Politics.riseIndustryTax[3, 1] - industryTax);
+                        no += Politics.nPartySeats * (Politics.riseIndustryTax[4, 1] - industryTax);
+                        noAttend += Politics.cPartySeats * Politics.riseIndustryTax[0, 2];
+                        noAttend += Politics.gPartySeats * Politics.riseIndustryTax[1, 2];
+                        noAttend += Politics.sPartySeats * Politics.riseIndustryTax[2, 2];
+                        noAttend += Politics.lPartySeats * Politics.riseIndustryTax[3, 2];
+                        noAttend += Politics.nPartySeats * Politics.riseIndustryTax[4, 2];
                         yes -= temp3;
                         yes -= temp5;
                         break;
                     case 7:
-                        yes += Politics.cPartySeats * (Politics.fallImportTax[0, 0] - importOffset);
-                        yes += Politics.gPartySeats * (Politics.fallImportTax[1, 0] - importOffset);
-                        yes += Politics.sPartySeats * (Politics.fallImportTax[2, 0] - importOffset);
-                        yes += Politics.lPartySeats * (Politics.fallImportTax[3, 0] - importOffset);
-                        yes += Politics.nPartySeats * (Politics.fallImportTax[4, 0] - importOffset);
-                        no += Politics.cPartySeats * (Politics.fallImportTax[0, 1] + importOffset);
-                        no += Politics.gPartySeats * (Politics.fallImportTax[1, 1] + importOffset);
-                        no += Politics.sPartySeats * (Politics.fallImportTax[2, 1] + importOffset);
-                        no += Politics.lPartySeats * (Politics.fallImportTax[3, 1] + importOffset);
-                        no += Politics.nPartySeats * (Politics.fallImportTax[4, 1] + importOffset);
-                        noAttend += Politics.cPartySeats * Politics.fallImportTax[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.fallImportTax[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.fallImportTax[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.fallImportTax[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.fallImportTax[4, 2];
+                        yes += Politics.cPartySeats * (Politics.fallIndustryTax[0, 0] - industryTax);
+                        yes += Politics.gPartySeats * (Politics.fallIndustryTax[1, 0] - industryTax);
+                        yes += Politics.sPartySeats * (Politics.fallIndustryTax[2, 0] - industryTax);
+                        yes += Politics.lPartySeats * (Politics.fallIndustryTax[3, 0] - industryTax);
+                        yes += Politics.nPartySeats * (Politics.fallIndustryTax[4, 0] - industryTax);
+                        no += Politics.cPartySeats * (Politics.fallIndustryTax[0, 1] + industryTax);
+                        no += Politics.gPartySeats * (Politics.fallIndustryTax[1, 1] + industryTax);
+                        no += Politics.sPartySeats * (Politics.fallIndustryTax[2, 1] + industryTax);
+                        no += Politics.lPartySeats * (Politics.fallIndustryTax[3, 1] + industryTax);
+                        no += Politics.nPartySeats * (Politics.fallIndustryTax[4, 1] + industryTax);
+                        noAttend += Politics.cPartySeats * Politics.fallIndustryTax[0, 2];
+                        noAttend += Politics.gPartySeats * Politics.fallIndustryTax[1, 2];
+                        noAttend += Politics.sPartySeats * Politics.fallIndustryTax[2, 2];
+                        noAttend += Politics.lPartySeats * Politics.fallIndustryTax[3, 2];
+                        noAttend += Politics.nPartySeats * Politics.fallIndustryTax[4, 2];
                         yes += temp3;
                         yes += temp5;
                         break;
                     case 8:
-                        yes += Politics.cPartySeats * (Politics.riseStateOwned[0, 0] + stateOwnedOffset);
-                        yes += Politics.gPartySeats * (Politics.riseStateOwned[1, 0] + stateOwnedOffset);
-                        yes += Politics.sPartySeats * (Politics.riseStateOwned[2, 0] + stateOwnedOffset);
-                        yes += Politics.lPartySeats * (Politics.riseStateOwned[3, 0] + stateOwnedOffset);
-                        yes += Politics.nPartySeats * (Politics.riseStateOwned[4, 0] + stateOwnedOffset);
-                        no += Politics.cPartySeats * (Politics.riseStateOwned[0, 1] - stateOwnedOffset);
-                        no += Politics.gPartySeats * (Politics.riseStateOwned[1, 1] - stateOwnedOffset);
-                        no += Politics.sPartySeats * (Politics.riseStateOwned[2, 1] - stateOwnedOffset);
-                        no += Politics.lPartySeats * (Politics.riseStateOwned[3, 1] - stateOwnedOffset);
-                        no += Politics.nPartySeats * (Politics.riseStateOwned[4, 1] - stateOwnedOffset);
-                        noAttend += Politics.cPartySeats * Politics.riseStateOwned[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.riseStateOwned[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.riseStateOwned[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.riseStateOwned[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.riseStateOwned[4, 2];
-                        yes -= temp3;
-                        break;
-                    case 9:
-                        yes += Politics.cPartySeats * (Politics.fallStateOwned[0, 0] - stateOwnedOffset);
-                        yes += Politics.gPartySeats * (Politics.fallStateOwned[1, 0] - stateOwnedOffset);
-                        yes += Politics.sPartySeats * (Politics.fallStateOwned[2, 0] - stateOwnedOffset);
-                        yes += Politics.lPartySeats * (Politics.fallStateOwned[3, 0] - stateOwnedOffset);
-                        yes += Politics.nPartySeats * (Politics.fallStateOwned[4, 0] - stateOwnedOffset);
-                        no += Politics.cPartySeats * (Politics.fallStateOwned[0, 1] + stateOwnedOffset);
-                        no += Politics.gPartySeats * (Politics.fallStateOwned[1, 1] + stateOwnedOffset);
-                        no += Politics.sPartySeats * (Politics.fallStateOwned[2, 1] + stateOwnedOffset);
-                        no += Politics.lPartySeats * (Politics.fallStateOwned[3, 1] + stateOwnedOffset);
-                        no += Politics.nPartySeats * (Politics.fallStateOwned[4, 1] + stateOwnedOffset);
-                        noAttend += Politics.cPartySeats * Politics.fallStateOwned[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.fallStateOwned[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.fallStateOwned[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.fallStateOwned[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.fallStateOwned[4, 2];
-                        yes += temp3;
-                        break;
-                    case 10:
                         yes += Politics.cPartySeats * Politics.allowGarbage[0, 0];
                         yes += Politics.gPartySeats * Politics.allowGarbage[1, 0];
                         yes += Politics.sPartySeats * Politics.allowGarbage[2, 0];
@@ -820,7 +729,7 @@ namespace RealCity
                         noAttend += Politics.nPartySeats * Politics.allowGarbage[4, 2];
                         yes -= temp3;
                         break;
-                    case 11:
+                    case 9:
                         yes += Politics.cPartySeats * Politics.notAllowGarbage[0, 0];
                         yes += Politics.gPartySeats * Politics.notAllowGarbage[1, 0];
                         yes += Politics.sPartySeats * Politics.notAllowGarbage[2, 0];
@@ -838,46 +747,9 @@ namespace RealCity
                         noAttend += Politics.nPartySeats * Politics.notAllowGarbage[4, 2];
                         yes += temp3;
                         break;
-                    case 12:
-                        yes += Politics.cPartySeats * (Politics.riseLandRent[0, 0] + landRentOffset);
-                        yes += Politics.gPartySeats * (Politics.riseLandRent[1, 0] + landRentOffset);
-                        yes += Politics.sPartySeats * (Politics.riseLandRent[2, 0] + landRentOffset);
-                        yes += Politics.lPartySeats * (Politics.riseLandRent[3, 0] + landRentOffset);
-                        yes += Politics.nPartySeats * (Politics.riseLandRent[4, 0] + landRentOffset);
-                        no += Politics.cPartySeats * (Politics.riseLandRent[0, 1] - landRentOffset);
-                        no += Politics.gPartySeats * (Politics.riseLandRent[1, 1] - landRentOffset);
-                        no += Politics.sPartySeats * (Politics.riseLandRent[2, 1] - landRentOffset);
-                        no += Politics.lPartySeats * (Politics.riseLandRent[3, 1] - landRentOffset);
-                        no += Politics.nPartySeats * (Politics.riseLandRent[4, 1] - landRentOffset);
-                        noAttend += Politics.cPartySeats * Politics.riseLandRent[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.riseLandRent[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.riseLandRent[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.riseLandRent[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.riseLandRent[4, 2];
-                        yes -= temp4;
-                        break;
-                    case 13:
-                        yes += Politics.cPartySeats * (Politics.fallLandRent[0, 0] - landRentOffset);
-                        yes += Politics.gPartySeats * (Politics.fallLandRent[1, 0] - landRentOffset);
-                        yes += Politics.sPartySeats * (Politics.fallLandRent[2, 0] - landRentOffset);
-                        yes += Politics.lPartySeats * (Politics.fallLandRent[3, 0] - landRentOffset);
-                        yes += Politics.nPartySeats * (Politics.fallLandRent[4, 0] - landRentOffset);
-                        no += Politics.cPartySeats * (Politics.fallLandRent[0, 1] + landRentOffset);
-                        no += Politics.gPartySeats * (Politics.fallLandRent[1, 1] + landRentOffset);
-                        no += Politics.sPartySeats * (Politics.fallLandRent[2, 1] + landRentOffset);
-                        no += Politics.lPartySeats * (Politics.fallLandRent[3, 1] + landRentOffset);
-                        no += Politics.nPartySeats * (Politics.fallLandRent[4, 1] + landRentOffset);
-                        noAttend += Politics.cPartySeats * Politics.fallLandRent[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.fallLandRent[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.fallLandRent[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.fallLandRent[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.fallLandRent[4, 2];
-                        yes += temp4;
-                        break;
                 }
 
 
-                yes += temp2;
                 int temp1 = yes + no + noAttend;
 
 
@@ -909,33 +781,32 @@ namespace RealCity
                     switch (idex)
                     {
                         case 0:
-                            Politics.salaryTaxOffset += 0.01f; break;
+                            Politics.residentTax += 1;
+                            break;
                         case 1:
-                            Politics.salaryTaxOffset -= 0.01f; break;
-                        case 4:
-                            Politics.tradeTaxOffset += 0.01f; break;
-                        case 5:
-                            Politics.tradeTaxOffset -= 0.01f; break;
+                            Politics.residentTax -= 1;
+                            break;
                         case 2:
                             Politics.benefitOffset += 1; break;
                         case 3:
                             Politics.benefitOffset -= 1; break;
+                        case 4:
+                            Politics.commericalTax += 1;
+                            break;
+                        case 5:
+                            Politics.commericalTax -= 1;
+                            break;
                         case 6:
-                            Politics.importTaxOffset += 0.04f; break;
+                            Politics.industryTax += 1;
+                            break;
                         case 7:
-                            Politics.importTaxOffset -= 0.04f; break;
+                            Politics.industryTax -= 1;
+                            break;
                         case 8:
-                            Politics.stateOwnedPercent += 5; break;
-                        case 9:
-                            Politics.stateOwnedPercent -= 5; break;
-                        case 10:
                             Politics.isOutSideGarbagePermit = false; break;
-                        case 11:
+                        case 9:
                             Politics.isOutSideGarbagePermit = true; break;
-                        case 12:
-                            Politics.landRentOffset += 1; break;
-                        case 13:
-                            Politics.landRentOffset -= 1; break;
+
                     }
                 }
             }

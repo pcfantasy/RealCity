@@ -3,8 +3,6 @@ C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Assembly-CSharp-firstpass.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Assembly-CSharp.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\ColossalManaged.dll
-C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\CSUtil.CameraControl.dll
-C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\CSUtil.Commons.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\ICities.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\ICSharpCode.SharpZipLib.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\Mono.Posix.dll

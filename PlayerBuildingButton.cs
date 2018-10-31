@@ -77,6 +77,7 @@ namespace RealCity
             this.PBButton.name = "PBButton";
             this.PBButton.tooltipBox = aView.defaultTooltipBox;
             this.PBButton.text = "B";
+            this.PBButton.textScale = 1.2f;
             this.PBButton.size = new Vector2(30f, 30f);
             this.PBButton.relativePosition = new Vector3(0, 0f);
             base.AlignTo(this.RefPanel, this.Alignment);

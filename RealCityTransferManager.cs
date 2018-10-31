@@ -57,7 +57,7 @@ namespace RealCity
         private static TransferManager.TransferOffer[] _incomingOffers;
         private static ushort[] _incomingCount;
         private static int[] _incomingAmount;
-        private static bool _init = false;
+        //private static bool _init = false;
 
 
         private void StartTransfer(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
@@ -289,7 +289,7 @@ namespace RealCity
             }
         }*/
 
-        public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+        /*public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {
             // note: do NOT just use 
             //   DebugOutputPanel.AddMessage
@@ -312,22 +312,30 @@ namespace RealCity
             {
                 if (material == TransferManager.TransferReason.Petrol)
                 {
-                    //DebugLog.LogToFileOnly("find speical incoming request for comm building");
                     MainDataStore.building_buffer3[offer.Building] = 123;  //a flag
                 }
                 else if (material == TransferManager.TransferReason.Food)
                 {
                     MainDataStore.building_buffer3[offer.Building] = 124;
-                } else if (material == TransferManager.TransferReason.Lumber)
+                }
+                else if (material == TransferManager.TransferReason.Goods)
                 {
                     MainDataStore.building_buffer3[offer.Building] = 125;
-                } else if (material == TransferManager.TransferReason.Coal)
+                }
+                else if (material == TransferManager.TransferReason.Lumber)
                 {
                     MainDataStore.building_buffer3[offer.Building] = 126;
                 }
+                else if (material == TransferManager.TransferReason.LuxuryProducts)
+                {
+
+                }
                 else
                 {
-                    //DebugLog.LogToFileOnly("find speical incoming request for comm building" + material.ToString());
+                    if (material == TransferManager.TransferReason.Oil || material == TransferManager.TransferReason.Grain || material == TransferManager.TransferReason.Logs || material == TransferManager.TransferReason.Ore)
+                    {
+                        //DebugLog.LogToFileOnly("find speical incoming request for comm building" + material.ToString());
+                    }
                 }
             }
 
@@ -344,7 +352,7 @@ namespace RealCity
                     return;
                 }
             }
-        }
+        }*/
 
     }//end publi
 }//end naming space 

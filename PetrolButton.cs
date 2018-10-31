@@ -43,7 +43,7 @@ namespace RealCity
             this.PButton.playAudioEvents = false;
             this.PButton.name = "PButton";
             this.PButton.tooltipBox = aView.defaultTooltipBox;
-            this.PButton.text = Language.BuildingUI[34];
+            this.PButton.text = Language.BuildingUI[23];
             this.PButton.size = new Vector2(150f, 40f);
             this.PButton.relativePosition = new Vector3(0, 30f);
 
@@ -55,8 +55,7 @@ namespace RealCity
             {
                 if (refeshOnce)
                 {
-                    this.PButton.tooltip = Language.BuildingUI[34];
-                    this.PButton.text = Language.BuildingUI[34] + ": " + MainDataStore.allPetrolsFinal.ToString();
+                    this.PButton.text = Language.BuildingUI[23] + ": " + MainDataStore.allPetrolsFinal.ToString();
                     refeshOnce = false;
                 }
                 if (!MainDataStore.isPetrolsGettedFinal)

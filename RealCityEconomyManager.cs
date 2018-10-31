@@ -24,6 +24,7 @@ namespace RealCity
         public static float PublicTransport = 0f;
         public static float Policy_cost = 0f;
         public static float Disaster = 0f;
+        public static float PlayerIndustry = 0f;
         //public static float citizen_tax_income = 0f;
         public static float citizen_income = 0f;
         public static float tourist_income = 0f;
@@ -148,21 +149,17 @@ namespace RealCity
         //govement income
         public static float garbage_income = 0f;
         public static float road_income = 0f;
-        public static float cemetery_income = 0f;
+        public static float playerIndustryIncome = 0f;
         public static int[] garbage_income_forui = new int[17];
         public static int[] road_income_forui = new int[17];
-        public static int[] cemetery_income_forui = new int[17];
+        public static int[] playerIndustryIncomeForUI = new int[17];
 
         public static float school_income = 0f;
-        public static float firestation_income = 0f;
-        public static float police_income = 0f;
         public static int[] school_income_forui = new int[17];
-        public static int[] firestation_income_forui = new int[17];
-        public static int[] police_income_forui = new int[17];
 
         //public static bool cemetery_income_forui = new int[17];
 
-        public static byte[] saveData = new byte[2768];
+        public static byte[] saveData = new byte[2628];
         //public static byte[] saveData = new byte[2768];
 
         //public income
@@ -200,11 +197,9 @@ namespace RealCity
             indu_oil_tradeincome_forui[i] = 0;
             indu_ore_tradeincome_forui[i] = 0;
             garbage_income_forui[i] = 0;
-            cemetery_income_forui[i] = 0;
+            playerIndustryIncomeForUI[i] = 0;
             road_income_forui[i] = 0;
             school_income_forui[i] = 0;
-            firestation_income_forui[i] = 0;
-            police_income_forui[i] = 0;
         }
 
         public static void data_init()
@@ -242,11 +237,9 @@ namespace RealCity
                 indu_oil_tradeincome_forui[i] = 0;
                 indu_ore_tradeincome_forui[i] = 0;
                 road_income_forui[i] = 0;
-                cemetery_income_forui[i] = 0;
+                playerIndustryIncomeForUI[i] = 0;
                 garbage_income_forui[i] = 0;
                 school_income_forui[i] = 0;
-                firestation_income_forui[i] = 0;
-                police_income_forui[i] = 0;
             }
         }
 
@@ -383,20 +376,16 @@ namespace RealCity
             indu_ore_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
 
             road_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            cemetery_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
+            playerIndustryIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             garbage_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
 
             road_income = SaveAndRestore.load_float(ref i, saveData);
-            cemetery_income = SaveAndRestore.load_float(ref i, saveData);
+            playerIndustryIncome = SaveAndRestore.load_float(ref i, saveData);
             garbage_income = SaveAndRestore.load_float(ref i, saveData);
-
-            police_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            firestation_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             school_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-
-            police_income = SaveAndRestore.load_float(ref i, saveData);
-            firestation_income = SaveAndRestore.load_float(ref i, saveData);
             school_income = SaveAndRestore.load_float(ref i, saveData);
+
+            PlayerIndustry = SaveAndRestore.load_float(ref i, saveData);
 
             DebugLog.LogToFileOnly("saveData in EM is " + i.ToString());
         }
@@ -543,23 +532,21 @@ namespace RealCity
 
             //3 * 17 * 4 = 204
             SaveAndRestore.save_ints(ref i, road_income_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, cemetery_income_forui, ref saveData);
+            SaveAndRestore.save_ints(ref i, playerIndustryIncomeForUI, ref saveData);
             SaveAndRestore.save_ints(ref i, garbage_income_forui, ref saveData);
 
             //3 * 4 = 12
             SaveAndRestore.save_float(ref i, road_income, ref saveData);
-            SaveAndRestore.save_float(ref i, cemetery_income, ref saveData);
+            SaveAndRestore.save_float(ref i, playerIndustryIncome, ref saveData);
             SaveAndRestore.save_float(ref i, garbage_income, ref saveData);
 
-            //3 * 17 * 4 = 204
-            SaveAndRestore.save_ints(ref i, police_income_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, firestation_income_forui, ref saveData);
+            //3 * 17 * 4 = 204    - 136
             SaveAndRestore.save_ints(ref i, school_income_forui, ref saveData);
 
-            //3 * 4 = 12
-            SaveAndRestore.save_float(ref i, police_income, ref saveData);
-            SaveAndRestore.save_float(ref i, firestation_income, ref saveData);
+            //3 * 4 = 12   - 8
             SaveAndRestore.save_float(ref i, school_income, ref saveData);
+
+            SaveAndRestore.save_float(ref i, PlayerIndustry, ref saveData);
         }
 
         public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
@@ -695,6 +682,16 @@ namespace RealCity
                             return amount;
                         }
                         return amount;
+                    case ItemClass.Service.PlayerIndustry:
+                        PlayerIndustry += (float)amount;
+                        if (PlayerIndustry > 1)
+                        {
+                            temp = (int)PlayerIndustry;
+                            PlayerIndustry = PlayerIndustry - (int)PlayerIndustry;
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
+                        }
+                        return amount;
                     default: break;
                 }
             }
@@ -759,61 +756,6 @@ namespace RealCity
                         amount = 0;
                     }
                     garbage_income_forui[MainDataStore.update_money_count] += amount;
-                    break;
-                case ItemClass.Service.HealthCare:
-                    //DebugLog.LogToFileOnly("add cemetery_income pre  amount = " + amount.ToString());
-                    cemetery_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
-                    //DebugLog.LogToFileOnly("add cemetery_income pre  cemetery_income = " + cemetery_income.ToString() + "_taxMultiplier = " + _taxMultiplier.ToString());
-                    if (cemetery_income > 1)
-                    {
-                        amount = (int)cemetery_income;
-                        cemetery_income = cemetery_income - (int)cemetery_income;
-                    }
-                    else
-                    {
-                        amount = 0;
-                    }
-                    //DebugLog.LogToFileOnly("add cemetery_income post  amount = " + amount.ToString());
-                    cemetery_income_forui[MainDataStore.update_money_count] += amount;
-                    break;
-                case ItemClass.Service.Road:
-                    road_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
-                    if (road_income > 1)
-                    {
-                        amount = (int)road_income;
-                        road_income = road_income - (int)road_income;
-                    }
-                    else
-                    {
-                        amount = 0;
-                    }
-                    road_income_forui[MainDataStore.update_money_count] += amount;
-                    break;
-                case ItemClass.Service.PoliceDepartment:
-                    police_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
-                    if (police_income > 1)
-                    {
-                        amount = (int)police_income;
-                        police_income = police_income - (int)police_income;
-                    }
-                    else
-                    {
-                        amount = 0;
-                    }
-                    police_income_forui[MainDataStore.update_money_count] += amount;
-                    break;
-                case ItemClass.Service.FireDepartment:
-                    firestation_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
-                    if (firestation_income > 1)
-                    {
-                        amount = (int)firestation_income;
-                        firestation_income = firestation_income - (int)firestation_income;
-                    }
-                    else
-                    {
-                        amount = 0;
-                    }
-                    firestation_income_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.Service.Education:
                     school_income += (float)((double)(amount * taxRate * ((float)_taxMultiplier / 1000000f)));
@@ -2066,19 +2008,7 @@ namespace RealCity
             {
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = (int)(((long)amount * (long)taxRate * (long)_taxMultiplier + 999999L) / 1000000L);
-                //amount = amount * 10;
-                //all income * 10 , other wise is too small for game
-                //all maintain fee / 10, otherwise it is too high for city
-                //that is , for in game maintain fee and policy cost, it is 1/100 unit compared with enonomic element of real city mode
-                //int num = ClassIndex(service, subService, level);
-                //if (num != -1)
-                //{
-                //    _income[num * 17 + 16] += (long)amount;
-                //}
-                //_cashAmount += (long)amount;
-                //_cashDelta += (long)amount;
             }
-            //DebugLog.LogToFileOnly("cashamout = " + _cashAmount.ToString());
             return amount;
         }
 
@@ -2090,12 +2020,35 @@ namespace RealCity
                 if (itemClass.m_service == ItemClass.Service.Beautification)
                 {
                     return Singleton<EconomyManager>.instance.AddResource(resource, 0, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, itemClass.m_level, DistrictPolicies.Taxation.None);
-                } else
+                }
+                else
                 {
                     return Singleton<EconomyManager>.instance.AddResource(resource, 0, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
                 }
             }
+            else if (resource == EconomyManager.Resource.ResourcePrice)
+            {
+                    playerIndustryIncomeForUI[MainDataStore.update_money_count] += amount;
+            }
             return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
+        }
+
+
+        public int AddResource(EconomyManager.Resource resource, int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
+        {
+            if (resource == EconomyManager.Resource.PublicIncome)
+            {
+                if (service == ItemClass.Service.Vehicles)
+                {
+                    //DebugLog.LogToFileOnly("find incoming as toolbooth");
+                    road_income_forui[MainDataStore.update_money_count] += amount;
+                }
+            }
+            else if (resource == EconomyManager.Resource.ResourcePrice)
+            {
+                playerIndustryIncomeForUI[MainDataStore.update_money_count] += amount;
+            }
+            return Singleton<EconomyManager>.instance.AddResource(resource, amount, service, subService, level, DistrictPolicies.Taxation.None);
         }
 
         private static int ClassIndex(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
@@ -2145,7 +2098,7 @@ namespace RealCity
             int result;
             if (publicSubServiceIndex != -1)
             {
-                result = 12 + publicSubServiceIndex;
+                result = 13 + publicSubServiceIndex;
             }
             else
             {

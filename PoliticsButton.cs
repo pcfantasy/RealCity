@@ -77,7 +77,7 @@ namespace RealCity
             this.PLButton.playAudioEvents = true;
             this.PLButton.name = "PLButton";
             this.PLButton.tooltipBox = aView.defaultTooltipBox;
-            this.PLButton.text = Language.PoliticsMessage[0] + Language.OptionUI[4];
+            this.PLButton.text = Language.PoliticsMessage[0] + Language.OptionUI[3];
             this.PLButton.size = new Vector2(200f, 40f);
             this.PLButton.relativePosition = new Vector3(0, 30f);
             this.PLButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
@@ -123,9 +123,9 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.PLButton.text = Language.PoliticsMessage[0] + Language.OptionUI[4];
+                this.PLButton.text = Language.PoliticsMessage[0] + Language.OptionUI[3];
                 this.PLButton.tooltip = Language.EconomicUI[0];
-                if (Politics.parliamentCount < 5)  //time is ok
+                if (Politics.parliamentCount < 2)  //time is ok
                 {
                     this.PLButton.textColor = Color.red;
                 } else

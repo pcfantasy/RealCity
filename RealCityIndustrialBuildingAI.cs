@@ -14,11 +14,13 @@ namespace RealCity
             int width = data.Width;
             int length = data.Length;
             int num = 4000;
-            int num2 = this.CalculateProductionCapacity(new Randomizer((int)buildingID), width, length);
+            int num2 = this.CalculateProductionCapacity((ItemClass.Level)data.m_level,new Randomizer((int)buildingID), width, length);
             int consumptionDivider = GetConsumptionDivider(buildingID, data);
             int num3 = Mathf.Max(num2 * 500 / consumptionDivider, num * 4);
             data.m_customBuffer1 = 8000;
-            MainDataStore.building_money[buildingID] -= 8000* RealCityPrivateBuildingAI.GetPrice(false, buildingID, data);
+            //new add start
+            MainDataStore.building_money[buildingID] -= 8000 * RealCityPrivateBuildingAI.GetPrice(false, buildingID, data);
+            //new add end
             DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
             if (specialization != DistrictPolicies.Specialization.None)
             {
@@ -30,17 +32,17 @@ namespace RealCity
             }
         }
 
-        public static int CalculateProductionCapacity(Building data, Randomizer r, int width, int length)
+        public override int CalculateProductionCapacity(ItemClass.Level level, Randomizer r, int width, int length)
         {
-            ItemClass @class = data.Info.m_class;
+            ItemClass @class = this.m_info.m_class;
             int num;
             if (@class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {
-                if (@class.m_level == ItemClass.Level.Level1)
+                if (level == ItemClass.Level.Level1)
                 {
                     num = 100;
                 }
-                else if (@class.m_level == ItemClass.Level.Level2)
+                else if (level == ItemClass.Level.Level2)
                 {
                     num = 140;
                 }
@@ -58,41 +60,6 @@ namespace RealCity
                 num = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
             }
             return num;
-        }
-
-
-        public TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
-        {
-            //DebugLog.LogToFileOnly("industrial building GetIncomingTransferReason called");
-            switch (this.m_info.m_class.m_subService)
-            {
-                case ItemClass.SubService.IndustrialForestry:
-                    return TransferManager.TransferReason.Logs;
-                case ItemClass.SubService.IndustrialFarming:
-                    return TransferManager.TransferReason.Grain;
-                case ItemClass.SubService.IndustrialOil:
-                    return TransferManager.TransferReason.Oil;
-                case ItemClass.SubService.IndustrialOre:
-                    return TransferManager.TransferReason.Ore;
-                default:
-                    {
-                        System.Random rand = new System.Random();
-                        switch (MainDataStore.building_buffer4[buildingID])
-                        {
-                            case 0:
-                                return TransferManager.TransferReason.Lumber;
-                            case 1:
-                                return TransferManager.TransferReason.Food;
-                            case 2:
-                                return TransferManager.TransferReason.Petrol;
-                            case 3:
-                                return TransferManager.TransferReason.Coal;
-                            default:
-                                DebugLog.LogToFileOnly("Error: should be 0-3 for industrial gen building");
-                                return TransferManager.TransferReason.None;
-                        }
-                    }
-            }
         }
 
         private DistrictPolicies.Specialization SpecialPolicyNeeded()
@@ -132,100 +99,81 @@ namespace RealCity
             return ConsumptionDivider;
         }
 
-        public static TransferManager.TransferReason GetOutgoingTransferReason(Building data)
+        public static TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
         {
-            //DebugLog.LogToFileOnly("industrial building GetoutgoingTransferReason called");
-            switch (data.Info.m_class.m_subService)
+            switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:
-                    return TransferManager.TransferReason.Lumber;
+                    return TransferManager.TransferReason.Logs;
                 case ItemClass.SubService.IndustrialFarming:
-                    return TransferManager.TransferReason.Food;
+                    return TransferManager.TransferReason.Grain;
                 case ItemClass.SubService.IndustrialOil:
-                    return TransferManager.TransferReason.Petrol;
+                    return TransferManager.TransferReason.Oil;
                 case ItemClass.SubService.IndustrialOre:
-                    return TransferManager.TransferReason.Coal;
+                    return TransferManager.TransferReason.Ore;
                 default:
-                    return TransferManager.TransferReason.Goods;
+                    {
+                        Randomizer randomizer = new Randomizer((int)buildingID);
+                        switch (randomizer.Int32(4u))
+                        {
+                            case 0:
+                                return TransferManager.TransferReason.Lumber;
+                            case 1:
+                                return TransferManager.TransferReason.Food;
+                            case 2:
+                                return TransferManager.TransferReason.Petrol;
+                            case 3:
+                                return TransferManager.TransferReason.Coal;
+                            default:
+                                return TransferManager.TransferReason.None;
+                        }
+                    }
             }
-        }
-
-        public override void BuildingDeactivated(ushort buildingID, ref Building data)
-        {
-            TransferManager.TransferReason incomingTransferReason = this.GetIncomingTransferReason(buildingID);
-            if (incomingTransferReason != TransferManager.TransferReason.None)
-            {
-                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                offer.Building = buildingID;
-                if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-                {
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Lumber, offer);
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Food, offer);
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Petrol, offer);
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Coal, offer);
-                } else
-                {
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(incomingTransferReason, offer);
-                }
-            }
-            TransferManager.TransferReason outgoingTransferReason = GetOutgoingTransferReason(data);
-            if (outgoingTransferReason != TransferManager.TransferReason.None)
-            {
-                TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
-                offer2.Building = buildingID;
-                Singleton<TransferManager>.instance.RemoveOutgoingOffer(outgoingTransferReason, offer2);
-            }
-            base.BuildingDeactivated(buildingID, ref data);
         }
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == GetIncomingTransferReason(buildingID) || RealCityPrivateBuildingAI.IsGeneralIndustry(buildingID, data, material))
+            if (material == GetIncomingTransferReason(buildingID) || material == GetSecondaryIncomingTransferReason(buildingID))
             {
                 int width = data.Width;
                 int length = data.Length;
                 int num = 16000;
-                int num2 = CalculateProductionCapacity(data, new Randomizer((int)buildingID), width, length);
+                int num2 = CalculateProductionCapacity((ItemClass.Level)data.m_level, new Randomizer((int)buildingID), width, length);
                 float consumptionDivider = GetConsumptionDivider(buildingID, data);
                 int num3 = Mathf.Max((int)(num2 * 500 / consumptionDivider), num * 4);
                 num3 = 64000;
                 int customBuffer = (int)data.m_customBuffer1;
                 amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                 process_incoming(buildingID, ref data, material, ref amountDelta);
-                data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
-                MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
 
-                if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                if (material == GetSecondaryIncomingTransferReason(buildingID))
                 {
-                    MainDataStore.building_buffer4[buildingID]++;
-                    if (MainDataStore.building_buffer4[buildingID] > 3)
+                    if ((customBuffer + amountDelta * MainDataStore.industialPriceAdjust) > 64000)
                     {
-                        MainDataStore.building_buffer4[buildingID] = 0;
-                    }
-                    if (material == TransferManager.TransferReason.Petrol)
-                    {
-                        //DebugLog.LogToFileOnly("find speical incoming request for comm building");
-                        MainDataStore.building_buffer3[buildingID] = 123;  //a flag
-                    }
-                    else if (material == TransferManager.TransferReason.Food)
-                    {
-                        MainDataStore.building_buffer3[buildingID] = 124;
-                    }
-                    else if (material == TransferManager.TransferReason.Lumber)
-                    {
-                        MainDataStore.building_buffer3[buildingID] = 125;
-                    }
-                    else if (material == TransferManager.TransferReason.Coal)
-                    {
-                        MainDataStore.building_buffer3[buildingID] = 126;
+                        data.m_customBuffer1 = 64000;
+                        MainDataStore.building_buffer1[buildingID] = customBuffer + amountDelta * MainDataStore.industialPriceAdjust;
                     }
                     else
                     {
-                        DebugLog.LogToFileOnly("find speical incoming request for indus general building" + material.ToString());
+                        data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                        MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
+                    }
+                }
+                else
+                {
+                    if ((customBuffer + amountDelta) > 64000)
+                    {
+                        data.m_customBuffer1 = 64000;
+                        MainDataStore.building_buffer1[buildingID] = customBuffer + amountDelta;
+                    }
+                    else
+                    {
+                        data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                        MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
                     }
                 }
             }
-            else if (material == GetOutgoingTransferReason(data))
+            else if (material == GetOutgoingTransferReason())
             {
                 int customBuffer2 = (int)data.m_customBuffer2;
                 amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
@@ -243,9 +191,55 @@ namespace RealCity
             }
         }
 
+        private TransferManager.TransferReason GetOutgoingTransferReason()
+        {
+            switch (this.m_info.m_class.m_subService)
+            {
+                case ItemClass.SubService.IndustrialForestry:
+                    return TransferManager.TransferReason.Lumber;
+                case ItemClass.SubService.IndustrialFarming:
+                    return TransferManager.TransferReason.Food;
+                case ItemClass.SubService.IndustrialOil:
+                    return TransferManager.TransferReason.Petrol;
+                case ItemClass.SubService.IndustrialOre:
+                    return TransferManager.TransferReason.Coal;
+                default:
+                    return TransferManager.TransferReason.Goods;
+            }
+        }
+
+
+        public static TransferManager.TransferReason GetSecondaryIncomingTransferReason(ushort buildingID)
+        {
+            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+            {
+                Randomizer randomizer = new Randomizer((int)buildingID);
+                switch (randomizer.Int32(8u))
+                {
+                    case 0:
+                        return TransferManager.TransferReason.PlanedTimber;
+                    case 1:
+                        return TransferManager.TransferReason.Paper;
+                    case 2:
+                        return TransferManager.TransferReason.Flours;
+                    case 3:
+                        return TransferManager.TransferReason.AnimalProducts;
+                    case 4:
+                        return TransferManager.TransferReason.Petroleum;
+                    case 5:
+                        return TransferManager.TransferReason.Plastics;
+                    case 6:
+                        return TransferManager.TransferReason.Metals;
+                    case 7:
+                        return TransferManager.TransferReason.Glass;
+                }
+            }
+            return TransferManager.TransferReason.None;
+        }
+
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * RealCityPrivateBuildingAI.GetPrice(false, buildingID, data);
+            float trade_income1 = (float)amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
             if (!MainDataStore.buildingFlag[buildingID])
             {
                 MainDataStore.building_money[buildingID] = MainDataStore.building_money[buildingID] - trade_income1;
@@ -260,7 +254,7 @@ namespace RealCity
         {
             float trade_income1 = (float)amountDelta * RealCityPrivateBuildingAI.GetPrice(true, buildingID, data);
             float trade_tax = 0;
-            trade_tax = -trade_income1 * RealCityPrivateBuildingAI.GetTaxRate(data, buildingID);
+            trade_tax = -trade_income1 * (float)RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) /100f;
             if (!MainDataStore.buildingFlag[buildingID])
             {
                 Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);

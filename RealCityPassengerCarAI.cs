@@ -1,14 +1,15 @@
 ﻿using ColossalFramework;
 using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace RealCity
 {
     public class RealCityPassengerCarAI
     {
-        public bool ArriveAtDestination_1 (ushort vehicleID, ref Vehicle vehicleData)
+        public bool CustomArriveAtDestination(ushort vehicleID, ref Vehicle vehicleData)
         {
-            get_vehicle_running_timing(vehicleID, ref vehicleData);
+            GetVehicleRunningTiming(vehicleID, ref vehicleData);
 
             BuildingManager instance = Singleton<BuildingManager>.instance;
             Building building = instance.m_buildings.m_buffer[(int)vehicleData.m_sourceBuilding];
@@ -30,7 +31,38 @@ namespace RealCity
             return return_value;
             //return false;
         }
-        public void get_vehicle_running_timing(ushort vehicleID, ref Vehicle vehicleData)
+
+        public void EnterTollRoad(ushort vehicle, ref Vehicle vehicleData, ushort buildingID, ushort segmentID, int basePrice)
+        {
+            if (buildingID != 0)
+            {
+                int num = basePrice;
+                BuildingManager instance = Singleton<BuildingManager>.instance;
+                DistrictManager instance2 = Singleton<DistrictManager>.instance;
+                byte district = instance2.GetDistrict(instance.m_buildings.m_buffer[(int)buildingID].m_position);
+                DistrictPolicies.CityPlanning cityPlanningPolicies = instance2.m_districts.m_buffer[(int)district].m_cityPlanningPolicies;
+                if ((cityPlanningPolicies & DistrictPolicies.CityPlanning.AutomatedToll) != DistrictPolicies.CityPlanning.None)
+                {
+                    num = (num * 70 + Singleton<SimulationManager>.instance.m_randomizer.Int32(100u)) / 100;
+                    District[] expr_82_cp_0 = instance2.m_districts.m_buffer;
+                    byte expr_82_cp_1 = district;
+                    expr_82_cp_0[(int)expr_82_cp_1].m_cityPlanningPoliciesEffect = (expr_82_cp_0[(int)expr_82_cp_1].m_cityPlanningPoliciesEffect | DistrictPolicies.CityPlanning.AutomatedToll);
+                }
+                else
+                {
+                    vehicleData.m_flags2 |= Vehicle.Flags2.EndStop;
+                }
+                //if (MainDataStore.vehical_flag[vehicle] == false && vehicleData.m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic))
+                //{
+                //    MainDataStore.vehical_flag[vehicle] = true;
+                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level1);
+                //}
+                instance.m_buildings.m_buffer[(int)buildingID].m_customBuffer1 = (ushort)Mathf.Min((int)(instance.m_buildings.m_buffer[(int)buildingID].m_customBuffer1 + 1), 65535);
+            }
+        }
+
+
+        public void GetVehicleRunningTiming(ushort vehicleID, ref Vehicle vehicleData)
         {
             if (vehicleID > 16384)
             {

@@ -337,7 +337,7 @@ namespace RealCity
                             break;
                     }
 
-                    if (MainDataStore.buildingFlag[workBuilding])
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.m_service == ItemClass.Service.PlayerIndustry)
                     {
                         switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                         {
@@ -355,18 +355,15 @@ namespace RealCity
                         num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
                         if (!checkOnly)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(num * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
-                        }
-                    }
-
-                    if (!checkOnly)
-                    {
-                        if (!MainDataStore.buildingFlag[workBuilding])
-                        {
-                            MainDataStore.building_money[workBuilding] -= num;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                         }
                     }
                     //DebugLog.LogToFileOnly("salary4 is " + num.ToString());
+
+                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.m_service == ItemClass.Service.Commercial || Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.m_service == ItemClass.Service.Office || Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class.m_service == ItemClass.Service.Industrial)
+                    {
+                        MainDataStore.building_money[workBuilding] -= num;
+                    }
                 }
                 //DebugLog.LogToFileOnly("salary3 is " + num.ToString());
             }
@@ -525,11 +522,6 @@ namespace RealCity
                 DebugLog.LogToFileOnly("Error: citizen ID greater than 524288");
             }
 
-            /*if (comm_data.family_money[homeID] < -39000000f)
-            {
-                comm_data.family_money[homeID] = 0;
-            }*/
-
             ProcessCitizen(homeID, ref data, true);
 
             //here we caculate citizen income
@@ -583,8 +575,6 @@ namespace RealCity
                 salaryPerFamilyMember = 0;
                 DebugLog.LogToFileOnly("tempNum == 0 in ResidentAI");
             }
-            float tax = 0;
-            //0-10 0% 10-40 5% 40-80 15% 80-130 30% >130 50%
 
             if (citizenSalaryCurrent < 0)
             {
@@ -592,33 +582,16 @@ namespace RealCity
                 citizenSalaryCurrent = 0;
             }
 
-            if (citizenSalaryCurrent < 10)
-            {
-                tax = 0;
-            }
-            else if (citizenSalaryCurrent >= 10 && citizenSalaryCurrent <= 40)
-            {
-                tax = (citizenSalaryCurrent - 10) * (0.00f + Politics.salaryTaxOffset);
-            }
-            else if (citizenSalaryCurrent > 40 && citizenSalaryCurrent <= 80)
-            {
-                tax = (citizenSalaryCurrent - 40) * (0.10f + Politics.salaryTaxOffset) + 30 * (0.00f + Politics.salaryTaxOffset);
-            }
-            else if (citizenSalaryCurrent > 80 && citizenSalaryCurrent <= 130)
-            {
-                tax = (citizenSalaryCurrent - 80) * (0.25f + Politics.salaryTaxOffset) +30 * (0.00f + Politics.salaryTaxOffset) + 40 * (0.10f + Politics.salaryTaxOffset);
-            }
-            else if (citizenSalaryCurrent > 130)
-            {
-                tax = (citizenSalaryCurrent - 130) * (0.45f + Politics.salaryTaxOffset) + 30 * (0.00f + Politics.salaryTaxOffset) + 40 * (0.10f + Politics.salaryTaxOffset) + 50 * (0.25f + Politics.salaryTaxOffset);
-            }
 
+            //tax
+
+            float tax = (float)Politics.residentTax * (float)citizenSalaryCurrent / 100f;
 
             //caculate food tax
             if (tempNum > 0 && MainDataStore.family_money[homeID] > 0 && MainDataStore.isFoodsGettedFinal)
             {
-                MainDataStore.family_money[homeID] -= RealCityPrivateBuildingAI.foodPrice * tempNum;
-                tax += (RealCityPrivateBuildingAI.foodPrice * tempNum + 0.5f);
+                MainDataStore.family_money[homeID] -= RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Food) * tempNum;
+                tax += (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Food) * tempNum + 0.5f);  
             }
 
             tempCitizenSalaryTaxTotal = tempCitizenSalaryTaxTotal + (int)tax;
@@ -677,29 +650,32 @@ namespace RealCity
             //income - expense
             tempNum = citizenSalaryCurrent - (int)(tax) - tempNum - expenserate;// - comm_data.citizen_average_transport_fee;
             MainDataStore.family_money[homeID] = (float)(MainDataStore.family_money[homeID] + tempNum);
+
+            //process shopping
+            if (MainDataStore.familyGoods[homeID] == 0)
+            {
+                //first time
+            }
+            else if (MainDataStore.familyGoods[homeID] < data.m_goods)
+            {
+                //DebugLog.LogToFileOnly("find shopping num= " + (data.m_goods - MainDataStore.familyGoods[homeID]).ToString());
+                //DebugLog.LogToFileOnly("data.m_goods= " + data.m_goods.ToString());
+                //DebugLog.LogToFileOnly("familyGoods num= " + MainDataStore.familyGoods[homeID].ToString());
+                MainDataStore.family_money[homeID] -= RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * (data.m_goods - MainDataStore.familyGoods[homeID]);
+            }
             //process citizen status
-            System.Random rand = new System.Random();
             if (tempNum <= 20)
             {
-                tempNum = rand.Next(10);
                 familyLossMoneyCount = (uint)(familyLossMoneyCount + 1);
-                //try_move_family to do here;
             }
             else if (tempNum > 70)
             {
-                tempNum = rand.Next((int)(tempNum / 2));
                 familyVeryProfitMoneyCount = (uint)(familyVeryProfitMoneyCount + 1);
             }
             else
             {
-                tempNum = rand.Next((int)(tempNum / 2));
                 familyProfitMoneyCount = (uint)(familyProfitMoneyCount + 1);
             }
-
-
-            tempNum = (tempNum > 40) ? 40 : tempNum;
-
-            MainDataStore.family_money[homeID] = (float)(MainDataStore.family_money[homeID] - tempNum);
 
             if (MainDataStore.family_money[homeID] < -Politics.benefitOffset)
             {
@@ -739,17 +715,23 @@ namespace RealCity
                 MainDataStore.family_money[homeID] = 0;
             }
 
-            //for V2.0 to V3.0
-            if (MainDataStore.family_count != 0)
-            {
-                if ((float)RealCityResidentAI.citizenGoods / (MainDataStore.family_count * 2f) > 5000f)
-                {
-                    data.m_goods = 200;
-                }
-            }
-
             preCitizenId = homeID;
             ProcessCitizen(homeID, ref data, false);
+
+
+            tempNum = tempNum / 8;
+            if (MainDataStore.family_money[homeID] > 0)
+            {
+                tempNum += (int)(MainDataStore.family_money[homeID] / 5000);
+            }
+
+            if (tempNum < 1)
+            {
+                tempNum = 1;
+            } else if (tempNum > 20)
+            {
+                tempNum = 20;
+            }
             return (byte)tempNum;
             //return to original game code.
         }
@@ -773,57 +755,6 @@ namespace RealCity
             Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate*100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 100);
         }
 
-
-        public bool ChanceToDoVitureShopping(uint homeID, ref CitizenUnit data)
-        {
-            SimulationManager instance2 = Singleton<SimulationManager>.instance;
-            BuildingManager expr_18 = Singleton<BuildingManager>.instance;
-            Building building = expr_18.m_buildings.m_buffer[(int)data.m_building];
-            ushort num = 0;
-            
-            num = FindNotSoCloseBuilding(building.m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-            
-
-            if ((num == 0) || (Singleton<SimulationManager>.instance.m_randomizer.Int32(20) < 10))
-            {
-                int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
-                for (int i = 0; i < 5; i++)
-                {
-                    uint citizen = data.GetCitizen((num2 + i) % 5);
-                    if (citizen != 0u)
-                    {
-                        if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding != 0)
-                        {
-                            ushort num1 = 0;
-
-                            
-                            num1 = FindNotSoCloseBuilding(expr_18.m_buildings.m_buffer[Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_workBuilding].m_position, 2000f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
-
-
-                            if (num1 != 0)
-                            {
-                                num = (ushort)num1;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (num != 0)
-            {
-                int num1 = -100;
-                expr_18.m_buildings.m_buffer[(int)num].Info.m_buildingAI.ModifyMaterialBuffer(num, ref expr_18.m_buildings.m_buffer[(int)num], TransferManager.TransferReason.Shopping, ref num1);
-                ushort temp = (ushort)(-num1);
-                data.m_goods += temp;
-                //DebugLog.LogToFileOnly("try viture shopping now, temp = " + temp.ToString());
-                return true;
-            }
-            else
-            {
-                //DebugLog.LogToFileOnly("failed to find a building to shopping");
-            }
-            return false;
-        }
 
         public static void SetNum(ref int[] source, ref int[] array)
         {
@@ -895,26 +826,15 @@ namespace RealCity
                                 Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
                                 if (info.m_class.m_service == ItemClass.Service.Commercial)
                                 {
-                                    if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist) && (instance2.m_randomizer.Int32(100) < 97))
+                                    if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
                                     {
-
-                                    }
-                                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure) && (instance2.m_randomizer.Int32(100) < 95))
-                                    {
-
-                                    }
-                                    else
-                                    {
-                                        if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
+                                        if (building.m_buildings.m_buffer[(int)num6].m_customBuffer2 > 1000)
                                         {
-                                            if (building.m_buildings.m_buffer[(int)num6].m_customBuffer2 > 1000)
-                                            {
-                                                //float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
-                                                //result = num6;
-                                                //return result;
-                                                tempBuilding[tempBuildingIdex] = num6;
-                                                tempBuildingIdex++;
-                                            }
+                                            //float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
+                                            //result = num6;
+                                            //return result;
+                                            tempBuilding[tempBuildingIdex] = num6;
+                                            tempBuildingIdex++;
                                         }
                                     }
                                 }
@@ -939,7 +859,7 @@ namespace RealCity
         }
 
         // ResidentAI
-        public void SimulationStep_1(uint homeID, ref CitizenUnit data)
+        public void CustomSimulationStep(uint homeID, ref CitizenUnit data)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
@@ -989,17 +909,14 @@ namespace RealCity
             {
                 this.TryMoveAwayFromHome(data.m_citizen4, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)]);
             }
+
+            //new add begin
             int temp_num = ProcessFamily(homeID, ref data);
 
 
             data.m_goods = (ushort)Mathf.Max(0, (int)(data.m_goods - temp_num)); //here we can adjust demand
 
-            if (data.m_goods < 10)
-            {
-                SimulationManager instance2 = Singleton<SimulationManager>.instance;
-                ChanceToDoVitureShopping(homeID, ref data);
-            }
-
+            MainDataStore.familyGoods[homeID] = data.m_goods;
             //lack of food
             if (!MainDataStore.isFoodsGettedFinal)
             {
@@ -1023,6 +940,7 @@ namespace RealCity
                 }
             }
 
+            //new add end
             if (data.m_goods < 200)
             {
                 int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
@@ -1170,7 +1088,7 @@ namespace RealCity
                     }
                 }
                 int num2;
-                num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies) + Politics.landRentOffset;
+                num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
                 if (MainDataStore.family_money[homeid] > 0)
                 {
                     incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));

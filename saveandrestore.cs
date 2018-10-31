@@ -523,12 +523,12 @@ namespace RealCity
             if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
             {
                 DebugLog.LogToFileOnly("startsave");
-                RealCityEconomyManager.saveData = new byte[2768];
+                RealCityEconomyManager.saveData = new byte[2628];
                 MainDataStore.saveData1 = new byte[4194304];
                 RealCityPrivateBuildingAI.saveData = new byte[44];
                 RealCityResidentAI.saveData = new byte[144];
-                MainDataStore.saveData = new byte[3309810];
-                Politics.saveData = new byte[105];
+                MainDataStore.saveData = new byte[3932402];
+                Politics.saveData = new byte[101];
                 gather_saveData();
                 SaveAndRestore._serializableData.SaveData("real_city pc_EconomyManager", RealCityEconomyManager.saveData);
                 SaveAndRestore._serializableData.SaveData("real_city comm_data", MainDataStore.saveData);

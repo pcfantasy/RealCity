@@ -21,6 +21,29 @@ namespace RealCity
         }
 
 
+        public override void EnterParkArea(ushort instanceID, ref CitizenInstance citizenData, byte park, ushort gateID)
+        {
+            if (gateID != 0)
+            {
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                BuildingManager instance2 = Singleton<BuildingManager>.instance;
+                CitizenManager instance3 = Singleton<CitizenManager>.instance;
+                int ticketPrice = instance.m_parks.m_buffer[(int)park].GetTicketPrice();
+                if ((instance3.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                {
+                    if (ticketPrice != 0)
+                    {
+                        BuildingInfo info = instance2.m_buildings.m_buffer[(int)gateID].Info;
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(ticketPrice, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
+                        //Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
+                        DistrictPark[] expr_6C_cp_0 = instance.m_parks.m_buffer;
+                        expr_6C_cp_0[(int)park].m_tempTicketIncome = expr_6C_cp_0[(int)park].m_tempTicketIncome + (uint)ticketPrice;
+                    }
+                }
+            }
+        }
+
+
         public void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
         {
             BuildingManager instance2 = Singleton<BuildingManager>.instance;
@@ -134,7 +157,7 @@ namespace RealCity
             }
         }
 
-        protected virtual bool EnterVehicle_1(ushort instanceID, ref CitizenInstance citizenData)
+        protected virtual bool CustomEnterVehicle(ushort instanceID, ref CitizenInstance citizenData)
         {
             citizenData.m_flags &= ~CitizenInstance.Flags.EnteringVehicle;
             citizenData.Unspawn(instanceID);

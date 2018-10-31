@@ -70,8 +70,31 @@ namespace RealCity
         public static void RevertRedirect(MethodInfo from, RedirectCallsState state)
         {
             var fptr1 = from.MethodHandle.GetFunctionPointer();
-            //DebugLog.LogToFileOnly("Revert Patching from " + fptr1 + " to " + state);
+            DebugLog.LogToFileOnly("Revert Patching from " + fptr1 + " to " + state);
             RevertJumpTo(fptr1, state);
+        }
+
+
+        private static bool IsRedirected(IntPtr site, IntPtr target)
+        {
+            unsafe
+            {
+                byte* sitePtr = (byte*)site.ToPointer();
+                return *sitePtr == 0x49 &&
+                    *(sitePtr + 1) == 0xBB &&
+                    *((ulong*)(sitePtr + 2)) == (ulong)target.ToInt64() &&
+                    *(sitePtr + 10) == 0x41 &&
+                    *(sitePtr + 11) == 0xFF &&
+                    *(sitePtr + 12) == 0xE3;
+            }
+        }
+
+
+        public static bool IsRedirected(MethodInfo from, MethodInfo to)
+        {
+            var fptr1 = from.MethodHandle.GetFunctionPointer();
+            var fptr2 = to.MethodHandle.GetFunctionPointer();
+            return IsRedirected(fptr1, fptr2);
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace RealCity
             BuildingManager instance = Singleton<BuildingManager>.instance;
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
             info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
-            process_garbage_income_arrive_at_target(vehicleID, ref data, num);
+            ProcessGarbageIncomeArriveAtTarget(vehicleID, ref data, num);
             if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
             {
                 data.m_transferSize = (ushort)Mathf.Clamp((int)data.m_transferSize - num, 0, (int)data.m_transferSize);
@@ -98,7 +98,7 @@ namespace RealCity
             return false;
         }
 
-        private void process_garbage_income_arrive_at_target(ushort vehicleID, ref Vehicle data, int num)
+        private void ProcessGarbageIncomeArriveAtTarget(ushort vehicleID, ref Vehicle data, int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
             Building building = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];

@@ -4,6 +4,8 @@
     {
 
         public static byte game_expense_divide = 100;
+        public const byte industialPriceAdjust = 10;
+        public const byte commericalPriceAdjust = 32;
         //public const byte game_expense_divide1 = 100;
         public static float landPrice = 1f;
         //1.  citizen
@@ -56,7 +58,7 @@
 
         //1.3 income-expense
         public static float[] family_money = new float[524288];
-        public static byte[] family_profit_status = new byte[524288];
+        public static ushort[] familyGoods = new ushort[524288];
         public static uint family_profit_money_num = 0;
         public static uint family_loss_money_num = 0;
         public static uint family_very_profit_money_num = 0;
@@ -167,7 +169,7 @@
         public static ushort allVehiclesFinal = 0;
 
         // reserved some for futher used
-        public static ushort[] building_buffer1 = new ushort[49152];
+        public static int[] building_buffer1 = new int[49152];
         public static ushort[] building_buffer2 = new ushort[49152];
         public static ushort[] building_buffer3 = new ushort[49152];
         public static ushort[] building_buffer4 = new ushort[49152];
@@ -183,7 +185,7 @@
         public static bool[] buildingFlag = new bool[49152];
 
         //public static byte[] saveData = new byte[2867364];
-        public static byte[] saveData = new byte[3309810];
+        public static byte[] saveData = new byte[3932402];
         public static float[] citizen_money = new float[1048576];
         public static byte[] saveData1 = new byte[4194304];
         //public static byte[] saveData = new byte[3063935];
@@ -209,6 +211,7 @@
             for (int i = 0; i < MainDataStore.family_money.Length; i++)
             {
                 family_money[i] = 0f;
+                familyGoods[i] = 0;
             }
             for (int i = 0; i < MainDataStore.citizen_money.Length; i++)
             {
@@ -234,7 +237,7 @@
             // (4+1)*524288 = 2621440       // 2670636
             SaveAndRestore.save_floats(ref i, family_money, ref saveData);
             //saveandrestore.save_bytes(ref i, citizen_very_profit_time_num, ref saveData);
-            SaveAndRestore.save_bytes(ref i, family_profit_status, ref saveData);
+            SaveAndRestore.save_ushorts(ref i, familyGoods, ref saveData);
             //saveandrestore.save_bytes(ref i, citizen_loss_time_num, ref saveData);
 
             //5*4 = 20      //2670656
@@ -324,7 +327,7 @@
             // 4 + 8 + 5 + 2 + 8 =27
             SaveAndRestore.save_bool(ref i, have_toll_station, ref saveData);
             SaveAndRestore.save_bool(ref i, haveCityResourceDepartment, ref saveData);
-            SaveAndRestore.save_ushorts(ref i, building_buffer1, ref saveData);
+            SaveAndRestore.save_ints(ref i, building_buffer1, ref saveData);
             SaveAndRestore.save_ushorts(ref i, building_buffer2, ref saveData);
             SaveAndRestore.save_ushorts(ref i, building_buffer3, ref saveData);
             SaveAndRestore.save_ushorts(ref i, building_buffer4, ref saveData);
@@ -360,7 +363,7 @@
             family_money = SaveAndRestore.load_floats(ref i, saveData, family_money.Length);
             //citizen_very_profit_time_num = saveandrestore.load_bytes(ref i, saveData, citizen_very_profit_time_num.Length);
             //citizen_loss_time_num = saveandrestore.load_bytes(ref i, saveData, citizen_loss_time_num.Length);
-            family_profit_status = SaveAndRestore.load_bytes(ref i, saveData, family_profit_status.Length);
+            familyGoods = SaveAndRestore.load_ushorts(ref i, saveData, familyGoods.Length);
             family_profit_money_num = SaveAndRestore.load_uint(ref i, saveData);
             family_loss_money_num = SaveAndRestore.load_uint(ref i, saveData);
             family_very_profit_money_num = SaveAndRestore.load_uint(ref i, saveData);
@@ -434,7 +437,7 @@
             is_weekend = SaveAndRestore.load_bool(ref i, saveData);
             have_toll_station = SaveAndRestore.load_bool(ref i, saveData);
             haveCityResourceDepartment = SaveAndRestore.load_bool(ref i, saveData);
-            building_buffer1 = SaveAndRestore.load_ushorts(ref i, saveData, building_buffer1.Length);
+            building_buffer1 = SaveAndRestore.load_ints(ref i, saveData, building_buffer1.Length);
             building_buffer2 = SaveAndRestore.load_ushorts(ref i, saveData, building_buffer2.Length);
             building_buffer3 = SaveAndRestore.load_ushorts(ref i, saveData, building_buffer3.Length);
             building_buffer4 = SaveAndRestore.load_ushorts(ref i, saveData, building_buffer4.Length);

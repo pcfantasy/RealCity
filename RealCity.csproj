@@ -41,12 +41,6 @@
     <Reference Include="ColossalManaged">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
     </Reference>
-    <Reference Include="CSUtil.CameraControl">
-      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\583429740\CSUtil.CameraControl.dll</HintPath>
-    </Reference>
-    <Reference Include="CSUtil.Commons">
-      <HintPath>F:\SteamLibrary\steamapps\workshop\content\255710\583429740\CSUtil.Commons.dll</HintPath>
-    </Reference>
     <Reference Include="ICities">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
     </Reference>
@@ -81,6 +75,8 @@
     <Compile Include="LumberButton.cs" />
     <Compile Include="PetrolButton.cs" />
     <Compile Include="FoodButton.cs" />
+    <Compile Include="RealCityIndustrialExtractorAI.cs" />
+    <Compile Include="RealCityIndustryBuildingAI.cs" />
     <Compile Include="RealCityOutsideConnectionAI.cs" />
     <Compile Include="RealCityCommonBuildingAI.cs" />
     <Compile Include="PlayerBuildingButton.cs" />
@@ -95,6 +91,7 @@
     <Compile Include="RealCityCitizenManager.cs" />
     <Compile Include="RealCityOfficeBuildingAI.cs" />
     <Compile Include="RealCityTaxiAI.cs" />
+    <Compile Include="RealCityTollBooth.cs" />
     <Compile Include="RealCityZoneManager.cs" />
     <Compile Include="Politics.cs" />
     <Compile Include="RealCityEconomyExtension.cs" />
@@ -105,7 +102,6 @@
     <Compile Include="RealCityEconomyManager.cs" />
     <Compile Include="RealCityHumanAI.cs" />
     <Compile Include="RealCityCommericalBuildingAI.cs" />
-    <Compile Include="RealCityIndustrialExtractorAI.cs" />
     <Compile Include="RealCityResidentAI.cs" />
     <Compile Include="RealCityIndustrialBuildingAI.cs" />
     <Compile Include="DebugLog.cs" />
@@ -119,6 +115,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

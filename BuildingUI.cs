@@ -35,7 +35,6 @@ namespace RealCity
         private UILabel comsuptionDivide;
         private UILabel sellTax;
         private UILabel profit;
-        private UILabel states;
 
         public override void Update()
         {
@@ -46,21 +45,15 @@ namespace RealCity
         public override void Awake()
         {
             base.Awake();
-            //DebugLog.LogToFileOnly("buildingUI start now");
-            //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "Go to UI now");
             this.DoOnStartup();
         }
 
         public override void Start()
         {
             base.Start();
-            //DebugLog.LogToFileOnly("buildingUI start now");
-            //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "Go to UI now");
-            //base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
-            //this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.RefreshDisplayData();
@@ -78,80 +71,63 @@ namespace RealCity
         {
             this.buildingMoney = base.AddUIComponent<UILabel>();
             this.buildingMoney.text = Language.BuildingUI[0];
-            this.buildingMoney.tooltip = Language.BuildingUI[1];
             this.buildingMoney.relativePosition = new Vector3(SPACING, 50f);
             this.buildingMoney.autoSize = true;
             this.buildingMoney.name = "Moreeconomic_Text_0";
 
             this.buildingIncomeBuffer = base.AddUIComponent<UILabel>();
-            this.buildingIncomeBuffer.text = Language.BuildingUI[2];
-            this.buildingIncomeBuffer.tooltip = Language.BuildingUI[3];
+            this.buildingIncomeBuffer.text = Language.BuildingUI[1];
             this.buildingIncomeBuffer.relativePosition = new Vector3(SPACING, this.buildingMoney.relativePosition.y + SPACING22);
             this.buildingIncomeBuffer.autoSize = true;
             this.buildingIncomeBuffer.name = "Moreeconomic_Text_1";
 
             this.buildingOutgoingBuffer = base.AddUIComponent<UILabel>();
-            this.buildingOutgoingBuffer.text = Language.BuildingUI[4];
-            this.buildingOutgoingBuffer.tooltip = Language.BuildingUI[5];
+            this.buildingOutgoingBuffer.text = Language.BuildingUI[2];
             this.buildingOutgoingBuffer.relativePosition = new Vector3(SPACING, this.buildingIncomeBuffer.relativePosition.y + SPACING22);
             this.buildingOutgoingBuffer.autoSize = true;
             this.buildingOutgoingBuffer.name = "Moreeconomic_Text_2";
 
             this.employFee = base.AddUIComponent<UILabel>();
-            this.employFee.text = Language.BuildingUI[8];
-            this.employFee.tooltip = Language.BuildingUI[9];
+            this.employFee.text = Language.BuildingUI[3];
             this.employFee.relativePosition = new Vector3(SPACING, this.buildingOutgoingBuffer.relativePosition.y + SPACING22);
             this.employFee.autoSize = true;
             this.employFee.name = "Moreeconomic_Text_4";
 
             this.landRent = base.AddUIComponent<UILabel>();
-            this.landRent.text = Language.BuildingUI[10];
-            this.landRent.tooltip = Language.BuildingUI[11];
+            this.landRent.text = Language.BuildingUI[4];
             this.landRent.relativePosition = new Vector3(SPACING, this.employFee.relativePosition.y + SPACING22);
             this.landRent.autoSize = true;
             this.landRent.name = "Moreeconomic_Text_5";
 
             this.buyPrice = base.AddUIComponent<UILabel>();
-            this.buyPrice.text = Language.BuildingUI[18];
-            this.buyPrice.tooltip = Language.BuildingUI[18];
+            this.buyPrice.text = Language.BuildingUI[8];
             this.buyPrice.relativePosition = new Vector3(SPACING, this.landRent.relativePosition.y + SPACING22);
             this.buyPrice.autoSize = true;
             this.buyPrice.name = "Moreeconomic_Text_5";
 
             this.sellPrice = base.AddUIComponent<UILabel>();
-            this.sellPrice.text = Language.BuildingUI[19];
-            this.sellPrice.tooltip = Language.BuildingUI[19];
+            this.sellPrice.text = Language.BuildingUI[9];
             this.sellPrice.relativePosition = new Vector3(SPACING, this.buyPrice.relativePosition.y + SPACING22);
             this.sellPrice.autoSize = true;
             this.sellPrice.name = "Moreeconomic_Text_5";
 
             this.comsuptionDivide = base.AddUIComponent<UILabel>();
-            this.comsuptionDivide.text = Language.BuildingUI[21];
-            this.comsuptionDivide.tooltip = Language.BuildingUI[21];
+            this.comsuptionDivide.text = Language.BuildingUI[11];
             this.comsuptionDivide.relativePosition = new Vector3(SPACING, this.sellPrice.relativePosition.y + SPACING22);
             this.comsuptionDivide.autoSize = true;
             this.comsuptionDivide.name = "Moreeconomic_Text_5";
 
             this.sellTax = base.AddUIComponent<UILabel>();
-            this.sellTax.text = Language.BuildingUI[22];
-            this.sellTax.tooltip = Language.BuildingUI[22];
+            this.sellTax.text = Language.BuildingUI[12];
             this.sellTax.relativePosition = new Vector3(SPACING, this.comsuptionDivide.relativePosition.y + SPACING22);
             this.sellTax.autoSize = true;
             this.sellTax.name = "Moreeconomic_Text_5";
 
             this.profit = base.AddUIComponent<UILabel>();
-            this.profit.text = Language.BuildingUI[23];
-            this.profit.tooltip = Language.BuildingUI[23];
+            this.profit.text = Language.BuildingUI[13];
             this.profit.relativePosition = new Vector3(SPACING, this.sellTax.relativePosition.y + SPACING22);
             this.profit.autoSize = true;
             this.profit.name = "Moreeconomic_Text_5";
-
-            this.states = base.AddUIComponent<UILabel>();
-            this.states.text = Language.BuildingUI[42];
-            this.states.tooltip = Language.BuildingUI[42];
-            this.states.relativePosition = new Vector3(SPACING, this.profit.relativePosition.y + SPACING22);
-            this.states.autoSize = true;
-            this.states.name = "Moreeconomic_Text_5";
         }
 
         private void RefreshDisplayData()
@@ -175,80 +151,68 @@ namespace RealCity
                     {
                         int aliveWorkerCount = 0;
                         int totalWorkerCount = 0;
-                        string current = "";
-                        string current2 = "";
                         float num = CaculateEmployeeOutcome(buildingData, MainDataStore.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
                         int num1 = CaculateLandFee(buildingData, MainDataStore.last_buildingid);
-                        string type = RealCityPrivateBuildingAI.GetProductionType(false, MainDataStore.last_buildingid, buildingData, ref current);
-                        string type2 = RealCityPrivateBuildingAI.GetProductionType(true, MainDataStore.last_buildingid, buildingData, ref current2);
+                        string type = RealCityPrivateBuildingAI.GetProductionType(false, MainDataStore.last_buildingid, buildingData);
+                        string type2 = RealCityPrivateBuildingAI.GetProductionType(true, MainDataStore.last_buildingid, buildingData);
                         float price = RealCityPrivateBuildingAI.GetPrice(false, MainDataStore.last_buildingid, buildingData);
                         float price2 = RealCityPrivateBuildingAI.GetPrice(true, MainDataStore.last_buildingid, buildingData);
                         this.buildingMoney.text = string.Format(Language.BuildingUI[0] + " [{0}]", MainDataStore.building_money[MainDataStore.last_buildingid]);
-                        this.buildingIncomeBuffer.text = string.Format(Language.BuildingUI[2] + " [{0}]" + " " + type, buildingData.m_customBuffer1);
-                        this.buildingOutgoingBuffer.text = string.Format(Language.BuildingUI[4] + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
-                        //this.aliveworkcount.text = string.Format(language.BuildingUI[6] + " [{0}]", aliveWorkerCount);
-                        this.employFee.text = Language.BuildingUI[8] + " " + num.ToString() + " " + Language.BuildingUI[16];
-                        this.landRent.text = string.Format(Language.BuildingUI[10] + " [{0:N2}]", (float)num1 / 100f);
-                        //this.alivevisitcount.text = string.Format(language.BuildingUI[14] + " [{0}]", totalWorkerCount);
-
-                        if (current != "")
+                        if (MainDataStore.building_buffer1[MainDataStore.last_buildingid] > 64000)
                         {
-                            this.buyPrice.text = string.Format(Language.BuildingUI[18] + " " + current + Language.BuildingUI[41] + "[{0:N2}]", price);
-                        } else
-                        {
-                            this.buyPrice.text = string.Format(Language.BuildingUI[18] + " " + type + Language.BuildingUI[41] + "[{0:N2}]", price);
+                            this.buildingIncomeBuffer.text = string.Format(Language.BuildingUI[1] + " [{0}]" + " " + type, MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
                         }
-                        this.sellPrice.text = string.Format(Language.BuildingUI[19] + " " + type2 + Language.BuildingUI[41] + " [{0:N2}]", price2);
+                        else
+                        {
+                            this.buildingIncomeBuffer.text = string.Format(Language.BuildingUI[1] + " [{0}]" + " " + type, buildingData.m_customBuffer1);
+                        }
+                        this.buildingOutgoingBuffer.text = string.Format(Language.BuildingUI[2] + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
+                        this.employFee.text = Language.BuildingUI[3] + " " + num.ToString() + " " + Language.BuildingUI[16];
+                        this.landRent.text = string.Format(Language.BuildingUI[4] + " [{0:N2}]", (float)num1 / 100f);
+
+                        this.buyPrice.text = string.Format(Language.BuildingUI[8] + " " + type  + "[{0:N2}]", price);
+                        this.sellPrice.text = string.Format(Language.BuildingUI[9] + " " + type2  + " [{0:N2}]", price2);
 
                         float consumptionDivider = 0f;
                         if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                         {
                             consumptionDivider = (float)RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, MainDataStore.last_buildingid) * 4f;
-                            this.comsuptionDivide.text = string.Format(Language.BuildingUI[21] + " [1:{0:N2}]", consumptionDivider);
+                            this.comsuptionDivide.text = string.Format(Language.BuildingUI[11] + " [1:{0:N2}]", consumptionDivider);
                         }
                         else
                         {
                             if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                             {
-                                this.comsuptionDivide.text = string.Format(Language.BuildingUI[21] + " N/A");
+                                this.comsuptionDivide.text = string.Format(Language.BuildingUI[11] + " N/A");
                             }
                             else
                             {
                                 consumptionDivider = (float)RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, MainDataStore.last_buildingid);
-                                this.comsuptionDivide.text = string.Format(Language.BuildingUI[21] + " [1:{0:N2}]", consumptionDivider);
+                                this.comsuptionDivide.text = string.Format(Language.BuildingUI[11] + " [1:{0:N2}]", consumptionDivider);
                             }
                         }
 
 
-                        float sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData, MainDataStore.last_buildingid);
+                        int sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData, MainDataStore.last_buildingid);
 
-                        this.sellTax.text = string.Format(Language.BuildingUI[22] + " [{0}%]", (int)(sellTax * 100f));
+                        this.sellTax.text = string.Format(Language.BuildingUI[12] + " [{0}%]", sellTax);
 
 
                         if (consumptionDivider == 0f)
                         {
-                            this.profit.text = string.Format(Language.BuildingUI[23] + " N/A");
+                            this.profit.text = string.Format(Language.BuildingUI[12] + " N/A");
                         }
                         else
                         {
-                            float temp = (price2 * (1 - sellTax) - (price / consumptionDivider)) / price2;
+                            float temp = (price2 * (1f - (float)sellTax/100f) - (price / consumptionDivider)) / price2;
                             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                             {
-                                this.profit.text = string.Format(Language.BuildingUI[23] + " [{0}%]" + Language.BuildingUI[24], (int)(temp * 100f));
+                                this.profit.text = string.Format(Language.BuildingUI[13] + " [{0}%]" + Language.BuildingUI[14], (int)(temp * 100f));
                             }
                             else
                             {
-                                this.profit.text = string.Format(Language.BuildingUI[23] + " [{0}%]", (int)(temp * 100f));
+                                this.profit.text = string.Format(Language.BuildingUI[13] + " [{0}%]", (int)(temp * 100f));
                             }
-                        }
-
-                        if (MainDataStore.buildingFlag[MainDataStore.last_buildingid])
-                        {
-                            this.states.text = string.Format(Language.BuildingUI[42] + Language.BuildingUI[43]);
-                        }
-                        else
-                        {
-                            this.states.text = string.Format(Language.BuildingUI[42] + Language.BuildingUI[44]);
                         }
 
                         this.BringToFront();

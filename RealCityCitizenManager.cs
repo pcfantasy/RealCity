@@ -98,5 +98,33 @@ namespace RealCity
             this.m_citizens.ReleaseItem(citizen);
             this.m_citizenCount = (int)(this.m_citizens.ItemCount() - 1u);
         }
+
+        private void ReleaseUnitCitizen(uint unit, ref CitizenUnit data, uint citizen)
+        {
+            if (citizen != 0u)
+            {
+                //DebugLog.LogToFileOnly("ReleaseUnitCitizen");
+                //new added begin
+                MainDataStore.familyGoods[unit] = 0;
+                MainDataStore.family_money[unit] = 0;
+                //new added end
+                if ((ushort)(data.m_flags & CitizenUnit.Flags.Home) != 0)
+                {
+                    this.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding = 0;
+                }
+                if ((ushort)(data.m_flags & (CitizenUnit.Flags.Work | CitizenUnit.Flags.Student)) != 0)
+                {
+                    this.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_workBuilding = 0;
+                }
+                if ((ushort)(data.m_flags & CitizenUnit.Flags.Visit) != 0)
+                {
+                    this.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_visitBuilding = 0;
+                }
+                if ((ushort)(data.m_flags & CitizenUnit.Flags.Vehicle) != 0)
+                {
+                    this.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_vehicle = 0;
+                }
+            }
+        }
     }
 }

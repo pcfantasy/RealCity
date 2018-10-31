@@ -41,7 +41,7 @@ namespace RealCity
             this.CButton.focusedBgSprite = "RcButtonFocused";
             this.CButton.pressedBgSprite = "RcButtonPressed";
             this.CButton.playAudioEvents = false;
-            this.CButton.name = Language.BuildingUI[32];
+            this.CButton.name = Language.BuildingUI[21];
             this.CButton.tooltipBox = aView.defaultTooltipBox;
             this.CButton.text = "Coal";
             this.CButton.size = new Vector2(150f, 40f);
@@ -55,8 +55,7 @@ namespace RealCity
             {
                 if (refeshOnce)
                 {
-                    this.CButton.tooltip = Language.BuildingUI[32];
-                    this.CButton.text = Language.BuildingUI[32] + ": " + MainDataStore.allCoalsFinal.ToString();
+                    this.CButton.text = Language.BuildingUI[21] + ": " + MainDataStore.allCoalsFinal.ToString();
                     refeshOnce = false;
                 }
                 if (!MainDataStore.isCoalsGettedFinal)

@@ -94,6 +94,12 @@ namespace RealCity
         public static RedirectCallsState state40;
         public static RedirectCallsState state41;
         public static RedirectCallsState state42;
+        public static RedirectCallsState state43;
+        public static RedirectCallsState state44;
+        public static RedirectCallsState state45;
+        public static RedirectCallsState state46;
+        public static RedirectCallsState state47;
+        public static RedirectCallsState state48;
 
         public override void OnCreated(ILoading loading)
         {
@@ -130,12 +136,12 @@ namespace RealCity
 
             MainDataStore.data_init();
             RealCityEconomyManager.data_init();
-            RealCityEconomyManager.saveData = new byte[2768];
+            RealCityEconomyManager.saveData = new byte[2628];
             RealCityPrivateBuildingAI.saveData = new byte[316];
             RealCityResidentAI.saveData = new byte[140];
-            MainDataStore.saveData = new byte[3309810];
+            MainDataStore.saveData = new byte[3932402];
             MainDataStore.saveData1 = new byte[4194304];
-            Politics.saveData = new byte[105];
+            Politics.saveData = new byte[101];
             System.Random rand = new System.Random();
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
             RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(600);
@@ -505,11 +511,11 @@ namespace RealCity
             state3 = RedirectionHelper.RedirectCalls(srcMethod3, destMethod3);
 
             var srcMethod4 = typeof(CommercialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
-            var destMethod4 = typeof(pc_CommercialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
+            var destMethod4 = typeof(RealCityCommercialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
             state4 = RedirectionHelper.RedirectCalls(srcMethod4, destMethod4);
 
             var srcMethod5 = typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType() }, null);
-            var destMethod5 = typeof(RealCityResidentAI).GetMethod("SimulationStep_1", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType() }, null);
+            var destMethod5 = typeof(RealCityResidentAI).GetMethod("CustomSimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType() }, null);
             state5 = RedirectionHelper.RedirectCalls(srcMethod5, destMethod5);
 
             //var srcMethod6 = typeof(HumanAI).GetMethod("ArriveAtDestination", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -525,11 +531,11 @@ namespace RealCity
             state8 = RedirectionHelper.RedirectCalls(srcMethod8, destMethod8);
 
             var srcMethod9 = typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
-            var destMethod9 = typeof(RealCityPrivateBuildingAI).GetMethod("SimulationStepActive_1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
+            var destMethod9 = typeof(RealCityPrivateBuildingAI).GetMethod("CustomSimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
             state9 = RedirectionHelper.RedirectCalls(srcMethod9, destMethod9);
 
             var srcMethod10 = typeof(PassengerCarAI).GetMethod("ArriveAtDestination", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            var destMethod10 = typeof(RealCityPassengerCarAI).GetMethod("ArriveAtDestination_1", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var destMethod10 = typeof(RealCityPassengerCarAI).GetMethod("CustomArriveAtDestination", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             state10 = RedirectionHelper.RedirectCalls(srcMethod10, destMethod10);
 
             var srcMethod11 = typeof(CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
@@ -537,7 +543,7 @@ namespace RealCity
             state11 = RedirectionHelper.RedirectCalls(srcMethod11, destMethod11);
 
             var srcMethod12 = typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
-            var destMethod12 = typeof(RealCityHumanAI).GetMethod("EnterVehicle_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
+            var destMethod12 = typeof(RealCityHumanAI).GetMethod("CustomEnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
             state12 = RedirectionHelper.RedirectCalls(srcMethod12, destMethod12);
 
             var srcMethod13 = typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -580,18 +586,18 @@ namespace RealCity
             var destMethod22 = typeof(RealCityCargoTruckAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             state22 = RedirectionHelper.RedirectCalls(srcMethod22, destMethod22);
 
-            var srcMethod23 = typeof(IndustrialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
-            var destMethod23 = typeof(RealCityIndustrialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.Public | BindingFlags.Instance);
-            state23 = RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
+            //var srcMethod23 = typeof(IndustrialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            //var destMethod23 = typeof(RealCityIndustrialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.Public | BindingFlags.Instance);
+            //state23 = RedirectionHelper.RedirectCalls(srcMethod23, destMethod23);
 
-            var srcMethod24 = typeof(IndustrialBuildingAI).GetMethod("BuildingDeactivated", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
-            var destMethod24 = typeof(RealCityIndustrialBuildingAI).GetMethod("BuildingDeactivated", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
-            state24 = RedirectionHelper.RedirectCalls(srcMethod24, destMethod24);
+            //var srcMethod24 = typeof(IndustrialBuildingAI).GetMethod("BuildingDeactivated", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            //var destMethod24 = typeof(RealCityIndustrialBuildingAI).GetMethod("BuildingDeactivated", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            //state24 = RedirectionHelper.RedirectCalls(srcMethod24, destMethod24);
 
 
             //TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside
-            var srcMethod25 = typeof(CommonBuildingAI).GetMethod("CalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
-            var destMethod25 = typeof(RealCityPrivateBuildingAI).GetMethod("CalculateGuestVehicles_1", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
+            var srcMethod25 = typeof(CommonBuildingAI).GetMethod("CalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
+            var destMethod25 = typeof(RealCityPrivateBuildingAI).GetMethod("CustomCalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
             state25 = RedirectionHelper.RedirectCalls(srcMethod25, destMethod25);
 
 
@@ -607,9 +613,9 @@ namespace RealCity
             //var destMethod28 = typeof(pc_PlayerBuildingAI).GetMethod("GetProductionRate_1", BindingFlags.Public | BindingFlags.Static);
             //state28 = RedirectionHelper.RedirectCalls(srcMethod28, destMethod28);
 
-            var srcMethod29 = typeof(TransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            var destMethod29 = typeof(RealCityTransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            state29 = RedirectionHelper.RedirectCalls(srcMethod29, destMethod29);
+            //var srcMethod29 = typeof(TransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            //var destMethod29 = typeof(RealCityTransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            //state29 = RedirectionHelper.RedirectCalls(srcMethod29, destMethod29);
 
             var srcMethod30 = typeof(CommonBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             var destMethod30 = typeof(RealCityCommonBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
@@ -627,6 +633,10 @@ namespace RealCity
             var destMethod33 = typeof(RealCityCitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
             state33 = RedirectionHelper.RedirectCalls(srcMethod33, destMethod33);
 
+            var srcMethod36 = typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null);
+            var destMethod36 = typeof(RealCityEconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null);
+            state36 = RedirectionHelper.RedirectCalls(srcMethod36, destMethod36);
+
             //var srcMethod34 = typeof(ResidentAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             //var destMethod34 = typeof(pc_HumanAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             //state34 = RedirectionHelper.RedirectCalls(srcMethod34, destMethod34);
@@ -638,9 +648,9 @@ namespace RealCity
             //var srcMethod36 = typeof(OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             //var destMethod36 = typeof(pc_OutsideConnectionAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             //state36 = RedirectionHelper.RedirectCalls(srcMethod36, destMethod36);
-            var srcMethod36 = typeof(OutsideConnectionAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            var destMethod36 = typeof(RealCityOutsideConnectionAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            state36 = RedirectionHelper.RedirectCalls(srcMethod36, destMethod36);
+            //var srcMethod36 = typeof(OutsideConnectionAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            //var destMethod36 = typeof(RealCityOutsideConnectionAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            //state36 = RedirectionHelper.RedirectCalls(srcMethod36, destMethod36);
 
             //public static void AddConnectionOffers(ushort buildingID, ref Building data, int productionRate, int cargoCapacity, int residentCapacity, int touristFactor0, int touristFactor1, int touristFactor2, TransferManager.TransferReason dummyTrafficReason, int dummyTrafficFactor)
             //var srcMethod37 = typeof(OutsideConnectionAI).GetMethod("AddConnectionOffers", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(TransferManager.TransferReason), typeof(int) }, null);
@@ -665,12 +675,183 @@ namespace RealCity
             state40 = RedirectionHelper.RedirectCalls(srcMethod40, destMethod40);
 
             var srcMethod41 = typeof(CommercialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
-            var destMethod41 = typeof(pc_CommercialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            var destMethod41 = typeof(RealCityCommercialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             state41 = RedirectionHelper.RedirectCalls(srcMethod41, destMethod41);
 
             var srcMethod42 = typeof(IndustrialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             var destMethod42 = typeof(RealCityIndustrialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             state42 = RedirectionHelper.RedirectCalls(srcMethod42, destMethod42);
+
+            var srcMethod43 = typeof(IndustryBuildingAI).GetMethod("GetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            var destMethod43 = typeof(RealCityIndustryBuildingAI).GetMethod("CustomGetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            state43 = RedirectionHelper.RedirectCalls(srcMethod43, destMethod43);
+
+            var srcMethod44 = typeof(CitizenManager).GetMethod("ReleaseUnitCitizen", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType(), typeof(uint) }, null);
+            var destMethod44 = typeof(RealCityCitizenManager).GetMethod("ReleaseUnitCitizen", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType(), typeof(uint) }, null);
+            state44 = RedirectionHelper.RedirectCalls(srcMethod44, destMethod44);
+
+            //var srcMethod45 = typeof(IndustryBuildingAI).GetMethod("ExchangeResource", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            //var destMethod45 = typeof(RealCityIndustryBuildingAI).GetMethod("ExchangeResource", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            //state45 = RedirectionHelper.RedirectCalls(srcMethod45, destMethod45);
+
+            //public override void EnterBuildingSegment(ushort buildingID, ref Building data, ushort segmentID, byte offset, InstanceID itemID)
+
+            var srcMethod46 = typeof(TollBoothAI).GetMethod("EnterBuildingSegment", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(ushort), typeof(byte),typeof(InstanceID) }, null);
+            var destMethod46 = typeof(RealCityTollBooth).GetMethod("EnterBuildingSegment", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(ushort), typeof(byte), typeof(InstanceID) }, null);
+            state46 = RedirectionHelper.RedirectCalls(srcMethod46, destMethod46);
+
+            //var srcMethod47 = typeof(PassengerCarAI).GetMethod("EnterTollRoad", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int) }, null);
+            //var destMethod47 = typeof(RealCityPassengerCarAI).GetMethod("EnterTollRoad", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int) }, null);
+            //state47 = RedirectionHelper.RedirectCalls(srcMethod47, destMethod47);
+
+
+            //public override void EnterParkArea(ushort instanceID, ref CitizenInstance citizenData, byte park, ushort gateID)
+
+            var srcMethod48 = typeof(HumanAI).GetMethod("EnterParkArea", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(byte), typeof(ushort)}, null);
+            var destMethod48 = typeof(RealCityHumanAI).GetMethod("EnterParkArea", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(byte), typeof(ushort)}, null);
+            state48 = RedirectionHelper.RedirectCalls(srcMethod48, destMethod48);
+
+            /*if (!RedirectionHelper.IsRedirected(srcMethod1, destMethod1))
+            {
+                DebugLog.LogToFileOnly("function1 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod2, destMethod2))
+            {
+                DebugLog.LogToFileOnly("function2 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod3, destMethod3))
+            {
+                DebugLog.LogToFileOnly("function3 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod4, destMethod4))
+            {
+                DebugLog.LogToFileOnly("function4 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod5, destMethod5))
+            {
+                DebugLog.LogToFileOnly("function5 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod7, destMethod7))
+            {
+                DebugLog.LogToFileOnly("function7 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod8, destMethod8))
+            {
+                DebugLog.LogToFileOnly("function8 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod9, destMethod9))
+            {
+                DebugLog.LogToFileOnly("function9 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod10, destMethod10))
+            {
+                DebugLog.LogToFileOnly("function10 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod11, destMethod11))
+            {
+                DebugLog.LogToFileOnly("function11 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod12, destMethod12))
+            {
+                DebugLog.LogToFileOnly("function12 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod13, destMethod13))
+            {
+                DebugLog.LogToFileOnly("function13 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod14, destMethod14))
+            {
+                DebugLog.LogToFileOnly("function14 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod15, destMethod15))
+            {
+                DebugLog.LogToFileOnly("function15 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod16, destMethod16))
+            {
+                DebugLog.LogToFileOnly("function16 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod17, destMethod17))
+            {
+                DebugLog.LogToFileOnly("function17 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod18, destMethod18))
+            {
+                DebugLog.LogToFileOnly("function18 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod19, destMethod19))
+            {
+                DebugLog.LogToFileOnly("function19 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod21, destMethod21))
+            {
+                DebugLog.LogToFileOnly("function21 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod22, destMethod22))
+            {
+                DebugLog.LogToFileOnly("function22 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod25, destMethod25))
+            {
+                DebugLog.LogToFileOnly("function25 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod30, destMethod30))
+            {
+                DebugLog.LogToFileOnly("function30 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod33, destMethod33))
+            {
+                DebugLog.LogToFileOnly("function33 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod36, destMethod36))
+            {
+                DebugLog.LogToFileOnly("function36 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod37, destMethod37))
+            {
+                DebugLog.LogToFileOnly("function37 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod38, destMethod38))
+            {
+                DebugLog.LogToFileOnly("function38 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod39, destMethod39))
+            {
+                DebugLog.LogToFileOnly("function39 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod40, destMethod40))
+            {
+                DebugLog.LogToFileOnly("function40 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod41, destMethod41))
+            {
+                DebugLog.LogToFileOnly("function41 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod42, destMethod42))
+            {
+                DebugLog.LogToFileOnly("function42 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod43, destMethod43))
+            {
+                DebugLog.LogToFileOnly("function43 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod44, destMethod44))
+            {
+                DebugLog.LogToFileOnly("function44 is not available");
+            }
+            if (!RedirectionHelper.IsRedirected(srcMethod46, destMethod46))
+            {
+                DebugLog.LogToFileOnly("function46 is not available");
+            }
+            //if (!RedirectionHelper.IsRedirected(srcMethod47, destMethod47))
+            //{
+            //     DebugLog.LogToFileOnly("function47 is not available");
+            //}
+
+            if (!RedirectionHelper.IsRedirected(srcMethod48, destMethod48))
+            {
+                DebugLog.LogToFileOnly("function48 is not available");
+            }*/
         }
 
         public void RevertDetour()
@@ -697,30 +878,35 @@ namespace RealCity
             //var srcMethod20 = typeof(CitizenManager).GetMethod("CreateUnits", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) }, null);
             var srcMethod21 = typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
             var srcMethod22 = typeof(CargoTruckAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            var srcMethod23 = typeof(IndustrialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
-            var srcMethod25 = typeof(CommonBuildingAI).GetMethod("CalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
-            var srcMethod24 = typeof(IndustrialBuildingAI).GetMethod("BuildingDeactivated", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+            //var srcMethod23 = typeof(IndustrialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            var srcMethod25 = typeof(CommonBuildingAI).GetMethod("CalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null);
+            //var srcMethod24 = typeof(IndustrialBuildingAI).GetMethod("BuildingDeactivated", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
 
             //protected override void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
             //var srcMethod26 = typeof(CommercialBuildingAI).GetMethod("GetIncomingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             //var srcMethod27 = typeof(ResidentAI).GetMethod("SetTarget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(ushort), typeof(bool) }, null);
             //var srcMethod28 = typeof(PlayerBuildingAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Static);
 
-            var srcMethod29 = typeof(TransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            //var srcMethod29 = typeof(TransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
             var srcMethod30 = typeof(CommonBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             var srcMethod31 = typeof(EconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null);
             var srcMethod32 = typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null);
             var srcMethod33 = typeof(CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
             //var srcMethod34 = typeof(ResidentAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             //var srcMethod35 = typeof(VehicleAI).GetMethod("CalculateTargetSpeed", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(float), typeof(float) }, null);
-            var srcMethod36 = typeof(OutsideConnectionAI).GetMethod("GetProductionRate", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            var srcMethod36 = typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null);
             var srcMethod37 = typeof(OutsideConnectionAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null);
             var srcMethod38 = typeof(OutsideConnectionAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
             var srcMethod39 = typeof(GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
             var srcMethod40 = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null);
             var srcMethod41 = typeof(CommercialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
             var srcMethod42 = typeof(IndustrialBuildingAI).GetMethod("CreateBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
-
+            var srcMethod43 = typeof(IndustryBuildingAI).GetMethod("GetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            var srcMethod44 = typeof(CitizenManager).GetMethod("ReleaseUnitCitizen", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType(), typeof(uint) }, null);
+            //var srcMethod45 = typeof(IndustryBuildingAI).GetMethod("ExchangeResource", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            var srcMethod46 = typeof(TollBoothAI).GetMethod("EnterBuildingSegment", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(ushort), typeof(byte), typeof(InstanceID) }, null);
+            //var srcMethod47 = typeof(PassengerCarAI).GetMethod("EnterTollRoad", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort), typeof(ushort), typeof(int) }, null);
+            var srcMethod48 = typeof(HumanAI).GetMethod("EnterParkArea", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(byte), typeof(ushort) }, null);
 
 
             RedirectionHelper.RevertRedirect(srcMethod1, state1);
@@ -745,13 +931,13 @@ namespace RealCity
             //RedirectionHelper.RevertRedirect(srcMethod20, state20);
             RedirectionHelper.RevertRedirect(srcMethod21, state21);
             RedirectionHelper.RevertRedirect(srcMethod22, state22);
-            RedirectionHelper.RevertRedirect(srcMethod23, state23);
-            RedirectionHelper.RevertRedirect(srcMethod24, state24);
+            //RedirectionHelper.RevertRedirect(srcMethod23, state23);
+            //RedirectionHelper.RevertRedirect(srcMethod24, state24);
             RedirectionHelper.RevertRedirect(srcMethod25, state25);
             //RedirectionHelper.RevertRedirect(srcMethod26, state26);
             //RedirectionHelper.RevertRedirect(srcMethod27, state27);
             //RedirectionHelper.RevertRedirect(srcMethod28, state28);
-            RedirectionHelper.RevertRedirect(srcMethod29, state29);
+            //RedirectionHelper.RevertRedirect(srcMethod29, state29);
             RedirectionHelper.RevertRedirect(srcMethod30, state30);
             RedirectionHelper.RevertRedirect(srcMethod31, state31);
             RedirectionHelper.RevertRedirect(srcMethod32, state32);
@@ -765,6 +951,12 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod40, state40);
             RedirectionHelper.RevertRedirect(srcMethod41, state41);
             RedirectionHelper.RevertRedirect(srcMethod42, state42);
+            RedirectionHelper.RevertRedirect(srcMethod43, state43);
+            RedirectionHelper.RevertRedirect(srcMethod44, state44);
+            //RedirectionHelper.RevertRedirect(srcMethod45, state45);
+            RedirectionHelper.RevertRedirect(srcMethod46, state46);
+            //RedirectionHelper.RevertRedirect(srcMethod47, state47);
+            RedirectionHelper.RevertRedirect(srcMethod48, state48);
         }
     }
 }

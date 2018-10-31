@@ -83,7 +83,7 @@ namespace RealCity
                                               };
 
         //riseSalaryTax
-        public static byte[,] riseTradeTax = {
+        public static byte[,] riseCommericalTax = {
                                                 {80, 20, 0},
                                                 {70, 20, 10},
                                                 {55, 40, 5},
@@ -92,7 +92,7 @@ namespace RealCity
                                               };
 
         //fallSalaryTax
-        public static byte[,] fallTradeTax = {
+        public static byte[,] fallCommericalTax = {
                                                 {20, 80, 0},
                                                 {20, 70, 10},
                                                 {40, 55, 5},
@@ -120,41 +120,23 @@ namespace RealCity
 
 
         //riseSalaryTax
-        public static byte[,] riseImportTax = {
-                                                {70, 20, 10},
-                                                {30, 60, 10},
-                                                {10, 80, 10},
-                                                {60, 30, 10},
-                                                {90, 10,  0},
-                                              };
-
-        //fallSalaryTax
-        public static byte[,] fallImportTax = {
+        public static byte[,] riseIndustryTax = {
                                                 {20, 70, 10},
-                                                {60, 30, 10},
+                                                {30, 60, 10},
                                                 {80, 10, 10},
-                                                {30, 60, 10},
-                                                {10, 90, 0},
-                                              };
-
-
-        //riseSalaryTax
-        public static byte[,] riseStateOwned = {
-                                                {90, 10, 0},
-                                                {40, 50, 10},
-                                                {60, 30, 10},
-                                                {20, 70, 10},
-                                                {50, 40, 10},
+                                                {90, 10,  0},
+                                                {50, 50,  0},
                                               };
 
         //fallSalaryTax
-        public static byte[,] fallStateOwned = {
-                                                {10, 90, 0},
-                                                {50, 40, 10},
-                                                {30, 60, 10},
+        public static byte[,] fallIndustryTax = {
                                                 {70, 20, 10},
-                                                {40, 50, 10},
+                                                {60, 30, 10},
+                                                {10, 80, 10},
+                                                {10, 90, 0},
+                                                {50, 50, 0},
                                               };
+
 
         //riseSalaryTax
         public static byte[,] allowGarbage = {
@@ -173,30 +155,6 @@ namespace RealCity
                                                 {45, 50, 5},
                                                 {20, 75, 5},
                                               };
-
-        //riseSalaryTax
-        public static byte[,] riseLandRent = {
-                                                {70, 20, 10},
-                                                {40, 50, 10},
-                                                {45, 55, 0},
-                                                {20, 70, 10},
-                                                {65, 35, 0},
-                                              };
-
-        //fallSalaryTax
-        public static byte[,] fallLandRent = {
-                                                {20, 70, 10},
-                                                {50, 40, 10},
-                                                {55, 45, 0},
-                                                {70, 20, 10},
-                                                {35, 65, 0},
-                                              };
-
-        public static bool tryRiseImportTax = false;
-        public static bool tryFallImportTax = false;
-        public static bool tryFallLandTax = false;
-        public static bool tryRiseTradeTax = false;
-        public static bool tryFallTradeTax = false;
 
 
         public static bool isOutSideGarbagePermit = false;
@@ -248,14 +206,12 @@ namespace RealCity
         public static byte currentYes = 0;
         public static byte currentNo = 0;
         public static byte currentNoAttend = 0;
-        public static float tradeTaxOffset = 0.01f;     //(0-0.1f)
-        public static float salaryTaxOffset = 0.01f;    //(0-0.1f)
-        public static float importTaxOffset = 0.2f;    //(0-0.4f)
-        public static short stateOwnedPercent = 5;    //(0-50)
+        public static int residentTax = 15;     //(0-12)
+        public static int commericalTax = 15;    //(0-12f)
+        public static int industryTax = 15;    //(0-0.4f)
         public static short benefitOffset = 1;         //(0-10)
-        public static short landRentOffset = 1;         //(0-10)
 
-        public static byte[] saveData = new byte[105];
+        public static byte[] saveData = new byte[101];
 
         public static void Save()
         {
@@ -318,14 +274,12 @@ namespace RealCity
             SaveAndRestore.save_byte(ref i, currentNoAttend, ref saveData);
 
             //12
-            SaveAndRestore.save_float(ref i, tradeTaxOffset, ref saveData);
-            SaveAndRestore.save_float(ref i, salaryTaxOffset, ref saveData);
-            SaveAndRestore.save_float(ref i, importTaxOffset, ref saveData);
+            SaveAndRestore.save_int(ref i, residentTax, ref saveData);
+            SaveAndRestore.save_int(ref i, commericalTax, ref saveData);
+            SaveAndRestore.save_int(ref i, industryTax, ref saveData);
 
             //6
-            SaveAndRestore.save_short(ref i, stateOwnedPercent, ref saveData);
             SaveAndRestore.save_short(ref i, benefitOffset, ref saveData);
-            SaveAndRestore.save_short(ref i, landRentOffset, ref saveData);
 
             DebugLog.LogToFileOnly("(save)saveData in politics is " + i.ToString());
         }
@@ -383,13 +337,11 @@ namespace RealCity
             currentNo = SaveAndRestore.load_byte(ref i, saveData);
             currentNoAttend = SaveAndRestore.load_byte(ref i, saveData);
 
-            tradeTaxOffset = SaveAndRestore.load_float(ref i, saveData);
-            salaryTaxOffset = SaveAndRestore.load_float(ref i, saveData);
-            importTaxOffset = SaveAndRestore.load_float(ref i, saveData);
+            residentTax = SaveAndRestore.load_int(ref i, saveData);
+            commericalTax = SaveAndRestore.load_int(ref i, saveData);
+            industryTax = SaveAndRestore.load_int(ref i, saveData);
 
-            stateOwnedPercent = SaveAndRestore.load_short(ref i, saveData);
             benefitOffset = SaveAndRestore.load_short(ref i, saveData);
-            landRentOffset = SaveAndRestore.load_short(ref i, saveData);
         }
      }
 }

@@ -11,17 +11,17 @@ namespace RealCity
     {
         //2.1 building income
 
-        public const float goodPrice = 0.8f;
-        public const float petrolPrice = 3.1f;
-        public const float coalPrice = 2.7f;
-        public const float lumberPrice = 2.1f;
-        public const float foodPrice = 1.7f;
-        public const float oilPrice = 2.6f;
-        public const float orePrice = 2.2f;
-        public const float logPrice = 1.8f;
-        public const float grainPrice = 1.4f;
+        //public const float goodPrice = 0.8f;
+        //public const float petrolPrice = 3.1f;
+        //public const float coalPrice = 2.7f;
+        //public const float lumberPrice = 2.1f;
+        //public const float foodPrice = 1.7f;
+        //public const float oilPrice = 2.6f;
+        //public const float orePrice = 2.2f;
+        //public const float logPrice = 1.8f;
+        //public const float grainPrice = 1.4f;
 
-        public static float preGoodPrice = (foodPrice + lumberPrice + coalPrice + petrolPrice) / 4f;
+        //public static float preGoodPrice = (foodPrice + lumberPrice + coalPrice + petrolPrice) / 4f;
 
         public static ushort allBuildings = 0;
         public static uint preBuidlingId = 0;
@@ -99,7 +99,7 @@ namespace RealCity
             SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCountFinal, ref saveData);
 
         }
-        protected void SimulationStepActive_1(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
+        protected void CustomSimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
             if (buildingID > 49152)
             {
@@ -148,16 +148,32 @@ namespace RealCity
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
                 float temp = GetComsumptionDivider(buildingData, buildingID);
-                int deltaCustomBuffer1 = MainDataStore.building_buffer1[buildingID] - buildingData.m_customBuffer1;
-                if (deltaCustomBuffer1 > 0)
+                if (MainDataStore.building_buffer1[buildingID] > 64000)
                 {
-                    if (deltaCustomBuffer1 > 500)
+                    int deltaCustomBuffer1 = 64000 - buildingData.m_customBuffer1;
+                    if (deltaCustomBuffer1 > 0)
                     {
-                        deltaCustomBuffer1 = 500;
+                        if (deltaCustomBuffer1 > 500)
+                        {
+                            deltaCustomBuffer1 = 500;
+                        }
+                        buildingData.m_customBuffer1 = 64000;
                     }
-                    buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
+                    MainDataStore.building_buffer1[buildingID] -= (int)(deltaCustomBuffer1 / temp);
                 }
-                MainDataStore.building_buffer1[buildingID] = (ushort)buildingData.m_customBuffer1;
+                else
+                {
+                    int deltaCustomBuffer1 = MainDataStore.building_buffer1[buildingID] - buildingData.m_customBuffer1;
+                    if (deltaCustomBuffer1 > 0)
+                    {
+                        if (deltaCustomBuffer1 > 500)
+                        {
+                            deltaCustomBuffer1 = 500;
+                        }
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
+                    }
+                    MainDataStore.building_buffer1[buildingID] = (ushort)buildingData.m_customBuffer1;
+                }
 
                 if (Singleton<SimulationManager>.instance.m_isNightTime)
                 {
@@ -176,7 +192,7 @@ namespace RealCity
         }
 
 
-        public static string GetProductionType(bool isSelling, ushort buildingID, Building data, ref string current)
+        public static string GetProductionType(bool isSelling, ushort buildingID, Building data)
         {
             string material = "";
             if (!isSelling)
@@ -193,25 +209,26 @@ namespace RealCity
                         case ItemClass.SubService.CommercialEco:
                         case ItemClass.SubService.CommercialLeisure:
                         case ItemClass.SubService.CommercialTourist:
-                            if (MainDataStore.building_buffer3[buildingID] == 123)
+                            CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
+                            switch (commercialBuildingAI.m_incomingResource)
                             {
-                                material = Language.BuildingUI[34];
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 124)
-                            {
-                                material = Language.BuildingUI[31];
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 125)
-                            {
-                                material = Language.BuildingUI[33];
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 126)
-                            {
-                                material = Language.BuildingUI[32];
-                            }
-                            else
-                            {
-                                material = Language.BuildingUI[39];
+                                case TransferManager.TransferReason.Goods:
+                                    material = Language.BuildingUI[28] + Language.BuildingUI[39]; break;
+                                case TransferManager.TransferReason.Food:
+                                    material = Language.BuildingUI[20] + Language.BuildingUI[39]; break;
+                                case TransferManager.TransferReason.Petrol:
+                                    material = Language.BuildingUI[23]; break;
+                                case TransferManager.TransferReason.Lumber:
+                                    material = Language.BuildingUI[22]; break;
+                                case TransferManager.TransferReason.Logs:
+                                    material = Language.BuildingUI[26]; break;
+                                case TransferManager.TransferReason.Oil:
+                                    material = Language.BuildingUI[27]; break;
+                                case TransferManager.TransferReason.Ore:
+                                    material = Language.BuildingUI[25]; break;
+                                case TransferManager.TransferReason.Grain:
+                                    material = Language.BuildingUI[24]; break;
+                                default: break;
                             }
                             break;
                         case ItemClass.SubService.IndustrialForestry:
@@ -223,26 +240,39 @@ namespace RealCity
                         case ItemClass.SubService.IndustrialOre:
                             material = Language.BuildingUI[36]; break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            material = "(" + Language.BuildingUI[31] + " " + Language.BuildingUI[32] + " " + Language.BuildingUI[33] + " " + Language.BuildingUI[34] + ")";
-                            if (MainDataStore.building_buffer3[buildingID] == 123)
+                            TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+                            TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
+                            switch (tempReason)
                             {
-                                current = Language.BuildingUI[34];
+                                case TransferManager.TransferReason.Food:
+                                    material = Language.BuildingUI[20]; break;
+                                case TransferManager.TransferReason.Lumber:
+                                    material = Language.BuildingUI[22]; break;
+                                case TransferManager.TransferReason.Petrol:
+                                    material = Language.BuildingUI[23]; break;
+                                case TransferManager.TransferReason.Coal:
+                                    material = Language.BuildingUI[21]; break;
+                                default: break;
                             }
-                            else if (MainDataStore.building_buffer3[buildingID] == 124)
+                            switch (tempReason1)
                             {
-                                current = Language.BuildingUI[31];
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 125)
-                            {
-                                current = Language.BuildingUI[33];
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 126)
-                            {
-                                current = Language.BuildingUI[32];
-                            }
-                            else
-                            {
-                                current = "";
+                                case TransferManager.TransferReason.AnimalProducts:
+                                    material += Language.BuildingUI[31]; break;
+                                case TransferManager.TransferReason.Flours:
+                                    material += Language.BuildingUI[32]; break;
+                                case TransferManager.TransferReason.Paper:
+                                    material += Language.BuildingUI[33]; break;
+                                case TransferManager.TransferReason.PlanedTimber:
+                                    material += Language.BuildingUI[34]; break;
+                                case TransferManager.TransferReason.Petroleum:
+                                    material += Language.BuildingUI[35]; break;
+                                case TransferManager.TransferReason.Plastics:
+                                    material += Language.BuildingUI[36]; break;
+                                case TransferManager.TransferReason.Glass:
+                                    material += Language.BuildingUI[37]; break;
+                                case TransferManager.TransferReason.Metals:
+                                    material += Language.BuildingUI[38]; break;
+                                default: break;
                             }
                             break;
                         default:
@@ -257,13 +287,13 @@ namespace RealCity
                     switch (data.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.IndustrialForestry:
-                            material = Language.BuildingUI[37]; break;
+                            material = Language.BuildingUI[26]; break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = Language.BuildingUI[35]; break;
+                            material = Language.BuildingUI[24]; break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = Language.BuildingUI[38]; break;
+                            material = Language.BuildingUI[27]; break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = Language.BuildingUI[36]; break;
+                            material = Language.BuildingUI[25]; break;
                         default:
                             material = ""; break;
                     }
@@ -273,21 +303,21 @@ namespace RealCity
                     switch (data.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.IndustrialForestry:
-                            material = Language.BuildingUI[33]; break;
+                            material = Language.BuildingUI[22]; break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = Language.BuildingUI[31]; break;
+                            material = Language.BuildingUI[20]; break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = Language.BuildingUI[34]; break;
+                            material = Language.BuildingUI[23]; break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = Language.BuildingUI[32]; break;
+                            material = Language.BuildingUI[21]; break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            material = Language.BuildingUI[39]; break;
+                            material = Language.BuildingUI[28]; break;
                         case ItemClass.SubService.CommercialHigh:
                         case ItemClass.SubService.CommercialLow:
                         case ItemClass.SubService.CommercialEco:
                         case ItemClass.SubService.CommercialLeisure:
                         case ItemClass.SubService.CommercialTourist:
-                            material = Language.BuildingUI[40]; break;
+                            material = Language.BuildingUI[29]; break;
                         default:
                             material = ""; break;
                     }
@@ -298,7 +328,7 @@ namespace RealCity
 
         public static float GetPrice(bool isSelling, ushort buildingID, Building data)
         {
-            TransferManager.TransferReason material = default(TransferManager.TransferReason);
+            float price = 0f;
             if (!isSelling)
             {
                 if (data.Info.m_buildingAI is IndustrialExtractorAI)
@@ -313,59 +343,30 @@ namespace RealCity
                         case ItemClass.SubService.CommercialEco:
                         case ItemClass.SubService.CommercialLeisure:
                         case ItemClass.SubService.CommercialTourist:
-                            if (MainDataStore.building_buffer3[buildingID] == 123)
+                            CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
+                            if (commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Food || commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Goods)
                             {
-                                material = TransferManager.TransferReason.Petrol;
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 124)
-                            {
-                                material = TransferManager.TransferReason.Food;
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 125)
-                            {
-                                material = TransferManager.TransferReason.Lumber;
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 126)
-                            {
-                                material = TransferManager.TransferReason.Coal;
+                                price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(commercialBuildingAI.m_incomingResource) + (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.LuxuryProducts)/ (float)MainDataStore.commericalPriceAdjust)) / 4f;
                             }
                             else
                             {
-                                material = TransferManager.TransferReason.Goods;
+                                price = RealCityIndustryBuildingAI.GetResourcePrice(commercialBuildingAI.m_incomingResource);
                             }
                             break;
                         case ItemClass.SubService.IndustrialForestry:
-                            material = TransferManager.TransferReason.Logs; break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = TransferManager.TransferReason.Grain; break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = TransferManager.TransferReason.Oil; break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = TransferManager.TransferReason.Ore; break;
+                            TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(tempReason);
+                            break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            if (MainDataStore.building_buffer3[buildingID] == 125)
-                            {
-                                material = TransferManager.TransferReason.Lumber;
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 124)
-                            {
-                                material = TransferManager.TransferReason.Food;
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 123)
-                            {
-                                material = TransferManager.TransferReason.Petrol;
-                            }
-                            else if (MainDataStore.building_buffer3[buildingID] == 126)
-                            {
-                                material = TransferManager.TransferReason.Coal;
-                            }
-                            else
-                            {
-                                material = TransferManager.TransferReason.Worker0;
-                            }
+                            TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+                            TransferManager.TransferReason tempReason2 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
+                            price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(tempReason1) + (RealCityIndustryBuildingAI.GetResourcePrice(tempReason2) / (float)MainDataStore.industialPriceAdjust)) / 4f;
                             break;
                         default:
-                            material = TransferManager.TransferReason.None; break;
+                            price = 0; break;
                     }
                 }
             }
@@ -376,15 +377,15 @@ namespace RealCity
                     switch (data.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.IndustrialForestry:
-                            material = TransferManager.TransferReason.Logs; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Logs); break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = TransferManager.TransferReason.Grain; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Grain); break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = TransferManager.TransferReason.Oil; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Oil); break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = TransferManager.TransferReason.Ore; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Ore); break;
                         default:
-                            material = TransferManager.TransferReason.None; break;
+                            price = 0; break;
                     }
                 }
                 else
@@ -392,85 +393,24 @@ namespace RealCity
                     switch (data.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.IndustrialForestry:
-                            material = TransferManager.TransferReason.Lumber; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Lumber); break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = TransferManager.TransferReason.Food; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Food); break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = TransferManager.TransferReason.Petrol; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Petrol); break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = TransferManager.TransferReason.Coal; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Coal); break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            material = TransferManager.TransferReason.Goods; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Goods); break;
+                        case ItemClass.SubService.CommercialHigh:
+                        case ItemClass.SubService.CommercialLow:
+                        case ItemClass.SubService.CommercialEco:
+                        case ItemClass.SubService.CommercialLeisure:
+                        case ItemClass.SubService.CommercialTourist:
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping); break;
                         default:
-                            material = TransferManager.TransferReason.None; break;
+                            price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.None); break;
                     }
-                }
-            }
-
-
-
-
-            float price = 0f;
-            if (isSelling)
-            {
-                switch (material)
-                {
-                    case TransferManager.TransferReason.Goods:
-                        price = goodPrice;
-                        break;
-                    case TransferManager.TransferReason.Lumber:
-                        price = lumberPrice; break;
-                    case TransferManager.TransferReason.Petrol:
-                        price = petrolPrice; break;
-                    case TransferManager.TransferReason.Food:
-                        price = foodPrice; break;
-                    case TransferManager.TransferReason.Coal:
-                        price = coalPrice; break;
-                    case TransferManager.TransferReason.Grain:
-                        price = grainPrice; break;
-                    case TransferManager.TransferReason.Oil:
-                        price = oilPrice; break;
-                    case TransferManager.TransferReason.Logs:
-                        price = logPrice; break;
-                    case TransferManager.TransferReason.Ore:
-                        price = orePrice; break;
-                    default:
-                        price = 1f; break;
-                }
-            }
-            else
-            {
-                switch (material)
-                {
-                    case TransferManager.TransferReason.Goods:
-                        if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
-                        {
-                            price = goodPrice;
-                        }
-                        break;
-                    case TransferManager.TransferReason.Logs:
-                        price = logPrice; break;
-                    case TransferManager.TransferReason.Grain:
-                        price = grainPrice; break;
-                    case TransferManager.TransferReason.Oil:
-                        price = oilPrice; break;
-                    case TransferManager.TransferReason.Ore:
-                        price = orePrice; break;
-                    case TransferManager.TransferReason.Lumber:
-                        price = lumberPrice;
-                        break;
-                    case TransferManager.TransferReason.Coal:
-                        price = coalPrice;
-                        break;
-                    case TransferManager.TransferReason.Food:
-                        price = foodPrice;
-                        break;
-                    case TransferManager.TransferReason.Petrol:
-                        price = petrolPrice;
-                        break;
-                    case TransferManager.TransferReason.Worker0:
-                        price = preGoodPrice;
-                        break;
                 }
             }
 
@@ -556,70 +496,27 @@ namespace RealCity
 
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                if ((buildingData.m_problems & (Notification.Problem.NoPlaceforGoods)) != Notification.Problem.None)
+                if (MainDataStore.building_money[buildingID] < 0)
                 {
-                    RealCityEconomyExtension.isBuildingNoBuyerCount++;
-                    if (RealCityEconomyExtension.isBuildingNoBuyerCount > 200)
-                    {
-                        RealCityEconomyExtension.isBuildingNoBuyerCount = 200;
-                    }
+                    RealCityEconomyExtension.industrialLackMoneyCount++;
                 }
-
-                if ((buildingData.m_problems & (Notification.Problem.NoResources)) != Notification.Problem.None)
+                else
                 {
-                    RealCityEconomyExtension.isBuildingNoMaterialCount++;
-                    if (RealCityEconomyExtension.isBuildingNoMaterialCount > 200)
-                    {
-                        RealCityEconomyExtension.isBuildingNoMaterialCount = 200;
-                    }
-                }
-
-                if (Politics.parliamentCount == 0  && MainDataStore.update_money_count == 3)
-                {
-                    System.Random rand = new System.Random();
-                    if (rand.Next(100) < Politics.stateOwnedPercent)
-                    {
-                        MainDataStore.buildingFlag[buildingID] = true;
-                        if (MainDataStore.building_money[buildingID] < 0)
-                        {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(-MainDataStore.building_money[buildingID] * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class);
-                        }
-                        else
-                        {
-                            Singleton<EconomyManager>.instance.AddPrivateIncome((int)MainDataStore.building_money[buildingID], Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_service, Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService, Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_level, 10000);
-                        }
-                        MainDataStore.building_money[buildingID] = 0;
-                    }
-                    else
-                    {
-                        MainDataStore.buildingFlag[buildingID] = false;
-                    }
+                    RealCityEconomyExtension.industrialEarnMoneyCount++;
                 }
             }
 
-            //if (((buildingData.m_problems & (~Notification.Problem.NoGoods)) == Notification.Problem.None) || ((buildingData.m_problems & (Notification.Problem.NoGoods)) != Notification.Problem.None))
-            if (buildingData.m_problems == Notification.Problem.None)
+            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                //mark no good
-                if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                if (MainDataStore.building_money[buildingID] < 0)
                 {
-                    Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
-                    if (buildingData.m_customBuffer2 < 500)
-                    {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
-                    }
-                    else if (buildingData.m_customBuffer2 < 1000)
-                    {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
-                    }
-                    else
-                    {
-                        problem = Notification.Problem.None;
-                    }
-                    buildingData.m_problems = problem;
+                    RealCityEconomyExtension.commericalLackMoneyCount++;
+                }
+                else
+                {
+                    RealCityEconomyExtension.commericalEarnMoneyCount++;
                 }
             }
-
         }
 
         public void LimitAndCheckBuildingMoney(Building building, ushort buildingID)
@@ -651,25 +548,46 @@ namespace RealCity
                         greaterThan20000ProfitBuildingCount++;
 
                         float idex = 0;
+                        float idex1 = 0;
 
+                        // outside will to invest
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = 0.05f;
+                            idex = 0.01f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.1f;
+                            idex = 0.02f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.2f;
+                            idex = 0.03f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.3f;
+                            idex = 0.04f;
+                        }
+
+                        // Boss will to take 
+                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
+                        {
+                            idex1 = 0.04f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            idex1 = 0.03f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            idex1 = 0.02f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            idex1 = 0.01f;
                         }
 
                         greaterThan20000ProfitBuildingMoney += (long)(MainDataStore.building_money[buildingID] * idex);
+                        MainDataStore.building_money[buildingID] -= (long)(MainDataStore.building_money[buildingID] * (idex + idex1));
                     }
                 }
             }
@@ -721,7 +639,7 @@ namespace RealCity
             int num = 0;
             GetLandRent(out num);
             int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies) + Politics.landRentOffset;
+            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
             if (MainDataStore.building_money[buildingID] < 0)
             {
                 num2 = 0;
@@ -854,128 +772,18 @@ namespace RealCity
             }
         }
 
-        protected void CalculateGuestVehicles_1(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
-        {
-            VehicleManager instance = Singleton<VehicleManager>.instance;
-            ushort num = data.m_guestVehicles;
-            int num2 = 0;            
-            while (num != 0)
-            {
-                if (((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material) || IsGeneralIndustry(buildingID, data, material) || IsCommercialBuilding(buildingID, data, material))
-                {
-                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
-                    int a;
-                    int num3;
-                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
-                    cargo += Mathf.Min(a, num3);
-                    capacity += num3;
-                    count++;
-                    if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
-                    {
-                        outside++;
-                    }
-                }
-                num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
-                if (++num2 > 16384)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
-        }
-
-        public static bool IsGeneralIndustry (ushort buildingID, Building data, TransferManager.TransferReason material)
-        {
-            if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-            {
-                if ((material == TransferManager.TransferReason.Lumber) || (material == TransferManager.TransferReason.Food) || (material == TransferManager.TransferReason.Coal) || (material == TransferManager.TransferReason.Petrol))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static bool IsCommercialBuilding(ushort buildingID, Building data, TransferManager.TransferReason material)
+        public static int GetTaxRate(Building data, ushort buildingID)
         {
             if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                if ((material == TransferManager.TransferReason.Lumber) || (material == TransferManager.TransferReason.Food) || (material == TransferManager.TransferReason.Coal) || (material == TransferManager.TransferReason.Petrol))
-                {
-                    return true;
-                }
+                return Politics.commericalTax;
             }
-            return false;
-        }
-
-        public static float GetTaxRate(Building data, ushort buildingID)
-        {
-            float tax = 0f;
-            switch (data.Info.m_class.m_subService)
+            else if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                case ItemClass.SubService.CommercialLow:
-                case ItemClass.SubService.CommercialHigh:
-                    tax = 0.07f;
-                    break;
-                case ItemClass.SubService.IndustrialGeneric:
-                    tax = 0.10f;
-                    break;
-                case ItemClass.SubService.IndustrialFarming:
-                    if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                    {
-                        tax = 0.7f;
-                    }
-                    else
-                    {
-                        tax = 0.05f;
-                    }
-                    break;
-                case ItemClass.SubService.IndustrialForestry:
-                    if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                    {
-                        tax = 0.75f;
-                    }
-                    else
-                    {
-                        tax = 0.05f;
-                    }
-                    break;
-                case ItemClass.SubService.IndustrialOil:
-                    if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                    {
-                        tax = 0.85f;
-                    }
-                    else
-                    {
-                        tax = 0.05f;
-                    }
-                    break;
-                case ItemClass.SubService.IndustrialOre:
-                    if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                    {
-                        tax = 0.8f;
-                    }
-                    else
-                    {
-                        tax = 0.05f;
-                    }
-                    break;
-                case ItemClass.SubService.CommercialEco:
-                    tax = 0.15f; break;
-                case ItemClass.SubService.CommercialTourist:
-                    tax = 0.45f; break;
-                case ItemClass.SubService.CommercialLeisure:
-                    tax = 0.15f; break;
-                default: tax = 0f; break;
+                return Politics.industryTax;
             }
 
-            tax = (tax == 0) ? tax : (tax + Politics.tradeTaxOffset);
-
-            if (MainDataStore.buildingFlag[buildingID])
-            {
-                tax = 0;
-            }
-            return tax;
+            return 0;
         }
 
         public static float GetComsumptionDivider(Building data, ushort buildingID)
@@ -992,13 +800,84 @@ namespace RealCity
                 finalIdex = 1f;
             }
 
-            //comm building which import food petrol coal lumber
-            if (MainDataStore.building_buffer3[buildingID] == 123 || MainDataStore.building_buffer3[buildingID] == 124 || MainDataStore.building_buffer3[buildingID] == 125 || MainDataStore.building_buffer3[buildingID] == 126)
+            if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {
-                if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
-                finalIdex = finalIdex * 4f;
+                Randomizer randomizer = new Randomizer((int)buildingID);
+                int temp = randomizer.Int32(4u);
+                //petrol related
+                if (temp == 2)
+                {
+                    finalIdex = finalIdex * 1.5f / 4f;
+                } else if (temp == 3)
+                {
+                    finalIdex = finalIdex * 1.25f / 4f;
+                }
+                else
+                {
+                    finalIdex = finalIdex / 4f;
+                }
             }
             return finalIdex;
+        }
+
+        protected void CustomCalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material1, TransferManager.TransferReason material2, ref int count, ref int cargo, ref int capacity, ref int outside)
+        {
+            VehicleManager instance = Singleton<VehicleManager>.instance;
+            ushort num = data.m_guestVehicles;
+            int num2 = 0;
+            while (num != 0)
+            {
+                TransferManager.TransferReason transferType = (TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType;
+                if (transferType == material1 || transferType == material2)
+                {
+                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                    int a;
+                    int num3;
+                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                    cargo += Mathf.Min(a, num3);
+                    if (transferType == material2 && isHighPriceProduction(buildingID, ref data, material2))
+                    {
+                        //make building full, not add incoming for other production.
+                        capacity += num3*10;
+                    }
+                    else
+                    {
+                        capacity += num3;
+                    }
+                    count++;
+                    if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                    {
+                        outside++;
+                    }
+                }
+                num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
+                if (++num2 > 16384)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+        }
+
+        public bool isHighPriceProduction (ushort buildingID, ref Building data, TransferManager.TransferReason material2)
+        {
+            if (data.Info.m_class.m_service == ItemClass.Service.Industrial || data.Info.m_class.m_service == ItemClass.Service.Commercial)
+            {
+                switch (material2)
+                {
+                    case TransferManager.TransferReason.AnimalProducts:
+                    case TransferManager.TransferReason.Flours:
+                    case TransferManager.TransferReason.Paper:
+                    case TransferManager.TransferReason.PlanedTimber:
+                    case TransferManager.TransferReason.Petroleum:
+                    case TransferManager.TransferReason.Plastics:
+                    case TransferManager.TransferReason.Glass:
+                    case TransferManager.TransferReason.Metals:
+                    case TransferManager.TransferReason.LuxuryProducts:
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }

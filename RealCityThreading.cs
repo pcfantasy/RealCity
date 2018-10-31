@@ -28,14 +28,6 @@ namespace RealCity
                 {
                     if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
                     {
-                        //DebugLog.LogToFileOnly("find outside building");
-
-                        //if (MainDataStore.isHellMode)
-                        //{
-                            //DebugLog.LogToFileOnly("hell mode, little import pre = " + instance.m_buildings.m_buffer[i].m_teens.ToString());
-                        //    instance.m_buildings.m_buffer[i].m_teens = 0;
-                            //DebugLog.LogToFileOnly("hell mode, little import = " + instance.m_buildings.m_buffer[i].m_teens.ToString());
-                        //}
                         ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
                         AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
                     }
@@ -87,21 +79,52 @@ namespace RealCity
             {
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
-                    int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
-                    SimulationManager instance1 = Singleton<SimulationManager>.instance;
-                    if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
+                    if (data.m_garbageBuffer > 200)
                     {
-                        if (instance1.m_randomizer.Int32(128u) == 0)
+                        int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
+                        SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                        if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                         {
-                            DebugLog.LogToFileOnly("outside connection is not good for car in for garbageoffers");
+                            if (instance1.m_randomizer.Int32(16u) == 0)
+                            {
+                                DebugLog.LogToFileOnly("outside connection is not good for car in for garbageoffers");
+                                int num24 = (int)data.m_garbageBuffer;
+                                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                                {
+                                    int num25 = 0;
+                                    int num26 = 0;
+                                    int num27 = 0;
+                                    int num28 = 0;
+                                    this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
+                                    num24 -= num27 - num26;
+                                    //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
+                                    if (num24 >= 200)
+                                    {
+                                        offer = default(TransferManager.TransferOffer);
+                                        offer.Priority = num24 / 1000;
+                                        if (offer.Priority > 7)
+                                        {
+                                            offer.Priority = 7;
+                                        }
+                                        offer.Building = buildingID;
+                                        offer.Position = data.m_position;
+                                        offer.Amount = 1;
+                                        offer.Active = false;
+                                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
                             int num24 = (int)data.m_garbageBuffer;
-                            if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+                            if (Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                             {
                                 int num25 = 0;
                                 int num26 = 0;
                                 int num27 = 0;
                                 int num28 = 0;
-                                this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
+                                CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
                                 num24 -= num27 - num26;
                                 //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
                                 if (num24 >= 200)
@@ -121,45 +144,16 @@ namespace RealCity
                             }
                         }
                     }
-                    else
-                    {
-                        int num24 = (int)data.m_garbageBuffer;
-                        if (num24 >= 200 && Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
-                        {
-                            int num25 = 0;
-                            int num26 = 0;
-                            int num27 = 0;
-                            int num28 = 0;
-                            CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
-                            num24 -= num27 - num26;
-                            //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
-                            if (num24 >= 200)
-                            {
-                                offer = default(TransferManager.TransferOffer);
-                                offer.Priority = num24 / 1000;
-                                if (offer.Priority > 7)
-                                {
-                                    offer.Priority = 7;
-                                }
-                                offer.Building = buildingID;
-                                offer.Position = data.m_position;
-                                offer.Amount = 1;
-                                offer.Active = false;
-                                Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
-                            }
-                        }
-                    }
                 }
                 else
                 {
-                    int car_valid_path = TickPathfindStatus(ref data.m_teens, ref data.m_serviceProblemTimer);
-                    SimulationManager instance1 = Singleton<SimulationManager>.instance;
-                    if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
+                    if (data.m_garbageBuffer > 4000)
                     {
-                        if (instance1.m_randomizer.Int32(32u) == 0)
+                        int car_valid_path = TickPathfindStatus(ref data.m_teens, ref data.m_serviceProblemTimer);
+                        SimulationManager instance1 = Singleton<SimulationManager>.instance;
+                        if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
                         {
-                            //DebugLog.LogToFileOnly("outside connection is not good for car out for garbagemoveoffers");
-                            if (instance1.m_randomizer.Int32(data.m_garbageBuffer) > 4000)
+                            if (instance1.m_randomizer.Int32(16u) == 0)
                             {
                                 offer = default(TransferManager.TransferOffer);
                                 offer.Priority = 1 + data.m_garbageBuffer / 5000;
@@ -174,30 +168,19 @@ namespace RealCity
                                 Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
                             }
                         }
-                    }
-                    else
-                    {
-                        int num25 = 0;
-                        int num26 = 0;
-                        int num27 = 0;
-                        int num28 = 0;
-                        this.CalculateOwnVehicles(buildingID, ref data, TransferManager.TransferReason.GarbageMove, ref num25, ref num26, ref num27, ref num28);
-                        if (num25 < 100)
+                        else
                         {
-                            if (data.m_garbageBuffer > 12000)
+                            offer = default(TransferManager.TransferOffer);
+                            offer.Priority = 1 + data.m_garbageBuffer / 5000;
+                            if (offer.Priority > 7)
                             {
-                                offer = default(TransferManager.TransferOffer);
-                                offer.Priority = 1 + data.m_garbageBuffer / 5000;
-                                if (offer.Priority > 7)
-                                {
-                                    offer.Priority = 7;
-                                }
-                                offer.Building = buildingID;
-                                offer.Position = data.m_position;
-                                offer.Amount = 1;
-                                offer.Active = true;
-                                Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
+                                offer.Priority = 7;
                             }
+                            offer.Building = buildingID;
+                            offer.Position = data.m_position;
+                            offer.Amount = 1;
+                            offer.Active = true;
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
                         }
                     }
                 }
@@ -205,7 +188,7 @@ namespace RealCity
         }
 
 
-        protected void CalculateOwnVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+        /*protected void CalculateOwnVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
         {
             VehicleManager instance = Singleton<VehicleManager>.instance;
             ushort num = data.m_ownVehicles;
@@ -233,7 +216,7 @@ namespace RealCity
                     break;
                 }
             }
-        }
+        }*/
 
         // OutsideConnectionAI
         private static int TickPathfindStatus(ref byte success, ref byte failure)
@@ -332,7 +315,7 @@ namespace RealCity
                                         Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)15000, vehicle.Info.m_class);
                                     }
                                 }
-                                else if (vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI)
+                                else if (vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
                                 {
                                     MainDataStore.allVehicles += 2;
                                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)10000, vehicle.Info.m_class);
@@ -342,7 +325,7 @@ namespace RealCity
                                     MainDataStore.allVehicles += 4;
                                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)25000, vehicle.Info.m_class);
                                 }
-                                else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
+                                else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI || vehicle.Info.m_vehicleAI is CargoPlaneAI)
                                 {
                                     MainDataStore.allVehicles += 8;
                                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)60000, vehicle.Info.m_class);

@@ -72,7 +72,7 @@ namespace RealCity
             this.EcButton.playAudioEvents = true;
             this.EcButton.name = "EcButton";
             this.EcButton.tooltipBox = aView.defaultTooltipBox;
-            this.EcButton.text = Language.EconomicUI[0] + Language.OptionUI[4];
+            this.EcButton.text = Language.EconomicUI[0] + Language.OptionUI[3];
             this.EcButton.size = new Vector2(200f, 40f);
             this.EcButton.relativePosition = new Vector3(0, 30f);
             this.EcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
@@ -118,7 +118,7 @@ namespace RealCity
         {
             if (Loader.isGuiRunning)
             {
-                this.EcButton.text = Language.EconomicUI[0] + Language.OptionUI[4];
+                this.EcButton.text = Language.EconomicUI[0] + Language.OptionUI[3];
                 this.EcButton.tooltip = Language.EconomicUI[0];
                 if (!MainDataStore.isCoalsGettedFinal || !MainDataStore.isFoodsGettedFinal || !MainDataStore.isPetrolsGettedFinal || !MainDataStore.isLumbersGettedFinal)  //lack of resource
                 {

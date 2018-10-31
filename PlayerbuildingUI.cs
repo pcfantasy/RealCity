@@ -40,16 +40,12 @@ namespace RealCity
         public override void Awake()
         {
             base.Awake();
-            //DebugLog.LogToFileOnly("buildingUI start now");
-            //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "Go to UI now");
             this.DoOnStartup();
         }
 
         public override void Start()
         {
             base.Start();
-            //DebugLog.LogToFileOnly("buildingUI start now");
-            //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "Go to UI now");
             base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
             this.isInteractive = true;
@@ -81,40 +77,28 @@ namespace RealCity
             this.m_HeaderDataText.autoSize = true;
 
             this.Food = base.AddUIComponent<UILabel>();
-            this.Food.text = Language.BuildingUI[27];
-            this.Food.tooltip = Language.BuildingUI[27];
+            this.Food.text = Language.BuildingUI[16];
             this.Food.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
             this.Food.autoSize = true;
             this.Food.name = "Moreeconomic_Text_0";
 
             this.Lumber = base.AddUIComponent<UILabel>();
-            this.Lumber.text = Language.BuildingUI[28];
-            this.Lumber.tooltip = Language.BuildingUI[28];
+            this.Lumber.text = Language.BuildingUI[17];
             this.Lumber.relativePosition = new Vector3(SPACING, this.Food.relativePosition.y + SPACING22);
             this.Lumber.autoSize = true;
             this.Lumber.name = "Moreeconomic_Text_3";
 
             this.Coal = base.AddUIComponent<UILabel>();
-            this.Coal.text = Language.BuildingUI[29];
-            this.Coal.tooltip = Language.BuildingUI[29];
+            this.Coal.text = Language.BuildingUI[18];
             this.Coal.relativePosition = new Vector3(SPACING, this.Lumber.relativePosition.y + SPACING22);
             this.Coal.autoSize = true;
             this.Coal.name = "Moreeconomic_Text_4";
 
             this.Petrol = base.AddUIComponent<UILabel>();
-            this.Petrol.text = Language.BuildingUI[30];
-            this.Petrol.tooltip = Language.BuildingUI[30];
+            this.Petrol.text = Language.BuildingUI[19];
             this.Petrol.relativePosition = new Vector3(SPACING, this.Coal.relativePosition.y + SPACING22);
             this.Petrol.autoSize = true;
             this.Petrol.name = "Moreeconomic_Text_5";
-
-
-            /*this.alivevisitcount = base.AddUIComponent<UILabel>();
-            this.alivevisitcount.text = "alivevisitcount [000000000000000]";
-            this.alivevisitcount.tooltip = language.BuildingUI[15];
-            this.alivevisitcount.relativePosition = new Vector3(SPACING, this.net_asset.relativePosition.y + SPACING22);
-            this.alivevisitcount.autoSize = true;
-            this.alivevisitcount.name = "Moreeconomic_Text_3";*/
         }
 
         private void RefreshDisplayData()
@@ -124,16 +108,15 @@ namespace RealCity
      
             if (PlayerBuildingUI.refesh_once  || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
-                //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 if (base.isVisible)
                 {
                     MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
 
                     Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
-                    this.Food.text = string.Format(Language.BuildingUI[27] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
-                    this.Lumber.text = string.Format(Language.BuildingUI[28] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
-                    this.Coal.text = string.Format(Language.BuildingUI[29] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
-                    this.Petrol.text = string.Format(Language.BuildingUI[30] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
+                    this.Food.text = string.Format(Language.BuildingUI[16] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
+                    this.Lumber.text = string.Format(Language.BuildingUI[17] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
+                    this.Coal.text = string.Format(Language.BuildingUI[18] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
+                    this.Petrol.text = string.Format(Language.BuildingUI[19] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
                     PlayerBuildingUI.refesh_once = false;
                     this.BringToFront();
                 }
@@ -144,35 +127,6 @@ namespace RealCity
             }
 
         }
-
-
-        /*public float caculate_employee_outcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
-        {
-            float num1 = 0;
-            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-            aliveWorkerCount = 0;
-            totalWorkerCount = 0;
-            BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            num1 = (int)(behaviour.m_educated0Count * comm_data.goverment_education0 + behaviour.m_educated1Count * comm_data.goverment_education1 + behaviour.m_educated2Count * comm_data.goverment_education2 + behaviour.m_educated3Count * comm_data.goverment_education3);
-                    
-            System.Random rand = new System.Random();
-
-            //add random value to match citizen salary
-            if (num1 != 0)
-            {
-                num1 += (behaviour.m_educated0Count * rand.Next(1) + behaviour.m_educated1Count * rand.Next(2) + behaviour.m_educated2Count * rand.Next(3) + behaviour.m_educated3Count * rand.Next(4));
-            }
-            int budget = Singleton<EconomyManager>.instance.GetBudget(building.Info.m_class);
-            num1 = (int)(num1 * budget / 100f);
-            if (totalWorkerCount > 0)
-            {
-                num1 = num1 / totalWorkerCount;
-            } else
-            {
-                num1 = 0;
-            }
-            return num1;
-        }*/
 
     }
 }

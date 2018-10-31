@@ -8,17 +8,17 @@ namespace RealCity
     public class RealCityIndustrialExtractorAI : PrivateBuildingAI
     {
         // IndustrialExtractorAI
-        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        public override int CalculateProductionCapacity(ItemClass.Level level, Randomizer r, int width, int length)
         {
             ItemClass @class = this.m_info.m_class;
             int num;
             if (@class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {
-                if (@class.m_level == ItemClass.Level.Level1)
+                if (level == ItemClass.Level.Level1)
                 {
                     num = 100;
                 }
-                else if (@class.m_level == ItemClass.Level.Level2)
+                else if (level == ItemClass.Level.Level2)
                 {
                     num = 140;
                 }
@@ -74,7 +74,7 @@ namespace RealCity
         {
             float trade_tax = 0f;
             float trade_income1 = (float)amountDelta * RealCityPrivateBuildingAI.GetPrice(true, buildingID, data);
-            trade_tax = -trade_income1 * RealCityPrivateBuildingAI.GetTaxRate(data, buildingID);
+            trade_tax = -trade_income1 * (float)RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) / 100f;
             Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (trade_income1 + trade_tax));
         }
