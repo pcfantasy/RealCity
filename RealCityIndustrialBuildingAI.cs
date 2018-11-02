@@ -18,6 +18,7 @@ namespace RealCity
             int consumptionDivider = GetConsumptionDivider(buildingID, data);
             int num3 = Mathf.Max(num2 * 500 / consumptionDivider, num * 4);
             data.m_customBuffer1 = 8000;
+            MainDataStore.building_buffer1[buildingID] = 8000;
             //new add start
             MainDataStore.building_money[buildingID] -= 8000 * RealCityPrivateBuildingAI.GetPrice(false, buildingID, data);
             //new add end
@@ -151,7 +152,7 @@ namespace RealCity
                     if ((customBuffer + amountDelta * MainDataStore.industialPriceAdjust) > 64000)
                     {
                         data.m_customBuffer1 = 64000;
-                        MainDataStore.building_buffer1[buildingID] = customBuffer + amountDelta * MainDataStore.industialPriceAdjust;
+                        MainDataStore.building_buffer1[buildingID] += amountDelta * MainDataStore.industialPriceAdjust;
                     }
                     else
                     {
@@ -164,7 +165,7 @@ namespace RealCity
                     if ((customBuffer + amountDelta) > 64000)
                     {
                         data.m_customBuffer1 = 64000;
-                        MainDataStore.building_buffer1[buildingID] = customBuffer + amountDelta;
+                        MainDataStore.building_buffer1[buildingID] += amountDelta;
                     }
                     else
                     {
@@ -240,14 +241,7 @@ namespace RealCity
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_income1 = (float)amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-            if (!MainDataStore.buildingFlag[buildingID])
-            {
-                MainDataStore.building_money[buildingID] = MainDataStore.building_money[buildingID] - trade_income1;
-            }
-            else
-            {
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, (int)(trade_income1 * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class);
-            }
+            MainDataStore.building_money[buildingID] = MainDataStore.building_money[buildingID] - trade_income1;
         }
 
         public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
@@ -255,17 +249,8 @@ namespace RealCity
             float trade_income1 = (float)amountDelta * RealCityPrivateBuildingAI.GetPrice(true, buildingID, data);
             float trade_tax = 0;
             trade_tax = -trade_income1 * (float)RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) /100f;
-            if (!MainDataStore.buildingFlag[buildingID])
-            {
-                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
-                MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (trade_income1 + trade_tax));
-            }
-            else
-            {
-                Singleton<EconomyManager>.instance.AddPrivateIncome((int)-trade_income1, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
-            }
-         
-            
+            Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+            MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (trade_income1 + trade_tax));                    
         }
     }
 }

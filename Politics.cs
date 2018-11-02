@@ -85,7 +85,7 @@ namespace RealCity
         //riseSalaryTax
         public static byte[,] riseCommericalTax = {
                                                 {80, 20, 0},
-                                                {70, 20, 10},
+                                                {40, 50, 10},
                                                 {55, 40, 5},
                                                 {10, 90, 0},
                                                 {45, 45, 10},
@@ -94,7 +94,7 @@ namespace RealCity
         //fallSalaryTax
         public static byte[,] fallCommericalTax = {
                                                 {20, 80, 0},
-                                                {20, 70, 10},
+                                                {50, 40, 10},
                                                 {40, 55, 5},
                                                 {90, 10, 0},
                                                 {45, 45, 10},
@@ -122,19 +122,19 @@ namespace RealCity
         //riseSalaryTax
         public static byte[,] riseIndustryTax = {
                                                 {20, 70, 10},
-                                                {30, 60, 10},
-                                                {80, 10, 10},
-                                                {90, 10,  0},
-                                                {50, 50,  0},
+                                                {50, 50, 0},
+                                                {60, 30, 10},
+                                                {70, 30,  0},
+                                                {30, 70,  0},
                                               };
 
         //fallSalaryTax
         public static byte[,] fallIndustryTax = {
                                                 {70, 20, 10},
-                                                {60, 30, 10},
-                                                {10, 80, 10},
-                                                {10, 90, 0},
                                                 {50, 50, 0},
+                                                {30, 60, 10},
+                                                {30, 70, 0},
+                                                {70, 30, 0},
                                               };
 
 
@@ -191,7 +191,7 @@ namespace RealCity
         public static float nPartySeatsPollsFinal = 0;
 
         public static short parliamentCount = 0;
-        public static short parliamentMeetingCount = 0;
+        //public static short parliamentMeetingCount = 0;
 
         public static bool case1 = false;
         public static bool case2 = false;
@@ -255,7 +255,7 @@ namespace RealCity
 
             //4
             SaveAndRestore.save_short(ref i, parliamentCount, ref saveData);
-            SaveAndRestore.save_short(ref i, parliamentMeetingCount, ref saveData);
+            SaveAndRestore.save_short(ref i, 0, ref saveData);
 
             //8
             SaveAndRestore.save_bool(ref i, case1, ref saveData);
@@ -321,7 +321,7 @@ namespace RealCity
             nPartySeatsPollsFinal = SaveAndRestore.load_float(ref i, saveData);
 
             parliamentCount = SaveAndRestore.load_short(ref i, saveData);
-            parliamentMeetingCount = SaveAndRestore.load_short(ref i, saveData);
+            short temp = SaveAndRestore.load_short(ref i, saveData);
 
             case1 = SaveAndRestore.load_bool(ref i, saveData);
             case2 = SaveAndRestore.load_bool(ref i, saveData);

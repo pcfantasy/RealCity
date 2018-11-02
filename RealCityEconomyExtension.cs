@@ -83,15 +83,15 @@ namespace RealCity
                     if (MainDataStore.update_money_count == 16)
                     {
                         Politics.parliamentCount--;
-                        Politics.parliamentMeetingCount--;
+                        //Politics.parliamentMeetingCount--;
                         if (Politics.parliamentCount < 0)
                         {
-                            Politics.parliamentCount = 20;
+                            Politics.parliamentCount = 40;
                         }
-                        if (Politics.parliamentMeetingCount < 0)
-                        {
-                            Politics.parliamentMeetingCount = 1;
-                        }
+                        //if (Politics.parliamentMeetingCount < 0)
+                        //{
+                        //    Politics.parliamentMeetingCount = 1;
+                        //}
                         CitizenStatus();
                     }
 
@@ -286,17 +286,13 @@ namespace RealCity
             {
                 GetSeats(false);
                 GetSeats(true);
-                Politics.parliamentMeetingCount = 1;
+                //Politics.parliamentMeetingCount = 1;
                 CreateGoverment();
             }
             else
             {
                 GetSeats(true);
                 CreateGoverment();
-            }
-
-            if (Politics.parliamentMeetingCount <= 0)
-            {
                 HoldMeeting();
             }
         }
@@ -330,7 +326,7 @@ namespace RealCity
                         }
                         break;
                     case 2:
-                        if (Politics.benefitOffset >= 20)
+                        if (Politics.benefitOffset >= 10)
                         {
                             Politics.currentIdx = 3;
                         }
@@ -425,11 +421,11 @@ namespace RealCity
             long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
             if (_cashAmount < 0)
             {
-                MoneyOffset = -1000;
+                MoneyOffset = -3000;
                 System.Random rand = new System.Random();
                 if (rand.Next(10) < 8)
                 {
-                    switch (rand.Next(5))
+                    switch (rand.Next(13))
                     {
                         case 0:
                             if (Politics.residentTax < 20)
@@ -438,40 +434,72 @@ namespace RealCity
                             }
                             break;
                         case 1:
-                            if (Politics.benefitOffset > 1)
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            if (Politics.benefitOffset > 0)
                             {
                                 idex = 3;
                             }
+                            else if (Politics.industryTax < 20)
+                            {
+                                idex = 6;
+                            }
+                            else if (Politics.isOutSideGarbagePermit)
+                            {
+                                idex = 8;
+                            }
                             break;
-                        case 2:
+                        case 6:
                             if (Politics.commericalTax < 20)
                             {
                                 idex = 4;
                             }
                             break;
-                        case 3:
+                        case 7:
+                        case 8:
+                        case 9:
+                        case 10:
+                        case 11:
                             if (Politics.industryTax < 20)
                             {
                                 idex = 6;
                             }
+                            else if (Politics.benefitOffset > 0)
+                            {
+                                idex = 3;
+                            }
+                            else if (Politics.isOutSideGarbagePermit)
+                            {
+                                idex = 8;
+                            }
                             break;
-                        case 4:
+                        case 12:
                             if (Politics.isOutSideGarbagePermit)
                             {
                                 idex = 8;
+                            }
+                            else if (Politics.industryTax < 20)
+                            {
+                                idex = 6;
+                            }
+                            else if (Politics.benefitOffset > 0)
+                            {
+                                idex = 3;
                             }
                             break;
                     }
                 }
                 Politics.currentIdx = (byte)idex;
             }
-            else if (_cashAmount > 6000000)
+            else if (_cashAmount > 9000000)
             {
-                MoneyOffset = 2000;
+                MoneyOffset = 3000;
             }
             else
             {
-                MoneyOffset = -1000 + (int)(_cashAmount / 2000);
+                MoneyOffset = -3000 + (int)(_cashAmount / 1500);
             }
 
             //citizenOffset
@@ -502,37 +530,39 @@ namespace RealCity
             if (industrialEarnMoneyCount + industrialLackMoneyCount > 0)
             {
                 buildingOffset = ((int)(100f * (float)(industrialEarnMoneyCount - industrialLackMoneyCount) / (float)(industrialEarnMoneyCount + industrialLackMoneyCount))) << 5;
-                if (buildingOffset > 2500)
+                if (buildingOffset > 2000)
                 {
                     buildingOffset = 2500;
                 }
 
-                if (buildingOffset < -2500)
+                if (buildingOffset < -2000)
                 {
-                    buildingOffset = -2500;
+                    buildingOffset = -2000;
                 }
             }
 
             commBuildingOffset = 0;
             if (commericalEarnMoneyCount + commericalLackMoneyCount > 0)
             {
-                buildingOffset = ((int)(100f * (float)(commericalEarnMoneyCount - commericalLackMoneyCount) / (float)(commericalEarnMoneyCount + commericalLackMoneyCount))) << 5;
-                if (commBuildingOffset > 2500)
+                commBuildingOffset = ((int)(100f * (float)(commericalEarnMoneyCount - commericalLackMoneyCount) / (float)(commericalEarnMoneyCount + commericalLackMoneyCount))) << 5;
+                if (commBuildingOffset > 2000)
                 {
-                    commBuildingOffset = 2500;
+                    commBuildingOffset = 2000;
                 }
 
-                if (commBuildingOffset < -2500)
+                if (commBuildingOffset < -2000)
                 {
-                    commBuildingOffset = -2500;
+                    commBuildingOffset = -2000;
                 }
             }
 
 
-            //DebugLog.LogToFileOnly("isBuildingNoBuyerCount = " + isBuildingNoBuyerCount.ToString());
-            //DebugLog.LogToFileOnly("isBuildingNoMaterialCount = " + isBuildingNoMaterialCount.ToString());
-            //isBuildingNoBuyerCount = 0;
-            //isBuildingNoMaterialCount = 0;
+            ///DebugLog.LogToFileOnly("commBuildingOffset = " + commBuildingOffset.ToString());
+            ////DebugLog.LogToFileOnly("buildingOffset = " + buildingOffset.ToString());
+            industrialEarnMoneyCount = 0;
+            industrialLackMoneyCount = 0;
+            commericalEarnMoneyCount = 0;
+            commericalLackMoneyCount = 0;
 
         }
 
@@ -543,7 +573,7 @@ namespace RealCity
             int no = 0;
             int noAttend = 0;
             int residentTax = 10 - (int)(Politics.residentTax);
-            int benefitOffset = 10 - (int)(Politics.benefitOffset);
+            int benefitOffset = 10 - (int)(Politics.benefitOffset*2);
             int commericalTax = 10 - (int)(Politics.commericalTax);
             int industryTax = 10 - (int)(Politics.industryTax);
 
@@ -652,7 +682,7 @@ namespace RealCity
                         noAttend += Politics.lPartySeats * Politics.riseCommericalTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.riseCommericalTax[4, 2];
                         yes -= temp3;
-                        yes -= temp6;
+                        yes += temp6;
                         break;
                     case 5:
                         yes += Politics.cPartySeats * (Politics.fallCommericalTax[0, 0] - commericalTax);
@@ -671,7 +701,7 @@ namespace RealCity
                         noAttend += Politics.lPartySeats * Politics.fallCommericalTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.fallCommericalTax[4, 2];
                         yes += temp3;
-                        yes += temp6;
+                        yes -= temp6;
                         break;
                     case 6:
                         yes += Politics.cPartySeats * (Politics.riseIndustryTax[0, 0] + industryTax);
@@ -690,7 +720,7 @@ namespace RealCity
                         noAttend += Politics.lPartySeats * Politics.riseIndustryTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.riseIndustryTax[4, 2];
                         yes -= temp3;
-                        yes -= temp5;
+                        yes += temp5;
                         break;
                     case 7:
                         yes += Politics.cPartySeats * (Politics.fallIndustryTax[0, 0] - industryTax);
@@ -709,7 +739,7 @@ namespace RealCity
                         noAttend += Politics.lPartySeats * Politics.fallIndustryTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.fallIndustryTax[4, 2];
                         yes += temp3;
-                        yes += temp5;
+                        yes -= temp5;
                         break;
                     case 8:
                         yes += Politics.cPartySeats * Politics.allowGarbage[0, 0];
@@ -750,12 +780,27 @@ namespace RealCity
                 }
 
 
+                if (yes < 0)
+                {
+                    yes = 0;
+                }
+
+                if (no < 0)
+                {
+                    no = 0;
+                }
+
+                if (noAttend < 0)
+                {
+                    noAttend = 0;
+                }
+
                 int temp1 = yes + no + noAttend;
 
 
-                yes = (int)(yes * 99f / temp1);
-                no = (int)(no * 99f / temp1);
-                noAttend = (int)(noAttend * 99f / temp1);
+                yes = (int)((yes * 99) / temp1);
+                no = (int)((no * 99) / temp1);
+                noAttend = (int)((noAttend * 99) / temp1);
 
                 temp1 = yes + no + noAttend;
                 if (temp1 < 99)

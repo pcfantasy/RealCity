@@ -139,7 +139,7 @@ namespace RealCity
             }
 
             ProcessBuildingDataFinal(buildingID, ref buildingData);
-            LimitCommericalBuildingAccess(buildingID, ref buildingData);
+            //LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessAdditionProduct(buildingID, ref buildingData);
         }
 
@@ -232,13 +232,23 @@ namespace RealCity
                             }
                             break;
                         case ItemClass.SubService.IndustrialForestry:
-                            material = Language.BuildingUI[37]; break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = Language.BuildingUI[35]; break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = Language.BuildingUI[38]; break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = Language.BuildingUI[36]; break;
+                            TransferManager.TransferReason tempReason2 = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+                            switch (tempReason2)
+                            {
+                                case TransferManager.TransferReason.Grain:
+                                    material = Language.BuildingUI[24]; break;
+                                case TransferManager.TransferReason.Logs:
+                                    material = Language.BuildingUI[26]; break;
+                                case TransferManager.TransferReason.Ore:
+                                    material = Language.BuildingUI[25]; break;
+                                case TransferManager.TransferReason.Oil:
+                                    material = Language.BuildingUI[27]; break;
+                                default: break;
+                            }
+                            break;
                         case ItemClass.SubService.IndustrialGeneric:
                             TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
                             TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
@@ -418,7 +428,7 @@ namespace RealCity
         }
 
 
-        public void LimitCommericalBuildingAccess(ushort buildingID, ref Building buildingData)
+        /*public void LimitCommericalBuildingAccess(ushort buildingID, ref Building buildingData)
         {
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
@@ -457,7 +467,7 @@ namespace RealCity
                     break;
                 }
             }
-        }
+        }*/
 
 
         public void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)
@@ -517,6 +527,28 @@ namespace RealCity
                     RealCityEconomyExtension.commericalEarnMoneyCount++;
                 }
             }
+
+            if (buildingData.m_problems == Notification.Problem.None)
+            {
+                //mark no good
+                if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                {
+                    Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
+                    if (buildingData.m_customBuffer2 < 500)
+                    {
+                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
+                    }
+                    else if (buildingData.m_customBuffer2 < 1000)
+                    {
+                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
+                    }
+                    else
+                    {
+                        problem = Notification.Problem.None;
+                    }
+                    buildingData.m_problems = problem;
+                }
+            }
         }
 
         public void LimitAndCheckBuildingMoney(Building building, ushort buildingID)
@@ -553,33 +585,33 @@ namespace RealCity
                         // outside will to invest
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = 0.01f;
+                            idex = 0.05f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.02f;
+                            idex = 0.1f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.03f;
+                            idex = 0.15f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.04f;
+                            idex = 0.2f;
                         }
 
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex1 = 0.04f;
+                            idex1 = 0.005f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex1 = 0.03f;
+                            idex1 = 0.02f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex1 = 0.02f;
+                            idex1 = 0.015f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
@@ -587,7 +619,7 @@ namespace RealCity
                         }
 
                         greaterThan20000ProfitBuildingMoney += (long)(MainDataStore.building_money[buildingID] * idex);
-                        MainDataStore.building_money[buildingID] -= (long)(MainDataStore.building_money[buildingID] * (idex + idex1));
+                        MainDataStore.building_money[buildingID] -= (long)(MainDataStore.building_money[buildingID] * idex1);
                     }
                 }
             }
@@ -600,21 +632,21 @@ namespace RealCity
                     {
                         if (allOfficeLevel1BuildingCountFinal > 0)
                         {
-                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.05f / allOfficeLevel1BuildingCountFinal;
+                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.1f / allOfficeLevel1BuildingCountFinal;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         if (allOfficeLevel2BuildingCountFinal > 0)
                         {
-                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.15f / allOfficeLevel2BuildingCountFinal;
+                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.2f / allOfficeLevel2BuildingCountFinal;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         if (allOfficeLevel3BuildingCountFinal > 0)
                         {
-                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.25f / allOfficeLevel3BuildingCountFinal;
+                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.3f / allOfficeLevel3BuildingCountFinal;
                         }
                     }
                 }
@@ -622,7 +654,7 @@ namespace RealCity
                 {
                     if (allOfficeHighTechBuildingCountFinal > 0)
                     {
-                        MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.35f / allOfficeHighTechBuildingCountFinal;
+                        MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.4f / allOfficeHighTechBuildingCountFinal;
                     }
                 }
             }
@@ -640,7 +672,7 @@ namespace RealCity
             GetLandRent(out num);
             int num2;
             num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
-            if (MainDataStore.building_money[buildingID] < 0)
+            if (MainDataStore.building_money[buildingID] <= 0)
             {
                 num2 = 0;
             }
@@ -667,11 +699,6 @@ namespace RealCity
             if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None)
             {
                 num = num * 95 / 100;
-            }
-
-            if (MainDataStore.buildingFlag[buildingID])
-            {
-                num = 0;
             }
 
             Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
@@ -780,7 +807,14 @@ namespace RealCity
             }
             else if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                return Politics.industryTax;
+                if (data.Info.m_buildingAI is IndustrialExtractorAI)
+                {
+                    return Politics.industryTax + 60 ;
+                }
+                else
+                {
+                    return Politics.industryTax;
+                }
             }
 
             return 0;

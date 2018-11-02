@@ -59,6 +59,8 @@ namespace RealCity
             "LuxuryProducts",
             "Family Goods",
             "(Family Needs Goods)",
+            "(include 60% resource tax)",
+            "Car used",
         };
 
 
@@ -241,6 +243,8 @@ namespace RealCity
             "奢侈消费品",                                      //39
             "家里货物量",
             "(家里需要购物)",
+            "(含60%资源税)",
+            "使用中的车辆",
         };
 
     public static string[] OptionUI_Chinese =

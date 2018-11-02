@@ -46,7 +46,7 @@ namespace RealCity
         public static void SaveSetting()
         {
             //save langugae
-            FileStream fs = File.Create("RealCityV2.0_setting.txt");
+            FileStream fs = File.Create("RealCityV3.0_setting.txt");
             StreamWriter streamWriter = new StreamWriter(fs);
             streamWriter.WriteLine(MainDataStore.last_language);
             streamWriter.WriteLine(MainDataStore.isSmartPbtp);
@@ -57,9 +57,9 @@ namespace RealCity
 
         public static void LoadSetting()
         {
-            if (File.Exists("RealCityV2.0_setting.txt"))
+            if (File.Exists("RealCityV3.0_setting.txt"))
             {
-                FileStream fs = new FileStream("RealCityV2.0_setting.txt", FileMode.Open);
+                FileStream fs = new FileStream("RealCityV3.0_setting.txt", FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
                 string strLine = sr.ReadLine();
 

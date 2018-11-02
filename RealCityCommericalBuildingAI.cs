@@ -78,6 +78,7 @@ namespace RealCity
             int num2 = this.CalculateVisitplaceCount((ItemClass.Level)data.m_level,new Randomizer((int)buildingID), width, length);
             int num3 = Mathf.Max(num2 * 500, num * 4);
             data.m_customBuffer1 = 8000;
+            MainDataStore.building_buffer1[buildingID] = 8000;
             MainDataStore.building_money[buildingID] -= 8000 * RealCityPrivateBuildingAI.GetPrice(false, buildingID, data);
             DistrictPolicies.Specialization specialization = this.SpecialPolicyNeeded();
             if (specialization != DistrictPolicies.Specialization.None)
@@ -141,7 +142,7 @@ namespace RealCity
                                 if ((customBuffer + amountDelta * MainDataStore.commericalPriceAdjust) > 64000)
                                 {
                                     data.m_customBuffer1 = 64000;
-                                    MainDataStore.building_buffer1[buildingID] = customBuffer + amountDelta * MainDataStore.commericalPriceAdjust;
+                                    MainDataStore.building_buffer1[buildingID] += amountDelta * MainDataStore.commericalPriceAdjust;
                                 }
                                 else
                                 {
@@ -154,7 +155,7 @@ namespace RealCity
                                 if ((customBuffer + amountDelta) > 64000)
                                 {
                                     data.m_customBuffer1 = 64000;
-                                    MainDataStore.building_buffer1[buildingID] = customBuffer + amountDelta;
+                                    MainDataStore.building_buffer1[buildingID] += amountDelta;
                                 }
                                 else
                                 {

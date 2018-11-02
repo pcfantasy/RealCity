@@ -27,16 +27,16 @@ namespace RealCity
             //DebugLog.LogToFileOnly("starttransfer redirect done");
             if (material == TransferManager.TransferReason.GarbageMove)
             {
-                DebugLog.LogToFileOnly("starttransfer GarbageMove");
+                //DebugLog.LogToFileOnly("starttransfer GarbageMove");
                 VehicleInfo randomVehicleInfo2 = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level1);
                 if (randomVehicleInfo2 != null)
                 {
-                    DebugLog.LogToFileOnly("starttransfer GarbageMove randomVehicleInfo2");
+                    //DebugLog.LogToFileOnly("starttransfer GarbageMove randomVehicleInfo2");
                     Array16<Vehicle> vehicles2 = Singleton<VehicleManager>.instance.m_vehicles;
                     ushort num2;
                     if (Singleton<VehicleManager>.instance.CreateVehicle(out num2, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo2, data.m_position, TransferManager.TransferReason.GarbageMove, false, true))
                     {
-                        DebugLog.LogToFileOnly("starttransfer GarbageMove randomVehicleInfo2, CreateVehicle");
+                        //DebugLog.LogToFileOnly("starttransfer GarbageMove randomVehicleInfo2, CreateVehicle");
                         randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[(int)num2], buildingID);
                         randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[(int)num2], TransferManager.TransferReason.GarbageMove, offer);
                         vehicles2.m_buffer[num2].m_flags |= (Vehicle.Flags.Importing);

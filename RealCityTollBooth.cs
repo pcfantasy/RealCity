@@ -24,16 +24,18 @@ namespace RealCity
                     {
                         if (!MainDataStore.vehical_flag[vehicle])
                         {
+                            //DebugLog.LogToFileOnly("cargo tickprice = " + data.m_education1.ToString());
                             MainDataStore.vehical_flag[vehicle] = true;
-                            this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 << 3));
+                            this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 100));
                         }
                     }
                     else if (info.m_vehicleAI is PassengerCarAI && instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic))
                     {
                         if (!MainDataStore.vehical_flag[vehicle])
                         {
+                            //DebugLog.LogToFileOnly("PassengerCar tickprice = " + data.m_education1.ToString());
                             MainDataStore.vehical_flag[vehicle] = true;
-                            this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 << 2));
+                            this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 50));
                         }
                     }
                 }

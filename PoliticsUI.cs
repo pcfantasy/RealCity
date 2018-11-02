@@ -12,7 +12,7 @@ namespace RealCity
 
         public static float WIDTH = 850f;
 
-        private static readonly float HEIGHT = 700f;
+        private static readonly float HEIGHT = 500f;
 
         private static readonly float HEADER = 40f;
 
@@ -48,7 +48,7 @@ namespace RealCity
         private UILabel liberalPolls;
         private UILabel nationalPolls;
         private UILabel nextVote;
-        private UILabel nextMeeting;
+        //private UILabel nextMeeting;
         private UILabel currentMeetingItem;
         private UILabel voteResult;
         private UILabel currentPolitics;
@@ -200,16 +200,16 @@ namespace RealCity
             this.nextVote.autoSize = true;
             this.nextVote.name = "Moreeconomic_Text_0";
 
-            this.nextMeeting = base.AddUIComponent<UILabel>();
-            this.nextMeeting.text = Language.PoliticsMessage[14];
-            this.nextMeeting.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22);
-            this.nextMeeting.autoSize = true;
-            this.nextMeeting.name = "Moreeconomic_Text_0";
+            //this.nextMeeting = base.AddUIComponent<UILabel>();
+            //this.nextMeeting.text = Language.PoliticsMessage[14];
+            //this.nextMeeting.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22);
+            //this.nextMeeting.autoSize = true;
+            //this.nextMeeting.name = "Moreeconomic_Text_0";
 
             this.currentMeetingItem = base.AddUIComponent<UILabel>();
             this.currentMeetingItem.text = Language.PoliticsMessage[15];
             this.currentMeetingItem.textScale = 1.1f;
-            this.currentMeetingItem.relativePosition = new Vector3(SPACING, this.nextMeeting.relativePosition.y + SPACING22 + 20f);
+            this.currentMeetingItem.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22 + 20f);
             this.currentMeetingItem.autoSize = true;
             this.currentMeetingItem.name = "Moreeconomic_Text_0";
 
@@ -283,7 +283,7 @@ namespace RealCity
                     this.nationalPolls.text = string.Format(Language.PoliticsMessage[6] + " [{0:N1}%]", Politics.nPartySeatsPollsFinal);
 
                     this.nextVote.text = string.Format(Language.PoliticsMessage[13] + " [{0}]", Politics.parliamentCount);
-                    this.nextMeeting.text = string.Format(Language.PoliticsMessage[14] + " [{0}]", Politics.parliamentMeetingCount);
+                    //this.nextMeeting.text = string.Format(Language.PoliticsMessage[14] + " [{0}]", Politics.parliamentMeetingCount);
 
                     if (Politics.currentIdx > 9)
                     {
@@ -303,11 +303,11 @@ namespace RealCity
 
                     this.benefit.text = string.Format(Language.PoliticsMessage[32] + Politics.benefitOffset.ToString());
 
-                    this.resident.text = string.Format(Language.PoliticsMessage[33] + Politics.residentTax.ToString());
+                    this.resident.text = string.Format(Language.PoliticsMessage[33] + Politics.residentTax.ToString() + "%");
 
-                    this.commerical.text = string.Format(Language.PoliticsMessage[34] + Politics.commericalTax.ToString());
+                    this.commerical.text = string.Format(Language.PoliticsMessage[34] + Politics.commericalTax.ToString() + "%");
 
-                    this.industrial.text = string.Format(Language.PoliticsMessage[35] + Politics.industryTax.ToString());
+                    this.industrial.text = string.Format(Language.PoliticsMessage[35] + Politics.industryTax.ToString() + "%");
 
                     if (Politics.case1)
                     {

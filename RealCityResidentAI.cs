@@ -684,8 +684,11 @@ namespace RealCity
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
             } else
             {
-                MainDataStore.family_money[homeID] += Politics.benefitOffset;
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+                if (Politics.benefitOffset > 0)
+                {
+                    MainDataStore.family_money[homeID] += Politics.benefitOffset;
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+                }
             }
 
 
@@ -914,7 +917,7 @@ namespace RealCity
             int temp_num = ProcessFamily(homeID, ref data);
 
 
-            data.m_goods = (ushort)Mathf.Max(0, (int)(data.m_goods - temp_num)); //here we can adjust demand
+            data.m_goods = (ushort)Mathf.Max(1, (int)(data.m_goods - temp_num)); //here we can adjust demand
 
             MainDataStore.familyGoods[homeID] = data.m_goods;
             //lack of food

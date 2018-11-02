@@ -5,6 +5,7 @@ using ColossalFramework;
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using ColossalFramework.Math;
 
 namespace RealCity
 {
@@ -35,6 +36,7 @@ namespace RealCity
         private UILabel comsuptionDivide;
         private UILabel sellTax;
         private UILabel profit;
+        private UILabel usedcar;
 
         public override void Update()
         {
@@ -128,6 +130,12 @@ namespace RealCity
             this.profit.relativePosition = new Vector3(SPACING, this.sellTax.relativePosition.y + SPACING22);
             this.profit.autoSize = true;
             this.profit.name = "Moreeconomic_Text_5";
+
+            this.usedcar = base.AddUIComponent<UILabel>();
+            this.usedcar.text = Language.BuildingUI[43];
+            this.usedcar.relativePosition = new Vector3(SPACING, this.profit.relativePosition.y + SPACING22);
+            this.usedcar.autoSize = true;
+            this.usedcar.name = "Moreeconomic_Text_5";
         }
 
         private void RefreshDisplayData()
@@ -195,7 +203,14 @@ namespace RealCity
 
                         int sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData, MainDataStore.last_buildingid);
 
-                        this.sellTax.text = string.Format(Language.BuildingUI[12] + " [{0}%]", sellTax);
+                        if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
+                        {
+                            this.sellTax.text = string.Format(Language.BuildingUI[12] + " [{0}%] " + Language.BuildingUI[42], sellTax);
+                        }
+                        else
+                        {
+                            this.sellTax.text = string.Format(Language.BuildingUI[12] + " [{0}%]", sellTax);
+                        }
 
 
                         if (consumptionDivider == 0f)
@@ -215,11 +230,136 @@ namespace RealCity
                             }
                         }
 
+                        int usedCar = 0;
+                        int num27 = 0;
+                        int num28 = 0;
+                        int value = 0;
+                        int car = 0;
+
+                        if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
+                        {
+                            int num7 = this.CalculateProductionCapacity(buildingData, (ItemClass.Level)buildingData.m_level, new Randomizer((int)MainDataStore.last_buildingid), buildingData.m_width, buildingData.m_length);
+                            car = Mathf.Max(1, num7 / 6);
+
+                            TransferManager.TransferReason tempReason = default(TransferManager.TransferReason);
+                            if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                                tempReason = IndustrialExtractorGetOutgoingTransferReason(buildingData);
+                            }
+                            else
+                            {
+                                tempReason = IndustrialGetOutgoingTransferReason(buildingData);
+                            }
+
+
+                            this.CalculateOwnVehicles(MainDataStore.last_buildingid, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
+
+                            this.usedcar.text = string.Format(Language.BuildingUI[43] + " [{0}/{1}]", usedCar,car);
+                        }
+
                         this.BringToFront();
                         BuildingUI.refeshOnce = false;
                     }
                 }
             }
+        }
+
+        public TransferManager.TransferReason IndustrialExtractorGetOutgoingTransferReason(Building data)
+        {
+            switch (data.Info.m_class.m_subService)
+            {
+                case ItemClass.SubService.IndustrialForestry:
+                    return TransferManager.TransferReason.Logs;
+                case ItemClass.SubService.IndustrialFarming:
+                    return TransferManager.TransferReason.Grain;
+                case ItemClass.SubService.IndustrialOil:
+                    return TransferManager.TransferReason.Oil;
+                case ItemClass.SubService.IndustrialOre:
+                    return TransferManager.TransferReason.Ore;
+                default:
+                    return TransferManager.TransferReason.None;
+            }
+        }
+
+        private TransferManager.TransferReason IndustrialGetOutgoingTransferReason(Building data)
+        {
+            switch (data.Info.m_class.m_subService)
+            {
+                case ItemClass.SubService.IndustrialForestry:
+                    return TransferManager.TransferReason.Lumber;
+                case ItemClass.SubService.IndustrialFarming:
+                    return TransferManager.TransferReason.Food;
+                case ItemClass.SubService.IndustrialOil:
+                    return TransferManager.TransferReason.Petrol;
+                case ItemClass.SubService.IndustrialOre:
+                    return TransferManager.TransferReason.Coal;
+                default:
+                    return TransferManager.TransferReason.Goods;
+            }
+        }
+
+
+
+        protected void CalculateOwnVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+        {
+            VehicleManager instance = Singleton<VehicleManager>.instance;
+            ushort num = data.m_ownVehicles;
+            int num2 = 0;
+            while (num != 0)
+            {
+                if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType == material)
+                {
+                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
+                    int a;
+                    int num3;
+                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
+                    cargo += Mathf.Min(a, num3);
+                    capacity += num3;
+                    count++;
+                    if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
+                    {
+                        outside++;
+                    }
+                }
+                num = instance.m_vehicles.m_buffer[(int)num].m_nextOwnVehicle;
+                if (++num2 > 16384)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+        }
+
+
+
+        public int CalculateProductionCapacity(Building buildingData ,ItemClass.Level level, Randomizer r, int width, int length)
+        {
+            ItemClass @class = buildingData.Info.m_class;
+            int num;
+            if (@class.m_subService == ItemClass.SubService.IndustrialGeneric)
+            {
+                if (level == ItemClass.Level.Level1)
+                {
+                    num = 100;
+                }
+                else if (level == ItemClass.Level.Level2)
+                {
+                    num = 140;
+                }
+                else
+                {
+                    num = 160;
+                }
+            }
+            else
+            {
+                num = 100;
+            }
+            if (num != 0)
+            {
+                num = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
+            }
+            return num;
         }
 
         public static float CaculateEmployeeOutcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
