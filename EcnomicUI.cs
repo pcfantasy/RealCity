@@ -12,7 +12,7 @@ namespace RealCity
 
         public static float WIDTH = 550f;
 
-        private static readonly float HEIGHT = 500f;
+        private static readonly float HEIGHT = 550f;
 
         private static readonly float HEADER = 40f;
 
@@ -90,6 +90,13 @@ namespace RealCity
         private UILabel tip4;
         private UILabel tip5;
         private UILabel tip6;
+        private UILabel tip7;
+        private UILabel tip8;
+        private UILabel tip9;
+        private UILabel tip10;
+        private UILabel tip11;
+        private UILabel tip12;
+        private UILabel tip13;
 
 
         public static bool refeshOnce = false;
@@ -276,6 +283,48 @@ namespace RealCity
             this.tip6.relativePosition = new Vector3(SPACING, this.tip5.relativePosition.y + SPACING22);
             this.tip6.autoSize = true;
             this.tip6.name = "Moreeconomic_Text_50";
+
+            this.tip7 = base.AddUIComponent<UILabel>();
+            this.tip7.text = Language.EconomicUI[23];
+            this.tip7.relativePosition = new Vector3(SPACING, this.tip6.relativePosition.y + SPACING22);
+            this.tip7.autoSize = true;
+            this.tip7.name = "Moreeconomic_Text_49";
+
+            this.tip8 = base.AddUIComponent<UILabel>();
+            this.tip8.text = Language.EconomicUI[24];
+            this.tip8.relativePosition = new Vector3(SPACING, this.tip7.relativePosition.y + SPACING22);
+            this.tip8.autoSize = true;
+            this.tip8.name = "Moreeconomic_Text_50";
+
+            this.tip9 = base.AddUIComponent<UILabel>();
+            this.tip9.text = Language.EconomicUI[25];
+            this.tip9.relativePosition = new Vector3(SPACING, this.tip8.relativePosition.y + SPACING22);
+            this.tip9.autoSize = true;
+            this.tip9.name = "Moreeconomic_Text_51";
+
+            this.tip10 = base.AddUIComponent<UILabel>();
+            this.tip10.text = Language.EconomicUI[26];
+            this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
+            this.tip10.autoSize = true;
+            this.tip10.name = "Moreeconomic_Text_52";
+
+            this.tip11 = base.AddUIComponent<UILabel>();
+            this.tip11.text = Language.EconomicUI[27];
+            this.tip11.relativePosition = new Vector3(SPACING, this.tip10.relativePosition.y + SPACING22);
+            this.tip11.autoSize = true;
+            this.tip11.name = "Moreeconomic_Text_53";
+
+            this.tip12 = base.AddUIComponent<UILabel>();
+            this.tip12.text = Language.EconomicUI[28];
+            this.tip12.relativePosition = new Vector3(SPACING, this.tip11.relativePosition.y + SPACING22);
+            this.tip12.autoSize = true;
+            this.tip12.name = "Moreeconomic_Text_50";
+
+            this.tip13 = base.AddUIComponent<UILabel>();
+            this.tip13.text = Language.EconomicUI[29];
+            this.tip13.relativePosition = new Vector3(SPACING, this.tip12.relativePosition.y + SPACING22);
+            this.tip13.autoSize = true;
+            this.tip13.name = "Moreeconomic_Text_50";
         }
 
 
@@ -322,6 +371,16 @@ namespace RealCity
                     this.tip4.text = string.Format(Language.EconomicUI[20] + "  " + RealCityEconomyExtension.tip4_message_forgui);
                     this.tip5.text = string.Format(Language.EconomicUI[21] + "  " + RealCityEconomyExtension.tip5_message_forgui);
                     this.tip6.text = string.Format(Language.EconomicUI[22] + "  " + RealCityEconomyExtension.tip6_message_forgui);
+
+                    this.tip7.text = string.Format(Language.EconomicUI[23] + "  " + Language.TipAndChirperMessage[6]);
+                    this.tip8.text = string.Format(Language.EconomicUI[24] + "  " + Language.TipAndChirperMessage[7]);
+                    this.tip9.text = string.Format(Language.EconomicUI[25] + "  " + Language.TipAndChirperMessage[8]);
+                    this.tip10.text = string.Format(Language.EconomicUI[26] + "  " + Language.TipAndChirperMessage[9]);
+                    this.tip11.text = string.Format(Language.EconomicUI[27] + "  " + Language.TipAndChirperMessage[10]);
+                    this.tip12.text = string.Format(Language.EconomicUI[28] + "  " + Language.TipAndChirperMessage[11]);
+                    this.tip13.text = string.Format(Language.EconomicUI[29] + "  " + Language.TipAndChirperMessage[12]);
+
+
 
                     if (!MainDataStore.haveCityResourceDepartmentFinal)
                     {

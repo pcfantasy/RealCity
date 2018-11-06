@@ -128,17 +128,31 @@ namespace RealCity
             "tip4",                                                  //20
             "tip5",                                                  //21
             "tip6",                                                  //22
+            "tip7",                                                  //17
+            "tip8",                                                  //18
+            "tip9",                                                  //19
+            "tip10",                                                  //20
+            "tip11",                                                  //21
+            "tip12",                                                  //22
+            "tip13",                                                  //22
         };
 
 
         public static string[] TipAndChirperMessage_English = {                              //0
         "Better use TMPE and disable vehicle spawn",                                         //1
-        "Can use Favorite Cims mod to watch every citizens and their family",                //2
-        "Please Build City Resource in Roal Panel(need asset)",                              //3
+        "Can use Favorite Cims mod to watch every citizens and their families",                //2
+        "Please Build City Resource in Roal Panel(need asset),then wait for resources",       //3
         "City Lack of Food, Leads to no movingin people and Citizens may get sick",          //4
         "City Lack of Lumber or Coal, Leads to no RICO demand",                              //5
         "City Lack of Petrol, goverment will use less car",                                  //6
-        };
+        "As a startup city, industrialize is the best and only way to become rich",
+        "Do not try playerIndustry unless you are rich and have various outside connetion",
+        "Industry farming foresty ore il will give you more trade income(because of price)",
+        "Try commerical tourist to retain tourists",
+        "Office can get externalInvestments which is depended on your industry",
+        "Do not unlock all at start, try to manage a city like real world",
+        "Check more details in UG",
+    };
 
 
         public static string[] RealCityUI_English =
@@ -168,9 +182,9 @@ namespace RealCity
             "4、City trade tax income",
             "commericalHighTradeIncome",
             "commericalLowTradeIncome",
-            "commericalEcoTradeIncome",
-            "commericalTourismTradeIncome",
             "commericalLeisureTradeIncome",
+            "commericalTourismTradeIncome",
+            "commericalEcoTradeIncome",
             "industrialGeneralTradeIncome",
             "industrialFarmingTradeIncome",
             "industrialForestyTradeIncome",
@@ -274,12 +288,19 @@ namespace RealCity
             "2、建筑情况",                                 //14
             "赚钱的公司数目",                              //15
             "可用于投资办公的钱",                          //16
-            "提示1",                                       //19
-            "提示2",                                       //20
-            "提示3",                                       //21
-            "提示4",                                       //22
-            "提示5",                                       //23
-            "提示6",                                       //24
+            "提示1",                                       //17
+            "提示2",                                       //18
+            "提示3",                                       //19
+            "提示4",                                       //20
+            "提示5",                                       //21
+            "提示6",                                       //22
+            "提示7",                                       //23
+            "提示8",                                       //20
+            "提示9",                                       //21
+            "提示10",                                       //22
+            "提示11",                                       //23
+            "提示12",                                       //24
+            "提示13",                                       //24
         };
 
 
@@ -290,6 +311,13 @@ namespace RealCity
         "城市缺少食物,会导致没外来人员而且居民会生病",                                       //3
         "城市缺少木材和矿物品,没法建房子,所以没任何建筑需求",                                //4
         "城市缺少汽油,政府部门会少出车",                                                     //5
+        "作为起步的城市,工业化是唯一的致富途径",
+        "别尝试工业DLC的国营工业,除非你有钱而且有多种外部连接(火车飞机轮船)",
+        "农业林业矿业石油业依次会给你们更多交易收入(因为价格和生产效率提升)",
+        "旅游商业会帮你留住更多游客,游客会带来大量访问收入",
+        "办公会帮你得到外部投资,外部投资靠工业利润得到",
+        "不要上来就解锁全部,发展城市请参考真实世界",
+        "更多细节请阅读工坊页面的UG",
         };
 
 
@@ -359,9 +387,9 @@ namespace RealCity
             "4、城市交易税收入",
             "高密度商业交易税收入",
             "低密度商业交易税收入",
-            "生态商业交易税收入",
-            "旅游商业交易税收入",
             "娱乐商业交易税收入",
+            "旅游商业交易税收入",
+            "生态商业交易税收入",
             "一般工业交易税收入",
             "农业交易税收入",
             "林业交易税收入",

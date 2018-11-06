@@ -62,7 +62,7 @@ namespace RealCity
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
                     {
-                        num = rand.Next(300) + 1;
+                        num = rand.Next(800) + 1;
                     }
                     else
                     {
@@ -74,7 +74,15 @@ namespace RealCity
                 {
                     
                 }
-                else if (MainDataStore.family_money[homeId] >= 15000)
+                else if (MainDataStore.family_money[homeId] >= 80000)
+                {
+                    num = (num << 4);
+                }
+                else if (MainDataStore.family_money[homeId] >= 40000)
+                {
+                    num = (num << 3);
+                }
+                else if (MainDataStore.family_money[homeId] >= 20000)
                 {
                     num = (num << 2);
                 } 
@@ -92,21 +100,23 @@ namespace RealCity
                 if (num != 0)
                 {
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num1);
-                    MainDataStore.family_money[homeId] = (float)(MainDataStore.family_money[homeId] + num1);
+                    num = -100;
+                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
+                    MainDataStore.family_money[homeId] = (float)(MainDataStore.family_money[homeId] + num1 + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
                 }
             }
             else if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = rand.Next(200);
+                    num = rand.Next(400);
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        num = num * 4;
+                        num = num * 8;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        num = num * 2;
+                        num = num * 3;
                     }
                 }
 
@@ -116,20 +126,22 @@ namespace RealCity
                     num = num + 1;
                 }
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num);
+                num = -100;
+                info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
             }
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    int tourism_fee = rand.Next(500);
+                    int tourism_fee = rand.Next(400);
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        tourism_fee = tourism_fee * 4;
+                        tourism_fee = tourism_fee * 8;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        tourism_fee = tourism_fee * 2;
+                        tourism_fee = tourism_fee * 3;
                     }
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
                 }
@@ -140,7 +152,15 @@ namespace RealCity
                     {
 
                     }
-                    else if (MainDataStore.family_money[homeId] >= 15000)
+                    else if (MainDataStore.family_money[homeId] >= 80000)
+                    {
+                        tourism_fee = (tourism_fee << 4);
+                    }
+                    else if (MainDataStore.family_money[homeId] >= 40000)
+                    {
+                        tourism_fee = (tourism_fee << 3);
+                    }
+                    else if (MainDataStore.family_money[homeId] >= 20000)
                     {
                         tourism_fee = (tourism_fee << 2);
                     }
@@ -289,7 +309,7 @@ namespace RealCity
                     ushort num = 0;
 
                     //new added begin
-                    num = RealCityResidentAI.FindNotSoCloseBuilding(frameData.m_position, 64f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
+                    num = RealCityResidentAI.FindNotSoCloseBuilding(frameData.m_position, 128f, ItemClass.Service.Commercial, ItemClass.SubService.None, Building.Flags.Created, Building.Flags.Deleted | Building.Flags.Abandoned);
                     //new added end
                     if (homeBuilding != 0 && num != 0)
                     {

@@ -100,19 +100,27 @@ namespace RealCity
                 {
                     offerIn.Amount = delta;
                     //new added begin
-                    if (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single1 || material == TransferManager.TransferReason.Single2 || material == TransferManager.TransferReason.Single3 || material == TransferManager.TransferReason.Single0B || material == TransferManager.TransferReason.Single1B || material == TransferManager.TransferReason.Single2B || material == TransferManager.TransferReason.Single3B)
+                    bool flag2 = (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single1 || material == TransferManager.TransferReason.Single2 || material == TransferManager.TransferReason.Single3 || material == TransferManager.TransferReason.Single0B || material == TransferManager.TransferReason.Single1B || material == TransferManager.TransferReason.Single2B || material == TransferManager.TransferReason.Single3B);
+                    bool flag = (citizenInfo2.m_citizenAI is ResidentAI) && (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offerIn.Building].Info.m_class.m_service == ItemClass.Service.Residential);
+                    if (flag && flag2)
                     {
-                        //DebugLog.LogToFileOnly("citizen try to Co-lease");
-                        Citizen data = Singleton<CitizenManager>.instance.m_citizens.m_buffer[offerOut.Citizen];
-                        uint num2 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)offerIn.Building].GetEmptyCitizenUnit(CitizenUnit.Flags.Home);
-                        if (num2 != 0)
+                       if (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single0B)
                         {
-                            data.SetHome(offerOut.Citizen, 0, num2);
+                            material = TransferManager.TransferReason.Family0;
                         }
-                        if (data.m_homeBuilding == 0 && (data.CurrentLocation != Citizen.Location.Visit || (data.m_flags & Citizen.Flags.Evacuating) == Citizen.Flags.None))
+                        else if (material == TransferManager.TransferReason.Single1 || material == TransferManager.TransferReason.Single1B)
                         {
-                            Singleton<CitizenManager>.instance.ReleaseCitizen(offerOut.Citizen);
+                            material = TransferManager.TransferReason.Family1;
                         }
+                        else if (material == TransferManager.TransferReason.Single2 || material == TransferManager.TransferReason.Single2B)
+                        {
+                            material = TransferManager.TransferReason.Family2;
+                        }
+                        else if (material == TransferManager.TransferReason.Single3 || material == TransferManager.TransferReason.Single3B)
+                        {
+                            material = TransferManager.TransferReason.Family3;
+                        }
+                        citizenInfo2.m_citizenAI.StartTransfer(citizen2, ref citizens2.m_buffer[(int)((UIntPtr)citizen2)], material, offerIn);
                     }
                     else
                     {

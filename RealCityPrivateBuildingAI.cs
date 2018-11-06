@@ -585,19 +585,19 @@ namespace RealCity
                         // outside will to invest
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = 0.05f;
+                            idex = 0.03f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.1f;
+                            idex = 0.05f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.15f;
+                            idex = 0.1f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.2f;
+                            idex = 0.15f;
                         }
 
                         // Boss will to take 
@@ -822,6 +822,12 @@ namespace RealCity
 
         public static float GetComsumptionDivider(Building data, ushort buildingID)
         {
+            if (data.Info.m_class.m_service == ItemClass.Service.Office)
+            {
+                return 0f;
+            }
+
+
             Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
@@ -851,6 +857,8 @@ namespace RealCity
                     finalIdex = finalIdex / 4f;
                 }
             }
+
+            
             return finalIdex;
         }
 

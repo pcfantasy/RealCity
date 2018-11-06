@@ -270,6 +270,8 @@ namespace RealCity
                         case ItemClass.SubService.PublicTransportPlane:
                         case ItemClass.SubService.PublicTransportCableCar:
                         case ItemClass.SubService.PublicTransportMonorail:
+                        case ItemClass.SubService.PublicTransportTours:
+                        case ItemClass.SubService.PublicTransportPost:
                             if (budget == 0)
                             {
                                 DebugLog.LogToFileOnly("Error:  playerbuilding budget9 = 0");
@@ -372,6 +374,17 @@ namespace RealCity
         }//public
 
 
+        public void BugCheck(uint citizen)
+        {
+            //DebugLog.LogToFileOnly("Error case1" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding.ToString());
+            //DebugLog.LogToFileOnly("Error case2" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_health.ToString());
+            if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
+            {
+                //Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
+                RealCityEconomyExtension.fixEmptyCitizenCount++;
+            }
+        }
+
         public void ProcessCitizen(uint homeID, ref CitizenUnit data, bool isPre)
         {
             if (isPre)
@@ -379,28 +392,48 @@ namespace RealCity
                 MainDataStore.family_money[homeID] = 0;
                 if (data.m_citizen0 != 0)
                 {
-                    citizenCount++;
-                    MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen0];
+                    if (((Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].Dead == false))
+                    {
+                        citizenCount++;
+                        MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen0];
+                        BugCheck(data.m_citizen0);
+                    }
                 }
                 if (data.m_citizen1 != 0)
                 {
-                    citizenCount++;
-                    MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen1];
+                    if (((Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].Dead == false))
+                    {
+                        citizenCount++;
+                        MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen1];
+                        BugCheck(data.m_citizen1);
+                    }
                 }
                 if (data.m_citizen2 != 0)
                 {
-                    citizenCount++;
-                    MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen2];
+                    if (((Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].Dead == false))
+                    {
+                        citizenCount++;
+                        MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen2];
+                        BugCheck(data.m_citizen2);
+                    }
                 }
                 if (data.m_citizen3 != 0)
                 {
-                    citizenCount++;
-                    MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen3];
+                    if (((Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].Dead == false))
+                    {
+                        citizenCount++;
+                        MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen3];
+                        BugCheck(data.m_citizen3);
+                    }
                 }
                 if (data.m_citizen4 != 0)
                 {
-                    citizenCount++;
-                    MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen4];
+                    if (((Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0].Dead == false))
+                    {
+                        citizenCount++;
+                        MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen4];
+                        BugCheck(data.m_citizen4);
+                    }
                 }
             } else
             {
@@ -679,7 +712,7 @@ namespace RealCity
 
             if (MainDataStore.family_money[homeID] < -Politics.benefitOffset)
             {
-                int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f - Politics.benefitOffset);
+                int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f + Politics.benefitOffset);
                 MainDataStore.family_money[homeID] = 0;
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
             } else
@@ -914,7 +947,11 @@ namespace RealCity
             }
 
             //new add begin
-            int temp_num = ProcessFamily(homeID, ref data);
+            int temp_num = 0;
+            if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
+            {
+                temp_num = ProcessFamily(homeID, ref data);
+            }
 
 
             data.m_goods = (ushort)Mathf.Max(1, (int)(data.m_goods - temp_num)); //here we can adjust demand
@@ -933,7 +970,7 @@ namespace RealCity
                         {
                             SimulationManager instance2 = Singleton<SimulationManager>.instance;
                             Citizen[] expr_2FA_cp_0 = instance.m_citizens.m_buffer;
-                            if (instance2.m_randomizer.Int32(500) < 50)
+                            if (instance2.m_randomizer.Int32(400) < 2)
                             {
                                 expr_2FA_cp_0[citizen].Sick = true;
                             }

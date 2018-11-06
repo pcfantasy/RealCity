@@ -559,6 +559,10 @@ namespace RealCity
             if (resource == EconomyManager.Resource.Maintenance)
             {
                 coefficient = (float)MainDataStore.game_expense_divide;
+                if (coefficient == 0)
+                {
+                    coefficient = 1;
+                }
 
                 switch (itemClass.m_service)
                 {
@@ -668,6 +672,10 @@ namespace RealCity
                         {
                             temp = (int)PublicTransport;
                             PublicTransport = PublicTransport - (int)PublicTransport;
+                            //if (itemClass.m_subService == ItemClass.SubService.PublicTransportPost)
+                            //{
+                            //    DebugLog.LogToFileOnly("post maintain fee is " + temp.ToString());
+                            //}
                             Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
                             return amount;
                         }

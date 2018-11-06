@@ -175,7 +175,7 @@ namespace RealCity
                             this.buildingIncomeBuffer.text = string.Format(Language.BuildingUI[1] + " [{0}]" + " " + type, buildingData.m_customBuffer1);
                         }
                         this.buildingOutgoingBuffer.text = string.Format(Language.BuildingUI[2] + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
-                        this.employFee.text = Language.BuildingUI[3] + " " + num.ToString() + " " + Language.BuildingUI[16];
+                        this.employFee.text = Language.BuildingUI[3] + " " + num.ToString() + " " + Language.BuildingUI[6];
                         this.landRent.text = string.Format(Language.BuildingUI[4] + " [{0:N2}]", (float)num1 / 100f);
 
                         this.buyPrice.text = string.Format(Language.BuildingUI[8] + " " + type  + "[{0:N2}]", price);
@@ -255,6 +255,10 @@ namespace RealCity
                             this.CalculateOwnVehicles(MainDataStore.last_buildingid, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
 
                             this.usedcar.text = string.Format(Language.BuildingUI[43] + " [{0}/{1}]", usedCar,car);
+                        }
+                        else
+                        {
+                            this.usedcar.text = Language.BuildingUI[43] + " 0/0";
                         }
 
                         this.BringToFront();

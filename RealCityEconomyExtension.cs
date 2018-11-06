@@ -12,6 +12,9 @@ namespace RealCity
 {
     public class RealCityEconomyExtension : EconomyExtensionBase
     {
+        public static int fixEmptyCitizenCount = 0;
+        public static int fixEmptyBuildingCount = 0;
+
         public static int foodStillNeeded = 0;
         public static int lumberStillNeeded = 0;
         public static int coalStillNeeded = 0;
@@ -88,6 +91,9 @@ namespace RealCity
                         {
                             Politics.parliamentCount = 40;
                         }
+
+                        //DebugLog.LogToFileOnly("fixEmptyCitizenCount = " + fixEmptyCitizenCount.ToString());
+                        fixEmptyCitizenCount = 0;
                         //if (Politics.parliamentMeetingCount < 0)
                         //{
                         //    Politics.parliamentMeetingCount = 1;
@@ -95,6 +101,8 @@ namespace RealCity
                         CitizenStatus();
                     }
 
+                    //DebugLog.LogToFileOnly("fixEmptyBuildingCount = " + fixEmptyBuildingCount.ToString());
+                    fixEmptyBuildingCount = 0;
 
                     CaculateCitizenTransportFee();
                     MainDataStore.update_money_count++;
