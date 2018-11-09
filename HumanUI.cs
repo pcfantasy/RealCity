@@ -102,6 +102,7 @@ namespace RealCity
                     {
                         this.familyGoods.text = string.Format(Language.BuildingUI[40] + " [{0}]", instance3.m_units.m_buffer[homeId].m_goods.ToString());
                     }
+
                     HumanUI.refeshOnce = false;
                 }
             }

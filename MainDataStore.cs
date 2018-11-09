@@ -3,18 +3,18 @@
     public class MainDataStore
     {
 
-        public static byte game_expense_divide = 100;
-        public const byte industialPriceAdjust = 10;
-        public const byte commericalPriceAdjust = 32;
+        public static int game_expense_divide = 100;
+        public const byte industialPriceAdjust = 2;
+        public const byte commericalPriceAdjust = 4;
         //public const byte game_expense_divide1 = 100;
         public static float landPrice = 1f;
         //1.  citizen
         //1.1 citizen salary
         //Goverment
-        public const byte goverment_education0 = 40;
-        public const byte goverment_education1 = 45;
-        public const byte goverment_education2 = 55;
-        public const byte goverment_education3 = 70;
+        public const byte goverment_education0 = 50;
+        public const byte goverment_education1 = 55;
+        public const byte goverment_education2 = 65;
+        public const byte goverment_education3 = 80;
 
         public static int citizen_count = 0;
         public static int family_count = 0;
@@ -104,7 +104,6 @@
 
 
         //3 govement expense
-        public static int Road = 0;
         public static int Electricity = 0;
         public static int Water = 0;
         public static int Beautification = 0;
@@ -251,7 +250,7 @@
             SaveAndRestore.save_floats(ref i, building_money, ref saveData);
 
             //20*4 = 80    //2867344
-            SaveAndRestore.save_int(ref i, Road, ref saveData);
+            SaveAndRestore.save_int(ref i, game_expense_divide, ref saveData);
             SaveAndRestore.save_int(ref i, Electricity, ref saveData);
             SaveAndRestore.save_int(ref i, Water, ref saveData);
             SaveAndRestore.save_int(ref i, Beautification, ref saveData);
@@ -372,7 +371,11 @@
 
             building_money = SaveAndRestore.load_floats(ref i, saveData, building_money.Length);
 
-            Road = SaveAndRestore.load_int(ref i, saveData);
+            game_expense_divide = SaveAndRestore.load_int(ref i, saveData);
+            if (game_expense_divide == 0)
+            {
+                game_expense_divide = 1;
+            }
             Electricity = SaveAndRestore.load_int(ref i, saveData);
             Water = SaveAndRestore.load_int(ref i, saveData);
             Beautification = SaveAndRestore.load_int(ref i, saveData);

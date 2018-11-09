@@ -55,8 +55,11 @@ namespace RealCity
                     if (MainDataStore.landPrice < 1f)
                     {
                         MainDataStore.landPrice = 1f;
+                    } else if (MainDataStore.landPrice > 100f)
+                    {
+                        MainDataStore.landPrice = 100f;
                     }
-                    MainDataStore.game_expense_divide = (byte)((float)100 / MainDataStore.landPrice);
+                    MainDataStore.game_expense_divide = (int)((float)100 / MainDataStore.landPrice);
                     MainDataStore.isCoalsGetted = false;
                     MainDataStore.isFoodsGetted = false;
                     MainDataStore.isPetrolsGetted = false;
@@ -72,10 +75,10 @@ namespace RealCity
                     MainDataStore.isFoodsGettedFinal = (foodStillNeeded <= 0) && (MainDataStore.allFoods != 0);
                     MainDataStore.isPetrolsGettedFinal = (petrolStillNeeded <= 0) && (MainDataStore.allPetrols != 0);
                     MainDataStore.isLumbersGettedFinal = (lumberStillNeeded <= 0) && (MainDataStore.allLumbers != 0);
-                    foodStillNeeded = (MainDataStore.citizen_count > 16) ? (MainDataStore.citizen_count >> 4) : 0;
-                    lumberStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 8) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 3) : 0;
-                    coalStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 16) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 4) : 0;
-                    petrolStillNeeded = MainDataStore.allVehiclesFinal;
+                    foodStillNeeded = (MainDataStore.citizen_count > 32) ? (MainDataStore.citizen_count >> 5) : 0;
+                    lumberStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 4) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 2) : 0;
+                    coalStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 4) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 2) : 0;
+                    petrolStillNeeded = (MainDataStore.allVehiclesFinal << 2);
                     MainDataStore.allVehicles = 0;
                     MainDataStore.allFoods = 0;
                     MainDataStore.allLumbers = 0;
@@ -118,7 +121,7 @@ namespace RealCity
                 PoliticsUI.refeshOnce = true;
                 RealCityUI.refeshOnce = true;
                 EcnomicUI.refeshOnce = true;
-                PlayerBuildingUI.refesh_once = true;
+                PlayerBuildingUI.refeshOnce = true;
                 BuildingUI.refeshOnce = true;
                 HumanUI.refeshOnce = true;
                 FoodButton.refeshOnce = true;

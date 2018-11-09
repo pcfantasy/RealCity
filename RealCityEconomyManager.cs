@@ -555,19 +555,12 @@ namespace RealCity
             // if(itemClass.m_layer == ItemClass.Layer.Markers) means mod added employee expense
             //if (itemClass.m_layer == ItemClass.Layer.ShipPaths) means mod added elecity and heat building oil and coal expense
             int temp;
-            float coefficient;
             if (resource == EconomyManager.Resource.Maintenance)
             {
-                coefficient = (float)MainDataStore.game_expense_divide;
-                if (coefficient == 0)
-                {
-                    coefficient = 1;
-                }
-
                 switch (itemClass.m_service)
                 {
                     case ItemClass.Service.Road:
-                        Road += (float)amount / coefficient;
+                        Road += (float)amount / MainDataStore.game_expense_divide;
                         if (Road > 1)
                         {
                             temp = (int)Road;
@@ -577,7 +570,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Garbage:
-                        Garbage += (float)amount / coefficient;
+                        Garbage += (float)amount / MainDataStore.game_expense_divide;
                         if (Garbage > 1)
                         {
                             temp = (int)Garbage;
@@ -587,7 +580,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.PoliceDepartment:
-                        PoliceDepartment += (float)amount / coefficient;
+                        PoliceDepartment += (float)amount / MainDataStore.game_expense_divide;
                         if (PoliceDepartment > 1)
                         {
                             temp = (int)PoliceDepartment;
@@ -597,7 +590,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Beautification:
-                        Beautification += (float)amount / coefficient;
+                        Beautification += (float)amount / MainDataStore.game_expense_divide;
                         if (Beautification > 1)
                         {
                             temp = (int)Beautification;
@@ -607,7 +600,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Water:
-                        Water += (float)amount / coefficient;
+                        Water += (float)amount / MainDataStore.game_expense_divide;
                         if (Water > 1)
                         {
                             temp = (int)Water;
@@ -617,7 +610,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Education:
-                        Education += (float)amount / coefficient;
+                        Education += (float)amount / MainDataStore.game_expense_divide;
                         if (Education > 1)
                         {
                             temp = (int)Education;
@@ -627,7 +620,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Electricity:
-                        Electricity += (float)amount / coefficient;
+                        Electricity += (float)amount / MainDataStore.game_expense_divide;
                         if (Electricity > 1)
                         {
                             temp = (int)Electricity;
@@ -637,7 +630,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.FireDepartment:
-                        FireDepartment += (float)amount / coefficient;
+                        FireDepartment += (float)amount / MainDataStore.game_expense_divide;
                         if (FireDepartment > 1)
                         {
                             temp = (int)FireDepartment;
@@ -647,7 +640,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Monument:
-                        Monument += amount / coefficient;
+                        Monument += amount / MainDataStore.game_expense_divide;
                         if (Monument > 1)
                         {
                             temp = (int)Monument;
@@ -657,7 +650,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.HealthCare:
-                        HealthCare += (float)amount / coefficient;
+                        HealthCare += (float)amount / MainDataStore.game_expense_divide;
                         if (HealthCare > 1)
                         {
                             temp = (int)HealthCare;
@@ -667,7 +660,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.PublicTransport:
-                        PublicTransport += (float)amount / coefficient;
+                        PublicTransport += (float)amount / MainDataStore.game_expense_divide;
                         if (PublicTransport > 1)
                         {
                             temp = (int)PublicTransport;
@@ -681,7 +674,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.Disaster:
-                        Disaster += (float)amount / coefficient;
+                        Disaster += (float)amount / MainDataStore.game_expense_divide;
                         if (Disaster > 1)
                         {
                             temp = (int)Disaster;
@@ -691,7 +684,7 @@ namespace RealCity
                         }
                         return amount;
                     case ItemClass.Service.PlayerIndustry:
-                        PlayerIndustry += (float)amount;
+                        PlayerIndustry += (float)amount / MainDataStore.game_expense_divide;
                         if (PlayerIndustry > 1)
                         {
                             temp = (int)PlayerIndustry;
@@ -705,6 +698,10 @@ namespace RealCity
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
+                if (MainDataStore.game_expense_divide == 0)
+                {
+                    MainDataStore.game_expense_divide = 1;
+                }
                 Policy_cost += (float)amount / (float)MainDataStore.game_expense_divide;
                 //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString() + " " + amount.ToString());
                 if (Policy_cost > 1)

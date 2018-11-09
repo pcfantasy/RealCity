@@ -68,6 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RealCityPlayerBuildingAI.cs" />
+    <Compile Include="RealCityExtractingFacilityAI.cs" />
+    <Compile Include="RealCityProcessingFacilityAI.cs" />
     <Compile Include="PoliticsButton.cs" />
     <Compile Include="PoliticsUI.cs" />
     <Compile Include="RealCityGarbageTruckAI.cs" />

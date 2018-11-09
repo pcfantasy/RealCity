@@ -55,7 +55,7 @@ namespace RealCity
             this.BButton.name = "BButton";
             this.BButton.tooltipBox = aView.defaultTooltipBox;
             this.BButton.text = "B";
-            this.BButton.textScale = 1.2f;
+            this.BButton.textScale = 1.4f;
             this.BButton.size = new Vector2(30f, 30f);
             this.BButton.relativePosition = new Vector3(0, 0f);
             base.AlignTo(this.RefPanel, this.Alignment);

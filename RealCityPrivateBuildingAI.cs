@@ -585,19 +585,19 @@ namespace RealCity
                         // outside will to invest
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
                         {
-                            idex = 0.03f;
+                            idex = 0.05f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.05f;
+                            idex = 0.1f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.1f;
+                            idex = 0.15f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.15f;
+                            idex = 0.2f;
                         }
 
                         // Boss will to take 

@@ -61,6 +61,7 @@ namespace RealCity
             "(Family Needs Goods)",
             "(include 60% resource tax)",
             "Car used",
+            "Maintain Fee displayed on UI does not include vehicle expanse",
         };
 
 
@@ -146,7 +147,6 @@ namespace RealCity
         "City Lack of Lumber or Coal, Leads to no RICO demand",                              //5
         "City Lack of Petrol, goverment will use less car",                                  //6
         "As a startup city, industrialize is the best and only way to become rich",
-        "Do not try playerIndustry unless you are rich and have various outside connetion",
         "Industry farming foresty ore il will give you more trade income(because of price)",
         "Try commerical tourist to retain tourists",
         "Office can get externalInvestments which is depended on your industry",
@@ -259,6 +259,7 @@ namespace RealCity
             "(家里需要购物)",
             "(含60%资源税)",
             "使用中的车辆",
+            "UI显示的维护费没包括车辆使用费用",
         };
 
     public static string[] OptionUI_Chinese =
@@ -312,7 +313,6 @@ namespace RealCity
         "城市缺少木材和矿物品,没法建房子,所以没任何建筑需求",                                //4
         "城市缺少汽油,政府部门会少出车",                                                     //5
         "作为起步的城市,工业化是唯一的致富途径",
-        "别尝试工业DLC的国营工业,除非你有钱而且有多种外部连接(火车飞机轮船)",
         "农业林业矿业石油业依次会给你们更多交易收入(因为价格和生产效率提升)",
         "旅游商业会帮你留住更多游客,游客会带来大量访问收入",
         "办公会帮你得到外部投资,外部投资靠工业利润得到",

@@ -260,76 +260,94 @@ namespace RealCity
             int num4 = (int)(currentFrameIndex & 255u);
             if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
             {
-                if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
+                if (num4 >= 240)
                 {
-                    if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
+                    if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
                     {
-                        MainDataStore.vehical_transfer_time[i] = (ushort)(MainDataStore.vehical_transfer_time[i] + 1);
-                        if (num4 >= 240)
+                        if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
                         {
-                            if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
+                            MainDataStore.allVehicles++;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)50 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
+                        {
+                            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
                             {
-                                if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
-                                {
-                                    MainDataStore.allVehicles++;
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)30*MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
-                                {
-                                    if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
-                                    {
-                                        //comm_data.allVehicles += 1;
-                                        //Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)6000, vehicle.Info.m_class);
-                                    }
-                                    else
-                                    {
-                                        MainDataStore.allVehicles += 2;
-                                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                    }
-                                }
-                                else if (vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
-                                {
-                                    MainDataStore.allVehicles += 2;
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
-                                {
-                                    MainDataStore.allVehicles += 1;
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)50 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI || vehicle.Info.m_vehicleAI is CargoShipAI)
-                                {
-                                    MainDataStore.allVehicles += 4;
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)250 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI || vehicle.Info.m_vehicleAI is CargoPlaneAI)
-                                {
-                                    MainDataStore.allVehicles += 8;
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)600 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is PassengerTrainAI || vehicle.Info.m_vehicleAI is CargoTrainAI)
-                                {
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)500 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
-                                {
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)400 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
-                                {
-                                    MainDataStore.allVehicles += 8;
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)600 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
-                                else if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
-                                {
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)200 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
-                                }
+                                //comm_data.allVehicles += 1;
+                                //Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)6000, vehicle.Info.m_class);
+                            }
+                            else
+                            {
+                                MainDataStore.allVehicles += 2;
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                             }
                         }
+                        else if (vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
+                        {
+                            MainDataStore.allVehicles += 2;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
+                        {
+                            MainDataStore.allVehicles += 1;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI)
+                        {
+                            MainDataStore.allVehicles += 4;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)200 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is CargoShipAI)
+                        {
+                            MainDataStore.allVehicles += 4;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)50 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
+                        {
+                            MainDataStore.allVehicles += 8;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)350 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
+                        {
+                            MainDataStore.allVehicles += 8;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
+                        {
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)300 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
+                        {
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
+                        {
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)250 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
+                        {
+                            MainDataStore.allVehicles += 8;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)350 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
+                        {
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
                     }
-                    else
+                }
+
+                if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
+                {
+                    if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
                     {
-                        MainDataStore.vehical_transfer_time[i] = 0;
+                        if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
+                        {
+                            MainDataStore.vehical_transfer_time[i] = (ushort)(MainDataStore.vehical_transfer_time[i] + 1);
+                        }
+                        else
+                        {
+                            MainDataStore.vehical_transfer_time[i] = 0;
+                        }
                     }
                 }
             }

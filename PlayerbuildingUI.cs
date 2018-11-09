@@ -20,9 +20,7 @@ namespace RealCity
 
         public CityServiceWorldInfoPanel baseBuildingWindow;
 
-        private UILabel m_HeaderDataText;
-
-        public static bool refesh_once = false;
+        public static bool refeshOnce = false;
 
         //1、citizen tax income
         private UILabel Food;
@@ -46,7 +44,7 @@ namespace RealCity
         public override void Start()
         {
             base.Start();
-            base.backgroundSprite = "MenuPanel";
+            //base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
@@ -66,19 +64,9 @@ namespace RealCity
 
         private void ShowOnGui()
         {
-            this.m_HeaderDataText = base.AddUIComponent<UILabel>();
-            this.m_HeaderDataText.textScale = 0.825f;
-            this.m_HeaderDataText.text = string.Concat(new string[]
-            {
-                "Object Type    [data]"
-            });
-            this.m_HeaderDataText.tooltip = "N/A";
-            this.m_HeaderDataText.relativePosition = new Vector3(SPACING, 50f);
-            this.m_HeaderDataText.autoSize = true;
-
             this.Food = base.AddUIComponent<UILabel>();
             this.Food.text = Language.BuildingUI[16];
-            this.Food.relativePosition = new Vector3(SPACING, this.m_HeaderDataText.relativePosition.y + SPACING22);
+            this.Food.relativePosition = new Vector3(SPACING, 50f);
             this.Food.autoSize = true;
             this.Food.name = "Moreeconomic_Text_0";
 
@@ -106,18 +94,28 @@ namespace RealCity
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
      
-            if (PlayerBuildingUI.refesh_once  || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (PlayerBuildingUI.refeshOnce || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 if (base.isVisible)
                 {
                     MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
 
-                    Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
-                    this.Food.text = string.Format(Language.BuildingUI[16] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
-                    this.Lumber.text = string.Format(Language.BuildingUI[17] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
-                    this.Coal.text = string.Format(Language.BuildingUI[18] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
-                    this.Petrol.text = string.Format(Language.BuildingUI[19] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
-                    PlayerBuildingUI.refesh_once = false;
+                    if (RealCityEconomyExtension.IsSpecialBuilding(MainDataStore.last_buildingid) == 3)
+                    {
+                        Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
+                        this.Food.text = string.Format(Language.BuildingUI[16] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
+                        this.Lumber.text = string.Format(Language.BuildingUI[17] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
+                        this.Coal.text = string.Format(Language.BuildingUI[18] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
+                        this.Petrol.text = string.Format(Language.BuildingUI[19] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
+                    }
+                    else
+                    {
+                        this.Food.text = Language.BuildingUI[44];
+                        this.Lumber.text = "";
+                        this.Coal.text = "";
+                        this.Petrol.text = "";
+                    }
+                    PlayerBuildingUI.refeshOnce = false;
                     this.BringToFront();
                 }
                 else

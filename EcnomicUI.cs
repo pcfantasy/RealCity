@@ -12,7 +12,7 @@ namespace RealCity
 
         public static float WIDTH = 550f;
 
-        private static readonly float HEIGHT = 550f;
+        private static readonly float HEIGHT = 520f;
 
         private static readonly float HEADER = 40f;
 
@@ -96,7 +96,6 @@ namespace RealCity
         private UILabel tip10;
         private UILabel tip11;
         private UILabel tip12;
-        private UILabel tip13;
 
 
         public static bool refeshOnce = false;
@@ -319,12 +318,6 @@ namespace RealCity
             this.tip12.relativePosition = new Vector3(SPACING, this.tip11.relativePosition.y + SPACING22);
             this.tip12.autoSize = true;
             this.tip12.name = "Moreeconomic_Text_50";
-
-            this.tip13 = base.AddUIComponent<UILabel>();
-            this.tip13.text = Language.EconomicUI[29];
-            this.tip13.relativePosition = new Vector3(SPACING, this.tip12.relativePosition.y + SPACING22);
-            this.tip13.autoSize = true;
-            this.tip13.name = "Moreeconomic_Text_50";
         }
 
 
@@ -378,7 +371,6 @@ namespace RealCity
                     this.tip10.text = string.Format(Language.EconomicUI[26] + "  " + Language.TipAndChirperMessage[9]);
                     this.tip11.text = string.Format(Language.EconomicUI[27] + "  " + Language.TipAndChirperMessage[10]);
                     this.tip12.text = string.Format(Language.EconomicUI[28] + "  " + Language.TipAndChirperMessage[11]);
-                    this.tip13.text = string.Format(Language.EconomicUI[29] + "  " + Language.TipAndChirperMessage[12]);
 
 
 

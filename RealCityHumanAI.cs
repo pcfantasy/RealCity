@@ -7,7 +7,7 @@ namespace RealCity
 {
     public class RealCityHumanAI : HumanAI
     {
-        public virtual void VisitorEnter(ushort buildingID, ref Building data, uint citizen)
+        public virtual void CustomVisitorEnter(ushort buildingID, ref Building data, uint citizen)
         {
             //DebugLog.LogToFileOnly("VisitorEnter coming");
             ProcessTourismIncome(buildingID, ref data, citizen);

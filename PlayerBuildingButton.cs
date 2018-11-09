@@ -35,12 +35,9 @@ namespace RealCity
         {
             if (!Loader.guiPanel4.isVisible)
             {
-                PlayerBuildingUI.refesh_once = true;
+                PlayerBuildingUI.refeshOnce = true;
                 MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
-                if (RealCityEconomyExtension.IsSpecialBuilding(MainDataStore.last_buildingid) == 3)
-                {
-                    Loader.guiPanel4.Show();
-                }
+                Loader.guiPanel4.Show();
             }
             else
             {
@@ -77,7 +74,7 @@ namespace RealCity
             this.PBButton.name = "PBButton";
             this.PBButton.tooltipBox = aView.defaultTooltipBox;
             this.PBButton.text = "B";
-            this.PBButton.textScale = 1.2f;
+            this.PBButton.textScale = 1.4f;
             this.PBButton.size = new Vector2(30f, 30f);
             this.PBButton.relativePosition = new Vector3(0, 0f);
             base.AlignTo(this.RefPanel, this.Alignment);
