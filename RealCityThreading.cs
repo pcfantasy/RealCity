@@ -43,11 +43,11 @@ namespace RealCity
                 {
                     if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 40);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + Politics.garbageCount * 8);
                     }
                     else
                     {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + 20);
+                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + Politics.garbageCount * 4);
                     }
                 }
 
@@ -75,7 +75,7 @@ namespace RealCity
         {
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
 
-            if (!Politics.isOutSideGarbagePermit && RealCityOutsideConnectionAI.haveGarbageBuildingFinal && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+            if (RealCityOutsideConnectionAI.haveGarbageBuildingFinal && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
             {
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
@@ -232,10 +232,10 @@ namespace RealCity
                             RealCityOutsideConnectionAI.haveGarbageBuilding = true;
                         }
                     }
-                    else if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Residential && instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable) && ((instance.m_buildings.m_buffer[i].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None))
-                    {
-                        ProcessResidentialBuilding((ushort)i, instance.m_buildings.m_buffer[i]);
-                    }
+                    //else if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Residential && instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable) && ((instance.m_buildings.m_buffer[i].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None))
+                    //{
+                    //    ProcessResidentialBuilding((ushort)i, instance.m_buildings.m_buffer[i]);
+                    //}
                 }
 
 
@@ -254,14 +254,14 @@ namespace RealCity
 
         public void VehicleStatus(int i, uint currentFrameIndex)
         {
-            VehicleManager instance = Singleton<VehicleManager>.instance;
-            //System.Random rand = new System.Random();
-            Vehicle vehicle = instance.m_vehicles.m_buffer[i];
             int num4 = (int)(currentFrameIndex & 255u);
-            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
+            if (((num4 >> 4) & 15u) == (i & 15u))
             {
-                if (num4 >= 240)
+                VehicleManager instance = Singleton<VehicleManager>.instance;
+                Vehicle vehicle = instance.m_vehicles.m_buffer[i];               
+                if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Created) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Deleted))
                 {
+
                     if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
                     {
                         if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
@@ -271,15 +271,22 @@ namespace RealCity
                         }
                         else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                         {
-                            if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
+                            Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)vehicle.m_sourceBuilding];
+                            if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
                             {
-                                //comm_data.allVehicles += 1;
-                                //Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)6000, vehicle.Info.m_class);
+                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.GarbageMove)
+                                {
+                                    //comm_data.allVehicles += 1;
+                                    //Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)6000, vehicle.Info.m_class);
+                                    //Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, 80, 80, vehicle.GetLastFramePosition(), 5f);
+                                    //DebugLog.LogToFileOnly("vehicle.sourcebuilding = " + vehicle.m_sourceBuilding.ToString() + vehicle.m_flags.ToString());
+
+                                }
                             }
                             else
                             {
                                 MainDataStore.allVehicles += 2;
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                             }
                         }
                         else if (vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
@@ -295,97 +302,93 @@ namespace RealCity
                         else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI)
                         {
                             MainDataStore.allVehicles += 4;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)200 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)500 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is CargoShipAI)
                         {
                             MainDataStore.allVehicles += 4;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)50 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)500 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                         {
                             MainDataStore.allVehicles += 8;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)350 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)800 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                         {
                             MainDataStore.allVehicles += 8;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)800 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)300 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)130 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)130 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)250 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)120 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
                         {
                             MainDataStore.allVehicles += 8;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)350 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)800 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)110 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                        }
+                        else if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
+                        {
+                            if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
+                            {
+                                MainDataStore.vehical_transfer_time[i] = (ushort)(MainDataStore.vehical_transfer_time[i] + 16);
+                            }
+                            else
+                            {
+                                MainDataStore.vehical_transfer_time[i] = 0;
+                            }
                         }
                     }
                 }
-
-                if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
+                else
                 {
-                    if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
-                    {
-                        if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
-                        {
-                            MainDataStore.vehical_transfer_time[i] = (ushort)(MainDataStore.vehical_transfer_time[i] + 1);
-                        }
-                        else
-                        {
-                            MainDataStore.vehical_transfer_time[i] = 0;
-                        }
-                    }
+                    MainDataStore.vehical_transfer_time[i] = 0;
                 }
-            }
-            else
-            {
-                MainDataStore.vehical_transfer_time[i] = 0;
             }
         }
 
 
-        void ProcessResidentialBuilding(ushort buildingID, Building buildingData)
+        /*void ProcessResidentialBuilding(ushort buildingID, Building buildingData)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint num = buildingData.m_citizenUnits;
             int num2 = 0;
             while (num != 0u)
             {
+                CitizenUnit Data = instance.m_units.m_buffer[(int)((UIntPtr)num)];
                 if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Home) != 0)
                 {
-                    uint citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen0;
+                    uint citizen = Data.m_citizen0;
                     if (citizen != 0)
                     {
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
+                        Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen];
+                        if ((citizenData.m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
                         {
-                            //DebugLog.LogToFileOnly("Error case1" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding.ToString());
-                            //DebugLog.LogToFileOnly("Error case2" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_health.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].Dead.ToString());
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                             }
                             Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                             RealCityEconomyExtension.fixEmptyBuildingCount++;
                         }
                         else
                         {
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                                 Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                                 RealCityEconomyExtension.fixEmptyBuildingCount++;
                             }
@@ -394,22 +397,21 @@ namespace RealCity
                     citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen1;
                     if (citizen != 0)
                     {
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
+                        Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen];
+                        if ((citizenData.m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
                         {
-                            //DebugLog.LogToFileOnly("Error case1" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding.ToString());
-                            //DebugLog.LogToFileOnly("Error case2" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_health.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].Dead.ToString());
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                             }
                             Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                             RealCityEconomyExtension.fixEmptyBuildingCount++;
                         }
                         else
                         {
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                                 Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                                 RealCityEconomyExtension.fixEmptyBuildingCount++;
                             }
@@ -418,22 +420,21 @@ namespace RealCity
                     citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen2;
                     if (citizen != 0)
                     {
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
+                        Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen];
+                        if ((citizenData.m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
                         {
-                            //DebugLog.LogToFileOnly("Error case1" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding.ToString());
-                            //DebugLog.LogToFileOnly("Error case2" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_health.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].Dead.ToString());
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                             }
                             Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                             RealCityEconomyExtension.fixEmptyBuildingCount++;
                         }
                         else
                         {
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                                 Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                                 RealCityEconomyExtension.fixEmptyBuildingCount++;
                             }
@@ -442,22 +443,21 @@ namespace RealCity
                     citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen3;
                     if (citizen != 0)
                     {
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
+                        Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen];
+                        if ((citizenData.m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
                         {
-                            //DebugLog.LogToFileOnly("Error case1" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding.ToString());
-                            //DebugLog.LogToFileOnly("Error case2" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_health.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].Dead.ToString());
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                             }
                             Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                             RealCityEconomyExtension.fixEmptyBuildingCount++;
                         }
                         else
                         {
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                                 Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                                 RealCityEconomyExtension.fixEmptyBuildingCount++;
                             }
@@ -466,22 +466,21 @@ namespace RealCity
                     citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen4;
                     if (citizen != 0)
                     {
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
+                        Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen];
+                        if ((citizenData.m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
                         {
-                            //DebugLog.LogToFileOnly("Error case1" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding.ToString());
-                            //DebugLog.LogToFileOnly("Error case2" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_health.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].Dead.ToString());
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                             }
                             Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                             RealCityEconomyExtension.fixEmptyBuildingCount++;
                         }
                         else
                         {
-                            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding != buildingID)
+                            if (citizenData.m_homeBuilding != buildingID)
                             {
-                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding = buildingID;
+                                citizenData.m_homeBuilding = buildingID;
                                 Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
                                 RealCityEconomyExtension.fixEmptyBuildingCount++;
                             }
@@ -494,7 +493,7 @@ namespace RealCity
                     CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                     break;
                 }
-            }
+            }*/
 
 
            /* buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
@@ -552,7 +551,7 @@ namespace RealCity
                 }
             }*/
 
-        }
+        //}
 
         void ProcessCityResourceDepartmentBuilding(ushort buildingID, Building buildingData)
         {

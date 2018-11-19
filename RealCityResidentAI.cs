@@ -277,6 +277,13 @@ namespace RealCity
                             {
                                 DebugLog.LogToFileOnly("Error:  playerbuilding budget9 = 0");
                             }
+                            int allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+                            if (totalWorkCount > allWorkCount)
+                            {
+                                DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
+                                allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                            }
+                            float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
@@ -288,9 +295,10 @@ namespace RealCity
                                 case Citizen.Education.ThreeSchools:
                                     num = num + (int)(MainDataStore.goverment_education3) + rand.Next(4); break;
                             }
+                            num = (int)(num * budget / 100f);
                             if (!checkOnly)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * budget * MainDataStore.game_expense_divide / 100f), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                             }
                             break; //
                         default: break;
@@ -319,6 +327,17 @@ namespace RealCity
                             {
                                 DebugLog.LogToFileOnly("Error:  playerbuilding budget20 = 0");
                             }
+                            int allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+                            float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
+                            if (totalWorkCount > allWorkCount)
+                            {
+                                if (RealCityEconomyExtension.IsSpecialBuilding((ushort)workBuilding) != 3)
+                                {
+                                    DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
+                                }
+                                allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                                idex = 1;
+                            }
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
@@ -330,10 +349,11 @@ namespace RealCity
                                 case Citizen.Education.ThreeSchools:
                                     num = num + (int)(MainDataStore.goverment_education3) + rand.Next(4); break;
                             }
+                            num = (int)(num * budget / 100f);
                             if (!checkOnly)
                             {
                                 //DebugLog.LogToFileOnly(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_flags.ToString());
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * budget * MainDataStore.game_expense_divide / 100f), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                             }
                             break; //
                         default:
@@ -353,9 +373,21 @@ namespace RealCity
                             case Citizen.Education.ThreeSchools:
                                 num = num + (int)(MainDataStore.goverment_education3) + rand.Next(4); break;
                         }
+                        if (budget == 0)
+                        {
+                            DebugLog.LogToFileOnly("Error:  playerbuilding budget20 = 0");
+                        }
+                        int allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+                        if (totalWorkCount > allWorkCount)
+                        {
+                            DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
+                            allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                        }
+                        float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
+                        num = (int)(num * budget / 100f);
                         if (!checkOnly)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                         }
                     }
                     //DebugLog.LogToFileOnly("salary4 is " + num.ToString());
@@ -371,17 +403,204 @@ namespace RealCity
             return num;
         }//public
 
-
-        public void BugCheck(uint citizen)
+        public static int TotalWorkCount(ushort buildingID, Building data, bool checkOnly, bool update)
         {
+            int num = 0;
+
+
+            if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) == 3)
+            {
+                num = 1;
+            }
+            else if (MainDataStore.buildingFlag[buildingID] && !update)
+            {
+                num = MainDataStore.building_buffer1[buildingID];
+            }
+            else
+            {
+                if (data.Info.m_buildingAI is LandfillSiteAI)
+                {
+                    LandfillSiteAI buildingAI = data.Info.m_buildingAI as LandfillSiteAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is ExtractingFacilityAI)
+                {
+                    ExtractingFacilityAI buildingAI = data.Info.m_buildingAI as ExtractingFacilityAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is ProcessingFacilityAI)
+                {
+                    ProcessingFacilityAI buildingAI = data.Info.m_buildingAI as ProcessingFacilityAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is PoliceStationAI)
+                {
+                    PoliceStationAI buildingAI = data.Info.m_buildingAI as PoliceStationAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is FireStationAI)
+                {
+                    FireStationAI buildingAI = data.Info.m_buildingAI as FireStationAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is HospitalAI)
+                {
+                    HospitalAI buildingAI = data.Info.m_buildingAI as HospitalAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is CargoStationAI)
+                {
+                    CargoStationAI buildingAI = data.Info.m_buildingAI as CargoStationAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is TransportStationAI)
+                {
+                    TransportStationAI buildingAI = data.Info.m_buildingAI as TransportStationAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is CemeteryAI)
+                {
+                    CemeteryAI buildingAI = data.Info.m_buildingAI as CemeteryAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is MedicalCenterAI)
+                {
+                    MedicalCenterAI buildingAI = data.Info.m_buildingAI as MedicalCenterAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is MonumentAI)
+                {
+                    MonumentAI buildingAI = data.Info.m_buildingAI as MonumentAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is DepotAI)
+                {
+                    DepotAI buildingAI = data.Info.m_buildingAI as DepotAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is HelicopterDepotAI)
+                {
+                    HelicopterDepotAI buildingAI = data.Info.m_buildingAI as HelicopterDepotAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is MaintenanceDepotAI)
+                {
+                    MaintenanceDepotAI buildingAI = data.Info.m_buildingAI as MaintenanceDepotAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is FirewatchTowerAI)
+                {
+                    FirewatchTowerAI buildingAI = data.Info.m_buildingAI as FirewatchTowerAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is DoomsdayVaultAI)
+                {
+                    DoomsdayVaultAI buildingAI = data.Info.m_buildingAI as DoomsdayVaultAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is DisasterResponseBuildingAI)
+                {
+                    DisasterResponseBuildingAI buildingAI = data.Info.m_buildingAI as DisasterResponseBuildingAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is HadronColliderAI)
+                {
+                    HadronColliderAI buildingAI = data.Info.m_buildingAI as HadronColliderAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is SchoolAI)
+                {
+                    SchoolAI buildingAI = data.Info.m_buildingAI as SchoolAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is PowerPlantAI)
+                {
+                    PowerPlantAI buildingAI = data.Info.m_buildingAI as PowerPlantAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is SnowDumpAI)
+                {
+                    SnowDumpAI buildingAI = data.Info.m_buildingAI as SnowDumpAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is WarehouseAI)
+                {
+                    WarehouseAI buildingAI = data.Info.m_buildingAI as WarehouseAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is WaterFacilityAI)
+                {
+                    WaterFacilityAI buildingAI = data.Info.m_buildingAI as WaterFacilityAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is SaunaAI)
+                {
+                    SaunaAI buildingAI = data.Info.m_buildingAI as SaunaAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is PostOfficeAI)
+                {
+                    PostOfficeAI buildingAI = data.Info.m_buildingAI as PostOfficeAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is RadioMastAI)
+                {
+                    RadioMastAI buildingAI = data.Info.m_buildingAI as RadioMastAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is SpaceElevatorAI)
+                {
+                    SpaceElevatorAI buildingAI = data.Info.m_buildingAI as SpaceElevatorAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is SpaceRadarAI)
+                {
+                    SpaceRadarAI buildingAI = data.Info.m_buildingAI as SpaceRadarAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is MainIndustryBuildingAI)
+                {
+                    MainIndustryBuildingAI buildingAI = data.Info.m_buildingAI as MainIndustryBuildingAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is AuxiliaryBuildingAI)
+                {
+                    AuxiliaryBuildingAI buildingAI = data.Info.m_buildingAI as AuxiliaryBuildingAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is ShelterAI)
+                {
+                    ShelterAI buildingAI = data.Info.m_buildingAI as ShelterAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is HeatingPlantAI)
+                {
+                    HeatingPlantAI buildingAI = data.Info.m_buildingAI as HeatingPlantAI;
+                    num = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else
+                {
+                    if (!checkOnly)
+                    {
+                        DebugLog.LogToFileOnly("error, find unknow building = " + data.Info.m_buildingAI.ToString());
+                    }
+                }
+
+                MainDataStore.buildingFlag[buildingID] = true;
+                MainDataStore.building_buffer1[buildingID] = num;
+            }
+            return num;
+        }
+        //public void BugCheck(uint citizen)
+        //{
             //DebugLog.LogToFileOnly("Error case1" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags.ToString() + " " + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_homeBuilding.ToString());
             //DebugLog.LogToFileOnly("Error case2" + Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_health.ToString());
-            if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
-            {
+         //   if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Created) == Citizen.Flags.None)
+         //   {
                 //Singleton<CitizenManager>.instance.ReleaseCitizen(citizen);
-                RealCityEconomyExtension.fixEmptyCitizenCount++;
-            }
-        }
+        //        RealCityEconomyExtension.fixEmptyCitizenCount++;
+        //    }
+        //}
 
         public void ProcessCitizen(uint homeID, ref CitizenUnit data, bool isPre)
         {
@@ -395,7 +614,7 @@ namespace RealCity
                     {
                         citizenCount++;
                         MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen0];
-                        BugCheck(data.m_citizen0);
+                        //BugCheck(data.m_citizen0);
                     }
                 }
                 if (data.m_citizen1 != 0)
@@ -405,7 +624,7 @@ namespace RealCity
                     {
                         citizenCount++;
                         MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen1];
-                        BugCheck(data.m_citizen1);
+                        //BugCheck(data.m_citizen1);
                     }
                 }
                 if (data.m_citizen2 != 0)
@@ -415,7 +634,7 @@ namespace RealCity
                     {
                         citizenCount++;
                         MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen2];
-                        BugCheck(data.m_citizen2);
+                        //BugCheck(data.m_citizen2);
                     }
                 }
                 if (data.m_citizen3 != 0)
@@ -425,7 +644,7 @@ namespace RealCity
                     {
                         citizenCount++;
                         MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen3];
-                        BugCheck(data.m_citizen3);
+                        //BugCheck(data.m_citizen3);
                     }
                 }
                 if (data.m_citizen4 != 0)
@@ -435,7 +654,7 @@ namespace RealCity
                     {
                         citizenCount++;
                         MainDataStore.family_money[homeID] += MainDataStore.citizen_money[data.m_citizen4];
-                        BugCheck(data.m_citizen4);
+                        //BugCheck(data.m_citizen4);
                     }
                 }
             }
@@ -1108,19 +1327,19 @@ namespace RealCity
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.resident_low_eco_level1_rent;
+                            incomeAccumulation = MainDataStore.resident_low_level1_rent << 1;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.resident_low_eco_level2_rent;
+                            incomeAccumulation = MainDataStore.resident_low_level2_rent << 1;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.resident_low_eco_level3_rent;
+                            incomeAccumulation = MainDataStore.resident_low_level3_rent << 1;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.resident_low_eco_level4_rent;
+                            incomeAccumulation = MainDataStore.resident_low_level4_rent << 1;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.resident_low_eco_level5_rent;
+                            incomeAccumulation = MainDataStore.resident_low_level5_rent << 1;
                             break;
                     }
                 }
@@ -1150,19 +1369,19 @@ namespace RealCity
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.resident_high_eco_level1_rent;
+                            incomeAccumulation = MainDataStore.resident_high_level1_rent << 1;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.resident_high_eco_level2_rent;
+                            incomeAccumulation = MainDataStore.resident_high_level2_rent << 1;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.resident_high_eco_level3_rent;
+                            incomeAccumulation = MainDataStore.resident_high_level3_rent << 1;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.resident_high_eco_level4_rent;
+                            incomeAccumulation = MainDataStore.resident_high_level4_rent << 1;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.resident_high_eco_level5_rent;
+                            incomeAccumulation = MainDataStore.resident_high_level5_rent << 1;
                             break;
                     }
                 }

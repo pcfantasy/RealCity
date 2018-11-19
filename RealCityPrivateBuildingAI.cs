@@ -148,32 +148,16 @@ namespace RealCity
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
                 float temp = GetComsumptionDivider(buildingData, buildingID);
-                if (MainDataStore.building_buffer1[buildingID] > 64000)
+                int deltaCustomBuffer1 = MainDataStore.building_buffer1[buildingID] - buildingData.m_customBuffer1;
+                if (deltaCustomBuffer1 > 0)
                 {
-                    int deltaCustomBuffer1 = 64000 - buildingData.m_customBuffer1;
-                    if (deltaCustomBuffer1 > 0)
+                    if (deltaCustomBuffer1 > 500)
                     {
-                        if (deltaCustomBuffer1 > 500)
-                        {
-                            deltaCustomBuffer1 = 500;
-                        }
-                        buildingData.m_customBuffer1 = 64000;
+                        deltaCustomBuffer1 = 500;
                     }
-                    MainDataStore.building_buffer1[buildingID] -= (int)(deltaCustomBuffer1 / temp);
+                    buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
                 }
-                else
-                {
-                    int deltaCustomBuffer1 = MainDataStore.building_buffer1[buildingID] - buildingData.m_customBuffer1;
-                    if (deltaCustomBuffer1 > 0)
-                    {
-                        if (deltaCustomBuffer1 > 500)
-                        {
-                            deltaCustomBuffer1 = 500;
-                        }
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
-                    }
-                    MainDataStore.building_buffer1[buildingID] = (ushort)buildingData.m_customBuffer1;
-                }
+                MainDataStore.building_buffer1[buildingID] = (ushort)buildingData.m_customBuffer1;
 
                 if (Singleton<SimulationManager>.instance.m_isNightTime)
                 {
@@ -879,8 +863,14 @@ namespace RealCity
                     cargo += Mathf.Min(a, num3);
                     if (transferType == material2 && isHighPriceProduction(buildingID, ref data, material2))
                     {
-                        //make building full, not add incoming for other production.
-                        capacity += num3*10;
+                        if (material2 == TransferManager.TransferReason.LuxuryProducts)
+                        {
+                            capacity += num3 * MainDataStore.commericalPriceAdjust;
+                        }
+                        else
+                        {
+                            capacity += (int)(num3 * MainDataStore.industialPriceAdjust);
+                        }
                     }
                     else
                     {

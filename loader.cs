@@ -47,10 +47,7 @@ namespace RealCity
         public static BuildingButton BMenuPanel;
         public static PlayerBuildingButton PBMenuPanel;
 
-        public static FoodButton FMenuPanel;
-        public static CoalButton CMenuPanel;
-        public static LumberButton LMenuPanel;
-        public static PetrolButton PMenuPanel;
+        public static ResourceBotton RMenuPanel;
 
         public static RedirectCallsState state1;
         public static RedirectCallsState state2;
@@ -141,7 +138,7 @@ namespace RealCity
             RealCityResidentAI.saveData = new byte[140];
             MainDataStore.saveData = new byte[3932402];
             MainDataStore.saveData1 = new byte[4194304];
-            Politics.saveData = new byte[101];
+            Politics.saveData = new byte[103];
             System.Random rand = new System.Random();
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
             RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(600);
@@ -194,10 +191,8 @@ namespace RealCity
             SetupCityButton();
             SetupBuildingButton();
             SetupPlayerBuildingButton();
-            SetupFoodButton();
-            SetupCoalButton();
-            SetupLumberButton();
-            SetupPetrolButton();
+            SetupResourceButton();
+
 
             Loader.isGuiRunning = true;
         }
@@ -302,40 +297,13 @@ namespace RealCity
         }
 
 
-        public static void SetupFoodButton()
+        public static void SetupResourceButton()
         {
-            if (FMenuPanel == null)
+            if (RMenuPanel == null)
             {
-                FMenuPanel = (parentGuiView.AddUIComponent(typeof(FoodButton)) as FoodButton);
+                RMenuPanel = (parentGuiView.AddUIComponent(typeof(ResourceBotton)) as ResourceBotton);
             }
-            FMenuPanel.Show();
-        }
-
-        public static void SetupCoalButton()
-        {
-            if (CMenuPanel == null)
-            {
-                CMenuPanel = (parentGuiView.AddUIComponent(typeof(CoalButton)) as CoalButton);
-            }
-            CMenuPanel.Show();
-        }
-
-        public static void SetupLumberButton()
-        {
-            if (LMenuPanel == null)
-            {
-                LMenuPanel = (parentGuiView.AddUIComponent(typeof(LumberButton)) as LumberButton);
-            }
-            LMenuPanel.Show();
-        }
-
-        public static void SetupPetrolButton()
-        {
-            if (PMenuPanel == null)
-            {
-                PMenuPanel = (parentGuiView.AddUIComponent(typeof(PetrolButton)) as PetrolButton);
-            }
-            PMenuPanel.Show();
+            RMenuPanel.Show();
         }
 
         public static void SetupPLButton()
@@ -421,24 +389,14 @@ namespace RealCity
                 UnityEngine.Object.Destroy(guiPanel5);
                 UnityEngine.Object.Destroy(EcMenuPanel);
                 UnityEngine.Object.Destroy(RcMenuPanel);
-                
-                UnityEngine.Object.Destroy(CMenuPanel);
-                
-                UnityEngine.Object.Destroy(PMenuPanel);
-                UnityEngine.Object.Destroy(FMenuPanel);
-                UnityEngine.Object.Destroy(LMenuPanel);
-                UnityEngine.Object.Destroy(RcMenuPanel);
+                UnityEngine.Object.Destroy(RMenuPanel);
 
                 Loader.guiPanel = null;
                 Loader.guiPanel1 = null;
                 Loader.guiPanel5 = null;
                 Loader.EcMenuPanel = null;
                 Loader.RcMenuPanel = null;                
-                Loader.CMenuPanel = null;               
-                Loader.PMenuPanel = null;
-                Loader.FMenuPanel = null;
-                Loader.LMenuPanel = null;
-                Loader.RcMenuPanel = null;
+                Loader.RMenuPanel = null;               
             }
 
             if (buildingInfo != null)

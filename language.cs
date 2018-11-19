@@ -62,6 +62,7 @@ namespace RealCity
             "(include 60% resource tax)",
             "Car used",
             "Maintain Fee displayed on UI does not include vehicle expanse",
+            "Local Worker/ Total Worker:"
         };
 
 
@@ -90,18 +91,18 @@ namespace RealCity
         "fallCommericalTax",                                    //21
         "riseIndustrialTax",                                    //22
         "fallIndustrialTax",                                    //23
-        "allowOutsideGarbage",                                  //24
-        "notAllowOutsideGarbage",                               //25
+        "riseOutsideGarbage",                                  //24
+        "fallOutsideGarbage",                               //25
         "VoteResult ",                                          //26
         "Yes",                                                  //27
         "No",                                                   //28
         "NoAttend",                                             //29
         "Current Policy:",                                      //30
-        "Allow Outside Garbage:",                               //31
+        "Allow Outside Garbage Count(offset):",                 //31
         "Benefit:",                                             //32
-        "ResidentSalaryTax:",                                             //32
-        "CommericalTradeTax:",                                             //32
-        "IndustrialTradeTax:",                                             //32
+        "ResidentSalaryTax:",                                             //33
+        "CommericalTradeTax:",                                             //34
+        "IndustrialTradeTax:",                                             //35
         };
 
         public static string[] EconomicUI_English =
@@ -117,9 +118,9 @@ namespace RealCity
             "highSalaryCount",                                       //8
             "mediumSalaryCount",                                     //9
             "lowSalaryCount",                                        //10
-            "WealthHighCount",                                       //11
-            "WealthMediumCount",                                     //12
-            "WealthLowCount",                                        //13                      
+            "wealthHighCount",                                       //11
+            "wealthMediumCount",                                     //12
+            "wealthLowCount",                                        //13                      
             "2、Building Status",                                    //14
             "profit(I&C)Building",                                   //15
             "externalInvestments(for office)",                       //16
@@ -260,6 +261,7 @@ namespace RealCity
             "(含60%资源税)",
             "使用中的车辆",
             "UI显示的维护费没包括车辆使用费用",
+            "本地工人/全体工人:"
         };
 
     public static string[] OptionUI_Chinese =
@@ -283,9 +285,9 @@ namespace RealCity
             "收支优秀的户数",                              //8
             "收支尚可的户数",                              //9
             "收支糟糕的户数",                              //10
-            "财富稳定性高",                                //11
-            "财富稳定性中",                                //12
-            "财富稳定性低",                                //13
+            "富裕家庭",                                //11
+            "中产家庭",                                //12
+            "贫穷家庭",                                //13
             "2、建筑情况",                                 //14
             "赚钱的公司数目",                              //15
             "可用于投资办公的钱",                          //16
@@ -346,14 +348,14 @@ namespace RealCity
         "降低商业税",                                   //21
         "增加工业税",                                   //22
         "降低工业税",                                   //23
-        "允许外来垃圾",                                   //24
-        "禁止外来垃圾",                                   //25
+        "增加外来垃圾",                                   //24
+        "减少外来垃圾",                                   //25
         "投票结果",                                     //26
         "赞成",                                       //27
         "反对",                                       //28
         "弃权",                                       //29
         "目前政策",                                   //30
-        "允许外来垃圾",                               //31
+        "允许外来垃圾数量指数",                       //31
         "福利值",                                     //32
         "居民个人所得税:",                                             //32
         "商业交易税:",                                             //32

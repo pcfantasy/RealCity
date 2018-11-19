@@ -117,7 +117,7 @@ namespace RealCity
             this.isInteractive = true;
             this.BringToFront();
             //base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
-            base.relativePosition = new Vector3(200f, 150f);
+            base.relativePosition = new Vector3(200f, 170f);
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;

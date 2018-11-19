@@ -47,7 +47,7 @@ namespace RealCity
                 //new added here
                 float tempNum = CaculateEmployeeOutcome(buildingID, data);
                 //DebugLog.LogToFileOnly("RealCityProcessingFacilityAI GetResourceRate facility " + tempNum.ToString());
-                num3 = (int)((float)(num3 / MainDataStore.game_expense_divide) + tempNum * 100f);
+                num3 = (int)((float)(num3 / MainDataStore.game_expense_divide) + tempNum * budget);
                 //DebugLog.LogToFileOnly("RealCityProcessingFacilityAI GetResourceRate facility post " + num3.ToString());
                 //new added end
                 return -num3;
@@ -66,7 +66,20 @@ namespace RealCity
             num1 += behaviour.m_educated1Count * MainDataStore.goverment_education1;
             num1 += behaviour.m_educated2Count * MainDataStore.goverment_education2;
             num1 += behaviour.m_educated3Count * MainDataStore.goverment_education3;
-            return num1/16f;
+            int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, false);
+            if (totalWorkerCount > allWorkCount)
+            {
+                DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
+                allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
+            }
+
+            if ((aliveWorkerCount == 0) && (allWorkCount != 0))
+            {
+                num1 = MainDataStore.goverment_education3 * allWorkCount;
+            }
+
+            float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1;
+            return num1 * idex / 16f;
         }
 
     }

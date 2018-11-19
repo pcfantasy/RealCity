@@ -74,10 +74,7 @@
     <Compile Include="PoliticsButton.cs" />
     <Compile Include="PoliticsUI.cs" />
     <Compile Include="RealCityGarbageTruckAI.cs" />
-    <Compile Include="CoalButton.cs" />
-    <Compile Include="LumberButton.cs" />
-    <Compile Include="PetrolButton.cs" />
-    <Compile Include="FoodButton.cs" />
+    <Compile Include="ResourceBotton.cs" />
     <Compile Include="RealCityIndustrialExtractorAI.cs" />
     <Compile Include="RealCityIndustryBuildingAI.cs" />
     <Compile Include="RealCityOutsideConnectionAI.cs" />

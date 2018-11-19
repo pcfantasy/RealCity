@@ -148,30 +148,14 @@ namespace RealCity
                 process_incoming(buildingID, ref data, material, ref amountDelta);
 
                 if (material == GetSecondaryIncomingTransferReason(buildingID))
-                {
-                    if ((customBuffer + amountDelta * MainDataStore.industialPriceAdjust) > 64000)
-                    {
-                        data.m_customBuffer1 = 64000;
-                        MainDataStore.building_buffer1[buildingID] += amountDelta * MainDataStore.industialPriceAdjust;
-                    }
-                    else
-                    {
-                        data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                {                 
+                        data.m_customBuffer1 = (ushort)(customBuffer + amountDelta * MainDataStore.industialPriceAdjust);
                         MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                    }
                 }
                 else
                 {
-                    if ((customBuffer + amountDelta) > 64000)
-                    {
-                        data.m_customBuffer1 = 64000;
-                        MainDataStore.building_buffer1[buildingID] += amountDelta;
-                    }
-                    else
-                    {
                         data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
                         MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                    }
                 }
             }
             else if (material == GetOutgoingTransferReason())

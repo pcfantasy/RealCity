@@ -24,7 +24,7 @@ namespace RealCity
                 //new added here
                 float tempNum = CaculateEmployeeOutcome(buildingID, data);
                 //DebugLog.LogToFileOnly("RealCityPlayerBuildingAI GetResourceRate facility " + tempNum.ToString());
-                num2 = (int)((float)(num2 / MainDataStore.game_expense_divide) + tempNum * 100f);
+                num2 = (int)((float)(num2 / MainDataStore.game_expense_divide) + tempNum * budget);
                 //DebugLog.LogToFileOnly("RealCityPlayerBuildingAI GetResourceRate facility post " + num2.ToString());
                 //new added end
                 return -num2;
@@ -44,7 +44,26 @@ namespace RealCity
             num1 += behaviour.m_educated1Count * MainDataStore.goverment_education1;
             num1 += behaviour.m_educated2Count * MainDataStore.goverment_education2;
             num1 += behaviour.m_educated3Count * MainDataStore.goverment_education3;
-            return num1 / 16f;
+            int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, false);
+
+
+            if ((aliveWorkerCount == 0) && (allWorkCount!=0))
+            {
+                num1 = MainDataStore.goverment_education3 * allWorkCount;
+            }
+
+            float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1f;
+            if (totalWorkerCount > allWorkCount)
+            {
+                if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) != 3)
+                {
+                    DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
+                    allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
+                }
+                //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
+                idex = 1f;
+            }
+            return num1 * idex / 16f;
         }
 
         public int GetBudget(ushort buildingID, ref Building buildingData)

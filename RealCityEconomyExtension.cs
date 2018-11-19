@@ -76,9 +76,9 @@ namespace RealCity
                     MainDataStore.isPetrolsGettedFinal = (petrolStillNeeded <= 0) && (MainDataStore.allPetrols != 0);
                     MainDataStore.isLumbersGettedFinal = (lumberStillNeeded <= 0) && (MainDataStore.allLumbers != 0);
                     foodStillNeeded = (MainDataStore.citizen_count > 32) ? (MainDataStore.citizen_count >> 5) : 0;
-                    lumberStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 4) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 2) : 0;
-                    coalStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 4) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 2) : 0;
-                    petrolStillNeeded = (MainDataStore.allVehiclesFinal << 2);
+                    lumberStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 8) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 3) : 0;
+                    coalStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 8) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 3) : 0;
+                    petrolStillNeeded = (MainDataStore.allVehiclesFinal << 1);
                     MainDataStore.allVehicles = 0;
                     MainDataStore.allFoods = 0;
                     MainDataStore.allLumbers = 0;
@@ -96,7 +96,7 @@ namespace RealCity
                         }
 
                         //DebugLog.LogToFileOnly("fixEmptyCitizenCount = " + fixEmptyCitizenCount.ToString());
-                        fixEmptyCitizenCount = 0;
+                        //fixEmptyCitizenCount = 0;
                         //if (Politics.parliamentMeetingCount < 0)
                         //{
                         //    Politics.parliamentMeetingCount = 1;
@@ -105,7 +105,7 @@ namespace RealCity
                     }
 
                     //DebugLog.LogToFileOnly("fixEmptyBuildingCount = " + fixEmptyBuildingCount.ToString());
-                    fixEmptyBuildingCount = 0;
+                    //fixEmptyBuildingCount = 0;
 
                     CaculateCitizenTransportFee();
                     MainDataStore.update_money_count++;
@@ -124,10 +124,7 @@ namespace RealCity
                 PlayerBuildingUI.refeshOnce = true;
                 BuildingUI.refeshOnce = true;
                 HumanUI.refeshOnce = true;
-                FoodButton.refeshOnce = true;
-                CoalButton.refeshOnce = true;
-                LumberButton.refeshOnce = true;
-                PetrolButton.refeshOnce = true;
+                ResourceBotton.refeshOnce = true;
                 MainDataStore.is_updated = true;
             }
             return internalMoneyAmount;
@@ -397,7 +394,7 @@ namespace RealCity
                         }
                         break;
                     case 8:
-                        if (!Politics.isOutSideGarbagePermit)
+                        if (Politics.garbageCount >= 10)
                         {
                             Politics.currentIdx = 9;
                         }
@@ -407,7 +404,7 @@ namespace RealCity
                         }
                         break;
                     case 9:
-                        if (Politics.isOutSideGarbagePermit)
+                        if (Politics.garbageCount <= 0)
                         {
                             Politics.currentIdx = 8;
                         }
@@ -457,7 +454,7 @@ namespace RealCity
                             {
                                 idex = 6;
                             }
-                            else if (Politics.isOutSideGarbagePermit)
+                            else if (Politics.garbageCount < 10)
                             {
                                 idex = 8;
                             }
@@ -477,27 +474,27 @@ namespace RealCity
                             {
                                 idex = 6;
                             }
+                            else if (Politics.garbageCount < 10)
+                            {
+                                idex = 8;
+                            }
                             else if (Politics.benefitOffset > 0)
                             {
                                 idex = 3;
                             }
-                            else if (Politics.isOutSideGarbagePermit)
+                            break;
+                        case 12:
+                            if (Politics.garbageCount < 10)
                             {
                                 idex = 8;
                             }
-                            break;
-                        case 12:
-                            if (Politics.isOutSideGarbagePermit)
+                            else if (Politics.benefitOffset > 0)
                             {
-                                idex = 8;
+                                idex = 3;
                             }
                             else if (Politics.industryTax < 20)
                             {
                                 idex = 6;
-                            }
-                            else if (Politics.benefitOffset > 0)
-                            {
-                                idex = 3;
                             }
                             break;
                     }
@@ -543,7 +540,7 @@ namespace RealCity
                 buildingOffset = ((int)(100f * (float)(industrialEarnMoneyCount - industrialLackMoneyCount) / (float)(industrialEarnMoneyCount + industrialLackMoneyCount))) << 5;
                 if (buildingOffset > 2000)
                 {
-                    buildingOffset = 2500;
+                    buildingOffset = 2000;
                 }
 
                 if (buildingOffset < -2000)
@@ -587,6 +584,7 @@ namespace RealCity
             int benefitOffset = 10 - (int)(Politics.benefitOffset*2);
             int commericalTax = 10 - (int)(Politics.commericalTax);
             int industryTax = 10 - (int)(Politics.industryTax);
+            int garbageCount = 10 - (int)(Politics.garbageCount * 2);
 
             int temp3 = 0; // money offset
             int temp4 = 0; // citizen offset
@@ -753,39 +751,39 @@ namespace RealCity
                         yes -= temp5;
                         break;
                     case 8:
-                        yes += Politics.cPartySeats * Politics.allowGarbage[0, 0];
-                        yes += Politics.gPartySeats * Politics.allowGarbage[1, 0];
-                        yes += Politics.sPartySeats * Politics.allowGarbage[2, 0];
-                        yes += Politics.lPartySeats * Politics.allowGarbage[3, 0];
-                        yes += Politics.nPartySeats * Politics.allowGarbage[4, 0];
-                        no += Politics.cPartySeats * Politics.allowGarbage[0, 1];
-                        no += Politics.gPartySeats * Politics.allowGarbage[1, 1];
-                        no += Politics.sPartySeats * Politics.allowGarbage[2, 1];
-                        no += Politics.lPartySeats * Politics.allowGarbage[3, 1];
-                        no += Politics.nPartySeats * Politics.allowGarbage[4, 1];
-                        noAttend += Politics.cPartySeats * Politics.allowGarbage[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.allowGarbage[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.allowGarbage[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.allowGarbage[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.allowGarbage[4, 2];
+                        yes += Politics.cPartySeats * (Politics.riseGarbage[0, 0] + garbageCount);
+                        yes += Politics.gPartySeats * (Politics.riseGarbage[1, 0] + garbageCount);
+                        yes += Politics.sPartySeats * (Politics.riseGarbage[2, 0] + garbageCount);
+                        yes += Politics.lPartySeats * (Politics.riseGarbage[3, 0] + garbageCount);
+                        yes += Politics.nPartySeats * (Politics.riseGarbage[4, 0] + garbageCount);
+                        no += Politics.cPartySeats * (Politics.riseGarbage[0, 1] - garbageCount);
+                        no += Politics.gPartySeats * (Politics.riseGarbage[1, 1] - garbageCount);
+                        no += Politics.sPartySeats * (Politics.riseGarbage[2, 1] - garbageCount);
+                        no += Politics.lPartySeats * (Politics.riseGarbage[3, 1] - garbageCount);
+                        no += Politics.nPartySeats * (Politics.riseGarbage[4, 1] - garbageCount);
+                        noAttend += Politics.cPartySeats * Politics.riseGarbage[0, 2];
+                        noAttend += Politics.gPartySeats * Politics.riseGarbage[1, 2];
+                        noAttend += Politics.sPartySeats * Politics.riseGarbage[2, 2];
+                        noAttend += Politics.lPartySeats * Politics.riseGarbage[3, 2];
+                        noAttend += Politics.nPartySeats * Politics.riseGarbage[4, 2];
                         yes -= temp3;
                         break;
                     case 9:
-                        yes += Politics.cPartySeats * Politics.notAllowGarbage[0, 0];
-                        yes += Politics.gPartySeats * Politics.notAllowGarbage[1, 0];
-                        yes += Politics.sPartySeats * Politics.notAllowGarbage[2, 0];
-                        yes += Politics.lPartySeats * Politics.notAllowGarbage[3, 0];
-                        yes += Politics.nPartySeats * Politics.notAllowGarbage[4, 0];
-                        no += Politics.cPartySeats * Politics.notAllowGarbage[0, 1];
-                        no += Politics.gPartySeats * Politics.notAllowGarbage[1, 1];
-                        no += Politics.sPartySeats * Politics.notAllowGarbage[2, 1];
-                        no += Politics.lPartySeats * Politics.notAllowGarbage[3, 1];
-                        no += Politics.nPartySeats * Politics.notAllowGarbage[4, 1];
-                        noAttend += Politics.cPartySeats * Politics.notAllowGarbage[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.notAllowGarbage[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.notAllowGarbage[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.notAllowGarbage[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.notAllowGarbage[4, 2];
+                        yes += Politics.cPartySeats * (Politics.fallGarbage[0, 0] - garbageCount);
+                        yes += Politics.gPartySeats * (Politics.fallGarbage[1, 0] - garbageCount);
+                        yes += Politics.sPartySeats * (Politics.fallGarbage[2, 0] - garbageCount);
+                        yes += Politics.lPartySeats * (Politics.fallGarbage[3, 0] - garbageCount);
+                        yes += Politics.nPartySeats * (Politics.fallGarbage[4, 0] - garbageCount);
+                        no += Politics.cPartySeats * (Politics.fallGarbage[0, 1] + garbageCount);
+                        no += Politics.gPartySeats * (Politics.fallGarbage[1, 1] + garbageCount);
+                        no += Politics.sPartySeats * (Politics.fallGarbage[2, 1] + garbageCount);
+                        no += Politics.lPartySeats * (Politics.fallGarbage[3, 1] + garbageCount);
+                        no += Politics.nPartySeats * (Politics.fallGarbage[4, 1] + garbageCount);
+                        noAttend += Politics.cPartySeats * Politics.fallGarbage[0, 2];
+                        noAttend += Politics.gPartySeats * Politics.fallGarbage[1, 2];
+                        noAttend += Politics.sPartySeats * Politics.fallGarbage[2, 2];
+                        noAttend += Politics.lPartySeats * Politics.fallGarbage[3, 2];
+                        noAttend += Politics.nPartySeats * Politics.fallGarbage[4, 2];
                         yes += temp3;
                         break;
                 }
@@ -859,9 +857,9 @@ namespace RealCity
                             Politics.industryTax -= 1;
                             break;
                         case 8:
-                            Politics.isOutSideGarbagePermit = false; break;
+                            Politics.garbageCount++; break;
                         case 9:
-                            Politics.isOutSideGarbagePermit = true; break;
+                            Politics.garbageCount--; break;
 
                     }
                 }

@@ -56,7 +56,7 @@ namespace RealCity
             base.name = "MoreeconomicUIPanel";
             base.width = 200f;
             base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 400f ), 30f);
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 350f ), 35f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;

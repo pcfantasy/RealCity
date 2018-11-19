@@ -528,7 +528,7 @@ namespace RealCity
                 RealCityPrivateBuildingAI.saveData = new byte[44];
                 RealCityResidentAI.saveData = new byte[144];
                 MainDataStore.saveData = new byte[3932402];
-                Politics.saveData = new byte[101];
+                Politics.saveData = new byte[103];
                 gather_saveData();
                 SaveAndRestore._serializableData.SaveData("real_city pc_EconomyManager", RealCityEconomyManager.saveData);
                 SaveAndRestore._serializableData.SaveData("real_city comm_data", MainDataStore.saveData);

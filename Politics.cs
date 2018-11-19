@@ -139,18 +139,18 @@ namespace RealCity
 
 
         //riseSalaryTax
-        public static byte[,] allowGarbage = {
-                                                {90, 5,  5},
-                                                {0,  100, 0},
+        public static byte[,] riseGarbage = {
+                                                {90, 10,  0},
+                                                {10, 90, 0},
                                                 {40, 55, 5},
                                                 {50, 45, 5},
                                                 {75, 20, 5},
                                               };
 
         //fallSalaryTax
-        public static byte[,] notAllowGarbage = {
-                                                {5,  90, 5},
-                                                {100, 0, 0},
+        public static byte[,] fallGarbage = {
+                                                {10, 90, 0},
+                                                {90, 10, 0},
                                                 {55, 40, 5},
                                                 {45, 50, 5},
                                                 {20, 75, 5},
@@ -206,12 +206,13 @@ namespace RealCity
         public static byte currentYes = 0;
         public static byte currentNo = 0;
         public static byte currentNoAttend = 0;
-        public static int residentTax = 15;     //(0-12)
-        public static int commericalTax = 15;    //(0-12f)
-        public static int industryTax = 15;    //(0-0.4f)
-        public static short benefitOffset = 1;         //(0-10)
+        public static int residentTax = 20;     //(0-20)
+        public static int commericalTax = 20;    //(0-20)
+        public static int industryTax = 20;    //(0-20)
+        public static short benefitOffset = 0;         //(0-10)
+        public static short garbageCount = 10;         //(0-10)
 
-        public static byte[] saveData = new byte[101];
+        public static byte[] saveData = new byte[103];
 
         public static void Save()
         {
@@ -280,6 +281,7 @@ namespace RealCity
 
             //6
             SaveAndRestore.save_short(ref i, benefitOffset, ref saveData);
+            SaveAndRestore.save_short(ref i, garbageCount, ref saveData);
 
             DebugLog.LogToFileOnly("(save)saveData in politics is " + i.ToString());
         }
@@ -342,6 +344,7 @@ namespace RealCity
             industryTax = SaveAndRestore.load_int(ref i, saveData);
 
             benefitOffset = SaveAndRestore.load_short(ref i, saveData);
+            garbageCount = SaveAndRestore.load_short(ref i, saveData);
         }
      }
 }

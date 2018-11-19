@@ -139,29 +139,13 @@ namespace RealCity
 
                             if (material == TransferManager.TransferReason.LuxuryProducts)
                             {
-                                if ((customBuffer + amountDelta * MainDataStore.commericalPriceAdjust) > 64000)
-                                {
-                                    data.m_customBuffer1 = 64000;
-                                    MainDataStore.building_buffer1[buildingID] += amountDelta * MainDataStore.commericalPriceAdjust;
-                                }
-                                else
-                                {
-                                    data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                                    data.m_customBuffer1 = (ushort)(customBuffer + amountDelta * MainDataStore.commericalPriceAdjust);
                                     MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                                }
                             }
                             else
                             {
-                                if ((customBuffer + amountDelta) > 64000)
-                                {
-                                    data.m_customBuffer1 = 64000;
-                                    MainDataStore.building_buffer1[buildingID] += amountDelta;
-                                }
-                                else
-                                {
                                     data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
                                     MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                                }
                             }
                         }
                         else

@@ -4,8 +4,8 @@
     {
 
         public static int game_expense_divide = 100;
-        public const byte industialPriceAdjust = 2;
-        public const byte commericalPriceAdjust = 4;
+        public const float industialPriceAdjust = 0.7f;
+        public const byte commericalPriceAdjust = 1;
         //public const byte game_expense_divide1 = 100;
         public static float landPrice = 1f;
         //1.  citizen
@@ -28,21 +28,11 @@
         public const ushort resident_low_level3_rent = 570;
         public const ushort resident_low_level4_rent = 750;
         public const ushort resident_low_level5_rent = 1050;
-        public const ushort resident_low_eco_level1_rent = 330;
-        public const ushort resident_low_eco_level2_rent = 450;
-        public const ushort resident_low_eco_level3_rent = 600;
-        public const ushort resident_low_eco_level4_rent = 780;
-        public const ushort resident_low_eco_level5_rent = 1080;
         public const ushort resident_high_level1_rent = 240;
         public const ushort resident_high_level2_rent = 330;
         public const ushort resident_high_level3_rent = 450;
         public const ushort resident_high_level4_rent = 600;
         public const ushort resident_high_level5_rent = 780;
-        public const ushort resident_high_eco_level1_rent = 270;
-        public const ushort resident_high_eco_level2_rent = 360;
-        public const ushort resident_high_eco_level3_rent = 480;
-        public const ushort resident_high_eco_level4_rent = 630;
-        public const ushort resident_high_eco_level5_rent = 810;
         //1.2.1 citizen expense
         public static long citizen_expense_per_family = 0;
         public static long citizen_expense = 0;

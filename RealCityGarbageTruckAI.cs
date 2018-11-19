@@ -129,7 +129,7 @@ namespace RealCity
                         x = (x > 0) ? x : -x;
                         z = (z > 0) ? z : -z;
                         double distance = (x + z) / 2f;
-                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * (distance / 4000f)), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome((int)(num * (distance / 2000f)), ItemClass.Service.Garbage, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                     }
                 }
             }
