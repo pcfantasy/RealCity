@@ -28,17 +28,24 @@ namespace RealCity
                 DistrictManager instance = Singleton<DistrictManager>.instance;
                 BuildingManager instance2 = Singleton<BuildingManager>.instance;
                 CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                int ticketPrice = instance.m_parks.m_buffer[(int)park].GetTicketPrice();
-                if ((instance3.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                int ticketPrice = instance.m_parks.m_buffer[(int)park].GetTicketPrice() / 100;
+                if (ticketPrice != 0)
                 {
-                    if (ticketPrice != 0)
+                    BuildingInfo info = instance2.m_buildings.m_buffer[(int)gateID].Info;
+                    ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizenData.m_citizen)].m_homeBuilding;
+                    uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizenData.m_citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                    if ((instance3.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                     {
-                        BuildingInfo info = instance2.m_buildings.m_buffer[(int)gateID].Info;
-                        Singleton<EconomyManager>.instance.AddPrivateIncome(ticketPrice, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
-                        //Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
-                        DistrictPark[] expr_6C_cp_0 = instance.m_parks.m_buffer;
-                        expr_6C_cp_0[(int)park].m_tempTicketIncome = expr_6C_cp_0[(int)park].m_tempTicketIncome + (uint)ticketPrice;
+                        MainDataStore.family_money[homeId] -= ticketPrice;
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
                     }
+                    else
+                    {
+                        //to help identify tourist and resident.
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -ticketPrice , info.m_class);
+                    }
+                    DistrictPark[] expr_6C_cp_0 = instance.m_parks.m_buffer;
+                    expr_6C_cp_0[(int)park].m_tempTicketIncome = expr_6C_cp_0[(int)park].m_tempTicketIncome + (uint)ticketPrice;
                 }
             }
         }
@@ -112,11 +119,11 @@ namespace RealCity
                     num = rand.Next(400);
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        num = num * 8;
+                        num = num * 16;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        num = num * 3;
+                        num = num * 4;
                     }
                 }
 
@@ -134,45 +141,32 @@ namespace RealCity
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    int tourism_fee = rand.Next(400);
+                    int tourism_fee = rand.Next(20) + 1 ;
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        tourism_fee = tourism_fee * 8;
+                        tourism_fee = tourism_fee << 2;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        tourism_fee = tourism_fee * 3;
+                        tourism_fee = tourism_fee << 1;
+                    }
+
+                    if (info.m_class.m_service == ItemClass.Service.Monument)
+                    {
+                        tourism_fee = tourism_fee << 1;
                     }
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
                 }
                 else
                 {
-                    int tourism_fee = rand.Next(100) + 1;
-                    if (MainDataStore.family_money[homeId] < 5000)
-                    {
+                    int tourism_fee = rand.Next(20) + 1;
 
-                    }
-                    else if (MainDataStore.family_money[homeId] >= 80000)
+                    if (info.m_class.m_service == ItemClass.Service.Monument)
                     {
-                        tourism_fee = (tourism_fee << 4);
+                        tourism_fee = tourism_fee << 1;
                     }
-                    else if (MainDataStore.family_money[homeId] >= 40000)
-                    {
-                        tourism_fee = (tourism_fee << 3);
-                    }
-                    else if (MainDataStore.family_money[homeId] >= 20000)
-                    {
-                        tourism_fee = (tourism_fee << 2);
-                    }
-                    else
-                    {
-                        tourism_fee = (tourism_fee << 1);
-                    }
-                    if (tourism_fee != 0)
-                    {
-                        MainDataStore.family_money[homeId] = (float)(MainDataStore.family_money[homeId] - tourism_fee);
-                        Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
-                    }
+                    MainDataStore.family_money[homeId] = (float)(MainDataStore.family_money[homeId] - tourism_fee);
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                 }
             }
         }

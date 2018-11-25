@@ -95,12 +95,12 @@ namespace RealCity
                             Politics.parliamentCount = 40;
                         }
 
+                        MainDataStore.resettlementFinal = MainDataStore.resettlement;
+                        MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
+                        MainDataStore.resettlement = 0;
+                        MainDataStore.minimumLivingAllowance = 0;
                         //DebugLog.LogToFileOnly("fixEmptyCitizenCount = " + fixEmptyCitizenCount.ToString());
                         //fixEmptyCitizenCount = 0;
-                        //if (Politics.parliamentMeetingCount < 0)
-                        //{
-                        //    Politics.parliamentMeetingCount = 1;
-                        //}
                         CitizenStatus();
                     }
 
@@ -288,7 +288,7 @@ namespace RealCity
         {
             System.Random rand = new System.Random();
             partyTrend = (byte)rand.Next(5);
-            partyTrendStrength = (byte)rand.Next(600);
+            partyTrendStrength = (byte)rand.Next(300);
 
             if (Politics.parliamentCount == 0)
             {
@@ -429,7 +429,7 @@ namespace RealCity
             long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
             if (_cashAmount < 0)
             {
-                MoneyOffset = -3000;
+                MoneyOffset = -2000;
                 System.Random rand = new System.Random();
                 if (rand.Next(10) < 8)
                 {
@@ -501,13 +501,13 @@ namespace RealCity
                 }
                 Politics.currentIdx = (byte)idex;
             }
-            else if (_cashAmount > 9000000)
+            else if (_cashAmount > 8000000)
             {
-                MoneyOffset = 3000;
+                MoneyOffset = 2000;
             }
             else
             {
-                MoneyOffset = -3000 + (int)(_cashAmount / 1500);
+                MoneyOffset = -2000 + (int)(_cashAmount / 2000);
             }
 
             //citizenOffset
@@ -522,45 +522,45 @@ namespace RealCity
 
             if (temp < 40)
             {
-                citizenOffset = 1500;
+                citizenOffset = 1000;
             }
             else if (temp > 90)
             {
-                citizenOffset = -1500;
+                citizenOffset = -1000;
             }
             else
             {
-                citizenOffset = 3900 - 60 * temp;
+                citizenOffset = 2600 - 40 * temp;
             }
 
             //buildingOffset
             buildingOffset = 0;
             if (industrialEarnMoneyCount + industrialLackMoneyCount > 0)
             {
-                buildingOffset = ((int)(100f * (float)(industrialEarnMoneyCount - industrialLackMoneyCount) / (float)(industrialEarnMoneyCount + industrialLackMoneyCount))) << 5;
-                if (buildingOffset > 2000)
+                buildingOffset = ((int)(100f * (float)(industrialEarnMoneyCount - industrialLackMoneyCount) / (float)(industrialEarnMoneyCount + industrialLackMoneyCount))) << 4;
+                if (buildingOffset > 1500)
                 {
-                    buildingOffset = 2000;
+                    buildingOffset = 1500;
                 }
 
-                if (buildingOffset < -2000)
+                if (buildingOffset < -1500)
                 {
-                    buildingOffset = -2000;
+                    buildingOffset = -1500;
                 }
             }
 
             commBuildingOffset = 0;
             if (commericalEarnMoneyCount + commericalLackMoneyCount > 0)
             {
-                commBuildingOffset = ((int)(100f * (float)(commericalEarnMoneyCount - commericalLackMoneyCount) / (float)(commericalEarnMoneyCount + commericalLackMoneyCount))) << 5;
-                if (commBuildingOffset > 2000)
+                commBuildingOffset = ((int)(100f * (float)(commericalEarnMoneyCount - commericalLackMoneyCount) / (float)(commericalEarnMoneyCount + commericalLackMoneyCount))) << 4;
+                if (commBuildingOffset > 1500)
                 {
-                    commBuildingOffset = 2000;
+                    commBuildingOffset = 1500;
                 }
 
-                if (commBuildingOffset < -2000)
+                if (commBuildingOffset < -1500)
                 {
-                    commBuildingOffset = -2000;
+                    commBuildingOffset = -1500;
                 }
             }
 

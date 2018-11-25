@@ -14,23 +14,23 @@ namespace RealCity
             switch (material)
             {
                 case TransferManager.TransferReason.AnimalProducts:
-                    return 105;
+                    return 120;
                 case TransferManager.TransferReason.Flours:
-                    return 105;
+                    return 120;
                 case TransferManager.TransferReason.Paper:
-                    return 140;
+                    return 160;
                 case TransferManager.TransferReason.PlanedTimber:
-                    return 140;
+                    return 160;
                 case TransferManager.TransferReason.Petroleum:
-                    return 210;
+                    return 240;
                 case TransferManager.TransferReason.Plastics:
-                    return 210;
+                    return 240;
                 case TransferManager.TransferReason.Glass:
-                    return 175;
+                    return 200;
                 case TransferManager.TransferReason.Metals:
-                    return 175;
+                    return 200;
                 case TransferManager.TransferReason.LuxuryProducts:
-                    return 300;
+                    return 490;
                 case TransferManager.TransferReason.Oil:
                     return 200;
                 case TransferManager.TransferReason.Ore:
@@ -70,13 +70,13 @@ namespace RealCity
             switch (material)
             {
                 case TransferManager.TransferReason.Goods:
-                    return 3f;
+                    return 3.5f;
                 case TransferManager.TransferReason.Petrol:
                     return 3f;
                 case TransferManager.TransferReason.Food:
                     return 1.5f;
                 case TransferManager.TransferReason.Lumber:
-                    return 2.0f;
+                    return 2f;
                 case TransferManager.TransferReason.Coal:
                     return 2.5f;
                 case TransferManager.TransferReason.Shopping:
@@ -85,7 +85,7 @@ namespace RealCity
                 case TransferManager.TransferReason.ShoppingD:
                 case TransferManager.TransferReason.ShoppingE:
                 case TransferManager.TransferReason.ShoppingH:
-                    return 4f;
+                    return 5f;
                 case TransferManager.TransferReason.Entertainment:
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:

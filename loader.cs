@@ -141,7 +141,7 @@ namespace RealCity
             Politics.saveData = new byte[103];
             System.Random rand = new System.Random();
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
-            RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(600);
+            RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);
         }
 
         public override void OnLevelUnloading()

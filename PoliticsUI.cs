@@ -113,7 +113,6 @@ namespace RealCity
             this.parliamentSeats = base.AddUIComponent<UILabel>();
             this.parliamentSeats.text = Language.PoliticsMessage[1];
             this.parliamentSeats.textScale = 1.1f;
-            this.parliamentSeats.tooltip = "N/A";
             this.parliamentSeats.relativePosition = new Vector3(SPACING, 50f);
             this.parliamentSeats.autoSize = true;
 
@@ -122,38 +121,32 @@ namespace RealCity
             this.communist.text = Language.PoliticsMessage[2];
             this.communist.relativePosition = new Vector3(SPACING, this.parliamentSeats.relativePosition.y + SPACING22);
             this.communist.autoSize = true;
-            this.communist.name = "Moreeconomic_Text_0";
 
             this.green = base.AddUIComponent<UILabel>();
             this.green.text = Language.PoliticsMessage[3];
             this.green.relativePosition = new Vector3(this.communist.relativePosition.x + this.communist.width + SPACING + 70f, this.communist.relativePosition.y);
             this.green.autoSize = true;
-            this.green.name = "Moreeconomic_Text_1";
 
             this.socialist = base.AddUIComponent<UILabel>();
             this.socialist.text = Language.PoliticsMessage[4];
             this.socialist.relativePosition = new Vector3(this.green.relativePosition.x + this.green.width + SPACING + 70f, this.green.relativePosition.y);
             this.socialist.autoSize = true;
-            this.socialist.name = "Moreeconomic_Text_2";
 
             this.liberal = base.AddUIComponent<UILabel>();
             this.liberal.text = Language.PoliticsMessage[5];
             this.liberal.relativePosition = new Vector3(this.socialist.relativePosition.x + this.socialist.width + SPACING + 70f, this.socialist.relativePosition.y);
             this.liberal.autoSize = true;
-            this.liberal.name = "Moreeconomic_Text_2";
 
             this.national = base.AddUIComponent<UILabel>();
             this.national.text = Language.PoliticsMessage[6];
             this.national.relativePosition = new Vector3(this.liberal.relativePosition.x + this.liberal.width + SPACING + 70f, this.liberal.relativePosition.y);
             this.national.autoSize = true;
-            this.national.name = "Moreeconomic_Text_2";
 
 
             goverment = base.AddUIComponent<UILabel>();
             goverment.text = Language.PoliticsMessage[7];
             goverment.relativePosition = new Vector3(SPACING, this.communist.relativePosition.y + SPACING22 + 20f);
             goverment.autoSize = true;
-            goverment.name = "Moreeconomic_Text_0";
 
             //citizen
             this.polls = base.AddUIComponent<UILabel>();
@@ -168,37 +161,31 @@ namespace RealCity
             this.communistPolls.text = Language.PoliticsMessage[2];
             this.communistPolls.relativePosition = new Vector3(SPACING, this.polls.relativePosition.y + SPACING22);
             this.communistPolls.autoSize = true;
-            this.communistPolls.name = "Moreeconomic_Text_0";
 
             this.greenPolls = base.AddUIComponent<UILabel>();
             this.greenPolls.text = Language.PoliticsMessage[3];
             this.greenPolls.relativePosition = new Vector3(this.communistPolls.relativePosition.x + this.communistPolls.width + SPACING + 70f, this.communistPolls.relativePosition.y);
             this.greenPolls.autoSize = true;
-            this.greenPolls.name = "Moreeconomic_Text_1";
 
             this.socialistPolls = base.AddUIComponent<UILabel>();
             this.socialistPolls.text = Language.PoliticsMessage[4];
             this.socialistPolls.relativePosition = new Vector3(this.greenPolls.relativePosition.x + this.greenPolls.width + SPACING + 70f, this.greenPolls.relativePosition.y);
             this.socialistPolls.autoSize = true;
-            this.socialistPolls.name = "Moreeconomic_Text_2";
 
             this.liberalPolls = base.AddUIComponent<UILabel>();
             this.liberalPolls.text = Language.PoliticsMessage[5];
             this.liberalPolls.relativePosition = new Vector3(this.socialistPolls.relativePosition.x + this.socialistPolls.width + SPACING + 70f, this.socialistPolls.relativePosition.y);
             this.liberalPolls.autoSize = true;
-            this.liberalPolls.name = "Moreeconomic_Text_2";
 
             this.nationalPolls = base.AddUIComponent<UILabel>();
             this.nationalPolls.text = Language.PoliticsMessage[6];
             this.nationalPolls.relativePosition = new Vector3(this.liberalPolls.relativePosition.x + this.liberalPolls.width + SPACING + 70f, this.liberalPolls.relativePosition.y);
             this.nationalPolls.autoSize = true;
-            this.nationalPolls.name = "Moreeconomic_Text_2";
 
             this.nextVote = base.AddUIComponent<UILabel>();
             this.nextVote.text = Language.PoliticsMessage[13];
             this.nextVote.relativePosition = new Vector3(SPACING, this.communistPolls.relativePosition.y + SPACING22 + 20f);
             this.nextVote.autoSize = true;
-            this.nextVote.name = "Moreeconomic_Text_0";
 
             //this.nextMeeting = base.AddUIComponent<UILabel>();
             //this.nextMeeting.text = Language.PoliticsMessage[14];
@@ -211,51 +198,42 @@ namespace RealCity
             this.currentMeetingItem.textScale = 1.1f;
             this.currentMeetingItem.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22 + 20f);
             this.currentMeetingItem.autoSize = true;
-            this.currentMeetingItem.name = "Moreeconomic_Text_0";
 
             this.voteResult = base.AddUIComponent<UILabel>();
             this.voteResult.text = Language.PoliticsMessage[26];
             this.voteResult.relativePosition = new Vector3(SPACING, this.currentMeetingItem.relativePosition.y + SPACING22);
             this.voteResult.autoSize = true;
-            this.voteResult.name = "Moreeconomic_Text_0";
 
             this.currentPolitics = base.AddUIComponent<UILabel>();
             this.currentPolitics.text = Language.PoliticsMessage[30];
             this.currentPolitics.textScale = 1.1f;
             this.currentPolitics.relativePosition = new Vector3(SPACING, this.voteResult.relativePosition.y + SPACING22 + 20f);
             this.currentPolitics.autoSize = true;
-            this.currentPolitics.name = "Moreeconomic_Text_0";
 
             this.garbage = base.AddUIComponent<UILabel>();
             this.garbage.text = Language.PoliticsMessage[31];
             this.garbage.relativePosition = new Vector3(SPACING, this.currentPolitics.relativePosition.y + SPACING22);
             this.garbage.autoSize = true;
-            this.garbage.name = "Moreeconomic_Text_0";
 
             this.benefit = base.AddUIComponent<UILabel>();
             this.benefit.text = Language.PoliticsMessage[32];
             this.benefit.relativePosition = new Vector3(SPACING, this.garbage.relativePosition.y + SPACING22);
             this.benefit.autoSize = true;
-            this.benefit.name = "Moreeconomic_Text_0";
 
             this.resident = base.AddUIComponent<UILabel>();
             this.resident.text = Language.PoliticsMessage[33];
             this.resident.relativePosition = new Vector3(SPACING, this.benefit.relativePosition.y + SPACING22);
             this.resident.autoSize = true;
-            this.resident.name = "Moreeconomic_Text_0";
 
             this.commerical = base.AddUIComponent<UILabel>();
             this.commerical.text = Language.PoliticsMessage[34];
             this.commerical.relativePosition = new Vector3(SPACING, this.resident.relativePosition.y + SPACING22);
             this.commerical.autoSize = true;
-            this.commerical.name = "Moreeconomic_Text_0";
 
             this.industrial = base.AddUIComponent<UILabel>();
             this.industrial.text = Language.PoliticsMessage[35];
             this.industrial.relativePosition = new Vector3(SPACING, this.commerical.relativePosition.y + SPACING22);
             this.industrial.autoSize = true;
-            this.industrial.name = "Moreeconomic_Text_0";
-
         }
 
 

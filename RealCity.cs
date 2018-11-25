@@ -23,7 +23,7 @@ namespace RealCity
 
         public string Description
         {
-            get { return "Make your city reality"; }
+            get { return "Make your city reality, Combine CS and SimCity in game playing"; }
         }
 
         public void OnEnabled()

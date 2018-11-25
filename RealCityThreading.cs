@@ -307,7 +307,7 @@ namespace RealCity
                         else if (vehicle.Info.m_vehicleAI is CargoShipAI)
                         {
                             MainDataStore.allVehicles += 4;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)500 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)250 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                         {
@@ -317,7 +317,7 @@ namespace RealCity
                         else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                         {
                             MainDataStore.allVehicles += 8;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)800 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)400 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
                         {
@@ -325,7 +325,7 @@ namespace RealCity
                         }
                         else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)130 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)65 * MainDataStore.game_expense_divide, vehicle.Info.m_class);
                         }
                         else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
                         {

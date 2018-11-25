@@ -567,27 +567,40 @@ namespace RealCity
                         float idex1 = 0;
 
                         // outside will to invest
-                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
+                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric  && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
-                            idex = 0.05f;
+                            if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
+                            {
+                                idex = 0.03f;
+                            } else
+                            {
+                                idex = 0.005f;
+                            }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.1f;
+                            idex = 0.01f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.15f;
+                            idex = 0.015f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.2f;
+                            idex = 0.02f;
                         }
 
                         // Boss will to take 
-                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric)
+                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
-                            idex1 = 0.005f;
+                            if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
+                            {
+                                idex1 = 0.01f;
+                            }
+                            else
+                            {
+                                idex1 = 0.03f;
+                            }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
@@ -865,7 +878,7 @@ namespace RealCity
                     {
                         if (material2 == TransferManager.TransferReason.LuxuryProducts)
                         {
-                            capacity += num3 * MainDataStore.commericalPriceAdjust;
+                            capacity += (int)(num3 * MainDataStore.commericalPriceAdjust);
                         }
                         else
                         {

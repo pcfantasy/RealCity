@@ -4,8 +4,8 @@
     {
 
         public static int game_expense_divide = 100;
-        public const float industialPriceAdjust = 0.7f;
-        public const byte commericalPriceAdjust = 1;
+        public const float industialPriceAdjust = 0.8f;
+        public const float commericalPriceAdjust = 1.4f;
         //public const byte game_expense_divide1 = 100;
         public static float landPrice = 1f;
         //1.  citizen
@@ -94,11 +94,13 @@
 
 
         //3 govement expense
-        public static int Electricity = 0;
-        public static int Water = 0;
-        public static int Beautification = 0;
-        public static int Garbage = 0;
-        public static int HealthCare = 0;
+        public static int minimumLivingAllowance = 0;
+        public static int resettlement = 0;
+        public static int minimumLivingAllowanceFinal = 0;
+        public static int resettlementFinal = 0;
+
+
+        //public static int HealthCare = 0;
         public static int PoliceDepartment = 0;
         public static int Education = 0;
         public static int Monument = 0;
@@ -241,11 +243,11 @@
 
             //20*4 = 80    //2867344
             SaveAndRestore.save_int(ref i, game_expense_divide, ref saveData);
-            SaveAndRestore.save_int(ref i, Electricity, ref saveData);
-            SaveAndRestore.save_int(ref i, Water, ref saveData);
-            SaveAndRestore.save_int(ref i, Beautification, ref saveData);
-            SaveAndRestore.save_int(ref i, Garbage, ref saveData);
-            SaveAndRestore.save_int(ref i, HealthCare, ref saveData);
+            SaveAndRestore.save_int(ref i, minimumLivingAllowance, ref saveData);
+            SaveAndRestore.save_int(ref i, resettlement, ref saveData);
+            SaveAndRestore.save_int(ref i, minimumLivingAllowanceFinal, ref saveData);
+            SaveAndRestore.save_int(ref i, resettlementFinal, ref saveData);
+            SaveAndRestore.save_float(ref i, landPrice, ref saveData);
             SaveAndRestore.save_int(ref i, PoliceDepartment, ref saveData);
             SaveAndRestore.save_int(ref i, Education, ref saveData);
             SaveAndRestore.save_int(ref i, Monument, ref saveData);
@@ -366,11 +368,11 @@
             {
                 game_expense_divide = 1;
             }
-            Electricity = SaveAndRestore.load_int(ref i, saveData);
-            Water = SaveAndRestore.load_int(ref i, saveData);
-            Beautification = SaveAndRestore.load_int(ref i, saveData);
-            Garbage = SaveAndRestore.load_int(ref i, saveData);
-            HealthCare = SaveAndRestore.load_int(ref i, saveData);
+            minimumLivingAllowance = SaveAndRestore.load_int(ref i, saveData);
+            resettlement = SaveAndRestore.load_int(ref i, saveData);
+            minimumLivingAllowanceFinal = SaveAndRestore.load_int(ref i, saveData);
+            resettlementFinal = SaveAndRestore.load_int(ref i, saveData);
+            landPrice = SaveAndRestore.load_float(ref i, saveData);
             PoliceDepartment = SaveAndRestore.load_int(ref i, saveData);
             Education = SaveAndRestore.load_int(ref i, saveData);
             Monument = SaveAndRestore.load_int(ref i, saveData);

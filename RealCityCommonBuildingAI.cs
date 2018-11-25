@@ -12,7 +12,7 @@ namespace RealCity
         public override void ReleaseBuilding(ushort buildingID, ref Building data)
         {
 
-            int cost = (data.m_width * data.m_length) << 8;
+            int cost = (int)(data.m_width * data.m_length * MainDataStore.landPrice) << 8;
 
 
 
@@ -26,6 +26,7 @@ namespace RealCity
             if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
             {
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, cost, data.Info.m_class.m_service, ItemClass.SubService.None, ItemClass.Level.Level1);
+                MainDataStore.resettlement += (cost / 100);
             }
             this.ManualDeactivation(buildingID, ref data);
             this.BuildingDeactivated(buildingID, ref data);
