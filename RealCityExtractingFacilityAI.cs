@@ -69,7 +69,7 @@ namespace RealCity
             int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, false);
             if (totalWorkerCount > allWorkCount)
             {
-                DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
+                //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
                 allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
             }
 

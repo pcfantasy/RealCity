@@ -4,8 +4,8 @@
     {
 
         public static int game_expense_divide = 100;
-        public const float industialPriceAdjust = 0.8f;
-        public const float commericalPriceAdjust = 1.4f;
+        public const float industialPriceAdjust = 1f;
+        public const float commericalPriceAdjust = 2f;
         //public const byte game_expense_divide1 = 100;
         public static float landPrice = 1f;
         //1.  citizen
@@ -179,6 +179,9 @@
         public static byte[] saveData = new byte[3932402];
         public static float[] citizen_money = new float[1048576];
         public static byte[] saveData1 = new byte[4194304];
+
+        public static bool[] citizenFlag = new bool[1048576];
+        public static byte[] saveData2 = new byte[1048576];
         //public static byte[] saveData = new byte[3063935];
 
 
@@ -207,6 +210,7 @@
             for (int i = 0; i < MainDataStore.citizen_money.Length; i++)
             {
                 citizen_money[i] = 0f;
+                citizenFlag[i] = false;
             }
         }
 
@@ -336,6 +340,9 @@
 
             i = 0;
             SaveAndRestore.save_floats(ref i, citizen_money, ref saveData1);
+
+            i = 0;
+            SaveAndRestore.save_bools(ref i, citizenFlag, ref saveData1);
         }
 
         public static void load()
@@ -456,6 +463,16 @@
             citizen_money = SaveAndRestore.load_floats(ref i, saveData1, citizen_money.Length);
 
             DebugLog.LogToFileOnly("saveData1 in comm_data is " + i.ToString());
+        }
+
+        public static void load2()
+        {
+            int i = 0;
+
+            i = 0;
+            citizenFlag = SaveAndRestore.load_bools(ref i, saveData1, citizenFlag.Length);
+
+            DebugLog.LogToFileOnly("saveData2 in comm_data is " + i.ToString());
         }
     }
 }

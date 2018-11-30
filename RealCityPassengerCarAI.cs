@@ -104,51 +104,26 @@ namespace RealCity
                 MainDataStore.temp_total_citizen_vehical_time = MainDataStore.temp_total_citizen_vehical_time + MainDataStore.vehical_transfer_time[vehicleID];
                 if (vehicleData.m_citizenUnits != 0)
                 {
-                    bool is_tourist = false;
+                    //MainDataStore.family_money[vehicleData.m_citizenUnits] = (float)(MainDataStore.family_money[vehicleData.m_citizenUnits] - MainDataStore.vehical_transfer_time[vehicleID]);
                     if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
                     {
-                        is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= MainDataStore.vehical_transfer_time[vehicleID];
                     }
-                    if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
+                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
                     {
-                        is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1] -= MainDataStore.vehical_transfer_time[vehicleID];
                     }
-                    if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
+                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
                     {
-                        is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2] -= MainDataStore.vehical_transfer_time[vehicleID];
                     }
-                    if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
+                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
                     {
-                        is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3] -= MainDataStore.vehical_transfer_time[vehicleID];
                     }
-                    if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
+                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
                     {
-                        is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
-                    }
-                    if (is_tourist == false)
-                    {
-                        //assume that 1 time will cost 5fen car oil money
-                        MainDataStore.family_money[vehicleData.m_citizenUnits] = (float)(MainDataStore.family_money[vehicleData.m_citizenUnits] - MainDataStore.vehical_transfer_time[vehicleID]);
-                        if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
-                        {
-                            MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= MainDataStore.vehical_transfer_time[vehicleID];
-                        }
-                        else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
-                        {
-                            MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1] -= MainDataStore.vehical_transfer_time[vehicleID];
-                        }
-                        else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
-                        {
-                            MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2] -= MainDataStore.vehical_transfer_time[vehicleID];
-                        }
-                        else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
-                        {
-                            MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3] -= MainDataStore.vehical_transfer_time[vehicleID];
-                        }
-                        else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
-                        {
-                            MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4] -= MainDataStore.vehical_transfer_time[vehicleID];
-                        }
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4] -= MainDataStore.vehical_transfer_time[vehicleID];
                     }
                 }
             }

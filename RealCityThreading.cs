@@ -248,7 +248,70 @@ namespace RealCity
                 {
                     VehicleStatus(i, currentFrameIndex);
                 }
+
+
+                int num10 = (int)(currentFrameIndex & 4095u);
+                int num11 = num10 * 256;
+                int num12 = (num10 + 1) * 256 - 1;
+                CitizenManager instance2 = Singleton<CitizenManager>.instance;
+                for (int i = num11; i <= num12; i++)
+                {
+                    if (((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None) && ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None))
+                    {
+                        if (!MainDataStore.citizenFlag[i])
+                        {
+                            MainDataStore.citizenFlag[i] = true;
+                            if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
+                            {
+                                MainDataStore.citizen_money[i] = 1000;
+                            }
+                            else if(instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
+                            {
+                                MainDataStore.citizen_money[i] = 3000;
+                            }
+                            else
+                            {
+                                MainDataStore.citizen_money[i] = 9000;
+                            }
+                        }
+                        else
+                        {
+                            if (MainDataStore.citizen_money[i] < 0)
+                            {
+                                //DebugLog.LogToFileOnly("no money now, tourist will leave" + MainDataStore.citizen_money[i].ToString());
+                                FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
+                            }
+                        }                        
+                    }
+                }
+
+           }
+        }
+
+        protected TransferManager.TransferReason GetLeavingReason(uint citizenID, ref Citizen data)
+        {
+            switch (data.WealthLevel)
+            {
+                case Citizen.Wealth.Low:
+                    return TransferManager.TransferReason.LeaveCity0;
+                case Citizen.Wealth.Medium:
+                    return TransferManager.TransferReason.LeaveCity1;
+                case Citizen.Wealth.High:
+                    return TransferManager.TransferReason.LeaveCity2;
+                default:
+                    return TransferManager.TransferReason.LeaveCity0;
             }
+        }
+
+        protected void FindVisitPlace(uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        {
+            TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+            offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(8u);
+            offer.Citizen = citizenID;
+            offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)sourceBuilding].m_position;
+            offer.Amount = 1;
+            offer.Active = true;
+            Singleton<TransferManager>.instance.AddIncomingOffer(reason, offer);
         }
 
 
@@ -280,7 +343,6 @@ namespace RealCity
                                     //Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)6000, vehicle.Info.m_class);
                                     //Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, 80, 80, vehicle.GetLastFramePosition(), 5f);
                                     //DebugLog.LogToFileOnly("vehicle.sourcebuilding = " + vehicle.m_sourceBuilding.ToString() + vehicle.m_flags.ToString());
-
                                 }
                             }
                             else

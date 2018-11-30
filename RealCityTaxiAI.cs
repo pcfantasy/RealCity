@@ -41,20 +41,14 @@ namespace RealCity
                                 BuildingManager instance4 = Singleton<BuildingManager>.instance;
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                                 {
-                                    if (MainDataStore.family_money[num2] - num4 > 0)
-                                    {
-                                        MainDataStore.family_money[num2] = (float)(MainDataStore.family_money[num2] - num4);
-                                        MainDataStore.citizen_money[citizen] -= (float)(num4);
-                                    } else
-                                    {
-                                        num4 = 0;
-                                    }
+                                    MainDataStore.citizen_money[citizen] -= (float)(num4);
                                 }
                                 else
                                 {
-                                    if (num4 > 5000)
+                                    if (MainDataStore.citizen_money[citizen] < num4)
                                     {
-                                        num4 = 5000;
+                                        num4 = (MainDataStore.citizen_money[citizen] > 0) ? (int)MainDataStore.citizen_money[citizen] + 1 : 1;
+                                        MainDataStore.citizen_money[citizen] = (float)(MainDataStore.citizen_money[citizen] - (num4) - 1);
                                     }
                                 }
                                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4, this.m_info.m_class);

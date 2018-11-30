@@ -124,6 +124,7 @@ namespace RealCity
                 PlayerBuildingUI.refeshOnce = true;
                 BuildingUI.refeshOnce = true;
                 HumanUI.refeshOnce = true;
+                TouristUI.refeshOnce = true;
                 ResourceBotton.refeshOnce = true;
                 MainDataStore.is_updated = true;
             }
@@ -433,16 +434,30 @@ namespace RealCity
                 System.Random rand = new System.Random();
                 if (rand.Next(10) < 8)
                 {
-                    switch (rand.Next(13))
+                    switch (rand.Next(15))
                     {
                         case 0:
+                        case 1:
+                        case 2:
                             if (Politics.residentTax < 20)
                             {
                                 idex = 0;
+                            }else if (Politics.benefitOffset > 0)
+                            {
+                                idex = 3;
+                            }
+                            else if (Politics.industryTax < 20)
+                            {
+                                idex = 6;
+                            }
+                            else if (Politics.garbageCount < 10)
+                            {
+                                idex = 8;
+                            } else if (Politics.commericalTax < 20)
+                            {
+                                idex = 4;
                             }
                             break;
-                        case 1:
-                        case 2:
                         case 3:
                         case 4:
                         case 5:
@@ -458,15 +473,42 @@ namespace RealCity
                             {
                                 idex = 8;
                             }
+                            else if (Politics.commericalTax < 20)
+                            {
+                                idex = 4;
+                            }
+                            else if(Politics.residentTax < 20)
+                            {
+                                idex = 0;
+                            }
                             break;
                         case 6:
+                        case 7:
+                        case 8:
                             if (Politics.commericalTax < 20)
+                            {
+                                idex = 4;
+                            } else if (Politics.benefitOffset > 0)
+                            {
+                                idex = 3;
+                            }
+                            else if (Politics.industryTax < 20)
+                            {
+                                idex = 6;
+                            }
+                            else if (Politics.garbageCount < 10)
+                            {
+                                idex = 8;
+                            }
+                            else if (Politics.residentTax < 20)
+                            {
+                                idex = 0;
+                            }
+                            else if (Politics.commericalTax < 20)
                             {
                                 idex = 4;
                             }
                             break;
-                        case 7:
-                        case 8:
                         case 9:
                         case 10:
                         case 11:
@@ -478,12 +520,21 @@ namespace RealCity
                             {
                                 idex = 8;
                             }
+                            else if (Politics.commericalTax < 20)
+                            {
+                                idex = 4;
+                            }
                             else if (Politics.benefitOffset > 0)
                             {
                                 idex = 3;
+                            } else if (Politics.residentTax < 20)
+                            {
+                                idex = 0;
                             }
                             break;
                         case 12:
+                        case 13:
+                        case 14:
                             if (Politics.garbageCount < 10)
                             {
                                 idex = 8;
@@ -495,6 +546,14 @@ namespace RealCity
                             else if (Politics.industryTax < 20)
                             {
                                 idex = 6;
+                            }
+                            else if (Politics.residentTax < 20)
+                            {
+                                idex = 0;
+                            }
+                            else if (Politics.commericalTax < 20)
+                            {
+                                idex = 4;
                             }
                             break;
                     }
@@ -522,15 +581,15 @@ namespace RealCity
 
             if (temp < 40)
             {
-                citizenOffset = 1000;
+                citizenOffset = 500;
             }
             else if (temp > 90)
             {
-                citizenOffset = -1000;
+                citizenOffset = -500;
             }
             else
             {
-                citizenOffset = 2600 - 40 * temp;
+                citizenOffset = 1300 - 20 * temp;
             }
 
             //buildingOffset

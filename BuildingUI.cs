@@ -75,67 +75,56 @@ namespace RealCity
             this.buildingMoney.text = Language.BuildingUI[0];
             this.buildingMoney.relativePosition = new Vector3(SPACING, 50f);
             this.buildingMoney.autoSize = true;
-            this.buildingMoney.name = "Moreeconomic_Text_0";
 
             this.buildingIncomeBuffer = base.AddUIComponent<UILabel>();
             this.buildingIncomeBuffer.text = Language.BuildingUI[1];
             this.buildingIncomeBuffer.relativePosition = new Vector3(SPACING, this.buildingMoney.relativePosition.y + SPACING22);
             this.buildingIncomeBuffer.autoSize = true;
-            this.buildingIncomeBuffer.name = "Moreeconomic_Text_1";
 
             this.buildingOutgoingBuffer = base.AddUIComponent<UILabel>();
             this.buildingOutgoingBuffer.text = Language.BuildingUI[2];
             this.buildingOutgoingBuffer.relativePosition = new Vector3(SPACING, this.buildingIncomeBuffer.relativePosition.y + SPACING22);
             this.buildingOutgoingBuffer.autoSize = true;
-            this.buildingOutgoingBuffer.name = "Moreeconomic_Text_2";
 
             this.employFee = base.AddUIComponent<UILabel>();
             this.employFee.text = Language.BuildingUI[3];
             this.employFee.relativePosition = new Vector3(SPACING, this.buildingOutgoingBuffer.relativePosition.y + SPACING22);
             this.employFee.autoSize = true;
-            this.employFee.name = "Moreeconomic_Text_4";
 
             this.landRent = base.AddUIComponent<UILabel>();
             this.landRent.text = Language.BuildingUI[4];
             this.landRent.relativePosition = new Vector3(SPACING, this.employFee.relativePosition.y + SPACING22);
             this.landRent.autoSize = true;
-            this.landRent.name = "Moreeconomic_Text_5";
 
             this.buyPrice = base.AddUIComponent<UILabel>();
             this.buyPrice.text = Language.BuildingUI[8];
             this.buyPrice.relativePosition = new Vector3(SPACING, this.landRent.relativePosition.y + SPACING22);
             this.buyPrice.autoSize = true;
-            this.buyPrice.name = "Moreeconomic_Text_5";
 
             this.sellPrice = base.AddUIComponent<UILabel>();
             this.sellPrice.text = Language.BuildingUI[9];
             this.sellPrice.relativePosition = new Vector3(SPACING, this.buyPrice.relativePosition.y + SPACING22);
             this.sellPrice.autoSize = true;
-            this.sellPrice.name = "Moreeconomic_Text_5";
 
             this.comsuptionDivide = base.AddUIComponent<UILabel>();
             this.comsuptionDivide.text = Language.BuildingUI[11];
             this.comsuptionDivide.relativePosition = new Vector3(SPACING, this.sellPrice.relativePosition.y + SPACING22);
             this.comsuptionDivide.autoSize = true;
-            this.comsuptionDivide.name = "Moreeconomic_Text_5";
 
             this.sellTax = base.AddUIComponent<UILabel>();
             this.sellTax.text = Language.BuildingUI[12];
             this.sellTax.relativePosition = new Vector3(SPACING, this.comsuptionDivide.relativePosition.y + SPACING22);
             this.sellTax.autoSize = true;
-            this.sellTax.name = "Moreeconomic_Text_5";
 
             this.profit = base.AddUIComponent<UILabel>();
             this.profit.text = Language.BuildingUI[13];
             this.profit.relativePosition = new Vector3(SPACING, this.sellTax.relativePosition.y + SPACING22);
             this.profit.autoSize = true;
-            this.profit.name = "Moreeconomic_Text_5";
 
             this.usedcar = base.AddUIComponent<UILabel>();
             this.usedcar.text = Language.BuildingUI[43];
             this.usedcar.relativePosition = new Vector3(SPACING, this.profit.relativePosition.y + SPACING22);
             this.usedcar.autoSize = true;
-            this.usedcar.name = "Moreeconomic_Text_5";
         }
 
         private void RefreshDisplayData()

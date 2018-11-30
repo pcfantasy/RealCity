@@ -62,19 +62,16 @@ namespace RealCity
             this.familyMoney.text = Language.BuildingUI[5];
             this.familyMoney.relativePosition = new Vector3(SPACING, 50f);
             this.familyMoney.autoSize = true;
-            this.familyMoney.name = "Moreeconomic_Text_0";
 
             this.familySalary = base.AddUIComponent<UILabel>();
             this.familySalary.text = Language.BuildingUI[10];
             this.familySalary.relativePosition = new Vector3(SPACING, this.familyMoney.relativePosition.y + SPACING22);
             this.familySalary.autoSize = true;
-            this.familySalary.name = "Moreeconomic_Text_1";
 
             this.familyGoods = base.AddUIComponent<UILabel>();
             this.familyGoods.text = Language.BuildingUI[40];
             this.familyGoods.relativePosition = new Vector3(SPACING, this.familySalary.relativePosition.y + SPACING22);
             this.familyGoods.autoSize = true;
-            this.familyGoods.name = "Moreeconomic_Text_1";
         }
 
         private void RefreshDisplayData()

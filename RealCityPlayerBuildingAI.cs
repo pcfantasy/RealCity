@@ -57,7 +57,7 @@ namespace RealCity
             {
                 if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) != 3)
                 {
-                    DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
+                    //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
                     allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
                 }
                 //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());

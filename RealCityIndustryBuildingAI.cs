@@ -14,23 +14,23 @@ namespace RealCity
             switch (material)
             {
                 case TransferManager.TransferReason.AnimalProducts:
-                    return 120;
+                    return 150;
                 case TransferManager.TransferReason.Flours:
-                    return 120;
+                    return 150;
                 case TransferManager.TransferReason.Paper:
-                    return 160;
+                    return 200;
                 case TransferManager.TransferReason.PlanedTimber:
-                    return 160;
+                    return 200;
                 case TransferManager.TransferReason.Petroleum:
-                    return 240;
+                    return 300;
                 case TransferManager.TransferReason.Plastics:
-                    return 240;
+                    return 300;
                 case TransferManager.TransferReason.Glass:
-                    return 200;
+                    return 250;
                 case TransferManager.TransferReason.Metals:
-                    return 200;
+                    return 250;
                 case TransferManager.TransferReason.LuxuryProducts:
-                    return 490;
+                    return 700;
                 case TransferManager.TransferReason.Oil:
                     return 200;
                 case TransferManager.TransferReason.Ore:

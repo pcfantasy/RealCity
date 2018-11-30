@@ -68,25 +68,21 @@ namespace RealCity
             this.Food.text = Language.BuildingUI[16];
             this.Food.relativePosition = new Vector3(SPACING, 50f);
             this.Food.autoSize = true;
-            this.Food.name = "Moreeconomic_Text_0";
 
             this.Lumber = base.AddUIComponent<UILabel>();
             this.Lumber.text = Language.BuildingUI[17];
             this.Lumber.relativePosition = new Vector3(SPACING, this.Food.relativePosition.y + SPACING22);
             this.Lumber.autoSize = true;
-            this.Lumber.name = "Moreeconomic_Text_3";
 
             this.Coal = base.AddUIComponent<UILabel>();
             this.Coal.text = Language.BuildingUI[18];
             this.Coal.relativePosition = new Vector3(SPACING, this.Lumber.relativePosition.y + SPACING22);
             this.Coal.autoSize = true;
-            this.Coal.name = "Moreeconomic_Text_4";
 
             this.Petrol = base.AddUIComponent<UILabel>();
             this.Petrol.text = Language.BuildingUI[19];
             this.Petrol.relativePosition = new Vector3(SPACING, this.Coal.relativePosition.y + SPACING22);
             this.Petrol.autoSize = true;
-            this.Petrol.name = "Moreeconomic_Text_5";
         }
 
         private void RefreshDisplayData()

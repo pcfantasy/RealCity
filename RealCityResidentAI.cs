@@ -166,6 +166,18 @@ namespace RealCity
                 {
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding];
                     budget = Singleton<EconomyManager>.instance.GetBudget(buildingData.Info.m_class);
+                    if (budget < 100)
+                    {
+                        budget = (budget * budget + 99) / 100;
+                    }
+                    else if (budget > 150)
+                    {
+                        budget = 125;
+                    }
+                    else if (budget > 100)
+                    {
+                        budget -= (100 - budget) * (100 - budget) / 100;
+                    }
                     BuildingUI.GetWorkBehaviour((ushort)workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     switch (buildingData.Info.m_class.m_subService)
                     {
@@ -277,23 +289,31 @@ namespace RealCity
                             {
                                 DebugLog.LogToFileOnly("Error:  playerbuilding budget9 = 0");
                             }
-                            int allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+                            int allWorkCount = 0;
+                            if (rand.Next(100) == 0)
+                            {
+                                allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                            }
+                            else
+                            {
+                                allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+                            }
                             if (totalWorkCount > allWorkCount)
                             {
-                                DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
+                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
                                 allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
                             }
                             float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(MainDataStore.goverment_education0) + rand.Next(1); break;
+                                    num = num + MainDataStore.goverment_education0; break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(MainDataStore.goverment_education1) + rand.Next(2); break;
+                                    num = num + MainDataStore.goverment_education1; break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(MainDataStore.goverment_education2) + rand.Next(3); break;
+                                    num = num + MainDataStore.goverment_education2; break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(MainDataStore.goverment_education3) + rand.Next(4); break;
+                                    num = num + MainDataStore.goverment_education3; break;
                             }
                             num = (int)(num * budget / 100f);
                             if (!checkOnly)
@@ -327,27 +347,38 @@ namespace RealCity
                             {
                                 DebugLog.LogToFileOnly("Error:  playerbuilding budget20 = 0");
                             }
-                            int allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+
+                            int allWorkCount = 0;
+                            if (rand.Next(100) == 0)
+                            {
+                                allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                            }
+                            else
+                            {
+                                allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+                            }
+
                             float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
                             if (totalWorkCount > allWorkCount)
                             {
                                 if (RealCityEconomyExtension.IsSpecialBuilding((ushort)workBuilding) != 3)
                                 {
-                                    DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
+                                    //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
                                 }
-                                allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                                Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
+                                //allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
                                 idex = 1;
                             }
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + (int)(MainDataStore.goverment_education0) + rand.Next(1); break;
+                                    num = num + MainDataStore.goverment_education0; break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + (int)(MainDataStore.goverment_education1) + rand.Next(2); break;
+                                    num = num + MainDataStore.goverment_education1; break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + (int)(MainDataStore.goverment_education2) + rand.Next(3); break;
+                                    num = num + MainDataStore.goverment_education2; break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + (int)(MainDataStore.goverment_education3) + rand.Next(4); break;
+                                    num = num + MainDataStore.goverment_education3; break;
                             }
                             num = (int)(num * budget / 100f);
                             if (!checkOnly)
@@ -365,23 +396,34 @@ namespace RealCity
                         switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                         {
                             case Citizen.Education.Uneducated:
-                                num = num + (int)(MainDataStore.goverment_education0) + rand.Next(1); break;
+                                num = num + MainDataStore.goverment_education0; break;
                             case Citizen.Education.OneSchool:
-                                num = num + (int)(MainDataStore.goverment_education1) + rand.Next(2); break;
+                                num = num + MainDataStore.goverment_education1; break;
                             case Citizen.Education.TwoSchools:
-                                num = num + (int)(MainDataStore.goverment_education2) + rand.Next(3); break;
+                                num = num + MainDataStore.goverment_education2; break;
                             case Citizen.Education.ThreeSchools:
-                                num = num + (int)(MainDataStore.goverment_education3) + rand.Next(4); break;
+                                num = num + MainDataStore.goverment_education3; break;
                         }
                         if (budget == 0)
                         {
                             DebugLog.LogToFileOnly("Error:  playerbuilding budget20 = 0");
                         }
-                        int allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+
+                        int allWorkCount = 0;
+                        if (rand.Next(100) == 0)
+                        {
+                            allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                        }
+                        else
+                        {
+                            allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
+                        }
                         if (totalWorkCount > allWorkCount)
                         {
-                            DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
-                            allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                            Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
+                            //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
+                            //EmptyBuilding((ushort)workBuilding, ref buildingData, CitizenUnit.Flags.Created, false);
+                            //allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
                         }
                         float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
                         num = (int)(num * budget / 100f);
@@ -402,6 +444,7 @@ namespace RealCity
             //DebugLog.LogToFileOnly("salary2 is " + num.ToString());
             return num;
         }//public
+
 
         public static int TotalWorkCount(ushort buildingID, Building data, bool checkOnly, bool update)
         {
@@ -1483,7 +1526,7 @@ namespace RealCity
             if ((int)Citizen.GetAgeGroup(citizen.m_age) >= 2)
             {
                 System.Random rand = new System.Random();
-                if (((Politics.parliamentCount != 0) && (rand.Next(10) == 0)) || (Politics.parliamentCount == 0))
+                if (((Politics.parliamentCount != 1) && (rand.Next(10) == 0)) || (Politics.parliamentCount == 1))
                 {
                     Politics.cPartyChance = 0;
                     Politics.gPartyChance = 0;

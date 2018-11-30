@@ -20,6 +20,8 @@ namespace RealCity
 
         public static UIPanel HumanInfo;
 
+        public static UIPanel TouristInfo;
+
         public static EcnomicUI guiPanel;
 
         public static RealCityUI guiPanel1;
@@ -32,11 +34,15 @@ namespace RealCity
 
         public static PoliticsUI guiPanel5;
 
+        public static TouristUI guiPanel6;
+
         public static GameObject buildingWindowGameObject;
 
         public static GameObject PlayerbuildingWindowGameObject;
 
         public static GameObject HumanWindowGameObject;
+
+        public static GameObject TouristWindowGameObject;
 
         public static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
@@ -138,6 +144,7 @@ namespace RealCity
             RealCityResidentAI.saveData = new byte[140];
             MainDataStore.saveData = new byte[3932402];
             MainDataStore.saveData1 = new byte[4194304];
+            MainDataStore.saveData2 = new byte[1048576];
             Politics.saveData = new byte[103];
             System.Random rand = new System.Random();
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
@@ -185,6 +192,7 @@ namespace RealCity
 
             SetupBuidingGui();
             SetupHumanGui();
+            SetupTouristGui();
             SetupPlayerBuidingGui();
             SetupEcnomicButton();
             SetupPLButton();
@@ -234,6 +242,25 @@ namespace RealCity
             guiPanel3.position = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
             HumanInfo.eventVisibilityChanged += HumanInfo_eventVisibilityChanged;
         }
+
+        public static void SetupTouristGui()
+        {
+            TouristWindowGameObject = new GameObject("TouristWindowGameObject");
+            guiPanel6 = (TouristUI)TouristWindowGameObject.AddComponent(typeof(TouristUI));
+
+
+            TouristInfo = UIView.Find<UIPanel>("(Library) TouristWorldInfoPanel");
+            if (TouristInfo == null)
+            {
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) TouristWorldInfoPanel\nAvailable panels are:\n");
+            }
+            guiPanel6.transform.parent = TouristInfo.transform;
+            guiPanel6.size = new Vector3(TouristInfo.size.x, TouristInfo.size.y);
+            guiPanel6.baseBuildingWindow = TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
+            guiPanel6.position = new Vector3(TouristInfo.size.x, TouristInfo.size.y);
+            TouristInfo.eventVisibilityChanged += TouristInfo_eventVisibilityChanged;
+        }
+
 
         public static void SetupPlayerBuidingGui()
         {
@@ -377,6 +404,25 @@ namespace RealCity
             }
         }
 
+        public static void TouristInfo_eventVisibilityChanged(UIComponent component, bool value)
+        {
+            guiPanel6.isEnabled = value;
+            if (value)
+            {
+                //initialize human ui again
+                Loader.guiPanel6.transform.parent = Loader.TouristInfo.transform;
+                Loader.guiPanel6.size = new Vector3(Loader.TouristInfo.size.x, Loader.HumanInfo.size.y);
+                Loader.guiPanel6.baseBuildingWindow = Loader.TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
+                Loader.guiPanel6.position = new Vector3(Loader.TouristInfo.size.x, Loader.TouristInfo.size.y);
+                TouristUI.refeshOnce = true;
+                guiPanel6.Show();
+            }
+            else
+            {
+                guiPanel6.Hide();
+            }
+        }
+
 
         public static void RemoveGui()
         {
@@ -445,6 +491,19 @@ namespace RealCity
                 {
                     guiPanel4.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
                 }
+            }
+
+            //remove TouristUI
+            if (guiPanel6 != null)
+            {
+                if (guiPanel6.parent != null)
+                {
+                    guiPanel6.parent.eventVisibilityChanged -= TouristInfo_eventVisibilityChanged;
+                }
+            }
+            if (TouristWindowGameObject != null)
+            {
+                UnityEngine.Object.Destroy(TouristWindowGameObject);
             }
 
             if (PlayerbuildingWindowGameObject != null)

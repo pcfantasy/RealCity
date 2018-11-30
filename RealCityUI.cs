@@ -230,13 +230,11 @@ namespace RealCity
             this.citizen_tax_income_title.textScale = 1.1f;
             this.citizen_tax_income_title.relativePosition = new Vector3(SPACING, 50f);
             this.citizen_tax_income_title.autoSize = true;
-            this.citizen_tax_income_title.name = "Moreeconomic_Text_0";
 
             this.citizen_tax_income = base.AddUIComponent<UILabel>();
             this.citizen_tax_income.text = Language.RealCityUI1[1];
             this.citizen_tax_income.relativePosition = new Vector3(SPACING, this.citizen_tax_income_title.relativePosition.y + SPACING22);
             this.citizen_tax_income.autoSize = true;
-            this.citizen_tax_income.name = "Moreeconomic_Text_1";
 
             //2、City tourism income
             this.city_tourism_income_title = base.AddUIComponent<UILabel>();
@@ -244,19 +242,16 @@ namespace RealCity
             this.city_tourism_income_title.textScale = 1.1f;
             this.city_tourism_income_title.relativePosition = new Vector3(SPACING, this.citizen_tax_income.relativePosition.y + SPACING22 + 10f);
             this.city_tourism_income_title.autoSize = true;
-            this.city_tourism_income_title.name = "Moreeconomic_Text_2";
 
             this.citizen_income = base.AddUIComponent<UILabel>();
             this.citizen_income.text = Language.RealCityUI1[3];
             this.citizen_income.relativePosition = new Vector3(SPACING, this.city_tourism_income_title.relativePosition.y + SPACING22);
             this.citizen_income.autoSize = true;
-            this.citizen_income.name = "Moreeconomic_Text_3";
 
             this.tourist_income = base.AddUIComponent<UILabel>();
             this.tourist_income.text = Language.RealCityUI1[4];
             this.tourist_income.relativePosition = new Vector3(this.citizen_income.relativePosition.x + this.citizen_income.width + SPACING + 140f, this.citizen_income.relativePosition.y);
             this.tourist_income.autoSize = true;
-            this.tourist_income.name = "Moreeconomic_Text_4";
 
             //3、City land tax income
             this.land_income_title = base.AddUIComponent<UILabel>();
@@ -264,103 +259,86 @@ namespace RealCity
             this.land_income_title.textScale = 1.1f;
             this.land_income_title.relativePosition = new Vector3(SPACING, this.citizen_income.relativePosition.y + SPACING22 + 10f);
             this.land_income_title.autoSize = true;
-            this.land_income_title.name = "Moreeconomic_Text_5";
 
             this.resident_high_landincome = base.AddUIComponent<UILabel>();
             this.resident_high_landincome.text = Language.RealCityUI1[6];
             this.resident_high_landincome.relativePosition = new Vector3(SPACING, this.land_income_title.relativePosition.y + SPACING22);
             this.resident_high_landincome.autoSize = true;
-            this.resident_high_landincome.name = "Moreeconomic_Text_6";
 
             this.resident_low_landincome = base.AddUIComponent<UILabel>();
             this.resident_low_landincome.text = Language.RealCityUI1[7];
             this.resident_low_landincome.relativePosition = new Vector3(this.resident_high_landincome.relativePosition.x + this.resident_high_landincome.width + SPACING + 120f, this.resident_high_landincome.relativePosition.y);
             this.resident_low_landincome.autoSize = true;
-            this.resident_low_landincome.name = "Moreeconomic_Text_7";
 
             this.resident_high_eco_landincome = base.AddUIComponent<UILabel>();
             this.resident_high_eco_landincome.text = Language.RealCityUI1[8];
             this.resident_high_eco_landincome.relativePosition = new Vector3(SPACING, this.resident_high_landincome.relativePosition.y + SPACING22);
             this.resident_high_eco_landincome.autoSize = true;
-            this.resident_high_eco_landincome.name = "Moreeconomic_Text_8";
 
             this.resident_low_eco_landincome = base.AddUIComponent<UILabel>();
             this.resident_low_eco_landincome.text = Language.RealCityUI1[9];
             this.resident_low_eco_landincome.relativePosition = new Vector3(this.resident_low_landincome.relativePosition.x, this.resident_low_landincome.relativePosition.y + SPACING22);
             this.resident_low_eco_landincome.autoSize = true;
-            this.resident_low_eco_landincome.name = "Moreeconomic_Text_8";
 
             this.comm_high_landincome = base.AddUIComponent<UILabel>();
             this.comm_high_landincome.text = Language.RealCityUI1[10];
             this.comm_high_landincome.relativePosition = new Vector3(SPACING, this.resident_high_eco_landincome.relativePosition.y + SPACING22);
             this.comm_high_landincome.autoSize = true;
-            this.comm_high_landincome.name = "Moreeconomic_Text_9";
 
             this.comm_low_landincome = base.AddUIComponent<UILabel>();
             this.comm_low_landincome.text = Language.RealCityUI1[11];
             this.comm_low_landincome.relativePosition = new Vector3(this.resident_low_eco_landincome.relativePosition.x, this.resident_low_eco_landincome.relativePosition.y + SPACING22);
             this.comm_low_landincome.autoSize = true;
-            this.comm_low_landincome.name = "Moreeconomic_Text_10";
 
             this.comm_eco_landincome = base.AddUIComponent<UILabel>();
             this.comm_eco_landincome.text = Language.RealCityUI1[12];
             this.comm_eco_landincome.relativePosition = new Vector3(SPACING, this.comm_high_landincome.relativePosition.y + SPACING22);
             this.comm_eco_landincome.autoSize = true;
-            this.comm_eco_landincome.name = "Moreeconomic_Text_11";
 
             this.comm_tou_landincome = base.AddUIComponent<UILabel>();
             this.comm_tou_landincome.text = Language.RealCityUI1[13];
             this.comm_tou_landincome.relativePosition = new Vector3(this.comm_low_landincome.relativePosition.x, this.comm_low_landincome.relativePosition.y + SPACING22);
             this.comm_tou_landincome.autoSize = true;
-            this.comm_tou_landincome.name = "Moreeconomic_Text_12";
 
             this.comm_lei_landincome = base.AddUIComponent<UILabel>();
             this.comm_lei_landincome.text = Language.RealCityUI1[14];
             this.comm_lei_landincome.relativePosition = new Vector3(SPACING, this.comm_eco_landincome.relativePosition.y + SPACING22);
             this.comm_lei_landincome.autoSize = true;
-            this.comm_lei_landincome.name = "Moreeconomic_Text_13";
 
             this.indu_gen_landincome = base.AddUIComponent<UILabel>();
             this.indu_gen_landincome.text = Language.RealCityUI1[15];
             this.indu_gen_landincome.relativePosition = new Vector3(this.comm_tou_landincome.relativePosition.x, this.comm_tou_landincome.relativePosition.y + SPACING22);
             this.indu_gen_landincome.autoSize = true;
-            this.indu_gen_landincome.name = "Moreeconomic_Text_14";
 
             this.indu_farmer_landincome = base.AddUIComponent<UILabel>();
             this.indu_farmer_landincome.text = Language.RealCityUI1[16];
             this.indu_farmer_landincome.relativePosition = new Vector3(SPACING, this.comm_lei_landincome.relativePosition.y + SPACING22);
             this.indu_farmer_landincome.autoSize = true;
-            this.indu_farmer_landincome.name = "Moreeconomic_Text_15";
 
             this.indu_foresty_landincome = base.AddUIComponent<UILabel>();
             this.indu_foresty_landincome.text = Language.RealCityUI1[17];
             this.indu_foresty_landincome.relativePosition = new Vector3(this.indu_gen_landincome.relativePosition.x, this.indu_gen_landincome.relativePosition.y + SPACING22);
             this.indu_foresty_landincome.autoSize = true;
-            this.indu_foresty_landincome.name = "Moreeconomic_Text_16";
 
             this.indu_oil_landincome = base.AddUIComponent<UILabel>();
             this.indu_oil_landincome.text = Language.RealCityUI1[18];
             this.indu_oil_landincome.relativePosition = new Vector3(SPACING, this.indu_farmer_landincome.relativePosition.y + SPACING22);
             this.indu_oil_landincome.autoSize = true;
-            this.indu_oil_landincome.name = "Moreeconomic_Text_17";
 
             this.indu_ore_landincome = base.AddUIComponent<UILabel>();
             this.indu_ore_landincome.text = Language.RealCityUI1[19];
             this.indu_ore_landincome.relativePosition = new Vector3(this.indu_foresty_landincome.relativePosition.x, this.indu_foresty_landincome.relativePosition.y + SPACING22);
             this.indu_ore_landincome.autoSize = true;
-            this.indu_ore_landincome.name = "Moreeconomic_Text_18";
 
             this.office_gen_landincome = base.AddUIComponent<UILabel>();
             this.office_gen_landincome.text = Language.RealCityUI1[20];
             this.office_gen_landincome.relativePosition = new Vector3(SPACING, this.indu_oil_landincome.relativePosition.y + SPACING22);
             this.office_gen_landincome.autoSize = true;
-            this.office_gen_landincome.name = "Moreeconomic_Text_19";
 
             this.office_high_tech_landincome = base.AddUIComponent<UILabel>();
             this.office_high_tech_landincome.text = Language.RealCityUI1[21];
             this.office_high_tech_landincome.relativePosition = new Vector3(this.indu_ore_landincome.relativePosition.x, this.indu_ore_landincome.relativePosition.y + SPACING22);
             this.office_high_tech_landincome.autoSize = true;
-            this.office_high_tech_landincome.name = "Moreeconomic_Text_20";
 
             //4、City trade tax income
             this.trade_income_title = base.AddUIComponent<UILabel>();
@@ -368,67 +346,56 @@ namespace RealCity
             this.trade_income_title.textScale = 1.1f;
             this.trade_income_title.relativePosition = new Vector3(SPACING, this.office_gen_landincome.relativePosition.y + SPACING22 + 10f);
             this.trade_income_title.autoSize = true;
-            this.trade_income_title.name = "Moreeconomic_Text_21";
 
             this.comm_high_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_high_tradeincome.text = Language.RealCityUI1[23];
             this.comm_high_tradeincome.relativePosition = new Vector3(SPACING, this.trade_income_title.relativePosition.y + SPACING22);
             this.comm_high_tradeincome.autoSize = true;
-            this.comm_high_tradeincome.name = "Moreeconomic_Text_22";
 
             this.comm_low_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_low_tradeincome.text = Language.RealCityUI1[24];
             this.comm_low_tradeincome.relativePosition = new Vector3(this.comm_high_tradeincome.relativePosition.x + this.comm_high_tradeincome.width + SPACING + 120f, this.comm_high_tradeincome.relativePosition.y);
             this.comm_low_tradeincome.autoSize = true;
-            this.comm_low_tradeincome.name = "Moreeconomic_Text_23";
 
             this.comm_eco_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_eco_tradeincome.text = Language.RealCityUI1[25];
             this.comm_eco_tradeincome.relativePosition = new Vector3(SPACING, this.comm_high_tradeincome.relativePosition.y + SPACING22);
             this.comm_eco_tradeincome.autoSize = true;
-            this.comm_eco_tradeincome.name = "Moreeconomic_Text_24";
 
             this.comm_tou_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_tou_tradeincome.text = Language.RealCityUI1[26];
             this.comm_tou_tradeincome.relativePosition = new Vector3(this.comm_low_tradeincome.relativePosition.x, this.comm_low_tradeincome.relativePosition.y + SPACING22);
             this.comm_tou_tradeincome.autoSize = true;
-            this.comm_tou_tradeincome.name = "Moreeconomic_Text_25";
 
             this.comm_lei_tradeincome = base.AddUIComponent<UILabel>();
             this.comm_lei_tradeincome.text = Language.RealCityUI1[27];
             this.comm_lei_tradeincome.relativePosition = new Vector3(SPACING, this.comm_eco_tradeincome.relativePosition.y + SPACING22);
             this.comm_lei_tradeincome.autoSize = true;
-            this.comm_lei_tradeincome.name = "Moreeconomic_Text_26";
 
             this.indu_gen_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_gen_tradeincome.text = Language.RealCityUI1[28];
             this.indu_gen_tradeincome.relativePosition = new Vector3(this.comm_tou_tradeincome.relativePosition.x, this.comm_tou_tradeincome.relativePosition.y + SPACING22);
             this.indu_gen_tradeincome.autoSize = true;
-            this.indu_gen_tradeincome.name = "Moreeconomic_Text_27";
 
             this.indu_farmer_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_farmer_tradeincome.text = Language.RealCityUI1[29];
             this.indu_farmer_tradeincome.relativePosition = new Vector3(SPACING, this.comm_lei_tradeincome.relativePosition.y + SPACING22);
             this.indu_farmer_tradeincome.autoSize = true;
-            this.indu_farmer_tradeincome.name = "Moreeconomic_Text_28";
 
             this.indu_foresty_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_foresty_tradeincome.text = Language.RealCityUI1[30];
             this.indu_foresty_tradeincome.relativePosition = new Vector3(this.indu_gen_tradeincome.relativePosition.x, this.indu_gen_tradeincome.relativePosition.y + SPACING22);
             this.indu_foresty_tradeincome.autoSize = true;
-            this.indu_foresty_tradeincome.name = "Moreeconomic_Text_29";
 
             this.indu_oil_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_oil_tradeincome.text = Language.RealCityUI1[31];
             this.indu_oil_tradeincome.relativePosition = new Vector3(SPACING, this.indu_farmer_tradeincome.relativePosition.y + SPACING22);
             this.indu_oil_tradeincome.autoSize = true;
-            this.indu_oil_tradeincome.name = "Moreeconomic_Text_30";
 
             this.indu_ore_tradeincome = base.AddUIComponent<UILabel>();
             this.indu_ore_tradeincome.text = Language.RealCityUI1[32];
             this.indu_ore_tradeincome.relativePosition = new Vector3(this.indu_foresty_tradeincome.relativePosition.x, this.indu_foresty_tradeincome.relativePosition.y + SPACING22);
             this.indu_ore_tradeincome.autoSize = true;
-            this.indu_ore_tradeincome.name = "Moreeconomic_Text_31";
 
             //5、Public transport income
             this.public_transport_income_title = base.AddUIComponent<UILabel>();
@@ -436,61 +403,51 @@ namespace RealCity
             this.public_transport_income_title.textScale = 1.1f;
             this.public_transport_income_title.relativePosition = new Vector3(SPACING, this.indu_oil_tradeincome.relativePosition.y + SPACING22 + 10f);
             this.public_transport_income_title.autoSize = true;
-            this.public_transport_income_title.name = "Moreeconomic_Text_32";
 
             this.from_bus = base.AddUIComponent<UILabel>();
             this.from_bus.text = Language.RealCityUI1[34];
             this.from_bus.relativePosition = new Vector3(SPACING, this.public_transport_income_title.relativePosition.y + SPACING22);
             this.from_bus.autoSize = true;
-            this.from_bus.name = "Moreeconomic_Text_33";
 
             this.from_tram = base.AddUIComponent<UILabel>();
             this.from_tram.text = Language.RealCityUI1[35];
             this.from_tram.relativePosition = new Vector3(this.from_bus.relativePosition.x + this.from_bus.width + SPACING + 120f, this.from_bus.relativePosition.y);
             this.from_tram.autoSize = true;
-            this.from_tram.name = "Moreeconomic_Text_33";
 
             this.from_metro = base.AddUIComponent<UILabel>();
             this.from_metro.text = Language.RealCityUI1[36];
             this.from_metro.relativePosition = new Vector3(this.from_tram.relativePosition.x + this.from_tram.width + SPACING + 120f, this.from_tram.relativePosition.y);
             this.from_metro.autoSize = true;
-            this.from_metro.name = "Moreeconomic_Text_34";
 
             this.from_train = base.AddUIComponent<UILabel>();
             this.from_train.text = Language.RealCityUI1[37];
             this.from_train.relativePosition = new Vector3(SPACING, this.from_bus.relativePosition.y + SPACING22);
             this.from_train.autoSize = true;
-            this.from_train.name = "Moreeconomic_Text_35";
 
             this.from_ship = base.AddUIComponent<UILabel>();
             this.from_ship.text = Language.RealCityUI1[38];
             this.from_ship.relativePosition = new Vector3(this.from_tram.relativePosition.x, this.from_tram.relativePosition.y + SPACING22);
             this.from_ship.autoSize = true;
-            this.from_ship.name = "Moreeconomic_Text_36";
 
             this.from_taxi = base.AddUIComponent<UILabel>();
             this.from_taxi.text = Language.RealCityUI1[39];
             this.from_taxi.relativePosition = new Vector3(this.from_metro.relativePosition.x, this.from_metro.relativePosition.y + SPACING22);
             this.from_taxi.autoSize = true;
-            this.from_taxi.name = "Moreeconomic_Text_37";
 
             this.from_plane = base.AddUIComponent<UILabel>();
             this.from_plane.text = Language.RealCityUI1[40];
             this.from_plane.relativePosition = new Vector3(SPACING, this.from_train.relativePosition.y + SPACING22);
             this.from_plane.autoSize = true;
-            this.from_plane.name = "Moreeconomic_Text_38";
 
             this.from_cable_car = base.AddUIComponent<UILabel>();
             this.from_cable_car.text = Language.RealCityUI1[41];
             this.from_cable_car.relativePosition = new Vector3(this.from_ship.relativePosition.x, this.from_ship.relativePosition.y + SPACING22);
             this.from_cable_car.autoSize = true;
-            this.from_cable_car.name = "Moreeconomic_Text_39";
 
             this.from_monorail = base.AddUIComponent<UILabel>();
             this.from_monorail.text = Language.RealCityUI1[42];
             this.from_monorail.relativePosition = new Vector3(this.from_taxi.relativePosition.x, this.from_taxi.relativePosition.y + SPACING22);
             this.from_monorail.autoSize = true;
-            this.from_monorail.name = "Moreeconomic_Text_40";
 
             //6、Public transport income
             this.goverment_income_title = base.AddUIComponent<UILabel>();
@@ -498,38 +455,32 @@ namespace RealCity
             this.goverment_income_title.textScale = 1.1f;
             this.goverment_income_title.relativePosition = new Vector3(SPACING, this.from_plane.relativePosition.y + SPACING22 + 10f);
             this.goverment_income_title.autoSize = true;
-            this.goverment_income_title.name = "Moreeconomic_Text_41";
 
             this.garbage_income_title = base.AddUIComponent<UILabel>();
             this.garbage_income_title.text = Language.RealCityUI1[44];
             this.garbage_income_title.relativePosition = new Vector3(SPACING, this.goverment_income_title.relativePosition.y + SPACING22);
             this.garbage_income_title.autoSize = true;
-            this.garbage_income_title.name = "Moreeconomic_Text_44";
 
             this.school_income_title = base.AddUIComponent<UILabel>();
             this.school_income_title.text = Language.RealCityUI1[45];
             this.school_income_title.relativePosition = new Vector3(this.garbage_income_title.relativePosition.x, this.garbage_income_title.relativePosition.y + SPACING22);
             this.school_income_title.autoSize = true;
-            this.school_income_title.name = "Moreeconomic_Text_43";
 
             this.road_income_title = base.AddUIComponent<UILabel>();
             this.road_income_title.text = Language.RealCityUI1[46];
             this.road_income_title.relativePosition = new Vector3(this.school_income_title.relativePosition.x, this.school_income_title.relativePosition.y + SPACING22);
             this.road_income_title.autoSize = true;
-            this.road_income_title.name = "Moreeconomic_Text_42";
 
             this.playerIndustryIncomeTitle = base.AddUIComponent<UILabel>();
             this.playerIndustryIncomeTitle.text = Language.RealCityUI1[47];
             this.playerIndustryIncomeTitle.relativePosition = new Vector3(this.road_income_title.relativePosition.x, this.road_income_title.relativePosition.y + SPACING22);
             this.playerIndustryIncomeTitle.autoSize = true;
-            this.playerIndustryIncomeTitle.name = "Moreeconomic_Text_42";
 
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
             this.all_total_income_ui.text = Language.RealCityUI1[48];
             this.all_total_income_ui.textScale = 1.1f;
             this.all_total_income_ui.relativePosition = new Vector3(this.playerIndustryIncomeTitle.relativePosition.x, this.playerIndustryIncomeTitle.relativePosition.y + SPACING22 + 10f);
             this.all_total_income_ui.autoSize = true;
-            this.all_total_income_ui.name = "Moreeconomic_Text_44";
 
             is_weekend_Checkbox = base.AddUIComponent<UICheckBox>();
             is_weekend_Checkbox.relativePosition = new Vector3(SPACING, all_total_income_ui.relativePosition.y + 30f);

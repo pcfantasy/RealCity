@@ -36,12 +36,13 @@ namespace RealCity
                     uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizenData.m_citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                     if ((instance3.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                     {
-                        MainDataStore.family_money[homeId] -= ticketPrice;
+                        MainDataStore.citizen_money[citizenData.m_citizen] -= ticketPrice;
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
                     }
                     else
                     {
                         //to help identify tourist and resident.
+                        //MainDataStore.citizen_money[citizenData.m_citizen] -= ticketPrice;
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -ticketPrice , info.m_class);
                     }
                     DistrictPark[] expr_6C_cp_0 = instance.m_parks.m_buffer;
@@ -109,7 +110,7 @@ namespace RealCity
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num1);
                     num = -100;
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
-                    MainDataStore.family_money[homeId] = (float)(MainDataStore.family_money[homeId] + num1 + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    MainDataStore.citizen_money[citizen] = (float)(MainDataStore.citizen_money[citizen] + num1 + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
                 }
             }
             else if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
@@ -119,11 +120,11 @@ namespace RealCity
                     num = rand.Next(400);
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        num = num * 16;
+                        num = num << 4;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        num = num * 4;
+                        num = num << 2;
                     }
                 }
 
@@ -133,8 +134,10 @@ namespace RealCity
                     num = num + 1;
                 }
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num);
+                //MainDataStore.citizen_money[citizen] += num * RealCityIndustryBuildingAI.GetResourcePrice(tempTransferRreason);
                 num = -100;
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
+                //MainDataStore.citizen_money[citizen] += num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
             }
 
             if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
@@ -144,17 +147,18 @@ namespace RealCity
                     int tourism_fee = rand.Next(20) + 1 ;
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        tourism_fee = tourism_fee << 2;
+                        tourism_fee = tourism_fee << 4;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        tourism_fee = tourism_fee << 1;
+                        tourism_fee = tourism_fee << 2;
                     }
 
                     if (info.m_class.m_service == ItemClass.Service.Monument)
                     {
-                        tourism_fee = tourism_fee << 1;
+                        tourism_fee = tourism_fee << 2;
                     }
+                    //MainDataStore.citizen_money[citizen] -= tourism_fee;
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
                 }
                 else
@@ -163,9 +167,9 @@ namespace RealCity
 
                     if (info.m_class.m_service == ItemClass.Service.Monument)
                     {
-                        tourism_fee = tourism_fee << 1;
+                        tourism_fee = tourism_fee << 2;
                     }
-                    MainDataStore.family_money[homeId] = (float)(MainDataStore.family_money[homeId] - tourism_fee);
+                    MainDataStore.citizen_money[citizen] = (float)(MainDataStore.citizen_money[citizen] - tourism_fee);
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                 }
             }
@@ -191,93 +195,25 @@ namespace RealCity
                     if (ticketPrice != 0)
                     {
                         //new added begin
-                        ticketPrice = (int)((float)ticketPrice);
+                        //ticketPrice = (int)((float)ticketPrice);
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;
                         uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            if ((MainDataStore.family_money[homeId] - (ticketPrice)) > 0)
-                            {
-                                MainDataStore.family_money[homeId] = (float)(MainDataStore.family_money[homeId] - (ticketPrice));
-                            }
-                            else
-                            {
-                                ticketPrice = 0;
-                            }
-                        } else
+                            MainDataStore.citizen_money[homeId] = (float)(MainDataStore.citizen_money[citizen] - (ticketPrice));
+                        }
+                        else
                         {
-                            if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Metro)
+                            if (MainDataStore.citizen_money[citizen] < ticketPrice)
                             {
-                                if (ticketPrice > 500)
-                                {
-                                    ticketPrice = 500;
-                                }
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Car)
-                            {
-                                if (ticketPrice > 200)
-                                {
-                                    ticketPrice = 200;
-                                }
-
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Plane)
-                            {
-                                if (ticketPrice > 1500)
-                                {
-                                    ticketPrice = 1500;
-                                }
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Train)
-                            {
-                                if (ticketPrice > 600)
-                                {
-                                    ticketPrice = 600;
-                                }
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Tram)
-                            {
-                                if (ticketPrice > 300)
-                                {
-                                    ticketPrice = 300;
-                                }
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Ship)
-                            {
-                                if (ticketPrice > 800)
-                                {
-                                    ticketPrice = 800;
-                                }
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Ferry)
-                            {
-                                if (ticketPrice > 300)
-                                {
-                                    ticketPrice = 300;
-                                }
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.CableCar)
-                            {
-                                if (ticketPrice > 250)
-                                {
-                                    ticketPrice = 250;
-                                }
-                            }
-                            else if (instance.m_vehicles.m_buffer[(int)num].Info.m_vehicleType == VehicleInfo.VehicleType.Monorail)
-                            {
-                                if (ticketPrice > 400)
-                                {
-                                    ticketPrice = 400;
-                                }
+                                ticketPrice = (MainDataStore.citizen_money[citizen] > 0) ? (int)MainDataStore.citizen_money[citizen] + 1 : 1;
+                                MainDataStore.citizen_money[citizen] = (float)(MainDataStore.citizen_money[citizen] - (ticketPrice) - 1);
                             }
                             else
                             {
-                                if (ticketPrice > 1000)
-                                {
-                                    ticketPrice = 1000;
-                                }
+                                MainDataStore.citizen_money[citizen] = (float)(MainDataStore.citizen_money[citizen] - (ticketPrice));
                             }
                         }
                         //new added end

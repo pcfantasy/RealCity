@@ -81,6 +81,7 @@ namespace RealCity
             InstanceID id = default(InstanceID);
             //new added begin
             MainDataStore.citizen_money[citizen] = 0;
+            MainDataStore.citizenFlag[citizen] = false;
             //new added end
             id.Citizen = citizen;
             Singleton<InstanceManager>.instance.ReleaseInstance(id);

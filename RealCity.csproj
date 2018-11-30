@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TouristUI.cs" />
     <Compile Include="RealCityPlayerBuildingAI.cs" />
     <Compile Include="RealCityExtractingFacilityAI.cs" />
     <Compile Include="RealCityProcessingFacilityAI.cs" />
