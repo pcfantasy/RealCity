@@ -15,10 +15,6 @@ namespace RealCity
         public static int fixEmptyCitizenCount = 0;
         public static int fixEmptyBuildingCount = 0;
 
-        public static int foodStillNeeded = 0;
-        public static int lumberStillNeeded = 0;
-        public static int coalStillNeeded = 0;
-        public static int petrolStillNeeded = 0;
         public static bool updateOnce = false;
         public static byte partyTrend = 0;
         public static ushort partyTrendStrength = 0;
@@ -60,30 +56,6 @@ namespace RealCity
                         MainDataStore.landPrice = 100f;
                     }
                     MainDataStore.game_expense_divide = (int)((float)100 / MainDataStore.landPrice);
-                    MainDataStore.isCoalsGetted = false;
-                    MainDataStore.isFoodsGetted = false;
-                    MainDataStore.isPetrolsGetted = false;
-                    MainDataStore.isLumbersGetted = false;
-                    MainDataStore.allFoodsFinal = MainDataStore.allFoods;
-                    MainDataStore.allLumbersFinal = MainDataStore.allLumbers;
-                    MainDataStore.allCoalsFinal = MainDataStore.allCoals;
-                    MainDataStore.allPetrolsFinal = MainDataStore.allPetrols;
-                    MainDataStore.allVehiclesFinal = MainDataStore.allVehicles;
-
-
-                    MainDataStore.isCoalsGettedFinal = (coalStillNeeded <= 0) && (MainDataStore.allCoals != 0);
-                    MainDataStore.isFoodsGettedFinal = (foodStillNeeded <= 0) && (MainDataStore.allFoods != 0);
-                    MainDataStore.isPetrolsGettedFinal = (petrolStillNeeded <= 0) && (MainDataStore.allPetrols != 0);
-                    MainDataStore.isLumbersGettedFinal = (lumberStillNeeded <= 0) && (MainDataStore.allLumbers != 0);
-                    foodStillNeeded = (MainDataStore.citizen_count > 32) ? (MainDataStore.citizen_count >> 5) : 0;
-                    lumberStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 8) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 3) : 0;
-                    coalStillNeeded = (RealCityPrivateBuildingAI.allBuildingsFinal > 8) ? (RealCityPrivateBuildingAI.allBuildingsFinal >> 3) : 0;
-                    petrolStillNeeded = (MainDataStore.allVehiclesFinal << 1);
-                    MainDataStore.allVehicles = 0;
-                    MainDataStore.allFoods = 0;
-                    MainDataStore.allLumbers = 0;
-                    MainDataStore.allPetrols = 0;
-                    MainDataStore.allCoals = 0;
                     BuildingStatus();
 
                     if (MainDataStore.update_money_count == 16)
@@ -125,7 +97,6 @@ namespace RealCity
                 BuildingUI.refeshOnce = true;
                 HumanUI.refeshOnce = true;
                 TouristUI.refeshOnce = true;
-                ResourceBotton.refeshOnce = true;
                 MainDataStore.is_updated = true;
             }
             return internalMoneyAmount;
@@ -147,32 +118,11 @@ namespace RealCity
                 tip3_message_forgui = "";
             }
 
-            if (!MainDataStore.isFoodsGettedFinal)
-            {
-                tip4_message_forgui = Language.TipAndChirperMessage[3];
-            }
-            else
-            {
-                tip4_message_forgui = "";
-            }
+            tip4_message_forgui = "";
 
-            if (!MainDataStore.isLumbersGettedFinal || !MainDataStore.isCoalsGettedFinal)
-            {
-                tip5_message_forgui = Language.TipAndChirperMessage[4];
-            }
-            else
-            {
-                tip5_message_forgui = "";
-            }
+            tip5_message_forgui = "";
 
-            if (!MainDataStore.isPetrolsGettedFinal)
-            {
-                tip6_message_forgui = Language.TipAndChirperMessage[5];
-            }
-            else
-            {
-                tip6_message_forgui = "";
-            }
+            tip6_message_forgui = "";
         }
 
         public void CaculateCitizenTransportFee()
@@ -273,16 +223,16 @@ namespace RealCity
 
 
 
-        public static byte IsSpecialBuilding(ushort id)
+        public static bool IsSpecialBuilding(ushort id)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
-
-            if (instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost() == 208600)
+            int num = instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost();
+            if (num == 208600)
             {
-                return 3;
+                return true;
             }
 
-            return 0;
+            return false;
         }
 
         public void CitizenStatus()

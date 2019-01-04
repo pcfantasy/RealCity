@@ -8,7 +8,7 @@ namespace RealCity
 {
     public class RealCityIndustrialBuildingAI : PrivateBuildingAI
     {
-        public override void CreateBuilding(ushort buildingID, ref Building data)
+        /*public override void CreateBuilding(ushort buildingID, ref Building data)
         {
             base.CreateBuilding(buildingID, ref data);
             int width = data.Width;
@@ -31,9 +31,9 @@ namespace RealCity
                 byte expr_9C_cp_1 = district;
                 expr_9C_cp_0[(int)expr_9C_cp_1].m_specializationPoliciesEffect = (expr_9C_cp_0[(int)expr_9C_cp_1].m_specializationPoliciesEffect | specialization);
             }
-        }
+        }*/
 
-        public override int CalculateProductionCapacity(ItemClass.Level level, Randomizer r, int width, int length)
+        /*public override int CalculateProductionCapacity(ItemClass.Level level, Randomizer r, int width, int length)
         {
             ItemClass @class = this.m_info.m_class;
             int num;
@@ -61,9 +61,9 @@ namespace RealCity
                 num = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
             }
             return num;
-        }
+        }*/
 
-        private DistrictPolicies.Specialization SpecialPolicyNeeded()
+        /*private DistrictPolicies.Specialization SpecialPolicyNeeded()
         {
             switch (this.m_info.m_class.m_subService)
             {
@@ -78,7 +78,7 @@ namespace RealCity
                 default:
                     return DistrictPolicies.Specialization.None;
             }
-        }
+        }*/
 
 
         private int GetConsumptionDivider(ushort buildingID, Building data)

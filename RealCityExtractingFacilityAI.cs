@@ -46,6 +46,18 @@ namespace RealCity
                 }
                 //new added here
                 float tempNum = CaculateEmployeeOutcome(buildingID, data);
+                if (budget < 100)
+                {
+                    budget = (budget * budget + 99) / 100;
+                }
+                else if (budget > 150)
+                {
+                    budget = 125;
+                }
+                else if (budget > 100)
+                {
+                    budget -= (100 - budget) * (100 - budget) / 100;
+                }
                 //DebugLog.LogToFileOnly("RealCityExtractingFacilityAI GetResourceRate facility " + tempNum.ToString());
                 num3 = (int)((float)(num3 / MainDataStore.game_expense_divide) + tempNum * budget);
                 //DebugLog.LogToFileOnly("RealCityExtractingFacilityAI GetResourceRate facility post " + num3.ToString());

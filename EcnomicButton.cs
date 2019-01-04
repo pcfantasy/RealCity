@@ -120,13 +120,7 @@ namespace RealCity
             {
                 this.EcButton.text = Language.EconomicUI[0] + Language.OptionUI[3];
                 this.EcButton.tooltip = Language.EconomicUI[0];
-                if (!MainDataStore.isCoalsGettedFinal || !MainDataStore.isFoodsGettedFinal || !MainDataStore.isPetrolsGettedFinal || !MainDataStore.isLumbersGettedFinal)  //lack of resource
-                {
-                    this.EcButton.textColor = Color.red;
-                } else
-                {
-                    this.EcButton.textColor = Color.white;
-                }
+                this.EcButton.textColor = Color.white;
 
                 if (Loader.guiPanel.isVisible)
                 {
@@ -139,6 +133,7 @@ namespace RealCity
                     base.Show();
                 }
             }
+            base.Update();
         }
     }
 }

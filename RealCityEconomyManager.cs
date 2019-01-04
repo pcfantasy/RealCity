@@ -2152,21 +2152,6 @@ namespace RealCity
                 }
             }
 
-            if (!MainDataStore.isPetrolsGettedFinal)
-            {
-                if (itemClass.m_service == ItemClass.Service.FireDepartment)
-                {
-                    budget = budget >> 2;
-                }
-                if (itemClass.m_service == ItemClass.Service.HealthCare || itemClass.m_service == ItemClass.Service.PoliceDepartment)
-                {
-                    budget = budget >> 2;
-                }
-                if (itemClass.m_service == ItemClass.Service.Garbage || itemClass.m_service == ItemClass.Service.Disaster)
-                {
-                    budget = budget >> 2 ;
-                }
-            }
             return budget;
         }
 

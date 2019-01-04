@@ -361,7 +361,7 @@ namespace RealCity
                             float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
                             if (totalWorkCount > allWorkCount)
                             {
-                                if (RealCityEconomyExtension.IsSpecialBuilding((ushort)workBuilding) != 3)
+                                if (RealCityEconomyExtension.IsSpecialBuilding((ushort)workBuilding) != true)
                                 {
                                     //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
                                 }
@@ -451,7 +451,7 @@ namespace RealCity
             int num = 0;
 
 
-            if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) == 3)
+            if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) == true)
             {
                 num = 1;
             }
@@ -936,13 +936,6 @@ namespace RealCity
 
             float tax = (float)Politics.residentTax * (float)citizenSalaryCurrent / 100f;
 
-            //caculate food tax
-            if (tempNum > 0 && MainDataStore.family_money[homeID] > 0 && MainDataStore.isFoodsGettedFinal)
-            {
-                MainDataStore.family_money[homeID] -= RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Food) * tempNum;
-                tax += (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Food) * tempNum + 0.5f);  
-            }
-
             tempCitizenSalaryTaxTotal = tempCitizenSalaryTaxTotal + (int)tax;
             citizenSalaryTaxTotal = (int)tempCitizenSalaryTaxTotal;
             ProcessCitizenIncomeTax(homeID, tax);
@@ -1260,28 +1253,6 @@ namespace RealCity
             data.m_goods = (ushort)Mathf.Max(1, (int)(data.m_goods - temp_num)); //here we can adjust demand
 
             MainDataStore.familyGoods[homeID] = data.m_goods;
-            //lack of food
-            if (!MainDataStore.isFoodsGettedFinal)
-            {
-                if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.HealthCare))
-                {
-                    int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        uint citizen = data.GetCitizen((num2 + i) % 5);
-                        if (citizen != 0u)
-                        {
-                            SimulationManager instance2 = Singleton<SimulationManager>.instance;
-                            Citizen[] expr_2FA_cp_0 = instance.m_citizens.m_buffer;
-                            if (instance2.m_randomizer.Int32(400) < 2)
-                            {
-                                expr_2FA_cp_0[citizen].Sick = true;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
 
             //new add end
             if (data.m_goods < 200)

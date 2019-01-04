@@ -65,12 +65,12 @@ namespace RealCity
             };
         }
 
-        public override void Update()
+        /*public override void Update()
         {
             if (Loader.isGuiRunning)
             {
                 this.BButton.text = "B";
             }
-        }
+        }*/
     }
 }

@@ -18,7 +18,7 @@ namespace RealCity
         /// 
         // TransferManager
 
-        public static void Init()
+        /*public static void Init()
         {
             DebugLog.LogToFileOnly("Init fake transfer manager");
             try
@@ -57,8 +57,45 @@ namespace RealCity
         private static TransferManager.TransferOffer[] _incomingOffers;
         private static ushort[] _incomingCount;
         private static int[] _incomingAmount;
-        //private static bool _init = false;
+        //private static bool _init = false;*/
 
+
+        public void StartSpecialBuildingTransfer(ushort buildingID, ref Building data, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+        {
+            //DebugLog.LogToFileOnly("find valid SpecialBuilding");
+            VehicleInfo vehicleInfo = null;
+            if (material == (TransferManager.TransferReason)110)
+            {
+                //DebugLog.LogToFileOnly("find valid construction resource transfer");
+                vehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialForestry, ItemClass.Level.Level1);
+            }
+            else if (material == (TransferManager.TransferReason)111)
+            {
+                //DebugLog.LogToFileOnly("find valid operation resource transfer");
+                vehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialFarming, ItemClass.Level.Level1);
+            }
+
+
+            if (vehicleInfo != null)
+            {
+                //DebugLog.LogToFileOnly("find valid vehicleInfo");
+                Array16<Vehicle> vehicles = Singleton<VehicleManager>.instance.m_vehicles;
+                ushort num16;
+                if (Singleton<VehicleManager>.instance.CreateVehicle(out num16, ref Singleton<SimulationManager>.instance.m_randomizer, vehicleInfo, data.m_position, material, false, true))
+                {
+                    //DebugLog.LogToFileOnly("find valid CreateVehicle");
+                    vehicleInfo.m_vehicleAI.SetSource(num16, ref vehicles.m_buffer[(int)num16], buildingID);
+                    vehicleInfo.m_vehicleAI.StartTransfer(num16, ref vehicles.m_buffer[(int)num16], material, offer);
+                    ushort building4 = offer.Building;
+                    if (building4 != 0)
+                    {
+                        int amount;
+                        int num17;
+                        vehicleInfo.m_vehicleAI.GetSize(num16, ref vehicles.m_buffer[(int)num16], out amount, out num17);
+                    }
+                }
+            }
+        }
 
         private void StartTransfer(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
@@ -136,7 +173,14 @@ namespace RealCity
                 ushort building1 = offerIn.Building;
                 BuildingInfo info3 = buildings.m_buffer[(int)building].Info;
                 offerIn.Amount = delta;
-                info3.m_buildingAI.StartTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
+                if (RealCityEconomyExtension.IsSpecialBuilding(building) && Loader.isRealConstructionRunning)
+                {
+                    StartSpecialBuildingTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
+                }
+                else
+                {
+                    info3.m_buildingAI.StartTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
+                }
             }
             else if (active && offerIn.Building != 0)
             {
@@ -147,220 +191,6 @@ namespace RealCity
                 info4.m_buildingAI.StartTransfer(building2, ref buildings2.m_buffer[(int)building2], material, offerOut);
             }
         }
-
-        /*public void AddOutgoingOffer(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
-        {
-            if (!_init)
-            {
-                _init = true;
-                Init();
-            }
-
-
-            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].m_flags.IsFlagSet(Building.Flags.IncomingOutgoing))
-            {
-                //Hell mode no import
-                if(comm_data.isHellMode)
-                {
-                    
-                    if(Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialFarming))
-                    {
-                        if (material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Grain)
-                        {
-                            DebugLog.LogToFileOnly("hell mode, no import");
-                            return;
-                        }
-                    }
-
-                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialForestry))
-                    {
-                        if (material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Logs)
-                        {
-                            DebugLog.LogToFileOnly("hell mode, no import");
-                            return;
-                        }
-                    }
-
-                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOil))
-                    {
-                        if (material == TransferManager.TransferReason.Oil || material == TransferManager.TransferReason.Petrol)
-                        {
-                            DebugLog.LogToFileOnly("hell mode, no import");
-                            return;
-                        }
-                    }
-
-                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOre))
-                    {
-                        if (material == TransferManager.TransferReason.Coal || material == TransferManager.TransferReason.Ore)
-                        {
-                            DebugLog.LogToFileOnly("hell mode, no import");
-                            return;
-                        }
-                    }
-                } else
-                {
-                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialFarming))
-                    {
-                        if (material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.Grain)
-                        {
-                            DebugLog.LogToFileOnly("not hell mode, can import");
-                            return;
-                        }
-                    }
-
-                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialForestry))
-                    {
-                        if (material == TransferManager.TransferReason.Lumber || material == TransferManager.TransferReason.Logs)
-                        {
-                            DebugLog.LogToFileOnly("not hell mode, can import");
-                            return;
-                        }
-                    }
-
-                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOil))
-                    {
-                        if (material == TransferManager.TransferReason.Oil || material == TransferManager.TransferReason.Petrol)
-                        {
-                            DebugLog.LogToFileOnly("not hell mode, can import");
-                            return;
-                        }
-                    }
-
-                    if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.SubService.IndustrialOre))
-                    {
-                        if (material == TransferManager.TransferReason.Coal || material == TransferManager.TransferReason.Ore)
-                        {
-                            DebugLog.LogToFileOnly("not hell mode, can import");
-                            return;
-                        }
-                    }
-                }
-            }
-
-            if (!comm_data.isPetrolsGettedFinal)
-            {
-                if(material == TransferManager.TransferReason.Garbage || material == TransferManager.TransferReason.GarbageMove)
-                {
-                    return;
-                }
-
-                if (material == TransferManager.TransferReason.Fire || material == TransferManager.TransferReason.Fire2)
-                {
-                    return;
-                }
-
-                if (material == TransferManager.TransferReason.SickMove || material == TransferManager.TransferReason.Sick2 || material == TransferManager.TransferReason.Sick)
-                {
-                    return;
-                }
-
-                if (material == TransferManager.TransferReason.Dead || material == TransferManager.TransferReason.DeadMove)
-                {
-                    return;
-                }
-
-                if (material == TransferManager.TransferReason.RoadMaintenance || material == TransferManager.TransferReason.Taxi)
-                {
-                    return;
-                }
-
-                if (material == TransferManager.TransferReason.Snow || material == TransferManager.TransferReason.SnowMove)
-                {
-                    return;
-                }
-
-                if (material == TransferManager.TransferReason.Crime || material == TransferManager.TransferReason.CriminalMove)
-                {
-                    return;
-                }
-
-                if (material == TransferManager.TransferReason.Bus || material == TransferManager.TransferReason.TouristBus)
-                {
-                    return;
-                }
-            }
-
-
-            for (int priority = offer.Priority; priority >= 0; --priority)
-            {
-                int index = (int)material * 8 + priority;
-                int count = _outgoingCount[index];
-                if (count < 256)
-                {
-                    //here we caculate needs
-                    _outgoingOffers[index * 256 + count] = offer;
-                    _outgoingCount[index] = (ushort)(count + 1);
-                    _outgoingAmount[(int)material] += offer.Amount;
-                    return;
-                }
-            }
-        }*/
-
-        /*public static void AddIncomingOffer(TransferManager manager, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
-        {
-            // note: do NOT just use 
-            //   DebugOutputPanel.AddMessage
-            // here. This method is called so frequently that it will actually crash the game.
-            if (!_init)
-            {
-                _init = true;
-                Init();
-            }
-
-
-            //DebugLog.LogToFileOnly("AddIncomingOffer");
-            //if (material == TransferManager.TransferReason.DummyCar)
-            //{
-                //DebugLog.LogToFileOnly("AddIncomingOffer, DummyCar");
-            //}
-
-            BuildingManager instance1 = Singleton<BuildingManager>.instance;
-            if (instance1.m_buildings.m_buffer[offer.Building].Info.m_class.m_service == ItemClass.Service.Commercial)
-            {
-                if (material == TransferManager.TransferReason.Petrol)
-                {
-                    MainDataStore.building_buffer3[offer.Building] = 123;  //a flag
-                }
-                else if (material == TransferManager.TransferReason.Food)
-                {
-                    MainDataStore.building_buffer3[offer.Building] = 124;
-                }
-                else if (material == TransferManager.TransferReason.Goods)
-                {
-                    MainDataStore.building_buffer3[offer.Building] = 125;
-                }
-                else if (material == TransferManager.TransferReason.Lumber)
-                {
-                    MainDataStore.building_buffer3[offer.Building] = 126;
-                }
-                else if (material == TransferManager.TransferReason.LuxuryProducts)
-                {
-
-                }
-                else
-                {
-                    if (material == TransferManager.TransferReason.Oil || material == TransferManager.TransferReason.Grain || material == TransferManager.TransferReason.Logs || material == TransferManager.TransferReason.Ore)
-                    {
-                        //DebugLog.LogToFileOnly("find speical incoming request for comm building" + material.ToString());
-                    }
-                }
-            }
-
-            for (int priority = offer.Priority; priority >= 0; --priority)
-            {
-                int index = (int)material * 8 + priority;
-                int count = _incomingCount[index];
-                if (count < 256)
-                {
-                    //here we caculate needs
-                    _incomingOffers[index * 256 + count] = offer;
-                    _incomingCount[index] = (ushort)(count + 1);
-                    _incomingAmount[(int)material] += offer.Amount;
-                    return;
-                }
-            }
-        }*/
 
     }//end publi
 }//end naming space 

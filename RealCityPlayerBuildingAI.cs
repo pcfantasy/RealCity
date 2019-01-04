@@ -23,6 +23,18 @@ namespace RealCity
                 num2 = num * budget / 100 * num2;
                 //new added here
                 float tempNum = CaculateEmployeeOutcome(buildingID, data);
+                if (budget < 100)
+                {
+                    budget = (budget * budget + 99) / 100;
+                }
+                else if (budget > 150)
+                {
+                    budget = 125;
+                }
+                else if (budget > 100)
+                {
+                    budget -= (100 - budget) * (100 - budget) / 100;
+                }
                 //DebugLog.LogToFileOnly("RealCityPlayerBuildingAI GetResourceRate facility " + tempNum.ToString());
                 num2 = (int)((float)(num2 / MainDataStore.game_expense_divide) + tempNum * budget);
                 //DebugLog.LogToFileOnly("RealCityPlayerBuildingAI GetResourceRate facility post " + num2.ToString());
@@ -55,7 +67,7 @@ namespace RealCity
             float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1f;
             if (totalWorkerCount > allWorkCount)
             {
-                if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) != 3)
+                if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) != true)
                 {
                     //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
                     allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);

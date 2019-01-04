@@ -38,10 +38,20 @@ namespace RealCity
                 PlayerBuildingUI.refeshOnce = true;
                 MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
                 Loader.guiPanel4.Show();
+                if (Loader.isRealConstructionRunning)
+                {
+                    RealConstruction.PlayerBuildingUI.refeshOnce = true;
+                    RealConstruction.MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+                    RealConstruction.Loader.guiPanel4.Show();
+                }
             }
             else
             {
                 Loader.guiPanel4.Hide();
+                if (Loader.isRealConstructionRunning)
+                {
+                    RealConstruction.Loader.guiPanel4.Hide();
+                }
             }
         }
 
@@ -117,12 +127,12 @@ namespace RealCity
             }*/
         }
 
-        public override void Update()
+        /*public override void Update()
         {
             if (Loader.isGuiRunning)
             {
                 this.PBButton.text = "B";
             }
-        }
+        }*/
     }
 }

@@ -9,7 +9,7 @@ namespace RealCity
     public class RealCityCommercialBuildingAI : PrivateBuildingAI
     {
 
-        public override int CalculateVisitplaceCount(ItemClass.Level level, Randomizer r, int width, int length)
+        /*public override int CalculateVisitplaceCount(ItemClass.Level level, Randomizer r, int width, int length)
         {
             ItemClass @class = this.m_info.m_class;
             int num = 0;
@@ -67,9 +67,9 @@ namespace RealCity
                 num = Mathf.Max(200, width * length * num + r.Int32(100u)) / 100;
             }
             return num;
-        }
+        }*/
 
-        public override void CreateBuilding(ushort buildingID, ref Building data)
+        /*public override void CreateBuilding(ushort buildingID, ref Building data)
         {
             base.CreateBuilding(buildingID, ref data);
             int width = data.Width;
@@ -89,9 +89,9 @@ namespace RealCity
                 byte expr_91_cp_1 = district;
                 expr_91_cp_0[(int)expr_91_cp_1].m_specializationPoliciesEffect = (expr_91_cp_0[(int)expr_91_cp_1].m_specializationPoliciesEffect | specialization);
             }
-        }
+        }*/
 
-        private DistrictPolicies.Specialization SpecialPolicyNeeded()
+        /*private DistrictPolicies.Specialization SpecialPolicyNeeded()
         {
             ItemClass.SubService subService = this.m_info.m_class.m_subService;
             if (subService == ItemClass.SubService.CommercialLeisure)
@@ -107,7 +107,7 @@ namespace RealCity
                 return DistrictPolicies.Specialization.None;
             }
             return DistrictPolicies.Specialization.Organic;
-        }
+        }*/
 
         public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {

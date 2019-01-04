@@ -146,7 +146,7 @@ namespace RealCity
         public static string[] TipAndChirperMessage_English = {                              //0
         "Better use TMPE and disable vehicle spawn",                                         //1
         "Can use Favorite Cims mod to watch every citizens and their families",                //2
-        "Please Build City Resource in Roal Panel(need asset),then wait for resources",       //3
+        "Build City Resource in Roal Panel(need asset and another mod),wait for resources",//3
         "City Lack of Food, Leads to no movingin people and Citizens may get sick",          //4
         "City Lack of Lumber or Coal, Leads to no RICO demand",                              //5
         "City Lack of Petrol, goverment will use less car",                                  //6
@@ -161,7 +161,7 @@ namespace RealCity
 
         public static string[] RealCityUI_English =
         {
-            "1、City resident salary-tax income(include food fee)",
+            "1、City resident salary-tax income",
             "citizen salary-tax income",
             "2、City tourism income",
             "from resident",
@@ -316,7 +316,7 @@ namespace RealCity
         public static string[] TipAndChirperMessage_Chinese = {
         "最好用TMPE并且禁止车辆消失",                                                        //0
         "可以用Favorite Cims mod看每个居民和他们家庭的情况",                                 //1
-        "请建立城市资源大厦(需要特殊资产,道路界面)",                                         //2
+        "请建立城市资源大厦(需要特殊资产和另一个MOD,道路界面)",                              //2
         "城市缺少食物,会导致没外来人员而且居民会生病",                                       //3
         "城市缺少木材和矿物品,没法建房子,所以没任何建筑需求",                                //4
         "城市缺少汽油,政府部门会少出车",                                                     //5
@@ -370,7 +370,7 @@ namespace RealCity
 
         public static string[] RealCityUI_Chinese =
         {
-            "1、城市居民所得税收入(包含食品费)",       //0
+            "1、城市居民所得税收入",       //0
             "居民所得税收入",                          //1
             "2、城市旅游收入",                         //2
             "来自本地游客",                            //3

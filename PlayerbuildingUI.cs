@@ -97,12 +97,12 @@ namespace RealCity
                     MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
 
-                    if (RealCityEconomyExtension.IsSpecialBuilding(MainDataStore.last_buildingid) == 3)
-                    {                     
-                        this.Food.text = string.Format(Language.BuildingUI[16] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
-                        this.Lumber.text = string.Format(Language.BuildingUI[17] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
-                        this.Coal.text = string.Format(Language.BuildingUI[18] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
-                        this.Petrol.text = string.Format(Language.BuildingUI[19] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
+                    if (RealCityEconomyExtension.IsSpecialBuilding(MainDataStore.last_buildingid) == true)
+                    {
+                        this.Food.text = ""; //string.Format(Language.BuildingUI[16] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
+                        this.Lumber.text = "";// string.Format(Language.BuildingUI[17] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
+                        this.Coal.text = "";// string.Format(Language.BuildingUI[18] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
+                        this.Petrol.text = "";// string.Format(Language.BuildingUI[19] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
                     }
                     else
                     {

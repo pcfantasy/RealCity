@@ -23,11 +23,16 @@ namespace RealCity
             MainDataStore.building_buffer4[buildingID] = 0;
             MainDataStore.buildingFlag[buildingID] = false;
 
-            if ((data.Info.m_class.m_service == ItemClass.Service.Commercial) || (data.Info.m_class.m_service == ItemClass.Service.Industrial) || (data.Info.m_class.m_service == ItemClass.Service.Office) || (data.Info.m_class.m_service == ItemClass.Service.Residential))
+            if(Loader.isRealConstructionRunning)
             {
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, cost, data.Info.m_class.m_service, ItemClass.SubService.None, ItemClass.Level.Level1);
-                MainDataStore.resettlement += (cost / 100);
+                RealConstruction.MainDataStore.foodBuffer[buildingID] = 0;
+                RealConstruction.MainDataStore.lumberBuffer[buildingID] = 0;
+                RealConstruction.MainDataStore.petrolBuffer[buildingID] = 0;
+                RealConstruction.MainDataStore.coalBuffer[buildingID] = 0;
+                RealConstruction.MainDataStore.constructionResourceBuffer[buildingID] = 0;
+                RealConstruction.MainDataStore.operationResourceBuffer[buildingID] = 0;
             }
+
             this.ManualDeactivation(buildingID, ref data);
             this.BuildingDeactivated(buildingID, ref data);
             base.ReleaseBuilding(buildingID, ref data);
@@ -51,6 +56,7 @@ namespace RealCity
             Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker1, offer);
             Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker2, offer);
             Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker3, offer);
+            Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Mail, offer);
             data.m_flags &= ~Building.Flags.Active;
             this.EmptyBuilding(buildingID, ref data, CitizenUnit.Flags.Created, false);
             base.BuildingDeactivated(buildingID, ref data);

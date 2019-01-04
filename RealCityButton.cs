@@ -135,6 +135,7 @@ namespace RealCity
                     base.Show();
                 }
             }
+            base.Update();
         }
     }
 }

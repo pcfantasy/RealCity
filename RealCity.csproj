@@ -53,6 +53,9 @@
     <Reference Include="Mono.Security">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Mono.Security.dll</HintPath>
     </Reference>
+    <Reference Include="RealConstruction">
+      <HintPath>..\..\..\Industry DLC Missing transaction Fix\RealConstruction\RealConstruction\bin\Release\RealConstruction.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -75,7 +78,6 @@
     <Compile Include="PoliticsButton.cs" />
     <Compile Include="PoliticsUI.cs" />
     <Compile Include="RealCityGarbageTruckAI.cs" />
-    <Compile Include="ResourceBotton.cs" />
     <Compile Include="RealCityIndustrialExtractorAI.cs" />
     <Compile Include="RealCityIndustryBuildingAI.cs" />
     <Compile Include="RealCityOutsideConnectionAI.cs" />
@@ -93,7 +95,6 @@
     <Compile Include="RealCityOfficeBuildingAI.cs" />
     <Compile Include="RealCityTaxiAI.cs" />
     <Compile Include="RealCityTollBooth.cs" />
-    <Compile Include="RealCityZoneManager.cs" />
     <Compile Include="Politics.cs" />
     <Compile Include="RealCityEconomyExtension.cs" />
     <Compile Include="RealCityThreading.cs" />

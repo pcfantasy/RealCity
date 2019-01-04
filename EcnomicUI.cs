@@ -12,7 +12,7 @@ namespace RealCity
 
         public static float WIDTH = 700f;
 
-        private static readonly float HEIGHT = 600f;
+        private static readonly float HEIGHT = 500f;
 
         private static readonly float HEADER = 40f;
 
@@ -87,14 +87,13 @@ namespace RealCity
         //3 policy   27 element
         private UILabel mThirdLinePolicy; //fixed title
         private UILabel minimumLivingAllowance;
-        private UILabel resettlement;
 
         private UILabel tip1;
         private UILabel tip2;
         private UILabel tip3;
-        private UILabel tip4;
-        private UILabel tip5;
-        private UILabel tip6;
+        //private UILabel tip4;
+        //private UILabel tip5;
+        //private UILabel tip6;
         private UILabel tip7;
         private UILabel tip8;
         private UILabel tip9;
@@ -250,14 +249,9 @@ namespace RealCity
             this.minimumLivingAllowance.relativePosition = new Vector3(SPACING, this.mThirdLinePolicy.relativePosition.y + SPACING22);
             this.minimumLivingAllowance.autoSize = true;
 
-            this.resettlement = base.AddUIComponent<UILabel>();
-            this.resettlement.text = Language.EconomicUI[31];
-            this.resettlement.relativePosition = new Vector3(SPACING, this.minimumLivingAllowance.relativePosition.y + SPACING22);
-            this.resettlement.autoSize = true;
-
             this.tip1 = base.AddUIComponent<UILabel>();
             this.tip1.text = Language.EconomicUI[17];
-            this.tip1.relativePosition = new Vector3(SPACING, this.resettlement.relativePosition.y + SPACING22 + 10f);
+            this.tip1.relativePosition = new Vector3(SPACING, this.minimumLivingAllowance.relativePosition.y + SPACING22 + 10f);
             this.tip1.autoSize = true;;
 
             this.tip2 = base.AddUIComponent<UILabel>();
@@ -270,7 +264,7 @@ namespace RealCity
             this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
             this.tip3.autoSize = true;
 
-            this.tip4 = base.AddUIComponent<UILabel>();
+            /*this.tip4 = base.AddUIComponent<UILabel>();
             this.tip4.text = Language.EconomicUI[20];
             this.tip4.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
             this.tip4.autoSize = true;
@@ -283,35 +277,35 @@ namespace RealCity
             this.tip6 = base.AddUIComponent<UILabel>();
             this.tip6.text = Language.EconomicUI[22];
             this.tip6.relativePosition = new Vector3(SPACING, this.tip5.relativePosition.y + SPACING22);
-            this.tip6.autoSize = true;
+            this.tip6.autoSize = true;*/
 
             this.tip7 = base.AddUIComponent<UILabel>();
-            this.tip7.text = Language.EconomicUI[23];
-            this.tip7.relativePosition = new Vector3(SPACING, this.tip6.relativePosition.y + SPACING22);
+            this.tip7.text = Language.EconomicUI[20];
+            this.tip7.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
             this.tip7.autoSize = true;
 
             this.tip8 = base.AddUIComponent<UILabel>();
-            this.tip8.text = Language.EconomicUI[24];
+            this.tip8.text = Language.EconomicUI[21];
             this.tip8.relativePosition = new Vector3(SPACING, this.tip7.relativePosition.y + SPACING22);
             this.tip8.autoSize = true;
 
             this.tip9 = base.AddUIComponent<UILabel>();
-            this.tip9.text = Language.EconomicUI[25];
+            this.tip9.text = Language.EconomicUI[22];
             this.tip9.relativePosition = new Vector3(SPACING, this.tip8.relativePosition.y + SPACING22);
             this.tip9.autoSize = true;
 
             this.tip10 = base.AddUIComponent<UILabel>();
-            this.tip10.text = Language.EconomicUI[26];
+            this.tip10.text = Language.EconomicUI[23];
             this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
             this.tip10.autoSize = true;
 
             this.tip11 = base.AddUIComponent<UILabel>();
-            this.tip11.text = Language.EconomicUI[27];
+            this.tip11.text = Language.EconomicUI[24];
             this.tip11.relativePosition = new Vector3(SPACING, this.tip10.relativePosition.y + SPACING22);
             this.tip11.autoSize = true;
 
             this.tip12 = base.AddUIComponent<UILabel>();
-            this.tip12.text = Language.EconomicUI[28];
+            this.tip12.text = Language.EconomicUI[25];
             this.tip12.relativePosition = new Vector3(SPACING, this.tip11.relativePosition.y + SPACING22);
             this.tip12.autoSize = true;
         }
@@ -357,21 +351,20 @@ namespace RealCity
                     //Policy
                     this.mThirdLinePolicy.text = Language.EconomicUI[29];
                     this.minimumLivingAllowance.text = string.Format(Language.EconomicUI[30] + " [{0}]", MainDataStore.minimumLivingAllowanceFinal);
-                    this.resettlement.text = string.Format(Language.EconomicUI[31] + " [{0}]", MainDataStore.resettlementFinal);
 
                     this.tip1.text = string.Format(Language.EconomicUI[17] + "  " + RealCityEconomyExtension.tip1_message_forgui);
                     this.tip2.text = string.Format(Language.EconomicUI[18] + "  " + RealCityEconomyExtension.tip2_message_forgui);
                     this.tip3.text = string.Format(Language.EconomicUI[19] + "  " + RealCityEconomyExtension.tip3_message_forgui);
-                    this.tip4.text = string.Format(Language.EconomicUI[20] + "  " + RealCityEconomyExtension.tip4_message_forgui);
-                    this.tip5.text = string.Format(Language.EconomicUI[21] + "  " + RealCityEconomyExtension.tip5_message_forgui);
-                    this.tip6.text = string.Format(Language.EconomicUI[22] + "  " + RealCityEconomyExtension.tip6_message_forgui);
+                    //this.tip4.text = string.Format(Language.EconomicUI[20] + "  " + RealCityEconomyExtension.tip4_message_forgui);
+                    //this.tip5.text = string.Format(Language.EconomicUI[21] + "  " + RealCityEconomyExtension.tip5_message_forgui);
+                    //this.tip6.text = string.Format(Language.EconomicUI[22] + "  " + RealCityEconomyExtension.tip6_message_forgui);
 
-                    this.tip7.text = string.Format(Language.EconomicUI[23] + "  " + Language.TipAndChirperMessage[6]);
-                    this.tip8.text = string.Format(Language.EconomicUI[24] + "  " + Language.TipAndChirperMessage[7]);
-                    this.tip9.text = string.Format(Language.EconomicUI[25] + "  " + Language.TipAndChirperMessage[8]);
-                    this.tip10.text = string.Format(Language.EconomicUI[26] + "  " + Language.TipAndChirperMessage[9]);
-                    this.tip11.text = string.Format(Language.EconomicUI[27] + "  " + Language.TipAndChirperMessage[10]);
-                    this.tip12.text = string.Format(Language.EconomicUI[28] + "  " + Language.TipAndChirperMessage[11]);
+                    this.tip7.text = string.Format(Language.EconomicUI[20] + "  " + Language.TipAndChirperMessage[6]);
+                    this.tip8.text = string.Format(Language.EconomicUI[21] + "  " + Language.TipAndChirperMessage[7]);
+                    this.tip9.text = string.Format(Language.EconomicUI[22] + "  " + Language.TipAndChirperMessage[8]);
+                    this.tip10.text = string.Format(Language.EconomicUI[23] + "  " + Language.TipAndChirperMessage[9]);
+                    this.tip11.text = string.Format(Language.EconomicUI[24] + "  " + Language.TipAndChirperMessage[10]);
+                    this.tip12.text = string.Format(Language.EconomicUI[25] + "  " + Language.TipAndChirperMessage[11]);
 
 
 
