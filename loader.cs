@@ -49,6 +49,8 @@ namespace RealCity
         public static bool isGuiRunning = false;
 
         public static bool isRealConstructionRunning = false;
+        public static bool isFuelAlarmRunning = false;
+
 
         public static PoliticsButton PLPanel;
         public static EcnomicButton EcMenuPanel;
@@ -121,6 +123,7 @@ namespace RealCity
                 {
                     SetupGui();
                     isRealConstructionRunning = CheckRealConstructionIsLoaded();
+                    isFuelAlarmRunning = CheckFuelAlarmIsLoaded();
                     Detour();
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     if (mode == LoadMode.NewGame)
@@ -986,6 +989,11 @@ namespace RealCity
             RedirectionHelper.RevertRedirect(srcMethod46, state46);
             //RedirectionHelper.RevertRedirect(srcMethod47, state47);
             RedirectionHelper.RevertRedirect(srcMethod48, state48);
+        }
+
+        private bool CheckFuelAlarmIsLoaded()
+        {
+            return this.Check3rdPartyModLoaded("FuelAlarm", true);
         }
     }
 }

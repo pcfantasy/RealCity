@@ -108,7 +108,7 @@ namespace RealCity
 
             tip2_message_forgui = Language.TipAndChirperMessage[1];
 
-            if (!MainDataStore.haveCityResourceDepartmentFinal)
+            if (!Loader.isFuelAlarmRunning && !Loader.isRealConstructionRunning)
             {
                 tip3_message_forgui = Language.TipAndChirperMessage[2];
                 Loader.guiPanel.Show();
@@ -226,10 +226,20 @@ namespace RealCity
         public static bool IsSpecialBuilding(ushort id)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
-            int num = instance.m_buildings.m_buffer[id].Info.m_buildingAI.GetConstructionCost();
-            if (num == 208600)
+            if (Loader.isFuelAlarmRunning)
             {
-                return true;
+                if (FuelAlarm.FuelAlarmThreading.IsGasBuilding(id))
+                {
+                    return true;
+                }
+            }
+
+            if (Loader.isRealConstructionRunning)
+            {
+                if (RealConstruction.RealConstructionThreading.IsSpecialBuilding(id))
+                {
+                    return true;
+                }
             }
 
             return false;

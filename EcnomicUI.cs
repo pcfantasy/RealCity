@@ -368,7 +368,7 @@ namespace RealCity
 
 
 
-                    if (!MainDataStore.haveCityResourceDepartmentFinal)
+                    if (!Loader.isFuelAlarmRunning || !Loader.isRealConstructionRunning)
                     {
                         if (this.tip3.textColor == Color.red)
                         {
@@ -378,6 +378,10 @@ namespace RealCity
                         {
                             this.tip3.textColor = Color.red;
                         }
+                    }
+                    else
+                    {
+                        this.tip3.textColor = Color.white;
                     }
 
                     refeshOnce = false;

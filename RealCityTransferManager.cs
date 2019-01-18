@@ -1,6 +1,8 @@
 ﻿using System;
 using ColossalFramework;
 using System.Reflection;
+using FuelAlarm;
+using RealConstruction;
 
 namespace RealCity
 {
@@ -59,44 +61,6 @@ namespace RealCity
         private static int[] _incomingAmount;
         //private static bool _init = false;*/
 
-
-        public void StartSpecialBuildingTransfer(ushort buildingID, ref Building data, TransferManager.TransferReason material, TransferManager.TransferOffer offer)
-        {
-            //DebugLog.LogToFileOnly("find valid SpecialBuilding");
-            VehicleInfo vehicleInfo = null;
-            if (material == (TransferManager.TransferReason)110)
-            {
-                //DebugLog.LogToFileOnly("find valid construction resource transfer");
-                vehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialForestry, ItemClass.Level.Level1);
-            }
-            else if (material == (TransferManager.TransferReason)111)
-            {
-                //DebugLog.LogToFileOnly("find valid operation resource transfer");
-                vehicleInfo = Singleton<VehicleManager>.instance.GetRandomVehicleInfo(ref Singleton<SimulationManager>.instance.m_randomizer, ItemClass.Service.Industrial, ItemClass.SubService.IndustrialFarming, ItemClass.Level.Level1);
-            }
-
-
-            if (vehicleInfo != null)
-            {
-                //DebugLog.LogToFileOnly("find valid vehicleInfo");
-                Array16<Vehicle> vehicles = Singleton<VehicleManager>.instance.m_vehicles;
-                ushort num16;
-                if (Singleton<VehicleManager>.instance.CreateVehicle(out num16, ref Singleton<SimulationManager>.instance.m_randomizer, vehicleInfo, data.m_position, material, false, true))
-                {
-                    //DebugLog.LogToFileOnly("find valid CreateVehicle");
-                    vehicleInfo.m_vehicleAI.SetSource(num16, ref vehicles.m_buffer[(int)num16], buildingID);
-                    vehicleInfo.m_vehicleAI.StartTransfer(num16, ref vehicles.m_buffer[(int)num16], material, offer);
-                    ushort building4 = offer.Building;
-                    if (building4 != 0)
-                    {
-                        int amount;
-                        int num17;
-                        vehicleInfo.m_vehicleAI.GetSize(num16, ref vehicles.m_buffer[(int)num16], out amount, out num17);
-                    }
-                }
-            }
-        }
-
         private void StartTransfer(TransferManager.TransferReason material, TransferManager.TransferOffer offerOut, TransferManager.TransferOffer offerIn, int delta)
         {
             bool active = offerIn.Active;
@@ -115,7 +79,20 @@ namespace RealCity
                 ushort vehicle2 = offerOut.Vehicle;
                 VehicleInfo info2 = vehicles2.m_buffer[(int)vehicle2].Info;
                 offerIn.Amount = delta;
-                info2.m_vehicleAI.StartTransfer(vehicle2, ref vehicles2.m_buffer[(int)vehicle2], material, offerIn);
+                if (Loader.isFuelAlarmRunning)
+                {
+                    if (FuelAlarmThreading.IsGasBuilding(offerIn.Building))
+                    {
+                        Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
+                        ushort building = offerIn.Building;
+                        BuildingInfo info3 = buildings.m_buffer[(int)building].Info;
+                        FuelAlarm.CustomTransferManager.StartGasTransfer(vehicle2, ref vehicles2.m_buffer[(int)vehicle2], material, offerIn);
+                    }
+                }
+                else
+                {
+                    info2.m_vehicleAI.StartTransfer(vehicle2, ref vehicles2.m_buffer[(int)vehicle2], material, offerIn);
+                }
             }
             else if (active && offerIn.Citizen != 0u)
             {
@@ -175,7 +152,7 @@ namespace RealCity
                 offerIn.Amount = delta;
                 if (RealCityEconomyExtension.IsSpecialBuilding(building) && Loader.isRealConstructionRunning)
                 {
-                    StartSpecialBuildingTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
+                    RealConstruction.CustomTransferManager.StartSpecialBuildingTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
                 }
                 else
                 {

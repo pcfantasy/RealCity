@@ -11,7 +11,7 @@ namespace RealCity
 {
     public class BuildingButton : UIPanel
     {
-        private UIButton BButton;
+        public static UIButton BButton;
 
         private ItemClass.Availability CurrentMode;
 
@@ -38,39 +38,45 @@ namespace RealCity
         {
             UIView aView = UIView.GetAView();
             base.name = "BuildingUIPanel";
-            base.width = 30f;
-            base.height = 30f;
+            base.width = 200f;
+            base.height = 25f;
             base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
             //base.autoLayout = true;
             base.opacity = 1f;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
-            this.BButton = base.AddUIComponent<UIButton>();
-            this.BButton.normalBgSprite = "BButton";
-            this.BButton.hoveredBgSprite = "BButtonHovered";
-            this.BButton.focusedBgSprite = "BButtonFocused";
-            this.BButton.pressedBgSprite = "BButtonPressed";
-            this.BButton.playAudioEvents = true;
-            this.BButton.name = "BButton";
-            this.BButton.tooltipBox = aView.defaultTooltipBox;
-            this.BButton.text = "B";
-            this.BButton.textScale = 1.4f;
-            this.BButton.size = new Vector2(30f, 30f);
-            this.BButton.relativePosition = new Vector3(0, 0f);
+            BButton = base.AddUIComponent<UIButton>();
+            BButton.normalBgSprite = "BButton";
+            BButton.hoveredBgSprite = "BButtonHovered";
+            BButton.focusedBgSprite = "BButtonFocused";
+            BButton.pressedBgSprite = "BButtonPressed";
+            BButton.playAudioEvents = true;
+            BButton.name = "BButton";
+            BButton.tooltipBox = aView.defaultTooltipBox;
+            BButton.text = Language.OptionUI[4];
+            BButton.textScale = 0.9f;
+            BButton.size = new Vector2(200f, 20f);
+            BButton.relativePosition = new Vector3(0, 0f);
             base.AlignTo(this.RefPanel, this.Alignment);
-            this.BButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            BButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 BuildingButton.BuildingUIToggle();
             };
         }
 
-        /*public override void Update()
+        public override void Update()
         {
-            if (Loader.isGuiRunning)
+            MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
+            if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid].Info.m_class.m_service != ItemClass.Service.Residential) && Loader.isGuiRunning)
             {
-                this.BButton.text = "B";
+                base.Show();
             }
-        }*/
+            else
+            {
+                base.Hide();
+            }
+            base.Update();
+        }
     }
 }

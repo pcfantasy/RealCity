@@ -451,11 +451,7 @@ namespace RealCity
             int num = 0;
 
 
-            if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) == true)
-            {
-                num = 1;
-            }
-            else if (MainDataStore.buildingFlag[buildingID] && !update)
+            if (MainDataStore.buildingFlag[buildingID] && !update)
             {
                 num = MainDataStore.building_buffer1[buildingID];
             }

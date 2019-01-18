@@ -33,6 +33,11 @@ namespace RealCity
                 RealConstruction.MainDataStore.operationResourceBuffer[buildingID] = 0;
             }
 
+            if (Loader.isFuelAlarmRunning)
+            {
+                FuelAlarm.MainDataStore.petrolBuffer[buildingID] = 0;
+            }
+
             this.ManualDeactivation(buildingID, ref data);
             this.BuildingDeactivated(buildingID, ref data);
             base.ReleaseBuilding(buildingID, ref data);
@@ -57,6 +62,9 @@ namespace RealCity
             Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker2, offer);
             Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker3, offer);
             Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Mail, offer);
+            Singleton<TransferManager>.instance.RemoveOutgoingOffer((TransferManager.TransferReason)110, offer);
+            Singleton<TransferManager>.instance.RemoveOutgoingOffer((TransferManager.TransferReason)111, offer);
+            Singleton<TransferManager>.instance.RemoveOutgoingOffer((TransferManager.TransferReason)112, offer);
             data.m_flags &= ~Building.Flags.Active;
             this.EmptyBuilding(buildingID, ref data, CitizenUnit.Flags.Created, false);
             base.BuildingDeactivated(buildingID, ref data);

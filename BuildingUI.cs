@@ -363,103 +363,105 @@ namespace RealCity
             totalWorkerCount = 0;
             GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
 
-
-            if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
+            if (totalWorkerCount > 0)
             {
-                if (MainDataStore.building_money[buildingID] > 0)
+                if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    switch (building.Info.m_class.m_subService)
+                    if (MainDataStore.building_money[buildingID] > 0)
                     {
-                        case ItemClass.SubService.CommercialLow:
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                            {
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
-                            }
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                            {
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
-                            }
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                            {
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.6f / totalWorkerCount);
-                            }
-                            break;
-                        case ItemClass.SubService.CommercialHigh:
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                            {
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
-                            }
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                            {
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.4f / totalWorkerCount);
-                            }
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                            {
+                        switch (building.Info.m_class.m_subService)
+                        {
+                            case ItemClass.SubService.CommercialLow:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.6f / totalWorkerCount);
+                                }
+                                break;
+                            case ItemClass.SubService.CommercialHigh:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.4f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.7f / totalWorkerCount);
+                                }
+                                break;
+                            case ItemClass.SubService.CommercialLeisure:
                                 num1 = (int)((MainDataStore.building_money[buildingID]) * 0.7f / totalWorkerCount);
-                            }
-                            break;
-                        case ItemClass.SubService.CommercialLeisure:
-                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.7f / totalWorkerCount);
-                            break;
-                        case ItemClass.SubService.CommercialTourist:
-                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.9f / totalWorkerCount);
-                            break;
-                        case ItemClass.SubService.CommercialEco:
-                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.5f / totalWorkerCount);
-                            break;
+                                break;
+                            case ItemClass.SubService.CommercialTourist:
+                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.9f / totalWorkerCount);
+                                break;
+                            case ItemClass.SubService.CommercialEco:
+                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.5f / totalWorkerCount);
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    num1 = 0;
-                }
-            }
-
-            if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-            {
-                if (MainDataStore.building_money[buildingID] > 0)
-                {
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                    else
                     {
-                        num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
+                        num1 = 0;
                     }
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                }
+
+                if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                {
+                    if (MainDataStore.building_money[buildingID] > 0)
                     {
-                        num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
+                        }
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
+                        }
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
+                        }
                     }
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                    else
                     {
-                        num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
+                        num1 = 0;
                     }
                 }
-                else
-                {
-                    num1 = 0;
-                }
-            }
 
 
-            if (building.Info.m_class.m_service == ItemClass.Service.Office)
-            {
-                if (MainDataStore.building_money[buildingID] > 0)
+                if (building.Info.m_class.m_service == ItemClass.Service.Office)
                 {
-                    num1 = (MainDataStore.building_money[buildingID] / totalWorkerCount);
+                    if (MainDataStore.building_money[buildingID] > 0)
+                    {
+                        num1 = (MainDataStore.building_money[buildingID] / totalWorkerCount);
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
                 }
-                else
-                {
-                    num1 = 0;
-                }
-            }
 
-            if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
-            {
-                if (MainDataStore.building_money[buildingID] > 0)
+                if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
                 {
-                    num1 = (MainDataStore.building_money[buildingID] * 0.2f / totalWorkerCount);
-                }
-                else
-                {
-                    num1 = 0;
+                    if (MainDataStore.building_money[buildingID] > 0)
+                    {
+                        num1 = (MainDataStore.building_money[buildingID] * 0.2f / totalWorkerCount);
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
                 }
             }
 

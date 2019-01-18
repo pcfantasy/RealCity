@@ -13,6 +13,7 @@ using ColossalFramework.Globalization;
 using ColossalFramework.Math;
 using ColossalFramework.Threading;
 using RealConstruction;
+using FuelAlarm;
 
 namespace RealCity
 {
@@ -53,6 +54,19 @@ namespace RealCity
 
         private bool ArriveAtTarget(ushort vehicleID, ref Vehicle data)
         {
+            if (data.m_transferType == 112 && Loader.isFuelAlarmRunning)
+            {
+                //DebugLog.LogToFileOnly("vehicle arrive at to gas station for petrol now");
+                data.m_transferType = FuelAlarm.MainDataStore.preTranferReason[vehicleID];
+                if (FuelAlarm.MainDataStore.petrolBuffer[data.m_targetBuilding] > 400)
+                {
+                    FuelAlarm.MainDataStore.petrolBuffer[data.m_targetBuilding] -= 400;
+                }
+                SetTarget(vehicleID, ref data, FuelAlarm.MainDataStore.preTargetBuilding[vehicleID]);
+                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, 3000, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level2);
+                return true;
+            }
+
             if (data.m_targetBuilding == 0)
             {
                 return true;
@@ -63,8 +77,13 @@ namespace RealCity
                 if (Loader.isRealConstructionRunning)
                 {
                     //new added begin
-                    Detour(vehicleID, ref data);
+                    RealConstruction.CustomCargoTruckAI.RealConstructionDetour(vehicleID, ref data);
                     //new added end
+                }
+
+                if (Loader.isFuelAlarmRunning)
+                {
+                    FuelAlarm.CustomCargoTruckAI.FuelAlarmDetour(vehicleID, ref data);
                 }
                 num = (int)data.m_transferSize;
             }
@@ -140,35 +159,6 @@ namespace RealCity
             return false;
         }
 
-
-        public void Detour(ushort vehicleID, ref Vehicle vehicleData)
-        {
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            if (vehicleData.m_targetBuilding != 0)
-            {
-                Building buildingData = instance.m_buildings.m_buffer[vehicleData.m_targetBuilding];
-                if (!(buildingData.Info.m_buildingAI is OutsideConnectionAI))
-                {
-                    if (buildingData.m_flags.IsFlagSet(Building.Flags.Created) && (!buildingData.m_flags.IsFlagSet(Building.Flags.Completed)) && (!buildingData.m_flags.IsFlagSet(Building.Flags.Deleted)))
-                    {
-                        if (vehicleData.m_transferType == 110)
-                        {
-                            vehicleData.m_transferSize = 0;
-                            RealConstruction.MainDataStore.constructionResourceBuffer[vehicleData.m_targetBuilding] = 8000;
-                        }
-                    }
-                    else
-                    {
-                            if (vehicleData.m_transferType == 111)
-                            {
-                                vehicleData.m_transferSize = 0;
-                                RealConstruction.MainDataStore.operationResourceBuffer[vehicleData.m_targetBuilding] += 8000;
-                            }
-                    }
-                }
-            }
-        }
-
         private void ProcessResourceArriveAtTarget(ushort vehicleID, ref Vehicle data, ref int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
@@ -176,7 +166,7 @@ namespace RealCity
             Building building1 = instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
             float productionValue1 = 0f;
-            if (RealCityEconomyExtension.IsSpecialBuilding(data.m_targetBuilding) == true)
+            if (RealConstructionThreading.IsSpecialBuilding(data.m_targetBuilding) == true)
             {
                 switch ((TransferManager.TransferReason)data.m_transferType)
                 {
@@ -196,6 +186,24 @@ namespace RealCity
                         productionValue1 = num * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
                         Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productionValue1, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
                         RealConstruction.MainDataStore.petrolBuffer[data.m_targetBuilding] += (ushort)num; break;
+                    default:
+                        productionValue1 = 0f;
+                        DebugLog.LogToFileOnly("process_trade_tax_arrive_at_target, find a import trade size error = " + data.m_transferType.ToString()); break;
+                }
+                //DebugLog.LogToFileOnly("process_trade_tax_arrive_at_target, find a import trade size = " + num.ToString() + "productionValue1" + productionValue1.ToString() + " " +importTax1.ToString());
+                return;
+            }
+            else if (FuelAlarmThreading.IsGasBuilding(data.m_targetBuilding) == true)
+            {
+                switch ((TransferManager.TransferReason)data.m_transferType)
+                {
+                    case TransferManager.TransferReason.Petrol:
+                        productionValue1 = num * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
+                        Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productionValue1, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
+                        if (FuelAlarm.MainDataStore.petrolBuffer[data.m_targetBuilding] <= 57000)
+                        {
+                            FuelAlarm.MainDataStore.petrolBuffer[data.m_targetBuilding] += (ushort)num;
+                        } break;
                     default:
                         productionValue1 = 0f;
                         DebugLog.LogToFileOnly("process_trade_tax_arrive_at_target, find a import trade size error = " + data.m_transferType.ToString()); break;
@@ -341,6 +349,19 @@ namespace RealCity
 
         private bool ArriveAtSource(ushort vehicleID, ref Vehicle data)
         {
+            if (data.m_transferType == 112 && Loader.isFuelAlarmRunning)
+            {
+                //DebugLog.LogToFileOnly("vehicle arrive at to gas station for petrol now");
+                data.m_transferType = FuelAlarm.MainDataStore.preTranferReason[vehicleID];
+                if (FuelAlarm.MainDataStore.petrolBuffer[data.m_targetBuilding] > 400)
+                {
+                    FuelAlarm.MainDataStore.petrolBuffer[data.m_targetBuilding] -= 400;
+                }
+                SetTarget(vehicleID, ref data, FuelAlarm.MainDataStore.preTargetBuilding[vehicleID]);
+                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, 3000, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level2);
+                return true;
+            }
+
             BuildingManager instance = Singleton<BuildingManager>.instance;
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
             BuildingInfo info1 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;

@@ -13,7 +13,8 @@ namespace RealCity
             "Language",                                                                                      //0
             "Language_Select",                                                                               //1
             "Smart Public Transport(more cars and maintenance in peek, less in trough)",                     //2
-            "(click me)"                                                                                     //3
+            "(click me)",
+            "RealCity UI"//3
         };
 
         public static string[] BuildingUI_English = {
@@ -146,7 +147,7 @@ namespace RealCity
         public static string[] TipAndChirperMessage_English = {                              //0
         "Better use TMPE and disable vehicle spawn",                                         //1
         "Can use Favorite Cims mod to watch every citizens and their families",                //2
-        "Build City Resource in Roal Panel(need asset and another mod),wait for resources",//3
+        "Need Mod RealConstruction or Mod RealGasStation",//3
         "City Lack of Food, Leads to no movingin people and Citizens may get sick",          //4
         "City Lack of Lumber or Coal, Leads to no RICO demand",                              //5
         "City Lack of Petrol, goverment will use less car",                                  //6
@@ -205,7 +206,7 @@ namespace RealCity
             "Cablecar",
             "Monorail",
             "6、City Player Building income",
-            "Road",
+            "Road(Include GasStation)",
             "Garbage",
             "School",
             "PlayerIndustry",
@@ -273,7 +274,8 @@ namespace RealCity
             "语言",                                                   //0
             "语言选择",                                               //1
             "智能公共交通(早晚高峰车多维护费多,深夜钱少维护费少)",    //2
-            "(点我)",                                                 //3
+            "(点我)",
+            "RealCity界面"//3
         };
 
         public static string[] EconomicUI_Chinese =
@@ -316,8 +318,8 @@ namespace RealCity
         public static string[] TipAndChirperMessage_Chinese = {
         "最好用TMPE并且禁止车辆消失",                                                        //0
         "可以用Favorite Cims mod看每个居民和他们家庭的情况",                                 //1
-        "请建立城市资源大厦(需要特殊资产和另一个MOD,道路界面)",                              //2
-        "城市缺少食物,会导致没外来人员而且居民会生病",                                       //3
+        "缺少Mod RealConstruction或 Mod RealGasStation",                              //2
+        "缺少mod RealGasStation",                                       //3
         "城市缺少木材和矿物品,没法建房子,所以没任何建筑需求",                                //4
         "城市缺少汽油,政府部门会少出车",                                                     //5
         "作为起步的城市,工业化是唯一的致富途径",
@@ -414,7 +416,7 @@ namespace RealCity
             "缆车",
             "单轨",
             "6、政府建筑收入",
-            "道路",
+            "道路(包括加油站)",
             "垃圾",
             "学校",
             "国营工业",                                                           //47
@@ -531,6 +533,11 @@ namespace RealCity
                 PoliticsUI.WIDTH = 800;
             }
 
+            if (Loader.isGuiRunning)
+            {
+                PlayerBuildingButton.PBButton.text = OptionUI[4];
+                BuildingButton.BButton.text = OptionUI[4];
+            }
             MainDataStore.last_language = currentLanguage;
         }
     }

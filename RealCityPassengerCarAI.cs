@@ -5,10 +5,23 @@ using UnityEngine;
 
 namespace RealCity
 {
-    public class RealCityPassengerCarAI
+    public class RealCityPassengerCarAI: PassengerCarAI
     {
         public bool CustomArriveAtDestination(ushort vehicleID, ref Vehicle vehicleData)
         {
+            if (vehicleData.m_transferType == 112 && Loader.isFuelAlarmRunning)
+            {
+                //DebugLog.LogToFileOnly("vehicle arrive at to gas station for petrol now");
+                vehicleData.m_transferType = FuelAlarm.MainDataStore.preTranferReason[vehicleID];
+                if (FuelAlarm.MainDataStore.petrolBuffer[vehicleData.m_targetBuilding] > 400)
+                {
+                    FuelAlarm.MainDataStore.petrolBuffer[vehicleData.m_targetBuilding] -= 400;
+                }
+                SetTarget(vehicleID, ref vehicleData, FuelAlarm.MainDataStore.preTargetBuilding[vehicleID]);
+                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, 3000, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level1);
+                return true;
+            }
+
             GetVehicleRunningTiming(vehicleID, ref vehicleData);
 
             BuildingManager instance = Singleton<BuildingManager>.instance;
@@ -32,7 +45,7 @@ namespace RealCity
             //return false;
         }
 
-        public void EnterTollRoad(ushort vehicle, ref Vehicle vehicleData, ushort buildingID, ushort segmentID, int basePrice)
+        public override void EnterTollRoad(ushort vehicle, ref Vehicle vehicleData, ushort buildingID, ushort segmentID, int basePrice)
         {
             if (buildingID != 0)
             {
@@ -127,6 +140,7 @@ namespace RealCity
                     }
                 }
             }
+            MainDataStore.vehical_transfer_time[vehicleID] = 0;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using FuelAlarm;
 
 namespace RealCity
 {
@@ -15,52 +16,59 @@ namespace RealCity
             base.EnterBuildingSegment(buildingID, ref data, segmentID, offset, itemID);
             if ((data.m_flags & Building.Flags.Active) != Building.Flags.None)
             {
-                ushort vehicle = itemID.Vehicle;
-                if (vehicle != 0)
+                if (FuelAlarm.FuelAlarmThreading.IsGasBuilding(buildingID))
                 {
-                    VehicleManager instance = Singleton<VehicleManager>.instance;
-                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)vehicle].Info;
-                    if (info.m_vehicleAI is CargoTruckAI && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.Importing)))
+
+                }
+                else
+                {
+                    ushort vehicle = itemID.Vehicle;
+                    if (vehicle != 0)
                     {
-                        if (!MainDataStore.vehical_flag[vehicle])
+                        VehicleManager instance = Singleton<VehicleManager>.instance;
+                        VehicleInfo info = instance.m_vehicles.m_buffer[(int)vehicle].Info;
+                        if (info.m_vehicleAI is CargoTruckAI && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.Importing)))
                         {
-                            //DebugLog.LogToFileOnly("cargo tickprice = " + data.m_education1.ToString());
-                            MainDataStore.vehical_flag[vehicle] = true;
-                            this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 100));
-                        }
-                    }
-                    else if (info.m_vehicleAI is PassengerCarAI)
-                    {
-                        bool is_tourist = false;
-                        if (instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits != 0)
-                        {
-                            CitizenManager instance2 = Singleton<CitizenManager>.instance;
-                            if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen0 != 0)
+                            if (!MainDataStore.vehical_flag[vehicle])
                             {
-                                is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen0].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
-                            }
-                            if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen1 != 0)
-                            {
-                                is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen1].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
-                            }
-                            if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen2 != 0)
-                            {
-                                is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen2].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
-                            }
-                            if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen3 != 0)
-                            {
-                                is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen3].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
-                            }
-                            if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen4 != 0)
-                            {
-                                is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                //DebugLog.LogToFileOnly("cargo tickprice = " + data.m_education1.ToString());
+                                MainDataStore.vehical_flag[vehicle] = true;
+                                this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 100));
                             }
                         }
-                        if (!MainDataStore.vehical_flag[vehicle] && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || is_tourist))
+                        else if (info.m_vehicleAI is PassengerCarAI)
                         {
-                            //DebugLog.LogToFileOnly("PassengerCar tickprice = " + data.m_education1.ToString());
-                            MainDataStore.vehical_flag[vehicle] = true;
-                            this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 50));
+                            bool is_tourist = false;
+                            if (instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits != 0)
+                            {
+                                CitizenManager instance2 = Singleton<CitizenManager>.instance;
+                                if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen0 != 0)
+                                {
+                                    is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen0].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                }
+                                if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen1 != 0)
+                                {
+                                    is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen1].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                }
+                                if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen2 != 0)
+                                {
+                                    is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen2].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                }
+                                if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen3 != 0)
+                                {
+                                    is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen3].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                }
+                                if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen4 != 0)
+                                {
+                                    is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                }
+                            }
+                            if (!MainDataStore.vehical_flag[vehicle] && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || is_tourist))
+                            {
+                                //DebugLog.LogToFileOnly("PassengerCar tickprice = " + data.m_education1.ToString());
+                                MainDataStore.vehical_flag[vehicle] = true;
+                                this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 50));
+                            }
                         }
                     }
                 }

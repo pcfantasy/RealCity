@@ -66,7 +66,7 @@ namespace RealCity
         {
             this.Food = base.AddUIComponent<UILabel>();
             this.Food.text = Language.BuildingUI[16];
-            this.Food.relativePosition = new Vector3(SPACING, 50f);
+            this.Food.relativePosition = new Vector3(SPACING, 10f);
             this.Food.autoSize = true;
 
             this.Lumber = base.AddUIComponent<UILabel>();
@@ -97,25 +97,15 @@ namespace RealCity
                     MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
 
-                    if (RealCityEconomyExtension.IsSpecialBuilding(MainDataStore.last_buildingid) == true)
-                    {
-                        this.Food.text = ""; //string.Format(Language.BuildingUI[16] + " [{0}]", MainDataStore.building_buffer3[MainDataStore.last_buildingid]);
-                        this.Lumber.text = "";// string.Format(Language.BuildingUI[17] + " [{0}]", MainDataStore.building_buffer4[MainDataStore.last_buildingid]);
-                        this.Coal.text = "";// string.Format(Language.BuildingUI[18] + " [{0}]", MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
-                        this.Petrol.text = "";// string.Format(Language.BuildingUI[19] + " [{0}]", MainDataStore.building_buffer2[MainDataStore.last_buildingid]);
-                    }
-                    else
-                    {
-                        int aliveWorkCount = 0;
-                        int totalWorkCount = 0;
-                        Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                        BuildingUI.GetWorkBehaviour((ushort)MainDataStore.last_buildingid, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
-                        int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)MainDataStore.last_buildingid, buildingData, true , false);
-                        this.Food.text = Language.BuildingUI[44];
-                        this.Lumber.text = Language.BuildingUI[45] + totalWorkCount.ToString() + "/" + allWorkCount.ToString();
-                        this.Coal.text = "";
-                        this.Petrol.text = "";
-                    }
+                    int aliveWorkCount = 0;
+                    int totalWorkCount = 0;
+                    Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                    BuildingUI.GetWorkBehaviour((ushort)MainDataStore.last_buildingid, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+                    int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)MainDataStore.last_buildingid, buildingData, true, false);
+                    this.Food.text = Language.BuildingUI[44];
+                    this.Lumber.text = Language.BuildingUI[45] + totalWorkCount.ToString() + "/" + allWorkCount.ToString();
+                    this.Coal.text = "";
+                    this.Petrol.text = "";
                     PlayerBuildingUI.refeshOnce = false;
                     this.BringToFront();
                 }
