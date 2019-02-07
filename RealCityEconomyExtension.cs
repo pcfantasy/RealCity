@@ -73,7 +73,10 @@ namespace RealCity
                         MainDataStore.minimumLivingAllowance = 0;
                         //DebugLog.LogToFileOnly("fixEmptyCitizenCount = " + fixEmptyCitizenCount.ToString());
                         //fixEmptyCitizenCount = 0;
-                        CitizenStatus();
+                        if (MainDataStore.citizen_count > 0)
+                        {
+                            CitizenStatus();
+                        }
                     }
 
                     //DebugLog.LogToFileOnly("fixEmptyBuildingCount = " + fixEmptyBuildingCount.ToString());

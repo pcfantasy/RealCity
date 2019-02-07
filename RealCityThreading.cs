@@ -16,24 +16,27 @@ namespace RealCity
             base.OnBeforeSimulationFrame();
             if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
             {
-                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                int num4 = (int)(currentFrameIndex & 255u);
-                int num5 = num4 * 192;
-                int num6 = (num4 + 1) * 192 - 1;
-                //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
-                BuildingManager instance = Singleton<BuildingManager>.instance;
-
-
-                for (int i = num5; i <= num6; i = i + 1)
+                if (RealCity.IsEnabled)
                 {
-                    if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
+                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                    int num4 = (int)(currentFrameIndex & 255u);
+                    int num5 = num4 * 192;
+                    int num6 = (num4 + 1) * 192 - 1;
+                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
+                    BuildingManager instance = Singleton<BuildingManager>.instance;
+
+
+                    for (int i = num5; i <= num6; i = i + 1)
                     {
-                        ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                        AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                    }
-                    else
-                    {
-                        ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                        if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
+                        {
+                            ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                        }
+                        else
+                        {
+                            ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                        }
                     }
                 }
             }
@@ -245,66 +248,68 @@ namespace RealCity
             base.OnAfterSimulationFrame();
             if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
             {
-                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                int num4 = (int)(currentFrameIndex & 255u);
-                int num5 = num4 * 192;
-                int num6 = (num4 + 1) * 192 - 1;
-                //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
-                BuildingManager instance = Singleton<BuildingManager>.instance;
-
-
-                for (int i = num5; i <= num6; i = i + 1)
+                if (RealCity.IsEnabled)
                 {
-                    if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                    int num4 = (int)(currentFrameIndex & 255u);
+                    int num5 = num4 * 192;
+                    int num6 = (num4 + 1) * 192 - 1;
+                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
+                    BuildingManager instance = Singleton<BuildingManager>.instance;
+
+
+                    for (int i = num5; i <= num6; i = i + 1)
                     {
-                        if (RealCityEconomyExtension.IsSpecialBuilding((ushort)i) == true)
+                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
                         {
-                            MainDataStore.haveCityResourceDepartment = true;
-                        }
-                        else if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
-                        {
-                            RealCityOutsideConnectionAI.haveGarbageBuilding = true;
+                            if (RealCityEconomyExtension.IsSpecialBuilding((ushort)i) == true)
+                            {
+                                MainDataStore.haveCityResourceDepartment = true;
+                            }
+                            else if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
+                            {
+                                RealCityOutsideConnectionAI.haveGarbageBuilding = true;
+                            }
                         }
                     }
-                }
 
 
-                int num7 = (int)(currentFrameIndex & 15u);
-                int num8 = num7 * 1024;
-                int num9 = (num7 + 1) * 1024 - 1;
-                //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
-                VehicleManager instance1 = Singleton<VehicleManager>.instance;
-                for (int i = num8; i <= num9; i = i + 1)
-                {
-                    VehicleStatus(i, currentFrameIndex);
-                }
-
-
-                int num10 = (int)(currentFrameIndex & 4095u);
-                int num11 = num10 * 256;
-                int num12 = (num10 + 1) * 256 - 1;
-                CitizenManager instance2 = Singleton<CitizenManager>.instance;
-                for (int i = num11; i <= num12; i++)
-                {
-                    if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
+                    int num7 = (int)(currentFrameIndex & 15u);
+                    int num8 = num7 * 1024;
+                    int num9 = (num7 + 1) * 1024 - 1;
+                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
+                    VehicleManager instance1 = Singleton<VehicleManager>.instance;
+                    for (int i = num8; i <= num9; i = i + 1)
                     {
-                        if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
-                        {
+                        VehicleStatus(i, currentFrameIndex);
+                    }
 
-                            if (!MainDataStore.citizenFlag[i])
+
+                    int num10 = (int)(currentFrameIndex & 4095u);
+                    int num11 = num10 * 256;
+                    int num12 = (num10 + 1) * 256 - 1;
+                    CitizenManager instance2 = Singleton<CitizenManager>.instance;
+                    for (int i = num11; i <= num12; i++)
+                    {
+                        if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
+                        {
+                            if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                             {
-                                MainDataStore.citizenFlag[i] = true;
-                                if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
+                                if (!MainDataStore.citizenFlag[i])
                                 {
-                                    MainDataStore.citizen_money[i] += 3000;
-                                }
-                                else if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
-                                {
-                                    MainDataStore.citizen_money[i] += 6000;
-                                }
-                                else
-                                {
-                                    MainDataStore.citizen_money[i] += 9000;
+                                    MainDataStore.citizenFlag[i] = true;
+                                    if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
+                                    {
+                                        MainDataStore.citizen_money[i] += 3000;
+                                    }
+                                    else if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
+                                    {
+                                        MainDataStore.citizen_money[i] += 6000;
+                                    }
+                                    else
+                                    {
+                                        MainDataStore.citizen_money[i] += 9000;
+                                    }
                                 }
                             }
                         }
@@ -318,7 +323,7 @@ namespace RealCity
                                     FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
                                 }
                             }
-                        }                        
+                        }
                     }
                 }
 

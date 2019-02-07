@@ -16,4 +16,3 @@ C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\RealConstruction.pdb
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\FuelAlarm.dll
 C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\bin\Release\FuelAlarm.pdb
-C:\Users\Administrator\Desktop\economic rebalance\RealCity\RealCity\obj\Release\RealCity.csprojResolveAssemblyReference.cache

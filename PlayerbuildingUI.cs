@@ -48,7 +48,7 @@ namespace RealCity
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
-            this.BringToFront();
+            //this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.RefreshDisplayData();
@@ -107,7 +107,7 @@ namespace RealCity
                     this.Coal.text = "";
                     this.Petrol.text = "";
                     PlayerBuildingUI.refeshOnce = false;
-                    this.BringToFront();
+                    //this.BringToFront();
                 }
                 else
                 {

@@ -141,7 +141,6 @@ namespace RealCity
 
         public static void InitData()
         {
-
             MainDataStore.data_init();
             RealCityEconomyManager.data_init();
             RealCityEconomyManager.saveData = new byte[2628];
