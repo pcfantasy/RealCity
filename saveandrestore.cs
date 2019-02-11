@@ -538,7 +538,6 @@ namespace RealCity
                 SaveAndRestore._serializableData.SaveData("real_city citizen_money", MainDataStore.saveData1);
                 SaveAndRestore._serializableData.SaveData("real_city citizenFlag", MainDataStore.saveData2);
                 SaveAndRestore._serializableData.SaveData("real_city politics", Politics.saveData);
-                RealCity.SaveSetting();
             }
         }
 
@@ -619,7 +618,6 @@ namespace RealCity
                 }
             }
 
-            RealCity.LoadSetting();
         }
     }
 }

@@ -96,7 +96,7 @@ namespace RealCity
             //BuildingInfo info1 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
 
             //new add begin
-            MainDataStore.vehical_flag[vehicleID] = false;
+            MainDataStore.vehicleFlag[vehicleID] = false;
             ProcessResourceArriveAtTarget(vehicleID, ref data, ref num);
             //new add end
 
@@ -366,7 +366,7 @@ namespace RealCity
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
             BuildingInfo info1 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
             //new add begin
-            MainDataStore.vehical_flag[vehicleID] = false;
+            MainDataStore.vehicleFlag[vehicleID] = false;
             //new add end
             if (data.m_sourceBuilding == 0)
             {

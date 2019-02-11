@@ -533,12 +533,7 @@ namespace RealCity
                 PoliticsUI.WIDTH = 800;
             }
 
-            if (Loader.isGuiRunning)
-            {
-                PlayerBuildingButton.PBButton.text = OptionUI[4];
-                BuildingButton.BButton.text = OptionUI[4];
-            }
-            MainDataStore.last_language = currentLanguage;
+            MainDataStore.lastLanguage = currentLanguage;
         }
     }
 }

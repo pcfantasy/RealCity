@@ -127,12 +127,13 @@ namespace RealCity
             }*/
         }
 
-        /*public override void Update()
+        public override void Update()
         {
             if (Loader.isGuiRunning)
             {
-                this.PBButton.text = "B";
+                PBButton.text = Language.OptionUI[4];
             }
-        }*/
+            base.Update();
+        }
     }
 }

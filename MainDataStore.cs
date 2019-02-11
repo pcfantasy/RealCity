@@ -3,42 +3,34 @@
     public class MainDataStore
     {
 
-        public static int game_expense_divide = 100;
+        public static int gameExpenseDivide = 100;
         public const float industialPriceAdjust = 1f;
         public const float commericalPriceAdjust = 2f;
-        //public const byte game_expense_divide1 = 100;
         public static float landPrice = 1f;
-        //1.  citizen
-        //1.1 citizen salary
-        //Goverment
-        public const byte goverment_education0 = 50;
-        public const byte goverment_education1 = 55;
-        public const byte goverment_education2 = 65;
-        public const byte goverment_education3 = 80;
+        public const byte govermentEducation0Salary = 50;
+        public const byte govermentEducation1Salary = 55;
+        public const byte govermentEducation2Salary = 65;
+        public const byte govermentEducation3Salary = 80;
+        public static int citizenCount = 0;
+        public static int familyCount = 0;
+        public static int citizenSalaryPerFamily = 0;
+        public static long citizenSalaryTotal = 0;
+        public static long citizenSalaryTaxTotal = 0;
+        public const ushort residentLowLevel1Rent = 300;
+        public const ushort residentLowLevel2Rent = 420;
+        public const ushort residentLowLevel3Rent = 570;
+        public const ushort residentLowLevel4Rent = 750;
+        public const ushort residentLowLevel5Rent = 1050;
+        public const ushort residentHighLevel1Rent = 240;
+        public const ushort residentHighLevel2Rent = 330;
+        public const ushort residentHighLevel3Rent = 450;
+        public const ushort residentHighLevel4Rent = 600;
+        public const ushort residentHighLevel5Rent = 780;
+        public static long citizenExpensePerFamily = 0;
+        public static long citizenExpense = 0;
 
-        public static int citizen_count = 0;
-        public static int family_count = 0;
-        public static int citizen_salary_per_family = 0;
-        public static long citizen_salary_total = 0;
-        public static long citizen_salary_tax_total = 0;
-
-        //1.2 citizen expense
-        public const ushort resident_low_level1_rent = 300;
-        public const ushort resident_low_level2_rent = 420;
-        public const ushort resident_low_level3_rent = 570;
-        public const ushort resident_low_level4_rent = 750;
-        public const ushort resident_low_level5_rent = 1050;
-        public const ushort resident_high_level1_rent = 240;
-        public const ushort resident_high_level2_rent = 330;
-        public const ushort resident_high_level3_rent = 450;
-        public const ushort resident_high_level4_rent = 600;
-        public const ushort resident_high_level5_rent = 780;
-        //1.2.1 citizen expense
-        public static long citizen_expense_per_family = 0;
-        public static long citizen_expense = 0;
-        //1.2.2 transport fee  position.x unit(0.9m),in game, max distance (in x) is 18000m
-        public static ushort[] vehical_transfer_time = new ushort[16384];
-        public static bool[] vehical_flag = new bool[16384];
+        public static ushort[] vehicleTransferTime = new ushort[16384];
+        public static bool[] vehicleFlag = new bool[16384];
         public static uint temp_total_citizen_vehical_time = 0;//temp use
         public static uint temp_total_citizen_vehical_time_last = 0;//temp use
         public static uint total_citizen_vehical_time = 0;
@@ -126,9 +118,9 @@
         public static uint last_citizenid = 0;
 
         public static long temp_public_transport_fee = 0;
-        public static byte last_language = 255;
+        public static byte lastLanguage = 255;
 
-        public static bool isSmartPbtp = false;
+        public static bool notUsed = false;
         public static bool isHellMode = false;
 
         public static ushort Extractor_building = 0;
@@ -197,10 +189,10 @@
                 buildingFlag[i] = false;
             }
 
-            for (int i = 0; i < MainDataStore.vehical_flag.Length; i++)
+            for (int i = 0; i < MainDataStore.vehicleFlag.Length; i++)
             {
-                vehical_transfer_time[i] = 0;
-                vehical_flag[i] = false;
+                vehicleTransferTime[i] = 0;
+                vehicleFlag[i] = false;
             }
             for (int i = 0; i < MainDataStore.family_money.Length; i++)
             {
@@ -219,10 +211,10 @@
             int i = 0;
 
             // 2*8 + 2*16384 + 16384 + 3*4 + 2*8 = 49196
-            SaveAndRestore.save_long(ref i, citizen_expense_per_family, ref saveData);
-            SaveAndRestore.save_long(ref i, citizen_expense, ref saveData);
-            SaveAndRestore.save_ushorts(ref i, vehical_transfer_time, ref saveData);
-            SaveAndRestore.save_bools(ref i, vehical_flag, ref saveData);
+            SaveAndRestore.save_long(ref i, citizenExpensePerFamily, ref saveData);
+            SaveAndRestore.save_long(ref i, citizenExpense, ref saveData);
+            SaveAndRestore.save_ushorts(ref i, vehicleTransferTime, ref saveData);
+            SaveAndRestore.save_bools(ref i, vehicleFlag, ref saveData);
             SaveAndRestore.save_uint(ref i, temp_total_citizen_vehical_time, ref saveData);
             SaveAndRestore.save_uint(ref i, temp_total_citizen_vehical_time_last, ref saveData);
             SaveAndRestore.save_uint(ref i, total_citizen_vehical_time, ref saveData);
@@ -246,7 +238,7 @@
             SaveAndRestore.save_floats(ref i, building_money, ref saveData);
 
             //20*4 = 80    //2867344
-            SaveAndRestore.save_int(ref i, game_expense_divide, ref saveData);
+            SaveAndRestore.save_int(ref i, gameExpenseDivide, ref saveData);
             SaveAndRestore.save_int(ref i, minimumLivingAllowance, ref saveData);
             SaveAndRestore.save_int(ref i, resettlement, ref saveData);
             SaveAndRestore.save_int(ref i, minimumLivingAllowanceFinal, ref saveData);
@@ -274,19 +266,20 @@
             SaveAndRestore.save_float(ref i, prev_time, ref saveData);
 
             //28       //2867397
-            SaveAndRestore.save_int(ref i, citizen_count, ref saveData);
-            SaveAndRestore.save_int(ref i, family_count, ref saveData);
-            SaveAndRestore.save_int(ref i, citizen_salary_per_family, ref saveData);
-            SaveAndRestore.save_long(ref i, citizen_salary_total, ref saveData);
-            SaveAndRestore.save_long(ref i, citizen_salary_tax_total, ref saveData);
+            SaveAndRestore.save_int(ref i, citizenCount, ref saveData);
+            SaveAndRestore.save_int(ref i, familyCount, ref saveData);
+            SaveAndRestore.save_int(ref i, citizenSalaryPerFamily, ref saveData);
+            SaveAndRestore.save_long(ref i, citizenSalaryTotal, ref saveData);
+            SaveAndRestore.save_long(ref i, citizenSalaryTaxTotal, ref saveData);
 
             //9        //2867406
             SaveAndRestore.save_long(ref i, temp_public_transport_fee, ref saveData);
-            SaveAndRestore.save_byte(ref i, last_language, ref saveData);
+            byte tmp = 0;
+            SaveAndRestore.save_byte(ref i, tmp, ref saveData);
 
             //32 + 2 + 7 + 16 + 4 = 61     //2867467
 
-            SaveAndRestore.save_bool(ref i, isSmartPbtp, ref saveData);
+            SaveAndRestore.save_bool(ref i, notUsed, ref saveData);
             SaveAndRestore.save_bool(ref i, isHellMode, ref saveData);
             SaveAndRestore.save_bool(ref i, isCoalsGetted, ref saveData);
             SaveAndRestore.save_bool(ref i, isFoodsGetted, ref saveData);
@@ -349,18 +342,16 @@
         {
             int i = 0;
 
-            citizen_expense_per_family = SaveAndRestore.load_long(ref i, saveData);
-            citizen_expense = SaveAndRestore.load_long(ref i, saveData);
-            vehical_transfer_time = SaveAndRestore.load_ushorts(ref i, saveData, vehical_transfer_time.Length);
-            vehical_flag = SaveAndRestore.load_bools(ref i, saveData, vehical_flag.Length);
+            citizenExpensePerFamily = SaveAndRestore.load_long(ref i, saveData);
+            citizenExpense = SaveAndRestore.load_long(ref i, saveData);
+            vehicleTransferTime = SaveAndRestore.load_ushorts(ref i, saveData, vehicleTransferTime.Length);
+            vehicleFlag = SaveAndRestore.load_bools(ref i, saveData, vehicleFlag.Length);
             temp_total_citizen_vehical_time = SaveAndRestore.load_uint(ref i, saveData);
             temp_total_citizen_vehical_time_last = SaveAndRestore.load_uint(ref i, saveData);
             total_citizen_vehical_time = SaveAndRestore.load_uint(ref i, saveData);
             public_transport_fee = SaveAndRestore.load_long(ref i, saveData);
             all_transport_fee = SaveAndRestore.load_long(ref i, saveData);
             family_money = SaveAndRestore.load_floats(ref i, saveData, family_money.Length);
-            //citizen_very_profit_time_num = saveandrestore.load_bytes(ref i, saveData, citizen_very_profit_time_num.Length);
-            //citizen_loss_time_num = saveandrestore.load_bytes(ref i, saveData, citizen_loss_time_num.Length);
             familyGoods = SaveAndRestore.load_ushorts(ref i, saveData, familyGoods.Length);
             family_profit_money_num = SaveAndRestore.load_uint(ref i, saveData);
             family_loss_money_num = SaveAndRestore.load_uint(ref i, saveData);
@@ -370,10 +361,10 @@
 
             building_money = SaveAndRestore.load_floats(ref i, saveData, building_money.Length);
 
-            game_expense_divide = SaveAndRestore.load_int(ref i, saveData);
-            if (game_expense_divide == 0)
+            gameExpenseDivide = SaveAndRestore.load_int(ref i, saveData);
+            if (gameExpenseDivide == 0)
             {
-                game_expense_divide = 1;
+                gameExpenseDivide = 1;
             }
             minimumLivingAllowance = SaveAndRestore.load_int(ref i, saveData);
             resettlement = SaveAndRestore.load_int(ref i, saveData);
@@ -402,15 +393,15 @@
             current_time = SaveAndRestore.load_float(ref i, saveData);
             prev_time = SaveAndRestore.load_float(ref i, saveData);
 
-            citizen_count = SaveAndRestore.load_int(ref i, saveData);
-            family_count = SaveAndRestore.load_int(ref i, saveData);
-            citizen_salary_per_family = SaveAndRestore.load_int(ref i, saveData);
-            citizen_salary_total = SaveAndRestore.load_long(ref i, saveData);
-            citizen_salary_tax_total = SaveAndRestore.load_long(ref i, saveData);
+            citizenCount = SaveAndRestore.load_int(ref i, saveData);
+            familyCount = SaveAndRestore.load_int(ref i, saveData);
+            citizenSalaryPerFamily = SaveAndRestore.load_int(ref i, saveData);
+            citizenSalaryTotal = SaveAndRestore.load_long(ref i, saveData);
+            citizenSalaryTaxTotal = SaveAndRestore.load_long(ref i, saveData);
             temp_public_transport_fee = SaveAndRestore.load_long(ref i, saveData);
-            last_language = SaveAndRestore.load_byte(ref i, saveData);
+            byte tmp = SaveAndRestore.load_byte(ref i, saveData);
 
-            isSmartPbtp = SaveAndRestore.load_bool(ref i, saveData);
+            notUsed = SaveAndRestore.load_bool(ref i, saveData);
             isHellMode = SaveAndRestore.load_bool(ref i, saveData);
             isCoalsGetted = SaveAndRestore.load_bool(ref i, saveData);
             isFoodsGetted = SaveAndRestore.load_bool(ref i, saveData);

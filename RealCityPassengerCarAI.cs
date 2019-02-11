@@ -28,7 +28,7 @@ namespace RealCity
             Building building = instance.m_buildings.m_buffer[(int)vehicleData.m_sourceBuilding];
             Building building1 = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[(int)vehicleData.m_targetBuilding].Info;
-            MainDataStore.vehical_flag[vehicleID] = false;
+            MainDataStore.vehicleFlag[vehicleID] = false;
             var inst = Singleton<PassengerCarAI>.instance;
             var Method = typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance , null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType()}, null);
             //if(Method == null)
@@ -114,33 +114,33 @@ namespace RealCity
             {
                 //DebugLog.LogToFileOnly(vehicleData.m_transferType.ToString() + vehicleData.m_sourceBuilding.ToString() + vehicleData.m_targetBuilding.ToString());
                 //DebugLog.LogToFileOnly("finding a car, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
-                MainDataStore.temp_total_citizen_vehical_time = MainDataStore.temp_total_citizen_vehical_time + MainDataStore.vehical_transfer_time[vehicleID];
+                MainDataStore.temp_total_citizen_vehical_time = MainDataStore.temp_total_citizen_vehical_time + MainDataStore.vehicleTransferTime[vehicleID];
                 if (vehicleData.m_citizenUnits != 0)
                 {
                     //MainDataStore.family_money[vehicleData.m_citizenUnits] = (float)(MainDataStore.family_money[vehicleData.m_citizenUnits] - MainDataStore.vehical_transfer_time[vehicleID]);
                     if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
                     {
-                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= MainDataStore.vehical_transfer_time[vehicleID];
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= MainDataStore.vehicleTransferTime[vehicleID];
                     }
                     else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
                     {
-                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1] -= MainDataStore.vehical_transfer_time[vehicleID];
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1] -= MainDataStore.vehicleTransferTime[vehicleID];
                     }
                     else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
                     {
-                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2] -= MainDataStore.vehical_transfer_time[vehicleID];
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2] -= MainDataStore.vehicleTransferTime[vehicleID];
                     }
                     else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
                     {
-                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3] -= MainDataStore.vehical_transfer_time[vehicleID];
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3] -= MainDataStore.vehicleTransferTime[vehicleID];
                     }
                     else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
                     {
-                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4] -= MainDataStore.vehical_transfer_time[vehicleID];
+                        MainDataStore.citizen_money[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4] -= MainDataStore.vehicleTransferTime[vehicleID];
                     }
                 }
             }
-            MainDataStore.vehical_transfer_time[vehicleID] = 0;
+            MainDataStore.vehicleTransferTime[vehicleID] = 0;
         }
     }
 }

@@ -71,6 +71,7 @@ namespace RealCity
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid].Info.m_class.m_service != ItemClass.Service.Residential) && Loader.isGuiRunning)
             {
                 base.Show();
+                BButton.text = Language.OptionUI[4];
             }
             else
             {

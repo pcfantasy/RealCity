@@ -28,7 +28,7 @@ namespace RealCity
                 DistrictManager instance = Singleton<DistrictManager>.instance;
                 BuildingManager instance2 = Singleton<BuildingManager>.instance;
                 CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                int ticketPrice = instance.m_parks.m_buffer[(int)park].GetTicketPrice() / MainDataStore.game_expense_divide;
+                int ticketPrice = instance.m_parks.m_buffer[(int)park].GetTicketPrice() / MainDataStore.gameExpenseDivide;
                 if (ticketPrice != 0)
                 {
                     BuildingInfo info = instance2.m_buildings.m_buffer[(int)gateID].Info;

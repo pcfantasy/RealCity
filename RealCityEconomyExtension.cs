@@ -55,7 +55,7 @@ namespace RealCity
                     {
                         MainDataStore.landPrice = 100f;
                     }
-                    MainDataStore.game_expense_divide = (int)((float)100 / MainDataStore.landPrice);
+                    MainDataStore.gameExpenseDivide = (int)((float)100 / MainDataStore.landPrice);
                     BuildingStatus();
 
                     if (MainDataStore.update_money_count == 16)
@@ -73,7 +73,7 @@ namespace RealCity
                         MainDataStore.minimumLivingAllowance = 0;
                         //DebugLog.LogToFileOnly("fixEmptyCitizenCount = " + fixEmptyCitizenCount.ToString());
                         //fixEmptyCitizenCount = 0;
-                        if (MainDataStore.citizen_count > 0)
+                        if (MainDataStore.citizenCount > 0)
                         {
                             CitizenStatus();
                         }
@@ -204,9 +204,9 @@ namespace RealCity
             //assume that 1 time will cost 5fen car oil money
             MainDataStore.all_transport_fee = MainDataStore.public_transport_fee + MainDataStore.temp_total_citizen_vehical_time_last;
 
-            if (MainDataStore.family_count > 0)
+            if (MainDataStore.familyCount > 0)
             {
-                MainDataStore.citizen_average_transport_fee = (byte)(MainDataStore.all_transport_fee / MainDataStore.family_count);
+                MainDataStore.citizen_average_transport_fee = (byte)(MainDataStore.all_transport_fee / MainDataStore.familyCount);
             }
         }
 
@@ -537,9 +537,9 @@ namespace RealCity
             citizenOffset = 0;
 
             int temp = 0;
-            if (MainDataStore.family_count > 0)
+            if (MainDataStore.familyCount > 0)
             {
-                temp = (int)(MainDataStore.citizen_salary_per_family - (MainDataStore.citizen_salary_tax_total / MainDataStore.family_count) - MainDataStore.citizen_expense_per_family);
+                temp = (int)(MainDataStore.citizenSalaryPerFamily - (MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount) - MainDataStore.citizenExpensePerFamily);
             }
 
             if (temp < 40)

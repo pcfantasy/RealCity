@@ -36,7 +36,7 @@ namespace RealCity
                     budget -= (100 - budget) * (100 - budget) / 100;
                 }
                 //DebugLog.LogToFileOnly("RealCityPlayerBuildingAI GetResourceRate facility " + tempNum.ToString());
-                num2 = (int)((float)(num2 / MainDataStore.game_expense_divide) + tempNum * budget);
+                num2 = (int)((float)(num2 / MainDataStore.gameExpenseDivide) + tempNum * budget);
                 //DebugLog.LogToFileOnly("RealCityPlayerBuildingAI GetResourceRate facility post " + num2.ToString());
                 //new added end
                 return -num2;
@@ -52,16 +52,16 @@ namespace RealCity
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            num1 += behaviour.m_educated0Count * MainDataStore.goverment_education0;
-            num1 += behaviour.m_educated1Count * MainDataStore.goverment_education1;
-            num1 += behaviour.m_educated2Count * MainDataStore.goverment_education2;
-            num1 += behaviour.m_educated3Count * MainDataStore.goverment_education3;
+            num1 += behaviour.m_educated0Count * MainDataStore.govermentEducation0Salary;
+            num1 += behaviour.m_educated1Count * MainDataStore.govermentEducation1Salary;
+            num1 += behaviour.m_educated2Count * MainDataStore.govermentEducation2Salary;
+            num1 += behaviour.m_educated3Count * MainDataStore.govermentEducation3Salary;
             int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, false);
 
 
             if ((aliveWorkerCount == 0) && (allWorkCount!=0))
             {
-                num1 = MainDataStore.goverment_education3 * allWorkCount;
+                num1 = MainDataStore.govermentEducation3Salary * allWorkCount;
             }
 
             float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1f;

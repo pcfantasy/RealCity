@@ -29,10 +29,10 @@ namespace RealCity
                         VehicleInfo info = instance.m_vehicles.m_buffer[(int)vehicle].Info;
                         if (info.m_vehicleAI is CargoTruckAI && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic)))
                         {
-                            if (!MainDataStore.vehical_flag[vehicle])
+                            if (!MainDataStore.vehicleFlag[vehicle])
                             {
                                 //DebugLog.LogToFileOnly("cargo tickprice = " + data.m_education1.ToString());
-                                MainDataStore.vehical_flag[vehicle] = true;
+                                MainDataStore.vehicleFlag[vehicle] = true;
                                 this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 20));
                             }
                         }
@@ -63,10 +63,10 @@ namespace RealCity
                                     is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[(int)vehicle].m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
                                 }
                             }
-                            if (!MainDataStore.vehical_flag[vehicle] && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || is_tourist))
+                            if (!MainDataStore.vehicleFlag[vehicle] && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || is_tourist))
                             {
                                 //DebugLog.LogToFileOnly("PassengerCar tickprice = " + data.m_education1.ToString());
-                                MainDataStore.vehical_flag[vehicle] = true;
+                                MainDataStore.vehicleFlag[vehicle] = true;
                                 this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 10));
                             }
                         }

@@ -588,6 +588,7 @@ namespace RealCity
                     this.school_income_title.text = string.Format(Language.RealCityUI1[46] + " [{0}]", school_income_forui);
                     this.playerIndustryIncomeTitle.text = string.Format(Language.RealCityUI1[47] + " [{0}]", playerIndustryIncomeForUI);
                     this.all_total_income_ui.text = string.Format(Language.RealCityUI1[48] + " [{0}]", all_total_income);
+                    is_weekend_Checkbox.text = Language.RealCityUI1[51];
                     refeshOnce = false;
                 }
             }

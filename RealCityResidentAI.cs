@@ -287,7 +287,7 @@ namespace RealCity
                         case ItemClass.SubService.PublicTransportPost:
                             if (budget == 0)
                             {
-                                DebugLog.LogToFileOnly("Error:  playerbuilding budget9 = 0");
+                                DebugLog.LogToFileOnly("Error:  PublicTransport Budget = 0");
                             }
                             int allWorkCount = 0;
                             if (rand.Next(100) == 0)
@@ -307,18 +307,18 @@ namespace RealCity
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + MainDataStore.goverment_education0; break;
+                                    num = num + MainDataStore.govermentEducation0Salary; break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + MainDataStore.goverment_education1; break;
+                                    num = num + MainDataStore.govermentEducation1Salary; break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + MainDataStore.goverment_education2; break;
+                                    num = num + MainDataStore.govermentEducation2Salary; break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + MainDataStore.goverment_education3; break;
+                                    num = num + MainDataStore.govermentEducation3Salary; break;
                             }
                             num = (int)(num * budget / 100f);
                             if (!checkOnly)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.gameExpenseDivide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                             }
                             break; //
                         default: break;
@@ -345,7 +345,7 @@ namespace RealCity
                         case ItemClass.Service.FireDepartment:
                             if (budget == 0)
                             {
-                                DebugLog.LogToFileOnly("Error:  playerbuilding budget20 = 0");
+                                DebugLog.LogToFileOnly("Error:  Playerbuilding Budget = 0");
                             }
 
                             int allWorkCount = 0;
@@ -361,30 +361,25 @@ namespace RealCity
                             float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
                             if (totalWorkCount > allWorkCount)
                             {
-                                if (RealCityEconomyExtension.IsSpecialBuilding((ushort)workBuilding) != true)
-                                {
-                                    //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
-                                }
                                 Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
-                                //allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
                                 idex = 1;
                             }
                             switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                             {
                                 case Citizen.Education.Uneducated:
-                                    num = num + MainDataStore.goverment_education0; break;
+                                    num = num + MainDataStore.govermentEducation0Salary; break;
                                 case Citizen.Education.OneSchool:
-                                    num = num + MainDataStore.goverment_education1; break;
+                                    num = num + MainDataStore.govermentEducation1Salary; break;
                                 case Citizen.Education.TwoSchools:
-                                    num = num + MainDataStore.goverment_education2; break;
+                                    num = num + MainDataStore.govermentEducation2Salary; break;
                                 case Citizen.Education.ThreeSchools:
-                                    num = num + MainDataStore.goverment_education3; break;
+                                    num = num + MainDataStore.govermentEducation3Salary; break;
                             }
                             num = (int)(num * budget / 100f);
                             if (!checkOnly)
                             {
                                 //DebugLog.LogToFileOnly(Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].Info.m_class.ToString() + Singleton<BuildingManager>.instance.m_buildings.m_buffer[work_building].m_flags.ToString());
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.gameExpenseDivide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                             }
                             break; //
                         default:
@@ -396,17 +391,17 @@ namespace RealCity
                         switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                         {
                             case Citizen.Education.Uneducated:
-                                num = num + MainDataStore.goverment_education0; break;
+                                num = num + MainDataStore.govermentEducation0Salary; break;
                             case Citizen.Education.OneSchool:
-                                num = num + MainDataStore.goverment_education1; break;
+                                num = num + MainDataStore.govermentEducation1Salary; break;
                             case Citizen.Education.TwoSchools:
-                                num = num + MainDataStore.goverment_education2; break;
+                                num = num + MainDataStore.govermentEducation2Salary; break;
                             case Citizen.Education.ThreeSchools:
-                                num = num + MainDataStore.goverment_education3; break;
+                                num = num + MainDataStore.govermentEducation3Salary; break;
                         }
                         if (budget == 0)
                         {
-                            DebugLog.LogToFileOnly("Error:  playerbuilding budget20 = 0");
+                            DebugLog.LogToFileOnly("Error:  PlayerIndustry Budget = 0");
                         }
 
                         int allWorkCount = 0;
@@ -421,27 +416,22 @@ namespace RealCity
                         if (totalWorkCount > allWorkCount)
                         {
                             Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
-                            //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
-                            //EmptyBuilding((ushort)workBuilding, ref buildingData, CitizenUnit.Flags.Created, false);
-                            //allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
+                            //DebugLog.LogToFileOnly("Error, find TotalWorkCount > allWorkCount building = " + buildingData.Info.m_buildingAI.ToString());
                         }
                         float idex = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
                         num = (int)(num * budget / 100f);
                         if (!checkOnly)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.game_expense_divide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num * idex * MainDataStore.gameExpenseDivide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                         }
                     }
-                    //DebugLog.LogToFileOnly("salary4 is " + num.ToString());
 
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
                     {
                         MainDataStore.building_money[workBuilding] -= num;
                     }
                 }
-                //DebugLog.LogToFileOnly("salary3 is " + num.ToString());
             }
-            //DebugLog.LogToFileOnly("salary2 is " + num.ToString());
             return num;
         }//public
 
@@ -621,7 +611,7 @@ namespace RealCity
                 {
                     if (!checkOnly)
                     {
-                        DebugLog.LogToFileOnly("error, find unknow building = " + data.Info.m_buildingAI.ToString());
+                        DebugLog.LogToFileOnly("Error: find unknow building = " + data.Info.m_buildingAI.ToString());
                     }
                 }
 
@@ -811,30 +801,30 @@ namespace RealCity
             {
                 //DebugLog.LogToFileOnly("process once");
                 //citizen_process_done = true;
-                MainDataStore.family_count = familyCount;
-                MainDataStore.citizen_count = citizenCount;
+                MainDataStore.familyCount = familyCount;
+                MainDataStore.citizenCount = citizenCount;
                 MainDataStore.family_profit_money_num = familyProfitMoneyCount;
                 MainDataStore.family_very_profit_money_num = familyVeryProfitMoneyCount;
                 MainDataStore.family_loss_money_num = familyLossMoneyCount;
                 if (familyCount != 0)
                 {
-                    MainDataStore.citizen_salary_per_family = (int)((citizenSalaryCount / familyCount));
-                    MainDataStore.citizen_expense_per_family = (int)((citizenExpenseCount / familyCount));
+                    MainDataStore.citizenSalaryPerFamily = (int)((citizenSalaryCount / familyCount));
+                    MainDataStore.citizenExpensePerFamily = (int)((citizenExpenseCount / familyCount));
                 }
-                MainDataStore.citizen_expense = citizenExpenseCount;
-                MainDataStore.citizen_salary_tax_total = citizenSalaryTaxTotal;
-                MainDataStore.citizen_salary_total = citizenSalaryCount;
-                if (MainDataStore.family_count < MainDataStore.family_weight_stable_high)
+                MainDataStore.citizenExpense = citizenExpenseCount;
+                MainDataStore.citizenSalaryTaxTotal = citizenSalaryTaxTotal;
+                MainDataStore.citizenSalaryTotal = citizenSalaryCount;
+                if (MainDataStore.familyCount < MainDataStore.family_weight_stable_high)
                 {
-                    MainDataStore.family_weight_stable_high = (uint)MainDataStore.family_count;
+                    MainDataStore.family_weight_stable_high = (uint)MainDataStore.familyCount;
                 }
                 else
                 {
                     MainDataStore.family_weight_stable_high = familyWeightStableHigh;
                 }
-                if (MainDataStore.family_count < MainDataStore.family_weight_stable_low)
+                if (MainDataStore.familyCount < MainDataStore.family_weight_stable_low)
                 {
-                    MainDataStore.family_weight_stable_low = (uint)MainDataStore.family_count;
+                    MainDataStore.family_weight_stable_low = (uint)MainDataStore.familyCount;
                 }
                 else
                 {
@@ -1318,19 +1308,19 @@ namespace RealCity
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.resident_low_level1_rent;
+                            incomeAccumulation = MainDataStore.residentLowLevel1Rent;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.resident_low_level2_rent;
+                            incomeAccumulation = MainDataStore.residentLowLevel2Rent;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.resident_low_level3_rent;
+                            incomeAccumulation = MainDataStore.residentLowLevel3Rent;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.resident_low_level4_rent;
+                            incomeAccumulation = MainDataStore.residentLowLevel4Rent;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.resident_low_level5_rent;
+                            incomeAccumulation = MainDataStore.residentLowLevel5Rent;
                             break;
                     }
                 }
@@ -1339,19 +1329,19 @@ namespace RealCity
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.resident_low_level1_rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel1Rent << 1;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.resident_low_level2_rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel2Rent << 1;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.resident_low_level3_rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel3Rent << 1;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.resident_low_level4_rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel4Rent << 1;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.resident_low_level5_rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel5Rent << 1;
                             break;
                     }
                 }
@@ -1360,19 +1350,19 @@ namespace RealCity
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.resident_high_level1_rent;
+                            incomeAccumulation = MainDataStore.residentHighLevel1Rent;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.resident_high_level2_rent;
+                            incomeAccumulation = MainDataStore.residentHighLevel2Rent;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.resident_high_level3_rent;
+                            incomeAccumulation = MainDataStore.residentHighLevel3Rent;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.resident_high_level4_rent;
+                            incomeAccumulation = MainDataStore.residentHighLevel4Rent;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.resident_high_level5_rent;
+                            incomeAccumulation = MainDataStore.residentHighLevel5Rent;
                             break;
                     }
                 }
@@ -1381,19 +1371,19 @@ namespace RealCity
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.resident_high_level1_rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel1Rent << 1;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.resident_high_level2_rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel2Rent << 1;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.resident_high_level3_rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel3Rent << 1;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.resident_high_level4_rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel4Rent << 1;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.resident_high_level5_rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel5Rent << 1;
                             break;
                     }
                 }
