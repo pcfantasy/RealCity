@@ -1,6 +1,9 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
 using ICities;
+using RealCity.CustomManager;
+using RealCity.UI;
+using RealCity.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +37,9 @@ namespace RealCity
         public static string tip4_message_forgui = "";
         public static string tip5_message_forgui = "";
         public static string tip6_message_forgui = "";
+
+        public static bool haveGarbageBuilding = false;
+        public static bool haveGarbageBuildingFinal = false;
 
 
         public override long OnUpdateMoneyAmount(long internalMoneyAmount)
@@ -215,9 +221,9 @@ namespace RealCity
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
             updateOnce = false;
-            RealCityOutsideConnectionAI.haveGarbageBuildingFinal = RealCityOutsideConnectionAI.haveGarbageBuilding;
+            haveGarbageBuildingFinal = haveGarbageBuilding;
             MainDataStore.haveCityResourceDepartmentFinal = MainDataStore.haveCityResourceDepartment;
-            RealCityOutsideConnectionAI.haveGarbageBuilding = false;
+            haveGarbageBuilding = false;
             MainDataStore.haveCityResourceDepartment = false;
 
             updateOnce = true;

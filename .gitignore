@@ -2,3 +2,6 @@
 *.tmp
 *.dll
 *.pdb
+*.cs
+*.cache
+*.txt

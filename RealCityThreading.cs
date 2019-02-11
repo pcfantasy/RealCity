@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using RealCity.CustomAI;
+using RealCity.Util;
+using RealCity.UI;
 
 namespace RealCity
 {
     public class RealCityThreading : ThreadingExtensionBase
     {
+        public static bool isFirstTime = true;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -19,35 +23,13 @@ namespace RealCity
             {
                 if (RealCity.IsEnabled)
                 {
+                    CheckLanguage();
+                    CheckDetour();
                     uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                     int num4 = (int)(currentFrameIndex & 255u);
                     int num5 = num4 * 192;
                     int num6 = (num4 + 1) * 192 - 1;
-                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
                     BuildingManager instance = Singleton<BuildingManager>.instance;
-
-
-                    if (SingletonLite<LocaleManager>.instance.language.Contains("zh") && (MainDataStore.lastLanguage == 1))
-                    {
-                        //MainDataStore.lastLanguage = (byte)(SingletonLite<LocaleManager>.instance.language.Contains("zh") ? 1 : 0);
-                    }
-                    else if (!SingletonLite<LocaleManager>.instance.language.Contains("zh") && (MainDataStore.lastLanguage != 1))
-                    {
-                        //MainDataStore.lastLanguage = (byte)(SingletonLite<LocaleManager>.instance.language.Contains("zh") ? 1 : 0);
-                    }
-                    else
-                    {
-                        MainDataStore.lastLanguage = (byte)(SingletonLite<LocaleManager>.instance.language.Contains("zh") ? 1 : 0);
-                        Language.LanguageSwitch(MainDataStore.lastLanguage);
-                        PoliticsUI.refeshOnce = true;
-                        RealCityUI.refeshOnce = true;
-                        EcnomicUI.refeshOnce = true;
-                        PlayerBuildingUI.refeshOnce = true;
-                        BuildingUI.refeshOnce = true;
-                        HumanUI.refeshOnce = true;
-                        TouristUI.refeshOnce = true;
-                    }
-
                     for (int i = num5; i <= num6; i = i + 1)
                     {
                         if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
@@ -64,6 +46,63 @@ namespace RealCity
             }
         }
 
+
+        public void CheckLanguage()
+        {
+            if (SingletonLite<LocaleManager>.instance.language.Contains("zh") && (MainDataStore.lastLanguage == 1))
+            {
+            }
+            else if (!SingletonLite<LocaleManager>.instance.language.Contains("zh") && (MainDataStore.lastLanguage != 1))
+            {
+            }
+            else
+            {
+                MainDataStore.lastLanguage = (byte)(SingletonLite<LocaleManager>.instance.language.Contains("zh") ? 1 : 0);
+                Language.LanguageSwitch(MainDataStore.lastLanguage);
+                PoliticsUI.refeshOnce = true;
+                RealCityUI.refeshOnce = true;
+                EcnomicUI.refeshOnce = true;
+                PlayerBuildingUI.refeshOnce = true;
+                BuildingUI.refeshOnce = true;
+                HumanUI.refeshOnce = true;
+                TouristUI.refeshOnce = true;
+            }
+        }
+
+        public void CheckDetour()
+        {
+            if (isFirstTime && Loader.DetourInited)
+            {
+                isFirstTime = false;
+                DebugLog.LogToFileOnly("ThreadingExtension.OnBeforeSimulationFrame: First frame detected. Checking detours.");
+                List<string> list = new List<string>();
+                foreach (Loader.Detour current in Loader.Detours)
+                {
+                    if (!RedirectionHelper.IsRedirected(current.OriginalMethod, current.CustomMethod))
+                    {
+                        list.Add(string.Format("{0}.{1} with {2} parameters ({3})", new object[]
+                        {
+                    current.OriginalMethod.DeclaringType.Name,
+                    current.OriginalMethod.Name,
+                    current.OriginalMethod.GetParameters().Length,
+                    current.OriginalMethod.DeclaringType.AssemblyQualifiedName
+                        }));
+                    }
+                }
+                DebugLog.LogToFileOnly(string.Format("ThreadingExtension.OnBeforeSimulationFrame: First frame detected. Detours checked. Result: {0} missing detours", list.Count));
+                if (list.Count > 0)
+                {
+                    string error = "RealCity detected an incompatibility with another mod! You can continue playing but it's NOT recommended. RealCity will not work as expected. See RealCity.log for technical details.";
+                    DebugLog.LogToFileOnly(error);
+                    string text = "The following methods were overriden by another mod:";
+                    foreach (string current2 in list)
+                    {
+                        text += string.Format("\n\t{0}", current2);
+                    }
+                    DebugLog.LogToFileOnly(text);
+                }
+            }
+        }
 
         public void ProcessZeroWorker(ushort buildingID, ref Building data)
         {
@@ -135,7 +174,7 @@ namespace RealCity
         {
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
 
-            if (RealCityOutsideConnectionAI.haveGarbageBuildingFinal && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
+            if (RealCityEconomyExtension.haveGarbageBuildingFinal && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
             {
                 if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
                 {
@@ -290,7 +329,7 @@ namespace RealCity
                             }
                             else if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
                             {
-                                RealCityOutsideConnectionAI.haveGarbageBuilding = true;
+                                RealCityEconomyExtension.haveGarbageBuilding = true;
                             }
                         }
                     }
@@ -317,20 +356,20 @@ namespace RealCity
                         {
                             if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                             {
-                                if (!MainDataStore.citizenFlag[i])
+                                if (!MainDataStore.isCitizenFirstMovingIn[i])
                                 {
-                                    MainDataStore.citizenFlag[i] = true;
+                                    MainDataStore.isCitizenFirstMovingIn[i] = true;
                                     if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
                                     {
-                                        MainDataStore.citizen_money[i] += 3000;
+                                        MainDataStore.citizenMoney[i] += 3000;
                                     }
                                     else if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
                                     {
-                                        MainDataStore.citizen_money[i] += 6000;
+                                        MainDataStore.citizenMoney[i] += 6000;
                                     }
                                     else
                                     {
-                                        MainDataStore.citizen_money[i] += 9000;
+                                        MainDataStore.citizenMoney[i] += 9000;
                                     }
                                 }
                             }
@@ -339,9 +378,9 @@ namespace RealCity
                         {
                             if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                             {
-                                if (MainDataStore.citizen_money[i] < 0)
+                                if (MainDataStore.citizenMoney[i] < 0)
                                 {
-                                    //DebugLog.LogToFileOnly("no money now, tourist will leave" + MainDataStore.citizen_money[i].ToString());
+                                    //DebugLog.LogToFileOnly("no money now, tourist will leave" + MainDataStore.citizenMoney[i].ToString());
                                     FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
                                 }
                             }
@@ -473,7 +512,7 @@ namespace RealCity
                 else
                 {
                     MainDataStore.vehicleTransferTime[i] = 0;
-                    MainDataStore.vehicleFlag[i] = false;
+                    MainDataStore.isVehicleCharged[i] = false;
                 }
             }
         }
