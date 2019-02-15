@@ -52,7 +52,7 @@ namespace RealCity
                 if ((num2 == 255u) && (MainDataStore.current_time != MainDataStore.prev_time))
                 {
                     GenerateTips();
-
+                    //LandPrice will affect gameExpenseDivide
                     MainDataStore.landPrice = Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() / 10f;
                     if (MainDataStore.landPrice < 1f)
                     {
@@ -64,29 +64,25 @@ namespace RealCity
                     MainDataStore.gameExpenseDivide = (int)((float)100 / MainDataStore.landPrice);
                     BuildingStatus();
 
+                    //parliamentCount
                     if (MainDataStore.update_money_count == 16)
                     {
                         Politics.parliamentCount--;
-                        //Politics.parliamentMeetingCount--;
                         if (Politics.parliamentCount < 0)
                         {
                             Politics.parliamentCount = 40;
                         }
-
+                        //Caculate resettlement and LivingAllowance
                         MainDataStore.resettlementFinal = MainDataStore.resettlement;
                         MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
                         MainDataStore.resettlement = 0;
                         MainDataStore.minimumLivingAllowance = 0;
-                        //DebugLog.LogToFileOnly("fixEmptyCitizenCount = " + fixEmptyCitizenCount.ToString());
-                        //fixEmptyCitizenCount = 0;
                         if (MainDataStore.citizenCount > 0)
                         {
                             CitizenStatus();
                         }
                     }
 
-                    //DebugLog.LogToFileOnly("fixEmptyBuildingCount = " + fixEmptyBuildingCount.ToString());
-                    //fixEmptyBuildingCount = 0;
 
                     CaculateCitizenTransportFee();
                     MainDataStore.update_money_count++;
@@ -94,7 +90,7 @@ namespace RealCity
                     {
                         MainDataStore.update_money_count = 0;
                     }
-                    RealCityEconomyManager.clean_current(MainDataStore.update_money_count);
+                    RealCityEconomyManager.CleanCurrent(MainDataStore.update_money_count);
 
 
                     MainDataStore.prev_time = MainDataStore.current_time;
@@ -207,7 +203,6 @@ namespace RealCity
             MainDataStore.temp_total_citizen_vehical_time_last = MainDataStore.temp_total_citizen_vehical_time;
             MainDataStore.temp_total_citizen_vehical_time = 0;
 
-            //assume that 1 time will cost 5fen car oil money
             MainDataStore.all_transport_fee = MainDataStore.public_transport_fee + MainDataStore.temp_total_citizen_vehical_time_last;
 
             if (MainDataStore.familyCount > 0)
@@ -264,7 +259,6 @@ namespace RealCity
             {
                 GetSeats(false);
                 GetSeats(true);
-                //Politics.parliamentMeetingCount = 1;
                 CreateGoverment();
             }
             else

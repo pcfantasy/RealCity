@@ -15,7 +15,7 @@ namespace RealCity
     public class RealCity : IUserMod
     {
         public static bool IsEnabled = false;
-        public static int language_idex = 0;
+        public static int languageIdex = 0;
 
         public string Name
         {
@@ -32,13 +32,13 @@ namespace RealCity
             RealCity.IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
-            Language.LanguageSwitch((byte)language_idex);
+            Language.LanguageSwitch((byte)languageIdex);
         }
 
         public void OnDisabled()
         {
             RealCity.IsEnabled = false;
-            Language.LanguageSwitch((byte)language_idex);
+            Language.LanguageSwitch((byte)languageIdex);
         }
 
     }

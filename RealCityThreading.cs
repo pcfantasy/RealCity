@@ -39,6 +39,8 @@ namespace RealCity
                         }
                         else
                         {
+                            //If playerbuilding is working with zero worker, it still need to operation with salary expense.
+                            //They may hire a foreigner worker :)
                             ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
                         }
                     }
@@ -126,8 +128,6 @@ namespace RealCity
                 if (totalWorkCount == 0 && allWorkCount != 0)
                 {
                     int num1 = (MainDataStore.govermentEducation3Salary / 16) * allWorkCount;
-                    //DebugLog.LogToFileOnly("totalWorkCount = " + totalWorkCount.ToString() + "allWorkCount =" + allWorkCount.ToString());
-                    //DebugLog.LogToFileOnly("find zero worker building = " + data.Info.m_buildingAI.ToString() + data.m_flags.ToString());
                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num1 * MainDataStore.gameExpenseDivide), data.Info.m_class);
                 }
             }
@@ -186,7 +186,6 @@ namespace RealCity
                         {
                             if (instance1.m_randomizer.Int32(16u) == 0)
                             {
-                                //DebugLog.LogToFileOnly("outside connection is not good for car in for garbageoffers");
                                 int num24 = (int)data.m_garbageBuffer;
                                 if (Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
                                 {
@@ -196,7 +195,6 @@ namespace RealCity
                                     int num28 = 0;
                                     this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
                                     num24 -= num27 - num26;
-                                    //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
                                     if (num24 >= 200)
                                     {
                                         offer = default(TransferManager.TransferOffer);
@@ -225,7 +223,6 @@ namespace RealCity
                                 int num28 = 0;
                                 CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
                                 num24 -= num27 - num26;
-                                //DebugLog.LogToFileOnly("caculate num24  = " + num24.ToString() + "num27 = " + num27.ToString() + "num26 = " + num26.ToString());
                                 if (num24 >= 200)
                                 {
                                     offer = default(TransferManager.TransferOffer);
@@ -286,7 +283,6 @@ namespace RealCity
             }
         }
 
-        // OutsideConnectionAI
         private static int TickPathfindStatus(ref byte success, ref byte failure)
         {
             int result = ((int)success << 8) / Mathf.Max(1, (int)(success + failure));
@@ -315,7 +311,6 @@ namespace RealCity
                     int num4 = (int)(currentFrameIndex & 255u);
                     int num5 = num4 * 192;
                     int num6 = (num4 + 1) * 192 - 1;
-                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
                     BuildingManager instance = Singleton<BuildingManager>.instance;
 
 
@@ -338,7 +333,6 @@ namespace RealCity
                     int num7 = (int)(currentFrameIndex & 15u);
                     int num8 = num7 * 1024;
                     int num9 = (num7 + 1) * 1024 - 1;
-                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
                     VehicleManager instance1 = Singleton<VehicleManager>.instance;
                     for (int i = num8; i <= num9; i = i + 1)
                     {
@@ -372,16 +366,29 @@ namespace RealCity
                                         MainDataStore.citizenMoney[i] += 9000;
                                     }
                                 }
-                            }
-                        }
-                        else
-                        {
-                            if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
-                            {
-                                if (MainDataStore.citizenMoney[i] < 0)
+                                else
                                 {
-                                    //DebugLog.LogToFileOnly("no money now, tourist will leave" + MainDataStore.citizenMoney[i].ToString());
-                                    FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
+                                    if (MainDataStore.citizenMoney[i] < 0)
+                                    {
+                                        FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //change wealth
+                                BuildingManager instance3 = Singleton<BuildingManager>.instance;
+                                ushort homeBuilding = instance2.m_citizens.m_buffer[(int)((UIntPtr)i)].m_homeBuilding;
+                                uint homeId = instance2.m_citizens.m_buffer[i].GetContainingUnit((uint)i, instance3.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                                if (MainDataStore.family_money[homeId] > 20000)
+                                {
+                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.High;
+                                } else if (MainDataStore.family_money[homeId] < 5000)
+                                {
+                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Low;
+                                } else
+                                {
+                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Medium;
                                 }
                             }
                         }
@@ -437,17 +444,7 @@ namespace RealCity
                         else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                         {
                             Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)vehicle.m_sourceBuilding];
-                            if (building.m_flags.IsFlagSet(Building.Flags.Untouchable))
-                            {
-                                if ((TransferManager.TransferReason)vehicle.m_transferType == TransferManager.TransferReason.GarbageMove)
-                                {
-                                    //comm_data.allVehicles += 1;
-                                    //Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)6000, vehicle.Info.m_class);
-                                    //Singleton<NaturalResourceManager>.instance.TryDumpResource(NaturalResourceManager.Resource.Pollution, 80, 80, vehicle.GetLastFramePosition(), 5f);
-                                    //DebugLog.LogToFileOnly("vehicle.sourcebuilding = " + vehicle.m_sourceBuilding.ToString() + vehicle.m_flags.ToString());
-                                }
-                            }
-                            else
+                            if (!building.m_flags.IsFlagSet(Building.Flags.Untouchable))
                             {
                                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
