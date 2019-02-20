@@ -444,8 +444,8 @@ namespace RealCity.CustomAI
         {
             int num = 0;
 
-
-            if (MainDataStore.buildingFlag[buildingID] && !update)
+            //For performance
+            if (MainDataStore.isBuildingWorkerUpdated[buildingID] && !update)
             {
                 num = MainDataStore.building_buffer1[buildingID];
             }
@@ -619,7 +619,7 @@ namespace RealCity.CustomAI
                     }
                 }
 
-                MainDataStore.buildingFlag[buildingID] = true;
+                MainDataStore.isBuildingWorkerUpdated[buildingID] = true;
                 MainDataStore.building_buffer1[buildingID] = num;
             }
             return num;

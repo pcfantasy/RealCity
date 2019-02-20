@@ -92,7 +92,7 @@ namespace RealCity.UI
 
         private UILabel tip1;
         private UILabel tip2;
-        private UILabel tip3;
+        //private UILabel tip3;
         //private UILabel tip4;
         //private UILabel tip5;
         //private UILabel tip6;
@@ -261,10 +261,10 @@ namespace RealCity.UI
             this.tip2.relativePosition = new Vector3(SPACING, this.tip1.relativePosition.y + SPACING22);
             this.tip2.autoSize = true;
 
-            this.tip3 = base.AddUIComponent<UILabel>();
-            this.tip3.text = Language.EconomicUI[19];
-            this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
-            this.tip3.autoSize = true;
+            //this.tip3 = base.AddUIComponent<UILabel>();
+            //this.tip3.text = Language.EconomicUI[19];
+            //this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
+            //this.tip3.autoSize = true;
 
             /*this.tip4 = base.AddUIComponent<UILabel>();
             this.tip4.text = Language.EconomicUI[20];
@@ -283,7 +283,7 @@ namespace RealCity.UI
 
             this.tip7 = base.AddUIComponent<UILabel>();
             this.tip7.text = Language.EconomicUI[20];
-            this.tip7.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
+            this.tip7.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
             this.tip7.autoSize = true;
 
             this.tip8 = base.AddUIComponent<UILabel>();
@@ -356,7 +356,7 @@ namespace RealCity.UI
 
                     this.tip1.text = string.Format(Language.EconomicUI[17] + "  " + RealCityEconomyExtension.tip1_message_forgui);
                     this.tip2.text = string.Format(Language.EconomicUI[18] + "  " + RealCityEconomyExtension.tip2_message_forgui);
-                    this.tip3.text = string.Format(Language.EconomicUI[19] + "  " + RealCityEconomyExtension.tip3_message_forgui);
+                    //this.tip3.text = string.Format(Language.EconomicUI[19] + "  " + RealCityEconomyExtension.tip3_message_forgui);
                     //this.tip4.text = string.Format(Language.EconomicUI[20] + "  " + RealCityEconomyExtension.tip4_message_forgui);
                     //this.tip5.text = string.Format(Language.EconomicUI[21] + "  " + RealCityEconomyExtension.tip5_message_forgui);
                     //this.tip6.text = string.Format(Language.EconomicUI[22] + "  " + RealCityEconomyExtension.tip6_message_forgui);
@@ -367,24 +367,6 @@ namespace RealCity.UI
                     this.tip10.text = string.Format(Language.EconomicUI[23] + "  " + Language.TipAndChirperMessage[9]);
                     this.tip11.text = string.Format(Language.EconomicUI[24] + "  " + Language.TipAndChirperMessage[10]);
                     this.tip12.text = string.Format(Language.EconomicUI[25] + "  " + Language.TipAndChirperMessage[11]);
-
-
-
-                    if (!Loader.isFuelAlarmRunning || !Loader.isRealConstructionRunning)
-                    {
-                        if (this.tip3.textColor == Color.red)
-                        {
-                            this.tip3.textColor = Color.white;
-                        }
-                        else
-                        {
-                            this.tip3.textColor = Color.red;
-                        }
-                    }
-                    else
-                    {
-                        this.tip3.textColor = Color.white;
-                    }
 
                     refeshOnce = false;
                 }

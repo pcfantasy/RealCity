@@ -71,7 +71,7 @@ namespace RealCity
         public static bool isGuiRunning = false;
 
         public static bool isRealConstructionRunning = false;
-        public static bool isFuelAlarmRunning = false;
+        public static bool isRealGasStationRunning = false;
 
 
         public static PoliticsButton PLPanel;
@@ -96,7 +96,7 @@ namespace RealCity
                 {
                     SetupGui();
                     isRealConstructionRunning = CheckRealConstructionIsLoaded();
-                    isFuelAlarmRunning = CheckFuelAlarmIsLoaded();
+                    isRealGasStationRunning = CheckRealGasStationIsLoaded();
                     InitDetour();
                     RealCityThreading.isFirstTime = true;
                     DebugLog.LogToFileOnly("OnLevelLoaded");
@@ -782,7 +782,7 @@ namespace RealCity
                 }
 
                 //21
-                DebugLog.LogToFileOnly("Detour CommonBuildingAI::ReleaseBuilding calls");
+                /*DebugLog.LogToFileOnly("Detour CommonBuildingAI::ReleaseBuilding calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(CommonBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null),
@@ -792,7 +792,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour CommonBuildingAI::ReleaseBuilding");
                     detourFailed = true;
-                }
+                }*/
                 
 
 
@@ -837,7 +837,7 @@ namespace RealCity
                 }
 
                 //25
-                DebugLog.LogToFileOnly("Detour CitizenManager::ReleaseCitizenImplementation calls");
+                /*DebugLog.LogToFileOnly("Detour CitizenManager::ReleaseCitizenImplementation calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null),
@@ -847,7 +847,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour CitizenManager::ReleaseCitizenImplementation");
                     detourFailed = true;
-                }
+                }*/
 
                 //26
                 DebugLog.LogToFileOnly("Detour EconomyManager::AddResource1 calls");
@@ -915,7 +915,7 @@ namespace RealCity
                 }
 
                 //31
-                DebugLog.LogToFileOnly("Detour CitizenManager::ReleaseUnitCitizen calls");
+                /*DebugLog.LogToFileOnly("Detour CitizenManager::ReleaseUnitCitizen calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(CitizenManager).GetMethod("ReleaseUnitCitizen", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType(), typeof(uint) }, null),
@@ -925,7 +925,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour CitizenManager::ReleaseUnitCitizen");
                     detourFailed = true;
-                }
+                }*/
 
                 //32
                 DebugLog.LogToFileOnly("Detour TollBoothAI::EnterBuildingSegment calls");
@@ -983,9 +983,9 @@ namespace RealCity
             }
         }
 
-        private bool CheckFuelAlarmIsLoaded()
+        private bool CheckRealGasStationIsLoaded()
         {
-            return this.Check3rdPartyModLoaded("FuelAlarm", true);
+            return this.Check3rdPartyModLoaded("RealGasStation", true);
         }
     }
 }

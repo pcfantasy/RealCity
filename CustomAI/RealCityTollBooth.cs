@@ -17,7 +17,19 @@ namespace RealCity.CustomAI
             base.EnterBuildingSegment(buildingID, ref data, segmentID, offset, itemID);
             if ((data.m_flags & Building.Flags.Active) != Building.Flags.None)
             {
-                if (FuelAlarm.FuelAlarmThreading.IsGasBuilding(buildingID))
+                bool isForFuel = false;
+                ushort vehicle1 = itemID.Vehicle;
+                if (vehicle1 != 0)
+                {
+                    VehicleManager instance = Singleton<VehicleManager>.instance;
+                    Vehicle vehicleData = instance.m_vehicles.m_buffer[(int)vehicle1];
+                    if (vehicleData.m_transferType == 112)
+                    {
+                        isForFuel = true;
+                    }
+                }
+
+                if (isForFuel)
                 {
 
                 }
@@ -32,7 +44,6 @@ namespace RealCity.CustomAI
                         {
                             if (!MainDataStore.isVehicleCharged[vehicle])
                             {
-                                //DebugLog.LogToFileOnly("cargo tickprice = " + data.m_education1.ToString());
                                 MainDataStore.isVehicleCharged[vehicle] = true;
                                 this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 20));
                             }
@@ -66,7 +77,6 @@ namespace RealCity.CustomAI
                             }
                             if (!MainDataStore.isVehicleCharged[vehicle] && (instance.m_vehicles.m_buffer[(int)vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || is_tourist))
                             {
-                                //DebugLog.LogToFileOnly("PassengerCar tickprice = " + data.m_education1.ToString());
                                 MainDataStore.isVehicleCharged[vehicle] = true;
                                 this.EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[(int)vehicle], buildingID, segmentID, (int)(data.m_education1 * 10));
                             }

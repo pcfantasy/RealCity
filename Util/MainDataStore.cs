@@ -165,7 +165,8 @@
         public static bool haveCityResourceDepartmentFinal = false;
         
 
-        public static bool[] buildingFlag = new bool[49152];
+        public static bool[] isBuildingWorkerUpdated = new bool[49152];
+        public static bool[] isBuildingReleased = new bool[49152];
 
         //public static byte[] saveData = new byte[2867364];
         public static byte[] saveData = new byte[3932402];
@@ -186,7 +187,8 @@
                 building_buffer1[i] = 0;
                 building_buffer3[i] = 0;
                 building_buffer4[i] = 0;
-                buildingFlag[i] = false;
+                isBuildingWorkerUpdated[i] = false;
+                isBuildingReleased[i] = false;
             }
 
             for (int i = 0; i < MainDataStore.isVehicleCharged.Length; i++)
@@ -326,7 +328,7 @@
             SaveAndRestore.save_int(ref i, allCoalsFinal, ref saveData);
 
             SaveAndRestore.save_bool(ref i, haveCityResourceDepartmentFinal, ref saveData);
-            SaveAndRestore.save_bools(ref i, buildingFlag, ref saveData);
+            SaveAndRestore.save_bools(ref i, isBuildingWorkerUpdated, ref saveData);
 
 
             DebugLog.LogToFileOnly("(save)saveData in comm_data is " + i.ToString());
@@ -424,7 +426,7 @@
             allLumbersFinal = SaveAndRestore.load_int(ref i, saveData);
             allPetrolsFinal = SaveAndRestore.load_int(ref i, saveData);
             haveCityResourceDepartmentFinal = SaveAndRestore.load_bool(ref i, saveData);
-            buildingFlag = SaveAndRestore.load_bools(ref i, saveData, buildingFlag.Length);
+            isBuildingWorkerUpdated = SaveAndRestore.load_bools(ref i, saveData, isBuildingWorkerUpdated.Length);
             DebugLog.LogToFileOnly("saveData in MainDataStore is " + i.ToString());
         }
 

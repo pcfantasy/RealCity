@@ -10,6 +10,7 @@ using UnityEngine;
 using RealCity.CustomAI;
 using RealCity.Util;
 using RealCity.UI;
+using RealCity.CustomManager;
 
 namespace RealCity
 {
@@ -32,16 +33,28 @@ namespace RealCity
                     BuildingManager instance = Singleton<BuildingManager>.instance;
                     for (int i = num5; i <= num6; i = i + 1)
                     {
-                        if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
+                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted))
                         {
-                            ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                            AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            MainDataStore.isBuildingReleased[i] = false;
+                            if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
+                            {
+                                ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                                AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            }
+                            else
+                            {
+                                //If playerbuilding is working with zero worker, it still need to operation with salary expense.
+                                //They may hire a foreigner worker :)
+                                ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            }
                         }
                         else
                         {
-                            //If playerbuilding is working with zero worker, it still need to operation with salary expense.
-                            //They may hire a foreigner worker :)
-                            ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            if (!MainDataStore.isBuildingReleased[i])
+                            {
+                                MainDataStore.isBuildingReleased[i] = true;
+                                RealCityCommonBuildingAI.CustomReleaseBuilding((ushort)i);
+                            }
                         }
                     }
                 }
@@ -102,13 +115,14 @@ namespace RealCity
                         text += string.Format("\n\t{0}", current2);
                     }
                     DebugLog.LogToFileOnly(text);
+                    Debug.LogError(text);
                 }
             }
         }
 
         public void ProcessZeroWorker(ushort buildingID, ref Building data)
         {
-            if (ItemClass.GetPublicServiceIndex(data.Info.m_class.m_service) != -1 && !data.m_flags.IsFlagSet(Building.Flags.Deleted) && data.m_flags.IsFlagSet(Building.Flags.Created) && data.m_flags.IsFlagSet(Building.Flags.Completed))
+            if (ItemClass.GetPublicServiceIndex(data.Info.m_class.m_service) != -1  && data.m_flags.IsFlagSet(Building.Flags.Completed))
             {
                 int aliveWorkCount = 0;
                 int totalWorkCount = 0;
@@ -307,6 +321,7 @@ namespace RealCity
             {
                 if (RealCity.IsEnabled)
                 {
+                    //Process building
                     uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                     int num4 = (int)(currentFrameIndex & 255u);
                     int num5 = num4 * 192;
@@ -330,6 +345,7 @@ namespace RealCity
                     }
 
 
+                    //process citizen
                     int num7 = (int)(currentFrameIndex & 15u);
                     int num8 = num7 * 1024;
                     int num9 = (num7 + 1) * 1024 - 1;
@@ -346,53 +362,81 @@ namespace RealCity
                     CitizenManager instance2 = Singleton<CitizenManager>.instance;
                     for (int i = num11; i <= num12; i++)
                     {
-                        if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
+                        if (instance2.m_citizens.m_buffer[i].m_flags.IsFlagSet(Citizen.Flags.Created))
                         {
-                            if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                            if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
                             {
-                                if (!MainDataStore.isCitizenFirstMovingIn[i])
+                                if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                                 {
-                                    MainDataStore.isCitizenFirstMovingIn[i] = true;
-                                    if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
+                                    if (!MainDataStore.isCitizenFirstMovingIn[i])
                                     {
-                                        MainDataStore.citizenMoney[i] += 3000;
-                                    }
-                                    else if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
-                                    {
-                                        MainDataStore.citizenMoney[i] += 6000;
+                                        MainDataStore.isCitizenFirstMovingIn[i] = true;
+                                        if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
+                                        {
+                                            MainDataStore.citizenMoney[i] += 3000;
+                                        }
+                                        else if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
+                                        {
+                                            MainDataStore.citizenMoney[i] += 6000;
+                                        }
+                                        else
+                                        {
+                                            MainDataStore.citizenMoney[i] += 9000;
+                                        }
                                     }
                                     else
                                     {
-                                        MainDataStore.citizenMoney[i] += 9000;
+                                        if (MainDataStore.citizenMoney[i] < 0)
+                                        {
+                                            FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    if (MainDataStore.citizenMoney[i] < 0)
+                                    //change wealth
+                                    BuildingManager instance3 = Singleton<BuildingManager>.instance;
+                                    ushort homeBuilding = instance2.m_citizens.m_buffer[(int)((UIntPtr)i)].m_homeBuilding;
+                                    uint homeId = instance2.m_citizens.m_buffer[i].GetContainingUnit((uint)i, instance3.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                                    if (MainDataStore.family_money[homeId] > 20000)
                                     {
-                                        FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
+                                        instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.High;
+                                    }
+                                    else if (MainDataStore.family_money[homeId] < 5000)
+                                    {
+                                        instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Low;
+                                    }
+                                    else
+                                    {
+                                        instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Medium;
                                     }
                                 }
                             }
-                            else
-                            {
-                                //change wealth
-                                BuildingManager instance3 = Singleton<BuildingManager>.instance;
-                                ushort homeBuilding = instance2.m_citizens.m_buffer[(int)((UIntPtr)i)].m_homeBuilding;
-                                uint homeId = instance2.m_citizens.m_buffer[i].GetContainingUnit((uint)i, instance3.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                                if (MainDataStore.family_money[homeId] > 20000)
-                                {
-                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.High;
-                                } else if (MainDataStore.family_money[homeId] < 5000)
-                                {
-                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Low;
-                                } else
-                                {
-                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Medium;
-                                }
-                            }
+                        }
+                        else
+                        {
+                            RealCityCitizenManager.EXTReleaseCitizenImplementation((uint)i);
                         }
                     }
+
+
+                    //process citizenunit
+                    int num41 = (int)(Singleton<SimulationManager>.instance.m_currentFrameIndex & 4095u);
+                    int num51 = num41 * 128;
+                    int num61 = (num41 + 1) * 128 - 1;
+                    for (int i = num51; i<= num61; i++)
+                    {
+                        if ((ushort)(instance2.m_units.m_buffer[i].m_flags & CitizenUnit.Flags.Created) != 0)
+                        {
+                            
+                        }
+                        else
+                        {
+                            RealCityCitizenManager.EXTReleaseUnitCitizen((uint)i);
+                        }
+                    }
+
+
                 }
 
            }

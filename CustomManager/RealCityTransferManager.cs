@@ -1,8 +1,6 @@
 ﻿using System;
 using ColossalFramework;
 using System.Reflection;
-using FuelAlarm;
-using RealConstruction;
 
 namespace RealCity.CustomManager
 {
@@ -26,23 +24,7 @@ namespace RealCity.CustomManager
                 ushort vehicle2 = offerOut.Vehicle;
                 VehicleInfo info2 = vehicles2.m_buffer[(int)vehicle2].Info;
                 offerIn.Amount = delta;
-                // NON-STOCK CODE START
-                // RealGasStation Mod related
-                if (Loader.isFuelAlarmRunning)
-                {
-                    if (FuelAlarmThreading.IsGasBuilding(offerIn.Building))
-                    {
-                        Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
-                        ushort building = offerIn.Building;
-                        BuildingInfo info3 = buildings.m_buffer[(int)building].Info;
-                        FuelAlarm.CustomTransferManager.StartGasTransfer(vehicle2, ref vehicles2.m_buffer[(int)vehicle2], material, offerIn);
-                    }
-                }
-                else
-                {
-                    /// NON-STOCK CODE END ///
-                    info2.m_vehicleAI.StartTransfer(vehicle2, ref vehicles2.m_buffer[(int)vehicle2], material, offerIn);
-                }
+                info2.m_vehicleAI.StartTransfer(vehicle2, ref vehicles2.m_buffer[(int)vehicle2], material, offerIn);
             }
             else if (active && offerIn.Citizen != 0u)
             {
@@ -101,14 +83,7 @@ namespace RealCity.CustomManager
                 ushort building1 = offerIn.Building;
                 BuildingInfo info3 = buildings.m_buffer[(int)building].Info;
                 offerIn.Amount = delta;
-                if (RealCityEconomyExtension.IsSpecialBuilding(building) && Loader.isRealConstructionRunning)
-                {
-                    RealConstruction.CustomTransferManager.StartSpecialBuildingTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
-                }
-                else
-                {
-                    info3.m_buildingAI.StartTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
-                }
+                info3.m_buildingAI.StartTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
             }
             else if (active && offerIn.Building != 0)
             {

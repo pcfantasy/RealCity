@@ -113,15 +113,7 @@ namespace RealCity
 
             tip2_message_forgui = Language.TipAndChirperMessage[1];
 
-            if (!Loader.isFuelAlarmRunning && !Loader.isRealConstructionRunning)
-            {
-                tip3_message_forgui = Language.TipAndChirperMessage[2];
-                Loader.guiPanel.Show();
-            }
-            else
-            {
-                tip3_message_forgui = "";
-            }
+            tip3_message_forgui = "";
 
             tip4_message_forgui = "";
 
@@ -224,28 +216,12 @@ namespace RealCity
             updateOnce = true;
         }
 
-
-
-
-        public static bool IsSpecialBuilding(ushort id)
+        public static bool IsSpecialBuilding(ushort buildingID)
         {
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            if (Loader.isFuelAlarmRunning)
+            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.GetConstructionCost() == 508600 || Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.GetConstructionCost() == 208600)
             {
-                if (FuelAlarm.FuelAlarmThreading.IsGasBuilding(id))
-                {
-                    return true;
-                }
+                return true;
             }
-
-            if (Loader.isRealConstructionRunning)
-            {
-                if (RealConstruction.RealConstructionThreading.IsSpecialBuilding(id))
-                {
-                    return true;
-                }
-            }
-
             return false;
         }
 

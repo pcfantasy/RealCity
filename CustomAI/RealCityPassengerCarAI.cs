@@ -8,18 +8,17 @@ namespace RealCity.CustomAI
 {
     public class RealCityPassengerCarAI: PassengerCarAI
     {
+        public void PassengerCarAIArriveAtTargetForRealGasStationPre(ushort vehicleID, ref Vehicle data)
+        {
+            Util.DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ PassengerCarAIArriveAtTargetForRealGasStationPre");
+        }
+
         public bool CustomArriveAtDestination(ushort vehicleID, ref Vehicle vehicleData)
         {
-            if (vehicleData.m_transferType == 112 && Loader.isFuelAlarmRunning)
+            //RealGasStation Mod related
+            if (vehicleData.m_transferType == 112 && Loader.isRealGasStationRunning)
             {
-                //DebugLog.LogToFileOnly("vehicle arrive at to gas station for petrol now");
-                vehicleData.m_transferType = FuelAlarm.MainDataStore.preTranferReason[vehicleID];
-                if (FuelAlarm.MainDataStore.petrolBuffer[vehicleData.m_targetBuilding] > 400)
-                {
-                    FuelAlarm.MainDataStore.petrolBuffer[vehicleData.m_targetBuilding] -= 400;
-                }
-                SetTarget(vehicleID, ref vehicleData, FuelAlarm.MainDataStore.preTargetBuilding[vehicleID]);
-                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, 3000, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level1);
+                PassengerCarAIArriveAtTargetForRealGasStationPre(vehicleID, ref vehicleData);
                 return true;
             }
 
@@ -66,11 +65,7 @@ namespace RealCity.CustomAI
                 {
                     vehicleData.m_flags2 |= Vehicle.Flags2.EndStop;
                 }
-                //if (MainDataStore.vehical_flag[vehicle] == false && vehicleData.m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic))
-                //{
-                //    MainDataStore.vehical_flag[vehicle] = true;
-                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level1);
-                //}
+                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level1);
                 instance.m_buildings.m_buffer[(int)buildingID].m_customBuffer1 = (ushort)Mathf.Min((int)(instance.m_buildings.m_buffer[(int)buildingID].m_customBuffer1 + 1), 65535);
             }
         }
