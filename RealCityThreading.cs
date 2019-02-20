@@ -11,6 +11,7 @@ using RealCity.CustomAI;
 using RealCity.Util;
 using RealCity.UI;
 using RealCity.CustomManager;
+using ColossalFramework.UI;
 
 namespace RealCity
 {
@@ -115,7 +116,7 @@ namespace RealCity
                         text += string.Format("\n\t{0}", current2);
                     }
                     DebugLog.LogToFileOnly(text);
-                    Debug.LogError(text);
+                    UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage("Incompatibility Issue", text, true);
                 }
             }
         }
