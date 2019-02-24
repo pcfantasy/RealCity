@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace RealCity
 {
@@ -124,7 +125,7 @@ namespace RealCity
 
         public void CaculateCitizenTransportFee()
         {
-            ItemClass temp = new ItemClass();
+            ItemClass temp = ScriptableObject.CreateInstance<ItemClass>();
             long temp1 = 0L;
             long temp2 = 0L;
             MainDataStore.public_transport_fee = 0L;

@@ -337,7 +337,7 @@
             SaveAndRestore.save_floats(ref i, citizenMoney, ref saveData1);
 
             i = 0;
-            SaveAndRestore.save_bools(ref i, isCitizenFirstMovingIn, ref saveData1);
+            SaveAndRestore.save_bools(ref i, isCitizenFirstMovingIn, ref saveData2);
         }
 
         public static void load()
@@ -440,7 +440,7 @@
         public static void load2()
         {
             int i = 0;
-            isCitizenFirstMovingIn = SaveAndRestore.load_bools(ref i, saveData1, isCitizenFirstMovingIn.Length);
+            isCitizenFirstMovingIn = SaveAndRestore.load_bools(ref i, saveData2, isCitizenFirstMovingIn.Length);
             DebugLog.LogToFileOnly("saveData2 in MainDataStore is " + i.ToString());
         }
     }

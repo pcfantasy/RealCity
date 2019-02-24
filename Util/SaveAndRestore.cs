@@ -591,7 +591,7 @@ namespace RealCity.Util
                 {
                     RealCityPrivateBuildingAI.Load();
                 }
-                MainDataStore.saveData1 = SaveAndRestore._serializableData.LoadData("real_city citizen_money");
+                MainDataStore.saveData1 = SaveAndRestore._serializableData.LoadData("real_city citizenMoney");
                 if (MainDataStore.saveData1 == null)
                 {
                     DebugLog.LogToFileOnly("no comm_data save data1, please check");
