@@ -352,7 +352,7 @@ namespace RealCity.UI
 
                     //Policy
                     this.mThirdLinePolicy.text = Language.EconomicUI[29];
-                    this.minimumLivingAllowance.text = string.Format(Language.EconomicUI[30] + " [{0}]", MainDataStore.minimumLivingAllowanceFinal);
+                    this.minimumLivingAllowance.text = string.Format(Language.EconomicUI[30] + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));
 
                     this.tip1.text = string.Format(Language.EconomicUI[17] + "  " + RealCityEconomyExtension.tip1_message_forgui);
                     this.tip2.text = string.Format(Language.EconomicUI[18] + "  " + RealCityEconomyExtension.tip2_message_forgui);
