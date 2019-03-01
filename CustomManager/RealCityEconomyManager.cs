@@ -694,12 +694,7 @@ namespace RealCity.CustomManager
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
-                if (MainDataStore.gameExpenseDivide == 0)
-                {
-                    MainDataStore.gameExpenseDivide = 1;
-                }
                 Policy_cost += (float)amount / (float)MainDataStore.gameExpenseDivide;
-                //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString() + " " + amount.ToString());
                 if (Policy_cost > 1)
                 {
                     temp = (int)Policy_cost;
@@ -711,35 +706,6 @@ namespace RealCity.CustomManager
             }
                 return Singleton<EconomyManager>.instance.FetchResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
         }
-
-
-
-        //public int AddResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
-        //{
-        //int temp;
-        //if((resource == EconomyManager.Resource.CitizenIncome) && (itemClass.m_service == ItemClass.Service.Citizen))
-        //{
-        //    citizen_income += (float)amount / 16;
-        //    if (citizen_income > 1)
-        //    {
-        //        temp = (int)citizen_income;
-        //        citizen_income = citizen_income - (int)citizen_income;
-        //        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, (int)temp, ItemClass.Service.None, ItemClass.SubService.None, ItemClass.Level.None);
-        //        return Singleton<EconomyManager>.instance.AddResource(resource, (int)temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
-        //    }
-        //    return 0;
-        //}
-        //else if (resource == EconomyManager.Resource.CitizenIncome)
-        //{
-        //    return 0;
-        // }
-        //else if (resource == EconomyManager.Resource.TourismIncome)
-        //{
-        //    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, amount, ItemClass.Service.None, ItemClass.SubService.None, ItemClass.Level.None);
-        //    return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
-        //}
-        //return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
-        //}
 
         public int EXAddGovermentIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
@@ -774,7 +740,7 @@ namespace RealCity.CustomManager
                     break;
                 default:
                     amount = 0;
-                    DebugLog.LogToFileOnly("find unknown  EXAddGovermentIncome building" + " building servise is" + service + " building subservise is" + subService + " buildlevelandtax is" + level + " " + taxRate);
+                    DebugLog.LogToFileOnly("Error: Find unknown EXAddGovermentIncome building" + " service is" + service.ToString() + " subService is" + subService.ToString() + " Level is" + level.ToString() + " Tax is " + taxRate);
                     break;
             }
             return amount;

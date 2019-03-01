@@ -142,7 +142,7 @@ namespace RealCity
 
                 if (totalWorkCount == 0 && allWorkCount != 0)
                 {
-                    int num1 = (MainDataStore.govermentEducation3Salary / 16) * allWorkCount;
+                    float num1 = (MainDataStore.govermentEducation3Salary / 16) * allWorkCount * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID);
                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num1 * MainDataStore.gameExpenseDivide), data.Info.m_class);
                 }
             }
@@ -334,17 +334,12 @@ namespace RealCity
                     {
                         if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
                         {
-                            if (RealCityEconomyExtension.IsSpecialBuilding((ushort)i) == true)
-                            {
-                                MainDataStore.haveCityResourceDepartment = true;
-                            }
-                            else if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
+                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
                             {
                                 RealCityEconomyExtension.haveGarbageBuilding = true;
                             }
                         }
                     }
-
 
                     //process citizen
                     int num7 = (int)(currentFrameIndex & 15u);

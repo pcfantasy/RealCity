@@ -18,30 +18,17 @@ namespace RealCity
     {
         public static int fixEmptyCitizenCount = 0;
         public static int fixEmptyBuildingCount = 0;
-
         public static bool updateOnce = false;
         public static byte partyTrend = 0;
         public static ushort partyTrendStrength = 0;
-
         public static byte citizenStatus = 0;
         public static ushort industrialLackMoneyCount = 0;
         public static ushort industrialEarnMoneyCount = 0;
-
         public static ushort commericalLackMoneyCount = 0;
         public static ushort commericalEarnMoneyCount = 0;
-
         public static byte isStateOwnedCount = 0;
-
-        public static string tip1_message_forgui = "";
-        public static string tip2_message_forgui = "";
-        public static string tip3_message_forgui = "";
-        public static string tip4_message_forgui = "";
-        public static string tip5_message_forgui = "";
-        public static string tip6_message_forgui = "";
-
         public static bool haveGarbageBuilding = false;
         public static bool haveGarbageBuildingFinal = false;
-
 
         public override long OnUpdateMoneyAmount(long internalMoneyAmount)
         {
@@ -52,20 +39,8 @@ namespace RealCity
                 uint num2 = currentFrameIndex & 255u;
                 if ((num2 == 255u) && (MainDataStore.current_time != MainDataStore.prev_time))
                 {
-                    GenerateTips();
-                    //LandPrice will affect gameExpenseDivide
-                    MainDataStore.landPrice = Singleton<DistrictManager>.instance.m_districts.m_buffer[0].GetLandValue() / 10f;
-                    if (MainDataStore.landPrice < 1f)
-                    {
-                        MainDataStore.landPrice = 1f;
-                    } else if (MainDataStore.landPrice > 100f)
-                    {
-                        MainDataStore.landPrice = 100f;
-                    }
-                    MainDataStore.gameExpenseDivide = (int)((float)100 / MainDataStore.landPrice);
+                    //1 Building Status
                     BuildingStatus();
-
-                    //parliamentCount
                     if (MainDataStore.update_money_count == 16)
                     {
                         Politics.parliamentCount--;
@@ -73,17 +48,15 @@ namespace RealCity
                         {
                             Politics.parliamentCount = 40;
                         }
-                        //Caculate resettlement and LivingAllowance
-                        MainDataStore.resettlementFinal = MainDataStore.resettlement;
+                        //2. Caculate minimumLivingAllowance
                         MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
-                        MainDataStore.resettlement = 0;
                         MainDataStore.minimumLivingAllowance = 0;
                         if (MainDataStore.citizenCount > 0)
                         {
+                            //3. Citizen Status
                             CitizenStatus();
                         }
                     }
-
 
                     CaculateCitizenTransportFee();
                     MainDataStore.update_money_count++;
@@ -92,10 +65,9 @@ namespace RealCity
                         MainDataStore.update_money_count = 0;
                     }
                     RealCityEconomyManager.CleanCurrent(MainDataStore.update_money_count);
-
-
                     MainDataStore.prev_time = MainDataStore.current_time;
                 }
+
                 PoliticsUI.refeshOnce = true;
                 RealCityUI.refeshOnce = true;
                 EcnomicUI.refeshOnce = true;
@@ -103,24 +75,8 @@ namespace RealCity
                 BuildingUI.refeshOnce = true;
                 HumanUI.refeshOnce = true;
                 TouristUI.refeshOnce = true;
-                MainDataStore.is_updated = true;
             }
             return internalMoneyAmount;
-        }
-
-        public void GenerateTips()
-        {
-            tip1_message_forgui = Language.TipAndChirperMessage[0];
-
-            tip2_message_forgui = Language.TipAndChirperMessage[1];
-
-            tip3_message_forgui = "";
-
-            tip4_message_forgui = "";
-
-            tip5_message_forgui = "";
-
-            tip6_message_forgui = "";
         }
 
         public void CaculateCitizenTransportFee()
@@ -128,40 +84,40 @@ namespace RealCity
             ItemClass temp = ScriptableObject.CreateInstance<ItemClass>();
             long temp1 = 0L;
             long temp2 = 0L;
-            MainDataStore.public_transport_fee = 0L;
+            MainDataStore.publicTransportFee = 0L;
             temp.m_service = ItemClass.Service.PublicTransport;
             temp.m_subService = ItemClass.SubService.PublicTransportBus;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.bus_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
             temp.m_subService = ItemClass.SubService.PublicTransportTram;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.tram_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
             temp.m_subService = ItemClass.SubService.PublicTransportMetro;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.metro_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
             temp.m_subService = ItemClass.SubService.PublicTransportTrain;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.train_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
             temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.taxi_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
@@ -169,38 +125,36 @@ namespace RealCity
             temp.m_subService = ItemClass.SubService.PublicTransportPlane;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.plane_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
             temp.m_subService = ItemClass.SubService.PublicTransportShip;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.ship_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
             temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.monorail_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             temp1 = 0L;
             temp2 = 0L;
             temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out temp1);
             RealCityUI.cablecar_income = (double)temp2 / 100f;
-            MainDataStore.public_transport_fee = MainDataStore.public_transport_fee + temp2;
+            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
 
             //add vehicle transport_fee
-            MainDataStore.temp_total_citizen_vehical_time_last = MainDataStore.temp_total_citizen_vehical_time;
-            MainDataStore.temp_total_citizen_vehical_time = 0;
-
-            MainDataStore.all_transport_fee = MainDataStore.public_transport_fee + MainDataStore.temp_total_citizen_vehical_time_last;
-
+            MainDataStore.totalCitizenDrivingTimeFinal = MainDataStore.totalCitizenDrivingTime;
+            MainDataStore.totalCitizenDrivingTime = 0;
+            MainDataStore.allTransportFee = MainDataStore.publicTransportFee + MainDataStore.totalCitizenDrivingTimeFinal;
             if (MainDataStore.familyCount > 0)
             {
-                MainDataStore.citizen_average_transport_fee = (byte)(MainDataStore.all_transport_fee / MainDataStore.familyCount);
+                MainDataStore.citizenAverageTransportFee = (byte)(MainDataStore.allTransportFee / MainDataStore.familyCount);
             }
         }
 
@@ -210,10 +164,7 @@ namespace RealCity
             BuildingManager instance = Singleton<BuildingManager>.instance;
             updateOnce = false;
             haveGarbageBuildingFinal = haveGarbageBuilding;
-            MainDataStore.haveCityResourceDepartmentFinal = MainDataStore.haveCityResourceDepartment;
             haveGarbageBuilding = false;
-            MainDataStore.haveCityResourceDepartment = false;
-
             updateOnce = true;
         }
 
@@ -510,9 +461,7 @@ namespace RealCity
             }
 
             //citizenOffset
-
             citizenOffset = 0;
-
             int temp = 0;
             if (MainDataStore.familyCount > 0)
             {
@@ -563,14 +512,10 @@ namespace RealCity
                 }
             }
 
-
-            ///DebugLog.LogToFileOnly("commBuildingOffset = " + commBuildingOffset.ToString());
-            ////DebugLog.LogToFileOnly("buildingOffset = " + buildingOffset.ToString());
             industrialEarnMoneyCount = 0;
             industrialLackMoneyCount = 0;
             commericalEarnMoneyCount = 0;
             commericalLackMoneyCount = 0;
-
         }
 
         public void VoteResult(int idex)
@@ -589,11 +534,7 @@ namespace RealCity
             int temp4 = 0; // citizen offset
             int temp5 = 0; //building offset
             int temp6 = 0; //commbuilding offset
-
             VoteOffset(ref idex, ref temp3, ref temp4, ref temp5, ref temp6);
-
-
-
 
             if (temp == 99)
             {
@@ -787,30 +728,25 @@ namespace RealCity
                         break;
                 }
 
-
                 if (yes < 0)
                 {
                     yes = 0;
                 }
-
                 if (no < 0)
                 {
                     no = 0;
                 }
-
                 if (noAttend < 0)
                 {
                     noAttend = 0;
                 }
 
                 int temp1 = yes + no + noAttend;
-
-
                 yes = (int)((yes * 99) / temp1);
                 no = (int)((no * 99) / temp1);
                 noAttend = (int)((noAttend * 99) / temp1);
-
                 temp1 = yes + no + noAttend;
+
                 if (temp1 < 99)
                 {
                     System.Random rand = new System.Random();
@@ -859,7 +795,6 @@ namespace RealCity
                             Politics.garbageCount++; break;
                         case 9:
                             Politics.garbageCount--; break;
-
                     }
                 }
             }

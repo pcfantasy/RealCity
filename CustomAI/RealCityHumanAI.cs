@@ -44,6 +44,7 @@ namespace RealCity.CustomAI
                     }
                     else
                     {
+                        MainDataStore.citizenMoney[citizenData.m_citizen] -= ticketPrice;
                         //Negetive price to help identify tourist and resident.
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -ticketPrice , info.m_class);
                     }

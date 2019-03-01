@@ -10,7 +10,7 @@ namespace RealCity.CustomAI
     {
         public void PassengerCarAIArriveAtTargetForRealGasStationPre(ushort vehicleID, ref Vehicle data)
         {
-            Util.DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ PassengerCarAIArriveAtTargetForRealGasStationPre");
+            DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ PassengerCarAIArriveAtTargetForRealGasStationPre");
         }
 
         public bool CustomArriveAtDestination(ushort vehicleID, ref Vehicle vehicleData)
@@ -31,18 +31,12 @@ namespace RealCity.CustomAI
             MainDataStore.isVehicleCharged[vehicleID] = false;
             var inst = Singleton<PassengerCarAI>.instance;
             var Method = typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance , null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType()}, null);
-            //if(Method == null)
-            //{
-            //    DebugLog.LogToFileOnly("call PassengerCarAI.ArriveAtTarget failed, please check");
-            //    return false;
-            //}
             Vehicle A = vehicleData;
             ushort B = vehicleID;
             object[] parameters = new object[] { B,A };
             bool return_value = (bool)Method.Invoke(inst, parameters);
             vehicleData = (Vehicle)parameters[1];
             return return_value;
-            //return false;
         }
 
         public override void EnterTollRoad(ushort vehicle, ref Vehicle vehicleData, ushort buildingID, ushort segmentID, int basePrice)
@@ -70,6 +64,35 @@ namespace RealCity.CustomAI
             }
         }
 
+        private ushort GetDriverInstance(ushort vehicleID, ref Vehicle data)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = data.m_citizenUnits;
+            int num2 = 0;
+            while (num != 0u)
+            {
+                uint nextUnit = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                for (int i = 0; i < 5; i++)
+                {
+                    uint citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizen(i);
+                    if (citizen != 0u)
+                    {
+                        ushort instance2 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
+                        if (instance2 != 0)
+                        {
+                            return instance2;
+                        }
+                    }
+                }
+                num = nextUnit;
+                if (++num2 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+            return 0;
+        }
 
         public void GetVehicleRunningTiming(ushort vehicleID, ref Vehicle vehicleData)
         {
@@ -78,61 +101,21 @@ namespace RealCity.CustomAI
                 DebugLog.LogToFileOnly("Error: vehicle ID greater than 16384");
             }
             
-            CitizenManager instance2 = Singleton<CitizenManager>.instance;
+            CitizenManager citizenMan = Singleton<CitizenManager>.instance;
+            ushort instanceID = GetDriverInstance(vehicleID, ref vehicleData);
 
-            bool is_dummy = false;
-            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
+            if (instanceID != 0)
             {
-                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
-            }
-            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
-            {
-                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
-            }
-            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
-            {
-                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
-            }
-            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
-            {
-                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
-            }
-            if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
-            {
-                is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
-            }
-
-            if (is_dummy)
-            {
-                //DebugLog.LogToFileOnly("feedthough traffic");
-            }
-            else
-            {
-                //DebugLog.LogToFileOnly(vehicleData.m_transferType.ToString() + vehicleData.m_sourceBuilding.ToString() + vehicleData.m_targetBuilding.ToString());
-                //DebugLog.LogToFileOnly("finding a car, time " + comm_data.vehical_transfer_time[vehicleID].ToString());
-                MainDataStore.temp_total_citizen_vehical_time = MainDataStore.temp_total_citizen_vehical_time + MainDataStore.vehicleTransferTime[vehicleID];
-                if (vehicleData.m_citizenUnits != 0)
+                uint citizenID = citizenMan.m_instances.m_buffer[instanceID].m_citizen;
+                if (citizenID != 0)
                 {
-                    //MainDataStore.family_money[vehicleData.m_citizenUnits] = (float)(MainDataStore.family_money[vehicleData.m_citizenUnits] - MainDataStore.vehical_transfer_time[vehicleID]);
-                    if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0 != 0)
+                    if (!(citizenMan.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.DummyTraffic)))
                     {
-                        MainDataStore.citizenMoney[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen0] -= MainDataStore.vehicleTransferTime[vehicleID];
-                    }
-                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1 != 0)
-                    {
-                        MainDataStore.citizenMoney[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen1] -= MainDataStore.vehicleTransferTime[vehicleID];
-                    }
-                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2 != 0)
-                    {
-                        MainDataStore.citizenMoney[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen2] -= MainDataStore.vehicleTransferTime[vehicleID];
-                    }
-                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3 != 0)
-                    {
-                        MainDataStore.citizenMoney[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen3] -= MainDataStore.vehicleTransferTime[vehicleID];
-                    }
-                    else if (instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4 != 0)
-                    {
-                        MainDataStore.citizenMoney[instance2.m_units.m_buffer[vehicleData.m_citizenUnits].m_citizen4] -= MainDataStore.vehicleTransferTime[vehicleID];
+                        MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + MainDataStore.vehicleTransferTime[vehicleID];
+                        if (vehicleData.m_citizenUnits != 0)
+                        {
+                            MainDataStore.citizenMoney[citizenID] -= MainDataStore.vehicleTransferTime[vehicleID];
+                        } 
                     }
                 }
             }

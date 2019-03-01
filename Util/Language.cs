@@ -65,7 +65,7 @@ namespace RealCity.Util
             "Car used",
             "Maintain Fee displayed on UI does not include vehicle expanse",
             "Local Worker/ Total Worker:",
-            "Tourist Money(for transport)"
+            "Tourist Money"
         };
 
 
@@ -267,7 +267,7 @@ namespace RealCity.Util
             "使用中的车辆",
             "UI显示的维护费没包括车辆使用费用",
             "本地工人/全体工人:",
-            "游客身上可用于交通的钱"
+            "游客身上的钱"
         };
 
     public static string[] OptionUI_Chinese =

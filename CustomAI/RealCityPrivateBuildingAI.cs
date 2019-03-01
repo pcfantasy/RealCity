@@ -455,12 +455,9 @@ namespace RealCity.CustomAI
                 allOfficeLevel3BuildingCountFinal = allOfficeLevel3BuildingCount;
                 greaterThan20000ProfitBuildingCountFinal = greaterThan20000ProfitBuildingCount;
                 greaterThan20000ProfitBuildingMoneyFinal = greaterThan20000ProfitBuildingMoney;
-                MainDataStore.Extractor_building_final = MainDataStore.Extractor_building;
                 allBuildingsFinal = allBuildings;
-
                 greaterThan20000ProfitBuildingMoney = 0;
                 greaterThan20000ProfitBuildingCount = 0;
-                MainDataStore.Extractor_building = 0;
                 allOfficeLevel1BuildingCount = 0;
                 allOfficeLevel2BuildingCount = 0;
                 allOfficeLevel3BuildingCount = 0;

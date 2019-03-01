@@ -109,34 +109,34 @@ namespace RealCity.UI
 
         public int CaculateFamilySalary(uint homeid)
         {
-            float num = 0f;
+            int totalSalary = 0;
 
-            uint temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen0;
-            if (temp != 0)
+            uint citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen0;
+            if (citizenID != 0)
             {
-                num += RealCityResidentAI.CitizenSalary(temp, true);
+                totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
             }
-            temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen1;
-            if (temp != 0)
+            citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen1;
+            if (citizenID != 0)
             {
-                num += RealCityResidentAI.CitizenSalary(temp, true);
+                totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
             }
-            temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen2;
-            if (temp != 0)
+            citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen2;
+            if (citizenID != 0)
             {
-                num += RealCityResidentAI.CitizenSalary(temp, true);
+                totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
             }
-            temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen3;
-            if (temp != 0)
+            citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen3;
+            if (citizenID != 0)
             {
-                num += RealCityResidentAI.CitizenSalary(temp, true);
+                totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
             }
-            temp = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen4;
-            if (temp != 0)
+            citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen4;
+            if (citizenID != 0)
             {
-                num += RealCityResidentAI.CitizenSalary(temp, true);
+                totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
             }
-            return (int)num;
+            return totalSalary;
         }
     }
 }

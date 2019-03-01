@@ -34,68 +34,33 @@ namespace RealCity.UI
 
         private UILabel m_title;
 
-        //1 citizen total 12 element
-        //second line  citizen status
+        //1 Citizen
         private UILabel m_firstline_citizen;
         //1.1 citizen income
-        //public static int citizen_count = 0;
-        //public static int family_count = 0;
-        //public static int citizen_salary_per_family = 0;
-        //public static long citizen_salary_total = 0;
-        //public static long citizen_salary_tax_total = 0;
         private UILabel citizen_count;
         private UILabel family_count;
         private UILabel citizen_salary_per_family;
-
-
-        //private UILabel citizen_salary_total;
         private UILabel citizen_salary_tax_per_family;
-
-
         //1.2 citizen expense
-        //1.2.1 citizen expense
-        //public static long citizen_expense_per_family = 0;
-        //public static long citizen_expense = 0;
         private UILabel citizen_expense_per_family;
-        //private UILabel citizen_expense;
-
-        //1.2.2 transport fee
-        //public static uint total_citizen_vehical_time = 0;
-        //public static long public_transport_fee = 0;
-        //public static long all_transport_fee = 0;
-        //public static byte citizen_average_transport_fee = 0;
-        //private UILabel total_citizen_vehical_time;
-        //private UILabel public_transport_fee;
         private UILabel citizen_average_transport_fee;
-
         //1.3 income - expense
-        //public static int family_profit_money_num = 0;
-        //public static int family_loss_money_num = 0;
         private UILabel family_profit_money_num;
         private UILabel family_loss_money_num;
         private UILabel family_very_profit_num;
         private UILabel family_weight_stable_high;
         private UILabel family_weight_stable_low;
-
         private UILabel family_weight_stable_medium;
-
-        //private UILabel city_insurance_account;
-
-        //2 building   27 element
-        private UILabel m_secondline_building; //fixed title
+        //2 Building
+        private UILabel m_secondline_building;
         private UILabel profitBuildingCount;
         private UILabel externalInvestments;
-
-        //3 policy   27 element
-        private UILabel mThirdLinePolicy; //fixed title
+        //3 Policy
+        private UILabel mThirdLinePolicy;
         private UILabel minimumLivingAllowance;
-
+        //4 Tips
         private UILabel tip1;
         private UILabel tip2;
-        //private UILabel tip3;
-        //private UILabel tip4;
-        //private UILabel tip5;
-        //private UILabel tip6;
         private UILabel tip7;
         private UILabel tip8;
         private UILabel tip9;
@@ -261,53 +226,34 @@ namespace RealCity.UI
             this.tip2.relativePosition = new Vector3(SPACING, this.tip1.relativePosition.y + SPACING22);
             this.tip2.autoSize = true;
 
-            //this.tip3 = base.AddUIComponent<UILabel>();
-            //this.tip3.text = Language.EconomicUI[19];
-            //this.tip3.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
-            //this.tip3.autoSize = true;
-
-            /*this.tip4 = base.AddUIComponent<UILabel>();
-            this.tip4.text = Language.EconomicUI[20];
-            this.tip4.relativePosition = new Vector3(SPACING, this.tip3.relativePosition.y + SPACING22);
-            this.tip4.autoSize = true;
-
-            this.tip5 = base.AddUIComponent<UILabel>();
-            this.tip5.text = Language.EconomicUI[21];
-            this.tip5.relativePosition = new Vector3(SPACING, this.tip4.relativePosition.y + SPACING22);
-            this.tip5.autoSize = true;
-
-            this.tip6 = base.AddUIComponent<UILabel>();
-            this.tip6.text = Language.EconomicUI[22];
-            this.tip6.relativePosition = new Vector3(SPACING, this.tip5.relativePosition.y + SPACING22);
-            this.tip6.autoSize = true;*/
-
+            //tip3-tip6 is removed
             this.tip7 = base.AddUIComponent<UILabel>();
-            this.tip7.text = Language.EconomicUI[20];
+            this.tip7.text = Language.EconomicUI[19];
             this.tip7.relativePosition = new Vector3(SPACING, this.tip2.relativePosition.y + SPACING22);
             this.tip7.autoSize = true;
 
             this.tip8 = base.AddUIComponent<UILabel>();
-            this.tip8.text = Language.EconomicUI[21];
+            this.tip8.text = Language.EconomicUI[20];
             this.tip8.relativePosition = new Vector3(SPACING, this.tip7.relativePosition.y + SPACING22);
             this.tip8.autoSize = true;
 
             this.tip9 = base.AddUIComponent<UILabel>();
-            this.tip9.text = Language.EconomicUI[22];
+            this.tip9.text = Language.EconomicUI[21];
             this.tip9.relativePosition = new Vector3(SPACING, this.tip8.relativePosition.y + SPACING22);
             this.tip9.autoSize = true;
 
             this.tip10 = base.AddUIComponent<UILabel>();
-            this.tip10.text = Language.EconomicUI[23];
+            this.tip10.text = Language.EconomicUI[22];
             this.tip10.relativePosition = new Vector3(SPACING, this.tip9.relativePosition.y + SPACING22);
             this.tip10.autoSize = true;
 
             this.tip11 = base.AddUIComponent<UILabel>();
-            this.tip11.text = Language.EconomicUI[24];
+            this.tip11.text = Language.EconomicUI[23];
             this.tip11.relativePosition = new Vector3(SPACING, this.tip10.relativePosition.y + SPACING22);
             this.tip11.autoSize = true;
 
             this.tip12 = base.AddUIComponent<UILabel>();
-            this.tip12.text = Language.EconomicUI[25];
+            this.tip12.text = Language.EconomicUI[24];
             this.tip12.relativePosition = new Vector3(SPACING, this.tip11.relativePosition.y + SPACING22);
             this.tip12.autoSize = true;
         }
@@ -334,10 +280,8 @@ namespace RealCity.UI
                         this.citizen_salary_tax_per_family.text = string.Format(Language.EconomicUI[5] + " [{0}]", MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount);
                     }
                     this.citizen_expense_per_family.text = string.Format(Language.EconomicUI[6] + " [{0}]", MainDataStore.citizenExpensePerFamily);
-                    this.citizen_average_transport_fee.text = string.Format(Language.EconomicUI[7] + " [{0}]", MainDataStore.citizen_average_transport_fee);
+                    this.citizen_average_transport_fee.text = string.Format(Language.EconomicUI[7] + " [{0}]", MainDataStore.citizenAverageTransportFee);
 
-                    //this.public_transport_fee.text = string.Format(language.EconomicUI[16] + " [{0}]", comm_data.public_transport_fee * comm_data.game_income_expense_multiple);
-                    //this.total_citizen_vehical_time.text = string.Format(language.EconomicUI[18] + " [{0}]", comm_data.temp_total_citizen_vehical_time_last);
                     this.family_very_profit_num.text = string.Format(Language.EconomicUI[8] + " [{0}]", MainDataStore.family_very_profit_money_num);
                     this.family_profit_money_num.text = string.Format(Language.EconomicUI[9] + " [{0}]", MainDataStore.family_profit_money_num);
                     this.family_loss_money_num.text = string.Format(Language.EconomicUI[10] + " [{0}]", MainDataStore.family_loss_money_num);
@@ -354,19 +298,14 @@ namespace RealCity.UI
                     this.mThirdLinePolicy.text = Language.EconomicUI[29];
                     this.minimumLivingAllowance.text = string.Format(Language.EconomicUI[30] + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));
 
-                    this.tip1.text = string.Format(Language.EconomicUI[17] + "  " + RealCityEconomyExtension.tip1_message_forgui);
-                    this.tip2.text = string.Format(Language.EconomicUI[18] + "  " + RealCityEconomyExtension.tip2_message_forgui);
-                    //this.tip3.text = string.Format(Language.EconomicUI[19] + "  " + RealCityEconomyExtension.tip3_message_forgui);
-                    //this.tip4.text = string.Format(Language.EconomicUI[20] + "  " + RealCityEconomyExtension.tip4_message_forgui);
-                    //this.tip5.text = string.Format(Language.EconomicUI[21] + "  " + RealCityEconomyExtension.tip5_message_forgui);
-                    //this.tip6.text = string.Format(Language.EconomicUI[22] + "  " + RealCityEconomyExtension.tip6_message_forgui);
-
-                    this.tip7.text = string.Format(Language.EconomicUI[20] + "  " + Language.TipAndChirperMessage[6]);
-                    this.tip8.text = string.Format(Language.EconomicUI[21] + "  " + Language.TipAndChirperMessage[7]);
-                    this.tip9.text = string.Format(Language.EconomicUI[22] + "  " + Language.TipAndChirperMessage[8]);
-                    this.tip10.text = string.Format(Language.EconomicUI[23] + "  " + Language.TipAndChirperMessage[9]);
-                    this.tip11.text = string.Format(Language.EconomicUI[24] + "  " + Language.TipAndChirperMessage[10]);
-                    this.tip12.text = string.Format(Language.EconomicUI[25] + "  " + Language.TipAndChirperMessage[11]);
+                    this.tip1.text = string.Format(Language.EconomicUI[17] + "  " + Language.TipAndChirperMessage[0]);
+                    this.tip2.text = string.Format(Language.EconomicUI[18] + "  " + Language.TipAndChirperMessage[1]);
+                    this.tip7.text = string.Format(Language.EconomicUI[19] + "  " + Language.TipAndChirperMessage[6]);
+                    this.tip8.text = string.Format(Language.EconomicUI[20] + "  " + Language.TipAndChirperMessage[7]);
+                    this.tip9.text = string.Format(Language.EconomicUI[21] + "  " + Language.TipAndChirperMessage[8]);
+                    this.tip10.text = string.Format(Language.EconomicUI[22] + "  " + Language.TipAndChirperMessage[9]);
+                    this.tip11.text = string.Format(Language.EconomicUI[23] + "  " + Language.TipAndChirperMessage[10]);
+                    this.tip12.text = string.Format(Language.EconomicUI[24] + "  " + Language.TipAndChirperMessage[11]);
 
                     refeshOnce = false;
                 }

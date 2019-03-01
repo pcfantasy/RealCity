@@ -60,7 +60,7 @@ namespace RealCity.CustomAI
 
             if ((aliveWorkerCount == 0) && (allWorkCount!=0))
             {
-                num1 = MainDataStore.govermentEducation3Salary * allWorkCount;
+                num1 = MainDataStore.govermentEducation3Salary * allWorkCount * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID);
             }
 
             float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1f;
@@ -68,10 +68,8 @@ namespace RealCity.CustomAI
             {
                 if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) != true)
                 {
-                    //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
                     allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
                 }
-                //DebugLog.LogToFileOnly("error, find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
                 idex = 1f;
             }
             return num1 * idex / 16f;

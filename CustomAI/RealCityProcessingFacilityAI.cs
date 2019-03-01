@@ -88,7 +88,7 @@ namespace RealCity.CustomAI
 
             if ((aliveWorkerCount == 0) && (allWorkCount != 0))
             {
-                num1 = MainDataStore.govermentEducation3Salary * allWorkCount;
+                num1 = MainDataStore.govermentEducation3Salary * allWorkCount * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID);
             }
 
             float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1;
