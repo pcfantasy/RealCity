@@ -54,7 +54,10 @@ namespace RealCity
                         if (MainDataStore.citizenCount > 0)
                         {
                             //3. Citizen Status
+#if FASTRUN
+#else
                             CitizenStatus();
+#endif
                         }
                     }
 
@@ -168,15 +171,6 @@ namespace RealCity
             updateOnce = true;
         }
 
-        public static bool IsSpecialBuilding(ushort buildingID)
-        {
-            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.GetConstructionCost() == 508600 || Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.GetConstructionCost() == 208600)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public void CitizenStatus()
         {
             System.Random rand = new System.Random();
@@ -185,14 +179,11 @@ namespace RealCity
 
             if (Politics.parliamentCount == 0)
             {
-                GetSeats(false);
-                GetSeats(true);
+                GetSeats();
                 CreateGoverment();
             }
             else
             {
-                GetSeats(true);
-                CreateGoverment();
                 HoldMeeting();
             }
         }
@@ -311,7 +302,6 @@ namespace RealCity
             }
         }
 
-
         public void VoteOffset(ref int idex, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset)
         {
             //MoneyOffset;
@@ -333,7 +323,8 @@ namespace RealCity
                             if (Politics.residentTax < 20)
                             {
                                 idex = 0;
-                            }else if (Politics.benefitOffset > 0)
+                            }
+                            else if (Politics.benefitOffset > 0)
                             {
                                 idex = 3;
                             }
@@ -344,7 +335,8 @@ namespace RealCity
                             else if (Politics.garbageCount < 10)
                             {
                                 idex = 8;
-                            } else if (Politics.commericalTax < 20)
+                            }
+                            else if (Politics.commericalTax < 20)
                             {
                                 idex = 4;
                             }
@@ -368,7 +360,7 @@ namespace RealCity
                             {
                                 idex = 4;
                             }
-                            else if(Politics.residentTax < 20)
+                            else if (Politics.residentTax < 20)
                             {
                                 idex = 0;
                             }
@@ -379,7 +371,8 @@ namespace RealCity
                             if (Politics.commericalTax < 20)
                             {
                                 idex = 4;
-                            } else if (Politics.benefitOffset > 0)
+                            }
+                            else if (Politics.benefitOffset > 0)
                             {
                                 idex = 3;
                             }
@@ -418,7 +411,8 @@ namespace RealCity
                             else if (Politics.benefitOffset > 0)
                             {
                                 idex = 3;
-                            } else if (Politics.residentTax < 20)
+                            }
+                            else if (Politics.residentTax < 20)
                             {
                                 idex = 0;
                             }
@@ -525,7 +519,7 @@ namespace RealCity
             int no = 0;
             int noAttend = 0;
             int residentTax = 10 - (int)(Politics.residentTax);
-            int benefitOffset = 10 - (int)(Politics.benefitOffset*2);
+            int benefitOffset = 10 - (int)(Politics.benefitOffset * 2);
             int commericalTax = 10 - (int)(Politics.commericalTax);
             int industryTax = 10 - (int)(Politics.industryTax);
             int garbageCount = 10 - (int)(Politics.garbageCount * 2);
@@ -905,82 +899,48 @@ namespace RealCity
             }
         }
 
-        public void GetSeats(bool isPolls)
+        public void GetSeats()
         {
-            if (!isPolls)
+            int temp = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
+            if (temp != 0)
             {
-                int temp = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
-                if (temp != 0)
-                {
-                    Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / temp);
-                    Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / temp);
-                    Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / temp);
-                    Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / temp);
-                    Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / temp);
-                }
-                else
-                {
-                    Politics.cPartySeats = 0;
-                    Politics.gPartySeats = 0;
-                    Politics.sPartySeats = 0;
-                    Politics.lPartySeats = 0;
-                    Politics.nPartySeats = 0;
-                }
-                Politics.cPartyTickets = 0;
-                Politics.gPartyTickets = 0;
-                Politics.sPartyTickets = 0;
-                Politics.lPartyTickets = 0;
-                Politics.nPartyTickets = 0;
-
-                temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-                if (temp < 99)
-                {
-                    System.Random rand = new System.Random();
-                    switch (rand.Next(5))
-                    {
-                        case 0:
-                            Politics.cPartySeats += (ushort)(99 - temp); break;
-                        case 1:
-                            Politics.gPartySeats += (ushort)(99 - temp); break;
-                        case 2:
-                            Politics.sPartySeats += (ushort)(99 - temp); break;
-                        case 3:
-                            Politics.lPartySeats += (ushort)(99 - temp); break;
-                        case 4:
-                            Politics.nPartySeats += (ushort)(99 - temp); break;
-                    }
-                }
+                Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / temp);
+                Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / temp);
+                Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / temp);
+                Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / temp);
+                Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / temp);
             }
             else
             {
-                float temp = Politics.cPartySeatsPolls + Politics.gPartySeatsPolls + Politics.sPartySeatsPolls + Politics.lPartySeatsPolls + Politics.nPartySeatsPolls;
-                if (temp != 0)
-                {
-                    Politics.cPartySeatsPollsFinal = (float)(100 * Politics.cPartySeatsPolls / temp);
-                    Politics.gPartySeatsPollsFinal = (float)(100 * Politics.gPartySeatsPolls / temp);
-                    Politics.sPartySeatsPollsFinal = (float)(100 * Politics.sPartySeatsPolls / temp);
-                    Politics.lPartySeatsPollsFinal = (float)(100 * Politics.lPartySeatsPolls / temp);
-                    Politics.nPartySeatsPollsFinal = (float)(100 * Politics.nPartySeatsPolls / temp);
-                }
-                else
-                {
-                    Politics.cPartySeatsPollsFinal = 0;
-                    Politics.gPartySeatsPollsFinal = 0;
-                    Politics.sPartySeatsPollsFinal = 0;
-                    Politics.lPartySeatsPollsFinal = 0;
-                    Politics.nPartySeatsPollsFinal = 0;
-                }
+                Politics.cPartySeats = 0;
+                Politics.gPartySeats = 0;
+                Politics.sPartySeats = 0;
+                Politics.lPartySeats = 0;
+                Politics.nPartySeats = 0;
+            }
+            Politics.cPartyTickets = 0;
+            Politics.gPartyTickets = 0;
+            Politics.sPartyTickets = 0;
+            Politics.lPartyTickets = 0;
+            Politics.nPartyTickets = 0;
 
-                Politics.cPartyTickets = 0;
-                Politics.gPartyTickets = 0;
-                Politics.sPartyTickets = 0;
-                Politics.lPartyTickets = 0;
-                Politics.nPartyTickets = 0;
-                Politics.cPartySeatsPolls = 0f;
-                Politics.gPartySeatsPolls = 0f;
-                Politics.sPartySeatsPolls = 0f;
-                Politics.lPartySeatsPolls = 0f;
-                Politics.nPartySeatsPolls = 0f;
+            temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+            if (temp < 99)
+            {
+                System.Random rand = new System.Random();
+                switch (rand.Next(5))
+                {
+                    case 0:
+                        Politics.cPartySeats += (ushort)(99 - temp); break;
+                    case 1:
+                        Politics.gPartySeats += (ushort)(99 - temp); break;
+                    case 2:
+                        Politics.sPartySeats += (ushort)(99 - temp); break;
+                    case 3:
+                        Politics.lPartySeats += (ushort)(99 - temp); break;
+                    case 4:
+                        Politics.nPartySeats += (ushort)(99 - temp); break;
+                }
             }
         }
     }

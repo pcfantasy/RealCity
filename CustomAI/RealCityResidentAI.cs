@@ -327,14 +327,7 @@ namespace RealCity.CustomAI
                         //Update to see if there is building workplace change.
                         //If a building have 10 workers and have 100 workplacecount, we assume that the other 90 vitual workers are from outside
                         //Which will give addition cost
-                        if (rand.Next(100) == 0)
-                        {
-                            allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, true);
-                        }
-                        else
-                        {
-                            allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
-                        }
+                        allWorkCount = TotalWorkCount((ushort)workBuilding, buildingData, false, false);
                         if (totalWorkCount > allWorkCount)
                         {
                             Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
@@ -366,6 +359,9 @@ namespace RealCity.CustomAI
         {
             int totalWorkCount = 0;
             //For performance
+#if FASTRUN
+            update = false;
+#endif
             if (MainDataStore.isBuildingWorkerUpdated[buildingID] && !update)
             {
                 totalWorkCount = MainDataStore.building_buffer1[buildingID];
@@ -615,7 +611,10 @@ namespace RealCity.CustomAI
                     if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                     {
                         temp++;
+#if FASTRUN
+#else
                         GetVoteChance(data.m_citizen0, citizenData, homeID);
+#endif
                     }
                 }
                 if (data.m_citizen1 != 0)
@@ -623,7 +622,10 @@ namespace RealCity.CustomAI
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen1];
                     if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                     {
+#if FASTRUN
+#else
                         GetVoteChance(data.m_citizen1, citizenData, homeID);
+#endif
                         temp++;
                     }
                 }
@@ -632,7 +634,10 @@ namespace RealCity.CustomAI
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen2];
                     if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                     {
+#if FASTRUN
+#else
                         GetVoteChance(data.m_citizen2, citizenData, homeID);
+#endif
                         temp++;
                     }
                 }
@@ -641,7 +646,10 @@ namespace RealCity.CustomAI
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen3];
                     if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                     {
+#if FASTRUN
+#else
                         GetVoteChance(data.m_citizen3, citizenData, homeID);
+#endif
                         temp++;
                     }
                 }
@@ -650,7 +658,10 @@ namespace RealCity.CustomAI
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen4];
                     if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                     {
+#if FASTRUN
+#else
                         GetVoteChance(data.m_citizen4, citizenData, homeID);
+#endif
                         temp++;
                     }
                 }
@@ -1172,20 +1183,13 @@ namespace RealCity.CustomAI
             {
                 Politics.nPartyTickets++;
             }
-
-            Politics.cPartySeatsPolls += ((float)Politics.cPartyChance / (800f + RealCityEconomyExtension.partyTrendStrength));
-            Politics.gPartySeatsPolls += ((float)Politics.gPartyChance / (800f + RealCityEconomyExtension.partyTrendStrength));
-            Politics.sPartySeatsPolls += ((float)Politics.sPartyChance / (800f + RealCityEconomyExtension.partyTrendStrength));
-            Politics.lPartySeatsPolls += ((float)Politics.lPartyChance / (800f + RealCityEconomyExtension.partyTrendStrength));
-            Politics.nPartySeatsPolls += ((float)Politics.nPartyChance / (800f + RealCityEconomyExtension.partyTrendStrength));
         }
 
         public void GetVoteChance(uint citizenID, Citizen citizen, uint homeID)
         {
             if ((int)Citizen.GetAgeGroup(citizen.m_age) >= 2)
             {
-                System.Random rand = new System.Random();
-                if (((Politics.parliamentCount != 1) && (rand.Next(10) == 0)) || (Politics.parliamentCount == 1))
+                if (Politics.parliamentCount == 1)
                 {
                     Politics.cPartyChance = 0;
                     Politics.gPartyChance = 0;

@@ -66,10 +66,7 @@ namespace RealCity.CustomAI
             float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1f;
             if (totalWorkerCount > allWorkCount)
             {
-                if (RealCityEconomyExtension.IsSpecialBuilding(buildingID) != true)
-                {
-                    allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
-                }
+                allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
                 idex = 1f;
             }
             return num1 * idex / 16f;

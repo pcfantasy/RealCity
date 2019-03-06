@@ -178,17 +178,17 @@ namespace RealCity.Util
         public static ushort lPartySeats = 0;
         public static ushort nPartySeats = 0;
 
-        public static float cPartySeatsPolls = 0;
-        public static float gPartySeatsPolls = 0;
-        public static float sPartySeatsPolls = 0;
-        public static float lPartySeatsPolls = 0;
-        public static float nPartySeatsPolls = 0;
+        public static float cPartySeatsPollsUnUsed = 0;
+        public static float gPartySeatsPollsUnUsed = 0;
+        public static float sPartySeatsPollsUnUsed = 0;
+        public static float lPartySeatsPollsUnUsed = 0;
+        public static float nPartySeatsPollsUnUsed = 0;
 
-        public static float cPartySeatsPollsFinal = 0;
-        public static float gPartySeatsPollsFinal = 0;
-        public static float sPartySeatsPollsFinal = 0;
-        public static float lPartySeatsPollsFinal = 0;
-        public static float nPartySeatsPollsFinal = 0;
+        public static float cPartySeatsPollsFinalUnUsed = 0;
+        public static float gPartySeatsPollsFinalUnUsed = 0;
+        public static float sPartySeatsPollsFinalUnUsed = 0;
+        public static float lPartySeatsPollsFinalUnUsed = 0;
+        public static float nPartySeatsPollsFinalUnUsed = 0;
 
         public static short parliamentCount = 0;
         //public static short parliamentMeetingCount = 0;
@@ -241,18 +241,18 @@ namespace RealCity.Util
             SaveAndRestore.save_ushort(ref i, nPartySeats, ref saveData);
 
             //20
-            SaveAndRestore.save_float(ref i, cPartySeatsPolls, ref saveData);
-            SaveAndRestore.save_float(ref i, gPartySeatsPolls, ref saveData);
-            SaveAndRestore.save_float(ref i, sPartySeatsPolls, ref saveData);
-            SaveAndRestore.save_float(ref i, lPartySeatsPolls, ref saveData);
-            SaveAndRestore.save_float(ref i, nPartySeatsPolls, ref saveData);
+            SaveAndRestore.save_float(ref i, cPartySeatsPollsUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, gPartySeatsPollsUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, sPartySeatsPollsUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, lPartySeatsPollsUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, nPartySeatsPollsUnUsed, ref saveData);
 
             //20
-            SaveAndRestore.save_float(ref i, cPartySeatsPollsFinal, ref saveData);
-            SaveAndRestore.save_float(ref i, gPartySeatsPollsFinal, ref saveData);
-            SaveAndRestore.save_float(ref i, sPartySeatsPollsFinal, ref saveData);
-            SaveAndRestore.save_float(ref i, lPartySeatsPollsFinal, ref saveData);
-            SaveAndRestore.save_float(ref i, nPartySeatsPollsFinal, ref saveData);
+            SaveAndRestore.save_float(ref i, cPartySeatsPollsFinalUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, gPartySeatsPollsFinalUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, sPartySeatsPollsFinalUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, lPartySeatsPollsFinalUnUsed, ref saveData);
+            SaveAndRestore.save_float(ref i, nPartySeatsPollsFinalUnUsed, ref saveData);
 
             //4
             SaveAndRestore.save_short(ref i, parliamentCount, ref saveData);
@@ -310,17 +310,17 @@ namespace RealCity.Util
             lPartySeats = SaveAndRestore.load_ushort(ref i, saveData);
             nPartySeats = SaveAndRestore.load_ushort(ref i, saveData);
 
-            cPartySeatsPolls = SaveAndRestore.load_float(ref i, saveData);
-            gPartySeatsPolls = SaveAndRestore.load_float(ref i, saveData);
-            sPartySeatsPolls = SaveAndRestore.load_float(ref i, saveData);
-            lPartySeatsPolls = SaveAndRestore.load_float(ref i, saveData);
-            nPartySeatsPolls = SaveAndRestore.load_float(ref i, saveData);
+            cPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            gPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            sPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            lPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            nPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
 
-            cPartySeatsPollsFinal = SaveAndRestore.load_float(ref i, saveData);
-            gPartySeatsPollsFinal = SaveAndRestore.load_float(ref i, saveData);
-            sPartySeatsPollsFinal = SaveAndRestore.load_float(ref i, saveData);
-            lPartySeatsPollsFinal = SaveAndRestore.load_float(ref i, saveData);
-            nPartySeatsPollsFinal = SaveAndRestore.load_float(ref i, saveData);
+            cPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            gPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            sPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            lPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            nPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
 
             parliamentCount = SaveAndRestore.load_short(ref i, saveData);
             short temp = SaveAndRestore.load_short(ref i, saveData);

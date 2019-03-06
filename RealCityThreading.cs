@@ -27,37 +27,6 @@ namespace RealCity
                 {
                     CheckLanguage();
                     CheckDetour();
-                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                    int num4 = (int)(currentFrameIndex & 255u);
-                    int num5 = num4 * 192;
-                    int num6 = (num4 + 1) * 192 - 1;
-                    BuildingManager instance = Singleton<BuildingManager>.instance;
-                    for (int i = num5; i <= num6; i = i + 1)
-                    {
-                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted))
-                        {
-                            MainDataStore.isBuildingReleased[i] = false;
-                            if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
-                            {
-                                ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                                AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                            }
-                            else
-                            {
-                                //If playerbuilding is working with zero worker, it still need to operation with salary expense.
-                                //They may hire a foreigner worker :)
-                                ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                            }
-                        }
-                        else
-                        {
-                            if (!MainDataStore.isBuildingReleased[i])
-                            {
-                                MainDataStore.isBuildingReleased[i] = true;
-                                RealCityCommonBuildingAI.CustomReleaseBuilding((ushort)i);
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -131,7 +100,9 @@ namespace RealCity
                 BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                 System.Random rand = new System.Random();
                 int allWorkCount = 0;
-                if (rand.Next(100) == 0)
+                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                int num4 = (int)(currentFrameIndex & 4095u);
+                if (((num4 >> 4) & 15u) == (buildingID & 15u))
                 {
                     allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, data, true, true);
                 }
@@ -332,25 +303,51 @@ namespace RealCity
 
                     for (int i = num5; i <= num6; i = i + 1)
                     {
-                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (instance.m_buildings.m_buffer[i].m_productionRate != 0) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
+                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted))
                         {
-                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
+                            MainDataStore.isBuildingReleased[i] = false;
+                            if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
                             {
-                                RealCityEconomyExtension.haveGarbageBuilding = true;
+                                ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                                AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            }
+                            else
+                            {
+                                if (instance.m_buildings.m_buffer[i].m_productionRate != 0)
+                                {
+                                    if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
+                                    {
+                                        RealCityEconomyExtension.haveGarbageBuilding = true;
+                                    }
+                                }
+                                //If playerbuilding is working with zero worker, it still need to operation with salary expense.
+                                //They may hire a foreigner worker :)
+                                ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                            }
+
+                        }
+                        else
+                        {
+                            if (!MainDataStore.isBuildingReleased[i])
+                            {
+                                MainDataStore.isBuildingReleased[i] = true;
+                                RealCityCommonBuildingAI.CustomReleaseBuilding((ushort)i);
                             }
                         }
                     }
 
-                    //process citizen
+                    //process vehicle
                     int num7 = (int)(currentFrameIndex & 15u);
                     int num8 = num7 * 1024;
                     int num9 = (num7 + 1) * 1024 - 1;
                     VehicleManager instance1 = Singleton<VehicleManager>.instance;
                     for (int i = num8; i <= num9; i = i + 1)
                     {
+#if FASTRUN
+#else
                         VehicleStatus(i, currentFrameIndex);
+#endif
                     }
-
 
                     int num10 = (int)(currentFrameIndex & 4095u);
                     int num11 = num10 * 256;
@@ -415,7 +412,6 @@ namespace RealCity
                         }
                     }
 
-
                     //process citizenunit
                     int num41 = (int)(Singleton<SimulationManager>.instance.m_currentFrameIndex & 4095u);
                     int num51 = num41 * 128;
@@ -431,10 +427,7 @@ namespace RealCity
                             RealCityCitizenManager.EXTReleaseUnitCitizen((uint)i);
                         }
                     }
-
-
                 }
-
            }
         }
 

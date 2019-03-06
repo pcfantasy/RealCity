@@ -47,7 +47,7 @@ namespace RealCity.CustomAI
                 }
                 //new added here
                 float tempNum = CaculateEmployeeOutcome(buildingID, data);
-                //DebugLog.LogToFileOnly("RealCityProcessingFacilityAI GetResourceRate facility " + tempNum.ToString());
+
                 if (budget < 100)
                 {
                     budget = (budget * budget + 99) / 100;
@@ -60,8 +60,8 @@ namespace RealCity.CustomAI
                 {
                     budget -= (100 - budget) * (100 - budget) / 100;
                 }
+
                 num3 = (int)((float)(num3 / MainDataStore.gameExpenseDivide) + tempNum * budget);
-                //DebugLog.LogToFileOnly("RealCityProcessingFacilityAI GetResourceRate facility post " + num3.ToString());
                 //new added end
                 return -num3;
             }
@@ -82,7 +82,6 @@ namespace RealCity.CustomAI
             int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, false);
             if (totalWorkerCount > allWorkCount)
             {
-                //DebugLog.LogToFileOnly("Error: Find totalWorkCount > allWorkCount building = " + building.Info.m_buildingAI.ToString());
                 allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
             }
 

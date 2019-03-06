@@ -85,8 +85,9 @@ namespace RealCity.CustomAI
             SaveAndRestore.save_long(ref i, greaterThan20000ProfitBuildingMoneyFinal, ref saveData);
             SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCount, ref saveData);
             SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCountFinal, ref saveData);
-
         }
+
+        //TODO, move this into OnAfterSimulationFrame
         protected void CustomSimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
             if (buildingID > 49152)
@@ -95,7 +96,6 @@ namespace RealCity.CustomAI
             }
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
             ProcessLandFee(buildingData, buildingID);
-            //caculate_employee_expense(buildingData, buildingID);
             LimitAndCheckBuildingMoney(buildingData, buildingID);
             if ((buildingData.m_problems & Notification.Problem.MajorProblem) != Notification.Problem.None)
             {
@@ -127,7 +127,6 @@ namespace RealCity.CustomAI
             }
 
             ProcessBuildingDataFinal(buildingID, ref buildingData);
-            //LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessAdditionProduct(buildingID, ref buildingData);
         }
 
@@ -395,51 +394,8 @@ namespace RealCity.CustomAI
                     }
                 }
             }
-
             return price;
         }
-
-
-        /*public void LimitCommericalBuildingAccess(ushort buildingID, ref Building buildingData)
-        {
-            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
-            {
-                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                int alivevisitCount = 0;
-                int totalvisitCount = 0;
-                int maxcount = 0;
-                GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                GetVisitNum(buildingID, ref buildingData, ref maxcount);
-                if ( maxcount * 5 < totalvisitCount + 1)
-                {
-                    buildingData.m_flags &= ~Building.Flags.Active;
-                }
-                else
-                {
-
-                }
-            }
-        }
-
-        protected void GetVisitNum(ushort buildingID, ref Building buildingData, ref int maxcount)
-        {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            while (num != 0u)
-            {
-                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Visit) != 0)
-                {
-                    maxcount++;
-                }
-                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-                if (++num2 > 524288)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
-        }*/
 
 
         public void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)

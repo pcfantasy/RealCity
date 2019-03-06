@@ -13,7 +13,7 @@ namespace RealCity.UI
 
         public static float WIDTH = 850f;
 
-        private static readonly float HEIGHT = 500f;
+        private static readonly float HEIGHT = 450f;
 
         private static readonly float HEADER = 40f;
 
@@ -42,14 +42,7 @@ namespace RealCity.UI
 
         private UILabel goverment;
 
-        private UILabel polls;
-        private UILabel communistPolls;
-        private UILabel greenPolls;
-        private UILabel socialistPolls;
-        private UILabel liberalPolls;
-        private UILabel nationalPolls;
         private UILabel nextVote;
-        //private UILabel nextMeeting;
         private UILabel currentMeetingItem;
         private UILabel voteResult;
         private UILabel currentPolitics;
@@ -143,56 +136,15 @@ namespace RealCity.UI
             this.national.relativePosition = new Vector3(this.liberal.relativePosition.x + this.liberal.width + SPACING + 70f, this.liberal.relativePosition.y);
             this.national.autoSize = true;
 
-
             goverment = base.AddUIComponent<UILabel>();
             goverment.text = Language.PoliticsMessage[7];
             goverment.relativePosition = new Vector3(SPACING, this.communist.relativePosition.y + SPACING22 + 20f);
             goverment.autoSize = true;
 
-            //citizen
-            this.polls = base.AddUIComponent<UILabel>();
-            this.polls.text = Language.PoliticsMessage[12];
-            this.polls.textScale = 1.1f;
-            this.polls.tooltip = "N/A";
-            this.polls.relativePosition = new Vector3(SPACING, goverment.relativePosition.y + SPACING22 + 20f);
-            this.polls.autoSize = true;
-
-            //data
-            this.communistPolls = base.AddUIComponent<UILabel>();
-            this.communistPolls.text = Language.PoliticsMessage[2];
-            this.communistPolls.relativePosition = new Vector3(SPACING, this.polls.relativePosition.y + SPACING22);
-            this.communistPolls.autoSize = true;
-
-            this.greenPolls = base.AddUIComponent<UILabel>();
-            this.greenPolls.text = Language.PoliticsMessage[3];
-            this.greenPolls.relativePosition = new Vector3(this.communistPolls.relativePosition.x + this.communistPolls.width + SPACING + 70f, this.communistPolls.relativePosition.y);
-            this.greenPolls.autoSize = true;
-
-            this.socialistPolls = base.AddUIComponent<UILabel>();
-            this.socialistPolls.text = Language.PoliticsMessage[4];
-            this.socialistPolls.relativePosition = new Vector3(this.greenPolls.relativePosition.x + this.greenPolls.width + SPACING + 70f, this.greenPolls.relativePosition.y);
-            this.socialistPolls.autoSize = true;
-
-            this.liberalPolls = base.AddUIComponent<UILabel>();
-            this.liberalPolls.text = Language.PoliticsMessage[5];
-            this.liberalPolls.relativePosition = new Vector3(this.socialistPolls.relativePosition.x + this.socialistPolls.width + SPACING + 70f, this.socialistPolls.relativePosition.y);
-            this.liberalPolls.autoSize = true;
-
-            this.nationalPolls = base.AddUIComponent<UILabel>();
-            this.nationalPolls.text = Language.PoliticsMessage[6];
-            this.nationalPolls.relativePosition = new Vector3(this.liberalPolls.relativePosition.x + this.liberalPolls.width + SPACING + 70f, this.liberalPolls.relativePosition.y);
-            this.nationalPolls.autoSize = true;
-
             this.nextVote = base.AddUIComponent<UILabel>();
             this.nextVote.text = Language.PoliticsMessage[13];
-            this.nextVote.relativePosition = new Vector3(SPACING, this.communistPolls.relativePosition.y + SPACING22 + 20f);
+            this.nextVote.relativePosition = new Vector3(SPACING, this.goverment.relativePosition.y + SPACING22 + 20f);
             this.nextVote.autoSize = true;
-
-            //this.nextMeeting = base.AddUIComponent<UILabel>();
-            //this.nextMeeting.text = Language.PoliticsMessage[14];
-            //this.nextMeeting.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22);
-            //this.nextMeeting.autoSize = true;
-            //this.nextMeeting.name = "Moreeconomic_Text_0";
 
             this.currentMeetingItem = base.AddUIComponent<UILabel>();
             this.currentMeetingItem.text = Language.PoliticsMessage[15];
@@ -248,21 +200,14 @@ namespace RealCity.UI
                 if (base.isVisible)
                 {
                     //citizen
-                    this.m_title.text = Language.PoliticsMessage[1];
+                    this.m_title.text = Language.PoliticsMessage[0];
+                    this.parliamentSeats.text = Language.PoliticsMessage[1];
                     this.communist.text = string.Format(Language.PoliticsMessage[2] + " [{0}]", Politics.cPartySeats);
                     this.green.text = string.Format(Language.PoliticsMessage[3] + " [{0}]", Politics.gPartySeats);
                     this.socialist.text = string.Format(Language.PoliticsMessage[4] + " [{0}]", Politics.sPartySeats);
                     this.liberal.text = string.Format(Language.PoliticsMessage[5] + " [{0}]", Politics.lPartySeats);
                     this.national.text = string.Format(Language.PoliticsMessage[6] + " [{0}]", Politics.nPartySeats);
-
-                    this.communistPolls.text = string.Format(Language.PoliticsMessage[2] + " [{0:N1}%]", Politics.cPartySeatsPollsFinal);
-                    this.greenPolls.text = string.Format(Language.PoliticsMessage[3] + " [{0:N1}%]", Politics.gPartySeatsPollsFinal);
-                    this.socialistPolls.text = string.Format(Language.PoliticsMessage[4] + " [{0:N1}%]", Politics.sPartySeatsPollsFinal);
-                    this.liberalPolls.text = string.Format(Language.PoliticsMessage[5] + " [{0:N1}%]", Politics.lPartySeatsPollsFinal);
-                    this.nationalPolls.text = string.Format(Language.PoliticsMessage[6] + " [{0:N1}%]", Politics.nPartySeatsPollsFinal);
-
                     this.nextVote.text = string.Format(Language.PoliticsMessage[13] + " [{0}]", Politics.parliamentCount);
-                    //this.nextMeeting.text = string.Format(Language.PoliticsMessage[14] + " [{0}]", Politics.parliamentMeetingCount);
 
                     if (Politics.currentIdx > 9)
                     {
@@ -325,8 +270,6 @@ namespace RealCity.UI
                     {
                         this.goverment.text = string.Format(Language.PoliticsMessage[7] + Language.PoliticsMessage[2] + Language.PoliticsMessage[3] + Language.PoliticsMessage[4] + Language.PoliticsMessage[5] + Language.PoliticsMessage[6] + Language.PoliticsMessage[11]);
                     }
-
-                    this.polls.text = Language.PoliticsMessage[12];
 
                     refeshOnce = false;
                 }

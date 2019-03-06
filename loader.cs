@@ -638,15 +638,15 @@ namespace RealCity
                 }
 
                 //10
-                DebugLog.LogToFileOnly("Detour PassengerCarAI::ArriveAtDestination calls");
+                DebugLog.LogToFileOnly("Detour PassengerCarAI::ArriveAtTarget calls");
                 try
                 {
-                    Detours.Add(new Detour(typeof(PassengerCarAI).GetMethod("ArriveAtDestination", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
-                                           typeof(RealCityPassengerCarAI).GetMethod("CustomArriveAtDestination", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null)));
+                    Detours.Add(new Detour(typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
+                                           typeof(RealCityPassengerCarAI).GetMethod("CustomArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null)));
                 }
                 catch (Exception)
                 {
-                    DebugLog.LogToFileOnly("Could not detour PassengerCarAI::ArriveAtDestination");
+                    DebugLog.LogToFileOnly("Could not detour PassengerCarAI::ArriveAtTarget");
                     detourFailed = true;
                 }
 
