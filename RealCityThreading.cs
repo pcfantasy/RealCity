@@ -357,52 +357,49 @@ namespace RealCity
                     {
                         if (instance2.m_citizens.m_buffer[i].m_flags.IsFlagSet(Citizen.Flags.Created))
                         {
-                            if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
+                            if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                             {
-                                if ((instance2.m_citizens.m_buffer[i].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                                if (!MainDataStore.isCitizenFirstMovingIn[i])
                                 {
-                                    if (!MainDataStore.isCitizenFirstMovingIn[i])
+                                    MainDataStore.isCitizenFirstMovingIn[i] = true;
+                                    if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
                                     {
-                                        MainDataStore.isCitizenFirstMovingIn[i] = true;
-                                        if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Low)
-                                        {
-                                            MainDataStore.citizenMoney[i] += 3000;
-                                        }
-                                        else if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
-                                        {
-                                            MainDataStore.citizenMoney[i] += 6000;
-                                        }
-                                        else
-                                        {
-                                            MainDataStore.citizenMoney[i] += 9000;
-                                        }
+                                        MainDataStore.citizenMoney[i] += 3000;
+                                    }
+                                    else if (instance2.m_citizens.m_buffer[i].WealthLevel == Citizen.Wealth.Medium)
+                                    {
+                                        MainDataStore.citizenMoney[i] += 6000;
                                     }
                                     else
                                     {
-                                        if (MainDataStore.citizenMoney[i] < 0)
-                                        {
-                                            FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
-                                        }
+                                        MainDataStore.citizenMoney[i] += 9000;
                                     }
                                 }
                                 else
                                 {
-                                    //change wealth
-                                    BuildingManager instance3 = Singleton<BuildingManager>.instance;
-                                    ushort homeBuilding = instance2.m_citizens.m_buffer[(int)((UIntPtr)i)].m_homeBuilding;
-                                    uint homeId = instance2.m_citizens.m_buffer[i].GetContainingUnit((uint)i, instance3.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                                    if (MainDataStore.family_money[homeId] > 20000)
+                                    if (MainDataStore.citizenMoney[i] < 100)
                                     {
-                                        instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.High;
+                                        FindVisitPlace((uint)i, instance2.m_citizens.m_buffer[i].m_visitBuilding, GetLeavingReason((uint)i, ref instance2.m_citizens.m_buffer[i]));
                                     }
-                                    else if (MainDataStore.family_money[homeId] < 5000)
-                                    {
-                                        instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Low;
-                                    }
-                                    else
-                                    {
-                                        instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Medium;
-                                    }
+                                }
+                            }
+                            else
+                            {
+                                //change wealth
+                                BuildingManager instance3 = Singleton<BuildingManager>.instance;
+                                ushort homeBuilding = instance2.m_citizens.m_buffer[(int)((UIntPtr)i)].m_homeBuilding;
+                                uint homeId = instance2.m_citizens.m_buffer[i].GetContainingUnit((uint)i, instance3.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                                if (MainDataStore.family_money[homeId] > 20000)
+                                {
+                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.High;
+                                }
+                                else if (MainDataStore.family_money[homeId] < 5000)
+                                {
+                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Low;
+                                }
+                                else
+                                {
+                                    instance2.m_citizens.m_buffer[i].WealthLevel = Citizen.Wealth.Medium;
                                 }
                             }
                         }

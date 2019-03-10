@@ -67,86 +67,77 @@ namespace RealCity.CustomAI
 
             TransferManager.TransferReason tempTransferRreason = TransferManager.TransferReason.Entertainment;
             System.Random rand = new System.Random();
-            int num = 0;
+            float consumptionIndex = 0f;
             if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
             {
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
                     if ((info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
                     {
-                        num = rand.Next(800) + 1;
+                        consumptionIndex = 0.5f;
+                    }
+                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
+                    {
+                        consumptionIndex = 0.4f;
+                    }
+                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialEco))
+                    {
+                        consumptionIndex = 0.1f;
+                    }
+                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialHigh))
+                    {
+                        consumptionIndex = 0.3f;
                     }
                     else
                     {
-                        num = rand.Next(100) + 1;
+                        consumptionIndex = 0.2f;
                     }
                 }
 
-                if (MainDataStore.family_money[homeId] < 5000)
+                int consumptionMoney = -(int)(consumptionIndex * MainDataStore.citizenMoney[citizen]);
+
+                if (consumptionMoney < 0)
                 {
-                    
+                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref consumptionMoney);
                 }
-                else if (MainDataStore.family_money[homeId] >= 80000)
-                {
-                    num = (num << 4);
-                }
-                else if (MainDataStore.family_money[homeId] >= 40000)
-                {
-                    num = (num << 3);
-                }
-                else if (MainDataStore.family_money[homeId] >= 20000)
-                {
-                    num = (num << 2);
-                } 
                 else
                 {
-                    num = (num << 1);
+                    consumptionMoney = 0;
                 }
-
-
-                int num1 = -num;
-                if(num1 == -50)   //make a distinction between rush hour
-                {
-                    num1 = num1 + 1;
-                }
-                if (num != 0)
-                {
-                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num1);
-                    num = -100;
-                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
-                    MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] + num1 + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
-                }
+                int num = -100;
+                info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
+                MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
             }
             else if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
+                int consumptionMoney = rand.Next(400);
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
-                    num = rand.Next(400);
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        num = num << 4;
+                        consumptionMoney = consumptionMoney << 4;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        num = num << 2;
+                        consumptionMoney = consumptionMoney << 2;
                     }
                 }
 
-                num = -(int)(num);
-                if ((num == -200 || num == -50))
+                consumptionMoney = -(int)(consumptionMoney);
+                if ((consumptionMoney == -200 || consumptionMoney == -50))
                 {
-                    num = num + 1;
+                    consumptionMoney = consumptionMoney + 1;
                 }
-                info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref num);
-                num = -100;
-                info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
+                info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref consumptionMoney);
+                consumptionMoney = -100;
+                info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
             }
 
-            if (info.m_class.m_service == ItemClass.Service.Beautification || info.m_class.m_service == ItemClass.Service.Monument)
+            if (info.m_class.m_service == ItemClass.Service.Monument)
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    int tourism_fee = rand.Next(20) + 1 ;
+                    int tourism_fee = rand.Next(50) + 1 ;
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         tourism_fee = tourism_fee << 4;
@@ -156,22 +147,16 @@ namespace RealCity.CustomAI
                         tourism_fee = tourism_fee << 2;
                     }
 
-                    if (info.m_class.m_service == ItemClass.Service.Monument)
-                    {
-                        tourism_fee = tourism_fee << 2;
-                    }
                     Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
                 }
                 else
                 {
-                    int tourism_fee = rand.Next(20) + 1;
-
-                    if (info.m_class.m_service == ItemClass.Service.Monument)
+                    int tourism_fee = (int)(0.2f * MainDataStore.citizenMoney[citizen]);
+                    if (tourism_fee > 0)
                     {
-                        tourism_fee = tourism_fee << 2;
+                        MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - tourism_fee);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }
-                    MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - tourism_fee);
-                    Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                 }
             }
         }
@@ -202,14 +187,14 @@ namespace RealCity.CustomAI
                         uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            MainDataStore.citizenMoney[homeId] = (float)(MainDataStore.citizenMoney[citizen] - (ticketPrice));
+                            MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - (ticketPrice));
                         }
                         else
                         {
                             if (MainDataStore.citizenMoney[citizen] < ticketPrice)
                             {
                                 ticketPrice = (MainDataStore.citizenMoney[citizen] > 0) ? (int)MainDataStore.citizenMoney[citizen] + 1 : 1;
-                                MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - (ticketPrice) - 1);
+                                MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - ticketPrice);
                             }
                             else
                             {
