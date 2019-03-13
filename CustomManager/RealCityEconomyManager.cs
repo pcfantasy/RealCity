@@ -2065,33 +2065,6 @@ namespace RealCity.CustomManager
             return result;
         }
 
-
-        public int GetBudget(ItemClass itemClass)
-        {
-            int budget = Singleton<EconomyManager>.instance.GetBudget(itemClass.m_service, itemClass.m_subService, Singleton<SimulationManager>.instance.m_isNightTime);
-            SimulationManager instance2 = Singleton<SimulationManager>.instance;
-            float currentDayTimeHour = instance2.m_currentDayTimeHour;
-            if (!MainDataStore.is_weekend)
-            {
-                if (currentDayTimeHour > 20f || currentDayTimeHour < 7f)
-                {
-                    if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMetro) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMonorail) || (itemClass.m_subService == ItemClass.SubService.PublicTransportCableCar))
-                    {
-                        budget = budget >> 1;
-                    }
-                }
-                else if (currentDayTimeHour > 10f && currentDayTimeHour < 17f)
-                {
-                    if ((itemClass.m_subService == ItemClass.SubService.PublicTransportBus) || (itemClass.m_subService == ItemClass.SubService.PublicTransportTram) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMetro) || (itemClass.m_subService == ItemClass.SubService.PublicTransportMonorail) || (itemClass.m_subService == ItemClass.SubService.PublicTransportCableCar))
-                    {
-                        budget = budget >> 1;
-                    }
-                }
-            }
-
-            return budget;
-        }
-
         public static void Init()
         {
             //DebugLog.Log("Init fake transfer manager");

@@ -15,7 +15,7 @@ namespace RealCity.UI
 
         public static float WIDTH = 600f;
 
-        private static readonly float HEIGHT = 800f;
+        private static readonly float HEIGHT = 750f;
 
         private static readonly float HEADER = 40f;
 
@@ -167,12 +167,6 @@ namespace RealCity.UI
         //all total income
         public static double all_total_income;
         public static bool refeshOnce = false;
-
-        public static UICheckBox is_weekend_Checkbox;
-        private UILabel is_weekend;
-
-
-
 
         //private static bool isRefreshing = false;
 
@@ -483,48 +477,6 @@ namespace RealCity.UI
             this.all_total_income_ui.textScale = 1.1f;
             this.all_total_income_ui.relativePosition = new Vector3(this.playerIndustryIncomeTitle.relativePosition.x, this.playerIndustryIncomeTitle.relativePosition.y + SPACING22 + 10f);
             this.all_total_income_ui.autoSize = true;
-
-            is_weekend_Checkbox = base.AddUIComponent<UICheckBox>();
-            is_weekend_Checkbox.relativePosition = new Vector3(SPACING, all_total_income_ui.relativePosition.y + 30f);
-            this.is_weekend = base.AddUIComponent<UILabel>();
-            this.is_weekend.relativePosition = new Vector3(is_weekend_Checkbox.relativePosition.x + is_weekend_Checkbox.width + SPACING * 2f, is_weekend_Checkbox.relativePosition.y + 5f);
-            is_weekend_Checkbox.height = 16f;
-            is_weekend_Checkbox.width = 16f;
-            is_weekend_Checkbox.label = this.is_weekend;
-            is_weekend_Checkbox.text = Language.RealCityUI1[51];
-            UISprite uISprite9 = is_weekend_Checkbox.AddUIComponent<UISprite>();
-            uISprite9.height = 20f;
-            uISprite9.width = 20f;
-            uISprite9.relativePosition = new Vector3(0f, 0f);
-            uISprite9.spriteName = "check-unchecked";
-            uISprite9.isVisible = true;
-            UISprite uISprite10 = is_weekend_Checkbox.AddUIComponent<UISprite>();
-            uISprite10.height = 20f;
-            uISprite10.width = 20f;
-            uISprite10.relativePosition = new Vector3(0f, 0f);
-            uISprite10.spriteName = "check-checked";
-            is_weekend_Checkbox.checkedBoxObject = uISprite10;
-            is_weekend_Checkbox.isChecked = MainDataStore.is_weekend;
-            is_weekend_Checkbox.isEnabled = true;
-            is_weekend_Checkbox.isVisible = true;
-            is_weekend_Checkbox.canFocus = true;
-            is_weekend_Checkbox.isInteractive = true;
-            is_weekend_Checkbox.eventCheckChanged += delegate (UIComponent component, bool eventParam)
-            {
-                is_weekend_Checkbox_OnCheckChanged(component, eventParam);
-            };
-        }
-
-        public static void is_weekend_Checkbox_OnCheckChanged(UIComponent UIComp, bool bValue)
-        {
-            if (bValue)
-            {
-                MainDataStore.is_weekend = true;
-            }
-            else
-            {
-                MainDataStore.is_weekend = false;
-            }
         }
 
         private void RefreshDisplayData()
@@ -590,7 +542,6 @@ namespace RealCity.UI
                     this.school_income_title.text = string.Format(Language.RealCityUI1[46] + " [{0}]", school_income_forui);
                     this.playerIndustryIncomeTitle.text = string.Format(Language.RealCityUI1[47] + " [{0}]", playerIndustryIncomeForUI);
                     this.all_total_income_ui.text = string.Format(Language.RealCityUI1[48] + " [{0}]", all_total_income);
-                    is_weekend_Checkbox.text = Language.RealCityUI1[51];
                     refeshOnce = false;
                 }
             }

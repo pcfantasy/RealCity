@@ -162,7 +162,6 @@ namespace RealCity.CustomAI
             }
         }
 
-
         public static string GetProductionType(bool isSelling, ushort buildingID, Building data)
         {
             string material = "";
@@ -397,7 +396,6 @@ namespace RealCity.CustomAI
             return price;
         }
 
-
         public void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)
         {
             if (preBuidlingId < buildingID)
@@ -421,8 +419,6 @@ namespace RealCity.CustomAI
                 allBuildings = 0;
             }
             preBuidlingId = buildingID;
-
-
             allBuildings++;
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Residential)
             {
@@ -530,7 +526,6 @@ namespace RealCity.CustomAI
                         {
                             idex = 0.02f;
                         }
-
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
@@ -619,10 +614,6 @@ namespace RealCity.CustomAI
                 num = 0;
             }
             num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
-            //num = num / comm_data.mantain_and_land_fee_decrease;
-
-            //do this to decrase land expense in early game;
-            //float idex = (comm_data.mantain_and_land_fee_decrease > 1) ? (comm_data.mantain_and_land_fee_decrease / 2) : 1f;
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
             {
                 MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (float)(num * num2) / 100);
@@ -765,12 +756,10 @@ namespace RealCity.CustomAI
                 return 0f;
             }
 
-
             Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-
             float finalIdex = aliveWorkerCount / 10f;
 
             if (finalIdex < 1f)
@@ -796,7 +785,6 @@ namespace RealCity.CustomAI
                 }
             }
 
-            
             return finalIdex;
         }
 

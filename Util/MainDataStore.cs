@@ -114,7 +114,7 @@
         public static bool reserved7 = false;//no use now
         public static ushort reserved8 = 0;//no use now
         public static ushort reserved9 = 0;//no use now
-        public static bool is_weekend = false;
+        public static bool reserved32 = false;
         public static bool reserved11 = false;//no use now
         public static bool reserved12 = false;//no use now
 
@@ -286,7 +286,7 @@
             //saveandrestore.save_long(ref i, tourist_transport_fee_num_final, ref saveData);
 
 
-            SaveAndRestore.save_bool(ref i, is_weekend, ref saveData);
+            SaveAndRestore.save_bool(ref i, reserved32, ref saveData);
 
 
 
@@ -385,7 +385,7 @@
             SaveAndRestore.load_ushort(ref i, saveData);
             SaveAndRestore.load_ushort(ref i, saveData);
             SaveAndRestore.load_ushort(ref i, saveData);
-            is_weekend = SaveAndRestore.load_bool(ref i, saveData);
+            reserved32 = SaveAndRestore.load_bool(ref i, saveData);
             SaveAndRestore.load_bool(ref i, saveData);
             SaveAndRestore.load_bool(ref i, saveData);
             building_buffer1 = SaveAndRestore.load_ints(ref i, saveData, building_buffer1.Length);

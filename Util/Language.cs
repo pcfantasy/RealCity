@@ -214,7 +214,6 @@ namespace RealCity.Util
             "7、City all total income",
             "City income data(unit:₡)",
             "City status",
-            "If using real time,tell mod if it is weekend to disable Smart Public Transport function",
         };
 
 
@@ -424,7 +423,6 @@ namespace RealCity.Util
             "7、城市总收入",                                                      //48
             "城市收入情况(单位:克朗)",                                            //49
             "城市情况",                                                           //50
-            "如果用realtime,告诉MOD现在是不是周末,可以关闭智能交通控制功能",      //51
         };
 
 

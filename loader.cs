@@ -32,48 +32,28 @@ namespace RealCity
         }
 
         public static List<Detour> Detours { get; set; }
-
         public static bool DetourInited = false;
-
         public static UIView parentGuiView;
-
         public static UIPanel buildingInfo;
-
         public static UIPanel playerbuildingInfo;
-
         public static UIPanel HumanInfo;
-
         public static UIPanel TouristInfo;
-
         public static EcnomicUI guiPanel;
-
         public static RealCityUI guiPanel1;
-
         public static BuildingUI guiPanel2;
-
         public static HumanUI guiPanel3;
-
         public static PlayerBuildingUI guiPanel4;
-
         public static PoliticsUI guiPanel5;
-
         public static TouristUI guiPanel6;
-
         public static GameObject buildingWindowGameObject;
-
         public static GameObject PlayerbuildingWindowGameObject;
-
         public static GameObject HumanWindowGameObject;
-
         public static GameObject TouristWindowGameObject;
-
         public static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
-
         public static bool isRealConstructionRunning = false;
         public static bool isRealGasStationRunning = false;
-
-
+        public static bool isTransportLinesManagerRunning = false;
         public static PoliticsButton PLPanel;
         public static EcnomicButton EcMenuPanel;
         public static RealCityButton RcMenuPanel;
@@ -97,6 +77,7 @@ namespace RealCity
                     SetupGui();
                     isRealConstructionRunning = CheckRealConstructionIsLoaded();
                     isRealGasStationRunning = CheckRealGasStationIsLoaded();
+                    isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
                     InitDetour();
                     RealCityThreading.isFirstTime = true;
                     DebugLog.LogToFileOnly("OnLevelLoaded");
@@ -105,10 +86,6 @@ namespace RealCity
                         InitData();
                         DebugLog.LogToFileOnly("InitData");
                     }
-                    //DebugLog.LogWarning(language.OptionUI[15]);
-                    //DebugLog.LogWarning(language.OptionUI[16]);
-                    //DebugLog.LogWarning(language.OptionUI[17]);
-                    //DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, "setup_gui now");
                 }
             }
         }
@@ -179,8 +156,6 @@ namespace RealCity
             SetupCityButton();
             SetupBuildingButton();
             SetupPlayerBuildingButton();
-
-
             Loader.isGuiRunning = true;
         }
 
@@ -188,8 +163,6 @@ namespace RealCity
         {
             buildingWindowGameObject = new GameObject("buildingWindowObject");
             guiPanel2 = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
-
-
             buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
             if (buildingInfo == null)
             {
@@ -197,10 +170,8 @@ namespace RealCity
             }
             guiPanel2.transform.parent = buildingInfo.transform;
             guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
-            //guiPanel2.size = new Vector3(50,50);
             guiPanel2.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
             guiPanel2.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
-            //guiPanel2.position = new Vector3(0, 0);
             buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
         }
 
@@ -208,8 +179,6 @@ namespace RealCity
         {
             HumanWindowGameObject = new GameObject("HumanWindowGameObject");
             guiPanel3 = (HumanUI)HumanWindowGameObject.AddComponent(typeof(HumanUI));
-
-
             HumanInfo = UIView.Find<UIPanel>("(Library) CitizenWorldInfoPanel");
             if (HumanInfo == null)
             {
@@ -226,8 +195,6 @@ namespace RealCity
         {
             TouristWindowGameObject = new GameObject("TouristWindowGameObject");
             guiPanel6 = (TouristUI)TouristWindowGameObject.AddComponent(typeof(TouristUI));
-
-
             TouristInfo = UIView.Find<UIPanel>("(Library) TouristWorldInfoPanel");
             if (TouristInfo == null)
             {
@@ -240,13 +207,10 @@ namespace RealCity
             TouristInfo.eventVisibilityChanged += TouristInfo_eventVisibilityChanged;
         }
 
-
         public static void SetupPlayerBuidingGui()
         {
             PlayerbuildingWindowGameObject = new GameObject("PlayerbuildingWindowGameObject");
             guiPanel4 = (PlayerBuildingUI)PlayerbuildingWindowGameObject.AddComponent(typeof(PlayerBuildingUI));
-
-
             playerbuildingInfo = UIView.Find<UIPanel>("(Library) CityServiceWorldInfoPanel");
             if (playerbuildingInfo == null)
             {
@@ -268,7 +232,6 @@ namespace RealCity
             EcMenuPanel.Show();
         }
 
-
         public static void SetupCityButton()
         {
             if (RcMenuPanel == null)
@@ -277,7 +240,6 @@ namespace RealCity
             }
             RcMenuPanel.Show();
         }
-
 
         public static void SetupBuildingButton()
         {
@@ -289,7 +251,6 @@ namespace RealCity
             BMenuPanel.Alignment = UIAlignAnchor.BottomLeft;
             BMenuPanel.Show();
         }
-
 
         public static void SetupPlayerBuildingButton()
         {
@@ -320,18 +281,12 @@ namespace RealCity
                 Loader.guiPanel2.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y + 50f);
                 Loader.guiPanel2.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
                 Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
-                //DebugLog.LogToFileOnly("select building found!!!!!:\n");
-                //comm_data.current_buildingid = 0;
-                //BuildingUI.refesh_once = true;
-                //guiPanel2.Show();
             }
             else
             {
-                //comm_data.current_buildingid = 0;
                 guiPanel2.Hide();
             }
         }
-
 
         public static void playerbuildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
@@ -342,14 +297,9 @@ namespace RealCity
                 Loader.guiPanel4.size = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
                 Loader.guiPanel4.baseBuildingWindow = Loader.playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
                 Loader.guiPanel4.position = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
-                //DebugLog.LogToFileOnly("select building found!!!!!:\n");
-                //comm_data.current_buildingid = 0;
-                //PlayerBuildingUI.refesh_once = true;
-                //guiPanel4.Show();
             }
             else
             {
-                //comm_data.current_buildingid = 0;
                 guiPanel4.Hide();
             }
         }
@@ -404,14 +354,13 @@ namespace RealCity
                 UnityEngine.Object.Destroy(guiPanel5);
                 UnityEngine.Object.Destroy(EcMenuPanel);
                 UnityEngine.Object.Destroy(RcMenuPanel);
-
                 Loader.guiPanel = null;
                 Loader.guiPanel1 = null;
                 Loader.guiPanel5 = null;
                 Loader.EcMenuPanel = null;
-                Loader.RcMenuPanel = null;                          
+                Loader.RcMenuPanel = null;
             }
-
+            //Because realcity botton in buildingUI is covered by TransportLinesManager
             if (buildingInfo != null)
             {
                 UnityEngine.Object.Destroy(BMenuPanel);
@@ -423,7 +372,6 @@ namespace RealCity
                 UnityEngine.Object.Destroy(PBMenuPanel);
                 Loader.PBMenuPanel = null;
             }
-
             //remove buildingUI
             if (guiPanel2 != null)
             {
@@ -436,7 +384,6 @@ namespace RealCity
             {
                 UnityEngine.Object.Destroy(buildingWindowGameObject);
             }
-
             //remove HumanUI
             if (guiPanel3 != null)
             {
@@ -449,8 +396,6 @@ namespace RealCity
             {
                 UnityEngine.Object.Destroy(HumanWindowGameObject);
             }
-
-
             //remove PlayerbuildingUI
             if (guiPanel4 != null)
             {
@@ -459,7 +404,6 @@ namespace RealCity
                     guiPanel4.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
                 }
             }
-
             //remove TouristUI
             if (guiPanel6 != null)
             {
@@ -468,6 +412,7 @@ namespace RealCity
                     guiPanel6.parent.eventVisibilityChanged -= TouristInfo_eventVisibilityChanged;
                 }
             }
+
             if (TouristWindowGameObject != null)
             {
                 UnityEngine.Object.Destroy(TouristWindowGameObject);
@@ -810,7 +755,7 @@ namespace RealCity
                 }
 
                 //23
-                DebugLog.LogToFileOnly("Detour EconomyManager::GetBudget calls");
+                /*DebugLog.LogToFileOnly("Detour EconomyManager::GetBudget calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(EconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null),
@@ -820,8 +765,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour EconomyManager::GetBudget");
                     detourFailed = true;
-                }
-
+                }*/
 
                 //24
                 DebugLog.LogToFileOnly("Detour EconomyManager::AddResource calls");
@@ -966,7 +910,6 @@ namespace RealCity
             }
         }
 
-
         public void RevertDetours()
         {
             if (DetourInited)
@@ -986,6 +929,11 @@ namespace RealCity
         private bool CheckRealGasStationIsLoaded()
         {
             return this.Check3rdPartyModLoaded("RealGasStation", true);
+        }
+
+        private bool CheckTransportLinesManagerIsLoaded()
+        {
+            return this.Check3rdPartyModLoaded("Klyte.TransportLinesManager", true);
         }
     }
 }
