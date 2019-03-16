@@ -326,7 +326,7 @@ namespace RealCity.CustomAI
                             CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
                             if (commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Food || commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Goods)
                             {
-                                price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(commercialBuildingAI.m_incomingResource) + (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.LuxuryProducts)/ (float)MainDataStore.commericalPriceAdjust)) / 4f;
+                                price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(commercialBuildingAI.m_incomingResource) + (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.LuxuryProducts))) / 4f;
                             }
                             else
                             {
@@ -343,7 +343,7 @@ namespace RealCity.CustomAI
                         case ItemClass.SubService.IndustrialGeneric:
                             TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
                             TransferManager.TransferReason tempReason2 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
-                            price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(tempReason1) + (RealCityIndustryBuildingAI.GetResourcePrice(tempReason2) / (float)MainDataStore.industialPriceAdjust)) / 4f;
+                            price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(tempReason1) + (RealCityIndustryBuildingAI.GetResourcePrice(tempReason2))) / 4f;
                             break;
                         default:
                             price = 0; break;
@@ -803,21 +803,7 @@ namespace RealCity.CustomAI
                     int num3;
                     info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
                     cargo += Mathf.Min(a, num3);
-                    if (transferType == material2 && isHighPriceProduction(buildingID, ref data, material2))
-                    {
-                        if (material2 == TransferManager.TransferReason.LuxuryProducts)
-                        {
-                            capacity += (int)(num3 * MainDataStore.commericalPriceAdjust);
-                        }
-                        else
-                        {
-                            capacity += (int)(num3 * MainDataStore.industialPriceAdjust);
-                        }
-                    }
-                    else
-                    {
-                        capacity += num3;
-                    }
+                    capacity += num3;
                     count++;
                     if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
                     {
@@ -831,27 +817,6 @@ namespace RealCity.CustomAI
                     break;
                 }
             }
-        }
-
-        public bool isHighPriceProduction (ushort buildingID, ref Building data, TransferManager.TransferReason material2)
-        {
-            if (data.Info.m_class.m_service == ItemClass.Service.Industrial || data.Info.m_class.m_service == ItemClass.Service.Commercial)
-            {
-                switch (material2)
-                {
-                    case TransferManager.TransferReason.AnimalProducts:
-                    case TransferManager.TransferReason.Flours:
-                    case TransferManager.TransferReason.Paper:
-                    case TransferManager.TransferReason.PlanedTimber:
-                    case TransferManager.TransferReason.Petroleum:
-                    case TransferManager.TransferReason.Plastics:
-                    case TransferManager.TransferReason.Glass:
-                    case TransferManager.TransferReason.Metals:
-                    case TransferManager.TransferReason.LuxuryProducts:
-                        return true;
-                }
-            }
-            return false;
         }
     }
 }

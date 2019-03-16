@@ -30,7 +30,7 @@ namespace RealCity.CustomAI
                 case TransferManager.TransferReason.Metals:
                     return 250;
                 case TransferManager.TransferReason.LuxuryProducts:
-                    return 700;
+                    return 350;
                 case TransferManager.TransferReason.Oil:
                     return 200;
                 case TransferManager.TransferReason.Ore:

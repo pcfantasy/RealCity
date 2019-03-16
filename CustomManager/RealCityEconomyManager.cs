@@ -157,8 +157,17 @@ namespace RealCity.CustomManager
         public static float school_income = 0f;
         public static int[] school_income_forui = new int[17];
 
+        //72*3 = 216
+        public static float policeStationIncome = 0f;
+        public static int[] policeStationIncomeForUI = new int[17];
+        public static float healthCareIncome = 0f;
+        public static int[] healthCareIncomeForUI = new int[17];
+        public static float fireStationIncome = 0f;
+        public static int[] fireStationIncomeForUI = new int[17];
 
-        public static byte[] saveData = new byte[2628];
+
+        //2628+216 = 2844
+        public static byte[] saveData = new byte[2844];
 
         public static void CleanCurrent(int current_idex)
         {
@@ -196,6 +205,9 @@ namespace RealCity.CustomManager
             playerIndustryIncomeForUI[i] = 0;
             road_income_forui[i] = 0;
             school_income_forui[i] = 0;
+            policeStationIncomeForUI[i] = 0;
+            fireStationIncomeForUI[i] = 0;
+            healthCareIncomeForUI[i] = 0;
         }
 
         public static void dataInit()
@@ -236,6 +248,9 @@ namespace RealCity.CustomManager
                 playerIndustryIncomeForUI[i] = 0;
                 garbage_income_forui[i] = 0;
                 school_income_forui[i] = 0;
+                policeStationIncomeForUI[i] = 0;
+                fireStationIncomeForUI[i] = 0;
+                healthCareIncomeForUI[i] = 0;
             }
         }
 
@@ -382,6 +397,13 @@ namespace RealCity.CustomManager
             school_income = SaveAndRestore.load_float(ref i, saveData);
 
             PlayerIndustry = SaveAndRestore.load_float(ref i, saveData);
+
+            policeStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
+            policeStationIncome = SaveAndRestore.load_float(ref i, saveData);
+            healthCareIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
+            healthCareIncome = SaveAndRestore.load_float(ref i, saveData);
+            fireStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
+            fireStationIncome = SaveAndRestore.load_float(ref i, saveData);
 
             DebugLog.LogToFileOnly("saveData in EM is " + i.ToString());
         }
@@ -543,13 +565,17 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, school_income, ref saveData);
 
             SaveAndRestore.save_float(ref i, PlayerIndustry, ref saveData);
+
+            SaveAndRestore.save_ints(ref i, policeStationIncomeForUI, ref saveData);
+            SaveAndRestore.save_float(ref i, policeStationIncome, ref saveData);
+            SaveAndRestore.save_ints(ref i, healthCareIncomeForUI, ref saveData);
+            SaveAndRestore.save_float(ref i, healthCareIncome, ref saveData);
+            SaveAndRestore.save_ints(ref i, fireStationIncomeForUI, ref saveData);
+            SaveAndRestore.save_float(ref i, fireStationIncome, ref saveData);
         }
 
         public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
         {
-            //DebugLog.LogToFileOnly("go in FetchResource " + Policy_cost.ToString());
-            // if(itemClass.m_layer == ItemClass.Layer.Markers) means mod added employee expense
-            //if (itemClass.m_layer == ItemClass.Layer.ShipPaths) means mod added elecity and heat building oil and coal expense
             int temp;
             if (resource == EconomyManager.Resource.Maintenance)
             {
@@ -726,7 +752,6 @@ namespace RealCity.CustomManager
                     break;
                 case ItemClass.Service.Education:
                     school_income += (float)((double)(amount * taxRate/100f));
-                    //DebugLog.LogToFileOnly("school_income = " + school_income.ToString());
                     if (school_income > 1)
                     {
                         amount = (int)school_income;
@@ -737,6 +762,45 @@ namespace RealCity.CustomManager
                         amount = 0;
                     }
                     school_income_forui[MainDataStore.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.HealthCare:
+                    healthCareIncome += (float)((double)(amount * taxRate / 100f));
+                    if (healthCareIncome > 1)
+                    {
+                        amount = (int)healthCareIncome;
+                        healthCareIncome = healthCareIncome - (int)healthCareIncome;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    healthCareIncomeForUI[MainDataStore.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.FireDepartment:
+                    fireStationIncome += (float)((double)(amount * taxRate / 100f));
+                    if (fireStationIncome > 1)
+                    {
+                        amount = (int)fireStationIncome;
+                        fireStationIncome = fireStationIncome - (int)fireStationIncome;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    fireStationIncomeForUI[MainDataStore.update_money_count] += amount;
+                    break;
+                case ItemClass.Service.PoliceDepartment:
+                    policeStationIncome += (float)((double)(amount * taxRate / 100f));
+                    if (policeStationIncome > 1)
+                    {
+                        amount = (int)policeStationIncome;
+                        policeStationIncome = policeStationIncome - (int)policeStationIncome;
+                    }
+                    else
+                    {
+                        amount = 0;
+                    }
+                    policeStationIncomeForUI[MainDataStore.update_money_count] += amount;
                     break;
                 default:
                     amount = 0;

@@ -4,8 +4,6 @@
     {
 
         public const int gameExpenseDivide = 100;
-        public const float industialPriceAdjust = 1f;
-        public const float commericalPriceAdjust = 2f;
         public static float reserved0 = 1f;  //orginal landPrice
         public const byte govermentEducation0Salary = 50;
         public const byte govermentEducation1Salary = 55;

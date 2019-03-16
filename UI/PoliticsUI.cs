@@ -46,7 +46,6 @@ namespace RealCity.UI
         private UILabel currentMeetingItem;
         private UILabel voteResult;
         private UILabel currentPolitics;
-        private UILabel garbage;
         private UILabel benefit;
         private UILabel resident;
         private UILabel commerical;
@@ -163,14 +162,9 @@ namespace RealCity.UI
             this.currentPolitics.relativePosition = new Vector3(SPACING, this.voteResult.relativePosition.y + SPACING22 + 20f);
             this.currentPolitics.autoSize = true;
 
-            this.garbage = base.AddUIComponent<UILabel>();
-            this.garbage.text = Language.PoliticsMessage[31];
-            this.garbage.relativePosition = new Vector3(SPACING, this.currentPolitics.relativePosition.y + SPACING22);
-            this.garbage.autoSize = true;
-
             this.benefit = base.AddUIComponent<UILabel>();
             this.benefit.text = Language.PoliticsMessage[32];
-            this.benefit.relativePosition = new Vector3(SPACING, this.garbage.relativePosition.y + SPACING22);
+            this.benefit.relativePosition = new Vector3(SPACING, this.currentPolitics.relativePosition.y + SPACING22);
             this.benefit.autoSize = true;
 
             this.resident = base.AddUIComponent<UILabel>();
@@ -209,21 +203,18 @@ namespace RealCity.UI
                     this.national.text = string.Format(Language.PoliticsMessage[6] + " [{0}]", Politics.nPartySeats);
                     this.nextVote.text = string.Format(Language.PoliticsMessage[13] + " [{0}]", Politics.parliamentCount);
 
-                    if (Politics.currentIdx > 9)
+                    if (Politics.currentIdx > 7)
                     {
                         this.currentMeetingItem.text = string.Format(Language.PoliticsMessage[15] + ": N/A");
                     }
                     else
                     {
-
                         this.currentMeetingItem.text = string.Format(Language.PoliticsMessage[15] + ":" + Language.PoliticsMessage[16 + (int)Politics.currentIdx]);
                     }
 
                     this.voteResult.text = string.Format(Language.PoliticsMessage[26] + ": " + Language.PoliticsMessage[27] + ":" + Politics.currentYes.ToString() + " " + Language.PoliticsMessage[28] + ":" + Politics.currentNo.ToString() + " " + Language.PoliticsMessage[29] + ":" + Politics.currentNoAttend.ToString());
 
                     this.currentPolitics.text = string.Format(Language.PoliticsMessage[30]);
-
-                    this.garbage.text = string.Format(Language.PoliticsMessage[31] + Politics.garbageCount.ToString());
 
                     this.benefit.text = string.Format(Language.PoliticsMessage[32] + Politics.benefitOffset.ToString());
 

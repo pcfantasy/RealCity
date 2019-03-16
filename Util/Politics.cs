@@ -82,7 +82,7 @@ namespace RealCity.Util
                                                 {55, 35, 10},
                                               };
 
-        //riseSalaryTax
+        //riseCommericalTax
         public static byte[,] riseCommericalTax = {
                                                 {80, 20, 0},
                                                 {40, 50, 10},
@@ -91,7 +91,7 @@ namespace RealCity.Util
                                                 {45, 45, 10},
                                               };
 
-        //fallSalaryTax
+        //fallCommericalTax
         public static byte[,] fallCommericalTax = {
                                                 {20, 80, 0},
                                                 {50, 40, 10},
@@ -100,7 +100,7 @@ namespace RealCity.Util
                                                 {45, 45, 10},
                                               };
 
-        //riseSalaryTax
+        //riseBenefit
         public static byte[,] riseBenefit = {
                                                 {40, 50, 10},
                                                 {70, 20, 10},
@@ -109,7 +109,7 @@ namespace RealCity.Util
                                                 {30, 60, 10},
                                               };
 
-        //fallSalaryTax
+        //fallBenefit
         public static byte[,] fallBenefit = {
                                                 {50, 40, 10},
                                                 {20, 70, 10},
@@ -119,7 +119,7 @@ namespace RealCity.Util
                                               };
 
 
-        //riseSalaryTax
+        //riseIndustryTax
         public static byte[,] riseIndustryTax = {
                                                 {20, 70, 10},
                                                 {50, 50, 0},
@@ -128,7 +128,7 @@ namespace RealCity.Util
                                                 {30, 70,  0},
                                               };
 
-        //fallSalaryTax
+        //fallIndustryTax
         public static byte[,] fallIndustryTax = {
                                                 {70, 20, 10},
                                                 {50, 50, 0},
@@ -138,26 +138,7 @@ namespace RealCity.Util
                                               };
 
 
-        //riseSalaryTax
-        public static byte[,] riseGarbage = {
-                                                {90, 10,  0},
-                                                {10, 90, 0},
-                                                {40, 55, 5},
-                                                {50, 45, 5},
-                                                {75, 20, 5},
-                                              };
-
-        //fallSalaryTax
-        public static byte[,] fallGarbage = {
-                                                {10, 90, 0},
-                                                {90, 10, 0},
-                                                {55, 40, 5},
-                                                {45, 50, 5},
-                                                {20, 75, 5},
-                                              };
-
-
-        public static bool isOutSideGarbagePermit = false;
+        public static bool reserved1 = false;
 
 
         public static ushort cPartyChance = 0;
@@ -191,7 +172,6 @@ namespace RealCity.Util
         public static float nPartySeatsPollsFinalUnUsed = 0;
 
         public static short parliamentCount = 0;
-        //public static short parliamentMeetingCount = 0;
 
         public static bool case1 = false;
         public static bool case2 = false;
@@ -210,7 +190,7 @@ namespace RealCity.Util
         public static int commericalTax = 20;    //(0-20)
         public static int industryTax = 20;    //(0-20)
         public static short benefitOffset = 0;         //(0-10)
-        public static short garbageCount = 10;         //(0-10)
+        public static short reserved = 10;         //(0-10)
 
         public static byte[] saveData = new byte[103];
 
@@ -219,7 +199,7 @@ namespace RealCity.Util
             int i = 0;
 
             //1
-            SaveAndRestore.save_bool(ref i, isOutSideGarbagePermit, ref saveData);
+            SaveAndRestore.save_bool(ref i, reserved1, ref saveData);
 
             //30
             SaveAndRestore.save_ushort(ref i, cPartyChance, ref saveData);
@@ -281,7 +261,7 @@ namespace RealCity.Util
 
             //6
             SaveAndRestore.save_short(ref i, benefitOffset, ref saveData);
-            SaveAndRestore.save_short(ref i, garbageCount, ref saveData);
+            SaveAndRestore.save_short(ref i, reserved, ref saveData);
 
             DebugLog.LogToFileOnly("(save)saveData in politics is " + i.ToString());
         }
@@ -290,7 +270,7 @@ namespace RealCity.Util
         {
             int i = 0;
 
-            isOutSideGarbagePermit = SaveAndRestore.load_bool(ref i, saveData);
+            reserved1 = SaveAndRestore.load_bool(ref i, saveData);
 
             cPartyChance = SaveAndRestore.load_ushort(ref i, saveData);
             gPartyChance = SaveAndRestore.load_ushort(ref i, saveData);
@@ -344,7 +324,7 @@ namespace RealCity.Util
             industryTax = SaveAndRestore.load_int(ref i, saveData);
 
             benefitOffset = SaveAndRestore.load_short(ref i, saveData);
-            garbageCount = SaveAndRestore.load_short(ref i, saveData);
+            reserved = SaveAndRestore.load_short(ref i, saveData);
         }
      }
 }

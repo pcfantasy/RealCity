@@ -119,173 +119,6 @@ namespace RealCity
             }
         }
 
-
-        public void ProcessOutsideDemand(ushort buildingID, ref Building data)
-        {
-            if (data.Info.m_class.m_service == ItemClass.Service.Road)
-            {
-                if (Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
-                {
-                    if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
-                    {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + Politics.garbageCount * 8);
-                    }
-                    else
-                    {
-                        data.m_garbageBuffer = (ushort)(data.m_garbageBuffer + Politics.garbageCount * 4);
-                    }
-                }
-
-                if (data.m_garbageBuffer > 20000)
-                {
-                    data.m_garbageBuffer = 20000;
-                }
-            }
-            else if (RealCityEconomyExtension.updateOnce && (data.m_garbageBuffer != 0))
-            {
-                data.m_garbageBuffer = 0;
-                TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                offer.Building = buildingID;
-                Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
-                Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
-            }
-            else
-            {
-                data.m_garbageBuffer = 0;
-            }
-        }
-
-
-        public void AddGarbageOffers(ushort buildingID, ref Building data)
-        {
-            TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-
-            if (RealCityEconomyExtension.haveGarbageBuildingFinal && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
-            {
-                if ((data.m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
-                {
-                    if (data.m_garbageBuffer > 200)
-                    {
-                        int car_valid_path = TickPathfindStatus(ref data.m_education3, ref data.m_adults);
-                        SimulationManager instance1 = Singleton<SimulationManager>.instance;
-                        if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
-                        {
-                            if (instance1.m_randomizer.Int32(16u) == 0)
-                            {
-                                int num24 = (int)data.m_garbageBuffer;
-                                if (Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
-                                {
-                                    int num25 = 0;
-                                    int num26 = 0;
-                                    int num27 = 0;
-                                    int num28 = 0;
-                                    this.CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
-                                    num24 -= num27 - num26;
-                                    if (num24 >= 200)
-                                    {
-                                        offer = default(TransferManager.TransferOffer);
-                                        offer.Priority = num24 / 1000;
-                                        if (offer.Priority > 7)
-                                        {
-                                            offer.Priority = 7;
-                                        }
-                                        offer.Building = buildingID;
-                                        offer.Position = data.m_position;
-                                        offer.Amount = 1;
-                                        offer.Active = false;
-                                        Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            int num24 = (int)data.m_garbageBuffer;
-                            if (Singleton<SimulationManager>.instance.m_randomizer.Int32(5u) == 0 && Singleton<UnlockManager>.instance.Unlocked(ItemClass.Service.Garbage))
-                            {
-                                int num25 = 0;
-                                int num26 = 0;
-                                int num27 = 0;
-                                int num28 = 0;
-                                CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Garbage, ref num25, ref num26, ref num27, ref num28);
-                                num24 -= num27 - num26;
-                                if (num24 >= 200)
-                                {
-                                    offer = default(TransferManager.TransferOffer);
-                                    offer.Priority = num24 / 1000;
-                                    if (offer.Priority > 7)
-                                    {
-                                        offer.Priority = 7;
-                                    }
-                                    offer.Building = buildingID;
-                                    offer.Position = data.m_position;
-                                    offer.Amount = 1;
-                                    offer.Active = false;
-                                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Garbage, offer);
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (data.m_garbageBuffer > 4000)
-                    {
-                        int car_valid_path = TickPathfindStatus(ref data.m_teens, ref data.m_serviceProblemTimer);
-                        SimulationManager instance1 = Singleton<SimulationManager>.instance;
-                        if (car_valid_path + instance1.m_randomizer.Int32(256u) >> 8 == 0)
-                        {
-                            if (instance1.m_randomizer.Int32(16u) == 0)
-                            {
-                                offer = default(TransferManager.TransferOffer);
-                                offer.Priority = 1 + data.m_garbageBuffer / 5000;
-                                if (offer.Priority > 7)
-                                {
-                                    offer.Priority = 7;
-                                }
-                                offer.Building = buildingID;
-                                offer.Position = data.m_position;
-                                offer.Amount = 1;
-                                offer.Active = true;
-                                Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
-                            }
-                        }
-                        else
-                        {
-                            offer = default(TransferManager.TransferOffer);
-                            offer.Priority = 1 + data.m_garbageBuffer / 5000;
-                            if (offer.Priority > 7)
-                            {
-                                offer.Priority = 7;
-                            }
-                            offer.Building = buildingID;
-                            offer.Position = data.m_position;
-                            offer.Amount = 1;
-                            offer.Active = true;
-                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.GarbageMove, offer);
-                        }
-                    }
-                }
-            }
-        }
-
-        private static int TickPathfindStatus(ref byte success, ref byte failure)
-        {
-            int result = ((int)success << 8) / Mathf.Max(1, (int)(success + failure));
-            if (success > failure)
-            {
-                success = (byte)(success + 1 >> 1);
-                failure = (byte)(failure >> 1);
-            }
-            else
-            {
-                success = (byte)(success >> 1);
-                failure = (byte)(failure + 1 >> 1);
-            }
-            return result;
-        }
-
-
         public override void OnAfterSimulationFrame()
         {
             base.OnAfterSimulationFrame();
@@ -300,31 +133,17 @@ namespace RealCity
                     int num6 = (num4 + 1) * 192 - 1;
                     BuildingManager instance = Singleton<BuildingManager>.instance;
 
-
                     for (int i = num5; i <= num6; i = i + 1)
                     {
                         if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && !instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted))
                         {
                             MainDataStore.isBuildingReleased[i] = false;
-                            if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
+                            if (!instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable))
                             {
-                                ProcessOutsideDemand((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                                AddGarbageOffers((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                            }
-                            else
-                            {
-                                if (instance.m_buildings.m_buffer[i].m_productionRate != 0)
-                                {
-                                    if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Garbage)
-                                    {
-                                        RealCityEconomyExtension.haveGarbageBuilding = true;
-                                    }
-                                }
                                 //If playerbuilding is working with zero worker, it still need to operation with salary expense.
                                 //They may hire a foreigner worker :)
                                 ProcessZeroWorker((ushort)i, ref instance.m_buildings.m_buffer[i]);
                             }
-
                         }
                         else
                         {

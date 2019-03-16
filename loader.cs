@@ -94,7 +94,7 @@ namespace RealCity
         {
             MainDataStore.data_init();
             RealCityEconomyManager.dataInit();
-            RealCityEconomyManager.saveData = new byte[2628];
+            RealCityEconomyManager.saveData = new byte[2844];
             RealCityPrivateBuildingAI.saveData = new byte[316];
             RealCityResidentAI.saveData = new byte[140];
             MainDataStore.saveData = new byte[3932402];
@@ -742,7 +742,7 @@ namespace RealCity
 
 
                 //22
-                DebugLog.LogToFileOnly("Detour OutsideConnectionAI::ModifyMaterialBuffer calls");
+                /*DebugLog.LogToFileOnly("Detour OutsideConnectionAI::ModifyMaterialBuffer calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(OutsideConnectionAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null),
@@ -752,7 +752,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour OutsideConnectionAI::ModifyMaterialBuffer");
                     detourFailed = true;
-                }
+                }*/
 
                 //23
                 /*DebugLog.LogToFileOnly("Detour EconomyManager::GetBudget calls");
@@ -807,7 +807,7 @@ namespace RealCity
                 }
 
                 //27
-                DebugLog.LogToFileOnly("Detour OutsideConnectionAI::StartTransfer calls");
+                /*DebugLog.LogToFileOnly("Detour OutsideConnectionAI::StartTransfer calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(OutsideConnectionAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null),
@@ -817,10 +817,10 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour OutsideConnectionAI::StartTransfer");
                     detourFailed = true;
-                }
+                }*/
 
                 //28
-                DebugLog.LogToFileOnly("Detour GarbageTruckAI::ArriveAtTarget calls");
+                /*DebugLog.LogToFileOnly("Detour GarbageTruckAI::ArriveAtTarget calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
@@ -830,7 +830,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour GarbageTruckAI::ArriveAtTarget");
                     detourFailed = true;
-                }
+                }*/
 
                 //29
                 DebugLog.LogToFileOnly("Detour BuildingAI::VisitorEnter calls");
@@ -844,7 +844,7 @@ namespace RealCity
                     DebugLog.LogToFileOnly("Could not detour BuildingAI::VisitorEnter");
                     detourFailed = true;
                 }
-                
+
                 //30
                 DebugLog.LogToFileOnly("Detour IndustryBuildingAI::GetResourcePrice calls");
                 try

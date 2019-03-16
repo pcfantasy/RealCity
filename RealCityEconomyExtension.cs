@@ -276,27 +276,7 @@ namespace RealCity
                             Politics.currentIdx = 7;
                         }
                         break;
-                    case 8:
-                        if (Politics.garbageCount >= 10)
-                        {
-                            Politics.currentIdx = 9;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 8;
-                        }
-                        break;
-                    case 9:
-                        if (Politics.garbageCount <= 0)
-                        {
-                            Politics.currentIdx = 8;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 9;
-                        }
-                        break;
-                    default: Politics.currentIdx = 10; break;
+                    default: Politics.currentIdx = 8; break;
                 }
                 VoteResult(Politics.currentIdx);
             }
@@ -332,10 +312,6 @@ namespace RealCity
                             {
                                 idex = 6;
                             }
-                            else if (Politics.garbageCount < 10)
-                            {
-                                idex = 8;
-                            }
                             else if (Politics.commericalTax < 20)
                             {
                                 idex = 4;
@@ -351,10 +327,6 @@ namespace RealCity
                             else if (Politics.industryTax < 20)
                             {
                                 idex = 6;
-                            }
-                            else if (Politics.garbageCount < 10)
-                            {
-                                idex = 8;
                             }
                             else if (Politics.commericalTax < 20)
                             {
@@ -380,10 +352,6 @@ namespace RealCity
                             {
                                 idex = 6;
                             }
-                            else if (Politics.garbageCount < 10)
-                            {
-                                idex = 8;
-                            }
                             else if (Politics.residentTax < 20)
                             {
                                 idex = 0;
@@ -399,10 +367,6 @@ namespace RealCity
                             if (Politics.industryTax < 20)
                             {
                                 idex = 6;
-                            }
-                            else if (Politics.garbageCount < 10)
-                            {
-                                idex = 8;
                             }
                             else if (Politics.commericalTax < 20)
                             {
@@ -420,11 +384,7 @@ namespace RealCity
                         case 12:
                         case 13:
                         case 14:
-                            if (Politics.garbageCount < 10)
-                            {
-                                idex = 8;
-                            }
-                            else if (Politics.benefitOffset > 0)
+                            if (Politics.benefitOffset > 0)
                             {
                                 idex = 3;
                             }
@@ -522,8 +482,6 @@ namespace RealCity
             int benefitOffset = 10 - (int)(Politics.benefitOffset * 2);
             int commericalTax = 10 - (int)(Politics.commericalTax);
             int industryTax = 10 - (int)(Politics.industryTax);
-            int garbageCount = 10 - (int)(Politics.garbageCount * 2);
-
             int temp3 = 0; // money offset
             int temp4 = 0; // citizen offset
             int temp5 = 0; //building offset
@@ -684,42 +642,6 @@ namespace RealCity
                         yes += temp3;
                         yes -= temp5;
                         break;
-                    case 8:
-                        yes += Politics.cPartySeats * (Politics.riseGarbage[0, 0] + garbageCount);
-                        yes += Politics.gPartySeats * (Politics.riseGarbage[1, 0] + garbageCount);
-                        yes += Politics.sPartySeats * (Politics.riseGarbage[2, 0] + garbageCount);
-                        yes += Politics.lPartySeats * (Politics.riseGarbage[3, 0] + garbageCount);
-                        yes += Politics.nPartySeats * (Politics.riseGarbage[4, 0] + garbageCount);
-                        no += Politics.cPartySeats * (Politics.riseGarbage[0, 1] - garbageCount);
-                        no += Politics.gPartySeats * (Politics.riseGarbage[1, 1] - garbageCount);
-                        no += Politics.sPartySeats * (Politics.riseGarbage[2, 1] - garbageCount);
-                        no += Politics.lPartySeats * (Politics.riseGarbage[3, 1] - garbageCount);
-                        no += Politics.nPartySeats * (Politics.riseGarbage[4, 1] - garbageCount);
-                        noAttend += Politics.cPartySeats * Politics.riseGarbage[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.riseGarbage[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.riseGarbage[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.riseGarbage[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.riseGarbage[4, 2];
-                        yes -= temp3;
-                        break;
-                    case 9:
-                        yes += Politics.cPartySeats * (Politics.fallGarbage[0, 0] - garbageCount);
-                        yes += Politics.gPartySeats * (Politics.fallGarbage[1, 0] - garbageCount);
-                        yes += Politics.sPartySeats * (Politics.fallGarbage[2, 0] - garbageCount);
-                        yes += Politics.lPartySeats * (Politics.fallGarbage[3, 0] - garbageCount);
-                        yes += Politics.nPartySeats * (Politics.fallGarbage[4, 0] - garbageCount);
-                        no += Politics.cPartySeats * (Politics.fallGarbage[0, 1] + garbageCount);
-                        no += Politics.gPartySeats * (Politics.fallGarbage[1, 1] + garbageCount);
-                        no += Politics.sPartySeats * (Politics.fallGarbage[2, 1] + garbageCount);
-                        no += Politics.lPartySeats * (Politics.fallGarbage[3, 1] + garbageCount);
-                        no += Politics.nPartySeats * (Politics.fallGarbage[4, 1] + garbageCount);
-                        noAttend += Politics.cPartySeats * Politics.fallGarbage[0, 2];
-                        noAttend += Politics.gPartySeats * Politics.fallGarbage[1, 2];
-                        noAttend += Politics.sPartySeats * Politics.fallGarbage[2, 2];
-                        noAttend += Politics.lPartySeats * Politics.fallGarbage[3, 2];
-                        noAttend += Politics.nPartySeats * Politics.fallGarbage[4, 2];
-                        yes += temp3;
-                        break;
                 }
 
                 if (yes < 0)
@@ -736,22 +658,25 @@ namespace RealCity
                 }
 
                 int temp1 = yes + no + noAttend;
-                yes = (int)((yes * 99) / temp1);
-                no = (int)((no * 99) / temp1);
-                noAttend = (int)((noAttend * 99) / temp1);
-                temp1 = yes + no + noAttend;
-
-                if (temp1 < 99)
+                if (temp1 != 0)
                 {
-                    System.Random rand = new System.Random();
-                    switch (rand.Next(3))
+                    yes = (int)((yes * 99) / temp1);
+                    no = (int)((no * 99) / temp1);
+                    noAttend = (int)((noAttend * 99) / temp1);
+                    temp1 = yes + no + noAttend;
+
+                    if (temp1 < 99)
                     {
-                        case 0:
-                            yes += 99 - temp1; break;
-                        case 1:
-                            no += 99 - temp1; break;
-                        case 2:
-                            noAttend += 99 - temp1; break;
+                        System.Random rand = new System.Random();
+                        switch (rand.Next(3))
+                        {
+                            case 0:
+                                yes += 99 - temp1; break;
+                            case 1:
+                                no += 99 - temp1; break;
+                            case 2:
+                                noAttend += 99 - temp1; break;
+                        }
                     }
                 }
 
@@ -785,10 +710,6 @@ namespace RealCity
                         case 7:
                             Politics.industryTax -= 1;
                             break;
-                        case 8:
-                            Politics.garbageCount++; break;
-                        case 9:
-                            Politics.garbageCount--; break;
                     }
                 }
             }

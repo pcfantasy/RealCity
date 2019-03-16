@@ -74,26 +74,13 @@ namespace RealCity.CustomAI
                 int customBuffer = (int)data.m_customBuffer1;
                 amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                 process_incoming(buildingID, ref data, material, ref amountDelta);
-
-                if (material == GetSecondaryIncomingTransferReason(buildingID))
-                {                 
-                        data.m_customBuffer1 = (ushort)(customBuffer + amountDelta * MainDataStore.industialPriceAdjust);
-                        MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                }
-                else
-                {
-                        data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
-                        MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                }
+                data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
             }
             else if (material == GetOutgoingTransferReason())
             {
                 int customBuffer2 = (int)data.m_customBuffer2;
                 amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
-                if (amountDelta < -8000)
-                {
-                    amountDelta = -8000;
-                }
                 caculate_trade_income(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
                 MainDataStore.building_buffer2[buildingID] = data.m_customBuffer2;

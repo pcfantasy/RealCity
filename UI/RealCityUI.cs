@@ -15,7 +15,7 @@ namespace RealCity.UI
 
         public static float WIDTH = 600f;
 
-        private static readonly float HEIGHT = 750f;
+        private static readonly float HEIGHT = 780f;
 
         private static readonly float HEADER = 40f;
 
@@ -94,6 +94,9 @@ namespace RealCity.UI
         private UILabel garbage_income_title;
         private UILabel school_income_title;
         private UILabel playerIndustryIncomeTitle;
+        private UILabel healthCareIncomeTitle;
+        private UILabel fireStationIncomeTitle;
+        private UILabel policeStationIncomeTitle;
 
         //7、all total income
         private UILabel all_total_income_ui;
@@ -148,6 +151,9 @@ namespace RealCity.UI
         public static double road_income_forui;
         public static double playerIndustryIncomeForUI;
         public static double school_income_forui;
+        public static double healthCareIncomeForUI;
+        public static double policeStationIncomeForUI;
+        public static double fireStationIncomeForUI;
 
         //transport income
         public static double city_playerbuilding_income_total;
@@ -454,28 +460,43 @@ namespace RealCity.UI
 
             this.garbage_income_title = base.AddUIComponent<UILabel>();
             this.garbage_income_title.text = Language.RealCityUI1[44];
-            this.garbage_income_title.relativePosition = new Vector3(SPACING, this.goverment_income_title.relativePosition.y + SPACING22);
+            this.garbage_income_title.relativePosition = new Vector3(SPACING, this.from_plane.relativePosition.y + 2 * SPACING22 + 10f);
             this.garbage_income_title.autoSize = true;
 
             this.school_income_title = base.AddUIComponent<UILabel>();
             this.school_income_title.text = Language.RealCityUI1[45];
-            this.school_income_title.relativePosition = new Vector3(this.garbage_income_title.relativePosition.x, this.garbage_income_title.relativePosition.y + SPACING22);
+            this.school_income_title.relativePosition = new Vector3(this.from_cable_car.relativePosition.x, this.from_cable_car.relativePosition.y + 2 * SPACING22 + 10f);
             this.school_income_title.autoSize = true;
 
             this.road_income_title = base.AddUIComponent<UILabel>();
             this.road_income_title.text = Language.RealCityUI1[46];
-            this.road_income_title.relativePosition = new Vector3(this.school_income_title.relativePosition.x, this.school_income_title.relativePosition.y + SPACING22);
+            this.road_income_title.relativePosition = new Vector3(this.from_monorail.relativePosition.x, this.from_monorail.relativePosition.y + 2 * SPACING22 + 10f);
             this.road_income_title.autoSize = true;
 
             this.playerIndustryIncomeTitle = base.AddUIComponent<UILabel>();
             this.playerIndustryIncomeTitle.text = Language.RealCityUI1[47];
-            this.playerIndustryIncomeTitle.relativePosition = new Vector3(this.road_income_title.relativePosition.x, this.road_income_title.relativePosition.y + SPACING22);
+            this.playerIndustryIncomeTitle.relativePosition = new Vector3(this.garbage_income_title.relativePosition.x, this.garbage_income_title.relativePosition.y + SPACING22);
             this.playerIndustryIncomeTitle.autoSize = true;
+
+            this.healthCareIncomeTitle = base.AddUIComponent<UILabel>();
+            this.healthCareIncomeTitle.text = Language.RealCityUI1[51];
+            this.healthCareIncomeTitle.relativePosition = new Vector3(this.school_income_title.relativePosition.x, this.school_income_title.relativePosition.y + SPACING22);
+            this.healthCareIncomeTitle.autoSize = true;
+
+            this.fireStationIncomeTitle = base.AddUIComponent<UILabel>();
+            this.fireStationIncomeTitle.text = Language.RealCityUI1[52];
+            this.fireStationIncomeTitle.relativePosition = new Vector3(this.road_income_title.relativePosition.x, this.road_income_title.relativePosition.y + SPACING22);
+            this.fireStationIncomeTitle.autoSize = true;
+
+            this.policeStationIncomeTitle = base.AddUIComponent<UILabel>();
+            this.policeStationIncomeTitle.text = Language.RealCityUI1[53];
+            this.policeStationIncomeTitle.relativePosition = new Vector3(this.playerIndustryIncomeTitle.relativePosition.x, this.playerIndustryIncomeTitle.relativePosition.y + SPACING22);
+            this.policeStationIncomeTitle.autoSize = true;
 
             this.all_total_income_ui = base.AddUIComponent<UILabel>();
             this.all_total_income_ui.text = Language.RealCityUI1[48];
             this.all_total_income_ui.textScale = 1.1f;
-            this.all_total_income_ui.relativePosition = new Vector3(this.playerIndustryIncomeTitle.relativePosition.x, this.playerIndustryIncomeTitle.relativePosition.y + SPACING22 + 10f);
+            this.all_total_income_ui.relativePosition = new Vector3(this.policeStationIncomeTitle.relativePosition.x, this.policeStationIncomeTitle.relativePosition.y + SPACING22 + 10f);
             this.all_total_income_ui.autoSize = true;
         }
 
@@ -541,6 +562,9 @@ namespace RealCity.UI
                     this.garbage_income_title.text = string.Format(Language.RealCityUI1[45] + " [{0}]", garbage_income_forui);
                     this.school_income_title.text = string.Format(Language.RealCityUI1[46] + " [{0}]", school_income_forui);
                     this.playerIndustryIncomeTitle.text = string.Format(Language.RealCityUI1[47] + " [{0}]", playerIndustryIncomeForUI);
+                    this.healthCareIncomeTitle.text = string.Format(Language.RealCityUI1[51] + " [{0}]", healthCareIncomeForUI);
+                    this.fireStationIncomeTitle.text = string.Format(Language.RealCityUI1[52] + " [{0}]", fireStationIncomeForUI);
+                    this.policeStationIncomeTitle.text = string.Format(Language.RealCityUI1[53] + " [{0}]", policeStationIncomeForUI);
                     this.all_total_income_ui.text = string.Format(Language.RealCityUI1[48] + " [{0}]", all_total_income);
                     refeshOnce = false;
                 }
@@ -557,11 +581,6 @@ namespace RealCity.UI
             {
                 refeshOnce = true;
                 base.Show();
-                /*if (!this.CoDisplayRefreshEnabled)
-                {
-                    base.StartCoroutine(this.RefreshDisplayDataWrapper());
-                    return;
-                }*/
             }
             else
             {
@@ -575,10 +594,11 @@ namespace RealCity.UI
             city_playerbuilding_income_percent = 0;
             road_income_forui = 0f;
             playerIndustryIncomeForUI = 0f;
+            healthCareIncomeForUI = 0f;
+            policeStationIncomeForUI = 0f;
+            fireStationIncomeForUI = 0f;
             garbage_income_forui = 0f;
             school_income_forui = 0f;
-
-
             citizen_tax_income_forui = 0;
             citizen_income_forui = 0;
             tourist_income_forui = 0;
@@ -652,29 +672,15 @@ namespace RealCity.UI
                 indu_foresty_tradeincome_forui+= (double)RealCityEconomyManager.indu_foresty_tradeincome_forui[i]  / 100f;
                 indu_oil_tradeincome_forui+= (double)RealCityEconomyManager.indu_oil_tradeincome_forui[i]  / 100f;
                 indu_ore_tradeincome_forui+= (double)RealCityEconomyManager.indu_ore_tradeincome_forui[i]  / 100f;
-
                 road_income_forui += (double)RealCityEconomyManager.road_income_forui[i]  / 100f;
                 playerIndustryIncomeForUI += (double)RealCityEconomyManager.playerIndustryIncomeForUI[i]  / 100f;
+                healthCareIncomeForUI += (double)RealCityEconomyManager.healthCareIncomeForUI[i] / 100f;
+                policeStationIncomeForUI += (double)RealCityEconomyManager.policeStationIncomeForUI[i] / 100f;
+                fireStationIncomeForUI += (double)RealCityEconomyManager.fireStationIncomeForUI[i] / 100f;
                 garbage_income_forui += (double)RealCityEconomyManager.garbage_income_forui[i]  / 100f;
                 school_income_forui += (double)RealCityEconomyManager.school_income_forui[i]  / 100f;
             }
-            /*DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[0].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[1].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[2].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[3].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[4].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[5].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[6].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[7].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[8].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[9].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[10].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[11].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[12].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[13].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[14].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[15].ToString());
-            DebugLog.LogToFileOnly(pc_EconomyManager.school_income_forui[16].ToString());*/
+
             citizen_tax_income_forui -= (double)RealCityEconomyManager.citizen_tax_income_forui[MainDataStore.update_money_count]  / 100f;
             citizen_income_forui -= (double)RealCityEconomyManager.citizen_income_forui[MainDataStore.update_money_count]  / 100f;
             tourist_income_forui -= (double)RealCityEconomyManager.tourist_income_forui[MainDataStore.update_money_count]  / 100f;
@@ -707,6 +713,9 @@ namespace RealCity.UI
 
             road_income_forui -= (double)RealCityEconomyManager.road_income_forui[MainDataStore.update_money_count]  / 100f;
             playerIndustryIncomeForUI -= (double)RealCityEconomyManager.playerIndustryIncomeForUI[MainDataStore.update_money_count]  / 100f;
+            fireStationIncomeForUI -= (double)RealCityEconomyManager.fireStationIncomeForUI[MainDataStore.update_money_count] / 100f;
+            healthCareIncomeForUI -= (double)RealCityEconomyManager.healthCareIncomeForUI[MainDataStore.update_money_count] / 100f;
+            policeStationIncomeForUI -= (double)RealCityEconomyManager.policeStationIncomeForUI[MainDataStore.update_money_count] / 100f;
             garbage_income_forui -= (double)RealCityEconomyManager.garbage_income_forui[MainDataStore.update_money_count]  / 100f;
             school_income_forui -= (double)RealCityEconomyManager.school_income_forui[MainDataStore.update_money_count]  / 100f;
 
@@ -727,7 +736,6 @@ namespace RealCity.UI
             city_land_income_total += indu_ore_landincome_forui;
             city_land_income_total += office_gen_landincome_forui;
             city_land_income_total += office_high_tech_landincome_forui;
-
             city_trade_income_total += comm_eco_tradeincome_forui;
             city_trade_income_total += comm_lei_tradeincome_forui;
             city_trade_income_total += comm_tou_tradeincome_forui;
@@ -738,9 +746,7 @@ namespace RealCity.UI
             city_trade_income_total += indu_farmer_tradeincome_forui;
             city_trade_income_total += indu_oil_tradeincome_forui;
             city_trade_income_total += indu_ore_tradeincome_forui;
-
             city_tourism_income_total = citizen_income_forui + tourist_income_forui;
-
             city_transport_income_total += bus_income;
             city_transport_income_total += tram_income;
             city_transport_income_total += train_income;
@@ -750,12 +756,13 @@ namespace RealCity.UI
             city_transport_income_total += metro_income;
             city_transport_income_total += cablecar_income;
             city_transport_income_total += monorail_income;
-
             city_playerbuilding_income_total += road_income_forui;
             city_playerbuilding_income_total += playerIndustryIncomeForUI;
+            city_playerbuilding_income_total += healthCareIncomeForUI;
+            city_playerbuilding_income_total += fireStationIncomeForUI;
+            city_playerbuilding_income_total += policeStationIncomeForUI;
             city_playerbuilding_income_total += garbage_income_forui;
             city_playerbuilding_income_total += school_income_forui;
-
             all_total_income = city_playerbuilding_income_total + citizen_tax_income_total + city_land_income_total + city_tourism_income_total + city_trade_income_total + city_transport_income_total;
 
             if (all_total_income != 0)

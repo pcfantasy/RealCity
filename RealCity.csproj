@@ -77,13 +77,11 @@
     <Compile Include="CustomAI\RealCityCommericalBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityCommonBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityExtractingFacilityAI.cs" />
-    <Compile Include="CustomAI\RealCityGarbageTruckAI.cs" />
     <Compile Include="CustomAI\RealCityHumanAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialExtractorAI.cs" />
     <Compile Include="CustomAI\RealCityIndustryBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityOfficeBuildingAI.cs" />
-    <Compile Include="CustomAI\RealCityOutsideConnectionAI.cs" />
     <Compile Include="CustomAI\RealCityPassengerCarAI.cs" />
     <Compile Include="CustomAI\RealCityPlayerBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityPrivateBuildingAI.cs" />

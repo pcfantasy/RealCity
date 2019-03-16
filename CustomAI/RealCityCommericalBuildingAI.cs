@@ -36,17 +36,8 @@ namespace RealCity.CustomAI
                             amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                             // NON-STOCK CODE START
                             process_incoming(buildingID, ref data, material, ref amountDelta);
-                            // For industry DLC, customBuffer may more than 64000. Fix this
-                            if (material == TransferManager.TransferReason.LuxuryProducts)
-                            {
-                                    data.m_customBuffer1 = (ushort)(customBuffer + amountDelta * MainDataStore.commericalPriceAdjust);
-                                    MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                            }
-                            else
-                            {
-                                    data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
-                                    MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-                            }
+                            data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                            MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
                         }
                         else
                         {

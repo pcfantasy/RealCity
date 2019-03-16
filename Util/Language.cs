@@ -214,6 +214,9 @@ namespace RealCity.Util
             "7、City all total income",
             "City income data(unit:₡)",
             "City status",
+            "HealthCare",
+            "FireStation",
+            "PoliceStation",
         };
 
 
@@ -423,6 +426,9 @@ namespace RealCity.Util
             "7、城市总收入",                                                      //48
             "城市收入情况(单位:克朗)",                                            //49
             "城市情况",                                                           //50
+            "医疗和殡葬",
+            "消防局",
+            "警察局",
         };
 
 
