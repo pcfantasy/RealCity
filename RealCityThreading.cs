@@ -31,7 +31,6 @@ namespace RealCity
             }
         }
 
-
         public void CheckLanguage()
         {
             if (SingletonLite<LocaleManager>.instance.language.Contains("zh") && (MainDataStore.lastLanguage == 1))

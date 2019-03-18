@@ -7,10 +7,6 @@ namespace RealCity.CustomManager
 {
     public class RealCityEconomyManager
     {
-        //all income * 100 , other wise is too small for game
-        //all maintain fee / 1, otherwise it is too high for city
-        //that is , for in game maintain fee and policy cost, it is 1/100 unit compared with enonomic element of real city mode
-        //because maintance and police cost is too small when use real city mod.
         public static float Road = 0f;
         public static float Electricity = 0f;
         public static float Water = 0f;
@@ -25,11 +21,8 @@ namespace RealCity.CustomManager
         public static float Policy_cost = 0f;
         public static float Disaster = 0f;
         public static float PlayerIndustry = 0f;
-        //public static float citizen_tax_income = 0f;
         public static float citizen_income = 0f;
         public static float tourist_income = 0f;
-
-
         public static float resident_low_level1_tax_income = 0f;
         public static float resident_low_level2_tax_income = 0f;
         public static float resident_low_level3_tax_income = 0f;
@@ -50,7 +43,6 @@ namespace RealCity.CustomManager
         public static float resident_high_eco_level3_tax_income = 0f;
         public static float resident_high_eco_level4_tax_income = 0f;
         public static float resident_high_eco_level5_tax_income = 0f;
-
         public static float commerical_low_level1_income = 0f;
         public static float commerical_low_level2_income = 0f;
         public static float commerical_low_level3_income = 0f;
@@ -91,7 +83,6 @@ namespace RealCity.CustomManager
         public static float resident_high_eco_level3_income = 0f;
         public static float resident_high_eco_level4_income = 0f;
         public static float resident_high_eco_level5_income = 0f;
-
         public static float commerical_low_level1_trade_income = 0f;
         public static float commerical_low_level2_trade_income = 0f;
         public static float commerical_low_level3_trade_income = 0f;
@@ -108,14 +99,11 @@ namespace RealCity.CustomManager
         public static float industy_gen_level1_trade_income = 0f;
         public static float industy_gen_level2_trade_income = 0f;
         public static float industy_gen_level3_trade_income = 0f;
-
         //citizen tax income
         public static int[] citizen_tax_income_forui = new int[17];
-
         //tourist for both citizen and tourist
         public static int[] citizen_income_forui = new int[17];
         public static int[] tourist_income_forui = new int[17];
-
         //land income
         public static int[] resident_high_landincome_forui = new int[17];
         public static int[] resident_low_landincome_forui = new int[17];
@@ -133,7 +121,6 @@ namespace RealCity.CustomManager
         public static int[] indu_ore_landincome_forui = new int[17];
         public static int[] office_gen_landincome_forui = new int[17];
         public static int[] office_high_tech_landincome_forui = new int[17];
-
         //trade income
         public static int[] comm_high_tradeincome_forui = new int[17];
         public static int[] comm_low_tradeincome_forui = new int[17];
@@ -145,7 +132,6 @@ namespace RealCity.CustomManager
         public static int[] indu_foresty_tradeincome_forui = new int[17];
         public static int[] indu_oil_tradeincome_forui = new int[17];
         public static int[] indu_ore_tradeincome_forui = new int[17];
-
         //govement income
         public static float garbage_income = 0f;
         public static float road_income = 0f;
@@ -153,19 +139,15 @@ namespace RealCity.CustomManager
         public static int[] garbage_income_forui = new int[17];
         public static int[] road_income_forui = new int[17];
         public static int[] playerIndustryIncomeForUI = new int[17];
-
         public static float school_income = 0f;
         public static int[] school_income_forui = new int[17];
-
-        //72*3 = 216
+       //72*3 = 216
         public static float policeStationIncome = 0f;
         public static int[] policeStationIncomeForUI = new int[17];
         public static float healthCareIncome = 0f;
         public static int[] healthCareIncomeForUI = new int[17];
         public static float fireStationIncome = 0f;
         public static int[] fireStationIncomeForUI = new int[17];
-
-
         //2628+216 = 2844
         public static byte[] saveData = new byte[2844];
 
@@ -272,8 +254,6 @@ namespace RealCity.CustomManager
             Disaster = SaveAndRestore.load_float(ref i, saveData);
             citizen_income = SaveAndRestore.load_float(ref i, saveData);
             tourist_income = SaveAndRestore.load_float(ref i, saveData);
-
-
             resident_low_level1_tax_income = SaveAndRestore.load_float(ref i, saveData);
             resident_low_level2_tax_income = SaveAndRestore.load_float(ref i, saveData);
             resident_low_level3_tax_income = SaveAndRestore.load_float(ref i, saveData);
@@ -294,7 +274,6 @@ namespace RealCity.CustomManager
             resident_high_eco_level3_tax_income = SaveAndRestore.load_float(ref i, saveData);
             resident_high_eco_level4_tax_income = SaveAndRestore.load_float(ref i, saveData);
             resident_high_eco_level5_tax_income = SaveAndRestore.load_float(ref i, saveData);
-
             commerical_low_level1_income = SaveAndRestore.load_float(ref i, saveData);
             commerical_low_level2_income = SaveAndRestore.load_float(ref i, saveData);
             commerical_low_level3_income = SaveAndRestore.load_float(ref i, saveData);
@@ -335,7 +314,6 @@ namespace RealCity.CustomManager
             resident_high_eco_level3_income = SaveAndRestore.load_float(ref i, saveData);
             resident_high_eco_level4_income = SaveAndRestore.load_float(ref i, saveData);
             resident_high_eco_level5_income = SaveAndRestore.load_float(ref i, saveData);
-
             commerical_low_level1_trade_income = SaveAndRestore.load_float(ref i, saveData);
             commerical_low_level2_trade_income = SaveAndRestore.load_float(ref i, saveData);
             commerical_low_level3_trade_income = SaveAndRestore.load_float(ref i, saveData);
@@ -354,7 +332,6 @@ namespace RealCity.CustomManager
             industy_gen_level3_trade_income = SaveAndRestore.load_float(ref i, saveData);
             // 97*4 = 388
             // 35*4*17 = 2768
-
             citizen_tax_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             citizen_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             tourist_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
@@ -374,7 +351,6 @@ namespace RealCity.CustomManager
             indu_ore_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             office_gen_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             office_high_tech_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-
             comm_high_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             comm_low_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             comm_lei_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
@@ -385,33 +361,27 @@ namespace RealCity.CustomManager
             indu_foresty_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             indu_oil_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             indu_ore_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-
             road_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             playerIndustryIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             garbage_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-
             road_income = SaveAndRestore.load_float(ref i, saveData);
             playerIndustryIncome = SaveAndRestore.load_float(ref i, saveData);
             garbage_income = SaveAndRestore.load_float(ref i, saveData);
             school_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             school_income = SaveAndRestore.load_float(ref i, saveData);
-
             PlayerIndustry = SaveAndRestore.load_float(ref i, saveData);
-
             policeStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             policeStationIncome = SaveAndRestore.load_float(ref i, saveData);
             healthCareIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             healthCareIncome = SaveAndRestore.load_float(ref i, saveData);
             fireStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             fireStationIncome = SaveAndRestore.load_float(ref i, saveData);
-
             DebugLog.LogToFileOnly("saveData in EM is " + i.ToString());
         }
 
         public static void Save()
         {
             int i = 0;
-
             //680+1292+64+160+80+52 = 2382
             //15*4 = 60
             SaveAndRestore.save_float(ref i, Road, ref saveData);
@@ -429,8 +399,6 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, Disaster, ref saveData);
             SaveAndRestore.save_float(ref i, citizen_income, ref saveData);
             SaveAndRestore.save_float(ref i, tourist_income, ref saveData);
-
-
             //20*4 = 80
             SaveAndRestore.save_float(ref i, resident_low_level1_tax_income, ref saveData);
             SaveAndRestore.save_float(ref i, resident_low_level2_tax_income, ref saveData);
@@ -452,8 +420,6 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, resident_high_eco_level3_tax_income, ref saveData);
             SaveAndRestore.save_float(ref i, resident_high_eco_level4_tax_income, ref saveData);
             SaveAndRestore.save_float(ref i, resident_high_eco_level5_tax_income, ref saveData);
-
-
             //40*4 = 160
             SaveAndRestore.save_float(ref i, commerical_low_level1_income, ref saveData);
             SaveAndRestore.save_float(ref i, commerical_low_level2_income, ref saveData);
@@ -495,7 +461,6 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, resident_high_eco_level3_income, ref saveData);
             SaveAndRestore.save_float(ref i, resident_high_eco_level4_income, ref saveData);
             SaveAndRestore.save_float(ref i, resident_high_eco_level5_income, ref saveData);
-
             //16*4 = 64
             SaveAndRestore.save_float(ref i, commerical_low_level1_trade_income, ref saveData);
             SaveAndRestore.save_float(ref i, commerical_low_level2_trade_income, ref saveData);
@@ -513,8 +478,6 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, industy_gen_level1_trade_income, ref saveData);
             SaveAndRestore.save_float(ref i, industy_gen_level2_trade_income, ref saveData);
             SaveAndRestore.save_float(ref i, industy_gen_level3_trade_income, ref saveData);
-
-
             //19*4*17 = 1292
             SaveAndRestore.save_ints(ref i, citizen_tax_income_forui, ref saveData);
             SaveAndRestore.save_ints(ref i, citizen_income_forui, ref saveData);
@@ -535,7 +498,6 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_ints(ref i, indu_ore_landincome_forui, ref saveData);
             SaveAndRestore.save_ints(ref i, office_gen_landincome_forui, ref saveData);
             SaveAndRestore.save_ints(ref i, office_high_tech_landincome_forui, ref saveData);
-
             //10*17*4 = 680
             SaveAndRestore.save_ints(ref i, comm_high_tradeincome_forui, ref saveData);
             SaveAndRestore.save_ints(ref i, comm_low_tradeincome_forui, ref saveData);
@@ -547,25 +509,19 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_ints(ref i, indu_foresty_tradeincome_forui, ref saveData);
             SaveAndRestore.save_ints(ref i, indu_oil_tradeincome_forui, ref saveData);
             SaveAndRestore.save_ints(ref i, indu_ore_tradeincome_forui, ref saveData);
-
             //3 * 17 * 4 = 204
             SaveAndRestore.save_ints(ref i, road_income_forui, ref saveData);
             SaveAndRestore.save_ints(ref i, playerIndustryIncomeForUI, ref saveData);
             SaveAndRestore.save_ints(ref i, garbage_income_forui, ref saveData);
-
             //3 * 4 = 12
             SaveAndRestore.save_float(ref i, road_income, ref saveData);
             SaveAndRestore.save_float(ref i, playerIndustryIncome, ref saveData);
             SaveAndRestore.save_float(ref i, garbage_income, ref saveData);
-
             //3 * 17 * 4 = 204    - 136
             SaveAndRestore.save_ints(ref i, school_income_forui, ref saveData);
-
             //3 * 4 = 12   - 8
             SaveAndRestore.save_float(ref i, school_income, ref saveData);
-
             SaveAndRestore.save_float(ref i, PlayerIndustry, ref saveData);
-
             SaveAndRestore.save_ints(ref i, policeStationIncomeForUI, ref saveData);
             SaveAndRestore.save_float(ref i, policeStationIncome, ref saveData);
             SaveAndRestore.save_ints(ref i, healthCareIncomeForUI, ref saveData);
@@ -809,8 +765,6 @@ namespace RealCity.CustomManager
             }
             return amount;
         }
-
-
 
         public int EXAddPersonalTaxIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
@@ -1093,7 +1047,6 @@ namespace RealCity.CustomManager
             return amount;
         }
 
-
         public int EXAddTourismIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
             if (taxRate == 114)
@@ -1128,7 +1081,6 @@ namespace RealCity.CustomManager
             }
             return amount;
         }
-
 
         public int EXAddPrivateTradeIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
@@ -1942,10 +1894,8 @@ namespace RealCity.CustomManager
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
-                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
-                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
-                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
+                MainDataStore.cashAmount += (long)amount;
+                MainDataStore.cashDelta += (long)amount;
             }
             else if ((taxRate == 113) || (taxRate == 114))
             {
@@ -1957,10 +1907,8 @@ namespace RealCity.CustomManager
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
-                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
-                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
-                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
+                MainDataStore.cashAmount += (long)amount;
+                MainDataStore.cashDelta += (long)amount;
             }
             else if (taxRate == 112)
             {
@@ -1973,10 +1921,8 @@ namespace RealCity.CustomManager
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
-                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
-                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
-                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
+                MainDataStore.cashAmount += (long)amount;
+                MainDataStore.cashDelta += (long)amount;
             }
             else if (taxRate == 111)
             {
@@ -1989,10 +1935,8 @@ namespace RealCity.CustomManager
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
-                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
-                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
-                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
+                MainDataStore.cashAmount += (long)amount;
+                MainDataStore.cashDelta += (long)amount;
             }
             else if (taxRate >= 100)
             {
@@ -2004,20 +1948,16 @@ namespace RealCity.CustomManager
                 {
                     _income[num * 17 + 16] += (long)amount;
                 }
-                _cashAmount =(long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
-                cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + (long)amount));
-                _cashDelta = (long)cashDelta.GetValue(Singleton<EconomyManager>.instance);
-                cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + (long)amount));
+                MainDataStore.cashAmount +=(long)amount;
+                MainDataStore.cashDelta += (long)amount;
             }
             else
             {
-                //vanilla old logic, no effect here now.
+                //vanilla old logic
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
-                //amount = (int)(((long)amount * (long)taxRate * (long)_taxMultiplier + 999999L) / 1000000L);
             }
             return amount;
         }
-
 
         public int AddResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
         {
@@ -2054,7 +1994,6 @@ namespace RealCity.CustomManager
             return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
         }
 
-
         public int AddResource(EconomyManager.Resource resource, int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
             // NON-STOCK CODE START
@@ -2082,7 +2021,6 @@ namespace RealCity.CustomManager
             }
             return PublicClassIndex(service, subService) + 120;
         }
-
         // EconomyManager
         private static int PrivateClassIndex(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
@@ -2131,12 +2069,11 @@ namespace RealCity.CustomManager
 
         public static void Init()
         {
-            //DebugLog.Log("Init fake transfer manager");
+            DebugLog.LogToFileOnly("Init fake transfer manager");
             try
             {
                 var inst = Singleton<EconomyManager>.instance;
                 var income = typeof(EconomyManager).GetField("m_income", BindingFlags.NonPublic | BindingFlags.Instance);
-                //var taxMultiplier = typeof(EconomyManager).GetField("m_taxMultiplier", BindingFlags.NonPublic | BindingFlags.Instance);
                 cashDelta = typeof(EconomyManager).GetField("m_cashDelta", BindingFlags.NonPublic | BindingFlags.Instance);
                 cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
                 if (inst == null)
@@ -2145,10 +2082,6 @@ namespace RealCity.CustomManager
                     return;
                 }
                 _income = income.GetValue(inst) as long[];
-                //_taxMultiplier = (int)taxMultiplier.GetValue(inst);
-                //_taxMultiplier = 10000;
-                _cashDelta = (long)cashDelta.GetValue(inst);
-                _cashAmount = (long)cashAmount.GetValue(inst);
                 if (_income == null)
                 {
                     DebugLog.LogToFileOnly("EconomyManager Arrays are null");
@@ -2159,12 +2092,9 @@ namespace RealCity.CustomManager
                 DebugLog.LogToFileOnly("EconomyManager Exception: " + ex.Message);
             }
         }
-        private static FieldInfo cashAmount;
-        private static FieldInfo cashDelta;
-        //private static int _taxMultiplier;
-        private static long _cashDelta;
-        private static long _cashAmount;
+        public static FieldInfo cashAmount;
+        public static FieldInfo cashDelta;
         private static long[] _income;
-        private static bool _init;
+        public static bool _init;
     }
 }

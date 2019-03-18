@@ -2,7 +2,6 @@
 {
     public class MainDataStore
     {
-
         public const int gameExpenseDivide = 100;
         public static float reserved0 = 1f;  //orginal landPrice
         public const byte govermentEducation0Salary = 50;
@@ -26,7 +25,6 @@
         public const ushort residentHighLevel5Rent = 780;
         public static long citizenExpensePerFamily = 0;
         public static long citizenExpense = 0;
-
         public static ushort[] vehicleTransferTime = new ushort[16384];
         public static bool[] isVehicleCharged = new bool[16384];
         public static uint totalCitizenDrivingTime = 0;
@@ -35,7 +33,6 @@
         public static long publicTransportFee = 0;
         public static long allTransportFee = 0;
         public static byte citizenAverageTransportFee = 0;
-
         //1.3 income-expense
         public static float[] family_money = new float[524288];
         public static ushort[] familyGoods = new ushort[524288];
@@ -44,45 +41,35 @@
         public static uint family_very_profit_money_num = 0;
         public static uint family_weight_stable_high = 0;
         public static uint family_weight_stable_low = 0;
-
         //2 Building
         //2.1 building expense
         public const byte comm_high_level1 = 20;
         public const byte comm_high_level2 = 25;
         public const byte comm_high_level3 = 30;
-
         public const byte comm_low_level1 = 30;
         public const byte comm_low_level2 = 35;
         public const byte comm_low_level3 = 40;
-
         public const byte comm_tourist = 100;
         public const byte comm_leisure = 50;
         public const byte comm_eco = 45;
-
         public const byte indu_gen_level1 = 10;
         public const byte indu_gen_level2 = 15;
         public const byte indu_gen_level3 = 20;
-
         public const byte indu_forest = 10;
         public const byte indu_farm = 15;
         public const byte indu_oil = 20;
         public const byte indu_ore = 20;
-
         public const byte office_gen_levell = 190;
         public const byte office_gen_level2 = 210;
         public const byte office_gen_level3 = 240;
         public const byte office_high_tech = 255;
-
         //2.3 buildingMoney 
         public static float[] building_money = new float[49152];
-
         //3 Govement expense
         public static int minimumLivingAllowance = 0;
         public static int reserved2 = 0; //old resettlement, RealConstruction Mod replace this function
         public static int minimumLivingAllowanceFinal = 0;
         public static int reserved3 = 0; //old resettlementFinal, RealConstruction Mod replace this function
-
-
         public static int PoliceDepartment = 0;
         public static int Education = 0;
         public static int Monument = 0;
@@ -96,7 +83,6 @@
         public static int PublicTransport_metro = 0;
         public static int PublicTransport_taxi = 0;
         public static int PublicTransport_cablecar = 0;
-
         //4 outside connection
         public static byte reserved4 = 0; //no use now
         //other in-game variable
@@ -115,7 +101,6 @@
         public static bool reserved32 = false;
         public static bool reserved11 = false;//no use now
         public static bool reserved12 = false;//no use now
-
         public static bool reserved13 = false;
         public static bool reserved14 = false;
         public static bool reserved15 = false;
@@ -130,27 +115,20 @@
         public static int reserved24 = 0;
         public static ushort reserved25 = 0;
         public static ushort reserved26 = 0;
-
         public static int[] building_buffer1 = new int[49152];
         public static ushort[] building_buffer2 = new ushort[49152];
         public static ushort[] building_buffer3 = new ushort[49152];
         public static ushort[] building_buffer4 = new ushort[49152];
-        public static int reserved27 = 0;
-        public static int reserved28 = 0;
-        public static int reserved29 = 0;
-        public static int reserved30 = 0;
-        public static bool reserved31 = false;
+        public static long cashAmount = 0;
+        public static long cashDelta = 0;
+        public static bool reserved27 = false;
         public static bool[] isBuildingWorkerUpdated = new bool[49152];
         public static bool[] isBuildingReleased = new bool[49152];
-
         public static byte[] saveData = new byte[3932402];
-
         public static float[] citizenMoney = new float[1048576];
         public static byte[] saveData1 = new byte[4194304];
-
         public static bool[] isCitizenFirstMovingIn = new bool[1048576];
         public static byte[] saveData2 = new byte[1048576];
-
 
         public static void data_init()
         {
@@ -185,8 +163,6 @@
         public static void save()
         {
             int i = 0;
-
-            // 2*8 + 2*16384 + 16384 + 3*4 + 2*8 = 49196
             SaveAndRestore.save_long(ref i, citizenExpensePerFamily, ref saveData);
             SaveAndRestore.save_long(ref i, citizenExpense, ref saveData);
             SaveAndRestore.save_ushorts(ref i, vehicleTransferTime, ref saveData);
@@ -196,24 +172,14 @@
             SaveAndRestore.save_uint(ref i, reserved1, ref saveData);
             SaveAndRestore.save_long(ref i, publicTransportFee, ref saveData);
             SaveAndRestore.save_long(ref i, allTransportFee, ref saveData);
-
-            // (4+1)*524288 = 2621440       // 2670636
             SaveAndRestore.save_floats(ref i, family_money, ref saveData);
-            //saveandrestore.save_bytes(ref i, citizen_very_profit_time_num, ref saveData);
             SaveAndRestore.save_ushorts(ref i, familyGoods, ref saveData);
-            //saveandrestore.save_bytes(ref i, citizen_loss_time_num, ref saveData);
-
-            //5*4 = 20      //2670656
             SaveAndRestore.save_uint(ref i, family_profit_money_num, ref saveData);
             SaveAndRestore.save_uint(ref i, family_loss_money_num, ref saveData);
             SaveAndRestore.save_uint(ref i, family_very_profit_money_num, ref saveData);
             SaveAndRestore.save_uint(ref i, family_weight_stable_high, ref saveData);
             SaveAndRestore.save_uint(ref i, family_weight_stable_low, ref saveData);
-
-            //49152*2 = 196608  // 2867264
             SaveAndRestore.save_floats(ref i, building_money, ref saveData);
-
-            //20*4 = 80    //2867344
             SaveAndRestore.save_int(ref i, gameExpenseDivide, ref saveData);
             SaveAndRestore.save_int(ref i, minimumLivingAllowance, ref saveData);
             SaveAndRestore.save_int(ref i, reserved2, ref saveData);
@@ -233,28 +199,19 @@
             SaveAndRestore.save_int(ref i, PublicTransport_taxi, ref saveData);
             SaveAndRestore.save_int(ref i, PublicTransport_cablecar, ref saveData);
             SaveAndRestore.save_int(ref i, Disaster, ref saveData);
-
-            //11      //2867355
             SaveAndRestore.save_byte(ref i, reserved4, ref saveData);
             SaveAndRestore.save_byte(ref i, update_money_count, ref saveData);
             SaveAndRestore.save_bool(ref i, reserved6, ref saveData);
             SaveAndRestore.save_float(ref i, current_time, ref saveData);
             SaveAndRestore.save_float(ref i, prev_time, ref saveData);
-
-            //28       //2867397
             SaveAndRestore.save_int(ref i, citizenCount, ref saveData);
             SaveAndRestore.save_int(ref i, familyCount, ref saveData);
             SaveAndRestore.save_int(ref i, citizenSalaryPerFamily, ref saveData);
             SaveAndRestore.save_long(ref i, citizenSalaryTotal, ref saveData);
             SaveAndRestore.save_long(ref i, citizenSalaryTaxTotal, ref saveData);
-
-            //9        //2867406
             SaveAndRestore.save_long(ref i, reserved5, ref saveData);
             byte tmp = 0;
             SaveAndRestore.save_byte(ref i, tmp, ref saveData);
-
-            //32 + 2 + 7 + 16 + 4 = 61     //2867467
-
             SaveAndRestore.save_bool(ref i, reserved7, ref saveData);
             SaveAndRestore.save_bool(ref i, reserved10, ref saveData);
             SaveAndRestore.save_bool(ref i, reserved11, ref saveData);
@@ -271,45 +228,22 @@
             SaveAndRestore.save_int(ref i, reserved24, ref saveData);
             SaveAndRestore.save_ushort(ref i, reserved25, ref saveData);
             SaveAndRestore.save_ushort(ref i, reserved26, ref saveData);
-
-
-            // 16 + 4 + 4 + 16 + 1 + 12 + 26 = 79    //2867546
             SaveAndRestore.save_ushort(ref i, reserved8, ref saveData);
             SaveAndRestore.save_ushort(ref i, reserved9, ref saveData);
-
-            //saveandrestore.save_ushort(ref i, tourist_num, ref saveData);
-            //saveandrestore.save_ushort(ref i, tourist_num_final, ref saveData);
-
-            //saveandrestore.save_long(ref i, tourist_transport_fee_num, ref saveData);
-            //saveandrestore.save_long(ref i, tourist_transport_fee_num_final, ref saveData);
-
-
             SaveAndRestore.save_bool(ref i, reserved32, ref saveData);
-
-
-
-            // 4 + 8 + 5 + 2 + 8 =27
             SaveAndRestore.save_bool(ref i, reserved11, ref saveData);
             SaveAndRestore.save_bool(ref i, reserved12, ref saveData);
             SaveAndRestore.save_ints(ref i, building_buffer1, ref saveData);
             SaveAndRestore.save_ushorts(ref i, building_buffer2, ref saveData);
             SaveAndRestore.save_ushorts(ref i, building_buffer3, ref saveData);
             SaveAndRestore.save_ushorts(ref i, building_buffer4, ref saveData);
-
-            SaveAndRestore.save_int(ref i, reserved27, ref saveData);
-            SaveAndRestore.save_int(ref i, reserved28, ref saveData);
-            SaveAndRestore.save_int(ref i, reserved29, ref saveData);
-            SaveAndRestore.save_int(ref i, reserved30, ref saveData);
-
-            SaveAndRestore.save_bool(ref i, reserved31, ref saveData);
+            SaveAndRestore.save_long(ref i, cashAmount, ref saveData);
+            SaveAndRestore.save_long(ref i, cashDelta, ref saveData);
+            SaveAndRestore.save_bool(ref i, reserved27, ref saveData);
             SaveAndRestore.save_bools(ref i, isBuildingWorkerUpdated, ref saveData);
-
-
             DebugLog.LogToFileOnly("(save)saveData in comm_data is " + i.ToString());
-
             i = 0;
             SaveAndRestore.save_floats(ref i, citizenMoney, ref saveData1);
-
             i = 0;
             SaveAndRestore.save_bools(ref i, isCitizenFirstMovingIn, ref saveData2);
         }
@@ -390,10 +324,8 @@
             building_buffer2 = SaveAndRestore.load_ushorts(ref i, saveData, building_buffer2.Length);
             building_buffer3 = SaveAndRestore.load_ushorts(ref i, saveData, building_buffer3.Length);
             building_buffer4 = SaveAndRestore.load_ushorts(ref i, saveData, building_buffer4.Length);
-            SaveAndRestore.load_int(ref i, saveData);
-            SaveAndRestore.load_int(ref i, saveData);
-            SaveAndRestore.load_int(ref i, saveData);
-            SaveAndRestore.load_int(ref i, saveData);
+            cashAmount = SaveAndRestore.load_long(ref i, saveData);
+            cashDelta = SaveAndRestore.load_long(ref i, saveData);
             SaveAndRestore.load_bool(ref i, saveData);
             isBuildingWorkerUpdated = SaveAndRestore.load_bools(ref i, saveData, isBuildingWorkerUpdated.Length);
             DebugLog.LogToFileOnly("saveData in MainDataStore is " + i.ToString());

@@ -54,10 +54,7 @@ namespace RealCity
                         if (MainDataStore.citizenCount > 0)
                         {
                             //3. Citizen Status
-#if FASTRUN
-#else
                             CitizenStatus();
-#endif
                         }
                     }
 
@@ -69,15 +66,27 @@ namespace RealCity
                     }
                     RealCityEconomyManager.CleanCurrent(MainDataStore.update_money_count);
                     MainDataStore.prev_time = MainDataStore.current_time;
+                    //4 refesh UI
+                    PoliticsUI.refeshOnce = true;
+                    RealCityUI.refeshOnce = true;
+                    EcnomicUI.refeshOnce = true;
+                    PlayerBuildingUI.refeshOnce = true;
+                    BuildingUI.refeshOnce = true;
+                    HumanUI.refeshOnce = true;
+                    TouristUI.refeshOnce = true;
+                    //5 update money
+                    if (!RealCityEconomyManager._init)
+                    {
+                        RealCityEconomyManager.Init();
+                        RealCityEconomyManager._init = true;
+                    }
+                    long _cashAmount = (long)RealCityEconomyManager.cashAmount.GetValue(Singleton<EconomyManager>.instance);
+                    RealCityEconomyManager.cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + MainDataStore.cashAmount));
+                    long _cashDelta = (long)RealCityEconomyManager.cashDelta.GetValue(Singleton<EconomyManager>.instance);
+                    RealCityEconomyManager.cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + MainDataStore.cashDelta));
+                    MainDataStore.cashAmount = 0;
+                    MainDataStore.cashDelta = 0;
                 }
-
-                PoliticsUI.refeshOnce = true;
-                RealCityUI.refeshOnce = true;
-                EcnomicUI.refeshOnce = true;
-                PlayerBuildingUI.refeshOnce = true;
-                BuildingUI.refeshOnce = true;
-                HumanUI.refeshOnce = true;
-                TouristUI.refeshOnce = true;
             }
             return internalMoneyAmount;
         }
