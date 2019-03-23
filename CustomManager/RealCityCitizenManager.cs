@@ -11,13 +11,13 @@ namespace RealCity.CustomManager
 {
     public class RealCityCitizenManager:CitizenManager
     {
-        public static void EXTReleaseCitizenImplementation(uint citizen)
+        public static void CitizenManagerReleaseCitizenImplementationPostFix(uint citizen)
         {
             MainDataStore.citizenMoney[citizen] = 0;
             MainDataStore.isCitizenFirstMovingIn[citizen] = false;
         }
 
-        public static void EXTReleaseUnitCitizen(uint unit)
+        public static void CitizenManagerReleaseUnitCitizenPostFix(uint unit)
         {
             MainDataStore.familyGoods[unit] = 0;
             MainDataStore.family_money[unit] = 0;

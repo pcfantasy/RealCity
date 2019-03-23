@@ -666,7 +666,7 @@ namespace RealCity.CustomAI
                     }
                 }
 
-                if (temp!=0)
+                if (temp != 0)
                 {
                     if (data.m_citizen0 != 0)
                     {
@@ -791,7 +791,7 @@ namespace RealCity.CustomAI
             tempCitizenSalaryTaxTotal = tempCitizenSalaryTaxTotal + (int)tax;
             citizenSalaryTaxTotal = (int)tempCitizenSalaryTaxTotal;
             ProcessCitizenIncomeTax(homeID, tax);
-            
+
             //3. We caculate expense
             int educationFee = 0;
             int expenseRate = 0;
@@ -837,7 +837,7 @@ namespace RealCity.CustomAI
             {
                 MainDataStore.family_money[homeID] -= RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * (data.m_goods - MainDataStore.familyGoods[homeID]);
             }
-            
+
             //6. Process citizen status
             if (incomeMinusExpense <= 0)
             {
@@ -880,7 +880,7 @@ namespace RealCity.CustomAI
             {
                 MainDataStore.family_money[homeID] = -32000000f;
             }
-            
+
             //ProcessCitizen post, split all familyMoney to citizen
             ProcessCitizen(homeID, ref data, false);
             //9. Fixed m_goods consuption
@@ -894,7 +894,8 @@ namespace RealCity.CustomAI
             if (fixedGoodsConsumption < 1)
             {
                 fixedGoodsConsumption = 1;
-            } else if (fixedGoodsConsumption > 20)
+            }
+            else if (fixedGoodsConsumption > 20)
             {
                 fixedGoodsConsumption = 20;
             }
@@ -917,7 +918,7 @@ namespace RealCity.CustomAI
             Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
             DistrictManager instance2 = Singleton<DistrictManager>.instance;
             byte district = instance2.GetDistrict(buildingdata.m_position);
-            Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate*100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 100);
+            Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate * 100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 100);
         }
 
         // ResidentAI
@@ -1132,7 +1133,8 @@ namespace RealCity.CustomAI
                 if (MainDataStore.family_money[homeid] > 0)
                 {
                     incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 10000));
-                } else
+                }
+                else
                 {
                     incomeAccumulation = 0;
                 }
@@ -1366,6 +1368,26 @@ namespace RealCity.CustomAI
 
                     GetVoteTickets();
                 }
+            }
+        }
+
+        public static void ResidentAISimulationStepPostFix(uint citizenID, ref Citizen data)
+        {
+            //change wealth
+            BuildingManager instance = Singleton<BuildingManager>.instance;
+            ushort homeBuilding = data.m_homeBuilding;
+            uint homeId = data.GetContainingUnit(citizenID, instance.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+            if (MainDataStore.family_money[homeId] > 20000)
+            {
+                data.WealthLevel = Citizen.Wealth.High;
+            }
+            else if (MainDataStore.family_money[homeId] < 5000)
+            {
+                data.WealthLevel = Citizen.Wealth.Low;
+            }
+            else
+            {
+                data.WealthLevel = Citizen.Wealth.Medium;
             }
         }
     }

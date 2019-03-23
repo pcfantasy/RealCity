@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using RealCity.UI;
 using RealCity.Util;
 using System;
 using System.Collections.Generic;
@@ -82,6 +83,40 @@ namespace RealCity.CustomAI
                 return info.m_eventAI.GetBudget(eventIndex, ref instance.m_events.m_buffer[(int)eventIndex]);
             }
             return Singleton<EconomyManager>.instance.GetBudget(this.m_info.m_class);
+        }
+
+        public static void PlayerBuildingAISimulationStepPostFix(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
+        {
+            ProcessZeroWorker((ushort)buildingID, ref buildingData);
+        }
+
+        public static void ProcessZeroWorker(ushort buildingID, ref Building data)
+        {
+            if (data.m_flags.IsFlagSet(Building.Flags.Completed))
+            {
+                int aliveWorkCount = 0;
+                int totalWorkCount = 0;
+                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+                System.Random rand = new System.Random();
+                int allWorkCount = 0;
+                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                int num4 = (int)(currentFrameIndex & 4095u);
+                if (((num4 >> 4) & 15u) == (buildingID & 15u))
+                {
+                    allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, data, true, true);
+                }
+                else
+                {
+                    allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, data, true, false);
+                }
+
+                if (totalWorkCount == 0 && allWorkCount != 0)
+                {
+                    float num1 = (MainDataStore.govermentEducation3Salary / 16) * allWorkCount * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID);
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num1 * MainDataStore.gameExpenseDivide), data.Info.m_class);
+                }
+            }
         }
     }
 }

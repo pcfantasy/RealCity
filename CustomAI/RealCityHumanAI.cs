@@ -55,7 +55,6 @@ namespace RealCity.CustomAI
             }
         }
 
-
         public void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
         {
             BuildingManager instance2 = Singleton<BuildingManager>.instance;

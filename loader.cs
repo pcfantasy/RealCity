@@ -33,6 +33,7 @@ namespace RealCity
 
         public static List<Detour> Detours { get; set; }
         public static bool DetourInited = false;
+        public static bool HarmonyDetourInited = false;
         public static UIView parentGuiView;
         public static UIPanel buildingInfo;
         public static UIPanel playerbuildingInfo;
@@ -79,6 +80,7 @@ namespace RealCity
                     isRealGasStationRunning = CheckRealGasStationIsLoaded();
                     isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
                     InitDetour();
+                    HarmonyInitDetour();
                     RealCityThreading.isFirstTime = true;
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     if (mode == LoadMode.NewGame)
@@ -119,6 +121,7 @@ namespace RealCity
                 {
                     RealCityThreading.isFirstTime = true;
                     RevertDetours();
+                    HarmonyRevertDetour();
                 }
             }
         }
@@ -456,6 +459,26 @@ namespace RealCity
         private bool CheckRealConstructionIsLoaded()
         {
             return this.Check3rdPartyModLoaded("RealConstruction", true);
+        }
+
+        public void HarmonyInitDetour()
+        {
+            if (!HarmonyDetourInited)
+            {
+                DebugLog.LogToFileOnly("Init harmony detours");
+                HarmonyDetours.Apply();
+                HarmonyDetourInited = true;
+            }
+        }
+
+        public void HarmonyRevertDetour()
+        {
+            if (HarmonyDetourInited)
+            {
+                DebugLog.LogToFileOnly("Revert harmony detours");
+                HarmonyDetours.DeApply();
+                HarmonyDetourInited = false;
+            }
         }
 
         public void InitDetour()

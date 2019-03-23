@@ -182,8 +182,6 @@ namespace RealCity.CustomAI
             }
         }
 
-
-
         public override void SetSource(ushort vehicleID, ref Vehicle data, ushort sourceBuilding)
         {
             this.RemoveSource(vehicleID, ref data);

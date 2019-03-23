@@ -87,16 +87,9 @@ namespace RealCity.CustomAI
             SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCountFinal, ref saveData);
         }
 
-        //TODO, move this into OnAfterSimulationFrame
         protected void CustomSimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
-            if (buildingID > 49152)
-            {
-                DebugLog.LogToFileOnly("Error: buildingID greater than 49152");
-            }
             base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
-            ProcessLandFee(buildingData, buildingID);
-            LimitAndCheckBuildingMoney(buildingData, buildingID);
             if ((buildingData.m_problems & Notification.Problem.MajorProblem) != Notification.Problem.None)
             {
                 if (buildingData.m_fireIntensity == 0)
@@ -125,7 +118,9 @@ namespace RealCity.CustomAI
             {
                 buildingData.m_majorProblemTimer = 0;
             }
-
+            //TODO, use harmony to detour this.
+            ProcessLandFee(buildingData, buildingID);
+            LimitAndCheckBuildingMoney(buildingData, buildingID);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
             ProcessAdditionProduct(buildingID, ref buildingData);
         }

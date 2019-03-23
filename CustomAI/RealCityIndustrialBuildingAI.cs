@@ -108,7 +108,6 @@ namespace RealCity.CustomAI
             }
         }
 
-
         public static TransferManager.TransferReason GetSecondaryIncomingTransferReason(ushort buildingID)
         {
             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)

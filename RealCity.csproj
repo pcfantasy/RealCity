@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RealCity</RootNamespace>
     <AssemblyName>RealCity</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\Other Mod\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
@@ -89,6 +93,7 @@
     <Compile Include="CustomAI\RealCityResidentAI.cs" />
     <Compile Include="CustomAI\RealCityTaxiAI.cs" />
     <Compile Include="CustomAI\RealCityTollBooth.cs" />
+    <Compile Include="CustomAI\RealCityTouristAI.cs" />
     <Compile Include="CustomManager\RealCityBuildingManager.cs" />
     <Compile Include="CustomManager\RealCityCitizenManager.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />
@@ -111,6 +116,7 @@
     <Compile Include="UI\RealCityUI.cs" />
     <Compile Include="UI\TouristUI.cs" />
     <Compile Include="Util\DebugLog.cs" />
+    <Compile Include="Util\HarmonyDetours.cs" />
     <Compile Include="Util\Language.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
@@ -120,7 +126,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "C:\Users\Administrator\Desktop\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"</PostBuildEvent>
+    <PostBuildEvent>copy "C:\Users\Administrator\Desktop\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
+copy "C:\Users\Administrator\Desktop\RealCity\bin\Release\0Harmony.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
