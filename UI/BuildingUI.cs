@@ -14,17 +14,11 @@ namespace RealCity.UI
     public class BuildingUI : UIPanel
     {
         public static readonly string cacheName = "BuildingUI";
-
         private static readonly float SPACING = 15f;
-
         private static readonly float SPACING22 = 22f;
-
         private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
-
         public ZonedBuildingWorldInfoPanel baseBuildingWindow;
-
         public static bool refeshOnce = false;
-
         //1、citizen tax income
         private UILabel buildingMoney;
         private UILabel buildingIncomeBuffer;
@@ -32,7 +26,6 @@ namespace RealCity.UI
         //private UILabel aliveworkcount;
         private UILabel employFee;
         private UILabel landRent;
-
         private UILabel buyPrice;
         private UILabel sellPrice;
         private UILabel comsuptionDivide;
@@ -70,61 +63,60 @@ namespace RealCity.UI
             base.Hide();          
         }
 
-
         private void ShowOnGui()
         {
             this.buildingMoney = base.AddUIComponent<UILabel>();
-            this.buildingMoney.text = Language.BuildingUI[0];
+            this.buildingMoney.text = Localization.Get("BUILDING_MONEY");
             this.buildingMoney.relativePosition = new Vector3(SPACING, 50f);
             this.buildingMoney.autoSize = true;
 
             this.buildingIncomeBuffer = base.AddUIComponent<UILabel>();
-            this.buildingIncomeBuffer.text = Language.BuildingUI[1];
+            this.buildingIncomeBuffer.text = Localization.Get("MATERIAL_BUFFER");
             this.buildingIncomeBuffer.relativePosition = new Vector3(SPACING, this.buildingMoney.relativePosition.y + SPACING22);
             this.buildingIncomeBuffer.autoSize = true;
 
             this.buildingOutgoingBuffer = base.AddUIComponent<UILabel>();
-            this.buildingOutgoingBuffer.text = Language.BuildingUI[2];
+            this.buildingOutgoingBuffer.text = Localization.Get("PRODUCTION_BUFFER");
             this.buildingOutgoingBuffer.relativePosition = new Vector3(SPACING, this.buildingIncomeBuffer.relativePosition.y + SPACING22);
             this.buildingOutgoingBuffer.autoSize = true;
 
             this.employFee = base.AddUIComponent<UILabel>();
-            this.employFee.text = Language.BuildingUI[3];
+            this.employFee.text = Localization.Get("AVERAGE_EMPLOYFEE");
             this.employFee.relativePosition = new Vector3(SPACING, this.buildingOutgoingBuffer.relativePosition.y + SPACING22);
             this.employFee.autoSize = true;
 
             this.landRent = base.AddUIComponent<UILabel>();
-            this.landRent.text = Language.BuildingUI[4];
+            this.landRent.text = Localization.Get("BUILDING_LANDRENT");
             this.landRent.relativePosition = new Vector3(SPACING, this.employFee.relativePosition.y + SPACING22);
             this.landRent.autoSize = true;
 
             this.buyPrice = base.AddUIComponent<UILabel>();
-            this.buyPrice.text = Language.BuildingUI[8];
+            this.buyPrice.text = Localization.Get("BUY_PRICE");
             this.buyPrice.relativePosition = new Vector3(SPACING, this.landRent.relativePosition.y + SPACING22);
             this.buyPrice.autoSize = true;
 
             this.sellPrice = base.AddUIComponent<UILabel>();
-            this.sellPrice.text = Language.BuildingUI[9];
+            this.sellPrice.text = Localization.Get("SELL_PRICE");
             this.sellPrice.relativePosition = new Vector3(SPACING, this.buyPrice.relativePosition.y + SPACING22);
             this.sellPrice.autoSize = true;
 
             this.comsuptionDivide = base.AddUIComponent<UILabel>();
-            this.comsuptionDivide.text = Language.BuildingUI[11];
+            this.comsuptionDivide.text = Localization.Get("MATERIAL_DIV_PRODUCTION");
             this.comsuptionDivide.relativePosition = new Vector3(SPACING, this.sellPrice.relativePosition.y + SPACING22);
             this.comsuptionDivide.autoSize = true;
 
             this.sellTax = base.AddUIComponent<UILabel>();
-            this.sellTax.text = Language.BuildingUI[12];
+            this.sellTax.text = Localization.Get("SELL_TAX");
             this.sellTax.relativePosition = new Vector3(SPACING, this.comsuptionDivide.relativePosition.y + SPACING22);
             this.sellTax.autoSize = true;
 
             this.profit = base.AddUIComponent<UILabel>();
-            this.profit.text = Language.BuildingUI[13];
+            this.profit.text = Localization.Get("PROFIT");
             this.profit.relativePosition = new Vector3(SPACING, this.sellTax.relativePosition.y + SPACING22);
             this.profit.autoSize = true;
 
             this.usedcar = base.AddUIComponent<UILabel>();
-            this.usedcar.text = Language.BuildingUI[43];
+            this.usedcar.text = Localization.Get("CAR_USED");
             this.usedcar.relativePosition = new Vector3(SPACING, this.profit.relativePosition.y + SPACING22);
             this.usedcar.autoSize = true;
         }
@@ -133,11 +125,8 @@ namespace RealCity.UI
         {
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
-
-
             if (refeshOnce || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
-                //DebugLog.LogToFileOnly("buildingUI try to refreshing");
                 if (base.isVisible)
                 {
                     MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
@@ -156,68 +145,57 @@ namespace RealCity.UI
                         string type2 = RealCityPrivateBuildingAI.GetProductionType(true, MainDataStore.last_buildingid, buildingData);
                         float price = RealCityPrivateBuildingAI.GetPrice(false, MainDataStore.last_buildingid, buildingData);
                         float price2 = RealCityPrivateBuildingAI.GetPrice(true, MainDataStore.last_buildingid, buildingData);
-                        this.buildingMoney.text = string.Format(Language.BuildingUI[0] + " [{0}]", MainDataStore.building_money[MainDataStore.last_buildingid]);
-                        if (MainDataStore.building_buffer1[MainDataStore.last_buildingid] > 64000)
-                        {
-                            this.buildingIncomeBuffer.text = string.Format(Language.BuildingUI[1] + " [{0}]" + " " + type, MainDataStore.building_buffer1[MainDataStore.last_buildingid]);
-                        }
-                        else
-                        {
-                            this.buildingIncomeBuffer.text = string.Format(Language.BuildingUI[1] + " [{0}]" + " " + type, buildingData.m_customBuffer1);
-                        }
-                        this.buildingOutgoingBuffer.text = string.Format(Language.BuildingUI[2] + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
-                        this.employFee.text = Language.BuildingUI[3] + " " + num.ToString() + " " + Language.BuildingUI[6];
-                        this.landRent.text = string.Format(Language.BuildingUI[4] + " [{0:N2}]", (float)num1 / 100f);
-
-                        this.buyPrice.text = string.Format(Language.BuildingUI[8] + " " + type  + "[{0:N2}]", price);
-                        this.sellPrice.text = string.Format(Language.BuildingUI[9] + " " + type2  + " [{0:N2}]", price2);
+                        this.buildingMoney.text = string.Format(Localization.Get("BUILDING_MONEY") + " [{0}]", MainDataStore.building_money[MainDataStore.last_buildingid]);
+                        this.buildingIncomeBuffer.text = string.Format(Localization.Get("MATERIAL_BUFFER") + " [{0}]" + " " + type, buildingData.m_customBuffer1);
+                        this.buildingOutgoingBuffer.text = string.Format(Localization.Get("PRODUCTION_BUFFER") + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
+                        this.employFee.text = Localization.Get("AVERAGE_EMPLOYFEE") + " " + num.ToString() + " " + Localization.Get("PROFIT_SHARING");
+                        this.landRent.text = string.Format(Localization.Get("BUILDING_LANDRENT") + " [{0:N2}]", (float)num1 / 100f);
+                        this.buyPrice.text = string.Format(Localization.Get("BUY_PRICE") + " " + type  + "[{0:N2}]", price);
+                        this.sellPrice.text = string.Format(Localization.Get("SELL_PRICE") + " " + type2  + " [{0:N2}]", price2);
 
                         float consumptionDivider = 0f;
                         if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                         {
                             consumptionDivider = (float)RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, MainDataStore.last_buildingid) * 4f;
-                            this.comsuptionDivide.text = string.Format(Language.BuildingUI[11] + " [1:{0:N2}]", consumptionDivider);
+                            this.comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " [1:{0:N2}]", consumptionDivider);
                         }
                         else
                         {
                             if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                             {
-                                this.comsuptionDivide.text = string.Format(Language.BuildingUI[11] + " N/A");
+                                this.comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " N/A");
                             }
                             else
                             {
                                 consumptionDivider = (float)RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, MainDataStore.last_buildingid);
-                                this.comsuptionDivide.text = string.Format(Language.BuildingUI[11] + " [1:{0:N2}]", consumptionDivider);
+                                this.comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " [1:{0:N2}]", consumptionDivider);
                             }
                         }
 
-
                         int sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData, MainDataStore.last_buildingid);
-
                         if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                         {
-                            this.sellTax.text = string.Format(Language.BuildingUI[12] + " [{0}%] " + Language.BuildingUI[42], sellTax);
+                            this.sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%] " + Localization.Get("INCLUDE_RESOURCE_TAX"), sellTax);
                         }
                         else
                         {
-                            this.sellTax.text = string.Format(Language.BuildingUI[12] + " [{0}%]", sellTax);
+                            this.sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%]", sellTax);
                         }
-
 
                         if (consumptionDivider == 0f)
                         {
-                            this.profit.text = string.Format(Language.BuildingUI[12] + " N/A");
+                            this.profit.text = string.Format(Localization.Get("SELL_TAX") + " N/A");
                         }
                         else
                         {
                             float temp = (price2 * (1f - (float)sellTax/100f) - (price / consumptionDivider)) / price2;
                             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                             {
-                                this.profit.text = string.Format(Language.BuildingUI[13] + " [{0}%]" + Language.BuildingUI[14], (int)(temp * 100f));
+                                this.profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]" + Localization.Get("EXCLUDE_VISIT_INCOME"), (int)(temp * 100f));
                             }
                             else
                             {
-                                this.profit.text = string.Format(Language.BuildingUI[13] + " [{0}%]", (int)(temp * 100f));
+                                this.profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]", (int)(temp * 100f));
                             }
                         }
 
@@ -226,7 +204,6 @@ namespace RealCity.UI
                         int num28 = 0;
                         int value = 0;
                         int car = 0;
-
                         if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
                         {
                             int num7 = this.CalculateProductionCapacity(buildingData, (ItemClass.Level)buildingData.m_level, new Randomizer((int)MainDataStore.last_buildingid), buildingData.m_width, buildingData.m_length);
@@ -242,14 +219,12 @@ namespace RealCity.UI
                                 tempReason = IndustrialGetOutgoingTransferReason(buildingData);
                             }
 
-
                             this.CalculateOwnVehicles(MainDataStore.last_buildingid, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
-
-                            this.usedcar.text = string.Format(Language.BuildingUI[43] + " [{0}/{1}]", usedCar,car);
+                            this.usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar,car);
                         }
                         else
                         {
-                            this.usedcar.text = Language.BuildingUI[43] + " 0/0";
+                            this.usedcar.text = Localization.Get("CAR_USED") + " 0/0";
                         }
 
                         this.BringToFront();

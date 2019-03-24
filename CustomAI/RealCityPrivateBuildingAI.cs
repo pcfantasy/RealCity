@@ -178,21 +178,21 @@ namespace RealCity.CustomAI
                             switch (commercialBuildingAI.m_incomingResource)
                             {
                                 case TransferManager.TransferReason.Goods:
-                                    material = Language.BuildingUI[28] + Language.BuildingUI[39]; break;
+                                    material = Localization.Get("PREGOODS") + Localization.Get("LUXURY_PRODUCTS"); break;
                                 case TransferManager.TransferReason.Food:
-                                    material = Language.BuildingUI[20] + Language.BuildingUI[39]; break;
+                                    material = Localization.Get("FOOD") + Localization.Get("LUXURY_PRODUCTS"); break;
                                 case TransferManager.TransferReason.Petrol:
-                                    material = Language.BuildingUI[23]; break;
+                                    material = Localization.Get("PETROL"); break;
                                 case TransferManager.TransferReason.Lumber:
-                                    material = Language.BuildingUI[22]; break;
+                                    material = Localization.Get("LUMBER"); break;
                                 case TransferManager.TransferReason.Logs:
-                                    material = Language.BuildingUI[26]; break;
+                                    material = Localization.Get("LOG"); break;
                                 case TransferManager.TransferReason.Oil:
-                                    material = Language.BuildingUI[27]; break;
+                                    material = Localization.Get("OIL"); break;
                                 case TransferManager.TransferReason.Ore:
-                                    material = Language.BuildingUI[25]; break;
+                                    material = Localization.Get("ORE"); break;
                                 case TransferManager.TransferReason.Grain:
-                                    material = Language.BuildingUI[24]; break;
+                                    material = Localization.Get("GRAIN_MEAT"); break;
                                 default: break;
                             }
                             break;
@@ -204,13 +204,13 @@ namespace RealCity.CustomAI
                             switch (tempReason2)
                             {
                                 case TransferManager.TransferReason.Grain:
-                                    material = Language.BuildingUI[24]; break;
+                                    material = Localization.Get("GRAIN_MEAT"); break;
                                 case TransferManager.TransferReason.Logs:
-                                    material = Language.BuildingUI[26]; break;
+                                    material = Localization.Get("LOG"); break;
                                 case TransferManager.TransferReason.Ore:
-                                    material = Language.BuildingUI[25]; break;
+                                    material = Localization.Get("ORE"); break;
                                 case TransferManager.TransferReason.Oil:
-                                    material = Language.BuildingUI[27]; break;
+                                    material = Localization.Get("OIL"); break;
                                 default: break;
                             }
                             break;
@@ -220,33 +220,33 @@ namespace RealCity.CustomAI
                             switch (tempReason)
                             {
                                 case TransferManager.TransferReason.Food:
-                                    material = Language.BuildingUI[20]; break;
+                                    material = Localization.Get("FOOD"); break;
                                 case TransferManager.TransferReason.Lumber:
-                                    material = Language.BuildingUI[22]; break;
+                                    material = Localization.Get("LUMBER"); break;
                                 case TransferManager.TransferReason.Petrol:
-                                    material = Language.BuildingUI[23]; break;
+                                    material = Localization.Get("PETROL"); break;
                                 case TransferManager.TransferReason.Coal:
-                                    material = Language.BuildingUI[21]; break;
+                                    material = Localization.Get("COAL"); break;
                                 default: break;
                             }
                             switch (tempReason1)
                             {
                                 case TransferManager.TransferReason.AnimalProducts:
-                                    material += Language.BuildingUI[31]; break;
+                                    material += Localization.Get("ANIMAL_PRODUCTS"); break;
                                 case TransferManager.TransferReason.Flours:
-                                    material += Language.BuildingUI[32]; break;
+                                    material += Localization.Get("FLOURS"); break;
                                 case TransferManager.TransferReason.Paper:
-                                    material += Language.BuildingUI[33]; break;
+                                    material += Localization.Get("PAPER"); break;
                                 case TransferManager.TransferReason.PlanedTimber:
-                                    material += Language.BuildingUI[34]; break;
+                                    material += Localization.Get("PLANEDTIMBER"); break;
                                 case TransferManager.TransferReason.Petroleum:
-                                    material += Language.BuildingUI[35]; break;
+                                    material += Localization.Get("PETROLEUM"); break;
                                 case TransferManager.TransferReason.Plastics:
-                                    material += Language.BuildingUI[36]; break;
+                                    material += Localization.Get("PLASTICS"); break;
                                 case TransferManager.TransferReason.Glass:
-                                    material += Language.BuildingUI[37]; break;
+                                    material += Localization.Get("GLASS"); break;
                                 case TransferManager.TransferReason.Metals:
-                                    material += Language.BuildingUI[38]; break;
+                                    material += Localization.Get("METAL"); break;
                                 default: break;
                             }
                             break;
@@ -262,13 +262,13 @@ namespace RealCity.CustomAI
                     switch (data.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.IndustrialForestry:
-                            material = Language.BuildingUI[26]; break;
+                            material = Localization.Get("LOG"); break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = Language.BuildingUI[24]; break;
+                            material = Localization.Get("GRAIN_MEAT"); break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = Language.BuildingUI[27]; break;
+                            material = Localization.Get("OIL"); break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = Language.BuildingUI[25]; break;
+                            material = Localization.Get("ORE"); break;
                         default:
                             material = ""; break;
                     }
@@ -278,21 +278,21 @@ namespace RealCity.CustomAI
                     switch (data.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.IndustrialForestry:
-                            material = Language.BuildingUI[22]; break;
+                            material = Localization.Get("LUMBER"); break;
                         case ItemClass.SubService.IndustrialFarming:
-                            material = Language.BuildingUI[20]; break;
+                            material = Localization.Get("FOOD"); break;
                         case ItemClass.SubService.IndustrialOil:
-                            material = Language.BuildingUI[23]; break;
+                            material = Localization.Get("PETROL"); break;
                         case ItemClass.SubService.IndustrialOre:
-                            material = Language.BuildingUI[21]; break;
+                            material = Localization.Get("COAL"); break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            material = Language.BuildingUI[28]; break;
+                            material = Localization.Get("PREGOODS"); break;
                         case ItemClass.SubService.CommercialHigh:
                         case ItemClass.SubService.CommercialLow:
                         case ItemClass.SubService.CommercialEco:
                         case ItemClass.SubService.CommercialLeisure:
                         case ItemClass.SubService.CommercialTourist:
-                            material = Language.BuildingUI[29]; break;
+                            material = Localization.Get("GOODS"); break;
                         default:
                             material = ""; break;
                     }

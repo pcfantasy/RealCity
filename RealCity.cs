@@ -32,13 +32,11 @@ namespace RealCity
             RealCity.IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
-            Language.LanguageSwitch((byte)languageIdex);
         }
 
         public void OnDisabled()
         {
             RealCity.IsEnabled = false;
-            Language.LanguageSwitch((byte)languageIdex);
         }
 
     }

@@ -13,21 +13,13 @@ namespace RealCity.UI
     public class RealCityButton : UIPanel
     {
         private UIButton RcButton;
-
         private UIComponent RealCityUITrigger_paneltime;
-
         private UIComponent RealCityUITrigger_chirper;
-
         private UIComponent RealCityUITrigger_esc;
-
         private UIComponent RealCityUITrigger_infopanel;
-
         private UIComponent RealCityUITrigger_bottombars;
-
         private ItemClass.Availability CurrentMode;
-
         public static RealCityButton instance;
-
         private UIDragHandle m_DragHandler;
 
         public static void RealCityUIToggle()
@@ -63,8 +55,6 @@ namespace RealCity.UI
             base.height = 70f;
             base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 50f), 35f);
             this.BringToFront();
-            //base.backgroundSprite = "MenuPanel";
-            //base.autoLayout = true;
             base.opacity = 1f;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
@@ -77,8 +67,25 @@ namespace RealCity.UI
             this.RcButton.playAudioEvents = true;
             this.RcButton.name = "RcButton";
             this.RcButton.tooltipBox = aView.defaultTooltipBox;
-            this.RcButton.text = Language.RealCityUI1[50] + Language.OptionUI[3];
-            this.RcButton.size = new Vector2(200f, 40f);
+            if (Loader.m_atlasLoadedRcButton)
+            {
+                UISprite internalSprite = RcButton.AddUIComponent<UISprite>();
+                internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasNameRcButton);
+                internalSprite.spriteName = "RcButton";
+                internalSprite.relativePosition = new Vector3(0, 0);
+                internalSprite.width = 50f;
+                internalSprite.height = 40f;
+                base.width = 50f;
+                base.height = 70f;
+                RcButton.size = new Vector2(50f, 40f);
+            }
+            else
+            {
+                base.width = 200f;
+                base.height = 70f;
+                this.RcButton.text = Localization.Get("CITY_STATUS");
+                this.RcButton.size = new Vector2(200f, 40f);
+            }
             this.RcButton.relativePosition = new Vector3(0, 30f);
             this.RcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
@@ -123,8 +130,10 @@ namespace RealCity.UI
         {
             if (Loader.isGuiRunning)
             {
-                this.RcButton.tooltip = Language.RealCityUI1[50] + Language.OptionUI[3];
-                this.RcButton.text = Language.RealCityUI1[50] + Language.OptionUI[3];
+                if (!Loader.m_atlasLoadedRcButton)
+                {
+                    this.RcButton.text = Localization.Get("CITY_STATUS");
+                }
                 if (Loader.guiPanel1.isVisible)
                 {
                     this.RcButton.Focus();

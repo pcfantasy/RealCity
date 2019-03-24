@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomAI\RealCityCarAI.cs" />
     <Compile Include="CustomAI\RealCityCargoTruckAI.cs" />
     <Compile Include="CustomAI\RealCityCommericalBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityCommonBuildingAI.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="CustomAI\RealCityTaxiAI.cs" />
     <Compile Include="CustomAI\RealCityTollBooth.cs" />
     <Compile Include="CustomAI\RealCityTouristAI.cs" />
+    <Compile Include="CustomAI\RealCityVehicleAI.cs" />
     <Compile Include="CustomManager\RealCityBuildingManager.cs" />
     <Compile Include="CustomManager\RealCityCitizenManager.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />
@@ -117,17 +119,31 @@
     <Compile Include="UI\TouristUI.cs" />
     <Compile Include="Util\DebugLog.cs" />
     <Compile Include="Util\HarmonyDetours.cs" />
-    <Compile Include="Util\Language.cs" />
+    <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
     <Compile Include="Util\RedirectionHelper.cs" />
     <Compile Include="Util\SaveAndRestore.cs" />
+    <Compile Include="Util\SpriteUtilities.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Icon\BuildingButton.png" />
+    <Content Include="Icon\EcButton.png" />
+    <Content Include="Icon\Politics.png" />
+    <Content Include="Icon\RcButton.png" />
+    <Content Include="Locales\zh.txt" />
+    <Content Include="Locales\en.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "C:\Users\Administrator\Desktop\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
-copy "C:\Users\Administrator\Desktop\RealCity\bin\Release\0Harmony.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"</PostBuildEvent>
+copy "C:\Users\Administrator\Desktop\RealCity\bin\Release\0Harmony.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"
+rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Locales"
+mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Locales"
+copy "C:\Users\Administrator\Desktop\RealCity\Locales\*.txt" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Locales"
+rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
+mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
+copy "C:\Users\Administrator\Desktop\RealCity\Icon\*.png" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

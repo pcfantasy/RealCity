@@ -12,6 +12,7 @@ using RealCity.CustomAI;
 using RealCity.UI;
 using RealCity.Util;
 using RealCity.CustomManager;
+using ColossalFramework.Plugins;
 
 namespace RealCity
 {
@@ -55,11 +56,20 @@ namespace RealCity
         public static bool isRealConstructionRunning = false;
         public static bool isRealGasStationRunning = false;
         public static bool isTransportLinesManagerRunning = false;
+        public static bool isAdvancedJunctionRuleRunning = false;
         public static PoliticsButton PLPanel;
         public static EcnomicButton EcMenuPanel;
         public static RealCityButton RcMenuPanel;
         public static BuildingButton BMenuPanel;
         public static PlayerBuildingButton PBMenuPanel;
+        public static string m_atlasNameEcButton = "EcButton";
+        public static bool m_atlasLoadedEcButton;
+        public static string m_atlasNameBuildingButton = "BuildingButton";
+        public static bool m_atlasLoadedBuildingButton;
+        public static string m_atlasNamePolitics = "Politics";
+        public static bool m_atlasLoadedPolitics;
+        public static string m_atlasNameRcButton = "RcButton";
+        public static bool m_atlasLoadedRcButton;
 
         public override void OnCreated(ILoading loading)
         {
@@ -79,6 +89,7 @@ namespace RealCity
                     isRealConstructionRunning = CheckRealConstructionIsLoaded();
                     isRealGasStationRunning = CheckRealGasStationIsLoaded();
                     isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
+                    isAdvancedJunctionRuleRunning = CheckAdvancedJunctionRuleIsLoaded();
                     InitDetour();
                     HarmonyInitDetour();
                     RealCityThreading.isFirstTime = true;
@@ -131,8 +142,72 @@ namespace RealCity
             base.OnReleased();
         }
 
+        private static void LoadSpritesEcButton()
+        {
+            if (SpriteUtilities.GetAtlas(m_atlasNameEcButton) != null) return;
+            var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
+            m_atlasLoadedEcButton = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/EcButton.png"), m_atlasNameEcButton);
+            if (m_atlasLoadedEcButton)
+            {
+                var spriteSuccess = true;
+                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(421, 424)), "EcButton", m_atlasNameEcButton)
+                             && spriteSuccess;
+                if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
+            }
+            else DebugLog.LogToFileOnly("The texture atlas (provides custom icons) has not loaded. All icons have reverted to text prompts.");
+        }
+
+        private static void LoadSpritesRcButton()
+        {
+            if (SpriteUtilities.GetAtlas(m_atlasNameRcButton) != null) return;
+            var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
+            m_atlasLoadedRcButton = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/RcButton.png"), m_atlasNameRcButton);
+            if (m_atlasLoadedRcButton)
+            {
+                var spriteSuccess = true;
+                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(451, 322)), "RcButton", m_atlasNameRcButton)
+                             && spriteSuccess;
+                if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
+            }
+            else DebugLog.LogToFileOnly("The texture atlas (provides custom icons) has not loaded. All icons have reverted to text prompts.");
+        }
+
+        private static void LoadSpritesBuildingButton()
+        {
+            if (SpriteUtilities.GetAtlas(m_atlasNameBuildingButton) != null) return;
+            var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
+            m_atlasLoadedBuildingButton = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/BuildingButton.png"), m_atlasNameBuildingButton);
+            if (m_atlasLoadedBuildingButton)
+            {
+                var spriteSuccess = true;
+                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(529, 465)), "BuildingButton", m_atlasNameBuildingButton)
+                             && spriteSuccess;
+                if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
+            }
+            else DebugLog.LogToFileOnly("The texture atlas (provides custom icons) has not loaded. All icons have reverted to text prompts.");
+        }
+
+        private static void LoadSpritesPolitics()
+        {
+            if (SpriteUtilities.GetAtlas(m_atlasNamePolitics) != null) return;
+            var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
+            m_atlasLoadedPolitics = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/Politics.png"), m_atlasNamePolitics);
+            if (m_atlasLoadedPolitics)
+            {
+                var spriteSuccess = true;
+                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(382, 281)), "Politics", m_atlasNamePolitics)
+                             && spriteSuccess;
+                if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
+            }
+            else DebugLog.LogToFileOnly("The texture atlas (provides custom icons) has not loaded. All icons have reverted to text prompts.");
+        }
+
         public static void SetupGui()
         {
+            LoadSpritesBuildingButton();
+            LoadSpritesEcButton();
+            LoadSpritesRcButton();
+            LoadSpritesPolitics();
             Loader.parentGuiView = null;
             Loader.parentGuiView = UIView.GetAView();
             if (Loader.guiPanel == null)
@@ -250,8 +325,18 @@ namespace RealCity
             {
                 BMenuPanel = (buildingInfo.AddUIComponent(typeof(BuildingButton)) as BuildingButton);
             }
-            BMenuPanel.RefPanel = buildingInfo;
-            BMenuPanel.Alignment = UIAlignAnchor.BottomLeft;
+            if (Loader.m_atlasLoadedEcButton)
+            {
+                BMenuPanel.width = 40f;
+                BMenuPanel.height = 35f;
+                BMenuPanel.relativePosition = new Vector3(120, buildingInfo.size.y - BMenuPanel.height);
+            }
+            else
+            {
+                BMenuPanel.width = 150f;
+                BMenuPanel.height = 15f;
+                BMenuPanel.relativePosition = new Vector3(120, buildingInfo.size.y - BMenuPanel.height);
+            }
             BMenuPanel.Show();
         }
 
@@ -261,8 +346,18 @@ namespace RealCity
             {
                 PBMenuPanel = (playerbuildingInfo.AddUIComponent(typeof(PlayerBuildingButton)) as PlayerBuildingButton);
             }
-            PBMenuPanel.RefPanel = playerbuildingInfo;
-            PBMenuPanel.Alignment = UIAlignAnchor.BottomLeft;
+            if (Loader.m_atlasLoadedEcButton)
+            {
+                PBMenuPanel.width = 40f;
+                PBMenuPanel.height = 35f;
+                PBMenuPanel.relativePosition = new Vector3(120, playerbuildingInfo.size.y - PBMenuPanel.height);
+            }
+            else
+            {
+                PBMenuPanel.width = 150f;
+                PBMenuPanel.height = 15f;
+                PBMenuPanel.relativePosition = new Vector3(120, playerbuildingInfo.size.y - PBMenuPanel.height);
+            }
             PBMenuPanel.Show();
         }
 
@@ -957,6 +1052,11 @@ namespace RealCity
         private bool CheckTransportLinesManagerIsLoaded()
         {
             return this.Check3rdPartyModLoaded("Klyte.TransportLinesManager", true);
+        }
+
+        private bool CheckAdvancedJunctionRuleIsLoaded()
+        {
+            return this.Check3rdPartyModLoaded("AdvancedJunctionRule", true);
         }
     }
 }

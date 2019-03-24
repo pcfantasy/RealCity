@@ -61,17 +61,17 @@ namespace RealCity.UI
         private void ShowOnGui()
         { 
             this.familyMoney = base.AddUIComponent<UILabel>();
-            this.familyMoney.text = Language.BuildingUI[5];
+            this.familyMoney.text = Localization.Get("FAMILY_MONEY");
             this.familyMoney.relativePosition = new Vector3(SPACING, 50f);
             this.familyMoney.autoSize = true;
 
             this.familySalary = base.AddUIComponent<UILabel>();
-            this.familySalary.text = Language.BuildingUI[10];
+            this.familySalary.text = Localization.Get("FAMILY_SALARY");
             this.familySalary.relativePosition = new Vector3(SPACING, this.familyMoney.relativePosition.y + SPACING22);
             this.familySalary.autoSize = true;
 
             this.familyGoods = base.AddUIComponent<UILabel>();
-            this.familyGoods.text = Language.BuildingUI[40];
+            this.familyGoods.text = Localization.Get("FAMILY_GOODS");
             this.familyGoods.relativePosition = new Vector3(SPACING, this.familySalary.relativePosition.y + SPACING22);
             this.familyGoods.autoSize = true;
         }
@@ -90,16 +90,16 @@ namespace RealCity.UI
                     ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)MainDataStore.last_citizenid)].m_homeBuilding;
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     uint homeId = instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].GetContainingUnit(MainDataStore.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                    this.familyMoney.text = string.Format(Language.BuildingUI[5] + " [{0}]" , MainDataStore.family_money[homeId]);
-                    this.familySalary.text = string.Format(Language.BuildingUI[10] + " [{0}]", CaculateFamilySalary(homeId));
+                    this.familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , MainDataStore.family_money[homeId]);
+                    this.familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId));
 
                     if ((instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].m_flags & Citizen.Flags.NeedGoods) != 0)
                     {
-                        this.familyGoods.text = string.Format(Language.BuildingUI[40] + " [{0}] " + Language.BuildingUI[41] , instance3.m_units.m_buffer[homeId].m_goods.ToString());
+                        this.familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}] " + Localization.Get("FAMILY_NEED_GOODS"), instance3.m_units.m_buffer[homeId].m_goods.ToString());
                     }
                     else
                     {
-                        this.familyGoods.text = string.Format(Language.BuildingUI[40] + " [{0}]", instance3.m_units.m_buffer[homeId].m_goods.ToString());
+                        this.familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", instance3.m_units.m_buffer[homeId].m_goods.ToString());
                     }
 
                     HumanUI.refeshOnce = false;

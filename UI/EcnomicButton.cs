@@ -13,21 +13,13 @@ namespace RealCity.UI
     public class EcnomicButton : UIPanel
     {
         private UIButton EcButton;
-
         private UIComponent MoreeconomicUITrigger_paneltime;
-
         private UIComponent MoreeconomicUITrigger_chirper;
-
         private UIComponent MoreeconomicUITrigger_esc;
-
         private UIComponent MoreeconomicUITrigger_infopanel;
-
         private UIComponent MoreeconomicUITrigger_bottombars;
-
         private ItemClass.Availability CurrentMode;
-
         public static EcnomicButton instance;
-
         private UIDragHandle m_DragHandler;
 
         public static void MoreeconomicUIToggle()
@@ -59,8 +51,6 @@ namespace RealCity.UI
             base.height = 70f;
             base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 350f ), 35f);
             this.BringToFront();
-            //base.backgroundSprite = "MenuPanel";
-            //base.autoLayout = true;
             base.opacity = 1f;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
@@ -73,8 +63,25 @@ namespace RealCity.UI
             this.EcButton.playAudioEvents = true;
             this.EcButton.name = "EcButton";
             this.EcButton.tooltipBox = aView.defaultTooltipBox;
-            this.EcButton.text = Language.EconomicUI[0] + Language.OptionUI[3];
-            this.EcButton.size = new Vector2(200f, 40f);
+            if (Loader.m_atlasLoadedEcButton)
+            {
+                UISprite internalSprite = EcButton.AddUIComponent<UISprite>();
+                internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasNameEcButton);
+                internalSprite.spriteName = "EcButton";
+                internalSprite.relativePosition = new Vector3(0, 0);
+                internalSprite.width = 50f;
+                internalSprite.height = 40f;
+                base.width = 50f;
+                base.height = 70f;
+                EcButton.size = new Vector2(50f, 40f);
+            }
+            else
+            {
+                base.width = 200f;
+                base.height = 70f;
+                this.EcButton.text = Localization.Get("ECONOMIC_DATA");
+                this.EcButton.size = new Vector2(200f, 40f);
+            }
             this.EcButton.relativePosition = new Vector3(0, 30f);
             this.EcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
@@ -119,9 +126,10 @@ namespace RealCity.UI
         {
             if (Loader.isGuiRunning)
             {
-                this.EcButton.text = Language.EconomicUI[0] + Language.OptionUI[3];
-                this.EcButton.tooltip = Language.EconomicUI[0];
-                this.EcButton.textColor = Color.white;
+                if (!Loader.m_atlasLoadedEcButton)
+                {
+                    this.EcButton.text = Localization.Get("ECONOMIC_DATA");
+                }
 
                 if (Loader.guiPanel.isVisible)
                 {

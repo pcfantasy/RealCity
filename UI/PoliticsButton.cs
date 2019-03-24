@@ -60,8 +60,6 @@ namespace RealCity.UI
         {
             UIView aView = UIView.GetAView();
             base.name = "PoliticsUIPanel";
-            base.width = 200f;
-            base.height = 70f;
             base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 450f ), 35f);
             this.BringToFront();
             //base.backgroundSprite = "MenuPanel";
@@ -78,8 +76,25 @@ namespace RealCity.UI
             this.PLButton.playAudioEvents = true;
             this.PLButton.name = "PLButton";
             this.PLButton.tooltipBox = aView.defaultTooltipBox;
-            this.PLButton.text = Language.PoliticsMessage[0] + Language.OptionUI[3];
-            this.PLButton.size = new Vector2(200f, 40f);
+            if (Loader.m_atlasLoadedPolitics)
+            {
+                UISprite internalSprite = PLButton.AddUIComponent<UISprite>();
+                internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasNamePolitics);
+                internalSprite.spriteName = "Politics";
+                internalSprite.relativePosition = new Vector3(0, 0);
+                internalSprite.width = 50f;
+                internalSprite.height = 40f;
+                base.width = 50f;
+                base.height = 70f;
+                PLButton.size = new Vector2(50f, 40f);
+            }
+            else
+            {
+                base.width = 200f;
+                base.height = 70f;
+                this.PLButton.text = Localization.Get("PARLIAMENT_HALL");
+                this.PLButton.size = new Vector2(200f, 40f);
+            }
             this.PLButton.relativePosition = new Vector3(0, 30f);
             this.PLButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
@@ -124,14 +139,9 @@ namespace RealCity.UI
         {
             if (Loader.isGuiRunning)
             {
-                this.PLButton.text = Language.PoliticsMessage[0] + Language.OptionUI[3];
-                this.PLButton.tooltip = Language.EconomicUI[0];
-                if (Politics.parliamentCount < 2)  //time is ok
+                if (Loader.m_atlasLoadedPolitics)
                 {
-                    this.PLButton.textColor = Color.red;
-                } else
-                {
-                    this.PLButton.textColor = Color.white;
+                    this.PLButton.text = Localization.Get("PARLIAMENT_HALL");
                 }
 
                 if (Loader.guiPanel5.isVisible)

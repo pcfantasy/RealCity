@@ -11,15 +11,10 @@ namespace RealCity.UI
     public class TouristUI : UIPanel
     {
         public static readonly string cacheName = "TouristUI";
-
         private static readonly float SPACING = 15f;
-
         private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
-
         public TouristWorldInfoPanel baseBuildingWindow;
-
         public static bool refeshOnce = false;
-
         private UILabel TouristMoney;
 
         public override void Update()
@@ -37,11 +32,9 @@ namespace RealCity.UI
         public override void Start()
         {
             base.Start();
-            //base.backgroundSprite = "MenuPanel";
             this.canFocus = true;
             this.isInteractive = true;
             base.isVisible = true;
-            //this.BringToFront();
             base.opacity = 1f;
             base.cachedName = cacheName;
             this.RefreshDisplayData();
@@ -52,11 +45,10 @@ namespace RealCity.UI
             this.ShowOnGui();            
         }
 
-
         private void ShowOnGui()
         { 
             this.TouristMoney = base.AddUIComponent<UILabel>();
-            this.TouristMoney.text = Language.BuildingUI[46];
+            this.TouristMoney.text = Localization.Get("TOURIST_MONEY");
             this.TouristMoney.relativePosition = new Vector3(SPACING, 50f);
             this.TouristMoney.autoSize = true;
         }
@@ -71,7 +63,7 @@ namespace RealCity.UI
                 if (base.isVisible)
                 {
                     MainDataStore.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
-                    this.TouristMoney.text = string.Format(Language.BuildingUI[46] + " [{0}]", MainDataStore.citizenMoney[MainDataStore.last_citizenid]);
+                    this.TouristMoney.text = string.Format(Localization.Get("TOURIST_MONEY") + " [{0}]", MainDataStore.citizenMoney[MainDataStore.last_citizenid]);
                     TouristUI.refeshOnce = false;
                 }
             }

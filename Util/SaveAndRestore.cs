@@ -8,8 +8,6 @@ namespace RealCity.Util
 {
     public class SaveAndRestore : SerializableDataExtensionBase
     {
-        //static byte[] saveData;
-        //static byte[] load_data;
         private static ISerializableData _serializableData;
 
         public static void save_long(ref int idex, long item, ref byte[] container)
@@ -23,18 +21,6 @@ namespace RealCity.Util
             }
             idex = idex + temp_data.Length;
         }
-
-        /*public static void save_double(ref int idex, double item, ref byte[] container)
-        {
-            int i;
-            byte[] temp_data;
-            temp_data = BitConverter.GetBytes(item);
-            for (i = 0; i < temp_data.Length; i++)
-            {
-                container[idex + i] = temp_data[i];
-            }
-            idex = idex + temp_data.Length;
-        }*/
 
         public static void save_float(ref int idex, float item, ref byte[] container)
         {
@@ -502,14 +488,6 @@ namespace RealCity.Util
             RealCityPrivateBuildingAI.save();
             Politics.Save();
         }
-
-        //public static void get_load_data()
-        //{
-        //    pc_EconomyManager.load();
-        //    comm_data.load();
-        //    pc_ResidentAI.load();
-        //    pc_PrivateBuildingAI.load();
-        //}
 
         public override void OnCreated(ISerializableData serializableData)
         {

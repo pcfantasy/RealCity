@@ -15,8 +15,6 @@ namespace RealCity.UI
         public static UIButton PBButton;
         private ItemClass.Availability CurrentMode;
         public static PlayerBuildingButton instance;
-        public UIAlignAnchor Alignment;
-        public UIPanel RefPanel;
 
         public static void PlayerBuildingUIToggle()
         {
@@ -36,10 +34,6 @@ namespace RealCity.UI
         {
             UIView aView = UIView.GetAView();
             base.name = "PlayerBuildingUIPanel";
-            base.width = 200f;
-            base.height = 25f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 5f);
-            this.BringToFront();
             base.opacity = 1f;
             this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
             PBButton = base.AddUIComponent<UIButton>();
@@ -50,11 +44,27 @@ namespace RealCity.UI
             PBButton.playAudioEvents = true;
             PBButton.name = "PBButton";
             PBButton.tooltipBox = aView.defaultTooltipBox;
-            PBButton.text = Language.OptionUI[4];
-            PBButton.textScale = 0.9f;
-            PBButton.size = new Vector2(200f, 20f);
-            PBButton.relativePosition = new Vector3(0, 0f);
-            base.AlignTo(this.RefPanel, this.Alignment);
+            if (Loader.m_atlasLoadedBuildingButton)
+            {
+                UISprite internalSprite = PBButton.AddUIComponent<UISprite>();
+                internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasNameBuildingButton);
+                internalSprite.spriteName = "BuildingButton";
+                internalSprite.relativePosition = new Vector3(0, 0);
+                internalSprite.width = 40f;
+                internalSprite.height = 35f;
+                base.width = 40f;
+                base.height = 35f;
+                PBButton.size = new Vector2(40f, 35f);
+            }
+            else
+            {
+                PBButton.text = Localization.Get("REALCITY_UI");
+                PBButton.textScale = 0.9f;
+                base.width = 150f;
+                base.height = 15f;
+                PBButton.size = new Vector2(150f, 15f);
+            }
+            PBButton.relativePosition = new Vector3(0f, 0f);
             PBButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 PlayerBuildingButton.PlayerBuildingUIToggle();
@@ -65,19 +75,11 @@ namespace RealCity.UI
         {
             if (Loader.isGuiRunning)
             {
-                if (Loader.isTransportLinesManagerRunning)
+                base.Show();
+                if (!Loader.m_atlasLoadedBuildingButton)
                 {
-                    if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid].Info.m_class.m_service == ItemClass.Service.PublicTransport)
-                    {
-                        base.Hide();
-                        Loader.guiPanel4.Show();
-                    }
-                    else
-                    {
-                        base.Show();
-                    }
+                    PBButton.text = Localization.Get("REALCITY_UI");
                 }
-                PBButton.text = Language.OptionUI[4];
             }
             base.Update();
         }
