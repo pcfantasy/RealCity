@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace RealCity.CustomAI
 {
-    public class RealCityOfficeBuildingAI:PrivateBuildingAI
+    public class RealCityOfficeBuildingAI
     {
-        private TransferManager.TransferReason GetOutgoingTransferReason()
+        public static TransferManager.TransferReason OfficeBuildingAIGetOutgoingTransferReasonPreFix()
         {
-            ItemClass.SubService subService = this.m_info.m_class.m_subService;
-            //if (subService != ItemClass.SubService.OfficeHightech)
-            //{
                 return TransferManager.TransferReason.None;
-            //}
-            //return TransferManager.TransferReason.Goods;
         }
     }
 }

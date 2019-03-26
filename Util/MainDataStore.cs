@@ -3,11 +3,15 @@
     public class MainDataStore
     {
         public const int gameExpenseDivide = 100;
-        public static float reserved0 = 1f;  //orginal landPrice
-        public const byte govermentEducation0Salary = 50;
-        public const byte govermentEducation1Salary = 55;
-        public const byte govermentEducation2Salary = 65;
-        public const byte govermentEducation3Salary = 80;
+        //start from V6, goverment salary is floating now
+        public static byte govermentEducation0Salary = 50;
+        public static byte govermentEducation1Salary = 55;
+        public static byte govermentEducation2Salary = 65;
+        public static byte govermentEducation3Salary = 80;
+        public const byte govermentEducation0SalaryFixed = 50;
+        public const byte govermentEducation1SalaryFixed = 55;
+        public const byte govermentEducation2SalaryFixed = 65;
+        public const byte govermentEducation3SalaryFixed = 80;
         public static int citizenCount = 0;
         public static int familyCount = 0;
         public static int citizenSalaryPerFamily = 0;
@@ -185,7 +189,10 @@
             SaveAndRestore.save_int(ref i, reserved2, ref saveData);
             SaveAndRestore.save_int(ref i, minimumLivingAllowanceFinal, ref saveData);
             SaveAndRestore.save_int(ref i, reserved3, ref saveData);
-            SaveAndRestore.save_float(ref i, reserved0, ref saveData);
+            SaveAndRestore.save_byte(ref i, govermentEducation0Salary, ref saveData);
+            SaveAndRestore.save_byte(ref i, govermentEducation1Salary, ref saveData);
+            SaveAndRestore.save_byte(ref i, govermentEducation2Salary, ref saveData);
+            SaveAndRestore.save_byte(ref i, govermentEducation3Salary, ref saveData);
             SaveAndRestore.save_int(ref i, PoliceDepartment, ref saveData);
             SaveAndRestore.save_int(ref i, Education, ref saveData);
             SaveAndRestore.save_int(ref i, Monument, ref saveData);
@@ -273,7 +280,10 @@
             SaveAndRestore.load_int(ref i, saveData);
             minimumLivingAllowanceFinal = SaveAndRestore.load_int(ref i, saveData);
             SaveAndRestore.load_int(ref i, saveData);
-            reserved0 = SaveAndRestore.load_float(ref i, saveData);
+            govermentEducation0Salary = SaveAndRestore.load_byte(ref i, saveData);
+            govermentEducation1Salary = SaveAndRestore.load_byte(ref i, saveData);
+            govermentEducation2Salary = SaveAndRestore.load_byte(ref i, saveData);
+            govermentEducation3Salary = SaveAndRestore.load_byte(ref i, saveData);
             PoliceDepartment = SaveAndRestore.load_int(ref i, saveData);
             Education = SaveAndRestore.load_int(ref i, saveData);
             Monument = SaveAndRestore.load_int(ref i, saveData);

@@ -10,93 +10,67 @@ using UnityEngine;
 
 namespace RealCity.UI
 {
-    public class PoliticsButton : UIPanel
+    public class PoliticsButton : UIButton
     {
-        private UIButton PLButton;
-
         private UIComponent MoreeconomicUITrigger_paneltime;
-
         private UIComponent MoreeconomicUITrigger_chirper;
-
         private UIComponent MoreeconomicUITrigger_esc;
-
         private UIComponent MoreeconomicUITrigger_infopanel;
-
         private UIComponent MoreeconomicUITrigger_bottombars;
-
-        private ItemClass.Availability CurrentMode;
-
-        public static PoliticsButton instance;
-
         private UIDragHandle m_DragHandler;
 
         public static void MoreeconomicUIToggle()
         {
-            if (!Loader.guiPanel5.isVisible)
+            if (!Loader.politicsUI.isVisible)
             {
                 PoliticsUI.refeshOnce = true;
-                Loader.guiPanel5.Show();
+                Loader.politicsUI.Show();
 
-                if (Loader.guiPanel1.isVisible)
+                if (Loader.realCityUI.isVisible)
                 {
-                    Loader.guiPanel1.Hide();
+                    Loader.realCityUI.Hide();
                 }
             }
             else
             {
-                Loader.guiPanel5.Hide();
+                Loader.politicsUI.Hide();
             }
         }
 
         public void MoreeconomicUIOff()
         {
-            if (Loader.guiPanel5.isVisible && !Loader.guiPanel5.containsMouse && !this.PLButton.containsMouse && this.MoreeconomicUITrigger_paneltime != null && !this.MoreeconomicUITrigger_paneltime.containsMouse)
+            if (Loader.politicsUI.isVisible && !Loader.politicsUI.containsMouse && !base.containsMouse && this.MoreeconomicUITrigger_paneltime != null && !this.MoreeconomicUITrigger_paneltime.containsMouse)
             {
-                Loader.guiPanel5.Hide();
+                Loader.politicsUI.Hide();
             }
         }
 
         public override void Start()
         {
-            UIView aView = UIView.GetAView();
-            base.name = "PoliticsUIPanel";
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 450f ), 35f);
-            this.BringToFront();
-            //base.backgroundSprite = "MenuPanel";
-            //base.autoLayout = true;
-            base.opacity = 1f;
-            this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 350f), 35f);
+            base.normalBgSprite = "ToolbarIconGroup1Nomarl";
+            base.hoveredBgSprite = "ToolbarIconGroup1Hovered";
+            base.focusedBgSprite = "ToolbarIconGroup1Focused";
+            base.pressedBgSprite = "ToolbarIconGroup1Pressed";
+            base.playAudioEvents = true;
+            base.name = "EcButton";
+            base.zOrder = 11;
+            UISprite internalSprite = base.AddUIComponent<UISprite>();
+            internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasName);
+            internalSprite.spriteName = "Politics";
+            internalSprite.relativePosition = new Vector3(0, 0);
+            internalSprite.width = 50f;
+            internalSprite.height = 50f;
+            base.size = new Vector2(50f, 50f);
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
-            this.PLButton = base.AddUIComponent<UIButton>();
-            this.PLButton.normalBgSprite = "PLButton";
-            this.PLButton.hoveredBgSprite = "PLButtonHovered";
-            this.PLButton.focusedBgSprite = "PLButtonFocused";
-            this.PLButton.pressedBgSprite = "PLButtonPressed";
-            this.PLButton.playAudioEvents = true;
-            this.PLButton.name = "PLButton";
-            this.PLButton.tooltipBox = aView.defaultTooltipBox;
-            if (Loader.m_atlasLoadedPolitics)
-            {
-                UISprite internalSprite = PLButton.AddUIComponent<UISprite>();
-                internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasNamePolitics);
-                internalSprite.spriteName = "Politics";
-                internalSprite.relativePosition = new Vector3(0, 0);
-                internalSprite.width = 50f;
-                internalSprite.height = 40f;
-                base.width = 50f;
-                base.height = 70f;
-                PLButton.size = new Vector2(50f, 40f);
-            }
-            else
-            {
-                base.width = 200f;
-                base.height = 70f;
-                this.PLButton.text = Localization.Get("PARLIAMENT_HALL");
-                this.PLButton.size = new Vector2(200f, 40f);
-            }
-            this.PLButton.relativePosition = new Vector3(0, 30f);
-            this.PLButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            this.m_DragHandler.relativePosition = Vector2.zero;
+            this.m_DragHandler.width = 50;
+            this.m_DragHandler.height = 50;
+            this.m_DragHandler.zOrder = 10;
+            this.m_DragHandler.Start();
+            this.m_DragHandler.enabled = true;
+            base.eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 PoliticsButton.MoreeconomicUIToggle();
             };
@@ -139,19 +113,14 @@ namespace RealCity.UI
         {
             if (Loader.isGuiRunning)
             {
-                if (Loader.m_atlasLoadedPolitics)
+                if (Loader.politicsUI.isVisible)
                 {
-                    this.PLButton.text = Localization.Get("PARLIAMENT_HALL");
-                }
-
-                if (Loader.guiPanel5.isVisible)
-                {
-                    this.PLButton.Focus();
+                    base.Focus();
                     base.Hide();
                 }
                 else
                 {
-                    this.PLButton.Unfocus();
+                    base.Unfocus();
                     base.Show();
                 }
             }

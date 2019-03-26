@@ -1958,7 +1958,7 @@ namespace RealCity.CustomManager
             }
             return amount;
         }
-
+        //TODO: move to harmony
         public int AddResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
         {
             // NON-STOCK CODE START
@@ -1993,7 +1993,7 @@ namespace RealCity.CustomManager
             /// NON-STOCK CODE END ///
             return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
         }
-
+        //TODO: move to harmony
         public int AddResource(EconomyManager.Resource resource, int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
             // NON-STOCK CODE START

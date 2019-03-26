@@ -43,10 +43,10 @@ namespace RealCity
                 try
                 {
                     Assembly as1 = Assembly.Load("AdvancedJunctionRule");
-                    Loader.Detours.Add(new Loader.Detour(as1.GetType("AdvancedJunctionRule.CustomAI.NewCarAI").GetMethod("VehicleStatusForRealCity", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
+                    Loader.Detours.Add(new Loader.Detour(as1.GetType("AdvancedJunctionRule.CustomAI.NewCarAI").GetMethod("VehicleStatusForRealCity", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static, null, new Type[] {
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType()}, null),
-                typeof(RealCityCarAI).GetMethod("CustomCarAICustomSimulationStepPreFix", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
+                typeof(RealCityCarAI).GetMethod("CustomCarAICustomSimulationStepPreFix", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static, null, new Type[] {
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType()}, null)));
                 }
@@ -91,7 +91,7 @@ namespace RealCity
                 DebugLog.LogToFileOnly(string.Format("ThreadingExtension.OnBeforeSimulationFrame: First frame detected. Detours checked. Result: {0} missing detours", list.Count));
                 if (list.Count > 0)
                 {
-                    string error = "RealCity detected an incompatibility with another mod! You can continue playing but it's NOT recommended. RealCity will not work as expected. See RealCity.txt for technical details.";
+                    string error = "RealCity detected an incompatibility with another mod! You can continue playing but it's NOT recommended. RealCity will not work as expected. Send RealCity.txt to Author.";
                     DebugLog.LogToFileOnly(error);
                     string text = "The following methods were overriden by another mod:";
                     foreach (string current2 in list)
@@ -100,6 +100,13 @@ namespace RealCity
                     }
                     DebugLog.LogToFileOnly(text);
                     UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage("Incompatibility Issue", text, true);
+                }
+
+                if (!Loader.HarmonyDetourInited)
+                {
+                    string error = "RealCity HarmonyDetourInit is failed, Send RealCity.txt to Author.";
+                    DebugLog.LogToFileOnly(error);
+                    UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage("Incompatibility Issue", error, true);
                 }
             }
         }

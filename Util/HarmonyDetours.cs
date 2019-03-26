@@ -99,6 +99,25 @@ namespace RealCity.Util
             harmony.ConditionalPatch(vehicleAIReleaseVehicle,
                 null,
                 new HarmonyMethod(vehicleAIReleaseVehiclePostFix));
+            //9
+            var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance);
+            var buildingAIVisitorEnterPostFix = typeof(RealCityBuildingAI).GetMethod("BuildingAIVisitorEnterPostFix");
+            harmony.ConditionalPatch(buildingAIVisitorEnter,
+                null,
+                new HarmonyMethod(buildingAIVisitorEnterPostFix));
+            //10
+            var officeBuildingAIGetOutgoingTransferReason = typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            var officeBuildingAIGetOutgoingTransferReasonPreFix = typeof(RealCityBuildingAI).GetMethod("OfficeBuildingAIGetOutgoingTransferReasonPreFix");
+            harmony.ConditionalPatch(officeBuildingAIGetOutgoingTransferReason,
+                new HarmonyMethod(officeBuildingAIGetOutgoingTransferReasonPreFix),
+                null);
+            //11
+            var privateBuildingAISimulationStepActive = typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance);
+            var privateBuildingAISimulationStepActivePostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAISimulationStepActivePostFix");
+            harmony.ConditionalPatch(privateBuildingAISimulationStepActive,
+                null,
+                new HarmonyMethod(privateBuildingAISimulationStepActivePostFix));
+            Loader.HarmonyDetourInited = true;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
 
@@ -161,6 +180,25 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(vehicleAIReleaseVehicle,
                 null,
                 new HarmonyMethod(vehicleAIReleaseVehiclePostFix));
+            //9
+            var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance);
+            var buildingAIVisitorEnterPostFix = typeof(RealCityBuildingAI).GetMethod("BuildingAIVisitorEnterPostFix");
+            harmony.ConditionalUnPatch(buildingAIVisitorEnter,
+                null,
+                new HarmonyMethod(buildingAIVisitorEnterPostFix));
+            //10
+            var officeBuildingAIGetOutgoingTransferReason = typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
+            var officeBuildingAIGetOutgoingTransferReasonPreFix = typeof(RealCityBuildingAI).GetMethod("OfficeBuildingAIGetOutgoingTransferReasonPreFix");
+            harmony.ConditionalUnPatch(officeBuildingAIGetOutgoingTransferReason,
+                new HarmonyMethod(officeBuildingAIGetOutgoingTransferReasonPreFix),
+                null);
+            //11
+            var privateBuildingAISimulationStepActive = typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance);
+            var privateBuildingAISimulationStepActivePostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAISimulationStepActivePostFix");
+            harmony.ConditionalUnPatch(privateBuildingAISimulationStepActive,
+                null,
+                new HarmonyMethod(privateBuildingAISimulationStepActivePostFix));
+            Loader.HarmonyDetourInited = false;
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }
     }

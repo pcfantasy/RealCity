@@ -29,11 +29,7 @@ namespace RealCity.CustomAI
                     }
                 }
 
-                if (isForFuel)
-                {
-
-                }
-                else
+                if (!isForFuel)
                 {
                     ushort vehicle = itemID.Vehicle;
                     if (vehicle != 0)

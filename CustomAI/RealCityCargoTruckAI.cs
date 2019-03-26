@@ -12,6 +12,7 @@ using System.Reflection;
 using ColossalFramework.Globalization;
 using ColossalFramework.Math;
 using ColossalFramework.Threading;
+using RealCity.Util;
 
 namespace RealCity.CustomAI
 {
@@ -19,27 +20,22 @@ namespace RealCity.CustomAI
     {
         public void CargoTruckAIArriveAtTargetForRealGasStationPre(ushort vehicleID, ref Vehicle data)
         {
-            Util.DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ CargoTruckAIArriveAtTargetForRealGasStationPre");
+            DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ CargoTruckAIArriveAtTargetForRealGasStationPre");
         }
 
         public void CargoTruckAIArriveAtTargetForRealGasStationPost(ushort vehicleID, ref Vehicle data)
         {
-            Util.DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ CargoTruckAIArriveAtTargetForRealGasStationPost");
+            DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ CargoTruckAIArriveAtTargetForRealGasStationPost");
         }
 
         public void CargoTruckAIArriveAtTargetForRealConstruction(ushort vehicleID, ref Vehicle data)
         {
-            Util.DebugLog.LogToFileOnly("Error: Should be detour by RealConstruction @ CargoTruckAIArriveAtTargetForRealConstruction");
+            DebugLog.LogToFileOnly("Error: Should be detour by RealConstruction @ CargoTruckAIArriveAtTargetForRealConstruction");
         }
 
         public void CargoTruckAISetSourceForRealConstruction(ushort vehicleID, ref Vehicle data, ushort sourceBuilding)
         {
-            Util.DebugLog.LogToFileOnly("Error: Should be detour by RealConstruction @ CargoTruckAISetSourceForRealConstruction");
-        }
-
-        public void CargoTruckAIArriveAtSourceForRealGasStationPre(ushort vehicleID, ref Vehicle data)
-        {
-            Util.DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ CargoTruckAIArriveAtSourceForRealGasStationPre");
+            DebugLog.LogToFileOnly("Error: Should be detour by RealConstruction @ CargoTruckAISetSourceForRealConstruction");
         }
 
         private bool ArriveAtTarget(ushort vehicleID, ref Vehicle data)
@@ -80,7 +76,6 @@ namespace RealCity.CustomAI
             BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
 
             // NON-STOCK CODE START
-            Util.MainDataStore.isVehicleCharged[vehicleID] = false;
             ProcessResourceArriveAtTarget(vehicleID, ref data, ref num);
             /// NON-STOCK CODE END ///
 
@@ -261,42 +256,6 @@ namespace RealCity.CustomAI
                     default: Util.DebugLog.LogToFileOnly("Error: ProcessGabargeIncome find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                 }
             }
-        }
-
-
-        private bool ArriveAtSource(ushort vehicleID, ref Vehicle data)
-        {
-            // NON-STOCK CODE START
-            // 112 means fuel demand, see more in RealGasStation mod
-            if (data.m_transferType == 112 && Loader.isRealGasStationRunning)
-            {
-                CargoTruckAIArriveAtSourceForRealGasStationPre(vehicleID, ref data);
-                return true;
-            }
-            /// NON-STOCK CODE END ///
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
-            BuildingInfo info1 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-            // NON-STOCK CODE START
-            // 112 means fuel demand, see more in RealGasStation mod
-            Util.MainDataStore.isVehicleCharged[vehicleID] = false;
-            /// NON-STOCK CODE END ///
-            if (data.m_sourceBuilding == 0)
-            {
-                Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
-                return true;
-            }
-            int num = 0;
-            if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
-            {
-                num = (int)data.m_transferSize;
-                info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-                info.m_buildingAI.ModifyMaterialBuffer(data.m_sourceBuilding, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
-                data.m_transferSize = (ushort)Mathf.Clamp((int)data.m_transferSize - num, 0, (int)data.m_transferSize);
-            }
-            this.RemoveSource(vehicleID, ref data);
-            Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
-            return true;
         }
 
         private void RemoveSource(ushort vehicleID, ref Vehicle data)

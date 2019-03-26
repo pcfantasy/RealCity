@@ -9,7 +9,7 @@ using RealCity.UI;
 namespace RealCity.CustomAI
 {
 
-    public class RealCityPrivateBuildingAI : CommonBuildingAI
+    public class RealCityPrivateBuildingAI
     {
         public static ushort allBuildings = 0;
         public static uint preBuidlingId = 0;
@@ -86,38 +86,9 @@ namespace RealCity.CustomAI
             SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCount, ref saveData);
             SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCountFinal, ref saveData);
         }
-
-        protected void CustomSimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
+        //TODO: move to harmony
+        public static void PrivateBuildingAISimulationStepActivePostFix(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
-            base.SimulationStepActive(buildingID, ref buildingData, ref frameData);
-            if ((buildingData.m_problems & Notification.Problem.MajorProblem) != Notification.Problem.None)
-            {
-                if (buildingData.m_fireIntensity == 0)
-                {
-                    buildingData.m_majorProblemTimer = (byte)Mathf.Min(255, (int)(buildingData.m_majorProblemTimer + 1));
-                    if (buildingData.m_majorProblemTimer >= 64 && !Singleton<BuildingManager>.instance.m_abandonmentDisabled)
-                    {
-                        if ((buildingData.m_flags & Building.Flags.Flooded) != Building.Flags.None)
-                        {
-                            InstanceID id = default(InstanceID);
-                            id.Building = buildingID;
-                            Singleton<InstanceManager>.instance.SetGroup(id, null);
-                            buildingData.m_flags &= ~Building.Flags.Flooded;
-                        }
-                        buildingData.m_majorProblemTimer = 192;
-                        buildingData.m_flags &= ~Building.Flags.Active;
-                        buildingData.m_flags |= Building.Flags.Abandoned;
-                        buildingData.m_problems = (Notification.Problem.FatalProblem | (buildingData.m_problems & ~Notification.Problem.MajorProblem));
-                        base.RemovePeople(buildingID, ref buildingData, 100);
-                        this.BuildingDeactivated(buildingID, ref buildingData);
-                        Singleton<BuildingManager>.instance.UpdateBuildingRenderer(buildingID, true);
-                    }
-                }
-            }
-            else
-            {
-                buildingData.m_majorProblemTimer = 0;
-            }
             //TODO, use harmony to detour this.
             ProcessLandFee(buildingData, buildingID);
             LimitAndCheckBuildingMoney(buildingData, buildingID);
@@ -125,7 +96,7 @@ namespace RealCity.CustomAI
             ProcessAdditionProduct(buildingID, ref buildingData);
         }
 
-        public void ProcessAdditionProduct(ushort buildingID, ref Building buildingData)
+        public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData)
         {
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
@@ -306,10 +277,7 @@ namespace RealCity.CustomAI
             float price = 0f;
             if (!isSelling)
             {
-                if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                }
-                else
+                if (!(data.Info.m_buildingAI is IndustrialExtractorAI))
                 {
                     switch (data.Info.m_class.m_subService)
                     {
@@ -391,12 +359,9 @@ namespace RealCity.CustomAI
             return price;
         }
 
-        public void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)
+        public static void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)
         {
-            if (preBuidlingId < buildingID)
-            {
-            }
-            else
+            if (preBuidlingId > buildingID)
             {
                 allOfficeHighTechBuildingCountFinal = allOfficeHighTechBuildingCount;
                 allOfficeLevel1BuildingCountFinal = allOfficeLevel1BuildingCount;
@@ -447,7 +412,7 @@ namespace RealCity.CustomAI
             if (buildingData.m_problems == Notification.Problem.None)
             {
                 //mark no good
-                if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                if ((buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) && (RealCity.debugMode))
                 {
                     Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
                     if (buildingData.m_customBuffer2 < 500)
@@ -467,37 +432,26 @@ namespace RealCity.CustomAI
             }
         }
 
-        public void LimitAndCheckBuildingMoney(Building building, ushort buildingID)
+        public static void LimitAndCheckBuildingMoney(Building building, ushort buildingID)
         {
             if (MainDataStore.building_money[buildingID] > 60000000)
             {
                 MainDataStore.building_money[buildingID] = 60000000;
-            }
-            else if (MainDataStore.building_money[buildingID] < -65000000)
-            {
-                MainDataStore.building_money[buildingID] = 0;
             }
             else if (MainDataStore.building_money[buildingID] < -60000000)
             {
                 MainDataStore.building_money[buildingID] = -60000000;
             }
 
-
             if (MainDataStore.building_money[buildingID] > 0)
             {
                 if (building.Info.m_class.m_service == ItemClass.Service.Industrial || building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                    {
-
-                    }
-                    else
+                    if (!(building.Info.m_buildingAI is IndustrialExtractorAI))
                     {
                         greaterThan20000ProfitBuildingCount++;
-
                         float idex = 0;
                         float idex1 = 0;
-
                         // outside will to invest
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric  && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
@@ -588,7 +542,7 @@ namespace RealCity.CustomAI
             }
         }
 
-        public void ProcessLandFee(Building building, ushort buildingID)
+        public static void ProcessLandFee(Building building, ushort buildingID)
         {
             DistrictManager instance = Singleton<DistrictManager>.instance;
             byte district = instance.GetDistrict(building.m_position);
@@ -597,9 +551,9 @@ namespace RealCity.CustomAI
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[(int)district].m_cityPlanningPolicies;
 
             int num = 0;
-            GetLandRent(out num);
+            GetLandRent(out num, building);
             int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(this.m_info.m_class, taxationPolicies);
+            num2 = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
             if (MainDataStore.building_money[buildingID] <= 0)
             {
                 num2 = 0;
@@ -628,9 +582,9 @@ namespace RealCity.CustomAI
             Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
         }
 
-        public void GetLandRent(out int incomeAccumulation)
+        public static void GetLandRent(out int incomeAccumulation, Building building)
         {
-            ItemClass @class = this.m_info.m_class;
+            ItemClass @class = building.Info.m_class;
             incomeAccumulation = 0;
             ItemClass.SubService subService = @class.m_subService;
             switch (subService)
@@ -640,17 +594,17 @@ namespace RealCity.CustomAI
                     allOfficeHighTechBuildingCount++;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         incomeAccumulation = (int)(MainDataStore.office_gen_levell);
                         allOfficeLevel1BuildingCount++;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         incomeAccumulation = (int)(MainDataStore.office_gen_level2);
                         allOfficeLevel2BuildingCount++;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         incomeAccumulation = (int)(MainDataStore.office_gen_level3);
                         allOfficeLevel3BuildingCount++;
@@ -669,43 +623,43 @@ namespace RealCity.CustomAI
                     incomeAccumulation = MainDataStore.indu_ore;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         incomeAccumulation = MainDataStore.indu_gen_level1;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         incomeAccumulation = MainDataStore.indu_gen_level2;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         incomeAccumulation = MainDataStore.indu_gen_level3;
                     }
                     break;
                 case ItemClass.SubService.CommercialHigh:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         incomeAccumulation = MainDataStore.comm_high_level1;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         incomeAccumulation = MainDataStore.comm_high_level2;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         incomeAccumulation = MainDataStore.comm_high_level3;
                     }
                     break;
                 case ItemClass.SubService.CommercialLow:
-                    if (this.m_info.m_class.m_level == ItemClass.Level.Level1)
+                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         incomeAccumulation = MainDataStore.comm_low_level1;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level2)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         incomeAccumulation = MainDataStore.comm_low_level2;
                     }
-                    else if (this.m_info.m_class.m_level == ItemClass.Level.Level3)
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         incomeAccumulation = MainDataStore.comm_low_level3;
                     }
@@ -781,37 +735,6 @@ namespace RealCity.CustomAI
             }
 
             return finalIdex;
-        }
-
-        protected void CustomCalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material1, TransferManager.TransferReason material2, ref int count, ref int cargo, ref int capacity, ref int outside)
-        {
-            VehicleManager instance = Singleton<VehicleManager>.instance;
-            ushort num = data.m_guestVehicles;
-            int num2 = 0;
-            while (num != 0)
-            {
-                TransferManager.TransferReason transferType = (TransferManager.TransferReason)instance.m_vehicles.m_buffer[(int)num].m_transferType;
-                if (transferType == material1 || transferType == material2)
-                {
-                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
-                    int a;
-                    int num3;
-                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[(int)num], out a, out num3);
-                    cargo += Mathf.Min(a, num3);
-                    capacity += num3;
-                    count++;
-                    if ((instance.m_vehicles.m_buffer[(int)num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != (Vehicle.Flags)0)
-                    {
-                        outside++;
-                    }
-                }
-                num = instance.m_vehicles.m_buffer[(int)num].m_nextGuestVehicle;
-                if (++num2 > 16384)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
         }
     }
 }

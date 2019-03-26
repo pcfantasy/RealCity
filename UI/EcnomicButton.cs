@@ -10,80 +10,62 @@ using UnityEngine;
 
 namespace RealCity.UI
 {
-    public class EcnomicButton : UIPanel
+    public class EcnomicButton : UIButton
     {
-        private UIButton EcButton;
         private UIComponent MoreeconomicUITrigger_paneltime;
         private UIComponent MoreeconomicUITrigger_chirper;
         private UIComponent MoreeconomicUITrigger_esc;
         private UIComponent MoreeconomicUITrigger_infopanel;
         private UIComponent MoreeconomicUITrigger_bottombars;
-        private ItemClass.Availability CurrentMode;
-        public static EcnomicButton instance;
         private UIDragHandle m_DragHandler;
 
         public static void MoreeconomicUIToggle()
         {
-            if (!Loader.guiPanel.isVisible)
+            if (!Loader.ecnomicUI.isVisible)
             {
                 EcnomicUI.refeshOnce = true;
-                Loader.guiPanel.Show();
+                Loader.ecnomicUI.Show();
             }
             else
             {
-                Loader.guiPanel.Hide();
+                Loader.ecnomicUI.Hide();
             }
         }
 
         public void MoreeconomicUIOff()
         {
-            if (Loader.guiPanel.isVisible && !Loader.guiPanel.containsMouse && !this.EcButton.containsMouse && this.MoreeconomicUITrigger_paneltime != null && !this.MoreeconomicUITrigger_paneltime.containsMouse)
+            if (Loader.ecnomicUI.isVisible && !Loader.ecnomicUI.containsMouse && !base.containsMouse && this.MoreeconomicUITrigger_paneltime != null && !this.MoreeconomicUITrigger_paneltime.containsMouse)
             {
-                Loader.guiPanel.Hide();
+                Loader.ecnomicUI.Hide();
             }
         }
 
         public override void Start()
         {
-            UIView aView = UIView.GetAView();
-            base.name = "MoreeconomicUIPanel";
-            base.width = 200f;
-            base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 350f ), 35f);
-            this.BringToFront();
-            base.opacity = 1f;
-            this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
+            base.name = "EcButton";
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 - 350f), 35f);
+            base.normalBgSprite = "ToolbarIconGroup1Nomarl";
+            base.hoveredBgSprite = "ToolbarIconGroup1Hovered";
+            base.focusedBgSprite = "ToolbarIconGroup1Focused";
+            base.pressedBgSprite = "ToolbarIconGroup1Pressed";
+            base.playAudioEvents = true;
+            UISprite internalSprite = base.AddUIComponent<UISprite>();
+            internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasName);
+            internalSprite.spriteName = "EcButton";
+            internalSprite.relativePosition = new Vector3(0, 0);
+            internalSprite.width = 50f;
+            internalSprite.height = 50f;
+            base.size = new Vector2(50f, 50f);
+            base.zOrder = 11;
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
-            this.EcButton = base.AddUIComponent<UIButton>();
-            this.EcButton.normalBgSprite = "EcButton";
-            this.EcButton.hoveredBgSprite = "EcButtonHovered";
-            this.EcButton.focusedBgSprite = "EcButtonFocused";
-            this.EcButton.pressedBgSprite = "EcButtonPressed";
-            this.EcButton.playAudioEvents = true;
-            this.EcButton.name = "EcButton";
-            this.EcButton.tooltipBox = aView.defaultTooltipBox;
-            if (Loader.m_atlasLoadedEcButton)
-            {
-                UISprite internalSprite = EcButton.AddUIComponent<UISprite>();
-                internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasNameEcButton);
-                internalSprite.spriteName = "EcButton";
-                internalSprite.relativePosition = new Vector3(0, 0);
-                internalSprite.width = 50f;
-                internalSprite.height = 40f;
-                base.width = 50f;
-                base.height = 70f;
-                EcButton.size = new Vector2(50f, 40f);
-            }
-            else
-            {
-                base.width = 200f;
-                base.height = 70f;
-                this.EcButton.text = Localization.Get("ECONOMIC_DATA");
-                this.EcButton.size = new Vector2(200f, 40f);
-            }
-            this.EcButton.relativePosition = new Vector3(0, 30f);
-            this.EcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            this.m_DragHandler.relativePosition = Vector2.zero;
+            this.m_DragHandler.width = 50;
+            this.m_DragHandler.height = 50;
+            this.m_DragHandler.zOrder = 10;
+            this.m_DragHandler.Start();
+            this.m_DragHandler.enabled = true;
+            base.eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 EcnomicButton.MoreeconomicUIToggle();
             };
@@ -126,19 +108,14 @@ namespace RealCity.UI
         {
             if (Loader.isGuiRunning)
             {
-                if (!Loader.m_atlasLoadedEcButton)
+                if (Loader.ecnomicUI.isVisible)
                 {
-                    this.EcButton.text = Localization.Get("ECONOMIC_DATA");
-                }
-
-                if (Loader.guiPanel.isVisible)
-                {
-                    this.EcButton.Focus();
+                    base.Focus();
                     base.Hide();
                 }
                 else
                 {
-                    this.EcButton.Unfocus();
+                    base.Unfocus();
                     base.Show();
                 }
             }

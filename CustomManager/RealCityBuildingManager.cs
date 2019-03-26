@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace RealCity.CustomManager
 {
-    public class RealCityBuildingManager: BuildingManager
+    public class RealCityBuildingManager
     {
         public void SetNum(ref int[] source, ref int[] array)
         {
@@ -113,12 +113,11 @@ namespace RealCity.CustomManager
             return result;
         }
 
-
         public ushort CustomFindBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
         {
+            BuildingManager building = Singleton<BuildingManager>.instance;
             if (maxDistance == 32f)
             {
-                //DebugLog.LogToFileOnly("CustomFindBuilding for 32f distance");
                 maxDistance = 128f;
                 return FindRandomBuilding(pos, maxDistance, service, subService, flagsRequired, flagsForbidden);
             }
@@ -132,17 +131,17 @@ namespace RealCity.CustomManager
             {
                 for (int j = num; j <= num3; j++)
                 {
-                    ushort num6 = this.m_buildingGrid[i * 270 + j];
+                    ushort num6 = building.m_buildingGrid[i * 270 + j];
                     int num7 = 0;
                     while (num6 != 0)
                     {
-                        BuildingInfo info = this.m_buildings.m_buffer[(int)num6].Info;
+                        BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
                         if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
                         {
-                            Building.Flags flags = this.m_buildings.m_buffer[(int)num6].m_flags;
+                            Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
                             if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
                             {
-                                float num8 = Vector3.SqrMagnitude(pos - this.m_buildings.m_buffer[(int)num6].m_position);
+                                float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
                                 if (num8 < num5)
                                 {
                                     result = num6;
@@ -150,7 +149,7 @@ namespace RealCity.CustomManager
                                 }
                             }
                         }
-                        num6 = this.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
+                        num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
                         if (++num7 >= 49152)
                         {
                             CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);

@@ -57,7 +57,6 @@ namespace RealCity
                             CitizenStatus();
                         }
                     }
-
                     CaculateCitizenTransportFee();
                     MainDataStore.update_money_count++;
                     if (MainDataStore.update_money_count == 17)
@@ -182,18 +181,40 @@ namespace RealCity
 
         public void CitizenStatus()
         {
-            System.Random rand = new System.Random();
-            partyTrend = (byte)rand.Next(5);
-            partyTrendStrength = (byte)rand.Next(300);
-
             if (Politics.parliamentCount == 0)
             {
+                System.Random rand = new System.Random();
+                partyTrend = (byte)rand.Next(5);
+                partyTrendStrength = (byte)rand.Next(300);
                 GetSeats();
                 CreateGoverment();
             }
             else
             {
                 HoldMeeting();
+            }
+            //Caculate goverment salary
+            if (MainDataStore.citizenCount != 0)
+            {
+                if ((float)((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation0SalaryFixed))
+                {
+                    MainDataStore.govermentEducation0Salary = (byte)((float)((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount));
+                }
+
+                if ((float)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation1SalaryFixed))
+                {
+                    MainDataStore.govermentEducation1Salary = (byte)((float)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount));
+                }
+
+                if ((float)((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation2SalaryFixed))
+                {
+                    MainDataStore.govermentEducation2Salary = (byte)((float)((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount));
+                }
+
+                if ((float)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation3SalaryFixed))
+                {
+                    MainDataStore.govermentEducation3Salary = (byte)((float)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount));
+                }
             }
         }
 

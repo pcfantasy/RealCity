@@ -23,7 +23,6 @@ namespace RealCity.CustomAI
                 return true;
             }
             GetVehicleRunningTiming(vehicleID, ref data);
-            MainDataStore.isVehicleCharged[vehicleID] = false;
             // NON-STOCK CODE END
             if ((data.m_flags & Vehicle.Flags.Parking) != (Vehicle.Flags)0)
             {

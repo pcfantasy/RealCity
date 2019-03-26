@@ -1,0 +1,159 @@
+﻿ECONOMIC_DATA	Economic Data
+CITIZEN_STATUS	1、Citizen Status(unit: 1/100₡)
+CITIZEN_COUNT	citizenCount
+FAMILY_COUNT	familyCount
+SALARY_PER_FAMILY	salaryPerFamily
+CITIZEN_TAX_PER_FAMILY	citizenTaxPerFamily
+EXPENSE_PER_FAMILY	expensePerFamily
+AVERAGE_TRANPORT_FEE	averageTransFee
+HIGH_SALARY_COUNT	highSalaryCount
+MEDIUM_SALARY_COUNT	mediumSalaryCount
+LOW_SALARY_COUNT	lowSalaryCount
+WEALTH_HIGH_COUNT	wealthHighCount
+WEALTH_MEDIUM_COUNT	wealthMediumCount
+WEALTH_LOW_COUNT	wealthLowCount                     
+BUILDING_STATUS	2、Building Status
+PROFIT_BUIDLING_COUNT	profit(I&C)Building
+EXTERNAL_INVESTMENTS	externalInvestments(for office)
+TIP1	Tip1
+TIP2	Tip2
+TIP3	Tip3
+TIP4	Tip4
+TIP5	Tip5
+TIP6	Tip6
+POLICY_COST	3、Mod Policy Cost(unit: ₡)
+LIVING_ALLOWANCE	minimumLivingAllowance & benefit
+USE_TMPE_TIP	Use TMPE and disable vehicle spawn
+STARTUP_TIP	For startup city, industrialize is important to become rich
+TOURIST_TIP	Try commerical tourist to retain tourists
+OFFICE_TIP	Office can get externalInvestments depended on your industry
+UNLOCK_TIP	Do not unlock all at start
+UG_TIP	Check more details in UG
+CITY_SALARY_TAX_INCOME_TITLE	City resident salary-tax income
+SALARY_TAX_INCOME	citizen salary-tax income
+TOURIST_INCOME_TITLE	2、City tourism income
+FROM_RESIDENT	from resident
+FROM_TOURIST	from tourist
+LAND_TAX_INCOME_TITLE	3、City land tax income
+RESIDENT_HIGH_LAND_INCOME	residentHighLandIncome
+RESIDENT_LOW_LAND_INCOME	residentLowLandIncome
+RESIDENT_HIGH_ECO_LAND_INCOME	residentHighEcoLandIncome
+RESIDENT_LOW_ECO_LAND_INCOME	residentLowEcoLandIncome
+COMMERICAL_HIGH_LAND_INCOME	commericalHighLandIncome
+COMMERICAL_LOW_LAND_INCOME	commericalLowLandIncome
+COMMERICAL_ECO_LAND_INCOME	commericalEcoLandIncome
+COMMERICAL_TOURISM_LAND_INCOME	commericalTourismLandIncome
+COMMERICAL_LEISURE_LAND_INCOME	commericalLeisureLandIncome
+INDUSTRIAL_GENERAL_LAND_INCOME	industrialGeneralLandIncome
+INDUSTRIAL_FARMING_LAND_INCOME	industrialFarmingLandIncome
+INDUSTRIAL_FORESTY_LAND_INCOME	industrialForestyLandIncome
+INDUSTRIAL_OIL_LAND_INCOME	industrialOilLandIncome
+INDUSTRIAL_ORE_LAND_INCOME	industrialOreLandIncome
+OFFICE_GENERAL_LAND_INCOME	officeGeneralLandIncome
+OFFICE_HIGH_TECH_LAND_INCOME	officeHighTech_LandIncome
+CITY_TRADE_INCOME_TITLE	4、City trade tax income
+COMMERICAL_HIGH_TRADE_INCOME	commericalHighTradeIncome
+COMMERICAL_LOW_TRADE_INCOME	commericalLowTradeIncome
+COMMERICAL_ECO_TRADE_INCOME	commericalLeisureTradeIncome
+COMMERICAL_TOURISM_TRADE_INCOME	commericalTourismTradeIncome
+COMMERICAL_LEISURE_TRADE_INCOME	commericalEcoTradeIncome
+INDUSTRIAL_GENERAL_TRADE_INCOME	industrialGeneralTradeIncome
+INDUSTRIAL_FARMING_TRADE_INCOME	industrialFarmingTradeIncome
+INDUSTRIAL_FORESTY_TRADE_INCOME	industrialForestyTradeIncome
+INDUSTRIAL_OIL_TRADE_INCOME	industrialOilTradeIncome
+INDUSTRIAL_ORE_TRADE_INCOME	industrialOreTradeIncome
+CITY_PUBLIC_TRANSPORT_INCOME_TITLE	5、City Public transport income
+BUS	Bus
+TRAM	Tram
+TRAIN	Train
+SHIP	Ship
+PLANE	Plane
+METRO	Metro
+TAXI	Taxi
+CABLECAR	Cablecar
+MONORAIL	Monorail
+CITY_PLAYER_BUILDING_INCOME_TITLE	6、City Player Building income
+ROAD	Road(Include GasStation)
+GARBAGE	Garbage
+SCHOOL	School
+HEALTHCARE	HealthCare
+FIRESTATION	FireStation
+POLICESTATION	PoliceStation
+PLAYERINDUSTRY	PlayerIndustry
+CITY_TOTAL_INCOME_TITLE	7、City all total income
+CITY_INCOME_DATA	City income data(unit:₡)
+PARLIAMENT_HALL	Parliament Hall
+PARLIAMENT_SEATS	Parliament Seats
+COMMUNIST	Communist
+GREEN	Green
+SOCIALIST	Socialist
+LIBERAL	Liberal
+NATIONAL	National
+GOVERMENT	Goverment
+LEFT_UNION	(Left union)
+WIDE_LEFT_UNION	(Wide left union)
+RIGHT_UNION	(Right union)
+ALL_UNION	(All union)
+NEXT_VOTE	Next Vote
+CURRENT_MEETING_ITEM	Current Meeting Item
+RISE_RESIDENT_TAX	riseResidentTax
+FALL_RESIDENT_TAX	fallResidentTax
+RISE_BENEFIT	riseBenefit
+FALL_BENEFIT	fallBenefit
+RISE_COMMERIAL_TAX	riseCommericalTax
+FALL_COMMERIAL_TAX	fallCommericalTax
+RISE_INDUSTRIAL_TAX	riseIndustrialTax
+FALL_INDUSTRIAL_TAX	fallIndustrialTax
+VOTE_RESULT	VoteResult
+YES	Yes
+NO	No
+NO_ATTEND	NoAttend
+CURRENT_POLICY	Current Policy
+BENEFIT	Benefit
+RESIDENT_SALARY_TAX	ResidentSalaryTax
+COMMERICAL_TRADE_TAX	CommericalTradeTax
+INDUSTRIAL_TRADE_TAX	IndustrialTradeTax
+BUILDING_MONEY	Building Money(unit:1/100₡)
+MATERIAL_BUFFER	Material Buffer
+PRODUCTION_BUFFER	Production Buffer
+AVERAGE_EMPLOYFEE	Average Employfee
+BUILDING_LANDRENT	Building Landrent
+PROFIT-SHARING	(profit-sharing)
+BUY_PRICE	Average Buy Price
+SELL_PRICE	Average Sell Price
+MATERIAL_DIV_PRODUCTION	Material/Production
+SELL_TAX	Sell tax
+PROFIT	BuyToSell Profit
+EXCLUDE_VISIT_INCOME	(exclude visit income)
+FAMILY_STATUS	Family status
+FOOD	Food
+COAL	Coal
+LUMBER	Lumber
+PETROL	Petrol
+GRAIN_MEAT	Grain or Meat
+ORE	Ore
+LOG	Log
+OIL	Oil
+PREGOODS	PreGoods
+GOODS	Goods
+PRICE	Price
+ANIMALPRODUCTS	AnimalProducts
+FLOURS	Flours
+PAPER	Paper
+PLANEDTIMBER	PlanedTimber
+PETROLEUM	Petroleum
+PLASTICS	Plastics
+GLASS	Glass
+METALS	Metals
+LUXURY_PRODUCTS	LuxuryProducts
+FAMILY_MONEY	Family Money(unit:1/100₡)
+FAMILY_SALARY	Family Salary
+FAMILY_GOODS	Family Goods
+FAMILY_NEEDS_GOODS	(Family Needs Goods)
+INCLUDE_RESOURCE_TAX	(include 60% resource tax)
+CAR_USED	Car used
+MAINTAIN_FEE_TIPS	Maintain Fee displayed on UI does not include vehicle expense
+LOCAL_WORKERS_DIV_TOTAL_WORKERS	Local Worker/ Total Worker
+TOURIST_MONEY	Tourist budget(for transport only)
+SHOW_LACK_OF_RESOURCE	Show lack of resource icon on commerical buildings when sell out
+DEBUG_MODE	More Information

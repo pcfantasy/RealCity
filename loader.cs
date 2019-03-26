@@ -40,13 +40,13 @@ namespace RealCity
         public static UIPanel playerbuildingInfo;
         public static UIPanel HumanInfo;
         public static UIPanel TouristInfo;
-        public static EcnomicUI guiPanel;
-        public static RealCityUI guiPanel1;
-        public static BuildingUI guiPanel2;
-        public static HumanUI guiPanel3;
-        public static PlayerBuildingUI guiPanel4;
-        public static PoliticsUI guiPanel5;
-        public static TouristUI guiPanel6;
+        public static EcnomicUI ecnomicUI;
+        public static RealCityUI realCityUI;
+        public static BuildingUI buildingUI;
+        public static HumanUI humanUI;
+        public static PlayerBuildingUI playerBuildingUI;
+        public static PoliticsUI politicsUI;
+        public static TouristUI touristUI;
         public static GameObject buildingWindowGameObject;
         public static GameObject PlayerbuildingWindowGameObject;
         public static GameObject HumanWindowGameObject;
@@ -57,19 +57,13 @@ namespace RealCity
         public static bool isRealGasStationRunning = false;
         public static bool isTransportLinesManagerRunning = false;
         public static bool isAdvancedJunctionRuleRunning = false;
-        public static PoliticsButton PLPanel;
-        public static EcnomicButton EcMenuPanel;
-        public static RealCityButton RcMenuPanel;
-        public static BuildingButton BMenuPanel;
-        public static PlayerBuildingButton PBMenuPanel;
-        public static string m_atlasNameEcButton = "EcButton";
-        public static bool m_atlasLoadedEcButton;
-        public static string m_atlasNameBuildingButton = "BuildingButton";
-        public static bool m_atlasLoadedBuildingButton;
-        public static string m_atlasNamePolitics = "Politics";
-        public static bool m_atlasLoadedPolitics;
-        public static string m_atlasNameRcButton = "RcButton";
-        public static bool m_atlasLoadedRcButton;
+        public static PoliticsButton PlButton;
+        public static EcnomicButton EcButton;
+        public static RealCityButton RcButton;
+        public static BuildingButton BButton;
+        public static PlayerBuildingButton PBButton;
+        public static string m_atlasName = "RealCity";
+        public static bool m_atlasLoaded;
 
         public override void OnCreated(ILoading loading)
         {
@@ -92,6 +86,7 @@ namespace RealCity
                     isAdvancedJunctionRuleRunning = CheckAdvancedJunctionRuleIsLoaded();
                     InitDetour();
                     HarmonyInitDetour();
+                    RealCity.LoadSetting();
                     RealCityThreading.isFirstTime = true;
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     if (mode == LoadMode.NewGame)
@@ -142,60 +137,19 @@ namespace RealCity
             base.OnReleased();
         }
 
-        private static void LoadSpritesEcButton()
+        private static void LoadSprites()
         {
-            if (SpriteUtilities.GetAtlas(m_atlasNameEcButton) != null) return;
+            if (SpriteUtilities.GetAtlas(m_atlasName) != null) return;
             var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
-            m_atlasLoadedEcButton = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/EcButton.png"), m_atlasNameEcButton);
-            if (m_atlasLoadedEcButton)
+            m_atlasLoaded = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/RealCity.png"), m_atlasName);
+            if (m_atlasLoaded)
             {
                 var spriteSuccess = true;
-                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(421, 424)), "EcButton", m_atlasNameEcButton)
-                             && spriteSuccess;
-                if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
-            }
-            else DebugLog.LogToFileOnly("The texture atlas (provides custom icons) has not loaded. All icons have reverted to text prompts.");
-        }
-
-        private static void LoadSpritesRcButton()
-        {
-            if (SpriteUtilities.GetAtlas(m_atlasNameRcButton) != null) return;
-            var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
-            m_atlasLoadedRcButton = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/RcButton.png"), m_atlasNameRcButton);
-            if (m_atlasLoadedRcButton)
-            {
-                var spriteSuccess = true;
-                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(451, 322)), "RcButton", m_atlasNameRcButton)
-                             && spriteSuccess;
-                if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
-            }
-            else DebugLog.LogToFileOnly("The texture atlas (provides custom icons) has not loaded. All icons have reverted to text prompts.");
-        }
-
-        private static void LoadSpritesBuildingButton()
-        {
-            if (SpriteUtilities.GetAtlas(m_atlasNameBuildingButton) != null) return;
-            var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
-            m_atlasLoadedBuildingButton = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/BuildingButton.png"), m_atlasNameBuildingButton);
-            if (m_atlasLoadedBuildingButton)
-            {
-                var spriteSuccess = true;
-                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(529, 465)), "BuildingButton", m_atlasNameBuildingButton)
-                             && spriteSuccess;
-                if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
-            }
-            else DebugLog.LogToFileOnly("The texture atlas (provides custom icons) has not loaded. All icons have reverted to text prompts.");
-        }
-
-        private static void LoadSpritesPolitics()
-        {
-            if (SpriteUtilities.GetAtlas(m_atlasNamePolitics) != null) return;
-            var modPath = PluginManager.instance.FindPluginInfo(Assembly.GetExecutingAssembly()).modPath;
-            m_atlasLoadedPolitics = SpriteUtilities.InitialiseAtlas(Path.Combine(modPath, "Icon/Politics.png"), m_atlasNamePolitics);
-            if (m_atlasLoadedPolitics)
-            {
-                var spriteSuccess = true;
-                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(1, 1), new Vector2(382, 281)), "Politics", m_atlasNamePolitics)
+                spriteSuccess = SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(382, 0), new Vector2(191, 191)), "EcButton", m_atlasName)
+                             && SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(0, 0), new Vector2(191, 191)), "Blank", m_atlasName)
+                             && SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(191, 0), new Vector2(191, 191)), "BuildingButton", m_atlasName)
+                             && SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(573, 0), new Vector2(191, 191)), "Politics", m_atlasName)
+                             && SpriteUtilities.AddSpriteToAtlas(new Rect(new Vector2(764, 0), new Vector2(191, 191)), "RcButton", m_atlasName)
                              && spriteSuccess;
                 if (!spriteSuccess) DebugLog.LogToFileOnly("Some sprites haven't been loaded. This is abnormal; you should probably report this to the mod creator.");
             }
@@ -204,239 +158,221 @@ namespace RealCity
 
         public static void SetupGui()
         {
-            LoadSpritesBuildingButton();
-            LoadSpritesEcButton();
-            LoadSpritesRcButton();
-            LoadSpritesPolitics();
-            Loader.parentGuiView = null;
-            Loader.parentGuiView = UIView.GetAView();
-            if (Loader.guiPanel == null)
+            LoadSprites();
+            if (m_atlasLoaded)
             {
-                Loader.guiPanel = (EcnomicUI)Loader.parentGuiView.AddUIComponent(typeof(EcnomicUI));
-            }
+                Loader.parentGuiView = null;
+                Loader.parentGuiView = UIView.GetAView();
+                if (Loader.ecnomicUI == null)
+                {
+                    Loader.ecnomicUI = (EcnomicUI)Loader.parentGuiView.AddUIComponent(typeof(EcnomicUI));
+                }
 
-            if (Loader.guiPanel1 == null)
-            {
-                Loader.guiPanel1 = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
-            }
+                if (Loader.realCityUI == null)
+                {
+                    Loader.realCityUI = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
+                }
 
-            if (Loader.guiPanel5 == null)
-            {
-                Loader.guiPanel5 = (PoliticsUI)Loader.parentGuiView.AddUIComponent(typeof(PoliticsUI));
-            }
+                if (Loader.politicsUI == null)
+                {
+                    Loader.politicsUI = (PoliticsUI)Loader.parentGuiView.AddUIComponent(typeof(PoliticsUI));
+                }
 
-            SetupBuidingGui();
-            SetupHumanGui();
-            SetupTouristGui();
-            SetupPlayerBuidingGui();
-            SetupEcnomicButton();
-            SetupPLButton();
-            SetupCityButton();
-            SetupBuildingButton();
-            SetupPlayerBuildingButton();
-            Loader.isGuiRunning = true;
+                SetupBuidingGui();
+                SetupHumanGui();
+                SetupTouristGui();
+                SetupPlayerBuidingGui();
+                SetupEcnomicButton();
+                SetupPLButton();
+                SetupCityButton();
+                SetupBuildingButton();
+                SetupPlayerBuildingButton();
+                Loader.isGuiRunning = true;
+            }
         }
 
         public static void SetupBuidingGui()
         {
             buildingWindowGameObject = new GameObject("buildingWindowObject");
-            guiPanel2 = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
+            buildingUI = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
             buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
             if (buildingInfo == null)
             {
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) ZonedBuildingWorldInfoPanel\nAvailable panels are:\n");
             }
-            guiPanel2.transform.parent = buildingInfo.transform;
-            guiPanel2.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
-            guiPanel2.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-            guiPanel2.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
+            buildingUI.transform.parent = buildingInfo.transform;
+            buildingUI.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
+            buildingUI.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
+            buildingUI.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
             buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
         }
 
         public static void SetupHumanGui()
         {
             HumanWindowGameObject = new GameObject("HumanWindowGameObject");
-            guiPanel3 = (HumanUI)HumanWindowGameObject.AddComponent(typeof(HumanUI));
+            humanUI = (HumanUI)HumanWindowGameObject.AddComponent(typeof(HumanUI));
             HumanInfo = UIView.Find<UIPanel>("(Library) CitizenWorldInfoPanel");
             if (HumanInfo == null)
             {
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) CitizenWorldInfoPanel\nAvailable panels are:\n");
             }
-            guiPanel3.transform.parent = HumanInfo.transform;
-            guiPanel3.size = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
-            guiPanel3.baseBuildingWindow = HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
-            guiPanel3.position = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
+            humanUI.transform.parent = HumanInfo.transform;
+            humanUI.size = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
+            humanUI.baseBuildingWindow = HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
+            humanUI.position = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
             HumanInfo.eventVisibilityChanged += HumanInfo_eventVisibilityChanged;
         }
 
         public static void SetupTouristGui()
         {
             TouristWindowGameObject = new GameObject("TouristWindowGameObject");
-            guiPanel6 = (TouristUI)TouristWindowGameObject.AddComponent(typeof(TouristUI));
+            touristUI = (TouristUI)TouristWindowGameObject.AddComponent(typeof(TouristUI));
             TouristInfo = UIView.Find<UIPanel>("(Library) TouristWorldInfoPanel");
             if (TouristInfo == null)
             {
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) TouristWorldInfoPanel\nAvailable panels are:\n");
             }
-            guiPanel6.transform.parent = TouristInfo.transform;
-            guiPanel6.size = new Vector3(TouristInfo.size.x, TouristInfo.size.y);
-            guiPanel6.baseBuildingWindow = TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
-            guiPanel6.position = new Vector3(TouristInfo.size.x, TouristInfo.size.y);
+            touristUI.transform.parent = TouristInfo.transform;
+            touristUI.size = new Vector3(TouristInfo.size.x, TouristInfo.size.y);
+            touristUI.baseBuildingWindow = TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
+            touristUI.position = new Vector3(TouristInfo.size.x, TouristInfo.size.y);
             TouristInfo.eventVisibilityChanged += TouristInfo_eventVisibilityChanged;
         }
 
         public static void SetupPlayerBuidingGui()
         {
             PlayerbuildingWindowGameObject = new GameObject("PlayerbuildingWindowGameObject");
-            guiPanel4 = (PlayerBuildingUI)PlayerbuildingWindowGameObject.AddComponent(typeof(PlayerBuildingUI));
+            playerBuildingUI = (PlayerBuildingUI)PlayerbuildingWindowGameObject.AddComponent(typeof(PlayerBuildingUI));
             playerbuildingInfo = UIView.Find<UIPanel>("(Library) CityServiceWorldInfoPanel");
             if (playerbuildingInfo == null)
             {
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) CityServiceWorldInfoPanel\nAvailable panels are:\n");
             }
-            guiPanel4.transform.parent = playerbuildingInfo.transform;
-            guiPanel4.size = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
-            guiPanel4.baseBuildingWindow = playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
-            guiPanel4.position = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
+            playerBuildingUI.transform.parent = playerbuildingInfo.transform;
+            playerBuildingUI.size = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
+            playerBuildingUI.baseBuildingWindow = playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
+            playerBuildingUI.position = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
             playerbuildingInfo.eventVisibilityChanged += playerbuildingInfo_eventVisibilityChanged;
         }
 
         public static void SetupEcnomicButton()
         {
-            if (EcMenuPanel == null)
+            if (EcButton == null)
             {
-                EcMenuPanel = (parentGuiView.AddUIComponent(typeof(EcnomicButton)) as EcnomicButton);
+                EcButton = (parentGuiView.AddUIComponent(typeof(EcnomicButton)) as EcnomicButton);
             }
-            EcMenuPanel.Show();
+            EcButton.Show();
         }
 
         public static void SetupCityButton()
         {
-            if (RcMenuPanel == null)
+            if (RcButton == null)
             {
-                RcMenuPanel = (parentGuiView.AddUIComponent(typeof(RealCityButton)) as RealCityButton);
+                RcButton = (parentGuiView.AddUIComponent(typeof(RealCityButton)) as RealCityButton);
             }
-            RcMenuPanel.Show();
+            RcButton.Show();
         }
 
         public static void SetupBuildingButton()
         {
-            if (BMenuPanel == null)
+            if (BButton == null)
             {
-                BMenuPanel = (buildingInfo.AddUIComponent(typeof(BuildingButton)) as BuildingButton);
+                BButton = (buildingInfo.AddUIComponent(typeof(BuildingButton)) as BuildingButton);
             }
-            if (Loader.m_atlasLoadedEcButton)
-            {
-                BMenuPanel.width = 40f;
-                BMenuPanel.height = 35f;
-                BMenuPanel.relativePosition = new Vector3(120, buildingInfo.size.y - BMenuPanel.height);
-            }
-            else
-            {
-                BMenuPanel.width = 150f;
-                BMenuPanel.height = 15f;
-                BMenuPanel.relativePosition = new Vector3(120, buildingInfo.size.y - BMenuPanel.height);
-            }
-            BMenuPanel.Show();
+            BButton.width = 40f;
+            BButton.height = 35f;
+            BButton.relativePosition = new Vector3(120, buildingInfo.size.y - BButton.height);
+            BButton.Show();
         }
 
         public static void SetupPlayerBuildingButton()
         {
-            if (PBMenuPanel == null)
+            if (PBButton == null)
             {
-                PBMenuPanel = (playerbuildingInfo.AddUIComponent(typeof(PlayerBuildingButton)) as PlayerBuildingButton);
+                PBButton = (playerbuildingInfo.AddUIComponent(typeof(PlayerBuildingButton)) as PlayerBuildingButton);
             }
-            if (Loader.m_atlasLoadedEcButton)
-            {
-                PBMenuPanel.width = 40f;
-                PBMenuPanel.height = 35f;
-                PBMenuPanel.relativePosition = new Vector3(120, playerbuildingInfo.size.y - PBMenuPanel.height);
-            }
-            else
-            {
-                PBMenuPanel.width = 150f;
-                PBMenuPanel.height = 15f;
-                PBMenuPanel.relativePosition = new Vector3(120, playerbuildingInfo.size.y - PBMenuPanel.height);
-            }
-            PBMenuPanel.Show();
+            PBButton.width = 40f;
+            PBButton.height = 35f;
+            PBButton.relativePosition = new Vector3(120, playerbuildingInfo.size.y - PBButton.height);
+            PBButton.Show();
         }
 
         public static void SetupPLButton()
         {
-            if (PLPanel == null)
+            if (PlButton == null)
             {
-                PLPanel = (parentGuiView.AddUIComponent(typeof(PoliticsButton)) as PoliticsButton);
+                PlButton = (parentGuiView.AddUIComponent(typeof(PoliticsButton)) as PoliticsButton);
             }
-            PLPanel.Show();
+            PlButton.Show();
         }
 
         public static void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
-            guiPanel2.isEnabled = value;
+            buildingUI.isEnabled = value;
             if (value)
             {
-                Loader.guiPanel2.transform.parent = Loader.buildingInfo.transform;
-                Loader.guiPanel2.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y + 50f);
-                Loader.guiPanel2.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-                Loader.guiPanel2.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
+                Loader.buildingUI.transform.parent = Loader.buildingInfo.transform;
+                Loader.buildingUI.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y + 50f);
+                Loader.buildingUI.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
+                Loader.buildingUI.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
             }
             else
             {
-                guiPanel2.Hide();
+                buildingUI.Hide();
             }
         }
 
         public static void playerbuildingInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
-            guiPanel4.isEnabled = value;
+            playerBuildingUI.isEnabled = value;
             if (value)
             {
-                Loader.guiPanel4.transform.parent = Loader.playerbuildingInfo.transform;
-                Loader.guiPanel4.size = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
-                Loader.guiPanel4.baseBuildingWindow = Loader.playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
-                Loader.guiPanel4.position = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
+                Loader.playerBuildingUI.transform.parent = Loader.playerbuildingInfo.transform;
+                Loader.playerBuildingUI.size = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
+                Loader.playerBuildingUI.baseBuildingWindow = Loader.playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
+                Loader.playerBuildingUI.position = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
             }
             else
             {
-                guiPanel4.Hide();
+                playerBuildingUI.Hide();
             }
         }
 
         public static void HumanInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
-            guiPanel3.isEnabled = value;
+            humanUI.isEnabled = value;
             if (value)
             {
                 //initialize human ui again
-                Loader.guiPanel3.transform.parent = Loader.HumanInfo.transform;
-                Loader.guiPanel3.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
-                Loader.guiPanel3.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
-                Loader.guiPanel3.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                Loader.humanUI.transform.parent = Loader.HumanInfo.transform;
+                Loader.humanUI.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                Loader.humanUI.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
+                Loader.humanUI.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
                 HumanUI.refeshOnce = true;
-                guiPanel3.Show();
+                humanUI.Show();
             }
             else
             {
-                guiPanel3.Hide();
+                humanUI.Hide();
             }
         }
 
         public static void TouristInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
-            guiPanel6.isEnabled = value;
+            touristUI.isEnabled = value;
             if (value)
             {
                 //initialize human ui again
-                Loader.guiPanel6.transform.parent = Loader.TouristInfo.transform;
-                Loader.guiPanel6.size = new Vector3(Loader.TouristInfo.size.x, Loader.HumanInfo.size.y);
-                Loader.guiPanel6.baseBuildingWindow = Loader.TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
-                Loader.guiPanel6.position = new Vector3(Loader.TouristInfo.size.x, Loader.TouristInfo.size.y);
+                Loader.touristUI.transform.parent = Loader.TouristInfo.transform;
+                Loader.touristUI.size = new Vector3(Loader.TouristInfo.size.x, Loader.HumanInfo.size.y);
+                Loader.touristUI.baseBuildingWindow = Loader.TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
+                Loader.touristUI.position = new Vector3(Loader.TouristInfo.size.x, Loader.TouristInfo.size.y);
                 TouristUI.refeshOnce = true;
-                guiPanel6.Show();
+                touristUI.Show();
             }
             else
             {
-                guiPanel6.Hide();
+                touristUI.Hide();
             }
         }
 
@@ -447,35 +383,37 @@ namespace RealCity
             if (Loader.parentGuiView != null)
             {
                 Loader.parentGuiView = null;
-                UnityEngine.Object.Destroy(guiPanel);
-                UnityEngine.Object.Destroy(guiPanel1);
-                UnityEngine.Object.Destroy(guiPanel5);
-                UnityEngine.Object.Destroy(EcMenuPanel);
-                UnityEngine.Object.Destroy(RcMenuPanel);
-                Loader.guiPanel = null;
-                Loader.guiPanel1 = null;
-                Loader.guiPanel5 = null;
-                Loader.EcMenuPanel = null;
-                Loader.RcMenuPanel = null;
+                UnityEngine.Object.Destroy(ecnomicUI);
+                UnityEngine.Object.Destroy(realCityUI);
+                UnityEngine.Object.Destroy(politicsUI);
+                UnityEngine.Object.Destroy(EcButton);
+                UnityEngine.Object.Destroy(RcButton);
+                UnityEngine.Object.Destroy(PlButton);
+                Loader.ecnomicUI = null;
+                Loader.realCityUI = null;
+                Loader.politicsUI = null;
+                Loader.EcButton = null;
+                Loader.RcButton = null;
+                Loader.PlButton = null;
             }
-            //Because realcity botton in buildingUI is covered by TransportLinesManager
+
             if (buildingInfo != null)
             {
-                UnityEngine.Object.Destroy(BMenuPanel);
-                Loader.BMenuPanel = null;
+                UnityEngine.Object.Destroy(BButton);
+                Loader.BButton = null;
             }
 
             if (playerbuildingInfo != null)
             {
-                UnityEngine.Object.Destroy(PBMenuPanel);
-                Loader.PBMenuPanel = null;
+                UnityEngine.Object.Destroy(PBButton);
+                Loader.PBButton = null;
             }
             //remove buildingUI
-            if (guiPanel2 != null)
+            if (buildingUI != null)
             {
-                if (guiPanel2.parent != null)
+                if (buildingUI.parent != null)
                 {
-                    guiPanel2.parent.eventVisibilityChanged -= buildingInfo_eventVisibilityChanged;
+                    buildingUI.parent.eventVisibilityChanged -= buildingInfo_eventVisibilityChanged;
                 }
             }
             if (buildingWindowGameObject != null)
@@ -483,11 +421,11 @@ namespace RealCity
                 UnityEngine.Object.Destroy(buildingWindowGameObject);
             }
             //remove HumanUI
-            if (guiPanel3 != null)
+            if (humanUI != null)
             {
-                if (guiPanel3.parent != null)
+                if (humanUI.parent != null)
                 {
-                    guiPanel3.parent.eventVisibilityChanged -= HumanInfo_eventVisibilityChanged;
+                    humanUI.parent.eventVisibilityChanged -= HumanInfo_eventVisibilityChanged;
                 }
             }
             if (HumanWindowGameObject != null)
@@ -495,19 +433,19 @@ namespace RealCity
                 UnityEngine.Object.Destroy(HumanWindowGameObject);
             }
             //remove PlayerbuildingUI
-            if (guiPanel4 != null)
+            if (playerBuildingUI != null)
             {
-                if (guiPanel4.parent != null)
+                if (playerBuildingUI.parent != null)
                 {
-                    guiPanel4.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
+                    playerBuildingUI.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
                 }
             }
             //remove TouristUI
-            if (guiPanel6 != null)
+            if (touristUI != null)
             {
-                if (guiPanel6.parent != null)
+                if (touristUI.parent != null)
                 {
-                    guiPanel6.parent.eventVisibilityChanged -= TouristInfo_eventVisibilityChanged;
+                    touristUI.parent.eventVisibilityChanged -= TouristInfo_eventVisibilityChanged;
                 }
             }
 
@@ -562,7 +500,6 @@ namespace RealCity
             {
                 DebugLog.LogToFileOnly("Init harmony detours");
                 HarmonyDetours.Apply();
-                HarmonyDetourInited = true;
             }
         }
 
@@ -572,7 +509,6 @@ namespace RealCity
             {
                 DebugLog.LogToFileOnly("Revert harmony detours");
                 HarmonyDetours.DeApply();
-                HarmonyDetourInited = false;
             }
         }
 
@@ -688,19 +624,6 @@ namespace RealCity
                 }
 
                 //9
-                DebugLog.LogToFileOnly("Detour PrivateBuildingAI::SimulationStepActive calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null),
-                                           typeof(RealCityPrivateBuildingAI).GetMethod("CustomSimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour PrivateBuildingAI::SimulationStepActive");
-                    detourFailed = true;
-                }
-
-                //10
                 DebugLog.LogToFileOnly("Detour PassengerCarAI::ArriveAtTarget calls");
                 try
                 {
@@ -713,7 +636,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //11
+                //10
                 DebugLog.LogToFileOnly("Detour CargoTruckAI::ArriveAtTarget calls");
                 try
                 {
@@ -727,7 +650,7 @@ namespace RealCity
                 }
 
 
-                //12
+                //11
                 DebugLog.LogToFileOnly("Detour HumanAI::EnterVehicle calls");
                 try
                 {
@@ -740,20 +663,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //13
-                DebugLog.LogToFileOnly("Detour OfficeBuildingAI::GetOutgoingTransferReason calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance),
-                                           typeof(RealCityOfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour OfficeBuildingAI::GetOutgoingTransferReason");
-                    detourFailed = true;
-                }
-
-                //14
+                //12
                 DebugLog.LogToFileOnly("Detour CargoTruckAI::SetSource calls");
                 try
                 {
@@ -766,7 +676,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //15
+                //13
                 DebugLog.LogToFileOnly("Detour TaxiAI::UnloadPassengers calls");
                 try
                 {
@@ -779,7 +689,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //16
+                //14
                 DebugLog.LogToFileOnly("Detour ExtractingFacilityAI::GetResourceRate calls");
                 try
                 {
@@ -792,7 +702,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //17
+                //15
                 DebugLog.LogToFileOnly("Detour PlayerBuildingAI::GetResourceRate calls");
                 try
                 {
@@ -805,7 +715,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //18
+                //16
                 DebugLog.LogToFileOnly("Detour BuildingManager::FindBuilding calls");
                 try
                 {
@@ -818,74 +728,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //19
-                DebugLog.LogToFileOnly("Detour CargoTruckAI::ArriveAtSource calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(CargoTruckAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
-                                           typeof(RealCityCargoTruckAI).GetMethod("ArriveAtSource", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour CargoTruckAI::ArriveAtSource");
-                    detourFailed = true;
-                }
-
-                //20
-                DebugLog.LogToFileOnly("Detour CommonBuildingAI::CalculateGuestVehicles calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(CommonBuildingAI).GetMethod("CalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null),
-                                           typeof(RealCityPrivateBuildingAI).GetMethod("CustomCalculateGuestVehicles", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour CommonBuildingAI::CalculateGuestVehicles");
-                    detourFailed = true;
-                }
-
-                //21
-                /*DebugLog.LogToFileOnly("Detour CommonBuildingAI::ReleaseBuilding calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(CommonBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null),
-                                           typeof(RealCityCommonBuildingAI).GetMethod("ReleaseBuilding", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour CommonBuildingAI::ReleaseBuilding");
-                    detourFailed = true;
-                }*/
-                
-
-
-                //22
-                /*DebugLog.LogToFileOnly("Detour OutsideConnectionAI::ModifyMaterialBuffer calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(OutsideConnectionAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null),
-                                           typeof(RealCityOutsideConnectionAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour OutsideConnectionAI::ModifyMaterialBuffer");
-                    detourFailed = true;
-                }*/
-
-                //23
-                /*DebugLog.LogToFileOnly("Detour EconomyManager::GetBudget calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(EconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null),
-                                           typeof(RealCityEconomyManager).GetMethod("GetBudget", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ItemClass) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour EconomyManager::GetBudget");
-                    detourFailed = true;
-                }*/
-
-                //24
+                //17
                 DebugLog.LogToFileOnly("Detour EconomyManager::AddResource calls");
                 try
                 {
@@ -898,20 +741,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //25
-                /*DebugLog.LogToFileOnly("Detour CitizenManager::ReleaseCitizenImplementation calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null),
-                                          typeof(RealCityCitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour CitizenManager::ReleaseCitizenImplementation");
-                    detourFailed = true;
-                }*/
-
-                //26
+                //18
                 DebugLog.LogToFileOnly("Detour EconomyManager::AddResource1 calls");
                 try
                 {
@@ -924,46 +754,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //27
-                /*DebugLog.LogToFileOnly("Detour OutsideConnectionAI::StartTransfer calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(OutsideConnectionAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null),
-                                           typeof(RealCityOutsideConnectionAI).GetMethod("StartTransfer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour OutsideConnectionAI::StartTransfer");
-                    detourFailed = true;
-                }*/
-
-                //28
-                /*DebugLog.LogToFileOnly("Detour GarbageTruckAI::ArriveAtTarget calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(GarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
-                                           typeof(RealCityGarbageTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour GarbageTruckAI::ArriveAtTarget");
-                    detourFailed = true;
-                }*/
-
-                //29
-                DebugLog.LogToFileOnly("Detour BuildingAI::VisitorEnter calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null),
-                                           typeof(RealCityHumanAI).GetMethod("CustomVisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour BuildingAI::VisitorEnter");
-                    detourFailed = true;
-                }
-
-                //30
+                //19
                 DebugLog.LogToFileOnly("Detour IndustryBuildingAI::GetResourcePrice calls");
                 try
                 {
@@ -976,20 +767,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //31
-                /*DebugLog.LogToFileOnly("Detour CitizenManager::ReleaseUnitCitizen calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(CitizenManager).GetMethod("ReleaseUnitCitizen", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType(), typeof(uint) }, null),
-                                           typeof(RealCityCitizenManager).GetMethod("ReleaseUnitCitizen", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType(), typeof(uint) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour CitizenManager::ReleaseUnitCitizen");
-                    detourFailed = true;
-                }*/
-
-                //32
+                //20
                 DebugLog.LogToFileOnly("Detour TollBoothAI::EnterBuildingSegment calls");
                 try
                 {
@@ -1002,7 +780,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //33
+                //21
                 DebugLog.LogToFileOnly("Detour HumanAI::EnterParkArea calls");
                 try
                 {

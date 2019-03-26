@@ -10,84 +10,66 @@ using UnityEngine;
 
 namespace RealCity.UI
 {
-    public class RealCityButton : UIPanel
+    public class RealCityButton : UIButton
     {
-        private UIButton RcButton;
         private UIComponent RealCityUITrigger_paneltime;
         private UIComponent RealCityUITrigger_chirper;
         private UIComponent RealCityUITrigger_esc;
         private UIComponent RealCityUITrigger_infopanel;
         private UIComponent RealCityUITrigger_bottombars;
-        private ItemClass.Availability CurrentMode;
-        public static RealCityButton instance;
         private UIDragHandle m_DragHandler;
 
         public static void RealCityUIToggle()
         {
-            if (!Loader.guiPanel1.isVisible)
+            if (!Loader.realCityUI.isVisible)
             {
                 RealCityUI.refeshOnce = true;
-                Loader.guiPanel1.Show();
-                if (Loader.guiPanel5.isVisible)
+                Loader.realCityUI.Show();
+                if (Loader.politicsUI.isVisible)
                 {
-                    Loader.guiPanel5.Hide();
+                    Loader.politicsUI.Hide();
                 }
             }
             else
             {
-                Loader.guiPanel1.Hide();
+                Loader.realCityUI.Hide();
             }
         }
 
         public void RealCityUIOff()
         {
-            if (Loader.guiPanel1.isVisible && !Loader.guiPanel1.containsMouse && !this.RcButton.containsMouse && this.RealCityUITrigger_paneltime != null && !this.RealCityUITrigger_paneltime.containsMouse)
+            if (Loader.realCityUI.isVisible && !Loader.realCityUI.containsMouse && !base.containsMouse && this.RealCityUITrigger_paneltime != null && !this.RealCityUITrigger_paneltime.containsMouse)
             {
-                Loader.guiPanel1.Hide();
+                Loader.realCityUI.Hide();
             }
         }
 
         public override void Start()
         {
-            UIView aView = UIView.GetAView();
-            base.name = "RealCityUIPanel";
-            base.width = 200f;
-            base.height = 70f;
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 50f), 35f);
-            this.BringToFront();
-            base.opacity = 1f;
-            this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
+            base.name = "RcButton";
+            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 35f);
+            base.normalBgSprite = "ToolbarIconGroup1Nomarl";
+            base.hoveredBgSprite = "ToolbarIconGroup1Hovered";
+            base.focusedBgSprite = "ToolbarIconGroup1Focused";
+            base.pressedBgSprite = "ToolbarIconGroup1Pressed";
+            base.playAudioEvents = true;
+            UISprite internalSprite = base.AddUIComponent<UISprite>();
+            internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasName);
+            internalSprite.spriteName = "RcButton";
+            internalSprite.relativePosition = new Vector3(0, 0);
+            internalSprite.width = 50f;
+            internalSprite.height = 50f;
+            base.size = new Vector2(50f, 50f);
+            base.zOrder = 11;
             this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
             this.m_DragHandler.target = this;
-            this.RcButton = base.AddUIComponent<UIButton>();
-            this.RcButton.normalBgSprite = "RcButton";
-            this.RcButton.hoveredBgSprite = "RcButtonHovered";
-            this.RcButton.focusedBgSprite = "RcButtonFocused";
-            this.RcButton.pressedBgSprite = "RcButtonPressed";
-            this.RcButton.playAudioEvents = true;
-            this.RcButton.name = "RcButton";
-            this.RcButton.tooltipBox = aView.defaultTooltipBox;
-            if (Loader.m_atlasLoadedRcButton)
-            {
-                UISprite internalSprite = RcButton.AddUIComponent<UISprite>();
-                internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasNameRcButton);
-                internalSprite.spriteName = "RcButton";
-                internalSprite.relativePosition = new Vector3(0, 0);
-                internalSprite.width = 50f;
-                internalSprite.height = 40f;
-                base.width = 50f;
-                base.height = 70f;
-                RcButton.size = new Vector2(50f, 40f);
-            }
-            else
-            {
-                base.width = 200f;
-                base.height = 70f;
-                this.RcButton.text = Localization.Get("CITY_STATUS");
-                this.RcButton.size = new Vector2(200f, 40f);
-            }
-            this.RcButton.relativePosition = new Vector3(0, 30f);
-            this.RcButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            this.m_DragHandler.relativePosition = Vector2.zero;
+            this.m_DragHandler.width = 50;
+            this.m_DragHandler.height = 50;
+            this.m_DragHandler.zOrder = 10;
+            this.m_DragHandler.Start();
+            this.m_DragHandler.enabled = true;
+            base.eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 RealCityButton.RealCityUIToggle();
             };
@@ -130,18 +112,14 @@ namespace RealCity.UI
         {
             if (Loader.isGuiRunning)
             {
-                if (!Loader.m_atlasLoadedRcButton)
+                if (Loader.realCityUI.isVisible)
                 {
-                    this.RcButton.text = Localization.Get("CITY_STATUS");
-                }
-                if (Loader.guiPanel1.isVisible)
-                {
-                    this.RcButton.Focus();
+                    base.Focus();
                     base.Hide();
                 }
                 else
                 {
-                    this.RcButton.Unfocus();
+                    base.Unfocus();
                     base.Show();
                 }
             }

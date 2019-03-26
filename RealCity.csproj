@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomAI\RealCityBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityCarAI.cs" />
     <Compile Include="CustomAI\RealCityCargoTruckAI.cs" />
     <Compile Include="CustomAI\RealCityCommericalBuildingAI.cs" />
@@ -127,10 +128,7 @@
     <Compile Include="Util\SpriteUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon\BuildingButton.png" />
-    <Content Include="Icon\EcButton.png" />
-    <Content Include="Icon\Politics.png" />
-    <Content Include="Icon\RcButton.png" />
+    <Content Include="Icon\RealCity.png" />
     <Content Include="Locales\zh.txt" />
     <Content Include="Locales\en.txt" />
   </ItemGroup>

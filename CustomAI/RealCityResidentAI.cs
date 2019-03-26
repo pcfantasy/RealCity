@@ -843,7 +843,7 @@ namespace RealCity.CustomAI
             {
                 familyLossMoneyCount = (uint)(familyLossMoneyCount + 1);
             }
-            else if (incomeMinusExpense > 70)
+            else if (incomeMinusExpense > 100)
             {
                 familyVeryProfitMoneyCount = (uint)(familyVeryProfitMoneyCount + 1);
             }
