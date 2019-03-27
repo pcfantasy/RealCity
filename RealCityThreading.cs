@@ -46,7 +46,7 @@ namespace RealCity
                     Loader.Detours.Add(new Loader.Detour(as1.GetType("AdvancedJunctionRule.CustomAI.NewCarAI").GetMethod("VehicleStatusForRealCity", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static, null, new Type[] {
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType()}, null),
-                typeof(RealCityCarAI).GetMethod("CustomCarAICustomSimulationStepPreFix", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static, null, new Type[] {
+                typeof(RealCityCarAI).GetMethod("CarAICustomSimulationStepPreFix", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static, null, new Type[] {
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType()}, null)));
                 }
