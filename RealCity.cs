@@ -1,12 +1,5 @@
-﻿using System;
-using ColossalFramework;
-using ColossalFramework.UI;
-using ICities;
-using System.Reflection;
+﻿using ICities;
 using System.IO;
-using System.Linq;
-using ColossalFramework.Math;
-using UnityEngine;
 using RealCity.Util;
 
 namespace RealCity
@@ -29,14 +22,14 @@ namespace RealCity
 
         public void OnEnabled()
         {
-            RealCity.IsEnabled = true;
+            IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
         }
 
         public void OnDisabled()
         {
-            RealCity.IsEnabled = false;
+            IsEnabled = false;
         }
 
         public static void SaveSetting()

@@ -1,5 +1,4 @@
 ﻿using ColossalFramework;
-using ColossalFramework.Globalization;
 using ColossalFramework.Math;
 using RealCity.Util;
 using UnityEngine;
@@ -29,10 +28,10 @@ namespace RealCity.CustomAI
                             int width = data.Width;
                             int length = data.Length;
                             int num = 16000;
-                            int num2 = this.CalculateVisitplaceCount((ItemClass.Level)data.m_level, new Randomizer((int)buildingID), width, length);
+                            int num2 = CalculateVisitplaceCount((ItemClass.Level)data.m_level, new Randomizer(buildingID), width, length);
                             int num3 = Mathf.Max(num2 * 500, num * 4);
                             num3 = 64000;
-                            int customBuffer = (int)data.m_customBuffer1;
+                            int customBuffer = data.m_customBuffer1;
                             amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
                             // NON-STOCK CODE START
                             process_incoming(buildingID, ref data, material, ref amountDelta);
@@ -58,7 +57,7 @@ namespace RealCity.CustomAI
             {
                 amountDelta = 0;
             }
-            int customBuffer2 = (int)data.m_customBuffer2;
+            int customBuffer2 = data.m_customBuffer2;
             amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
             // NON-STOCK CODE START
             caculate_trade_income(buildingID, ref data, material, ref amountDelta);
@@ -70,7 +69,7 @@ namespace RealCity.CustomAI
 
         public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = (float)amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+            float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
             MainDataStore.building_money[buildingID] = MainDataStore.building_money[buildingID] - trade_income1;
         }
 
@@ -78,7 +77,7 @@ namespace RealCity.CustomAI
         {
             float trade_tax = 0;
             float trade_income = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-            trade_tax = -trade_income * (float)RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) / 100f;
+            trade_tax = -trade_income * RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) / 100f;
             Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
             MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (trade_income + trade_tax));
         }

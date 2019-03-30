@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using UnityEngine;
 using ColossalFramework;
-using System;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using RealCity.CustomAI;
 using RealCity.Util;
 
@@ -15,7 +11,6 @@ namespace RealCity.UI
         public static readonly string cacheName = "PlayerBuildingUI";
         private static readonly float SPACING = 15f;
         private static readonly float SPACING22 = 22f;
-        private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
         public CityServiceWorldInfoPanel baseBuildingWindow;
         public static bool refeshOnce = false;
         private UILabel maintainFeeTips;
@@ -23,45 +18,45 @@ namespace RealCity.UI
 
         public override void Update()
         {
-            this.RefreshDisplayData();
+            RefreshDisplayData();
             base.Update();
         }
 
         public override void Awake()
         {
             base.Awake();
-            this.DoOnStartup();
+            DoOnStartup();
         }
 
         public override void Start()
         {
             base.Start();
-            this.canFocus = true;
-            this.isInteractive = true;
-            base.isVisible = true;
-            base.opacity = 1f;
-            base.cachedName = cacheName;
-            this.RefreshDisplayData();
-            base.Hide();
+            canFocus = true;
+            isInteractive = true;
+            isVisible = true;
+            opacity = 1f;
+            cachedName = cacheName;
+            RefreshDisplayData();
+            Hide();
         }
 
         private void DoOnStartup()
         {
-            this.ShowOnGui();
-            base.Hide();          
+            ShowOnGui();
+            Hide();          
         }
 
         private void ShowOnGui()
         {
-            this.maintainFeeTips = base.AddUIComponent<UILabel>();
-            this.maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
-            this.maintainFeeTips.relativePosition = new Vector3(SPACING, 10f);
-            this.maintainFeeTips.autoSize = true;
+            maintainFeeTips = AddUIComponent<UILabel>();
+            maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
+            maintainFeeTips.relativePosition = new Vector3(SPACING, 10f);
+            maintainFeeTips.autoSize = true;
 
-            this.workerStatus = base.AddUIComponent<UILabel>();
-            this.workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS");
-            this.workerStatus.relativePosition = new Vector3(SPACING, this.maintainFeeTips.relativePosition.y + SPACING22);
-            this.workerStatus.autoSize = true;
+            workerStatus = AddUIComponent<UILabel>();
+            workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS");
+            workerStatus.relativePosition = new Vector3(SPACING, maintainFeeTips.relativePosition.y + SPACING22);
+            workerStatus.autoSize = true;
         }
 
         private void RefreshDisplayData()
@@ -69,24 +64,24 @@ namespace RealCity.UI
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
      
-            if (PlayerBuildingUI.refeshOnce || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (refeshOnce || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
-                if (base.isVisible)
+                if (isVisible)
                 {
                     MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
                     int aliveWorkCount = 0;
                     int totalWorkCount = 0;
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                    BuildingUI.GetWorkBehaviour((ushort)MainDataStore.last_buildingid, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
-                    int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)MainDataStore.last_buildingid, buildingData, true, false);
-                    this.maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
-                    this.workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS") + totalWorkCount.ToString() + "/" + allWorkCount.ToString();
-                    PlayerBuildingUI.refeshOnce = false;
+                    BuildingUI.GetWorkBehaviour(MainDataStore.last_buildingid, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+                    int allWorkCount = RealCityResidentAI.TotalWorkCount(MainDataStore.last_buildingid, buildingData, true, false);
+                    maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
+                    workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS") + totalWorkCount.ToString() + "/" + allWorkCount.ToString();
+                    refeshOnce = false;
                 }
                 else
                 {
-                    this.Hide();
+                    Hide();
                 }
             }
 

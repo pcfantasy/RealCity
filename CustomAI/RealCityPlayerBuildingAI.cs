@@ -1,11 +1,6 @@
 ﻿using ColossalFramework;
 using RealCity.UI;
 using RealCity.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealCity.CustomAI
 {
@@ -15,13 +10,13 @@ namespace RealCity.CustomAI
         {
             if (resource == EconomyManager.Resource.Maintenance)
             {
-                int num = (int)data.m_productionRate;
+                int num = data.m_productionRate;
                 if ((data.m_flags & Building.Flags.Evacuating) != Building.Flags.None)
                 {
                     num = 0;
                 }
-                int budget = this.GetBudget(buildingID, ref data);
-                int num2 = this.GetMaintenanceCost() / 100;
+                int budget = GetBudget(buildingID, ref data);
+                int num2 = GetMaintenanceCost() / 100;
                 num2 = num * budget / 100 * num2;
                 // NON-STOCK CODE START
                 float tempNum = CaculateEmployeeOutcome(buildingID, data);
@@ -37,7 +32,7 @@ namespace RealCity.CustomAI
                 {
                     budget -= (100 - budget) * (100 - budget) / 100;
                 }
-                num2 = (int)((float)(num2 / MainDataStore.gameExpenseDivide) + tempNum * budget);
+                num2 = (int)((num2 / MainDataStore.gameExpenseDivide) + tempNum * budget);
                 /// NON-STOCK CODE END ///
                 return -num2;
             }
@@ -56,7 +51,7 @@ namespace RealCity.CustomAI
             num1 += behaviour.m_educated1Count * MainDataStore.govermentEducation1Salary;
             num1 += behaviour.m_educated2Count * MainDataStore.govermentEducation2Salary;
             num1 += behaviour.m_educated3Count * MainDataStore.govermentEducation3Salary;
-            int allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, false);
+            int allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, building, true, false);
 
 
             if ((aliveWorkerCount == 0) && (allWorkCount!=0))
@@ -67,7 +62,7 @@ namespace RealCity.CustomAI
             float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1f;
             if (totalWorkerCount > allWorkCount)
             {
-                allWorkCount = RealCityResidentAI.TotalWorkCount((ushort)buildingID, building, true, true);
+                allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, building, true, true);
                 idex = 1f;
             }
             return num1 * idex / 16f;
@@ -79,15 +74,15 @@ namespace RealCity.CustomAI
             if (eventIndex != 0)
             {
                 EventManager instance = Singleton<EventManager>.instance;
-                EventInfo info = instance.m_events.m_buffer[(int)eventIndex].Info;
-                return info.m_eventAI.GetBudget(eventIndex, ref instance.m_events.m_buffer[(int)eventIndex]);
+                EventInfo info = instance.m_events.m_buffer[eventIndex].Info;
+                return info.m_eventAI.GetBudget(eventIndex, ref instance.m_events.m_buffer[eventIndex]);
             }
-            return Singleton<EconomyManager>.instance.GetBudget(this.m_info.m_class);
+            return Singleton<EconomyManager>.instance.GetBudget(m_info.m_class);
         }
 
         public static void PlayerBuildingAISimulationStepPostFix(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
-            ProcessZeroWorker((ushort)buildingID, ref buildingData);
+            ProcessZeroWorker(buildingID, ref buildingData);
         }
 
         public static void ProcessZeroWorker(ushort buildingID, ref Building data)

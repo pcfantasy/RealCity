@@ -1,10 +1,6 @@
 ﻿using ColossalFramework;
 using RealCity.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealCity.CustomAI
@@ -29,10 +25,10 @@ namespace RealCity.CustomAI
                         ushort instance2 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
                         if (instance2 != 0)
                         {
-                            Vector3 lastFramePosition2 = instance.m_instances.m_buffer[(int)instance2].GetLastFramePosition();
-                            CitizenInfo info = instance.m_instances.m_buffer[(int)instance2].Info;
-                            info.m_citizenAI.SetCurrentVehicle(instance2, ref instance.m_instances.m_buffer[(int)instance2], 0, 0u, data.m_targetPos0);
-                            int num4 = Mathf.RoundToInt((float)this.m_transportInfo.m_ticketPrice * Vector3.Distance(lastFramePosition2, lastFramePosition) * 0.001f);
+                            Vector3 lastFramePosition2 = instance.m_instances.m_buffer[instance2].GetLastFramePosition();
+                            CitizenInfo info = instance.m_instances.m_buffer[instance2].Info;
+                            info.m_citizenAI.SetCurrentVehicle(instance2, ref instance.m_instances.m_buffer[instance2], 0, 0u, data.m_targetPos0);
+                            int num4 = Mathf.RoundToInt(m_transportInfo.m_ticketPrice * Vector3.Distance(lastFramePosition2, lastFramePosition) * 0.001f);
                             //new added begin
                             if (num4 != 0)
                             {
@@ -42,17 +38,17 @@ namespace RealCity.CustomAI
                                 BuildingManager instance4 = Singleton<BuildingManager>.instance;
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                                 {
-                                    MainDataStore.citizenMoney[citizen] -= (float)(num4);
+                                    MainDataStore.citizenMoney[citizen] -= (num4);
                                 }
                                 else
                                 {
                                     if (MainDataStore.citizenMoney[citizen] < num4)
                                     {
                                         num4 = (MainDataStore.citizenMoney[citizen] > 0) ? (int)MainDataStore.citizenMoney[citizen] + 1 : 1;
-                                        MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - (num4) - 1);
+                                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (num4) - 1);
                                     }
                                 }
-                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4, this.m_info.m_class);
+                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4, m_info.m_class);
                             }
                             //new added end
                             num++;
@@ -93,7 +89,7 @@ namespace RealCity.CustomAI
                 }
             }
             StatisticBase statisticBase = Singleton<StatisticsManager>.instance.Acquire<StatisticArray>(StatisticType.PassengerCount);
-            statisticBase.Acquire<StatisticInt32>((int)this.m_transportInfo.m_transportType, 10).Add(num);
+            statisticBase.Acquire<StatisticInt32>((int)m_transportInfo.m_transportType, 10).Add(num);
         }
     }
 }

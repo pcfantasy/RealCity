@@ -5,8 +5,6 @@ using System.IO;
 using ColossalFramework;
 using System.Reflection;
 using System;
-using System.Linq;
-using ColossalFramework.Math;
 using System.Collections.Generic;
 using RealCity.CustomAI;
 using RealCity.UI;
@@ -26,9 +24,9 @@ namespace RealCity
 
             public Detour(MethodInfo originalMethod, MethodInfo customMethod)
             {
-                this.OriginalMethod = originalMethod;
-                this.CustomMethod = customMethod;
-                this.Redirect = RedirectionHelper.RedirectCalls(originalMethod, customMethod);
+                OriginalMethod = originalMethod;
+                CustomMethod = customMethod;
+                Redirect = RedirectionHelper.RedirectCalls(originalMethod, customMethod);
             }
         }
 
@@ -74,7 +72,7 @@ namespace RealCity
         public override void OnLevelLoaded(LoadMode mode)
         {
             base.OnLevelLoaded(mode);
-            Loader.CurrentLoadMode = mode;
+            CurrentLoadMode = mode;
             if (RealCity.IsEnabled)
             {
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
@@ -117,9 +115,9 @@ namespace RealCity
         public override void OnLevelUnloading()
         {
             base.OnLevelUnloading();
-            if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+            if (CurrentLoadMode == LoadMode.LoadGame || CurrentLoadMode == LoadMode.NewGame)
             {
-                if (RealCity.IsEnabled && Loader.isGuiRunning)
+                if (RealCity.IsEnabled && isGuiRunning)
                 {
                     RemoveGui();
                 }
@@ -161,21 +159,21 @@ namespace RealCity
             LoadSprites();
             if (m_atlasLoaded)
             {
-                Loader.parentGuiView = null;
-                Loader.parentGuiView = UIView.GetAView();
-                if (Loader.ecnomicUI == null)
+                parentGuiView = null;
+                parentGuiView = UIView.GetAView();
+                if (ecnomicUI == null)
                 {
-                    Loader.ecnomicUI = (EcnomicUI)Loader.parentGuiView.AddUIComponent(typeof(EcnomicUI));
+                    ecnomicUI = (EcnomicUI)parentGuiView.AddUIComponent(typeof(EcnomicUI));
                 }
 
-                if (Loader.realCityUI == null)
+                if (realCityUI == null)
                 {
-                    Loader.realCityUI = (RealCityUI)Loader.parentGuiView.AddUIComponent(typeof(RealCityUI));
+                    realCityUI = (RealCityUI)parentGuiView.AddUIComponent(typeof(RealCityUI));
                 }
 
-                if (Loader.politicsUI == null)
+                if (politicsUI == null)
                 {
-                    Loader.politicsUI = (PoliticsUI)Loader.parentGuiView.AddUIComponent(typeof(PoliticsUI));
+                    politicsUI = (PoliticsUI)parentGuiView.AddUIComponent(typeof(PoliticsUI));
                 }
 
                 SetupBuidingGui();
@@ -187,7 +185,7 @@ namespace RealCity
                 SetupCityButton();
                 SetupBuildingButton();
                 SetupPlayerBuildingButton();
-                Loader.isGuiRunning = true;
+                isGuiRunning = true;
             }
         }
 
@@ -311,10 +309,10 @@ namespace RealCity
             buildingUI.isEnabled = value;
             if (value)
             {
-                Loader.buildingUI.transform.parent = Loader.buildingInfo.transform;
-                Loader.buildingUI.size = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y + 50f);
-                Loader.buildingUI.baseBuildingWindow = Loader.buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-                Loader.buildingUI.position = new Vector3(Loader.buildingInfo.size.x, Loader.buildingInfo.size.y);
+                buildingUI.transform.parent = buildingInfo.transform;
+                buildingUI.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y + 50f);
+                buildingUI.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
+                buildingUI.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
             }
             else
             {
@@ -327,10 +325,10 @@ namespace RealCity
             playerBuildingUI.isEnabled = value;
             if (value)
             {
-                Loader.playerBuildingUI.transform.parent = Loader.playerbuildingInfo.transform;
-                Loader.playerBuildingUI.size = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
-                Loader.playerBuildingUI.baseBuildingWindow = Loader.playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
-                Loader.playerBuildingUI.position = new Vector3(Loader.playerbuildingInfo.size.x, Loader.playerbuildingInfo.size.y);
+                playerBuildingUI.transform.parent = playerbuildingInfo.transform;
+                playerBuildingUI.size = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
+                playerBuildingUI.baseBuildingWindow = playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
+                playerBuildingUI.position = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
             }
             else
             {
@@ -344,10 +342,10 @@ namespace RealCity
             if (value)
             {
                 //initialize human ui again
-                Loader.humanUI.transform.parent = Loader.HumanInfo.transform;
-                Loader.humanUI.size = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
-                Loader.humanUI.baseBuildingWindow = Loader.HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
-                Loader.humanUI.position = new Vector3(Loader.HumanInfo.size.x, Loader.HumanInfo.size.y);
+                humanUI.transform.parent = HumanInfo.transform;
+                humanUI.size = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
+                humanUI.baseBuildingWindow = HumanInfo.gameObject.transform.GetComponentInChildren<CitizenWorldInfoPanel>();
+                humanUI.position = new Vector3(HumanInfo.size.x, HumanInfo.size.y);
                 HumanUI.refeshOnce = true;
                 humanUI.Show();
             }
@@ -363,10 +361,10 @@ namespace RealCity
             if (value)
             {
                 //initialize human ui again
-                Loader.touristUI.transform.parent = Loader.TouristInfo.transform;
-                Loader.touristUI.size = new Vector3(Loader.TouristInfo.size.x, Loader.HumanInfo.size.y);
-                Loader.touristUI.baseBuildingWindow = Loader.TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
-                Loader.touristUI.position = new Vector3(Loader.TouristInfo.size.x, Loader.TouristInfo.size.y);
+                touristUI.transform.parent = TouristInfo.transform;
+                touristUI.size = new Vector3(TouristInfo.size.x, HumanInfo.size.y);
+                touristUI.baseBuildingWindow = TouristInfo.gameObject.transform.GetComponentInChildren<TouristWorldInfoPanel>();
+                touristUI.position = new Vector3(TouristInfo.size.x, TouristInfo.size.y);
                 TouristUI.refeshOnce = true;
                 touristUI.Show();
             }
@@ -379,34 +377,34 @@ namespace RealCity
 
         public static void RemoveGui()
         {
-            Loader.isGuiRunning = false;
-            if (Loader.parentGuiView != null)
+            isGuiRunning = false;
+            if (parentGuiView != null)
             {
-                Loader.parentGuiView = null;
+                parentGuiView = null;
                 UnityEngine.Object.Destroy(ecnomicUI);
                 UnityEngine.Object.Destroy(realCityUI);
                 UnityEngine.Object.Destroy(politicsUI);
                 UnityEngine.Object.Destroy(EcButton);
                 UnityEngine.Object.Destroy(RcButton);
                 UnityEngine.Object.Destroy(PlButton);
-                Loader.ecnomicUI = null;
-                Loader.realCityUI = null;
-                Loader.politicsUI = null;
-                Loader.EcButton = null;
-                Loader.RcButton = null;
-                Loader.PlButton = null;
+                ecnomicUI = null;
+                realCityUI = null;
+                politicsUI = null;
+                EcButton = null;
+                RcButton = null;
+                PlButton = null;
             }
 
             if (buildingInfo != null)
             {
                 UnityEngine.Object.Destroy(BButton);
-                Loader.BButton = null;
+                BButton = null;
             }
 
             if (playerbuildingInfo != null)
             {
                 UnityEngine.Object.Destroy(PBButton);
-                Loader.PBButton = null;
+                PBButton = null;
             }
             //remove buildingUI
             if (buildingUI != null)
@@ -491,7 +489,7 @@ namespace RealCity
 
         private bool CheckRealConstructionIsLoaded()
         {
-            return this.Check3rdPartyModLoaded("RealConstruction", true);
+            return Check3rdPartyModLoaded("RealConstruction", true);
         }
 
         public void HarmonyInitDetour()
@@ -824,17 +822,17 @@ namespace RealCity
 
         private bool CheckRealGasStationIsLoaded()
         {
-            return this.Check3rdPartyModLoaded("RealGasStation", true);
+            return Check3rdPartyModLoaded("RealGasStation", true);
         }
 
         private bool CheckTransportLinesManagerIsLoaded()
         {
-            return this.Check3rdPartyModLoaded("Klyte.TransportLinesManager", true);
+            return Check3rdPartyModLoaded("Klyte.TransportLinesManager", true);
         }
 
         private bool CheckAdvancedJunctionRuleIsLoaded()
         {
-            return this.Check3rdPartyModLoaded("AdvancedJunctionRule", true);
+            return Check3rdPartyModLoaded("AdvancedJunctionRule", true);
         }
     }
 }

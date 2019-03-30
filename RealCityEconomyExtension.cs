@@ -1,15 +1,9 @@
 ﻿using ColossalFramework;
-using ColossalFramework.UI;
 using ICities;
 using RealCity.CustomManager;
 using RealCity.UI;
 using RealCity.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealCity
@@ -196,22 +190,22 @@ namespace RealCity
             //Caculate goverment salary
             if (MainDataStore.citizenCount != 0)
             {
-                if ((float)((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation0SalaryFixed))
+                if (((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount) > (MainDataStore.govermentEducation0SalaryFixed))
                 {
-                    MainDataStore.govermentEducation0Salary = (byte)((float)((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount));
+                    MainDataStore.govermentEducation0Salary = (byte)(((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount));
                 }
 
-                if ((float)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation1SalaryFixed))
+                if (((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount) > (MainDataStore.govermentEducation1SalaryFixed))
                 {
-                    MainDataStore.govermentEducation1Salary = (byte)((float)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount));
+                    MainDataStore.govermentEducation1Salary = (byte)(((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount));
                 }
 
-                if ((float)((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation2SalaryFixed))
+                if (((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount) > (MainDataStore.govermentEducation2SalaryFixed))
                 {
-                    MainDataStore.govermentEducation2Salary = (byte)((float)((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount));
+                    MainDataStore.govermentEducation2Salary = (byte)(((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount));
                 }
 
-                if ((float)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation3SalaryFixed))
+                if (((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation3SalaryFixed))
                 {
                     MainDataStore.govermentEducation3Salary = (byte)((float)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount));
                 }
@@ -469,7 +463,7 @@ namespace RealCity
             buildingOffset = 0;
             if (industrialEarnMoneyCount + industrialLackMoneyCount > 0)
             {
-                buildingOffset = ((int)(100f * (float)(industrialEarnMoneyCount - industrialLackMoneyCount) / (float)(industrialEarnMoneyCount + industrialLackMoneyCount))) << 4;
+                buildingOffset = ((int)(100f * (industrialEarnMoneyCount - industrialLackMoneyCount) / (industrialEarnMoneyCount + industrialLackMoneyCount))) << 4;
                 if (buildingOffset > 1500)
                 {
                     buildingOffset = 1500;
@@ -484,7 +478,7 @@ namespace RealCity
             commBuildingOffset = 0;
             if (commericalEarnMoneyCount + commericalLackMoneyCount > 0)
             {
-                commBuildingOffset = ((int)(100f * (float)(commericalEarnMoneyCount - commericalLackMoneyCount) / (float)(commericalEarnMoneyCount + commericalLackMoneyCount))) << 4;
+                commBuildingOffset = ((int)(100f * (commericalEarnMoneyCount - commericalLackMoneyCount) / (commericalEarnMoneyCount + commericalLackMoneyCount))) << 4;
                 if (commBuildingOffset > 1500)
                 {
                     commBuildingOffset = 1500;
@@ -508,10 +502,10 @@ namespace RealCity
             int yes = 0;
             int no = 0;
             int noAttend = 0;
-            int residentTax = 10 - (int)(Politics.residentTax);
-            int benefitOffset = 10 - (int)(Politics.benefitOffset * 2);
-            int commericalTax = 10 - (int)(Politics.commericalTax);
-            int industryTax = 10 - (int)(Politics.industryTax);
+            int residentTax = 10 - (Politics.residentTax);
+            int benefitOffset = 10 - (Politics.benefitOffset * 2);
+            int commericalTax = 10 - (Politics.commericalTax);
+            int industryTax = 10 - (Politics.industryTax);
             int temp3 = 0; // money offset
             int temp4 = 0; // citizen offset
             int temp5 = 0; //building offset
@@ -690,9 +684,9 @@ namespace RealCity
                 int temp1 = yes + no + noAttend;
                 if (temp1 != 0)
                 {
-                    yes = (int)((yes * 99) / temp1);
-                    no = (int)((no * 99) / temp1);
-                    noAttend = (int)((noAttend * 99) / temp1);
+                    yes = ((yes * 99) / temp1);
+                    no = ((no * 99) / temp1);
+                    noAttend = ((noAttend * 99) / temp1);
                     temp1 = yes + no + noAttend;
 
                     if (temp1 < 99)

@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using UnityEngine;
 using ColossalFramework;
-using System;
-using System.Reflection;
 using RealCity.Util;
 
 namespace RealCity.UI
@@ -12,45 +9,44 @@ namespace RealCity.UI
     {
         public static readonly string cacheName = "TouristUI";
         private static readonly float SPACING = 15f;
-        private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
         public TouristWorldInfoPanel baseBuildingWindow;
         public static bool refeshOnce = false;
         private UILabel TouristMoney;
 
         public override void Update()
         {
-            this.RefreshDisplayData();
+            RefreshDisplayData();
             base.Update();
         }
 
         public override void Awake()
         {
             base.Awake();
-            this.DoOnStartup();
+            DoOnStartup();
         }
 
         public override void Start()
         {
             base.Start();
-            this.canFocus = true;
-            this.isInteractive = true;
-            base.isVisible = true;
-            base.opacity = 1f;
-            base.cachedName = cacheName;
-            this.RefreshDisplayData();
+            canFocus = true;
+            isInteractive = true;
+            isVisible = true;
+            opacity = 1f;
+            cachedName = cacheName;
+            RefreshDisplayData();
         }
 
         private void DoOnStartup()
         {
-            this.ShowOnGui();            
+            ShowOnGui();            
         }
 
         private void ShowOnGui()
         { 
-            this.TouristMoney = base.AddUIComponent<UILabel>();
-            this.TouristMoney.text = Localization.Get("TOURIST_MONEY");
-            this.TouristMoney.relativePosition = new Vector3(SPACING, 50f);
-            this.TouristMoney.autoSize = true;
+            TouristMoney = AddUIComponent<UILabel>();
+            TouristMoney.text = Localization.Get("TOURIST_MONEY");
+            TouristMoney.relativePosition = new Vector3(SPACING, 50f);
+            TouristMoney.autoSize = true;
         }
 
         private void RefreshDisplayData()
@@ -60,11 +56,11 @@ namespace RealCity.UI
 
             if (refeshOnce || (MainDataStore.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
-                if (base.isVisible)
+                if (isVisible)
                 {
                     MainDataStore.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
-                    this.TouristMoney.text = string.Format(Localization.Get("TOURIST_MONEY") + " [{0}]", MainDataStore.citizenMoney[MainDataStore.last_citizenid]);
-                    TouristUI.refeshOnce = false;
+                    TouristMoney.text = string.Format(Localization.Get("TOURIST_MONEY") + " [{0}]", MainDataStore.citizenMoney[MainDataStore.last_citizenid]);
+                    refeshOnce = false;
                 }
             }
         }

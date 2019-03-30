@@ -1,6 +1,5 @@
 ﻿using System;
 using ICities;
-using System.IO;
 using RealCity.CustomAI;
 using RealCity.CustomManager;
 
@@ -491,7 +490,7 @@ namespace RealCity.Util
 
         public override void OnCreated(ISerializableData serializableData)
         {
-            SaveAndRestore._serializableData = serializableData;
+            _serializableData = serializableData;
         }
 
         public override void OnReleased()
@@ -511,13 +510,13 @@ namespace RealCity.Util
                 MainDataStore.saveData = new byte[3932402];
                 Politics.saveData = new byte[103];
                 gather_saveData();
-                SaveAndRestore._serializableData.SaveData("real_city pc_EconomyManager", RealCityEconomyManager.saveData);
-                SaveAndRestore._serializableData.SaveData("real_city comm_data", MainDataStore.saveData);
-                SaveAndRestore._serializableData.SaveData("real_city pc_ResidentAI", RealCityResidentAI.saveData);
-                SaveAndRestore._serializableData.SaveData("real_city pc_PrivateBuildingAI", RealCityPrivateBuildingAI.saveData);
-                SaveAndRestore._serializableData.SaveData("real_city citizenMoney", MainDataStore.saveData1);
-                SaveAndRestore._serializableData.SaveData("real_city citizenFlag", MainDataStore.saveData2);
-                SaveAndRestore._serializableData.SaveData("real_city politics", Politics.saveData);
+                _serializableData.SaveData("real_city pc_EconomyManager", RealCityEconomyManager.saveData);
+                _serializableData.SaveData("real_city comm_data", MainDataStore.saveData);
+                _serializableData.SaveData("real_city pc_ResidentAI", RealCityResidentAI.saveData);
+                _serializableData.SaveData("real_city pc_PrivateBuildingAI", RealCityPrivateBuildingAI.saveData);
+                _serializableData.SaveData("real_city citizenMoney", MainDataStore.saveData1);
+                _serializableData.SaveData("real_city citizenFlag", MainDataStore.saveData2);
+                _serializableData.SaveData("real_city politics", Politics.saveData);
             }
         }
 
@@ -525,11 +524,10 @@ namespace RealCity.Util
         {
             Loader.InitData();
             DebugLog.LogToFileOnly("OnLoadData");
-            //DebugLog.LogToFileOnly("comm_data save data length pre is " + comm_data.saveData.Length);
             if (true)
             {
                 DebugLog.LogToFileOnly("startload");
-                RealCityEconomyManager.saveData = SaveAndRestore._serializableData.LoadData("real_city pc_EconomyManager");
+                RealCityEconomyManager.saveData = _serializableData.LoadData("real_city pc_EconomyManager");
                 if (RealCityEconomyManager.saveData == null)
                 {
                     DebugLog.LogToFileOnly("no pc_EconomyManager save data, please check");
@@ -539,7 +537,7 @@ namespace RealCity.Util
                     RealCityEconomyManager.Load();
                 }
 
-                MainDataStore.saveData = SaveAndRestore._serializableData.LoadData("real_city comm_data");
+                MainDataStore.saveData = _serializableData.LoadData("real_city comm_data");
                 if (MainDataStore.saveData == null)
                 {
                     DebugLog.LogToFileOnly("no comm_data save data, please check");
@@ -550,7 +548,7 @@ namespace RealCity.Util
                     MainDataStore.load();
                 }
 
-                RealCityResidentAI.saveData = SaveAndRestore._serializableData.LoadData("real_city pc_ResidentAI");
+                RealCityResidentAI.saveData = _serializableData.LoadData("real_city pc_ResidentAI");
                 if (RealCityResidentAI.saveData == null)
                 {
                     DebugLog.LogToFileOnly("no pc_ResidentAI save data, please check");
@@ -560,7 +558,7 @@ namespace RealCity.Util
                     RealCityResidentAI.Load();
                 }
 
-                RealCityPrivateBuildingAI.saveData = SaveAndRestore._serializableData.LoadData("real_city pc_PrivateBuildingAI");
+                RealCityPrivateBuildingAI.saveData = _serializableData.LoadData("real_city pc_PrivateBuildingAI");
                 if (RealCityPrivateBuildingAI.saveData == null)
                 {
                     DebugLog.LogToFileOnly("no pc_PrivateBuildingAI save data, please check");
@@ -569,7 +567,7 @@ namespace RealCity.Util
                 {
                     RealCityPrivateBuildingAI.Load();
                 }
-                MainDataStore.saveData1 = SaveAndRestore._serializableData.LoadData("real_city citizenMoney");
+                MainDataStore.saveData1 = _serializableData.LoadData("real_city citizenMoney");
                 if (MainDataStore.saveData1 == null)
                 {
                     DebugLog.LogToFileOnly("no comm_data save data1, please check");
@@ -578,7 +576,7 @@ namespace RealCity.Util
                 {
                     MainDataStore.load1();
                 }
-                MainDataStore.saveData2 = SaveAndRestore._serializableData.LoadData("real_city citizenFlag");
+                MainDataStore.saveData2 = _serializableData.LoadData("real_city citizenFlag");
                 if (MainDataStore.saveData2 == null)
                 {
                     DebugLog.LogToFileOnly("no comm_data save data2, please check");
@@ -587,7 +585,7 @@ namespace RealCity.Util
                 {
                     MainDataStore.load2();
                 }
-                Politics.saveData = SaveAndRestore._serializableData.LoadData("real_city politics");
+                Politics.saveData = _serializableData.LoadData("real_city politics");
                 if (Politics.saveData == null)
                 {
                     DebugLog.LogToFileOnly("no Politics.saveData, please check");

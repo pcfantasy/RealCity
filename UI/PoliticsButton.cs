@@ -1,11 +1,5 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using RealCity.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealCity.UI
@@ -39,7 +33,7 @@ namespace RealCity.UI
 
         public void MoreeconomicUIOff()
         {
-            if (Loader.politicsUI.isVisible && !Loader.politicsUI.containsMouse && !base.containsMouse && this.MoreeconomicUITrigger_paneltime != null && !this.MoreeconomicUITrigger_paneltime.containsMouse)
+            if (Loader.politicsUI.isVisible && !Loader.politicsUI.containsMouse && !containsMouse && MoreeconomicUITrigger_paneltime != null && !MoreeconomicUITrigger_paneltime.containsMouse)
             {
                 Loader.politicsUI.Hide();
             }
@@ -47,64 +41,64 @@ namespace RealCity.UI
 
         public override void Start()
         {
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 350f), 35f);
-            base.normalBgSprite = "ToolbarIconGroup1Nomarl";
-            base.hoveredBgSprite = "ToolbarIconGroup1Hovered";
-            base.focusedBgSprite = "ToolbarIconGroup1Focused";
-            base.pressedBgSprite = "ToolbarIconGroup1Pressed";
-            base.playAudioEvents = true;
-            base.name = "EcButton";
-            base.zOrder = 11;
-            UISprite internalSprite = base.AddUIComponent<UISprite>();
+            relativePosition = new Vector3((Loader.parentGuiView.fixedWidth / 2 + 350f), 35f);
+            normalBgSprite = "ToolbarIconGroup1Nomarl";
+            hoveredBgSprite = "ToolbarIconGroup1Hovered";
+            focusedBgSprite = "ToolbarIconGroup1Focused";
+            pressedBgSprite = "ToolbarIconGroup1Pressed";
+            playAudioEvents = true;
+            name = "EcButton";
+            zOrder = 11;
+            UISprite internalSprite = AddUIComponent<UISprite>();
             internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasName);
             internalSprite.spriteName = "Politics";
             internalSprite.relativePosition = new Vector3(0, 0);
             internalSprite.width = 50f;
             internalSprite.height = 50f;
-            base.size = new Vector2(50f, 50f);
-            this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
-            this.m_DragHandler.target = this;
-            this.m_DragHandler.relativePosition = Vector2.zero;
-            this.m_DragHandler.width = 50;
-            this.m_DragHandler.height = 50;
-            this.m_DragHandler.zOrder = 10;
-            this.m_DragHandler.Start();
-            this.m_DragHandler.enabled = true;
-            base.eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            size = new Vector2(50f, 50f);
+            m_DragHandler = AddUIComponent<UIDragHandle>();
+            m_DragHandler.target = this;
+            m_DragHandler.relativePosition = Vector2.zero;
+            m_DragHandler.width = 50;
+            m_DragHandler.height = 50;
+            m_DragHandler.zOrder = 10;
+            m_DragHandler.Start();
+            m_DragHandler.enabled = true;
+            eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                PoliticsButton.MoreeconomicUIToggle();
+                MoreeconomicUIToggle();
             };
-            this.MoreeconomicUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
-            this.MoreeconomicUITrigger_esc = UIView.Find<UIButton>("Esc");
-            this.MoreeconomicUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
-            this.MoreeconomicUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
-            this.MoreeconomicUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
-            if (this.MoreeconomicUITrigger_chirper != null && this.MoreeconomicUITrigger_paneltime != null)
+            MoreeconomicUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
+            MoreeconomicUITrigger_esc = UIView.Find<UIButton>("Esc");
+            MoreeconomicUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
+            MoreeconomicUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
+            MoreeconomicUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
+            if (MoreeconomicUITrigger_chirper != null && MoreeconomicUITrigger_paneltime != null)
             {
-                this.MoreeconomicUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                MoreeconomicUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.MoreeconomicUIOff();
+                    MoreeconomicUIOff();
                 };
             }
-            if (this.MoreeconomicUITrigger_esc != null && this.MoreeconomicUITrigger_paneltime != null)
+            if (MoreeconomicUITrigger_esc != null && MoreeconomicUITrigger_paneltime != null)
             {
-                this.MoreeconomicUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                MoreeconomicUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.MoreeconomicUIOff();
+                    MoreeconomicUIOff();
                 };
             }
-            if (this.MoreeconomicUITrigger_infopanel != null && this.MoreeconomicUITrigger_paneltime != null)
+            if (MoreeconomicUITrigger_infopanel != null && MoreeconomicUITrigger_paneltime != null)
             {
-                this.MoreeconomicUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                MoreeconomicUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.MoreeconomicUIOff();
+                    MoreeconomicUIOff();
                 };
             }
-            if (this.MoreeconomicUITrigger_bottombars != null && this.MoreeconomicUITrigger_paneltime != null)
+            if (MoreeconomicUITrigger_bottombars != null && MoreeconomicUITrigger_paneltime != null)
             {
-                this.MoreeconomicUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                MoreeconomicUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.MoreeconomicUIOff();
+                    MoreeconomicUIOff();
                 };
             }
         }
@@ -115,13 +109,13 @@ namespace RealCity.UI
             {
                 if (Loader.politicsUI.isVisible)
                 {
-                    base.Focus();
-                    base.Hide();
+                    Focus();
+                    Hide();
                 }
                 else
                 {
-                    base.Unfocus();
-                    base.Show();
+                    Unfocus();
+                    Show();
                 }
             }
             base.Update();

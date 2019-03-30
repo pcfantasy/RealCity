@@ -24,7 +24,6 @@ THE SOFTWARE.
 
 using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace RealCity.Util
 {

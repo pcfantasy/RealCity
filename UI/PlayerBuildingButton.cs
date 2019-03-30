@@ -1,11 +1,5 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using RealCity.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealCity.UI
@@ -28,30 +22,31 @@ namespace RealCity.UI
 
         public override void Start()
         {
-            base.normalBgSprite = "ToolbarIconGroup1Nomarl";
-            base.hoveredBgSprite = "ToolbarIconGroup1Hovered";
-            base.focusedBgSprite = "ToolbarIconGroup1Focused";
-            base.pressedBgSprite = "ToolbarIconGroup1Pressed";
-            base.playAudioEvents = true;
-            base.name = "PBButton";
-            UISprite internalSprite = base.AddUIComponent<UISprite>();
+            normalBgSprite = "ToolbarIconGroup1Nomarl";
+            hoveredBgSprite = "ToolbarIconGroup1Hovered";
+            focusedBgSprite = "ToolbarIconGroup1Focused";
+            pressedBgSprite = "ToolbarIconGroup1Pressed";
+            playAudioEvents = true;
+            name = "PBButton";
+            UISprite internalSprite = AddUIComponent<UISprite>();
             internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasName);
             internalSprite.spriteName = "BuildingButton";
             internalSprite.relativePosition = new Vector3(0, 0);
             internalSprite.width = 40f;
             internalSprite.height = 40f;
-            base.size = new Vector2(40f, 40f);
-            base.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            size = new Vector2(40f, 40f);
+            eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                PlayerBuildingButton.PlayerBuildingUIToggle();
+                PlayerBuildingUIToggle();
             };
         }
 
         public override void Update()
         {
             if (Loader.isGuiRunning)
-            {
-                base.Show();
+            { 
+                relativePosition = new Vector3(120, Loader.playerbuildingInfo.size.y - height);
+                Show();
             }
             base.Update();
         }

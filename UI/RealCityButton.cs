@@ -1,11 +1,5 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using RealCity.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealCity.UI
@@ -38,7 +32,7 @@ namespace RealCity.UI
 
         public void RealCityUIOff()
         {
-            if (Loader.realCityUI.isVisible && !Loader.realCityUI.containsMouse && !base.containsMouse && this.RealCityUITrigger_paneltime != null && !this.RealCityUITrigger_paneltime.containsMouse)
+            if (Loader.realCityUI.isVisible && !Loader.realCityUI.containsMouse && !containsMouse && RealCityUITrigger_paneltime != null && !RealCityUITrigger_paneltime.containsMouse)
             {
                 Loader.realCityUI.Hide();
             }
@@ -46,64 +40,64 @@ namespace RealCity.UI
 
         public override void Start()
         {
-            base.name = "RcButton";
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 150f), 35f);
-            base.normalBgSprite = "ToolbarIconGroup1Nomarl";
-            base.hoveredBgSprite = "ToolbarIconGroup1Hovered";
-            base.focusedBgSprite = "ToolbarIconGroup1Focused";
-            base.pressedBgSprite = "ToolbarIconGroup1Pressed";
-            base.playAudioEvents = true;
-            UISprite internalSprite = base.AddUIComponent<UISprite>();
+            name = "RcButton";
+            relativePosition = new Vector3((Loader.parentGuiView.fixedWidth / 2 + 150f), 35f);
+            normalBgSprite = "ToolbarIconGroup1Nomarl";
+            hoveredBgSprite = "ToolbarIconGroup1Hovered";
+            focusedBgSprite = "ToolbarIconGroup1Focused";
+            pressedBgSprite = "ToolbarIconGroup1Pressed";
+            playAudioEvents = true;
+            UISprite internalSprite = AddUIComponent<UISprite>();
             internalSprite.atlas = SpriteUtilities.GetAtlas(Loader.m_atlasName);
             internalSprite.spriteName = "RcButton";
             internalSprite.relativePosition = new Vector3(0, 0);
             internalSprite.width = 50f;
             internalSprite.height = 50f;
-            base.size = new Vector2(50f, 50f);
-            base.zOrder = 11;
-            this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
-            this.m_DragHandler.target = this;
-            this.m_DragHandler.relativePosition = Vector2.zero;
-            this.m_DragHandler.width = 50;
-            this.m_DragHandler.height = 50;
-            this.m_DragHandler.zOrder = 10;
-            this.m_DragHandler.Start();
-            this.m_DragHandler.enabled = true;
-            base.eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            size = new Vector2(50f, 50f);
+            zOrder = 11;
+            m_DragHandler = AddUIComponent<UIDragHandle>();
+            m_DragHandler.target = this;
+            m_DragHandler.relativePosition = Vector2.zero;
+            m_DragHandler.width = 50;
+            m_DragHandler.height = 50;
+            m_DragHandler.zOrder = 10;
+            m_DragHandler.Start();
+            m_DragHandler.enabled = true;
+            eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                RealCityButton.RealCityUIToggle();
+                RealCityUIToggle();
             };
-            this.RealCityUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
-            this.RealCityUITrigger_esc = UIView.Find<UIButton>("Esc");
-            this.RealCityUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
-            this.RealCityUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
-            this.RealCityUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
-            if (this.RealCityUITrigger_chirper != null && this.RealCityUITrigger_paneltime != null)
+            RealCityUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
+            RealCityUITrigger_esc = UIView.Find<UIButton>("Esc");
+            RealCityUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
+            RealCityUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
+            RealCityUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
+            if (RealCityUITrigger_chirper != null && RealCityUITrigger_paneltime != null)
             {
-                this.RealCityUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                RealCityUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.RealCityUIOff();
+                    RealCityUIOff();
                 };
             }
-            if (this.RealCityUITrigger_esc != null && this.RealCityUITrigger_paneltime != null)
+            if (RealCityUITrigger_esc != null && RealCityUITrigger_paneltime != null)
             {
-                this.RealCityUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                RealCityUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.RealCityUIOff();
+                    RealCityUIOff();
                 };
             }
-            if (this.RealCityUITrigger_infopanel != null && this.RealCityUITrigger_paneltime != null)
+            if (RealCityUITrigger_infopanel != null && RealCityUITrigger_paneltime != null)
             {
-                this.RealCityUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                RealCityUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.RealCityUIOff();
+                    RealCityUIOff();
                 };
             }
-            if (this.RealCityUITrigger_bottombars != null && this.RealCityUITrigger_paneltime != null)
+            if (RealCityUITrigger_bottombars != null && RealCityUITrigger_paneltime != null)
             {
-                this.RealCityUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                RealCityUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    this.RealCityUIOff();
+                    RealCityUIOff();
                 };
             }
         }
@@ -114,13 +108,13 @@ namespace RealCity.UI
             {
                 if (Loader.realCityUI.isVisible)
                 {
-                    base.Focus();
-                    base.Hide();
+                    Focus();
+                    Hide();
                 }
                 else
                 {
-                    base.Unfocus();
-                    base.Show();
+                    Unfocus();
+                    Show();
                 }
             }
             base.Update();

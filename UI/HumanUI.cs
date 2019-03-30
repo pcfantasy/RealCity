@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using UnityEngine;
 using ColossalFramework;
 using System;
-using System.Reflection;
 using RealCity.CustomAI;
 using RealCity.Util;
 
@@ -12,68 +10,58 @@ namespace RealCity.UI
     public class HumanUI : UIPanel
     {
         public static readonly string cacheName = "HumanUI";
-
         private static readonly float SPACING = 15f;
-
         private static readonly float SPACING22 = 22f;
-
-        private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
-
         public CitizenWorldInfoPanel baseBuildingWindow;
-
         public static bool refeshOnce = false;
-
         private UILabel familyMoney;
         private UILabel familySalary;
         private UILabel familyGoods;
 
         public override void Update()
         {
-            this.RefreshDisplayData();
+            RefreshDisplayData();
             base.Update();
         }
 
         public override void Awake()
         {
             base.Awake();
-            this.DoOnStartup();
+            DoOnStartup();
         }
 
         public override void Start()
         {
             base.Start();
-            //base.backgroundSprite = "MenuPanel";
-            this.canFocus = true;
-            this.isInteractive = true;
-            base.isVisible = true;
-            //this.BringToFront();
-            base.opacity = 1f;
-            base.cachedName = cacheName;
-            this.RefreshDisplayData();
+            canFocus = true;
+            isInteractive = true;
+            isVisible = true;
+            opacity = 1f;
+            cachedName = cacheName;
+            RefreshDisplayData();
         }
 
         private void DoOnStartup()
         {
-            this.ShowOnGui();            
+            ShowOnGui();            
         }
-
 
         private void ShowOnGui()
         { 
-            this.familyMoney = base.AddUIComponent<UILabel>();
-            this.familyMoney.text = Localization.Get("FAMILY_MONEY");
-            this.familyMoney.relativePosition = new Vector3(SPACING, 50f);
-            this.familyMoney.autoSize = true;
+            familyMoney = AddUIComponent<UILabel>();
+            familyMoney.text = Localization.Get("FAMILY_MONEY");
+            familyMoney.relativePosition = new Vector3(SPACING, 50f);
+            familyMoney.autoSize = true;
 
-            this.familySalary = base.AddUIComponent<UILabel>();
-            this.familySalary.text = Localization.Get("FAMILY_SALARY");
-            this.familySalary.relativePosition = new Vector3(SPACING, this.familyMoney.relativePosition.y + SPACING22);
-            this.familySalary.autoSize = true;
+            familySalary = AddUIComponent<UILabel>();
+            familySalary.text = Localization.Get("FAMILY_SALARY");
+            familySalary.relativePosition = new Vector3(SPACING, familyMoney.relativePosition.y + SPACING22);
+            familySalary.autoSize = true;
 
-            this.familyGoods = base.AddUIComponent<UILabel>();
-            this.familyGoods.text = Localization.Get("FAMILY_GOODS");
-            this.familyGoods.relativePosition = new Vector3(SPACING, this.familySalary.relativePosition.y + SPACING22);
-            this.familyGoods.autoSize = true;
+            familyGoods = AddUIComponent<UILabel>();
+            familyGoods.text = Localization.Get("FAMILY_GOODS");
+            familyGoods.relativePosition = new Vector3(SPACING, familySalary.relativePosition.y + SPACING22);
+            familyGoods.autoSize = true;
         }
 
         private void RefreshDisplayData()
@@ -83,26 +71,26 @@ namespace RealCity.UI
 
             if (refeshOnce || (MainDataStore.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
-                if (base.isVisible)
+                if (isVisible)
                 {
                     MainDataStore.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
                     CitizenManager instance3 = Singleton<CitizenManager>.instance;
                     ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)MainDataStore.last_citizenid)].m_homeBuilding;
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                    uint homeId = instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].GetContainingUnit(MainDataStore.last_citizenid, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                    this.familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , MainDataStore.family_money[homeId]);
-                    this.familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId));
+                    uint homeId = instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].GetContainingUnit(MainDataStore.last_citizenid, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                    familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , MainDataStore.family_money[homeId]);
+                    familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId));
 
                     if ((instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].m_flags & Citizen.Flags.NeedGoods) != 0)
                     {
-                        this.familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}] " + Localization.Get("FAMILY_NEED_GOODS"), instance3.m_units.m_buffer[homeId].m_goods.ToString());
+                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}] " + Localization.Get("FAMILY_NEED_GOODS"), instance3.m_units.m_buffer[homeId].m_goods.ToString());
                     }
                     else
                     {
-                        this.familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", instance3.m_units.m_buffer[homeId].m_goods.ToString());
+                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", instance3.m_units.m_buffer[homeId].m_goods.ToString());
                     }
 
-                    HumanUI.refeshOnce = false;
+                    refeshOnce = false;
                 }
             }
         }

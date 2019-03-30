@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using ColossalFramework;
+﻿using ColossalFramework;
 using ColossalFramework.UI;
 using UnityEngine;
-using System.Collections;
 using RealCity.Util;
 
 namespace RealCity.UI
@@ -15,9 +13,6 @@ namespace RealCity.UI
         private static readonly float HEADER = 40f;
         private static readonly float SPACING = 17f;
         private static readonly float SPACING22 = 23f;
-        private ItemClass.Availability CurrentMode;
-        public static PoliticsUI instance;
-        private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
         private UIDragHandle m_DragHandler;
         private UIButton m_closeButton;
         private UILabel m_title;
@@ -40,127 +35,125 @@ namespace RealCity.UI
 
         public override void Update()
         {
-            this.RefreshDisplayData();
+            RefreshDisplayData();
             base.Update();
         }
 
         public override void Start()
         {
             base.Start();
-            instance = this;
-            base.size = new Vector2(WIDTH, HEIGHT);
-            base.backgroundSprite = "MenuPanel";
-            this.canFocus = true;
-            this.isInteractive = true;
-            this.BringToFront();
-            base.relativePosition = new Vector3((float)(Loader.parentGuiView.fixedWidth / 2 + 50f), 170f);
-            base.opacity = 1f;
-            base.cachedName = cacheName;
-            this.CurrentMode = Singleton<ToolManager>.instance.m_properties.m_mode;
-            this.m_DragHandler = base.AddUIComponent<UIDragHandle>();
-            this.m_DragHandler.target = this;
-            this.m_title = base.AddUIComponent<UILabel>();
-            this.m_title.text = Localization.Get("PARLIAMENT_HALL");
-            this.m_title.relativePosition = new Vector3(WIDTH / 2f - this.m_title.width / 2f - 25f, HEADER / 2f - this.m_title.height / 2f);
-            this.m_title.textAlignment = UIHorizontalAlignment.Center;
-            this.m_closeButton = base.AddUIComponent<UIButton>();
-            this.m_closeButton.normalBgSprite = "buttonclose";
-            this.m_closeButton.hoveredBgSprite = "buttonclosehover";
-            this.m_closeButton.pressedBgSprite = "buttonclosepressed";
-            this.m_closeButton.relativePosition = new Vector3(WIDTH - 35f, 5f, 10f);
-            this.m_closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            size = new Vector2(WIDTH, HEIGHT);
+            backgroundSprite = "MenuPanel";
+            canFocus = true;
+            isInteractive = true;
+            BringToFront();
+            relativePosition = new Vector3((Loader.parentGuiView.fixedWidth / 2 + 50f), 170f);
+            opacity = 1f;
+            cachedName = cacheName;
+            m_DragHandler = AddUIComponent<UIDragHandle>();
+            m_DragHandler.target = this;
+            m_title = AddUIComponent<UILabel>();
+            m_title.text = Localization.Get("PARLIAMENT_HALL");
+            m_title.relativePosition = new Vector3(WIDTH / 2f - m_title.width / 2f - 25f, HEADER / 2f - m_title.height / 2f);
+            m_title.textAlignment = UIHorizontalAlignment.Center;
+            m_closeButton = AddUIComponent<UIButton>();
+            m_closeButton.normalBgSprite = "buttonclose";
+            m_closeButton.hoveredBgSprite = "buttonclosehover";
+            m_closeButton.pressedBgSprite = "buttonclosepressed";
+            m_closeButton.relativePosition = new Vector3(WIDTH - 35f, 5f, 10f);
+            m_closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                base.Hide();
+                Hide();
             };
-            base.Hide(); //dont show in the beginning
-            this.DoOnStartup();
+            Hide(); //dont show in the beginning
+            DoOnStartup();
         }
 
         private void DoOnStartup()
         {
-            this.ShowOnGui();
-            this.RefreshDisplayData();
+            ShowOnGui();
+            RefreshDisplayData();
         }
 
         private void ShowOnGui()
         {
-            this.parliamentSeats = base.AddUIComponent<UILabel>();
-            this.parliamentSeats.text = Localization.Get("PARLIAMENT_SEATS");
-            this.parliamentSeats.textScale = 1.1f;
-            this.parliamentSeats.relativePosition = new Vector3(SPACING, 50f);
-            this.parliamentSeats.autoSize = true;
+            parliamentSeats = AddUIComponent<UILabel>();
+            parliamentSeats.text = Localization.Get("PARLIAMENT_SEATS");
+            parliamentSeats.textScale = 1.1f;
+            parliamentSeats.relativePosition = new Vector3(SPACING, 50f);
+            parliamentSeats.autoSize = true;
 
-            this.communist = base.AddUIComponent<UILabel>();
-            this.communist.text = Localization.Get("COMMUNIST");
-            this.communist.relativePosition = new Vector3(SPACING, this.parliamentSeats.relativePosition.y + SPACING22);
-            this.communist.autoSize = true;
+            communist = AddUIComponent<UILabel>();
+            communist.text = Localization.Get("COMMUNIST");
+            communist.relativePosition = new Vector3(SPACING, parliamentSeats.relativePosition.y + SPACING22);
+            communist.autoSize = true;
 
-            this.green = base.AddUIComponent<UILabel>();
-            this.green.text = Localization.Get("GREEN");
-            this.green.relativePosition = new Vector3(this.communist.relativePosition.x + this.communist.width + SPACING + 70f, this.communist.relativePosition.y);
-            this.green.autoSize = true;
+            green = AddUIComponent<UILabel>();
+            green.text = Localization.Get("GREEN");
+            green.relativePosition = new Vector3(communist.relativePosition.x + communist.width + SPACING + 70f, communist.relativePosition.y);
+            green.autoSize = true;
 
-            this.socialist = base.AddUIComponent<UILabel>();
-            this.socialist.text = Localization.Get("SOCIALIST");
-            this.socialist.relativePosition = new Vector3(this.green.relativePosition.x + this.green.width + SPACING + 70f, this.green.relativePosition.y);
-            this.socialist.autoSize = true;
+            socialist = AddUIComponent<UILabel>();
+            socialist.text = Localization.Get("SOCIALIST");
+            socialist.relativePosition = new Vector3(green.relativePosition.x + green.width + SPACING + 70f, green.relativePosition.y);
+            socialist.autoSize = true;
 
-            this.liberal = base.AddUIComponent<UILabel>();
-            this.liberal.text = Localization.Get("LIBERAL");
-            this.liberal.relativePosition = new Vector3(this.socialist.relativePosition.x + this.socialist.width + SPACING + 70f, this.socialist.relativePosition.y);
-            this.liberal.autoSize = true;
+            liberal = AddUIComponent<UILabel>();
+            liberal.text = Localization.Get("LIBERAL");
+            liberal.relativePosition = new Vector3(socialist.relativePosition.x + socialist.width + SPACING + 70f, socialist.relativePosition.y);
+            liberal.autoSize = true;
 
-            this.national = base.AddUIComponent<UILabel>();
-            this.national.text = Localization.Get("NATIONAL");
-            this.national.relativePosition = new Vector3(this.liberal.relativePosition.x + this.liberal.width + SPACING + 70f, this.liberal.relativePosition.y);
-            this.national.autoSize = true;
+            national = AddUIComponent<UILabel>();
+            national.text = Localization.Get("NATIONAL");
+            national.relativePosition = new Vector3(liberal.relativePosition.x + liberal.width + SPACING + 70f, liberal.relativePosition.y);
+            national.autoSize = true;
 
-            this.goverment = base.AddUIComponent<UILabel>();
-            this.goverment.text = Localization.Get("GOVERMENT");
-            this.goverment.relativePosition = new Vector3(SPACING, this.communist.relativePosition.y + SPACING22 + 20f);
-            this.goverment.autoSize = true;
+            goverment = AddUIComponent<UILabel>();
+            goverment.text = Localization.Get("GOVERMENT");
+            goverment.relativePosition = new Vector3(SPACING, communist.relativePosition.y + SPACING22 + 20f);
+            goverment.autoSize = true;
 
-            this.nextVote = base.AddUIComponent<UILabel>();
-            this.nextVote.text = Localization.Get("NEXT_VOTE");
-            this.nextVote.relativePosition = new Vector3(SPACING, this.goverment.relativePosition.y + SPACING22 + 20f);
-            this.nextVote.autoSize = true;
+            nextVote = AddUIComponent<UILabel>();
+            nextVote.text = Localization.Get("NEXT_VOTE");
+            nextVote.relativePosition = new Vector3(SPACING, goverment.relativePosition.y + SPACING22 + 20f);
+            nextVote.autoSize = true;
 
-            this.currentMeetingItem = base.AddUIComponent<UILabel>();
-            this.currentMeetingItem.text = Localization.Get("CURRENT_MEETING_ITEM");
-            this.currentMeetingItem.textScale = 1.1f;
-            this.currentMeetingItem.relativePosition = new Vector3(SPACING, this.nextVote.relativePosition.y + SPACING22 + 20f);
-            this.currentMeetingItem.autoSize = true;
+            currentMeetingItem = AddUIComponent<UILabel>();
+            currentMeetingItem.text = Localization.Get("CURRENT_MEETING_ITEM");
+            currentMeetingItem.textScale = 1.1f;
+            currentMeetingItem.relativePosition = new Vector3(SPACING, nextVote.relativePosition.y + SPACING22 + 20f);
+            currentMeetingItem.autoSize = true;
 
-            this.voteResult = base.AddUIComponent<UILabel>();
-            this.voteResult.text = Localization.Get("VOTE_RESULT");
-            this.voteResult.relativePosition = new Vector3(SPACING, this.currentMeetingItem.relativePosition.y + SPACING22);
-            this.voteResult.autoSize = true;
+            voteResult = AddUIComponent<UILabel>();
+            voteResult.text = Localization.Get("VOTE_RESULT");
+            voteResult.relativePosition = new Vector3(SPACING, currentMeetingItem.relativePosition.y + SPACING22);
+            voteResult.autoSize = true;
 
-            this.currentPolitics = base.AddUIComponent<UILabel>();
-            this.currentPolitics.text = Localization.Get("CURRENT_POLICY");
-            this.currentPolitics.textScale = 1.1f;
-            this.currentPolitics.relativePosition = new Vector3(SPACING, this.voteResult.relativePosition.y + SPACING22 + 20f);
-            this.currentPolitics.autoSize = true;
+            currentPolitics = AddUIComponent<UILabel>();
+            currentPolitics.text = Localization.Get("CURRENT_POLICY");
+            currentPolitics.textScale = 1.1f;
+            currentPolitics.relativePosition = new Vector3(SPACING, voteResult.relativePosition.y + SPACING22 + 20f);
+            currentPolitics.autoSize = true;
 
-            this.benefit = base.AddUIComponent<UILabel>();
-            this.benefit.text = Localization.Get("BENEFIT");
-            this.benefit.relativePosition = new Vector3(SPACING, this.currentPolitics.relativePosition.y + SPACING22);
-            this.benefit.autoSize = true;
+            benefit = AddUIComponent<UILabel>();
+            benefit.text = Localization.Get("BENEFIT");
+            benefit.relativePosition = new Vector3(SPACING, currentPolitics.relativePosition.y + SPACING22);
+            benefit.autoSize = true;
 
-            this.resident = base.AddUIComponent<UILabel>();
-            this.resident.text = Localization.Get("RESIDENT_SALARY_TAX");
-            this.resident.relativePosition = new Vector3(SPACING, this.benefit.relativePosition.y + SPACING22);
-            this.resident.autoSize = true;
+            resident = AddUIComponent<UILabel>();
+            resident.text = Localization.Get("RESIDENT_SALARY_TAX");
+            resident.relativePosition = new Vector3(SPACING, benefit.relativePosition.y + SPACING22);
+            resident.autoSize = true;
 
-            this.commerical = base.AddUIComponent<UILabel>();
-            this.commerical.text = Localization.Get("COMMERICAL_TRADE_TAX");
-            this.commerical.relativePosition = new Vector3(SPACING, this.resident.relativePosition.y + SPACING22);
-            this.commerical.autoSize = true;
+            commerical = AddUIComponent<UILabel>();
+            commerical.text = Localization.Get("COMMERICAL_TRADE_TAX");
+            commerical.relativePosition = new Vector3(SPACING, resident.relativePosition.y + SPACING22);
+            commerical.autoSize = true;
 
-            this.industrial = base.AddUIComponent<UILabel>();
-            this.industrial.text = Localization.Get("INDUSTRIAL_TRADE_TAX");
-            this.industrial.relativePosition = new Vector3(SPACING, this.commerical.relativePosition.y + SPACING22);
-            this.industrial.autoSize = true;
+            industrial = AddUIComponent<UILabel>();
+            industrial.text = Localization.Get("INDUSTRIAL_TRADE_TAX");
+            industrial.relativePosition = new Vector3(SPACING, commerical.relativePosition.y + SPACING22);
+            industrial.autoSize = true;
         }
 
 
@@ -171,94 +164,94 @@ namespace RealCity.UI
 
             if (refeshOnce)
             {
-                if (base.isVisible)
+                if (isVisible)
                 {
-                    this.m_title.text = Localization.Get("PARLIAMENT_HALL");
-                    this.parliamentSeats.text = Localization.Get("PARLIAMENT_SEATS");
-                    this.communist.text = string.Format(Localization.Get("COMMUNIST") + " [{0}]", Politics.cPartySeats);
-                    this.green.text = string.Format(Localization.Get("GREEN") + " [{0}]", Politics.gPartySeats);
-                    this.socialist.text = string.Format(Localization.Get("SOCIALIST") + " [{0}]", Politics.sPartySeats);
-                    this.liberal.text = string.Format(Localization.Get("LIBERAL") + " [{0}]", Politics.lPartySeats);
-                    this.national.text = string.Format(Localization.Get("NATIONAL") + " [{0}]", Politics.nPartySeats);
-                    this.nextVote.text = string.Format(Localization.Get("NEXT_VOTE") + " [{0}]", Politics.parliamentCount);
+                    m_title.text = Localization.Get("PARLIAMENT_HALL");
+                    parliamentSeats.text = Localization.Get("PARLIAMENT_SEATS");
+                    communist.text = string.Format(Localization.Get("COMMUNIST") + " [{0}]", Politics.cPartySeats);
+                    green.text = string.Format(Localization.Get("GREEN") + " [{0}]", Politics.gPartySeats);
+                    socialist.text = string.Format(Localization.Get("SOCIALIST") + " [{0}]", Politics.sPartySeats);
+                    liberal.text = string.Format(Localization.Get("LIBERAL") + " [{0}]", Politics.lPartySeats);
+                    national.text = string.Format(Localization.Get("NATIONAL") + " [{0}]", Politics.nPartySeats);
+                    nextVote.text = string.Format(Localization.Get("NEXT_VOTE") + " [{0}]", Politics.parliamentCount);
 
                     if (Politics.currentIdx > 7)
                     {
-                        this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ": N/A");
+                        currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ": N/A");
                     }
                     else
                     {
                         switch(Politics.currentIdx)
                         {
                             case 0:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_RESIDENT_TAX"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_RESIDENT_TAX"));
                                 break;
                             case 1:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_RESIDENT_TAX"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_RESIDENT_TAX"));
                                 break;
                             case 2:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_BENEFIT"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_BENEFIT"));
                                 break;
                             case 3:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_BENEFIT"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_BENEFIT"));
                                 break;
                             case 4:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_COMMERIAL_TAX"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_COMMERIAL_TAX"));
                                 break;
                             case 5:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_COMMERIAL_TAX"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_COMMERIAL_TAX"));
                                 break;
                             case 6:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_INDUSTRIAL_TAX"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_INDUSTRIAL_TAX"));
                                 break;
                             case 7:
-                                this.currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_INDUSTRIAL_TAX"));
+                                currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_INDUSTRIAL_TAX"));
                                 break;
                         }
                     }
 
-                    this.voteResult.text = string.Format(Localization.Get("VOTE_RESULT") + ": " + Localization.Get("YES") + ":" + Politics.currentYes.ToString() + " " + Localization.Get("NO") + ":" + Politics.currentNo.ToString() + " " + Localization.Get("NO_ATTEND") + ":" + Politics.currentNoAttend.ToString());
-                    this.currentPolitics.text = string.Format(Localization.Get("CURRENT_POLICY"));
-                    this.benefit.text = string.Format(Localization.Get("BENEFIT") + " " + Politics.benefitOffset.ToString());
-                    this.resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + Politics.residentTax.ToString() + "%");
-                    this.commerical.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commericalTax.ToString() + "%");
-                    this.industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + Politics.industryTax.ToString() + "%");
+                    voteResult.text = string.Format(Localization.Get("VOTE_RESULT") + ": " + Localization.Get("YES") + ":" + Politics.currentYes.ToString() + " " + Localization.Get("NO") + ":" + Politics.currentNo.ToString() + " " + Localization.Get("NO_ATTEND") + ":" + Politics.currentNoAttend.ToString());
+                    currentPolitics.text = string.Format(Localization.Get("CURRENT_POLICY"));
+                    benefit.text = string.Format(Localization.Get("BENEFIT") + " " + Politics.benefitOffset.ToString());
+                    resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + Politics.residentTax.ToString() + "%");
+                    commerical.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commericalTax.ToString() + "%");
+                    industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + Politics.industryTax.ToString() + "%");
 
                     if (Politics.case1)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("COMMUNIST"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("COMMUNIST"));
                     }
                     else if (Politics.case2)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("GREEN"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("GREEN"));
                     }
                     else if (Politics.case3)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("SOCIALIST"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("SOCIALIST"));
                     }
                     else if (Politics.case4)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("LIBERAL"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("LIBERAL"));
                     }
                     else if (Politics.case5)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("NATIONAL"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("NATIONAL"));
                     }
                     else if (Politics.case6)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("LEFT_UNION"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("LEFT_UNION"));
                     }
                     else if (Politics.case7)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("COMMUNIST") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("WIDE_LEFT_UNION"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("COMMUNIST") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("WIDE_LEFT_UNION"));
                     }
                     else if (Politics.case8)
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("LIBERAL") + " " + Localization.Get("NATIONAL") + " " + Localization.Get("RIGHT_UNION"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("LIBERAL") + " " + Localization.Get("NATIONAL") + " " + Localization.Get("RIGHT_UNION"));
                     }
                     else
                     {
-                        this.goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("COMMUNIST") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("LIBERAL") + " " + Localization.Get("NATIONAL") + " " + Localization.Get("ALL_UNION"));
+                        goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("COMMUNIST") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("LIBERAL") + " " + Localization.Get("NATIONAL") + " " + Localization.Get("ALL_UNION"));
                     }
 
                     refeshOnce = false;
@@ -268,14 +261,14 @@ namespace RealCity.UI
 
         private void ProcessVisibility()
         {
-            if (!base.isVisible)
+            if (!isVisible)
             {
                 refeshOnce = true;
-                base.Show();
+                Show();
             }
             else
             {
-                base.Hide();
+                Hide();
             }
         }
     }

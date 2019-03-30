@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColossalFramework;
-using ColossalFramework.UI;
-using ICities;
+﻿using ColossalFramework;
 using UnityEngine;
-using System.Collections;
-using System.Reflection;
-using ColossalFramework.Globalization;
 using ColossalFramework.Math;
-using ColossalFramework.Threading;
 using RealCity.Util;
 
 namespace RealCity.CustomAI
@@ -53,7 +42,7 @@ namespace RealCity.CustomAI
                 return true;
             }
             int num = 0;
-            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
             {
                 // NON-STOCK CODE START
                 // RealConstruction and RealGasStation mod
@@ -66,53 +55,53 @@ namespace RealCity.CustomAI
                     CargoTruckAIArriveAtTargetForRealGasStationPost(vehicleID, ref data);
                 }
                 /// NON-STOCK CODE END ///
-                num = (int)data.m_transferSize;
+                num = data.m_transferSize;
             }
-            if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+            if ((data.m_flags & Vehicle.Flags.TransferToSource) != 0)
             {
-                num = Mathf.Min(0, (int)data.m_transferSize - this.m_cargoCapacity);
+                num = Mathf.Min(0, data.m_transferSize - m_cargoCapacity);
             }
             BuildingManager instance = Singleton<BuildingManager>.instance;
-            BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
+            BuildingInfo info = instance.m_buildings.m_buffer[data.m_targetBuilding].Info;
 
             // NON-STOCK CODE START
             ProcessResourceArriveAtTarget(vehicleID, ref data, ref num);
             /// NON-STOCK CODE END ///
 
-            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
             {
-                data.m_transferSize = (ushort)Mathf.Clamp((int)data.m_transferSize - num, 0, (int)data.m_transferSize);
+                data.m_transferSize = (ushort)Mathf.Clamp(data.m_transferSize - num, 0, data.m_transferSize);
                 if (data.m_sourceBuilding != 0)
                 {
                     IndustryBuildingAI.ExchangeResource((TransferManager.TransferReason)data.m_transferType, num, data.m_sourceBuilding, data.m_targetBuilding);
                 }
             }
-            if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+            if ((data.m_flags & Vehicle.Flags.TransferToSource) != 0)
             {
                 data.m_transferSize += (ushort)Mathf.Max(0, -num);
             }
-            if (data.m_sourceBuilding != 0 && (instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Outgoing)
+            if (data.m_sourceBuilding != 0 && (instance.m_buildings.m_buffer[data.m_sourceBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Outgoing)
             {
-                BuildingInfo info2 = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].Info;
-                ushort num2 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
+                BuildingInfo info2 = instance.m_buildings.m_buffer[data.m_sourceBuilding].Info;
+                ushort num2 = instance.FindBuilding(instance.m_buildings.m_buffer[data.m_sourceBuilding].m_position, 200f, info2.m_class.m_service, ItemClass.SubService.None, Building.Flags.Incoming, Building.Flags.Outgoing);
                 if (num2 != 0)
                 {
-                    instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                    instance.m_buildings.m_buffer[data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
                     data.m_sourceBuilding = num2;
-                    instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
+                    instance.m_buildings.m_buffer[data.m_sourceBuilding].AddOwnVehicle(vehicleID, ref data);
                 }
             }
-            if ((instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
+            if ((instance.m_buildings.m_buffer[data.m_targetBuilding].m_flags & Building.Flags.IncomingOutgoing) == Building.Flags.Incoming)
             {
-                ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[(int)data.m_targetBuilding].m_position, 200f, info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
+                ushort num3 = instance.FindBuilding(instance.m_buildings.m_buffer[data.m_targetBuilding].m_position, 200f, info.m_class.m_service, ItemClass.SubService.None, Building.Flags.Outgoing, Building.Flags.Incoming);
                 if (num3 != 0)
                 {
                     data.Unspawn(vehicleID);
-                    BuildingInfo info3 = instance.m_buildings.m_buffer[(int)num3].Info;
-                    Randomizer randomizer = new Randomizer((int)vehicleID);
+                    BuildingInfo info3 = instance.m_buildings.m_buffer[num3].Info;
+                    Randomizer randomizer = new Randomizer(vehicleID);
                     Vector3 vector;
                     Vector3 vector2;
-                    info3.m_buildingAI.CalculateSpawnPosition(num3, ref instance.m_buildings.m_buffer[(int)num3], ref randomizer, this.m_info, out vector, out vector2);
+                    info3.m_buildingAI.CalculateSpawnPosition(num3, ref instance.m_buildings.m_buffer[num3], ref randomizer, m_info, out vector, out vector2);
                     Quaternion rotation = Quaternion.identity;
                     Vector3 forward = vector2 - vector;
                     if (forward.sqrMagnitude > 0.01f)
@@ -129,24 +118,24 @@ namespace RealCity.CustomAI
                     data.m_targetPos1.w = 2f;
                     data.m_targetPos2 = data.m_targetPos1;
                     data.m_targetPos3 = data.m_targetPos1;
-                    this.FrameDataUpdated(vehicleID, ref data, ref data.m_frame0);
-                    this.SetTarget(vehicleID, ref data, 0);
+                    FrameDataUpdated(vehicleID, ref data, ref data.m_frame0);
+                    SetTarget(vehicleID, ref data, 0);
                     return true;
                 }
             }
-            this.SetTarget(vehicleID, ref data, 0);
+            SetTarget(vehicleID, ref data, 0);
             return false;
         }
 
         private void ProcessResourceArriveAtTarget(ushort vehicleID, ref Vehicle data, ref int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
-            Building building = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];
-            Building building1 = instance.m_buildings.m_buffer[(int)data.m_targetBuilding];
-            BuildingInfo info = instance.m_buildings.m_buffer[(int)data.m_targetBuilding].Info;
-            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+            Building building = instance.m_buildings.m_buffer[data.m_sourceBuilding];
+            Building building1 = instance.m_buildings.m_buffer[data.m_targetBuilding];
+            BuildingInfo info = instance.m_buildings.m_buffer[data.m_targetBuilding].Info;
+            if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
             {
-                info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+                info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
 
                 if ((info.m_class.m_service == ItemClass.Service.Electricity) || (info.m_class.m_service == ItemClass.Service.Water) || (info.m_class.m_service == ItemClass.Service.Disaster))
                 {
@@ -167,29 +156,29 @@ namespace RealCity.CustomAI
                             break;
                         case (TransferManager.TransferReason)110:
                         case (TransferManager.TransferReason)111: break;
-                        default: Util.DebugLog.LogToFileOnly("Error: ProcessResourceArriveAtTarget find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
+                        default: DebugLog.LogToFileOnly("Error: ProcessResourceArriveAtTarget find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                     }
                 }
             }
             else
             {
-                info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[(int)data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+                info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
             }
         }
 
         public override void SetSource(ushort vehicleID, ref Vehicle data, ushort sourceBuilding)
         {
-            this.RemoveSource(vehicleID, ref data);
+            RemoveSource(vehicleID, ref data);
             data.m_sourceBuilding = sourceBuilding;
             if (sourceBuilding != 0)
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
-                BuildingInfo info = instance.m_buildings.m_buffer[(int)sourceBuilding].Info;
+                BuildingInfo info = instance.m_buildings.m_buffer[sourceBuilding].Info;
                 data.Unspawn(vehicleID);
-                Randomizer randomizer = new Randomizer((int)vehicleID);
+                Randomizer randomizer = new Randomizer(vehicleID);
                 Vector3 vector;
                 Vector3 vector2;
-                info.m_buildingAI.CalculateSpawnPosition(sourceBuilding, ref instance.m_buildings.m_buffer[(int)sourceBuilding], ref randomizer, this.m_info, out vector, out vector2);
+                info.m_buildingAI.CalculateSpawnPosition(sourceBuilding, ref instance.m_buildings.m_buffer[sourceBuilding], ref randomizer, m_info, out vector, out vector2);
                 Quaternion rotation = Quaternion.identity;
                 Vector3 forward = vector2 - vector;
                 if (forward.sqrMagnitude > 0.01f)
@@ -206,25 +195,25 @@ namespace RealCity.CustomAI
                 data.m_targetPos1.w = 2f;
                 data.m_targetPos2 = data.m_targetPos1;
                 data.m_targetPos3 = data.m_targetPos1;
-                if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+                if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
                 {
-                    int num = Mathf.Min(0, (int)data.m_transferSize - this.m_cargoCapacity);
-                    info.m_buildingAI.ModifyMaterialBuffer(sourceBuilding, ref instance.m_buildings.m_buffer[(int)sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
+                    int num = Mathf.Min(0, data.m_transferSize - m_cargoCapacity);
+                    info.m_buildingAI.ModifyMaterialBuffer(sourceBuilding, ref instance.m_buildings.m_buffer[sourceBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
                     // NON-STOCK CODE START
                     ProcessGabargeIncome(vehicleID, ref data, num);
                     /// NON-STOCK CODE END ///
                     num = Mathf.Max(0, -num);
                     data.m_transferSize += (ushort)num;
                 }
-                this.FrameDataUpdated(vehicleID, ref data, ref data.m_frame0);
-                instance.m_buildings.m_buffer[(int)sourceBuilding].AddOwnVehicle(vehicleID, ref data);
-                if ((instance.m_buildings.m_buffer[(int)sourceBuilding].m_flags & Building.Flags.IncomingOutgoing) != Building.Flags.None)
+                FrameDataUpdated(vehicleID, ref data, ref data.m_frame0);
+                instance.m_buildings.m_buffer[sourceBuilding].AddOwnVehicle(vehicleID, ref data);
+                if ((instance.m_buildings.m_buffer[sourceBuilding].m_flags & Building.Flags.IncomingOutgoing) != Building.Flags.None)
                 {
-                    if ((data.m_flags & Vehicle.Flags.TransferToTarget) != (Vehicle.Flags)0)
+                    if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
                     {
                         data.m_flags |= Vehicle.Flags.Importing;
                     }
-                    else if ((data.m_flags & Vehicle.Flags.TransferToSource) != (Vehicle.Flags)0)
+                    else if ((data.m_flags & Vehicle.Flags.TransferToSource) != 0)
                     {
                         data.m_flags |= Vehicle.Flags.Exporting;
                     }
@@ -235,7 +224,7 @@ namespace RealCity.CustomAI
         private void ProcessGabargeIncome(ushort vehicleID, ref Vehicle data, int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
-            Building building = instance.m_buildings.m_buffer[(int)data.m_sourceBuilding];
+            Building building = instance.m_buildings.m_buffer[data.m_sourceBuilding];
             if (building.Info.m_class.m_service == ItemClass.Service.Garbage)
             {
                 float product_value = 0f;
@@ -253,7 +242,7 @@ namespace RealCity.CustomAI
                         product_value = -num * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
                         break;
-                    default: Util.DebugLog.LogToFileOnly("Error: ProcessGabargeIncome find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
+                    default: DebugLog.LogToFileOnly("Error: ProcessGabargeIncome find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                 }
             }
         }
@@ -262,7 +251,7 @@ namespace RealCity.CustomAI
         {
             if (data.m_sourceBuilding != 0)
             {
-                Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
+                Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_sourceBuilding].RemoveOwnVehicle(vehicleID, ref data);
                 data.m_sourceBuilding = 0;
             }
         }

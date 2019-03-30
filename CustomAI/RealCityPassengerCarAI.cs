@@ -1,7 +1,6 @@
 ﻿using ColossalFramework;
 using RealCity.Util;
 using System;
-using System.Reflection;
 using UnityEngine;
 
 namespace RealCity.CustomAI
@@ -24,24 +23,24 @@ namespace RealCity.CustomAI
             }
             GetVehicleRunningTiming(vehicleID, ref data);
             // NON-STOCK CODE END
-            if ((data.m_flags & Vehicle.Flags.Parking) != (Vehicle.Flags)0)
+            if ((data.m_flags & Vehicle.Flags.Parking) != 0)
             {
                 VehicleManager instance = Singleton<VehicleManager>.instance;
                 CitizenManager instance2 = Singleton<CitizenManager>.instance;
-                ushort driverInstance = this.GetDriverInstance(vehicleID, ref data);
+                ushort driverInstance = GetDriverInstance(vehicleID, ref data);
                 if (driverInstance != 0)
                 {
-                    uint citizen = instance2.m_instances.m_buffer[(int)driverInstance].m_citizen;
+                    uint citizen = instance2.m_instances.m_buffer[driverInstance].m_citizen;
                     if (citizen != 0u)
                     {
                         ushort parkedVehicle = instance2.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_parkedVehicle;
                         if (parkedVehicle != 0)
                         {
                             Vehicle.Frame lastFrameData = data.GetLastFrameData();
-                            instance.m_parkedVehicles.m_buffer[(int)parkedVehicle].m_travelDistance = lastFrameData.m_travelDistance;
+                            instance.m_parkedVehicles.m_buffer[parkedVehicle].m_travelDistance = lastFrameData.m_travelDistance;
                             VehicleParked[] expr_A1_cp_0 = instance.m_parkedVehicles.m_buffer;
                             ushort expr_A1_cp_1 = parkedVehicle;
-                            expr_A1_cp_0[(int)expr_A1_cp_1].m_flags = (ushort)(expr_A1_cp_0[(int)expr_A1_cp_1].m_flags & 65527);
+                            expr_A1_cp_0[expr_A1_cp_1].m_flags = (ushort)(expr_A1_cp_0[expr_A1_cp_1].m_flags & 65527);
                             InstanceID empty = InstanceID.Empty;
                             empty.Vehicle = vehicleID;
                             InstanceID empty2 = InstanceID.Empty;
@@ -51,17 +50,17 @@ namespace RealCity.CustomAI
                     }
                 }
             }
-            this.UnloadPassengers(vehicleID, ref data);
+            UnloadPassengers(vehicleID, ref data);
             if (data.m_targetBuilding == 0)
             {
                 return true;
             }
-            data.m_targetPos0 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].CalculateSidewalkPosition();
+            data.m_targetPos0 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_targetBuilding].CalculateSidewalkPosition();
             data.m_targetPos0.w = 2f;
             data.m_targetPos1 = data.m_targetPos0;
             data.m_targetPos2 = data.m_targetPos0;
             data.m_targetPos3 = data.m_targetPos0;
-            this.RemoveTarget(vehicleID, ref data);
+            RemoveTarget(vehicleID, ref data);
             return true;
         }
 
@@ -81,8 +80,8 @@ namespace RealCity.CustomAI
                         ushort instance2 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
                         if (instance2 != 0)
                         {
-                            CitizenInfo info = instance.m_instances.m_buffer[(int)instance2].Info;
-                            info.m_citizenAI.SetCurrentVehicle(instance2, ref instance.m_instances.m_buffer[(int)instance2], 0, 0u, data.m_targetPos0);
+                            CitizenInfo info = instance.m_instances.m_buffer[instance2].Info;
+                            info.m_citizenAI.SetCurrentVehicle(instance2, ref instance.m_instances.m_buffer[instance2], 0, 0u, data.m_targetPos0);
                         }
                     }
                 }
@@ -99,7 +98,7 @@ namespace RealCity.CustomAI
         {
             if (data.m_targetBuilding != 0)
             {
-                Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)data.m_targetBuilding].RemoveGuestVehicle(vehicleID, ref data);
+                Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_targetBuilding].RemoveGuestVehicle(vehicleID, ref data);
                 data.m_targetBuilding = 0;
             }
         }
@@ -111,21 +110,21 @@ namespace RealCity.CustomAI
                 int num = basePrice;
                 BuildingManager instance = Singleton<BuildingManager>.instance;
                 DistrictManager instance2 = Singleton<DistrictManager>.instance;
-                byte district = instance2.GetDistrict(instance.m_buildings.m_buffer[(int)buildingID].m_position);
-                DistrictPolicies.CityPlanning cityPlanningPolicies = instance2.m_districts.m_buffer[(int)district].m_cityPlanningPolicies;
+                byte district = instance2.GetDistrict(instance.m_buildings.m_buffer[buildingID].m_position);
+                DistrictPolicies.CityPlanning cityPlanningPolicies = instance2.m_districts.m_buffer[district].m_cityPlanningPolicies;
                 if ((cityPlanningPolicies & DistrictPolicies.CityPlanning.AutomatedToll) != DistrictPolicies.CityPlanning.None)
                 {
                     num = (num * 70 + Singleton<SimulationManager>.instance.m_randomizer.Int32(100u)) / 100;
                     District[] expr_82_cp_0 = instance2.m_districts.m_buffer;
                     byte expr_82_cp_1 = district;
-                    expr_82_cp_0[(int)expr_82_cp_1].m_cityPlanningPoliciesEffect = (expr_82_cp_0[(int)expr_82_cp_1].m_cityPlanningPoliciesEffect | DistrictPolicies.CityPlanning.AutomatedToll);
+                    expr_82_cp_0[expr_82_cp_1].m_cityPlanningPoliciesEffect = (expr_82_cp_0[expr_82_cp_1].m_cityPlanningPoliciesEffect | DistrictPolicies.CityPlanning.AutomatedToll);
                 }
                 else
                 {
                     vehicleData.m_flags2 |= Vehicle.Flags2.EndStop;
                 }
                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level1);
-                instance.m_buildings.m_buffer[(int)buildingID].m_customBuffer1 = (ushort)Mathf.Min((int)(instance.m_buildings.m_buffer[(int)buildingID].m_customBuffer1 + 1), 65535);
+                instance.m_buildings.m_buffer[buildingID].m_customBuffer1 = (ushort)Mathf.Min((instance.m_buildings.m_buffer[buildingID].m_customBuffer1 + 1), 65535);
             }
         }
 

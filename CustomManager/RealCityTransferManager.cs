@@ -1,6 +1,5 @@
 ﻿using System;
 using ColossalFramework;
-using System.Reflection;
 
 namespace RealCity.CustomManager
 {
@@ -14,17 +13,17 @@ namespace RealCity.CustomManager
             {
                 Array16<Vehicle> vehicles = Singleton<VehicleManager>.instance.m_vehicles;
                 ushort vehicle = offerIn.Vehicle;
-                VehicleInfo info = vehicles.m_buffer[(int)vehicle].Info;
+                VehicleInfo info = vehicles.m_buffer[vehicle].Info;
                 offerOut.Amount = delta;
-                info.m_vehicleAI.StartTransfer(vehicle, ref vehicles.m_buffer[(int)vehicle], material, offerOut);
+                info.m_vehicleAI.StartTransfer(vehicle, ref vehicles.m_buffer[vehicle], material, offerOut);
             }
             else if (active2 && offerOut.Vehicle != 0)
             {
                 Array16<Vehicle> vehicles2 = Singleton<VehicleManager>.instance.m_vehicles;
                 ushort vehicle2 = offerOut.Vehicle;
-                VehicleInfo info2 = vehicles2.m_buffer[(int)vehicle2].Info;
+                VehicleInfo info2 = vehicles2.m_buffer[vehicle2].Info;
                 offerIn.Amount = delta;
-                info2.m_vehicleAI.StartTransfer(vehicle2, ref vehicles2.m_buffer[(int)vehicle2], material, offerIn);
+                info2.m_vehicleAI.StartTransfer(vehicle2, ref vehicles2.m_buffer[vehicle2], material, offerIn);
             }
             else if (active && offerIn.Citizen != 0u)
             {
@@ -81,27 +80,27 @@ namespace RealCity.CustomManager
                 Array16<Building> buildings = Singleton<BuildingManager>.instance.m_buildings;
                 ushort building = offerOut.Building;
                 ushort building1 = offerIn.Building;
-                BuildingInfo info3 = buildings.m_buffer[(int)building].Info;
+                BuildingInfo info3 = buildings.m_buffer[building].Info;
                 offerIn.Amount = delta;
                 // NON-STOCK CODE START
                 // New Outside Interaction Mod
                 if ((material == TransferManager.TransferReason.DeadMove || material == TransferManager.TransferReason.GarbageMove) && Singleton<BuildingManager>.instance.m_buildings.m_buffer[offerOut.Building].m_flags.IsFlagSet(Building.Flags.Untouchable))
                 {
-                    StartMoreTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
+                    StartMoreTransfer(building, ref buildings.m_buffer[building], material, offerIn);
                 }
                 else
                 {
                     // NON-STOCK CODE END
-                    info3.m_buildingAI.StartTransfer(building, ref buildings.m_buffer[(int)building], material, offerIn);
+                    info3.m_buildingAI.StartTransfer(building, ref buildings.m_buffer[building], material, offerIn);
                 }
             }
             else if (active && offerIn.Building != 0)
             {
                 Array16<Building> buildings2 = Singleton<BuildingManager>.instance.m_buildings;
                 ushort building2 = offerIn.Building;
-                BuildingInfo info4 = buildings2.m_buffer[(int)building2].Info;
+                BuildingInfo info4 = buildings2.m_buffer[building2].Info;
                 offerOut.Amount = delta;
-                info4.m_buildingAI.StartTransfer(building2, ref buildings2.m_buffer[(int)building2], material, offerOut);
+                info4.m_buildingAI.StartTransfer(building2, ref buildings2.m_buffer[building2], material, offerOut);
             }
         }
 
@@ -116,8 +115,8 @@ namespace RealCity.CustomManager
                     ushort num2;
                     if (Singleton<VehicleManager>.instance.CreateVehicle(out num2, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo2, data.m_position, material, false, true))
                     {
-                        randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[(int)num2], buildingID);
-                        randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[(int)num2], material, offer);
+                        randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[num2], buildingID);
+                        randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[num2], material, offer);
                         vehicles2.m_buffer[num2].m_flags |= (Vehicle.Flags.Importing);
                     }
                 }
@@ -131,8 +130,8 @@ namespace RealCity.CustomManager
                     ushort num2;
                     if (Singleton<VehicleManager>.instance.CreateVehicle(out num2, ref Singleton<SimulationManager>.instance.m_randomizer, randomVehicleInfo2, data.m_position, material, false, true))
                     {
-                        randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[(int)num2], buildingID);
-                        randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[(int)num2], material, offer);
+                        randomVehicleInfo2.m_vehicleAI.SetSource(num2, ref vehicles2.m_buffer[num2], buildingID);
+                        randomVehicleInfo2.m_vehicleAI.StartTransfer(num2, ref vehicles2.m_buffer[num2], material, offer);
                         vehicles2.m_buffer[num2].m_flags |= (Vehicle.Flags.Importing);
                     }
                 }

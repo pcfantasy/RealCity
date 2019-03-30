@@ -1,10 +1,5 @@
 ﻿using ColossalFramework;
-using RealCity.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealCity.CustomManager
@@ -75,15 +70,15 @@ namespace RealCity.CustomManager
                         }
                         while (num6 != 0)
                         {
-                            BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
+                            BuildingInfo info = building.m_buildings.m_buffer[num6].Info;
                             if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
                             {
-                                Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
+                                Building.Flags flags = building.m_buildings.m_buffer[num6].m_flags;
                                 if (info.m_class.m_service == ItemClass.Service.Commercial)
                                 {
                                     if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
                                     {
-                                        if (building.m_buildings.m_buffer[(int)num6].m_customBuffer2 > 1000)
+                                        if (building.m_buildings.m_buffer[num6].m_customBuffer2 > 1000)
                                         {
                                             //float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
                                             //result = num6;
@@ -94,7 +89,7 @@ namespace RealCity.CustomManager
                                     }
                                 }
                             }
-                            num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
+                            num6 = building.m_buildings.m_buffer[num6].m_nextGridBuilding;
                             if (++num7 >= 49152)
                             {
                                 CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
@@ -135,13 +130,13 @@ namespace RealCity.CustomManager
                     int num7 = 0;
                     while (num6 != 0)
                     {
-                        BuildingInfo info = building.m_buildings.m_buffer[(int)num6].Info;
+                        BuildingInfo info = building.m_buildings.m_buffer[num6].Info;
                         if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
                         {
-                            Building.Flags flags = building.m_buildings.m_buffer[(int)num6].m_flags;
+                            Building.Flags flags = building.m_buildings.m_buffer[num6].m_flags;
                             if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
                             {
-                                float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[(int)num6].m_position);
+                                float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[num6].m_position);
                                 if (num8 < num5)
                                 {
                                     result = num6;
@@ -149,7 +144,7 @@ namespace RealCity.CustomManager
                                 }
                             }
                         }
-                        num6 = building.m_buildings.m_buffer[(int)num6].m_nextGridBuilding;
+                        num6 = building.m_buildings.m_buffer[num6].m_nextGridBuilding;
                         if (++num7 >= 49152)
                         {
                             CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);

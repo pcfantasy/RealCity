@@ -11,57 +11,57 @@ MEDIUM_SALARY_COUNT	Medium Salary Count
 LOW_SALARY_COUNT	Loew Salary Count
 WEALTH_HIGH_COUNT	High Wealth Count
 WEALTH_MEDIUM_COUNT	Medium Wealth Count
-WEALTH_LOW_COUNT	Low Wealth Count                     
+WEALTH_LOW_COUNT	Low Wealth Count
 BUILDING_STATUS	2. Building Status
 PROFIT_BUIDLING_COUNT	Profit(I&C) for Building
 EXTERNAL_INVESTMENTS	External Investments (for office)
-TIP1	Tip One
-TIP2	Tip Two
-TIP3	Tip Three
-TIP4	Tip Four
-TIP5	Tip Five
-TIP6	Tip Six
+TIP1	Tip1
+TIP2	Tip2
+TIP3	Tip3
+TIP4	Tip4
+TIP5	Tip5
+TIP6	Tip6
 POLICY_COST	3. Mod Policy Cost (₡)
 LIVING_ALLOWANCE	Living Allowance & Benefit
 USE_TMPE_TIP	Use TMPE and disable vehicle spawning
-STARTUP_TIP	For a new  city, industrialising is important to improve the economy, and your finances
+STARTUP_TIP	Industrialising is important to improve the economy and your finances at start
 TOURIST_TIP	Try commerical tourist to retain tourists
 OFFICE_TIP	Office can get "external investments" depended on your industry
 UNLOCK_TIP	Avoid unlocking everything at the start of the game.
 UG_TIP	Check more details in UG
-CITY_SALARY_TAX_INCOME_TITLE	City Income Tax
-SALARY_TAX_INCOME	How much money the city raises from income tax
+CITY_SALARY_TAX_INCOME_TITLE	City Salary Tax Income
+SALARY_TAX_INCOME	City Salary Tax Income
 TOURIST_INCOME_TITLE	2. City Tourism Income
 FROM_RESIDENT	from residents
 FROM_TOURIST	from tourists
 LAND_TAX_INCOME_TITLE	3. City Land Tax Income
-RESIDENT_HIGH_LAND_INCOME	High Value Land Income
-RESIDENT_LOW_LAND_INCOME	Low Value Land Income
-RESIDENT_HIGH_ECO_LAND_INCOME	High Value Eco Land Income
-RESIDENT_LOW_ECO_LAND_INCOME	Low value Eco Land Income
-COMMERICAL_HIGH_LAND_INCOME	Commercial High Value Land Income
-COMMERICAL_LOW_LAND_INCOME	Commercial Low Value Land Income
+RESIDENT_HIGH_LAND_INCOME	Resident High Land Income
+RESIDENT_LOW_LAND_INCOME	Resident Low Land Income
+RESIDENT_HIGH_ECO_LAND_INCOME	Resident HighEco Land Income
+RESIDENT_LOW_ECO_LAND_INCOME	Resident LowEco Land Income
+COMMERICAL_HIGH_LAND_INCOME	Commercial High Land Income
+COMMERICAL_LOW_LAND_INCOME	Commercial Low Land Income
 COMMERICAL_ECO_LAND_INCOME	Commercial Eco Land Income
 COMMERICAL_TOURISM_LAND_INCOME	Commercial Tourist Land Income
 COMMERICAL_LEISURE_LAND_INCOME	Commercial Leisure Land Income
-INDUSTRIAL_GENERAL_LAND_INCOME	Commercial "General" Land Income
-INDUSTRIAL_FARMING_LAND_INCOME	Farming Land Income
-INDUSTRIAL_FORESTY_LAND_INCOME	Foresty Land Income
-INDUSTRIAL_OIL_LAND_INCOME	Oil Land Income
-INDUSTRIAL_ORE_LAND_INCOME	Ore Land Income
-OFFICE_GENERAL_LAND_INCOME	"General" Office Land Income
-OFFICE_HIGH_TECH_LAND_INCOME	High Tech Land Income
+INDUSTRIAL_GENERAL_LAND_INCOME	General Industry Land Income
+INDUSTRIAL_FARMING_LAND_INCOME	Farming Industry Land Income
+INDUSTRIAL_FORESTY_LAND_INCOME	Foresty Industry Land Income
+INDUSTRIAL_OIL_LAND_INCOME	Oil Industry Land Income
+INDUSTRIAL_ORE_LAND_INCOME	Ore Industry Land Income
+OFFICE_GENERAL_LAND_INCOME	General Office Land Income
+OFFICE_HIGH_TECH_LAND_INCOME	High-Tech Office Land Income
 CITY_TRADE_INCOME_TITLE	4. City Trade Tariff Income
-COMMERICAL_HIGH_TRADE_INCOME	Commercial High Trade Value Income
-COMMERICAL_LOW_TRADE_INCOME	Commercial Low Trade Value Income
-COMMERICAL_ECO_TRADE_INCOME	Commercial Eco Tade Value Income
-COMMERICAL_TOURISM_TRADE_INCOME	Commcerical Tourism Trade Income
-COMMERICAL_LEISURE_TRADE_INCOME	Commercial Leisure Trade Income
-INDUSTRIAL_GENERAL_TRADE_INCOME	"General" Industry Trade Income
-INDUSTRIAL_FARMING_TRADE_INCOME	Farming Industry Trade Income
-INDUSTRIAL_FORESTY_TRADE_INCOME	Forestry Income Trade Income
-INDUSTRIAL_OIL_TRADE_INCOME	Oil Industry Trade Income
-INDUSTRIAL_ORE_TRADE_INCOME	Ore Industry Trade Income
+COMMERICAL_HIGH_TRADE_INCOME	Commercial High Trade Income
+COMMERICAL_LOW_TRADE_INCOME	Commercial Low Trade Income
+COMMERICAL_ECO_TRADE_INCOME	Commercial Eco Tade Income
+COMMERICAL_TOURISM_TRADE_INCOME	Commcerical Tourism Income
+COMMERICAL_LEISURE_TRADE_INCOME	Commercial Leisure Income
+INDUSTRIAL_GENERAL_TRADE_INCOME	General Industry Income
+INDUSTRIAL_FARMING_TRADE_INCOME	Farming Industry Income
+INDUSTRIAL_FORESTY_TRADE_INCOME	Forestry Industry Income
+INDUSTRIAL_OIL_TRADE_INCOME	Oil Industry Income
+INDUSTRIAL_ORE_TRADE_INCOME	Ore Industry Income
 CITY_PUBLIC_TRANSPORT_INCOME_TITLE	5. City Public Transport Income
 BUS	Bus
 TRAM	Tram
@@ -73,7 +73,7 @@ TAXI	Taxi
 CABLECAR	Cablecar
 MONORAIL	Monorail
 CITY_PLAYER_BUILDING_INCOME_TITLE	6. City Buildings Income
-ROAD	Road (Include Fuel Stations)
+ROAD	Road(With GasStations)
 GARBAGE	Garbage
 SCHOOL	School
 HEALTHCARE	Healthcare
@@ -116,7 +116,7 @@ INDUSTRIAL_TRADE_TAX	Industrial Trade Tax
 BUILDING_MONEY	Building Money (1/100₡)
 MATERIAL_BUFFER	Material Buffer
 PRODUCTION_BUFFER	Production Buffer
-AVERAGE_EMPLOYFEE	Average Employee Salries
+AVERAGE_EMPLOYFEE	Average Employee Salaries
 BUILDING_LANDRENT	Building Land Rent
 PROFIT-SHARING	Profit Sharing
 BUY_PRICE	Average Buy Price
@@ -149,7 +149,7 @@ LUXURY_PRODUCTS	Luxury Products
 FAMILY_MONEY	Family Wealth (1/100₡)
 FAMILY_SALARY	Family Salary
 FAMILY_GOODS	Family Goods
-FAMILY_NEEDS_GOODS	(Family Needed Goods)
+FAMILY_NEED_GOODS	(Family Needed Goods)
 INCLUDE_RESOURCE_TAX	(include 60% resource tax)
 CAR_USED	Car Used
 MAINTAIN_FEE_TIPS	Maintain Fee displayed on UI does not include vehicle expense

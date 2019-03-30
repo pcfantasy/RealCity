@@ -1,9 +1,6 @@
 ﻿using ColossalFramework;
 using RealCity.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RealCity.CustomAI
 {
@@ -21,10 +18,10 @@ namespace RealCity.CustomAI
             //uint citizen = citizenData.m_citizen;
             BuildingInfo info = data.Info;
             ushort homeBuilding = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-            uint homeId = instance.m_citizens.m_buffer[citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+            uint homeId = instance.m_citizens.m_buffer[citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
 
             TransferManager.TransferReason tempTransferRreason = TransferManager.TransferReason.Entertainment;
-            System.Random rand = new System.Random();
+            Random rand = new Random();
             float consumptionIndex = 0f;
             if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
             {
@@ -64,7 +61,7 @@ namespace RealCity.CustomAI
                 }
                 int num = -100;
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
-                MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
             }
             else if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
@@ -81,7 +78,7 @@ namespace RealCity.CustomAI
                     }
                 }
 
-                consumptionMoney = -(int)(consumptionMoney);
+                consumptionMoney = -(consumptionMoney);
                 if ((consumptionMoney == -200 || consumptionMoney == -50))
                 {
                     consumptionMoney = consumptionMoney + 1;
@@ -112,7 +109,7 @@ namespace RealCity.CustomAI
                     int tourism_fee = (int)(0.2f * MainDataStore.citizenMoney[citizen]);
                     if (tourism_fee > 0)
                     {
-                        MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - tourism_fee);
+                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - tourism_fee);
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
                     }
                 }

@@ -1,9 +1,5 @@
 ﻿using ColossalFramework;
 using RealCity.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RealCity.CustomAI
 {
@@ -36,59 +32,59 @@ namespace RealCity.CustomAI
                         {
                             if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is HearseAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                             {
-                                Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)vehicle.m_sourceBuilding];
+                                Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_sourceBuilding];
                                 if (!building.m_flags.IsFlagSet(Building.Flags.Untouchable))
                                 {
-                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                                 }
                             }
                             else if (vehicle.Info.m_vehicleAI is BusAI || vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 100 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)500 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 500 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoShipAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)250 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 250 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)800 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 800 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)400 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 400 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)250 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 250 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)50 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 50 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)200 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 200 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)800 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 800 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)150 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 150 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car) && (vehicle.Info.m_class.m_subService != ItemClass.SubService.PublicTransportTaxi))
                             {

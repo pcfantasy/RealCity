@@ -1,7 +1,5 @@
 ﻿using System;
 using ColossalFramework;
-using ColossalFramework.Math;
-using UnityEngine;
 using RealCity.Util;
 
 namespace RealCity.CustomAI
@@ -16,12 +14,12 @@ namespace RealCity.CustomAI
                 BuildingManager instance2 = Singleton<BuildingManager>.instance;
                 CitizenManager instance3 = Singleton<CitizenManager>.instance;
                 // NON-STOCK CODE START
-                int ticketPrice = instance.m_parks.m_buffer[(int)park].GetTicketPrice() / MainDataStore.gameExpenseDivide;
+                int ticketPrice = instance.m_parks.m_buffer[park].GetTicketPrice() / MainDataStore.gameExpenseDivide;
                 if (ticketPrice != 0)
                 {
-                    BuildingInfo info = instance2.m_buildings.m_buffer[(int)gateID].Info;
+                    BuildingInfo info = instance2.m_buildings.m_buffer[gateID].Info;
                     ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizenData.m_citizen)].m_homeBuilding;
-                    uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizenData.m_citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                    uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizenData.m_citizen, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                     if ((instance3.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                     {
                         MainDataStore.citizenMoney[citizenData.m_citizen] -= ticketPrice;
@@ -35,7 +33,7 @@ namespace RealCity.CustomAI
                     }
                     /// NON-STOCK CODE END ///
                     DistrictPark[] expr_6C_cp_0 = instance.m_parks.m_buffer;
-                    expr_6C_cp_0[(int)park].m_tempTicketIncome = expr_6C_cp_0[(int)park].m_tempTicketIncome + (uint)ticketPrice;
+                    expr_6C_cp_0[park].m_tempTicketIncome = expr_6C_cp_0[park].m_tempTicketIncome + (uint)ticketPrice;
                 }
             }
         }
@@ -51,33 +49,33 @@ namespace RealCity.CustomAI
                 ushort num = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_vehicle;
                 if (num != 0)
                 {
-                    num = instance.m_vehicles.m_buffer[(int)num].GetFirstVehicle(num);
+                    num = instance.m_vehicles.m_buffer[num].GetFirstVehicle(num);
                 }
                 if (num != 0)
                 {
-                    VehicleInfo info = instance.m_vehicles.m_buffer[(int)num].Info;
-                    int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[(int)num]);
+                    VehicleInfo info = instance.m_vehicles.m_buffer[num].Info;
+                    int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[num]);
                     if (ticketPrice != 0)
                     {
                         // NON-STOCK CODE START
                         CitizenManager instance3 = Singleton<CitizenManager>.instance;
                         ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
                         BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                        uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[(int)homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                        uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - (ticketPrice));
+                            MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (ticketPrice));
                         }
                         else
                         {
                             if (MainDataStore.citizenMoney[citizen] < ticketPrice)
                             {
                                 ticketPrice = (MainDataStore.citizenMoney[citizen] > 0) ? (int)MainDataStore.citizenMoney[citizen] + 1 : 1;
-                                MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - ticketPrice);
+                                MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - ticketPrice);
                             }
                             else
                             {
-                                MainDataStore.citizenMoney[citizen] = (float)(MainDataStore.citizenMoney[citizen] - (ticketPrice));
+                                MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (ticketPrice));
                             }
                         }
                         /// NON-STOCK CODE END ///

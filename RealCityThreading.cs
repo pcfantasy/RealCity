@@ -1,16 +1,8 @@
-﻿using ColossalFramework;
-using ColossalFramework.Globalization;
-using ICities;
+﻿using ICities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using RealCity.CustomAI;
 using RealCity.Util;
-using RealCity.UI;
-using RealCity.CustomManager;
 using ColossalFramework.UI;
 using System.Reflection;
 

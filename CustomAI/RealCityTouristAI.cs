@@ -1,9 +1,5 @@
 ﻿using ColossalFramework;
 using RealCity.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RealCity.CustomAI
 {
@@ -32,7 +28,7 @@ namespace RealCity.CustomAI
             {
                 if (MainDataStore.citizenMoney[citizenID] < 100)
                 {
-                    FindVisitPlace((uint)citizenID, data.m_visitBuilding, GetLeavingReason((uint)citizenID, ref data));
+                    FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(citizenID, ref data));
                 }
             }
         }
@@ -57,7 +53,7 @@ namespace RealCity.CustomAI
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
             offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(8u);
             offer.Citizen = citizenID;
-            offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)sourceBuilding].m_position;
+            offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[sourceBuilding].m_position;
             offer.Amount = 1;
             offer.Active = true;
             Singleton<TransferManager>.instance.AddIncomingOffer(reason, offer);

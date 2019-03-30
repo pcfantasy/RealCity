@@ -1,8 +1,5 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
-using System;
-using UnityEngine;
-using System.Text.RegularExpressions;
 using RealCity.Util;
 using RealCity.UI;
 
@@ -110,7 +107,7 @@ namespace RealCity.CustomAI
                     }
                     buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
                 }
-                MainDataStore.building_buffer1[buildingID] = (ushort)buildingData.m_customBuffer1;
+                MainDataStore.building_buffer1[buildingID] = buildingData.m_customBuffer1;
 
                 if (Singleton<SimulationManager>.instance.m_isNightTime)
                 {
@@ -123,7 +120,7 @@ namespace RealCity.CustomAI
                         }
                         buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + deltaCustomBuffer2);
                     }
-                    MainDataStore.building_buffer2[buildingID] = (ushort)buildingData.m_customBuffer2;
+                    MainDataStore.building_buffer2[buildingID] = buildingData.m_customBuffer2;
                 }
             }
         }
@@ -546,9 +543,9 @@ namespace RealCity.CustomAI
         {
             DistrictManager instance = Singleton<DistrictManager>.instance;
             byte district = instance.GetDistrict(building.m_position);
-            DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[(int)district].m_servicePolicies;
-            DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[(int)district].m_taxationPolicies;
-            DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[(int)district].m_cityPlanningPolicies;
+            DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
+            DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
+            DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
             int num = 0;
             GetLandRent(out num, building);
@@ -562,7 +559,7 @@ namespace RealCity.CustomAI
             {
                 num = 0;
             }
-            num = (int)(num * ((float)(instance.m_districts.m_buffer[(int)district].GetLandValue() + 50) / 100));
+            num = (int)(num * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
             {
                 MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (float)(num * num2) / 100);
@@ -590,23 +587,23 @@ namespace RealCity.CustomAI
             switch (subService)
             {
                 case ItemClass.SubService.OfficeHightech:
-                    incomeAccumulation = (int)(MainDataStore.office_high_tech);
+                    incomeAccumulation = (MainDataStore.office_high_tech);
                     allOfficeHighTechBuildingCount++;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = (int)(MainDataStore.office_gen_levell);
+                        incomeAccumulation = (MainDataStore.office_gen_levell);
                         allOfficeLevel1BuildingCount++;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = (int)(MainDataStore.office_gen_level2);
+                        incomeAccumulation = (MainDataStore.office_gen_level2);
                         allOfficeLevel2BuildingCount++;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = (int)(MainDataStore.office_gen_level3);
+                        incomeAccumulation = (MainDataStore.office_gen_level3);
                         allOfficeLevel3BuildingCount++;
                     }
                     break;
@@ -718,7 +715,7 @@ namespace RealCity.CustomAI
 
             if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
             {
-                Randomizer randomizer = new Randomizer((int)buildingID);
+                Randomizer randomizer = new Randomizer(buildingID);
                 int temp = randomizer.Int32(4u);
                 //petrol related
                 if (temp == 2)
