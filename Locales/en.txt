@@ -157,3 +157,5 @@ LOCAL_WORKERS_DIV_TOTAL_WORKERS	Local Worker/ Total Worker
 TOURIST_MONEY	Tourist budget (for transport only)
 SHOW_LACK_OF_RESOURCE	Show lack of resource icon on commerical buildings when sell out
 DEBUG_MODE	More Information
+REDUCE_CARGO_DESCRIPTION	Reduce cargo amount(for both industry dlc and growable building)
+REDUCE_CARGO_ENABLE	Reduce cargo function enable

@@ -3,6 +3,7 @@ using System.Reflection;
 using System;
 using RealCity.CustomAI;
 using RealCity.CustomManager;
+using RealCity.RebalancedIndustries;
 
 namespace RealCity.Util
 {
@@ -116,6 +117,50 @@ namespace RealCity.Util
             harmony.ConditionalPatch(privateBuildingAISimulationStepActive,
                 null,
                 new HarmonyMethod(privateBuildingAISimulationStepActivePostFix));
+            //12
+            //Patch RI related
+            var extractingFacilityAIProduceGoods = typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+            var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPrefix");
+            var extractingFacilityAIProduceGoodsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPostfix");
+            harmony.ConditionalPatch(extractingFacilityAIProduceGoods,
+                new HarmonyMethod(extractingFacilityAIProduceGoodsPrefix),
+                new HarmonyMethod(extractingFacilityAIProduceGoodsPostfix));
+            //13
+            //Patch RI related
+            var processingFacilityAIProduceGoods = typeof(ProcessingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+            var processingFacilityAIProduceGoodsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIProduceGoodsPrefix");
+            var processingFacilityAIProduceGoodsPostfix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIProduceGoodsPostfix");
+            harmony.ConditionalPatch(processingFacilityAIProduceGoods,
+                new HarmonyMethod(processingFacilityAIProduceGoodsPrefix),
+                new HarmonyMethod(processingFacilityAIProduceGoodsPostfix));
+            //14
+            //Patch RI related
+            var cityServiceWorldInfoPanelOnSetTarget = typeof(CityServiceWorldInfoPanel).GetMethod("OnSetTarget", BindingFlags.NonPublic | BindingFlags.Instance);
+            var cityServiceWorldInfoPanelOnSetTargetPostfix = typeof(CustomCityServiceWorldInfoPanel).GetMethod("CityServiceWorldInfoPanelOnSetTargetPostfix");
+            harmony.ConditionalPatch(cityServiceWorldInfoPanelOnSetTarget,
+                null,
+                new HarmonyMethod(cityServiceWorldInfoPanelOnSetTargetPostfix));
+            //15
+            //Patch RI related
+            var cityServiceWorldInfoPanelUpdateBindings = typeof(CityServiceWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var cityServiceWorldInfoPanelUpdateBindingsPostfix = typeof(CustomCityServiceWorldInfoPanel).GetMethod("CityServiceWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalPatch(cityServiceWorldInfoPanelUpdateBindings,
+                null,
+                new HarmonyMethod(cityServiceWorldInfoPanelUpdateBindingsPostfix));
+            //16
+            //Patch RI related
+            var warehouseWorldInfoPanelPanelUpdateBindings = typeof(WarehouseWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var warehouseWorldInfoPanelUpdateBindingsPostfix = typeof(CustomWarehouseWorldInfoPanel).GetMethod("WarehouseWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalPatch(warehouseWorldInfoPanelPanelUpdateBindings,
+                null,
+                new HarmonyMethod(warehouseWorldInfoPanelUpdateBindingsPostfix));
+            //17
+            //Patch RI related
+            var uniqueFactoryWorldInfoPanelUpdateBindings = typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var uniqueFactoryWorldInfoPanelUpdateBindingsPostfix = typeof(CustomUniqueFactoryWorldInfoPanel).GetMethod("UniqueFactoryWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
+                null,
+                new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
             Loader.HarmonyDetourInited = true;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -197,6 +242,50 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(privateBuildingAISimulationStepActive,
                 null,
                 new HarmonyMethod(privateBuildingAISimulationStepActivePostFix));
+            //12
+            //Unpatch RI related
+            var extractingFacilityAIProduceGoods = typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+            var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPrefix");
+            var extractingFacilityAIProduceGoodsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPostfix");
+            harmony.ConditionalUnPatch(extractingFacilityAIProduceGoods,
+                new HarmonyMethod(extractingFacilityAIProduceGoodsPrefix),
+                new HarmonyMethod(extractingFacilityAIProduceGoodsPostfix));
+            //13
+            //Unpatch RI related
+            var processingFacilityAIProduceGoods = typeof(ProcessingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+            var processingFacilityAIProduceGoodsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIProduceGoodsPrefix");
+            var processingFacilityAIProduceGoodsPostfix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIProduceGoodsPostfix");
+            harmony.ConditionalUnPatch(processingFacilityAIProduceGoods,
+                new HarmonyMethod(processingFacilityAIProduceGoodsPrefix),
+                new HarmonyMethod(processingFacilityAIProduceGoodsPostfix));
+            //14
+            //Unpatch RI related
+            var cityServiceWorldInfoPanelOnSetTarget = typeof(CityServiceWorldInfoPanel).GetMethod("OnSetTarget", BindingFlags.NonPublic | BindingFlags.Instance);
+            var cityServiceWorldInfoPanelOnSetTargetPostfix = typeof(CustomCityServiceWorldInfoPanel).GetMethod("CityServiceWorldInfoPanelOnSetTargetPostfix");
+            harmony.ConditionalUnPatch(cityServiceWorldInfoPanelOnSetTarget,
+                null,
+                new HarmonyMethod(cityServiceWorldInfoPanelOnSetTargetPostfix));
+            //15
+            //Unpatch RI related
+            var cityServiceWorldInfoPanelUpdateBindings = typeof(CityServiceWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var cityServiceWorldInfoPanelUpdateBindingsPostfix = typeof(CustomCityServiceWorldInfoPanel).GetMethod("CityServiceWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalUnPatch(cityServiceWorldInfoPanelUpdateBindings,
+                null,
+                new HarmonyMethod(cityServiceWorldInfoPanelUpdateBindingsPostfix));
+            //16
+            //Unpatch RI related
+            var warehouseWorldInfoPanelPanelUpdateBindings = typeof(WarehouseWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var warehouseWorldInfoPanelUpdateBindingsPostfix = typeof(CustomWarehouseWorldInfoPanel).GetMethod("WarehouseWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalUnPatch(warehouseWorldInfoPanelPanelUpdateBindings,
+                null,
+                new HarmonyMethod(warehouseWorldInfoPanelUpdateBindingsPostfix));
+            //17
+            //Unpatch RI related
+            var uniqueFactoryWorldInfoPanelUpdateBindings = typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var uniqueFactoryWorldInfoPanelUpdateBindingsPostfix = typeof(CustomUniqueFactoryWorldInfoPanel).GetMethod("UniqueFactoryWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalUnPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
+                null,
+                new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
             Loader.HarmonyDetourInited = false;
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }

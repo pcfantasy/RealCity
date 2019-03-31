@@ -1,38 +1,41 @@
 ﻿
+using RealCity.RebalancedIndustries;
+
 namespace RealCity.CustomAI
 {
     public class RealCityIndustryBuildingAI
     {
         public static int CustomGetResourcePrice(TransferManager.TransferReason material)
         {
+            int price = 0;
             switch (material)
             {
                 case TransferManager.TransferReason.AnimalProducts:
-                    return 150;
+                    price = 150; break;
                 case TransferManager.TransferReason.Flours:
-                    return 150;
+                    price = 150; break;
                 case TransferManager.TransferReason.Paper:
-                    return 200;
+                    price = 200; break;
                 case TransferManager.TransferReason.PlanedTimber:
-                    return 200;
+                    price = 200; break;
                 case TransferManager.TransferReason.Petroleum:
-                    return 300;
+                    price = 300; break;
                 case TransferManager.TransferReason.Plastics:
-                    return 300;
+                    price = 300; break;
                 case TransferManager.TransferReason.Glass:
-                    return 250;
+                    price = 250; break;
                 case TransferManager.TransferReason.Metals:
-                    return 250;
+                    price = 250; break;
                 case TransferManager.TransferReason.LuxuryProducts:
-                    return 350;
+                    price = 350; break;
                 case TransferManager.TransferReason.Oil:
-                    return 200;
+                    price = 200; break;
                 case TransferManager.TransferReason.Ore:
-                    return 160;
+                    price = 160; break;
                 case TransferManager.TransferReason.Logs:
-                    return 130;
+                    price = 130; break;
                 case TransferManager.TransferReason.Grain:
-                    return 100;
+                    price = 100; break;
                 case TransferManager.TransferReason.Goods:
                     return 0;
                 case TransferManager.TransferReason.Petrol:
@@ -57,36 +60,43 @@ namespace RealCity.CustomAI
                     return 0;
                 default: return 0;
             }
+
+            price *= (int)RI_Data.GetFactorCargo(material);
+            return price;
         }
 
         public static float GetResourcePrice(TransferManager.TransferReason material)
         {
+            float price = 0;
             switch (material)
             {
                 case TransferManager.TransferReason.Goods:
-                    return 3.5f;
+                    price = 3.5f; break;
                 case TransferManager.TransferReason.Petrol:
-                    return 3f;
+                    price = 3f; break;
                 case TransferManager.TransferReason.Food:
-                    return 1.5f;
+                    price = 1.5f; break;
                 case TransferManager.TransferReason.Lumber:
-                    return 2f;
+                    price = 2f; break;
                 case TransferManager.TransferReason.Coal:
-                    return 2.5f;
+                    price = 2.5f; break;
                 case TransferManager.TransferReason.Shopping:
                 case TransferManager.TransferReason.ShoppingB:
                 case TransferManager.TransferReason.ShoppingC:
                 case TransferManager.TransferReason.ShoppingD:
                 case TransferManager.TransferReason.ShoppingE:
                 case TransferManager.TransferReason.ShoppingH:
-                    return 5f;
+                    price = 5f; break;
                 case TransferManager.TransferReason.Entertainment:
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
-                    return 1f;
-                default: return CustomGetResourcePrice(material) /100f;
+                    price = 1f; break;
+                default: return CustomGetResourcePrice(material) / 100f;
             }
+
+            price = (price * (int)RI_Data.GetFactorCargo(material));
+            return price;
         }
     }
 }

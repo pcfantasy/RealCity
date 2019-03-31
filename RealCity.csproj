@@ -109,6 +109,9 @@
     <Compile Include="RealCity.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RebalancedIndustries\Mod.cs" />
+    <Compile Include="RebalancedIndustries\RI_Data.cs" />
+    <Compile Include="RebalancedIndustries\RI_Detours.cs" />
     <Compile Include="UI\BuildingButton.cs" />
     <Compile Include="UI\BuildingUI.cs" />
     <Compile Include="UI\EcnomicButton.cs" />
