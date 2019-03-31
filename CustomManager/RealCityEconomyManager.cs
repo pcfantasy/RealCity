@@ -676,7 +676,7 @@ namespace RealCity.CustomManager
             }
             if (resource == EconomyManager.Resource.PolicyCost)
             {
-                Policy_cost += (float)amount / (float)MainDataStore.gameExpenseDivide;
+                Policy_cost += (float)amount / MainDataStore.gameExpenseDivide;
                 if (Policy_cost > 1)
                 {
                     temp = (int)Policy_cost;
@@ -694,7 +694,7 @@ namespace RealCity.CustomManager
             switch (service)
             {
                 case ItemClass.Service.Garbage:
-                    garbage_income += (float)((double)(amount * taxRate/100f));
+                    garbage_income += (amount * taxRate/100f);
                     if (garbage_income > 1)
                     {
                         amount = (int)garbage_income;
@@ -707,7 +707,7 @@ namespace RealCity.CustomManager
                     garbage_income_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.Service.Education:
-                    school_income += (float)((double)(amount * taxRate/100f));
+                    school_income += (amount * taxRate/100f);
                     if (school_income > 1)
                     {
                         amount = (int)school_income;
@@ -720,7 +720,7 @@ namespace RealCity.CustomManager
                     school_income_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.Service.HealthCare:
-                    healthCareIncome += (float)((double)(amount * taxRate / 100f));
+                    healthCareIncome += (amount * taxRate / 100f);
                     if (healthCareIncome > 1)
                     {
                         amount = (int)healthCareIncome;
@@ -733,7 +733,7 @@ namespace RealCity.CustomManager
                     healthCareIncomeForUI[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.Service.FireDepartment:
-                    fireStationIncome += (float)((double)(amount * taxRate / 100f));
+                    fireStationIncome += (amount * taxRate / 100f);
                     if (fireStationIncome > 1)
                     {
                         amount = (int)fireStationIncome;
@@ -746,7 +746,7 @@ namespace RealCity.CustomManager
                     fireStationIncomeForUI[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.Service.PoliceDepartment:
-                    policeStationIncome += (float)((double)(amount * taxRate / 100f));
+                    policeStationIncome += (amount * taxRate / 100f);
                     if (policeStationIncome > 1)
                     {
                         amount = (int)policeStationIncome;
@@ -773,7 +773,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_level1_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level1_tax_income += (amount * taxRate/100f);
                         if (resident_high_level1_tax_income > 1)
                         {
                             amount = (int)resident_high_level1_tax_income;
@@ -786,7 +786,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_level2_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level2_tax_income += (amount * taxRate/100f);
                         if (resident_high_level2_tax_income > 1)
                         {
                             amount = (int)resident_high_level2_tax_income;
@@ -799,7 +799,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_level3_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level3_tax_income += (amount * taxRate/100f);
                         if (resident_high_level3_tax_income > 1)
                         {
                             amount = (int)resident_high_level3_tax_income;
@@ -812,7 +812,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_level4_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level4_tax_income += (amount * taxRate/100f);
                         if (resident_high_level4_tax_income > 1)
                         {
                             amount = (int)resident_high_level4_tax_income;
@@ -825,7 +825,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_level5_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level5_tax_income += (amount * taxRate/100f);
                         if (resident_high_level5_tax_income > 1)
                         {
                             amount = (int)resident_high_level5_tax_income;
@@ -840,7 +840,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_level1_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level1_tax_income += (amount * taxRate/100f);
                         if (resident_low_level1_tax_income > 1)
                         {
                             amount = (int)resident_low_level1_tax_income;
@@ -853,7 +853,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_level2_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level2_tax_income += (amount * taxRate/100f);
                         if (resident_low_level2_tax_income > 1)
                         {
                             amount = (int)resident_low_level2_tax_income;
@@ -866,7 +866,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_level3_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level3_tax_income += (amount * taxRate/100f);
                         if (resident_low_level3_tax_income > 1)
                         {
                             amount = (int)resident_low_level3_tax_income;
@@ -879,7 +879,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_level4_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level4_tax_income += (amount * taxRate/100f);
                         if (resident_low_level4_tax_income > 1)
                         {
                             amount = (int)resident_low_level4_tax_income;
@@ -892,7 +892,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_level5_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level5_tax_income += (amount * taxRate/100f);
                         if (resident_low_level5_tax_income > 1)
                         {
                             amount = (int)resident_low_level5_tax_income;
@@ -907,7 +907,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialHighEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_eco_level1_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level1_tax_income += (amount * taxRate/100f);
                         if (resident_high_eco_level1_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level1_tax_income;
@@ -920,7 +920,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_eco_level2_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level2_tax_income += (amount * taxRate/100f);
                         if (resident_high_eco_level2_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level2_tax_income;
@@ -933,7 +933,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_eco_level3_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level3_tax_income += (amount * taxRate/100f);
                         if (resident_high_eco_level3_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level3_tax_income;
@@ -946,7 +946,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_eco_level4_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level4_tax_income += (amount * taxRate/100f);
                         if (resident_high_eco_level4_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level4_tax_income;
@@ -959,7 +959,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_eco_level5_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level5_tax_income += (amount * taxRate/100f);
                         if (resident_high_eco_level5_tax_income > 1)
                         {
                             amount = (int)resident_high_eco_level5_tax_income;
@@ -974,7 +974,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialLowEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_eco_level1_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level1_tax_income += (amount * taxRate/100f);
                         if (resident_low_eco_level1_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level1_tax_income;
@@ -987,7 +987,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_eco_level2_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level2_tax_income += (amount * taxRate/100f);
                         if (resident_low_eco_level2_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level2_tax_income;
@@ -1000,7 +1000,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_eco_level3_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level3_tax_income += (amount * taxRate/100f);
                         if (resident_low_eco_level3_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level3_tax_income;
@@ -1013,7 +1013,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_eco_level4_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level4_tax_income += (amount * taxRate/100f);
                         if (resident_low_eco_level4_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level4_tax_income;
@@ -1026,7 +1026,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_eco_level5_tax_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level5_tax_income += (amount * taxRate/100f);
                         if (resident_low_eco_level5_tax_income > 1)
                         {
                             amount = (int)resident_low_eco_level5_tax_income;
@@ -1043,7 +1043,6 @@ namespace RealCity.CustomManager
                     break;
             }
             citizen_tax_income_forui[MainDataStore.update_money_count] = citizen_tax_income_forui[MainDataStore.update_money_count] + amount;
-            //DebugLog.LogToFileOnly("find citizen tax income amout = " + amount.ToString() + "update_money_count = " + comm_data.update_money_count.ToString() + "taxmultiplex = " + _taxMultiplier.ToString());
             return amount;
         }
 
@@ -1052,7 +1051,7 @@ namespace RealCity.CustomManager
             if (taxRate == 114)
             {
                 taxRate = 100;
-                citizen_income += (float)((double)(amount * taxRate/100f));
+                citizen_income += (amount * taxRate/100f);
                 if (citizen_income > 1)
                 {
                     amount = (int)citizen_income;
@@ -1067,7 +1066,7 @@ namespace RealCity.CustomManager
             else
             {
                 taxRate = 100;
-                tourist_income += (float)((double)(amount * taxRate/100f));
+                tourist_income += (amount * taxRate/100f);
                 if (tourist_income > 1)
                 {
                     amount = (int)tourist_income;
@@ -1087,7 +1086,7 @@ namespace RealCity.CustomManager
             switch (subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    industy_farm_trade_income += (float)((double)(amount * taxRate/100f));
+                    industy_farm_trade_income += (amount * taxRate/100f);
                     if (industy_farm_trade_income > 1)
                     {
                         amount = (int)industy_farm_trade_income;
@@ -1100,7 +1099,7 @@ namespace RealCity.CustomManager
                     indu_farmer_tradeincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    industy_forest_trade_income += (float)((double)(amount * taxRate/100f));
+                    industy_forest_trade_income += (amount * taxRate/100f);
                     //DebugLog.LogToFileOnly("industy_forest_trade_income = " + industy_forest_trade_income.ToString() + " " + amount.ToString());
                     if (industy_forest_trade_income > 1)
                     {
@@ -1114,7 +1113,7 @@ namespace RealCity.CustomManager
                     indu_foresty_tradeincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    industy_oil_trade_income += (float)((double)(amount * taxRate/100f));
+                    industy_oil_trade_income += (amount * taxRate/100f);
                     if (industy_oil_trade_income > 1)
                     {
                         amount = (int)industy_oil_trade_income;
@@ -1127,7 +1126,7 @@ namespace RealCity.CustomManager
                     indu_oil_tradeincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    industy_ore_trade_income += (float)((double)(amount * taxRate/100f));
+                    industy_ore_trade_income += (amount * taxRate/100f);
                     if (industy_ore_trade_income > 1)
                     {
                         amount = (int)industy_ore_trade_income;
@@ -1142,7 +1141,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.IndustrialGeneric:
                     if (level == ItemClass.Level.Level1)
                     {
-                        industy_gen_level1_trade_income += (float)((double)(amount * taxRate/100f));
+                        industy_gen_level1_trade_income += (amount * taxRate/100f);
                         if (industy_gen_level1_trade_income > 1)
                         {
                             amount = (int)industy_gen_level1_trade_income;
@@ -1155,7 +1154,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        industy_gen_level2_trade_income += (float)((double)(amount * taxRate/100f));
+                        industy_gen_level2_trade_income += (amount * taxRate/100f);
                         if (industy_gen_level2_trade_income > 1)
                         {
                             amount = (int)industy_gen_level2_trade_income;
@@ -1168,7 +1167,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        industy_gen_level3_trade_income += (float)((double)(amount * taxRate/100f));
+                        industy_gen_level3_trade_income += (amount * taxRate/100f);
                         if (industy_gen_level3_trade_income > 1)
                         {
                             amount = (int)industy_gen_level3_trade_income;
@@ -1184,7 +1183,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.CommercialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_high_level1_trade_income += (float)((double)(amount * taxRate/100f));
+                        commerical_high_level1_trade_income += (amount * taxRate/100f);
                         if (commerical_high_level1_trade_income > 1)
                         {
                             amount = (int)commerical_high_level1_trade_income;
@@ -1197,7 +1196,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_high_level2_trade_income += (float)((double)(amount * taxRate/100f));
+                        commerical_high_level2_trade_income += (amount * taxRate/100f);
                         if (commerical_high_level2_trade_income > 1)
                         {
                             amount = (int)commerical_high_level2_trade_income;
@@ -1210,7 +1209,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_high_level3_trade_income += (float)((double)(amount * taxRate/100f));
+                        commerical_high_level3_trade_income += (amount * taxRate/100f);
                         if (commerical_high_level3_trade_income > 1)
                         {
                             amount = (int)commerical_high_level3_trade_income;
@@ -1226,7 +1225,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.CommercialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_low_level1_trade_income += (float)((double)(amount * taxRate/100f));
+                        commerical_low_level1_trade_income += (amount * taxRate/100f);
                         if (commerical_low_level1_trade_income > 1)
                         {
                             amount = (int)commerical_low_level1_trade_income;
@@ -1239,7 +1238,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_low_level2_trade_income += (float)((double)(amount * taxRate/100f));
+                        commerical_low_level2_trade_income += (amount * taxRate/100f);
                         if (commerical_low_level2_trade_income > 1)
                         {
                             amount = (int)commerical_low_level2_trade_income;
@@ -1252,7 +1251,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_low_level3_trade_income += (float)((double)(amount * taxRate/100f));
+                        commerical_low_level3_trade_income += (amount * taxRate/100f);
                         if (commerical_low_level3_trade_income > 1)
                         {
                             amount = (int)commerical_low_level3_trade_income;
@@ -1266,7 +1265,7 @@ namespace RealCity.CustomManager
                     comm_low_tradeincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    commerical_lei_trade_income += (float)((double)(amount * taxRate/100f));
+                    commerical_lei_trade_income += (amount * taxRate/100f);
                     if (commerical_lei_trade_income > 1)
                     {
                         amount = (int)commerical_lei_trade_income;
@@ -1279,7 +1278,7 @@ namespace RealCity.CustomManager
                     comm_lei_tradeincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    commerical_tou_trade_income += (float)((double)(amount * taxRate/100f));
+                    commerical_tou_trade_income += (amount * taxRate/100f);
                     if (commerical_tou_trade_income > 1)
                     {
                         amount = (int)commerical_tou_trade_income;
@@ -1292,7 +1291,7 @@ namespace RealCity.CustomManager
                     comm_tou_tradeincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    commerical_eco_trade_income += (float)((double)(amount * taxRate/100f));
+                    commerical_eco_trade_income += (amount * taxRate/100f);
                     if (commerical_eco_trade_income > 1)
                     {
                         amount = (int)commerical_eco_trade_income;
@@ -1317,7 +1316,7 @@ namespace RealCity.CustomManager
             switch (subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    industy_farm_income += (float)((double)(amount * taxRate/100f));
+                    industy_farm_income += (amount * taxRate/100f);
                     if(industy_farm_income > 1)
                     {
                         amount = (int)industy_farm_income;
@@ -1330,7 +1329,7 @@ namespace RealCity.CustomManager
                     indu_farmer_landincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    industy_forest_income += (float)((double)(amount * taxRate/100f));
+                    industy_forest_income += (amount * taxRate/100f);
                     if (industy_forest_income > 1)
                     {
                         amount = (int)industy_forest_income;
@@ -1343,7 +1342,7 @@ namespace RealCity.CustomManager
                     indu_foresty_landincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    industy_oil_income += (float)((double)(amount * taxRate/100f));
+                    industy_oil_income += (amount * taxRate/100f);
                     if (industy_oil_income > 1)
                     {
                         amount = (int)industy_oil_income;
@@ -1356,7 +1355,7 @@ namespace RealCity.CustomManager
                     indu_oil_landincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    industy_ore_income += (float)((double)(amount * taxRate/100f));
+                    industy_ore_income += (amount * taxRate/100f);
                     if (industy_ore_income > 1)
                     {
                         amount = (int)industy_ore_income;
@@ -1371,7 +1370,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.IndustrialGeneric:
                     if (level == ItemClass.Level.Level1)
                     {
-                        industy_gen_level1_income += (float)((double)(amount * taxRate/100f));
+                        industy_gen_level1_income += (amount * taxRate/100f);
                         if (industy_gen_level1_income > 1)
                         {
                             amount = (int)industy_gen_level1_income;
@@ -1384,7 +1383,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        industy_gen_level2_income += (float)((double)(amount * taxRate/100f));
+                        industy_gen_level2_income += (amount * taxRate/100f);
                         if (industy_gen_level2_income > 1)
                         {
                             amount = (int)industy_gen_level2_income;
@@ -1397,7 +1396,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        industy_gen_level3_income += (float)((double)(amount * taxRate/100f));
+                        industy_gen_level3_income += (amount * taxRate/100f);
                         if (industy_gen_level3_income > 1)
                         {
                             amount = (int)industy_gen_level3_income;
@@ -1413,7 +1412,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.CommercialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_high_level1_income += (float)((double)(amount * taxRate/100f));
+                        commerical_high_level1_income += (amount * taxRate/100f);
                         if (commerical_high_level1_income > 1)
                         {
                             amount = (int)commerical_high_level1_income;
@@ -1426,7 +1425,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_high_level2_income += (float)((double)(amount * taxRate/100f));
+                        commerical_high_level2_income += (amount * taxRate/100f);
                         if (commerical_high_level2_income > 1)
                         {
                             amount = (int)commerical_high_level2_income;
@@ -1439,7 +1438,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_high_level3_income += (float)((double)(amount * taxRate/100f));
+                        commerical_high_level3_income += (amount * taxRate/100f);
                         if (commerical_high_level3_income > 1)
                         {
                             amount = (int)commerical_high_level3_income;
@@ -1455,7 +1454,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.CommercialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        commerical_low_level1_income += (float)((double)(amount * taxRate/100f));
+                        commerical_low_level1_income += (amount * taxRate/100f);
                         if (commerical_low_level1_income > 1)
                         {
                             amount = (int)commerical_low_level1_income;
@@ -1468,7 +1467,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        commerical_low_level2_income += (float)((double)(amount * taxRate/100f));
+                        commerical_low_level2_income += (amount * taxRate/100f);
                         if (commerical_low_level2_income > 1)
                         {
                             amount = (int)commerical_low_level2_income;
@@ -1481,7 +1480,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        commerical_low_level3_income += (float)((double)(amount * taxRate/100f));
+                        commerical_low_level3_income += (amount * taxRate/100f);
                         if (commerical_low_level3_income > 1)
                         {
                             amount = (int)commerical_low_level3_income;
@@ -1495,7 +1494,7 @@ namespace RealCity.CustomManager
                     comm_low_landincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    commerical_lei_income += (float)((double)(amount * taxRate/100f));
+                    commerical_lei_income += (amount * taxRate/100f);
                     if (commerical_lei_income > 1)
                     {
                         amount = (int)commerical_lei_income;
@@ -1508,7 +1507,7 @@ namespace RealCity.CustomManager
                     comm_lei_landincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    commerical_tou_income += (float)((double)(amount * taxRate/100f));
+                    commerical_tou_income += (amount * taxRate/100f);
                     if (commerical_tou_income > 1)
                     {
                         amount = (int)commerical_tou_income;
@@ -1521,7 +1520,7 @@ namespace RealCity.CustomManager
                     comm_tou_landincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    commerical_eco_income += (float)((double)(amount * taxRate/100f));
+                    commerical_eco_income += (amount * taxRate/100f);
                     if (commerical_eco_income > 1)
                     {
                         amount = (int)commerical_eco_income;
@@ -1536,7 +1535,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialHigh:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_level1_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level1_income += (amount * taxRate/100f);
                         if (resident_high_level1_income > 1)
                         {
                             amount = (int)resident_high_level1_income;
@@ -1549,7 +1548,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_level2_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level2_income += (amount * taxRate/100f);
                         if (resident_high_level2_income > 1)
                         {
                             amount = (int)resident_high_level2_income;
@@ -1562,7 +1561,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_level3_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level3_income += (amount * taxRate/100f);
                         if (resident_high_level3_income > 1)
                         {
                             amount = (int)resident_high_level3_income;
@@ -1575,7 +1574,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_level4_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level4_income += (amount * taxRate/100f);
                         if (resident_high_level4_income > 1)
                         {
                             amount = (int)resident_high_level4_income;
@@ -1588,7 +1587,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_level5_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_level5_income += (amount * taxRate/100f);
                         if (resident_high_level5_income > 1)
                         {
                             amount = (int)resident_high_level5_income;
@@ -1604,8 +1603,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialLow:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_level1_income += (float)((double)(amount * taxRate/100f));
-                        //DebugLog.LogToFileOnly("find resident1");
+                        resident_low_level1_income += (amount * taxRate/100f);
                         if (resident_low_level1_income > 1)
                         {
                             amount = (int)resident_low_level1_income;
@@ -1618,7 +1616,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_level2_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level2_income += (amount * taxRate/100f);
                         if (resident_low_level2_income > 1)
                         {
                             amount = (int)resident_low_level2_income;
@@ -1631,7 +1629,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_level3_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level3_income += (amount * taxRate/100f);
                         if (resident_low_level3_income > 1)
                         {
                             amount = (int)resident_low_level3_income;
@@ -1644,7 +1642,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_level4_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level4_income += (amount * taxRate/100f);
                         if (resident_low_level4_income > 1)
                         {
                             amount = (int)resident_low_level4_income;
@@ -1657,7 +1655,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_level5_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_level5_income += (amount * taxRate/100f);
                         if (resident_low_level5_income > 1)
                         {
                             amount = (int)resident_low_level5_income;
@@ -1673,7 +1671,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialHighEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_high_eco_level1_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level1_income += (amount * taxRate/100f);
                         if (resident_high_eco_level1_income > 1)
                         {
                             amount = (int)resident_high_eco_level1_income;
@@ -1686,7 +1684,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_high_eco_level2_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level2_income += (amount * taxRate/100f);
                         if (resident_high_eco_level2_income > 1)
                         {
                             amount = (int)resident_high_eco_level2_income;
@@ -1699,7 +1697,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_high_eco_level3_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level3_income += (amount * taxRate/100f);
                         if (resident_high_eco_level3_income > 1)
                         {
                             amount = (int)resident_high_eco_level3_income;
@@ -1712,7 +1710,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_high_eco_level4_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level4_income += (amount * taxRate/100f);
                         if (resident_high_eco_level4_income > 1)
                         {
                             amount = (int)resident_high_eco_level4_income;
@@ -1725,7 +1723,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_high_eco_level5_income += (float)((double)(amount * taxRate/100f));
+                        resident_high_eco_level5_income += (amount * taxRate/100f);
                         if (resident_high_eco_level5_income > 1)
                         {
                             amount = (int)resident_high_eco_level5_income;
@@ -1741,7 +1739,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.ResidentialLowEco:
                     if (level == ItemClass.Level.Level1)
                     {
-                        resident_low_eco_level1_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level1_income += (amount * taxRate/100f);
                         if (resident_low_eco_level1_income > 1)
                         {
                             amount = (int)resident_low_eco_level1_income;
@@ -1754,7 +1752,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level2)
                     {
-                        resident_low_eco_level2_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level2_income += (amount * taxRate/100f);
                         if (resident_low_eco_level2_income > 1)
                         {
                             amount = (int)resident_low_eco_level2_income;
@@ -1767,7 +1765,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level3)
                     {
-                        resident_low_eco_level3_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level3_income += (amount * taxRate/100f);
                         if (resident_low_eco_level3_income > 1)
                         {
                             amount = (int)resident_low_eco_level3_income;
@@ -1780,7 +1778,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level4)
                     {
-                        resident_low_eco_level4_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level4_income += (amount * taxRate/100f);
                         if (resident_low_eco_level4_income > 1)
                         {
                             amount = (int)resident_low_eco_level4_income;
@@ -1793,7 +1791,7 @@ namespace RealCity.CustomManager
                     }
                     else if (level == ItemClass.Level.Level5)
                     {
-                        resident_low_eco_level5_income += (float)((double)(amount * taxRate/100f));
+                        resident_low_eco_level5_income += (amount * taxRate/100f);
                         if (resident_low_eco_level5_income > 1)
                         {
                             amount = (int)resident_low_eco_level5_income;
@@ -1809,7 +1807,7 @@ namespace RealCity.CustomManager
                 case ItemClass.SubService.OfficeGeneric:
                         if (level == ItemClass.Level.Level1)
                         {
-                            office_gen_level1_income += (float)((double)(amount * taxRate/100f));
+                            office_gen_level1_income += (amount * taxRate/100f);
                             if (office_gen_level1_income > 1)
                             {
                                 amount = (int)office_gen_level1_income;
@@ -1822,7 +1820,7 @@ namespace RealCity.CustomManager
                         }
                         else if (level == ItemClass.Level.Level2)
                         {
-                            office_gen_level2_income += (float)((double)(amount * taxRate/100f));
+                            office_gen_level2_income += (amount * taxRate/100f);
                             if (office_gen_level2_income > 1)
                             {
                                 amount = (int)office_gen_level2_income;
@@ -1835,7 +1833,7 @@ namespace RealCity.CustomManager
                         }
                         else if (level == ItemClass.Level.Level3)
                         {
-                            office_gen_level3_income += (float)((double)(amount * taxRate/100f));
+                            office_gen_level3_income += (amount * taxRate/100f);
                             if (office_gen_level1_income > 1)
                             {
                                 amount = (int)office_gen_level3_income;
@@ -1849,7 +1847,7 @@ namespace RealCity.CustomManager
                     office_gen_landincome_forui[MainDataStore.update_money_count] += amount;
                     break;
                 case ItemClass.SubService.OfficeHightech:
-                    office_high_tech_income+= (float)((double)(amount * taxRate/100f));
+                    office_high_tech_income+= (amount * taxRate/100f);
                     if (office_high_tech_income > 1)
                     {
                         amount = (int)office_high_tech_income;
@@ -1892,10 +1890,10 @@ namespace RealCity.CustomManager
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
-                    _income[num * 17 + 16] += (long)amount;
+                    _income[num * 17 + 16] += amount;
                 }
-                MainDataStore.cashAmount += (long)amount;
-                MainDataStore.cashDelta += (long)amount;
+                MainDataStore.cashAmount += amount;
+                MainDataStore.cashDelta += amount;
             }
             else if ((taxRate == 113) || (taxRate == 114))
             {
@@ -1905,10 +1903,10 @@ namespace RealCity.CustomManager
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
-                    _income[num * 17 + 16] += (long)amount;
+                    _income[num * 17 + 16] += amount;
                 }
-                MainDataStore.cashAmount += (long)amount;
-                MainDataStore.cashDelta += (long)amount;
+                MainDataStore.cashAmount += amount;
+                MainDataStore.cashDelta += amount;
             }
             else if (taxRate == 112)
             {
@@ -1919,10 +1917,10 @@ namespace RealCity.CustomManager
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
-                    _income[num * 17 + 16] += (long)amount;
+                    _income[num * 17 + 16] += amount;
                 }
-                MainDataStore.cashAmount += (long)amount;
-                MainDataStore.cashDelta += (long)amount;
+                MainDataStore.cashAmount += amount;
+                MainDataStore.cashDelta += amount;
             }
             else if (taxRate == 111)
             {
@@ -1933,10 +1931,10 @@ namespace RealCity.CustomManager
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
-                    _income[num * 17 + 16] += (long)amount;
+                    _income[num * 17 + 16] += amount;
                 }
-                MainDataStore.cashAmount += (long)amount;
-                MainDataStore.cashDelta += (long)amount;
+                MainDataStore.cashAmount += amount;
+                MainDataStore.cashDelta += amount;
             }
             else if (taxRate >= 100)
             {
@@ -1946,10 +1944,10 @@ namespace RealCity.CustomManager
                 int num = ClassIndex(service, subService, level);
                 if (num != -1)
                 {
-                    _income[num * 17 + 16] += (long)amount;
+                    _income[num * 17 + 16] += amount;
                 }
-                MainDataStore.cashAmount +=(long)amount;
-                MainDataStore.cashDelta += (long)amount;
+                MainDataStore.cashAmount += amount;
+                MainDataStore.cashDelta += amount;
             }
             else
             {
@@ -1958,7 +1956,7 @@ namespace RealCity.CustomManager
             }
             return amount;
         }
-        //TODO: move to harmony
+
         public int AddResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
         {
             // NON-STOCK CODE START
@@ -1993,7 +1991,7 @@ namespace RealCity.CustomManager
             /// NON-STOCK CODE END ///
             return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
         }
-        //TODO: move to harmony
+
         public int AddResource(EconomyManager.Resource resource, int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
             // NON-STOCK CODE START

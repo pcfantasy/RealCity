@@ -56,7 +56,7 @@ namespace RealCity.Util
 
                 if (shader != null)
                 {
-                    if (System.IO.File.Exists(texturePath))
+                    if (File.Exists(texturePath))
                     {
                         Texture2D spriteTexture = new Texture2D(2, 2);
                         FileStream fileStream = new FileStream(texturePath, FileMode.Open, FileAccess.Read);

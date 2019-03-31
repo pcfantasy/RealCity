@@ -4,7 +4,6 @@ using RealCity.Util;
 
 namespace RealCity
 {
-
     public class RealCity : IUserMod
     {
         public static bool IsEnabled = false;

@@ -14,7 +14,6 @@ namespace RealCity.CustomManager
         {
             MainDataStore.familyGoods[unit] = 0;
             MainDataStore.family_money[unit] = 0;
-
         }
     }
 }
