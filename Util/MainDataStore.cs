@@ -3,6 +3,8 @@
     public class MainDataStore
     {
         public const int gameExpenseDivide = 100;
+        public const float playerIndustryBuildingProductionSpeedDiv = 1.5f;
+        public const int reduceCargoDiv = 2;
         //start from V6, goverment salary is floating now
         public static byte govermentEducation0Salary = 50;
         public static byte govermentEducation1Salary = 55;
@@ -136,7 +138,7 @@
 
         public static void data_init()
         {
-            for (int i = 0; i < MainDataStore.building_buffer1.Length; i++)
+            for (int i = 0; i < building_buffer1.Length; i++)
             {
                 building_money[i] = 0;
                 building_buffer2[i] = 0;
@@ -147,17 +149,17 @@
                 isBuildingReleased[i] = false;
             }
 
-            for (int i = 0; i < MainDataStore.isVehicleCharged.Length; i++)
+            for (int i = 0; i < isVehicleCharged.Length; i++)
             {
                 vehicleTransferTime[i] = 0;
                 isVehicleCharged[i] = false;
             }
-            for (int i = 0; i < MainDataStore.family_money.Length; i++)
+            for (int i = 0; i < family_money.Length; i++)
             {
                 family_money[i] = 0f;
                 familyGoods[i] = 0;
             }
-            for (int i = 0; i < MainDataStore.citizenMoney.Length; i++)
+            for (int i = 0; i < citizenMoney.Length; i++)
             {
                 citizenMoney[i] = 0f;
                 isCitizenFirstMovingIn[i] = false;

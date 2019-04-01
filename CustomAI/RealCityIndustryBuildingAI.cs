@@ -1,5 +1,4 @@
-﻿
-using RealCity.RebalancedIndustries;
+﻿using RealCity.Util;
 
 namespace RealCity.CustomAI
 {
@@ -61,7 +60,10 @@ namespace RealCity.CustomAI
                 default: return 0;
             }
 
-            price *= (int)RI_Data.GetFactorCargo(material);
+            if (RealCity.reduceVehicle)
+            {
+                price *= MainDataStore.reduceCargoDiv;
+            }
             return price;
         }
 
@@ -95,7 +97,10 @@ namespace RealCity.CustomAI
                 default: return CustomGetResourcePrice(material) / 100f;
             }
 
-            price = (price * (int)RI_Data.GetFactorCargo(material));
+            if (RealCity.reduceVehicle)
+            {
+                price *= MainDataStore.reduceCargoDiv;
+            }
             return price;
         }
     }

@@ -1,0 +1,10 @@
+﻿1181352643;District Service Limit 3.0
+1562650024;Rebalanced Industries
+519781146;Difficulty Tuning
+409240984;Difficulty Options
+1114249433;Employ Overeducated Workers (1.10+)
+569008960;Employ Overeducated Workers
+1553517176;Specialized Industry Fix Redux
+702070768;Export Electricity
+1072157697;Cargo Info
+1435741602;Snooper

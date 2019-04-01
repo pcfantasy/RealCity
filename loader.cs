@@ -53,7 +53,6 @@ namespace RealCity
         public static bool isGuiRunning = false;
         public static bool isRealConstructionRunning = false;
         public static bool isRealGasStationRunning = false;
-        public static bool isTransportLinesManagerRunning = false;
         public static bool isAdvancedJunctionRuleRunning = false;
         public static PoliticsButton PlButton;
         public static EcnomicButton EcButton;
@@ -80,7 +79,6 @@ namespace RealCity
                     SetupGui();
                     isRealConstructionRunning = CheckRealConstructionIsLoaded();
                     isRealGasStationRunning = CheckRealGasStationIsLoaded();
-                    isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
                     isAdvancedJunctionRuleRunning = CheckAdvancedJunctionRuleIsLoaded();
                     InitDetour();
                     HarmonyInitDetour();
@@ -374,7 +372,6 @@ namespace RealCity
             }
         }
 
-
         public static void RemoveGui()
         {
             isGuiRunning = false;
@@ -458,7 +455,6 @@ namespace RealCity
             }
         }
 
-
         private bool Check3rdPartyModLoaded(string namespaceStr, bool printAll = false)
         {
             bool result = false;
@@ -489,7 +485,7 @@ namespace RealCity
 
         private bool CheckRealConstructionIsLoaded()
         {
-            return Check3rdPartyModLoaded("RealConstruction", true);
+            return Check3rdPartyModLoaded("RealConstruction", false);
         }
 
         public void HarmonyInitDetour()
@@ -825,14 +821,9 @@ namespace RealCity
             return Check3rdPartyModLoaded("RealGasStation", true);
         }
 
-        private bool CheckTransportLinesManagerIsLoaded()
-        {
-            return Check3rdPartyModLoaded("Klyte.TransportLinesManager", true);
-        }
-
         private bool CheckAdvancedJunctionRuleIsLoaded()
         {
-            return Check3rdPartyModLoaded("AdvancedJunctionRule", true);
+            return Check3rdPartyModLoaded("AdvancedJunctionRule", false);
         }
     }
 }

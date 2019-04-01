@@ -1,8 +1,10 @@
-﻿namespace RealCity.RebalancedIndustries
+﻿using RealCity.Util;
+
+namespace RealCity.RebalancedIndustries
 {
     public class RI_Data
     { 
-        public static decimal GetFactorCargo(TransferManager.TransferReason material)
+        public static float GetFactorCargo(TransferManager.TransferReason material)
         {
             switch (material)
             {
@@ -31,14 +33,14 @@
                 case TransferManager.TransferReason.ShoppingH:
                     if (RealCity.reduceVehicle)
                     {
-                        return 2m;
+                        return MainDataStore.playerIndustryBuildingProductionSpeedDiv * MainDataStore.reduceCargoDiv;
                     }
                     else
                     {
-                        return 1m;
+                        return MainDataStore.playerIndustryBuildingProductionSpeedDiv;
                     }
             }
-            return 1m;
+            return 1f;
         }
     }
 }

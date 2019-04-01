@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RealCity</RootNamespace>
     <AssemblyName>RealCity</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>RealCity.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,12 +34,14 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>RealCity.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'FASTRUNTIME|AnyCPU'">
     <OutputPath>bin\release\</OutputPath>
     <DefineConstants>FASTRUN</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>RealCity.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -114,6 +117,7 @@
     <Compile Include="RebalancedIndustries\RI_Detours.cs" />
     <Compile Include="UI\BuildingButton.cs" />
     <Compile Include="UI\BuildingUI.cs" />
+    <Compile Include="UI\IncompatibleModsPanel.cs" />
     <Compile Include="UI\EcnomicButton.cs" />
     <Compile Include="UI\EcnomicUI.cs" />
     <Compile Include="UI\HumanUI.cs" />
@@ -124,6 +128,7 @@
     <Compile Include="UI\RealCityButton.cs" />
     <Compile Include="UI\RealCityUI.cs" />
     <Compile Include="UI\TouristUI.cs" />
+    <Compile Include="Util\ModsCompatibilityChecker.cs" />
     <Compile Include="Util\DebugLog.cs" />
     <Compile Include="Util\HarmonyDetours.cs" />
     <Compile Include="Util\Localization.cs" />
@@ -135,19 +140,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon\RealCity.png" />
-    <Content Include="Locales\zh.txt" />
-    <Content Include="Locales\en.txt" />
+    <Content Include="Resources\zh.txt" />
+    <Content Include="Resources\en.txt" />
+    <Content Include="Resources\incompatible_mods.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RealCity.ruleset" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "D:\Mod\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
 copy "D:\Mod\RealCity\bin\Release\0Harmony.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"
-rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Locales"
-mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Locales"
-copy "D:\Mod\RealCity\Locales\*.txt" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Locales"
+rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
+mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
+copy "D:\Mod\RealCity\Resources\*.*" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
 rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
 mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
 copy "D:\Mod\RealCity\Icon\*.png" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"</PostBuildEvent>

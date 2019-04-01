@@ -108,7 +108,7 @@ namespace RealCity.CustomAI
 
                     if (RealCity.reduceVehicle)
                     {
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / (temp * 2f)));
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / (temp * MainDataStore.reduceCargoDiv)));
                     }
                     else
                     {
@@ -131,7 +131,11 @@ namespace RealCity.CustomAI
                         if (!Singleton<SimulationManager>.instance.m_isNightTime)
                         {
                             //NightTime 2x , reduceVehicle 1/2, so do nothing
-                            buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - (int)(deltaCustomBuffer2 / 2f));
+                            buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv));
+                        }
+                        else
+                        {
+                            buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv) * 2f);
                         }
                     }
                     else

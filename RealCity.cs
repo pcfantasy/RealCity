@@ -1,6 +1,7 @@
 ﻿using ICities;
 using System.IO;
 using RealCity.Util;
+using ColossalFramework.UI;
 
 namespace RealCity
 {
@@ -25,11 +26,26 @@ namespace RealCity
             IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
+            if (UIView.GetAView() != null)
+            {
+                OnGameIntroLoaded();
+            }
+            else
+            {
+                LoadingManager.instance.m_introLoaded += OnGameIntroLoaded;
+            }
         }
 
         public void OnDisabled()
         {
             IsEnabled = false;
+            LoadingManager.instance.m_introLoaded -= OnGameIntroLoaded;
+        }
+
+        private static void OnGameIntroLoaded()
+        {
+            ModsCompatibilityChecker mcc = new ModsCompatibilityChecker();
+            mcc.PerformModCheck();
         }
 
         public static void SaveSetting()

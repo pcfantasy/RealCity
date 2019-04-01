@@ -1,13 +1,9 @@
-﻿using Harmony;
-using System;
+﻿using System;
 
 namespace RealCity.RebalancedIndustries
 {
     public class Mod
     {
-        private static HarmonyInstance harmonyInstance;
-        private static bool debugInitialised = false;
-
         public static bool IsIndustriesBuilding(IndustryBuildingAI building)
         {
             switch (building.m_industryType)
