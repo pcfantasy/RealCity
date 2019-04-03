@@ -42,31 +42,38 @@ namespace RealCity.CustomAI
                         else if (info.m_vehicleAI is PassengerCarAI)
                         {
                             bool is_tourist = false;
+                            bool is_dummy = false;
                             if (instance.m_vehicles.m_buffer[vehicle].m_citizenUnits != 0)
                             {
                                 CitizenManager instance2 = Singleton<CitizenManager>.instance;
                                 if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen0 != 0)
                                 {
                                     is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen0].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                    is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen0].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
                                 }
                                 if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen1 != 0)
                                 {
                                     is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen1].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                    is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen1].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
                                 }
                                 if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen2 != 0)
                                 {
                                     is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen2].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                    is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen2].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
+
                                 }
                                 if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen3 != 0)
                                 {
                                     is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen3].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                    is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen3].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
                                 }
                                 if (instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen4 != 0)
                                 {
                                     is_tourist = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None);
+                                    is_dummy = ((instance2.m_citizens.m_buffer[instance2.m_units.m_buffer[instance.m_vehicles.m_buffer[vehicle].m_citizenUnits].m_citizen4].m_flags & Citizen.Flags.DummyTraffic) != Citizen.Flags.None);
                                 }
                             }
-                            if (!MainDataStore.isVehicleCharged[vehicle] && (instance.m_vehicles.m_buffer[vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic) || is_tourist))
+                            if (!MainDataStore.isVehicleCharged[vehicle] && (is_dummy || is_tourist))
                             {
                                 MainDataStore.isVehicleCharged[vehicle] = true;
                                 EnterTollRoad(vehicle, ref instance.m_vehicles.m_buffer[vehicle], buildingID, segmentID, (data.m_education1 * 10));

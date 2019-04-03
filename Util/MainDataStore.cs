@@ -3,7 +3,7 @@
     public class MainDataStore
     {
         public const int gameExpenseDivide = 100;
-        public const float playerIndustryBuildingProductionSpeedDiv = 1.5f;
+        public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const int reduceCargoDiv = 2;
         //start from V6, goverment salary is floating now
         public static byte govermentEducation0Salary = 50;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using RealCity.Util;
+using ColossalFramework;
 
 namespace RealCity.RebalancedIndustries
 {
@@ -22,13 +23,27 @@ namespace RealCity.RebalancedIndustries
             {
                 // Output
                 cargoDiff = Convert.ToInt32((buildingData.m_customBuffer1 - __state) / RI_Data.GetFactorCargo(__instance.m_outputResource));
-                //Debug.Log($"ID:{buildingID}={(ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000)} ({__state + cargoDiff}), state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
+                //DebugLog.LogToFileOnly($"ID:{buildingID}={(ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000)} ({__state + cargoDiff}), state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
                 buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000);
             }
             else
             {
                 DebugLog.LogToFileOnly($"Unknown EF instance {__instance.name} ({__instance.GetType()})");
             }
+        }
+
+        public static void ExtractingFacilityAIGetLocalizedStatsPrefix(ushort buildingID, ref Building data, out byte __state)
+        {
+            __state = data.m_education3;
+            if (RealCity.reduceVehicle)
+            {
+                data.m_education3 = (byte)(data.m_education3 / (MainDataStore.reduceCargoDiv * MainDataStore.playerIndustryBuildingProductionSpeedDiv));
+            }
+        }
+
+        public static void ExtractingFacilityAIGetLocalizedStatsPostfix(ushort buildingID, ref Building data, ref byte __state)
+        {
+            data.m_education3 = __state;
         }
     }
 
@@ -95,23 +110,42 @@ namespace RealCity.RebalancedIndustries
 
                     cargoDiff = Convert.ToInt32((buildingData.m_customBuffer1 - __state[0]) / RI_Data.GetFactorCargo(__instance.m_outputResource));
                     buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0] + cargoDiff, 0, 64000);
-                    //Debug.Log($"Out ID:{buildingID}, state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
+                    //DebugLog.LogToFileOnly($"Out ID:{buildingID}, state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
                 }
 
                 //if (__instance is UniqueFactoryAI)
-                //    Debug.Log($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]},{__state[2]},{__state[3]},{__state[4]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2},{Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs)},{Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors)},{Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2)})");
+                //    DebugLog.LogToFileOnly($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]},{__state[2]},{__state[3]},{__state[4]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2},{Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs)},{Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors)},{Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2)})");
                 //else
-                //    Debug.Log($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2})");
+                //    DebugLog.LogToFileOnly($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2})");
             }
             else
             {
                 DebugLog.LogToFileOnly($"Unknown PF instance {__instance.name} ({__instance.GetType()})");
             }
         }
+
+        public static void ProcessingFacilityAIGetLocalizedStatsPrefix(ushort buildingID, ref Building data, out byte __state)
+        {
+            __state = data.m_education3;
+            if (RealCity.reduceVehicle)
+            {
+                data.m_education3 = (byte)(data.m_education3 / (MainDataStore.reduceCargoDiv * MainDataStore.playerIndustryBuildingProductionSpeedDiv));
+            }
+        }
+
+        public static void ProcessingFacilityAIGetLocalizedStatsPostfix(ushort buildingID, ref Building data, ref byte __state)
+        {
+            data.m_education3 = __state;
+        }
     }
 
     public class CustomLandfillSiteAI
     {
+        public static void LandfillSiteAIProduceGoodsPrefix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, out ushort __state)
+        {
+            __state = buildingData.m_customBuffer1;
+        }
+
         public static void LandfillSiteAIProduceGoodsPostfix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, ref ushort __state)
         {
             int cargoDiff = 0;
@@ -128,5 +162,46 @@ namespace RealCity.RebalancedIndustries
             //Debug.Log($"ID:{buildingID}={(ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000)} ({__state + cargoDiff}), state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
             buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000);
         }
+
+        public int CustomGetGarbageRate(ushort buildingID, ref Building data)
+        {
+            LandfillSiteAI AI = data.Info.m_buildingAI as LandfillSiteAI;
+            int num = data.m_productionRate;
+            if ((data.m_flags & (Building.Flags.Evacuating | Building.Flags.Active)) == Building.Flags.Active)
+            {
+                int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
+                num = PlayerBuildingAI.GetProductionRate(num, budget);
+                int num2 = (data.m_customBuffer1 * 1000 + data.m_garbageBuffer);
+                num = Mathf.Min(num, num2 / (AI.m_garbageCapacity / 200));
+            }
+            else
+            {
+                num = 0;
+            }
+            int num3 = AI.m_garbageConsumption;
+            int electricityProduction = AI.m_electricityProduction;
+            int materialProduction = AI.m_materialProduction;
+            if (materialProduction != 0)
+            {
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                byte district = instance.GetDistrict(data.m_position);
+                DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
+                if ((servicePolicies & DistrictPolicies.Services.RecyclePlastic) != DistrictPolicies.Services.None)
+                {
+                    int num4 = Mathf.Max(1, materialProduction + electricityProduction);
+                    num4 = (materialProduction * 20 + (num4 >> 1)) / num4;
+                    num3 = (num3 * (100 + num4) + 50) / 100;
+                }
+            }
+            if (RealCity.reduceVehicle)
+            {
+                return -((num * num3 + 99) / (100 * MainDataStore.reduceCargoDiv));
+            }
+            else
+            {
+                return -((num * num3 + 99) / 100);
+            }
+        }
+
     }
 }

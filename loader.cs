@@ -11,6 +11,7 @@ using RealCity.UI;
 using RealCity.Util;
 using RealCity.CustomManager;
 using ColossalFramework.Plugins;
+using RealCity.RebalancedIndustries;
 
 namespace RealCity
 {
@@ -784,6 +785,19 @@ namespace RealCity
                 catch (Exception)
                 {
                     DebugLog.LogToFileOnly("Could not detour HumanAI::EnterParkArea");
+                    detourFailed = true;
+                }
+
+                //22
+                DebugLog.LogToFileOnly("Detour LandfillSiteAI::GetGarbageRate calls");
+                try
+                {
+                    Detours.Add(new Detour(typeof(LandfillSiteAI).GetMethod("GetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null),
+                                           typeof(CustomLandfillSiteAI).GetMethod("CustomGetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour LandfillSiteAI::GetGarbageRate");
                     detourFailed = true;
                 }
 

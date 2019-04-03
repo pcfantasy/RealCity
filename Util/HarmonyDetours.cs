@@ -120,8 +120,8 @@ namespace RealCity.Util
             //12
             //Patch RI related
             var extractingFacilityAIProduceGoods = typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
-            var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPrefix");
-            var extractingFacilityAIProduceGoodsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPostfix");
+            var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIProduceGoodsPrefix");
+            var extractingFacilityAIProduceGoodsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIProduceGoodsPostfix");
             harmony.ConditionalPatch(extractingFacilityAIProduceGoods,
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPrefix),
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPostfix));
@@ -140,6 +140,20 @@ namespace RealCity.Util
             harmony.ConditionalPatch(customLandfillSiteAIProduceGoods,
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPrefix),
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPostfix));
+            //15
+            var processingFacilityAIGetLocalizedStats = typeof(ProcessingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
+            var processingFacilityAIGetLocalizedStatsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPrefix");
+            var processingFacilityAIGetLocalizedStatsPostfix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPostfix");
+            harmony.ConditionalPatch(processingFacilityAIGetLocalizedStats,
+                new HarmonyMethod(processingFacilityAIGetLocalizedStatsPrefix),
+                new HarmonyMethod(processingFacilityAIGetLocalizedStatsPostfix));
+            //16
+            var extractingFacilityAIGetLocalizedStats = typeof(ExtractingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
+            var extractingFacilityAIGetLocalizedStatsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPrefix");
+            var extractingFacilityAIGetLocalizedStatsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPostfix");
+            harmony.ConditionalPatch(extractingFacilityAIGetLocalizedStats,
+                new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPrefix),
+                new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPostfix));
             Loader.HarmonyDetourInited = true;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -224,8 +238,8 @@ namespace RealCity.Util
             //12
             //Unpatch RI related
             var extractingFacilityAIProduceGoods = typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
-            var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPrefix");
-            var extractingFacilityAIProduceGoodsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityProduceGoodsPostfix");
+            var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIProduceGoodsPrefix");
+            var extractingFacilityAIProduceGoodsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIProduceGoodsPostfix");
             harmony.ConditionalUnPatch(extractingFacilityAIProduceGoods,
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPrefix),
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPostfix));
@@ -244,6 +258,20 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(customLandfillSiteAIProduceGoods,
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPrefix),
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPostfix));
+            //15
+            var processingFacilityAIGetLocalizedStats = typeof(ProcessingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
+            var processingFacilityAIGetLocalizedStatsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPrefix");
+            var processingFacilityAIGetLocalizedStatsPostfix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPostfix");
+            harmony.ConditionalUnPatch(processingFacilityAIGetLocalizedStats,
+                new HarmonyMethod(processingFacilityAIGetLocalizedStatsPrefix),
+                new HarmonyMethod(processingFacilityAIGetLocalizedStatsPostfix));
+            //16
+            var extractingFacilityAIGetLocalizedStats = typeof(ExtractingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
+            var extractingFacilityAIGetLocalizedStatsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPrefix");
+            var extractingFacilityAIGetLocalizedStatsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPostfix");
+            harmony.ConditionalUnPatch(extractingFacilityAIGetLocalizedStats,
+                new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPrefix),
+                new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPostfix));
             Loader.HarmonyDetourInited = false;
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }

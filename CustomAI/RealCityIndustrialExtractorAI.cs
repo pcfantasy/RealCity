@@ -63,6 +63,7 @@ namespace RealCity.CustomAI
                 amountDelta = Mathf.Clamp(amountDelta, -customBuffer, 0);
                 caculate_trade_income(buildingID, ref data, material, ref amountDelta);
                 data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
+                MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
             }
             else
             {
