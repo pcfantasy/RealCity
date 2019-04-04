@@ -2,6 +2,8 @@
 using System;
 using RealCity.Util;
 using ColossalFramework;
+using ColossalFramework.Globalization;
+using ColossalFramework.UI;
 
 namespace RealCity.RebalancedIndustries
 {
@@ -202,6 +204,27 @@ namespace RealCity.RebalancedIndustries
                 return -((num * num3 + 99) / 100);
             }
         }
+    }
 
+    public class CustomUniqueFactoryWorldInfoPanel
+    {
+        public static void UniqueFactoryWorldInfoPanelUpdateBindingsPostfix(ref InstanceID ___m_InstanceID, ref UILabel ___m_expenses)
+        {
+            ushort id = ___m_InstanceID.Building;
+            Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[id];
+            UniqueFactoryAI ai = (UniqueFactoryAI)building.Info.m_buildingAI;
+            int volume;
+            byte health = Singleton<BuildingManager>.instance.m_buildings.m_buffer[id].m_health;
+
+            volume = health * ai.m_inputRate1 * 16 / 100;
+            long input1 = volume * IndustryBuildingAI.GetResourcePrice(ai.m_inputResource1) / (long)RI_Data.GetFactorCargo(ai.m_inputResource1) / 10000;
+            volume = health * ai.m_inputRate2 * 16 / 100;
+            long input2 = volume * IndustryBuildingAI.GetResourcePrice(ai.m_inputResource2) / (long)RI_Data.GetFactorCargo(ai.m_inputResource2) / 10000;
+            volume = health * ai.m_inputRate3 * 16 / 100;
+            long input3 = volume * IndustryBuildingAI.GetResourcePrice(ai.m_inputResource3) / (long)RI_Data.GetFactorCargo(ai.m_inputResource3) / 10000;
+            volume = health * ai.m_inputRate4 * 16 / 100;
+            long input4 = volume * IndustryBuildingAI.GetResourcePrice(ai.m_inputResource4) / (long)RI_Data.GetFactorCargo(ai.m_inputResource4) / 10000;
+            ___m_expenses.text = (input1 + input2 + input3 + input4).ToString(Settings.moneyFormatNoCents, LocaleManager.cultureInfo);
+        }
     }
 }

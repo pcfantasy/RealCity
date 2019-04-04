@@ -81,16 +81,16 @@ namespace RealCity.Util
             //7
             if (!Loader.isAdvancedJunctionRuleRunning)
             {
-                var carSimulationStep = typeof(CarAI).GetMethod("SimulationStep", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
+                var carAISimulationStep = typeof(CarAI).GetMethod("SimulationStep", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType(),
                 typeof(Vehicle.Frame).MakeByRefType(),
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType(),
                 typeof(int)}, null);
-                var customCarAISimulationStepPreFix = typeof(RealCityCarAI).GetMethod("CustomCarAISimulationStepPreFix");
-                harmony.ConditionalPatch(carSimulationStep,
-                    new HarmonyMethod(customCarAISimulationStepPreFix),
+                var carAISimulationStepPreFix = typeof(RealCityCarAI).GetMethod("CarAISimulationStepPreFix");
+                harmony.ConditionalPatch(carAISimulationStep,
+                    new HarmonyMethod(carAISimulationStepPreFix),
                     null);
             }
             //8
@@ -154,6 +154,13 @@ namespace RealCity.Util
             harmony.ConditionalPatch(extractingFacilityAIGetLocalizedStats,
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPrefix),
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPostfix));
+            //17
+            //Patch RI related
+            var uniqueFactoryWorldInfoPanelUpdateBindings = typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var uniqueFactoryWorldInfoPanelUpdateBindingsPostfix = typeof(CustomUniqueFactoryWorldInfoPanel).GetMethod("UniqueFactoryWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
+                null,
+                new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
             Loader.HarmonyDetourInited = true;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -199,16 +206,16 @@ namespace RealCity.Util
             //7
             if (!Loader.isAdvancedJunctionRuleRunning)
             {
-                var carSimulationStep = typeof(CarAI).GetMethod("SimulationStep", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
+                var carAISimulationStep = typeof(CarAI).GetMethod("SimulationStep", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType(),
                 typeof(Vehicle.Frame).MakeByRefType(),
                 typeof(ushort),
                 typeof(Vehicle).MakeByRefType(),
                 typeof(int)}, null);
-                var customCarAISimulationStepPreFix = typeof(RealCityCarAI).GetMethod("CustomCarAISimulationStepPreFix");
-                harmony.ConditionalUnPatch(carSimulationStep,
-                    new HarmonyMethod(customCarAISimulationStepPreFix),
+                var carAISimulationStepPreFix = typeof(RealCityCarAI).GetMethod("CarAISimulationStepPreFix");
+                harmony.ConditionalUnPatch(carAISimulationStep,
+                    new HarmonyMethod(carAISimulationStepPreFix),
                     null);
             }
             //8
@@ -272,6 +279,13 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(extractingFacilityAIGetLocalizedStats,
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPrefix),
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPostfix));
+            //17
+            //Unpatch RI related
+            var uniqueFactoryWorldInfoPanelUpdateBindings = typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+            var uniqueFactoryWorldInfoPanelUpdateBindingsPostfix = typeof(CustomUniqueFactoryWorldInfoPanel).GetMethod("UniqueFactoryWorldInfoPanelUpdateBindingsPostfix");
+            harmony.ConditionalUnPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
+                null,
+                new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
             Loader.HarmonyDetourInited = false;
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }
