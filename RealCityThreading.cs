@@ -61,7 +61,7 @@ namespace RealCity
 
         public void CheckDetour()
         {
-            if (isFirstTime && Loader.DetourInited)
+            if (isFirstTime && Loader.DetourInited && Loader.HarmonyDetourInited)
             {
                 isFirstTime = false;
                 DetourAfterLoad();
@@ -94,7 +94,7 @@ namespace RealCity
                     UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage("Incompatibility Issue", text, true);
                 }
 
-                if (!Loader.HarmonyDetourInited)
+                if (Loader.HarmonyDetourFailed)
                 {
                     string error = "RealCity HarmonyDetourInit is failed, Send RealCity.txt to Author.";
                     DebugLog.LogToFileOnly(error);

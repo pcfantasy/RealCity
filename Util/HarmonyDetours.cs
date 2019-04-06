@@ -161,7 +161,19 @@ namespace RealCity.Util
             harmony.ConditionalPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
                 null,
                 new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
-            Loader.HarmonyDetourInited = true;
+            //18
+            var citizenManagerReleaseCitizenInstance= typeof(CitizenManager).GetMethod("ReleaseCitizenInstance", BindingFlags.Public | BindingFlags.Instance);
+            var citizenManagerReleaseCitizenInstancePostFix = typeof(RealCityCitizenManager).GetMethod("CitizenManagerReleaseCitizenInstancePostFix");
+            harmony.ConditionalPatch(citizenManagerReleaseCitizenInstance,
+                null,
+                new HarmonyMethod(citizenManagerReleaseCitizenInstancePostFix));
+            //19
+            var humanAISimulationStep= typeof(HumanAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool)}, null);
+            var humanAISimulationStepPostFix = typeof(RealCityHumanAI).GetMethod("HumanAISimulationStepPostFix");
+            harmony.ConditionalPatch(humanAISimulationStep,
+                null,
+                new HarmonyMethod(humanAISimulationStepPostFix));
+            Loader.HarmonyDetourFailed = false;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
 
@@ -286,7 +298,18 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
                 null,
                 new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
-            Loader.HarmonyDetourInited = false;
+            //18
+            var citizenManagerReleaseCitizenInstance = typeof(CitizenManager).GetMethod("ReleaseCitizenInstance", BindingFlags.Public | BindingFlags.Instance);
+            var citizenManagerReleaseCitizenInstancePostFix = typeof(RealCityCitizenManager).GetMethod("CitizenManagerReleaseCitizenInstancePostFix");
+            harmony.ConditionalUnPatch(citizenManagerReleaseCitizenInstance,
+                null,
+                new HarmonyMethod(citizenManagerReleaseCitizenInstancePostFix));
+            //19
+            var humanAISimulationStep = typeof(HumanAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
+            var humanAISimulationStepPostFix = typeof(RealCityHumanAI).GetMethod("HumanAISimulationStepPostFix");
+            harmony.ConditionalUnPatch(humanAISimulationStep,
+                null,
+                new HarmonyMethod(humanAISimulationStepPostFix));
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }
     }

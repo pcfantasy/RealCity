@@ -34,6 +34,7 @@ namespace RealCity
         public static List<Detour> Detours { get; set; }
         public static bool DetourInited = false;
         public static bool HarmonyDetourInited = false;
+        public static bool HarmonyDetourFailed = true;
         public static UIView parentGuiView;
         public static UIPanel buildingInfo;
         public static UIPanel playerbuildingInfo;
@@ -109,6 +110,17 @@ namespace RealCity
             System.Random rand = new System.Random();
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
             RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);
+
+            for (int i = 0; i < 16384; i++)
+            {
+                RealCityCarAI.watingPathTime[i] = 0;
+                RealCityCarAI.stuckTime[i] = 0;
+            }
+
+            for (int j = 0; j < 65536; j++)
+            {
+                RealCityHumanAI.watingPathTime[j] = 0;
+            }
         }
 
         public override void OnLevelUnloading()
@@ -495,6 +507,7 @@ namespace RealCity
             {
                 DebugLog.LogToFileOnly("Init harmony detours");
                 HarmonyDetours.Apply();
+                HarmonyDetourInited = true;
             }
         }
 
@@ -504,6 +517,8 @@ namespace RealCity
             {
                 DebugLog.LogToFileOnly("Revert harmony detours");
                 HarmonyDetours.DeApply();
+                HarmonyDetourFailed = true;
+                HarmonyDetourInited = false;
             }
         }
 

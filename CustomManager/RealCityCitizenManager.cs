@@ -1,4 +1,5 @@
-﻿using RealCity.Util;
+﻿using RealCity.CustomAI;
+using RealCity.Util;
 
 namespace RealCity.CustomManager
 {
@@ -14,6 +15,11 @@ namespace RealCity.CustomManager
         {
             MainDataStore.familyGoods[unit] = 0;
             MainDataStore.family_money[unit] = 0;
+        }
+
+        public static void CitizenManagerReleaseCitizenInstancePostFix(ushort instance)
+        {
+            RealCityHumanAI.watingPathTime[instance] = 0;
         }
     }
 }
