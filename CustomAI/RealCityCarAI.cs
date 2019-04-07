@@ -69,7 +69,7 @@ namespace RealCity.CustomAI
                         stuckTime[vehicleID] = 0;
                     }
 
-                    if (stuckTime[vehicleID] > 1600)
+                    if (stuckTime[vehicleID] > 800)
                     {
                         DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle transfer type is " + vehicleData.m_transferType.ToString());
                         DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle flag is " + vehicleData.m_flags.ToString());

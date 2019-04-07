@@ -65,7 +65,7 @@ namespace RealCity.CustomAI
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
                     MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
                 }
-                else if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                else
                 {
                     int consumptionMoney = rand.Next(400);
                     if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
@@ -80,13 +80,9 @@ namespace RealCity.CustomAI
                         }
                     }
 
-                    consumptionMoney = -(consumptionMoney);
-                    if ((consumptionMoney == -200 || consumptionMoney == -50))
-                    {
-                        consumptionMoney = consumptionMoney + 1;
-                    }
+                    consumptionMoney = -(consumptionMoney / MainDataStore.reduceCargoDiv);
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref consumptionMoney);
-                    consumptionMoney = -100;
+                    consumptionMoney = -100 / MainDataStore.reduceCargoDiv;
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
                 }
             }
