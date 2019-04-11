@@ -547,45 +547,60 @@ namespace RealCity.CustomAI
                 if (data.m_citizen0 != 0)
                 {
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0];
-                    if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
+                    if ((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
                     {
-                        citizenCount++;
+                        if (citizenData.Dead == false)
+                        {
+                            citizenCount++;                            
+                        }
                         MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen0];
                     }
                 }
                 if (data.m_citizen1 != 0)
                 {
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen1];
-                    if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
+                    if ((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
                     {
-                        citizenCount++;
+                        if (citizenData.Dead == false)
+                        {
+                            citizenCount++;
+                        }
                         MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen1];
                     }
                 }
                 if (data.m_citizen2 != 0)
                 {
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen2];
-                    if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
+                    if ((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
                     {
-                        citizenCount++;
+                        if (citizenData.Dead == false)
+                        {
+                            citizenCount++;
+                        }
                         MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen2];
                     }
                 }
                 if (data.m_citizen3 != 0)
                 {
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen3];
-                    if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
+                    if ((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
                     {
-                        citizenCount++;
+                        if (citizenData.Dead == false)
+                        {
+                            citizenCount++;
+                        }
                         MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen3];
                     }
                 }
                 if (data.m_citizen4 != 0)
                 {
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen4];
-                    if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
+                    if ((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None)
                     {
-                        citizenCount++;
+                        if (citizenData.Dead == false)
+                        {
+                            citizenCount++;
+                        }
                         MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen4];
                     }
                 }
@@ -709,7 +724,6 @@ namespace RealCity.CustomAI
             }
 
         }
-
 
         public byte ProcessFamily(uint homeID, ref CitizenUnit data)
         {
