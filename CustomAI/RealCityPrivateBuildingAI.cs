@@ -268,7 +268,7 @@ namespace RealCity.CustomAI
                             switch (tempReason1)
                             {
                                 case TransferManager.TransferReason.AnimalProducts:
-                                    material += Localization.Get("ANIMAL_PRODUCTS"); break;
+                                    material += Localization.Get("ANIMALPRODUCTS"); break;
                                 case TransferManager.TransferReason.Flours:
                                     material += Localization.Get("FLOURS"); break;
                                 case TransferManager.TransferReason.Paper:
@@ -282,7 +282,7 @@ namespace RealCity.CustomAI
                                 case TransferManager.TransferReason.Glass:
                                     material += Localization.Get("GLASS"); break;
                                 case TransferManager.TransferReason.Metals:
-                                    material += Localization.Get("METAL"); break;
+                                    material += Localization.Get("METALS"); break;
                                 default: break;
                             }
                             break;
