@@ -84,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAI\RealCityBuildingAI.cs" />
-    <Compile Include="CustomAI\RealCityCarAI.cs" />
     <Compile Include="CustomAI\RealCityCargoTruckAI.cs" />
     <Compile Include="CustomAI\RealCityCommericalBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityCommonBuildingAI.cs" />
@@ -102,7 +101,7 @@
     <Compile Include="CustomAI\RealCityTaxiAI.cs" />
     <Compile Include="CustomAI\RealCityTollBooth.cs" />
     <Compile Include="CustomAI\RealCityTouristAI.cs" />
-    <Compile Include="CustomAI\RealCityVehicleAI.cs" />
+    <Compile Include="CustomManager\RealCityVehicleManager.cs" />
     <Compile Include="CustomManager\RealCityBuildingManager.cs" />
     <Compile Include="CustomManager\RealCityCitizenManager.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />

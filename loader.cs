@@ -113,8 +113,8 @@ namespace RealCity
 
             for (int i = 0; i < 16384; i++)
             {
-                RealCityCarAI.watingPathTime[i] = 0;
-                RealCityCarAI.stuckTime[i] = 0;
+                RealCityVehicleManager.watingPathTime[i] = 0;
+                RealCityVehicleManager.stuckTime[i] = 0;
             }
 
             for (int j = 0; j < 65536; j++)

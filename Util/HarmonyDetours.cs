@@ -79,45 +79,30 @@ namespace RealCity.Util
                 null,
                 new HarmonyMethod(touristAISimulationStepPostFix));
             //7
-            if (!Loader.isAdvancedJunctionRuleRunning)
-            {
-                var carAISimulationStep = typeof(CarAI).GetMethod("SimulationStep", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
-                typeof(ushort),
-                typeof(Vehicle).MakeByRefType(),
-                typeof(Vehicle.Frame).MakeByRefType(),
-                typeof(ushort),
-                typeof(Vehicle).MakeByRefType(),
-                typeof(int)}, null);
-                var carAISimulationStepPreFix = typeof(RealCityCarAI).GetMethod("CarAISimulationStepPreFix");
-                harmony.ConditionalPatch(carAISimulationStep,
-                    new HarmonyMethod(carAISimulationStepPreFix),
-                    null);
-            }
-            //8
-            var vehicleAIReleaseVehicle = typeof(VehicleAI).GetMethod("ReleaseVehicle", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            var vehicleAIReleaseVehiclePostFix = typeof(RealCityVehicleAI).GetMethod("VehicleAIReleaseVehiclePostFix");
-            harmony.ConditionalPatch(vehicleAIReleaseVehicle,
+            var vehicleManagerReleaseVehicleImplementation = typeof(VehicleManager).GetMethod("ReleaseVehicleImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var vehicleManagerReleaseVehicleImplementationPostFix = typeof(RealCityVehicleManager).GetMethod("VehicleManagerReleaseVehicleImplementationPostFix");
+            harmony.ConditionalPatch(vehicleManagerReleaseVehicleImplementation,
                 null,
-                new HarmonyMethod(vehicleAIReleaseVehiclePostFix));
-            //9
+                new HarmonyMethod(vehicleManagerReleaseVehicleImplementationPostFix));
+            //8
             var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance);
             var buildingAIVisitorEnterPostFix = typeof(RealCityBuildingAI).GetMethod("BuildingAIVisitorEnterPostFix");
             harmony.ConditionalPatch(buildingAIVisitorEnter,
                 null,
                 new HarmonyMethod(buildingAIVisitorEnterPostFix));
-            //10
+            //9
             var officeBuildingAIGetOutgoingTransferReason = typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             var officeBuildingAIGetOutgoingTransferReasonPreFix = typeof(RealCityBuildingAI).GetMethod("OfficeBuildingAIGetOutgoingTransferReasonPreFix");
             harmony.ConditionalPatch(officeBuildingAIGetOutgoingTransferReason,
                 new HarmonyMethod(officeBuildingAIGetOutgoingTransferReasonPreFix),
                 null);
-            //11
+            //10
             var privateBuildingAISimulationStepActive = typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance);
             var privateBuildingAISimulationStepActivePostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAISimulationStepActivePostFix");
             harmony.ConditionalPatch(privateBuildingAISimulationStepActive,
                 null,
                 new HarmonyMethod(privateBuildingAISimulationStepActivePostFix));
-            //12
+            //11
             //Patch RI related
             var extractingFacilityAIProduceGoods = typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
             var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIProduceGoodsPrefix");
@@ -125,7 +110,7 @@ namespace RealCity.Util
             harmony.ConditionalPatch(extractingFacilityAIProduceGoods,
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPrefix),
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPostfix));
-            //13
+            //12
             //Patch RI related
             var processingFacilityAIProduceGoods = typeof(ProcessingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
             var processingFacilityAIProduceGoodsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIProduceGoodsPrefix");
@@ -133,41 +118,41 @@ namespace RealCity.Util
             harmony.ConditionalPatch(processingFacilityAIProduceGoods,
                 new HarmonyMethod(processingFacilityAIProduceGoodsPrefix),
                 new HarmonyMethod(processingFacilityAIProduceGoodsPostfix));
-            //14
+            //13
             var customLandfillSiteAIProduceGoods = typeof(LandfillSiteAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
             var customLandfillSiteAIProduceGoodsPrefix = typeof(CustomLandfillSiteAI).GetMethod("CustomLandfillSiteAIProduceGoodsPrefix");
             var customLandfillSiteAIProduceGoodsPostfix = typeof(CustomLandfillSiteAI).GetMethod("CustomLandfillSiteAIProduceGoodsPostfix");
             harmony.ConditionalPatch(customLandfillSiteAIProduceGoods,
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPrefix),
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPostfix));
-            //15
+            //14
             var processingFacilityAIGetLocalizedStats = typeof(ProcessingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
             var processingFacilityAIGetLocalizedStatsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPrefix");
             var processingFacilityAIGetLocalizedStatsPostfix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPostfix");
             harmony.ConditionalPatch(processingFacilityAIGetLocalizedStats,
                 new HarmonyMethod(processingFacilityAIGetLocalizedStatsPrefix),
                 new HarmonyMethod(processingFacilityAIGetLocalizedStatsPostfix));
-            //16
+            //15
             var extractingFacilityAIGetLocalizedStats = typeof(ExtractingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
             var extractingFacilityAIGetLocalizedStatsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPrefix");
             var extractingFacilityAIGetLocalizedStatsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPostfix");
             harmony.ConditionalPatch(extractingFacilityAIGetLocalizedStats,
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPrefix),
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPostfix));
-            //17
+            //16
             //Patch RI related
             var uniqueFactoryWorldInfoPanelUpdateBindings = typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
             var uniqueFactoryWorldInfoPanelUpdateBindingsPostfix = typeof(CustomUniqueFactoryWorldInfoPanel).GetMethod("UniqueFactoryWorldInfoPanelUpdateBindingsPostfix");
             harmony.ConditionalPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
                 null,
                 new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
-            //18
+            //17
             var citizenManagerReleaseCitizenInstance= typeof(CitizenManager).GetMethod("ReleaseCitizenInstance", BindingFlags.Public | BindingFlags.Instance);
             var citizenManagerReleaseCitizenInstancePostFix = typeof(RealCityCitizenManager).GetMethod("CitizenManagerReleaseCitizenInstancePostFix");
             harmony.ConditionalPatch(citizenManagerReleaseCitizenInstance,
                 null,
                 new HarmonyMethod(citizenManagerReleaseCitizenInstancePostFix));
-            //19
+            //18
             var humanAISimulationStep= typeof(HumanAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool)}, null);
             var humanAISimulationStepPostFix = typeof(RealCityHumanAI).GetMethod("HumanAISimulationStepPostFix");
             harmony.ConditionalPatch(humanAISimulationStep,
@@ -216,45 +201,30 @@ namespace RealCity.Util
                 null,
                 new HarmonyMethod(touristAISimulationStepPostFix));
             //7
-            if (!Loader.isAdvancedJunctionRuleRunning)
-            {
-                var carAISimulationStep = typeof(CarAI).GetMethod("SimulationStep", BindingFlags.Instance | BindingFlags.Public, null, new Type[] {
-                typeof(ushort),
-                typeof(Vehicle).MakeByRefType(),
-                typeof(Vehicle.Frame).MakeByRefType(),
-                typeof(ushort),
-                typeof(Vehicle).MakeByRefType(),
-                typeof(int)}, null);
-                var carAISimulationStepPreFix = typeof(RealCityCarAI).GetMethod("CarAISimulationStepPreFix");
-                harmony.ConditionalUnPatch(carAISimulationStep,
-                    new HarmonyMethod(carAISimulationStepPreFix),
-                    null);
-            }
-            //8
-            var vehicleAIReleaseVehicle = typeof(VehicleAI).GetMethod("ReleaseVehicle", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-            var vehicleAIReleaseVehiclePostFix = typeof(RealCityVehicleAI).GetMethod("VehicleAIReleaseVehiclePostFix");
-            harmony.ConditionalUnPatch(vehicleAIReleaseVehicle,
+            var vehicleManagerReleaseVehicleImplementation = typeof(VehicleManager).GetMethod("ReleaseVehicleImplementation", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var vehicleManagerReleaseVehicleImplementationPostFix = typeof(RealCityVehicleManager).GetMethod("VehicleManagerReleaseVehicleImplementationPostFix");
+            harmony.ConditionalUnPatch(vehicleManagerReleaseVehicleImplementation,
                 null,
-                new HarmonyMethod(vehicleAIReleaseVehiclePostFix));
-            //9
+                new HarmonyMethod(vehicleManagerReleaseVehicleImplementationPostFix));
+            //8
             var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance);
             var buildingAIVisitorEnterPostFix = typeof(RealCityBuildingAI).GetMethod("BuildingAIVisitorEnterPostFix");
             harmony.ConditionalUnPatch(buildingAIVisitorEnter,
                 null,
                 new HarmonyMethod(buildingAIVisitorEnterPostFix));
-            //10
+            //9
             var officeBuildingAIGetOutgoingTransferReason = typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance);
             var officeBuildingAIGetOutgoingTransferReasonPreFix = typeof(RealCityBuildingAI).GetMethod("OfficeBuildingAIGetOutgoingTransferReasonPreFix");
             harmony.ConditionalUnPatch(officeBuildingAIGetOutgoingTransferReason,
                 new HarmonyMethod(officeBuildingAIGetOutgoingTransferReasonPreFix),
                 null);
-            //11
+            //10
             var privateBuildingAISimulationStepActive = typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance);
             var privateBuildingAISimulationStepActivePostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAISimulationStepActivePostFix");
             harmony.ConditionalUnPatch(privateBuildingAISimulationStepActive,
                 null,
                 new HarmonyMethod(privateBuildingAISimulationStepActivePostFix));
-            //12
+            //11
             //Unpatch RI related
             var extractingFacilityAIProduceGoods = typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
             var extractingFacilityAIProduceGoodsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIProduceGoodsPrefix");
@@ -262,7 +232,7 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(extractingFacilityAIProduceGoods,
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPrefix),
                 new HarmonyMethod(extractingFacilityAIProduceGoodsPostfix));
-            //13
+            //12
             //Unpatch RI related
             var processingFacilityAIProduceGoods = typeof(ProcessingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
             var processingFacilityAIProduceGoodsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIProduceGoodsPrefix");
@@ -270,41 +240,41 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(processingFacilityAIProduceGoods,
                 new HarmonyMethod(processingFacilityAIProduceGoodsPrefix),
                 new HarmonyMethod(processingFacilityAIProduceGoodsPostfix));
-            //14
+            //13
             var customLandfillSiteAIProduceGoods = typeof(LandfillSiteAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
             var customLandfillSiteAIProduceGoodsPrefix = typeof(CustomLandfillSiteAI).GetMethod("CustomLandfillSiteAIProduceGoodsPrefix");
             var customLandfillSiteAIProduceGoodsPostfix = typeof(CustomLandfillSiteAI).GetMethod("CustomLandfillSiteAIProduceGoodsPostfix");
             harmony.ConditionalUnPatch(customLandfillSiteAIProduceGoods,
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPrefix),
                 new HarmonyMethod(customLandfillSiteAIProduceGoodsPostfix));
-            //15
+            //14
             var processingFacilityAIGetLocalizedStats = typeof(ProcessingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
             var processingFacilityAIGetLocalizedStatsPrefix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPrefix");
             var processingFacilityAIGetLocalizedStatsPostfix = typeof(CustomProcessingFacilityAI).GetMethod("ProcessingFacilityAIGetLocalizedStatsPostfix");
             harmony.ConditionalUnPatch(processingFacilityAIGetLocalizedStats,
                 new HarmonyMethod(processingFacilityAIGetLocalizedStatsPrefix),
                 new HarmonyMethod(processingFacilityAIGetLocalizedStatsPostfix));
-            //16
+            //15
             var extractingFacilityAIGetLocalizedStats = typeof(ExtractingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
             var extractingFacilityAIGetLocalizedStatsPrefix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPrefix");
             var extractingFacilityAIGetLocalizedStatsPostfix = typeof(CustomExtractingFacilityAI).GetMethod("ExtractingFacilityAIGetLocalizedStatsPostfix");
             harmony.ConditionalUnPatch(extractingFacilityAIGetLocalizedStats,
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPrefix),
                 new HarmonyMethod(extractingFacilityAIGetLocalizedStatsPostfix));
-            //17
+            //16
             //Unpatch RI related
             var uniqueFactoryWorldInfoPanelUpdateBindings = typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
             var uniqueFactoryWorldInfoPanelUpdateBindingsPostfix = typeof(CustomUniqueFactoryWorldInfoPanel).GetMethod("UniqueFactoryWorldInfoPanelUpdateBindingsPostfix");
             harmony.ConditionalUnPatch(uniqueFactoryWorldInfoPanelUpdateBindings,
                 null,
                 new HarmonyMethod(uniqueFactoryWorldInfoPanelUpdateBindingsPostfix));
-            //18
+            //17
             var citizenManagerReleaseCitizenInstance = typeof(CitizenManager).GetMethod("ReleaseCitizenInstance", BindingFlags.Public | BindingFlags.Instance);
             var citizenManagerReleaseCitizenInstancePostFix = typeof(RealCityCitizenManager).GetMethod("CitizenManagerReleaseCitizenInstancePostFix");
             harmony.ConditionalUnPatch(citizenManagerReleaseCitizenInstance,
                 null,
                 new HarmonyMethod(citizenManagerReleaseCitizenInstancePostFix));
-            //19
+            //18
             var humanAISimulationStep = typeof(HumanAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) }, null);
             var humanAISimulationStepPostFix = typeof(RealCityHumanAI).GetMethod("HumanAISimulationStepPostFix");
             harmony.ConditionalUnPatch(humanAISimulationStep,
