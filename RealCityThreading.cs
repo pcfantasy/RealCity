@@ -30,7 +30,7 @@ namespace RealCity
                         if ((flags & Vehicle.Flags.Created) != 0 && vehicle.m_leadingVehicle == 0)
                         {
                             VehicleStatus(k);
-                            DetectStuckVehicle((ushort)k, ref vehicle);
+                            DetectStuckVehicle((ushort)k, ref instance.m_vehicles.m_buffer[k]);
                         }
                     }
                 }
@@ -124,6 +124,7 @@ namespace RealCity
                     DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle transfer type is " + vehicleData.m_transferType.ToString());
                     DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle flag is " + vehicleData.m_flags.ToString());
                     DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
+                    DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle pathflag is " + Singleton<PathManager>.instance.m_pathUnits.m_buffer[vehicleData.m_path].m_simulationFlags.ToString());
                     RealCityVehicleManager.watingPathTime[vehicleID] = 0;
                     Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
                     vehicleData.m_path = 0u;
