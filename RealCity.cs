@@ -10,6 +10,7 @@ namespace RealCity
         public static bool IsEnabled = false;
         public static bool debugMode = false;
         public static bool reduceVehicle = false;
+        public static bool removeStuck = false;
 
         public string Name
         {
@@ -55,6 +56,7 @@ namespace RealCity
             StreamWriter streamWriter = new StreamWriter(fs);
             streamWriter.WriteLine(debugMode);
             streamWriter.WriteLine(reduceVehicle);
+            streamWriter.WriteLine(removeStuck);
             streamWriter.Flush();
             fs.Close();
         }
@@ -87,6 +89,17 @@ namespace RealCity
                     reduceVehicle = false;
                 }
 
+                strLine = sr.ReadLine();
+
+                if (strLine == "True")
+                {
+                    removeStuck = true;
+                }
+                else
+                {
+                    removeStuck = false;
+                }
+
                 sr.Close();
                 fs.Close();
             }
@@ -99,6 +112,8 @@ namespace RealCity
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), debugMode, (index) => debugModeEnable(index));
             UIHelperBase group1 = helper.AddGroup(Localization.Get("REDUCE_CARGO_DESCRIPTION"));
             group1.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), reduceVehicle, (index) => reduceVehicleEnable(index));
+            UIHelperBase group2 = helper.AddGroup(Localization.Get("REMOVE_STUCK_DESCRIPTION"));
+            group2.AddCheckbox(Localization.Get("REMOVE_STUCK_ENABLE"), removeStuck, (index) => removeStuckEnable(index));
             SaveSetting();
         }
 
@@ -111,6 +126,12 @@ namespace RealCity
         public void reduceVehicleEnable(bool index)
         {
             reduceVehicle = index;
+            SaveSetting();
+        }
+
+        public void removeStuckEnable(bool index)
+        {
+            removeStuck = index;
             SaveSetting();
         }
     }

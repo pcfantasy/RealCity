@@ -159,4 +159,6 @@ SHOW_LACK_OF_RESOURCE	对卖空的商店显示缺货图标
 DEBUG_MODE	更多的信息
 REDUCE_CARGO_DESCRIPTION	减少卡车(工业DLC和非工业DLC建筑都有效果)
 REDUCE_CARGO_ENABLE	启用减少卡车功能
-INCOMPATIBILITY_CHECK_TIP	RealCity(系列) 发现了一些不兼容的模组
+INCOMPATIBILITY_CHECK_TIP	RealCity(系列)发现了一些不兼容的模组
+REMOVE_STUCK_DESCRIPTION	自动移除卡住的人和车(会轻微影响游戏速度)
+REMOVE_STUCK_ENABLE	启用自动移除卡住的人和车

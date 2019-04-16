@@ -30,7 +30,10 @@ namespace RealCity
                         if ((flags & Vehicle.Flags.Created) != 0 && vehicle.m_leadingVehicle == 0)
                         {
                             VehicleStatus(k);
-                            DetectStuckVehicle((ushort)k, ref instance.m_vehicles.m_buffer[k]);
+                            if (RealCity.removeStuck)
+                            {
+                                DetectStuckVehicle((ushort)k, ref instance.m_vehicles.m_buffer[k]);
+                            }
                         }
                     }
                 }
@@ -97,70 +100,75 @@ namespace RealCity
             }
         }
 
-        public static void DetectStuckVehicle(ushort vehicleID, ref Vehicle vehicleData)
+        public void DetectStuckVehicle(ushort vehicleID, ref Vehicle vehicleData)
         {
-            if (vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingPath))
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            int num4 = (int)(currentFrameIndex & 255u);
+            if (((num4 >> 4) & 15u) == (vehicleID & 15u))
             {
-                RealCityVehicleManager.stuckTime[vehicleID] = 0;
-                if (vehicleData.m_path != 0)
+                if (vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingPath))
                 {
-                    RealCityVehicleManager.watingPathTime[vehicleID]++;
-                }
-                if (RealCityVehicleManager.watingPathTime[vehicleID] > 192)
-                {
-                    ushort building = 0;
-                    if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.GoingBack))
+                    RealCityVehicleManager.stuckTime[vehicleID] = 0;
+                    if (vehicleData.m_path != 0)
                     {
-                        building = vehicleData.m_targetBuilding;
+                        RealCityVehicleManager.watingPathTime[vehicleID]++;
                     }
-                    else
+                    if (RealCityVehicleManager.watingPathTime[vehicleID] > 10)
                     {
-                        building = vehicleData.m_sourceBuilding;
-                    }
+                        ushort building = 0;
+                        if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.GoingBack))
+                        {
+                            building = vehicleData.m_targetBuilding;
+                        }
+                        else
+                        {
+                            building = vehicleData.m_sourceBuilding;
+                        }
 
-                    var buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
-                    DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle target building m_class is " + buildingData.Info.m_class.ToString());
-                    DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle target name is " + buildingData.Info.name.ToString());
-                    DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle transfer type is " + vehicleData.m_transferType.ToString());
-                    DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle flag is " + vehicleData.m_flags.ToString());
-                    DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
-                    DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle pathflag is " + Singleton<PathManager>.instance.m_pathUnits.m_buffer[vehicleData.m_path].m_simulationFlags.ToString());
-                    RealCityVehicleManager.watingPathTime[vehicleID] = 0;
-                    Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
-                    vehicleData.m_path = 0u;
-                    vehicleData.m_flags = (vehicleData.m_flags & ~Vehicle.Flags.WaitingPath);
-                }
-            }
-            else
-            {
-                RealCityVehicleManager.watingPathTime[vehicleID] = 0;
-                if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingCargo) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingLoading) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingTarget) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Stopped) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Congestion))
-                {
-                    float realSpeed = (float)Math.Sqrt(vehicleData.GetLastFrameVelocity().x * vehicleData.GetLastFrameVelocity().x + vehicleData.GetLastFrameVelocity().y * vehicleData.GetLastFrameVelocity().y + vehicleData.GetLastFrameVelocity().z * vehicleData.GetLastFrameVelocity().z);
-                    if (realSpeed < 0.1f)
-                    {
-                        RealCityVehicleManager.stuckTime[vehicleID]++;
-                    }
-                    else
-                    {
-                        RealCityVehicleManager.stuckTime[vehicleID] = 0;
-                    }
-
-                    if (RealCityVehicleManager.stuckTime[vehicleID] > 800)
-                    {
-                        DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle transfer type is " + vehicleData.m_transferType.ToString());
-                        DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle flag is " + vehicleData.m_flags.ToString());
-                        DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
-                        RealCityVehicleManager.stuckTime[vehicleID] = 0;
+                        var buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
+                        DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle target building m_class is " + buildingData.Info.m_class.ToString());
+                        DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle target name is " + buildingData.Info.name.ToString());
+                        DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle transfer type is " + vehicleData.m_transferType.ToString());
+                        DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle flag is " + vehicleData.m_flags.ToString());
+                        DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
+                        DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle pathflag is " + Singleton<PathManager>.instance.m_pathUnits.m_buffer[vehicleData.m_path].m_simulationFlags.ToString());
+                        RealCityVehicleManager.watingPathTime[vehicleID] = 0;
                         Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
                         vehicleData.m_path = 0u;
-                        Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                        vehicleData.m_flags = (vehicleData.m_flags & ~Vehicle.Flags.WaitingPath);
+                    }
+                }
+                else
+                {
+                    RealCityVehicleManager.watingPathTime[vehicleID] = 0;
+                    if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingCargo) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingLoading) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingTarget) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Stopped) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Congestion))
+                    {
+                        float realSpeed = (float)Math.Sqrt(vehicleData.GetLastFrameVelocity().x * vehicleData.GetLastFrameVelocity().x + vehicleData.GetLastFrameVelocity().y * vehicleData.GetLastFrameVelocity().y + vehicleData.GetLastFrameVelocity().z * vehicleData.GetLastFrameVelocity().z);
+                        if (realSpeed < 0.1f)
+                        {
+                            RealCityVehicleManager.stuckTime[vehicleID]++;
+                        }
+                        else
+                        {
+                            RealCityVehicleManager.stuckTime[vehicleID] = 0;
+                        }
+
+                        if (RealCityVehicleManager.stuckTime[vehicleID] > 60)
+                        {
+                            DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle transfer type is " + vehicleData.m_transferType.ToString());
+                            DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle flag is " + vehicleData.m_flags.ToString());
+                            DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
+                            RealCityVehicleManager.stuckTime[vehicleID] = 0;
+                            Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
+                            vehicleData.m_path = 0u;
+                            Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                        }
                     }
                 }
             }
         }
 
-        public static void VehicleStatus(int i)
+        public void VehicleStatus(int i)
         {
             if (i < 16384)
             {

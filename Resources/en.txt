@@ -160,3 +160,5 @@ DEBUG_MODE	More Information
 REDUCE_CARGO_DESCRIPTION	Reduce cargo amount(for both industry dlc and growable building)
 REDUCE_CARGO_ENABLE	Reduce cargo function enable
 INCOMPATIBILITY_CHECK_TIP	RealCity(series) Mod detected incompatible mods
+REMOVE_STUCK_DESCRIPTION	Auto remove stuck citizen&vehicle(impact performance a little)
+REMOVE_STUCK_ENABLE	Remove stuck citizen&vehicle enable
