@@ -1,0 +1,162 @@
+ECONOMIC_DATA	Экономическая статистика
+CITIZEN_STATUS	1、Статус жителей (числа в центах)
+CITIZEN_COUNT	Количество жителей
+FAMILY_COUNT	Количество семей
+SALARY_PER_FAMILY	Среднесемейный доход
+CITIZEN_TAX_PER_FAMILY	Среднесемейные налоги
+EXPENSE_PER_FAMILY	Среднесемейные затраты
+AVERAGE_TRANPORT_FEE	Среднесемейные транспортные затраты
+HIGH_SALARY_COUNT	Высокий оклад
+MEDIUM_SALARY_COUNT	Средних доходов
+LOW_SALARY_COUNT	Низких доходов
+WEALTH_HIGH_COUNT	Высокого достатка
+WEALTH_MEDIUM_COUNT	Среднего достатка
+WEALTH_LOW_COUNT	Низкого достатка
+BUILDING_STATUS	2. Building Status
+PROFIT_BUIDLING_COUNT	Прибыльных (Инд+Ком) предприятий
+EXTERNAL_INVESTMENTS	Внешние инвестиции (для офисов)
+TIP1	Tip1
+TIP2	Tip2
+TIP3	Tip3
+TIP4	Tip4
+TIP5	Tip5
+TIP6	Tip6
+POLICY_COST	3. Затраты на политики (₡)
+LIVING_ALLOWANCE	Выплаты бедным и малоимущим
+USE_TMPE_TIP	Используйте TMPE и запретите исчезновение транспорта
+STARTUP_TIP	Индустриализация важна для улучшения экономики и Ваших финансов на старте
+TOURIST_TIP	Используйте соответсвующую специализацию, чтобы привлечь туристов
+OFFICE_TIP	Офисы могут привлекать "внешние инвестиции" в зависимости от вашей индустрии
+UNLOCK_TIP	Не разблокируйте всё в начале игры
+UG_TIP	Больше деталей в руководстве пользователя
+CITY_SALARY_TAX_INCOME_TITLE	Сборы от подоходного налога
+SALARY_TAX_INCOME	Сборы от подоходного налога
+TOURIST_INCOME_TITLE	2. Сборы от туризма
+FROM_RESIDENT	от жителей
+FROM_TOURIST	от гостей города
+LAND_TAX_INCOME_TITLE	3. Сборы от земельного налога
+RESIDENT_HIGH_LAND_INCOME	С жилых кварталов высокой плотности
+RESIDENT_LOW_LAND_INCOME	С жилых кварталов низкой плотности
+RESIDENT_HIGH_ECO_LAND_INCOME	С жилых эко-кварталов высокой плотности
+RESIDENT_LOW_ECO_LAND_INCOME	С жилых эко-кварталов низкой плотности
+COMMERICAL_HIGH_LAND_INCOME	С комерческих кварталов высокой плотности
+COMMERICAL_LOW_LAND_INCOME	С комерческих кварталов низкой плотности
+COMMERICAL_ECO_LAND_INCOME	С комерческих эко-кварталов
+COMMERICAL_TOURISM_LAND_INCOME	С туристических кварталов
+COMMERICAL_LEISURE_LAND_INCOME	С развлекательных кварталов
+INDUSTRIAL_GENERAL_LAND_INCOME	С производственных кварталов
+INDUSTRIAL_FARMING_LAND_INCOME	С сельскохозяйственных районов
+INDUSTRIAL_FORESTY_LAND_INCOME	С лесозаготовительных районов
+INDUSTRIAL_OIL_LAND_INCOME	С нефтяных районов
+INDUSTRIAL_ORE_LAND_INCOME	С горнорудных районов
+OFFICE_GENERAL_LAND_INCOME	С офисных кварталов
+OFFICE_HIGH_TECH_LAND_INCOME	С IT-кварталов
+CITY_TRADE_INCOME_TITLE	4. Сборы от налога с продаж
+COMMERICAL_HIGH_TRADE_INCOME	С комерческих кварталов высокой плотности
+COMMERICAL_LOW_TRADE_INCOME	С комерческих кварталов низкой плотности
+COMMERICAL_ECO_TRADE_INCOME	С комерческих эко-кварталов
+COMMERICAL_TOURISM_TRADE_INCOME	С туристических кварталов
+COMMERICAL_LEISURE_TRADE_INCOME	С развлекательных кварталов
+INDUSTRIAL_GENERAL_TRADE_INCOME	С производственных кварталов
+INDUSTRIAL_FARMING_TRADE_INCOME	С сельскохозяйственных районов
+INDUSTRIAL_FORESTY_TRADE_INCOME	С лесозаготовительных районов
+INDUSTRIAL_OIL_TRADE_INCOME	С нефтяных районов
+INDUSTRIAL_ORE_TRADE_INCOME	С горнорудных районов
+CITY_PUBLIC_TRANSPORT_INCOME_TITLE	5. Доход от общественного транспорта
+BUS	Автобусы
+TRAM	Трамваи
+TRAIN	Поезда
+SHIP	Суда
+PLANE	Самолёты
+METRO	Метро
+TAXI	Такси
+CABLECAR	Канатная дорога
+MONORAIL	Монорельс
+CITY_PLAYER_BUILDING_INCOME_TITLE	6. Доход от городских служб
+ROAD	От платных дорог (+ АЗС)
+GARBAGE	От ввоза мусора
+SCHOOL	От учреждений образования
+HEALTHCARE	От оказания медицинских услуг за пределами города
+FIRESTATION	От тушения пожаров за пределами города
+POLICESTATION	От полицеского обслуживания за пределами города
+PLAYERINDUSTRY	Муниципальные промышленные предприятия
+CITY_TOTAL_INCOME_TITLE	7. Совокупный городской доход
+CITY_INCOME_DATA	Данные о доходе (₡)
+PARLIAMENT_HALL	Парламент
+PARLIAMENT_SEATS	Распределение мест в городском совете
+COMMUNIST	Коммунисты
+GREEN	Зелёные
+SOCIALIST	Социалисты
+LIBERAL	Либералы
+NATIONAL	Националисты
+GOVERMENT	Правительство
+LEFT_UNION	(Союз левых)
+WIDE_LEFT_UNION	(Левая коалиция)
+RIGHT_UNION	(Союз правых)
+ALL_UNION	(Коалиция)
+NEXT_VOTE	Следующее голосование
+CURRENT_MEETING_ITEM	Текущее обсуждение
+RISE_RESIDENT_TAX	Повышениен ставки алога для домовладельцев
+FALL_RESIDENT_TAX	Снижение ставки налога для домовладельцев
+RISE_BENEFIT	Увеличение поддержки малоимущих
+FALL_BENEFIT	Сокращение поддержки малоимущих
+RISE_COMMERIAL_TAX	Повышение ставки налога для торговых предприятий
+FALL_COMMERIAL_TAX	Снижение ставки налога для торговых предприятий
+RISE_INDUSTRIAL_TAX	Повышение ставки налога для промышленных предприятий
+FALL_INDUSTRIAL_TAX	Сокращение ставки налога для промышленных предприятий
+VOTE_RESULT	Результаты голосования
+YES	За
+NO	Против
+NO_ATTEND	Воздержались
+CURRENT_POLICY	Текущая финансовая политика
+BENEFIT	Минимальный семейный доход
+RESIDENT_SALARY_TAX	Ставка подоходного налога
+COMMERICAL_TRADE_TAX	Ставка НДС для торговых предприятий
+INDUSTRIAL_TRADE_TAX	Ставка НДС для промышленных предприятий
+BUILDING_MONEY	Баланс предпрития (в центах)
+MATERIAL_BUFFER	Склад сырья
+PRODUCTION_BUFFER	Склад продукции
+AVERAGE_EMPLOYFEE	Средняя зарплата
+BUILDING_LANDRENT	Стоимость аренды земли
+PROFIT_SHARING	Распределение прибыли
+BUY_PRICE	Средняя цена сырья
+SELL_PRICE	Средняя цена продукции
+MATERIAL_DIV_PRODUCTION	Коэффициент выхода продукции
+SELL_TAX	Налог на добавленную стоимость
+PROFIT	Прибыль
+EXCLUDE_VISIT_INCOME	(исключая доход посетителей)
+FAMILY_STATUS	Состояние семьи
+FOOD	Продукты питания
+COAL	Уголь
+LUMBER	Древесина
+PETROL	Нефтепродукты
+GRAIN_MEAT	Зерно/Мясо
+ORE	Руда
+LOG	Лес-кругляк
+OIL	Нефть
+PREGOODS	Полуфабрикаты
+GOODS	Товары
+PRICE	Цена
+ANIMALPRODUCTS	Животные продукты
+FLOURS	Мука
+PAPER	Бумага
+PLANEDTIMBER	Доски
+PETROLEUM	Топливо
+PLASTICS	Пластик
+GLASS	Стекло
+METALS	Металл
+LUXURY_PRODUCTS	Предметы роскоши
+FAMILY_MONEY	Семейные финансы (в центах)
+FAMILY_SALARY	Семейный доход
+FAMILY_GOODS	
+FAMILY_NEED_GOODS	(Семья нуждается)
+INCLUDE_RESOURCE_TAX	(Включая 60% налог на недра)
+CAR_USED	Использовано автомобилей
+MAINTAIN_FEE_TIPS	Затраты на содержания отображаемые в интерфейсе не включают затраты на транспорт
+LOCAL_WORKERS_DIV_TOTAL_WORKERS	Рабочих/ Рабочих мест
+TOURIST_MONEY	Транспортный бюджет туриста
+SHOW_LACK_OF_RESOURCE	Отображать иконку недосточно ресурсов на коммерческих зданиях когда склад пустой
+DEBUG_MODE	Отображать больше информации
+REDUCE_CARGO_DESCRIPTION	Сократить количество груза (и для DLC Industries и для зональных зданий)
+REDUCE_CARGO_ENABLE	Включить функцию сокращения груза
+INCOMPATIBILITY_CHECK_TIP	Модификация RealCity(series) обнаружила несовместимые модификации
