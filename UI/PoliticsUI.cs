@@ -90,22 +90,22 @@ namespace RealCity.UI
 
             green = AddUIComponent<UILabel>();
             green.text = Localization.Get("GREEN");
-            green.relativePosition = new Vector3(communist.relativePosition.x + communist.width + SPACING + 70f, communist.relativePosition.y);
+            green.relativePosition = new Vector3(communist.relativePosition.x + 160f, communist.relativePosition.y);
             green.autoSize = true;
 
             socialist = AddUIComponent<UILabel>();
             socialist.text = Localization.Get("SOCIALIST");
-            socialist.relativePosition = new Vector3(green.relativePosition.x + green.width + SPACING + 70f, green.relativePosition.y);
+            socialist.relativePosition = new Vector3(green.relativePosition.x + 160f, green.relativePosition.y);
             socialist.autoSize = true;
 
             liberal = AddUIComponent<UILabel>();
             liberal.text = Localization.Get("LIBERAL");
-            liberal.relativePosition = new Vector3(socialist.relativePosition.x + socialist.width + SPACING + 70f, socialist.relativePosition.y);
+            liberal.relativePosition = new Vector3(socialist.relativePosition.x + 160f, socialist.relativePosition.y);
             liberal.autoSize = true;
 
             national = AddUIComponent<UILabel>();
             national.text = Localization.Get("NATIONAL");
-            national.relativePosition = new Vector3(liberal.relativePosition.x + liberal.width + SPACING + 70f, liberal.relativePosition.y);
+            national.relativePosition = new Vector3(liberal.relativePosition.x + 160f, liberal.relativePosition.y);
             national.autoSize = true;
 
             goverment = AddUIComponent<UILabel>();
@@ -212,7 +212,7 @@ namespace RealCity.UI
 
                     voteResult.text = string.Format(Localization.Get("VOTE_RESULT") + ": " + Localization.Get("YES") + ":" + Politics.currentYes.ToString() + " " + Localization.Get("NO") + ":" + Politics.currentNo.ToString() + " " + Localization.Get("NO_ATTEND") + ":" + Politics.currentNoAttend.ToString());
                     currentPolitics.text = string.Format(Localization.Get("CURRENT_POLICY"));
-                    benefit.text = string.Format(Localization.Get("BENEFIT") + " " + Politics.benefitOffset.ToString());
+                    benefit.text = string.Format(Localization.Get("BENEFIT") + " " + (Politics.benefitOffset * 5).ToString());
                     resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + Politics.residentTax.ToString() + "%");
                     commerical.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commericalTax.ToString() + "%");
                     industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + Politics.industryTax.ToString() + "%");

@@ -309,16 +309,21 @@ namespace RealCity.CustomAI
                     else
                     {
                         //Goverment
+                        int salaryMax = 0;
                         switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                         {
                             case Citizen.Education.Uneducated:
-                                salary = MainDataStore.govermentEducation0Salary; break;
+                                salaryMax = MainDataStore.govermentEducation0Salary;
+                                salary = MainDataStore.govermentEducation0SalaryFixed; break;
                             case Citizen.Education.OneSchool:
-                                salary = MainDataStore.govermentEducation1Salary; break;
+                                salaryMax = MainDataStore.govermentEducation1Salary;
+                                salary = MainDataStore.govermentEducation1SalaryFixed; break;
                             case Citizen.Education.TwoSchools:
-                                salary = MainDataStore.govermentEducation2Salary; break;
+                                salaryMax = MainDataStore.govermentEducation2Salary;
+                                salary = MainDataStore.govermentEducation2SalaryFixed; break;
                             case Citizen.Education.ThreeSchools:
-                                salary = MainDataStore.govermentEducation3Salary; break;
+                                salaryMax = MainDataStore.govermentEducation3Salary;
+                                salary = MainDataStore.govermentEducation3SalaryFixed; break;
                         }
                         int allWorkCount = 0;
                         //Update to see if there is building workplace change.
@@ -338,6 +343,7 @@ namespace RealCity.CustomAI
                         //LandPrice offset for Salary
                         float landPriceOffset = ProcessSalaryLandPriceAdjust(workBuilding);
                         salary = (int)(salary * landPriceOffset);
+                        salary = Math.Max(salary, salaryMax);
 #if Debug
                         DebugLog.LogToFileOnly("DebugInfo: LandPrice offset for Salary is " + landPriceOffset.ToString());
 #endif
@@ -864,9 +870,9 @@ namespace RealCity.CustomAI
             }
 
             //7. Caculate minimumLivingAllowance and benefitOffset
-            if (MainDataStore.family_money[homeID] < -Politics.benefitOffset)
+            if (MainDataStore.family_money[homeID] < (-Politics.benefitOffset * 5))
             {
-                int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f + Politics.benefitOffset);
+                int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f + Politics.benefitOffset * 5);
                 MainDataStore.family_money[homeID] = 0;
                 MainDataStore.minimumLivingAllowance += num;
                 Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
@@ -875,9 +881,9 @@ namespace RealCity.CustomAI
             {
                 if (Politics.benefitOffset > 0)
                 {
-                    MainDataStore.family_money[homeID] += Politics.benefitOffset;
-                    MainDataStore.minimumLivingAllowance += Politics.benefitOffset;
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+                    MainDataStore.family_money[homeID] += (Politics.benefitOffset * 5);
+                    MainDataStore.minimumLivingAllowance += (Politics.benefitOffset * 5);
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset * 5, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
             }
 

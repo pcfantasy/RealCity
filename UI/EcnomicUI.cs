@@ -10,7 +10,7 @@ namespace RealCity.UI
     public class EcnomicUI : UIPanel
     {
         public static readonly string cacheName = "EcnomicUI";
-        private static readonly float WIDTH = 750f;
+        private static readonly float WIDTH = 960f;
         private static readonly float HEIGHT = 450f;
         private static readonly float HEADER = 40f;
         private static readonly float SPACING = 17f;
@@ -66,7 +66,7 @@ namespace RealCity.UI
             canFocus = true;
             isInteractive = true;
             BringToFront();
-            relativePosition = new Vector3(200f, 170f);
+            relativePosition = new Vector3(50f, 170f);
             opacity = 1f;
             cachedName = cacheName;
             m_DragHandler = AddUIComponent<UIDragHandle>();
@@ -111,12 +111,12 @@ namespace RealCity.UI
 
             family_count = AddUIComponent<UILabel>();
             family_count.text = Localization.Get("FAMILY_COUNT");
-            family_count.relativePosition = new Vector3(citizen_count.relativePosition.x + 250f, citizen_count.relativePosition.y);
+            family_count.relativePosition = new Vector3(citizen_count.relativePosition.x + 320f, citizen_count.relativePosition.y);
             family_count.autoSize = true;
 
             citizen_salary_per_family = AddUIComponent<UILabel>();
             citizen_salary_per_family.text = Localization.Get("SALARY_PER_FAMILY");
-            citizen_salary_per_family.relativePosition = new Vector3(family_count.relativePosition.x + 250f, family_count.relativePosition.y);
+            citizen_salary_per_family.relativePosition = new Vector3(family_count.relativePosition.x + 320f, family_count.relativePosition.y);
             citizen_salary_per_family.autoSize = true;
 
             citizen_salary_tax_per_family = AddUIComponent<UILabel>();
@@ -178,7 +178,7 @@ namespace RealCity.UI
 
             externalInvestments = AddUIComponent<UILabel>();
             externalInvestments.text = Localization.Get("EXTERNAL_INVESTMENTS");
-            externalInvestments.relativePosition = new Vector3(profitBuildingCount.relativePosition.x + 375f, profitBuildingCount.relativePosition.y);
+            externalInvestments.relativePosition = new Vector3(profitBuildingCount.relativePosition.x + 480f, profitBuildingCount.relativePosition.y);
             externalInvestments.autoSize = true;
 
             //policy

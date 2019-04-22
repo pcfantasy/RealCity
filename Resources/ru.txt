@@ -5,7 +5,7 @@ FAMILY_COUNT	Количество семей
 SALARY_PER_FAMILY	Среднесемейный доход
 CITIZEN_TAX_PER_FAMILY	Среднесемейные налоги
 EXPENSE_PER_FAMILY	Среднесемейные затраты
-AVERAGE_TRANPORT_FEE	Среднесемейные транспортные затраты
+AVERAGE_TRANPORT_FEE	Средние транспортные расходы 
 HIGH_SALARY_COUNT	Высокий оклад
 MEDIUM_SALARY_COUNT	Средних доходов
 LOW_SALARY_COUNT	Низких доходов
@@ -29,7 +29,7 @@ TOURIST_TIP	Используйте соответсвующую специали
 OFFICE_TIP	Офисы могут привлекать "внешние инвестиции" в зависимости от вашей индустрии
 UNLOCK_TIP	Не разблокируйте всё в начале игры
 UG_TIP	Больше деталей в руководстве пользователя
-CITY_SALARY_TAX_INCOME_TITLE	Сборы от подоходного налога
+CITY_SALARY_TAX_INCOME_TITLE	1.Сборы от подоходного налога
 SALARY_TAX_INCOME	Сборы от подоходного налога
 TOURIST_INCOME_TITLE	2. Сборы от туризма
 FROM_RESIDENT	от жителей
@@ -76,10 +76,10 @@ CITY_PLAYER_BUILDING_INCOME_TITLE	6. Доход от городских служ
 ROAD	От платных дорог (+ АЗС)
 GARBAGE	От ввоза мусора
 SCHOOL	От учреждений образования
-HEALTHCARE	От оказания медицинских услуг за пределами города
-FIRESTATION	От тушения пожаров за пределами города
-POLICESTATION	От полицеского обслуживания за пределами города
-PLAYERINDUSTRY	Муниципальные промышленные предприятия
+HEALTHCARE	Медицинское обслуживание
+FIRESTATION	 Противопожарный механизм
+POLICESTATION	Служба полиции 
+PLAYERINDUSTRY	Государственная промышленность
 CITY_TOTAL_INCOME_TITLE	7. Совокупный городской доход
 CITY_INCOME_DATA	Данные о доходе (₡)
 PARLIAMENT_HALL	Парламент
@@ -160,3 +160,5 @@ DEBUG_MODE	Отображать больше информации
 REDUCE_CARGO_DESCRIPTION	Сократить количество груза (и для DLC Industries и для зональных зданий)
 REDUCE_CARGO_ENABLE	Включить функцию сокращения груза
 INCOMPATIBILITY_CHECK_TIP	Модификация RealCity(series) обнаружила несовместимые модификации
+REMOVE_STUCK_DESCRIPTION	Auto remove stuck citizen&vehicle(impact performance a little)
+REMOVE_STUCK_ENABLE	Remove stuck citizen&vehicle enable

@@ -551,6 +551,23 @@ namespace RealCity.UI
                 case ItemClass.SubService.CommercialEco:
                     incomeAccumulation = MainDataStore.comm_eco;
                     break;
+                case ItemClass.SubService.OfficeGeneric:
+                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                    {
+                        incomeAccumulation = MainDataStore.office_gen_levell;
+                    }
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                    {
+                        incomeAccumulation = MainDataStore.office_gen_level2;
+                    }
+                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                    {
+                        incomeAccumulation = MainDataStore.office_gen_level3;
+                    }
+                    break;
+                case ItemClass.SubService.OfficeHightech:
+                    incomeAccumulation = MainDataStore.office_high_tech;
+                    break;
                 default: break;
             }
         }
