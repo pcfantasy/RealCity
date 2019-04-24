@@ -44,29 +44,29 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Lib.Harmony.1.2.0.1\lib\net35\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="ColossalManaged">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
     </Reference>
     <Reference Include="ICities">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Posix">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Mono.Posix.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Mono.Posix.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Mono.Security.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Mono.Security.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,10 +76,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>O:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -139,24 +139,26 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon\RealCity.png" />
+    <Content Include="Resources\ru.txt" />
     <Content Include="Resources\zh.txt" />
     <Content Include="Resources\en.txt" />
     <Content Include="Resources\incompatible_mods.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="RealCity.ruleset" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "D:\Mod\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
-copy "D:\Mod\RealCity\bin\Release\0Harmony.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"
-rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
-mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
-copy "D:\Mod\RealCity\Resources\*.*" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
-rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
-mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
-copy "D:\Mod\RealCity\Icon\*.png" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"</PostBuildEvent>
+    <PostBuildEvent>copy "J:\RealCity\bin\Release\RealCity.dll"  "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
+copy "J:\RealCity\bin\Release\0Harmony.dll"  "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"
+rd /q /s "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
+mkdir "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
+copy "J:\RealCity\Resources\*.*" "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
+rd /q /s "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
+mkdir "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"
+copy "J:\RealCity\Icon\*.png" "O:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Icon"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
