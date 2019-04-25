@@ -616,6 +616,11 @@ namespace RealCity.CustomAI
                     familyWeightStableHigh = (ushort)(familyWeightStableHigh + 1);
                 }
 
+                if (MainDataStore.family_money[homeID] < 5000)
+                    MainDataStore.family_money_threat[homeID] = (10000 - MainDataStore.family_money[homeID]) / 5000.0f;
+                else
+                    MainDataStore.family_money_threat[homeID] = (12500 - MainDataStore.family_money[homeID] ) / 15000.0f;
+
                 int temp = 0;
                 if (data.m_citizen0 != 0)
                 {

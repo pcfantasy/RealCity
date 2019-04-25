@@ -42,6 +42,8 @@
         //1.3 income-expense
         public static float[] family_money = new float[524288];
         public static ushort[] familyGoods = new ushort[524288];
+        public static float[] family_money_threat = new float[524288];
+
         public static uint family_profit_money_num = 0;
         public static uint family_loss_money_num = 0;
         public static uint family_very_profit_money_num = 0;
@@ -71,6 +73,8 @@
         public const byte office_high_tech = 255;
         //2.3 buildingMoney 
         public static float[] building_money = new float[49152];
+        public static float[] building_money_threat = new float[49152];
+
         //3 Govement expense
         public static int minimumLivingAllowance = 0;
         public static int reserved2 = 0; //old resettlement, RealConstruction Mod replace this function

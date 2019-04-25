@@ -324,7 +324,7 @@ namespace RealCity.UI
             return num;
         }
 
-        public float CaculateEmployeeOutcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
+        public static float CaculateEmployeeOutcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
         {
             float num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);

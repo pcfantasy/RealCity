@@ -158,6 +158,14 @@ namespace RealCity.Util
             harmony.ConditionalPatch(humanAISimulationStep,
                 null,
                 new HarmonyMethod(humanAISimulationStepPostFix));
+
+            // 19
+            RealCityPrivateBuildingAI.originalGetColorMethod = typeof(PrivateBuildingAI).GetMethod("GetColor", BindingFlags.NonPublic | BindingFlags.Instance);
+            var privateBuildingAIGetColorPostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAIGetColorPostFix");
+            harmony.ConditionalPatch(RealCityPrivateBuildingAI.originalGetColorMethod,
+                null,
+                new HarmonyMethod(privateBuildingAIGetColorPostFix));
+
             Loader.HarmonyDetourFailed = false;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -280,6 +288,16 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(humanAISimulationStep,
                 null,
                 new HarmonyMethod(humanAISimulationStepPostFix));
+
+            // 19
+            var privateBuildingAIGetColor = typeof(PrivateBuildingAI).GetMethod("GetColor", BindingFlags.NonPublic | BindingFlags.Instance);
+            var privateBuildingAIGetColorPostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAIGetColorPostFix");
+            harmony.ConditionalUnPatch(privateBuildingAIGetColor,
+                null,
+                new HarmonyMethod(privateBuildingAIGetColorPostFix));
+
+            RealCityPrivateBuildingAI.originalGetColorMethod = null;
+
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }
     }
