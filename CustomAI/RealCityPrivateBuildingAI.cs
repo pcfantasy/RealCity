@@ -26,7 +26,6 @@ namespace RealCity.CustomAI
         public static ushort greaterThan20000ProfitBuildingCount = 0;
         public static ushort greaterThan20000ProfitBuildingCountFinal = 0;
         public static ushort allBuildingsFinal = 0;
-        public static System.Reflection.MethodInfo originalGetColorMethod;
 
         public static byte[] saveData = new byte[44];
 
@@ -95,13 +94,10 @@ namespace RealCity.CustomAI
             ProcessAdditionProduct(buildingID, ref buildingData);
         }
 
-        public static UnityEngine.Color BuildingAIGetColor(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode)
-        {
-            object result = originalGetColorMethod.Invoke(null, new object[] { buildingID, data, infoMode });
-            return (UnityEngine.Color)result;
-        }
-        public static UnityEngine.Color PrivateBuildingAIGetColorPostFix(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode)
-        {
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+        public static void PrivateBuildingAIGetColorPostFix(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode, ref UnityEngine.Color __result)       {
             if (infoMode == InfoManager.InfoMode.LandValue)
             {
                 ItemClass @class = data.Info.m_class;
@@ -110,21 +106,21 @@ namespace RealCity.CustomAI
                 {
                     case ItemClass.Service.Residential:
                         if (MainDataStore.family_money_threat[buildingID] < 0.5f)
-                            return UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.family_money_threat[buildingID] * 2.0f);
+                            __result =  UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.family_money_threat[buildingID] * 2.0f);
                         else
-                            return UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.family_money_threat[buildingID] - 0.5f) * 2.0f);
+                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.family_money_threat[buildingID] - 0.5f) * 2.0f);
+                        break;
 
                     case ItemClass.Service.Office:
                     case ItemClass.Service.Industrial:
                     case ItemClass.Service.Commercial:
                         if (MainDataStore.building_money_threat[buildingID] < 0.5f)
-                            return UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.family_money_threat[buildingID] * 2.0f);
+                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
                         else
-                            return UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.family_money_threat[buildingID] - 0.5f) * 2.0f);
+                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
+                        break;
                 }
             }
-
-            return BuildingAIGetColor(buildingID, ref data, infoMode);
         }
 
         public static void ProcessAdditionProductIndustrialExtractorAI(ushort buildingID, ref Building buildingData)
@@ -641,7 +637,7 @@ namespace RealCity.CustomAI
 
                     if (MainDataStore.citizenCount > 0.0)
                     {
-                        float averageCitySalary = MainDataStore.citizenSalaryTotal / MainDataStore.citizenSalaryTotal;
+                        float averageCitySalary = MainDataStore.citizenSalaryTotal / MainDataStore.citizenCount;
                         float salaryFactor = averageBuildingSalary / averageCitySalary;
                         if (salaryFactor > 1.6f)
                             salaryFactor = 1.6f;

@@ -160,9 +160,15 @@ namespace RealCity.Util
                 new HarmonyMethod(humanAISimulationStepPostFix));
 
             // 19
-            RealCityPrivateBuildingAI.originalGetColorMethod = typeof(PrivateBuildingAI).GetMethod("GetColor", BindingFlags.NonPublic | BindingFlags.Instance);
+            var originalGetColorMethod = typeof(CommonBuildingAI).GetMethod(
+                    "GetColor",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(InfoManager.InfoMode) },
+                    new ParameterModifier[0]);
+
             var privateBuildingAIGetColorPostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAIGetColorPostFix");
-            harmony.ConditionalPatch(RealCityPrivateBuildingAI.originalGetColorMethod,
+            harmony.ConditionalPatch(originalGetColorMethod,
                 null,
                 new HarmonyMethod(privateBuildingAIGetColorPostFix));
 
@@ -290,13 +296,17 @@ namespace RealCity.Util
                 new HarmonyMethod(humanAISimulationStepPostFix));
 
             // 19
-            var privateBuildingAIGetColor = typeof(PrivateBuildingAI).GetMethod("GetColor", BindingFlags.NonPublic | BindingFlags.Instance);
+            var originalGetColorMethod = typeof(CommonBuildingAI).GetMethod(
+            "GetColor",
+            BindingFlags.Instance | BindingFlags.Public,
+            null,
+            new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(InfoManager.InfoMode) },
+            new ParameterModifier[0]);
+
             var privateBuildingAIGetColorPostFix = typeof(RealCityPrivateBuildingAI).GetMethod("PrivateBuildingAIGetColorPostFix");
-            harmony.ConditionalUnPatch(privateBuildingAIGetColor,
+            harmony.ConditionalUnPatch(originalGetColorMethod,
                 null,
                 new HarmonyMethod(privateBuildingAIGetColorPostFix));
-
-            RealCityPrivateBuildingAI.originalGetColorMethod = null;
 
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }
