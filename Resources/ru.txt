@@ -74,8 +74,8 @@ CABLECAR	Канатная дорога
 MONORAIL	Монорельс
 CITY_PLAYER_BUILDING_INCOME_TITLE	6. Доход от городских служб
 ROAD	Платные дороги и АЗС
-GARBAGE	Ввоз мсора
-SCHOOL	От школ и ВУЗов
+GARBAGE	Ввоз мусора
+SCHOOL	Школы и ВУЗы
 HEALTHCARE	Медпомощь
 FIRESTATION	Тушение пожаров
 POLICESTATION	От полицейских командировок
@@ -88,13 +88,13 @@ COMMUNIST	Коммунисты
 GREEN	Зелёные
 SOCIALIST	Социалисты
 LIBERAL	Либералы
-NATIONAL	Националисты
-GOVERMENT	Правительство
+NATIONAL	Правые
+GOVERMENT	Правительство 
 LEFT_UNION	(Союз левых)
 WIDE_LEFT_UNION	(Левая коалиция)
 RIGHT_UNION	(Союз правых)
 ALL_UNION	(Коалиция)
-NEXT_VOTE	Следующее голосование
+NEXT_VOTE	Следующие выборы
 CURRENT_MEETING_ITEM	Текущее обсуждение
 RISE_RESIDENT_TAX	Повышение ставки налога для домовладельцев
 FALL_RESIDENT_TAX	Снижение ставки налога для домовладельцев
