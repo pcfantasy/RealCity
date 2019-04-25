@@ -190,25 +190,10 @@ namespace RealCity
             //Caculate goverment salary
             if (MainDataStore.citizenCount != 0)
             {
-                if (((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount) > (MainDataStore.govermentEducation0SalaryFixed))
-                {
-                    MainDataStore.govermentEducation0Salary = (byte)(((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount));
-                }
-
-                if (((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount) > (MainDataStore.govermentEducation1SalaryFixed))
-                {
-                    MainDataStore.govermentEducation1Salary = (byte)(((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount));
-                }
-
-                if (((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount) > (MainDataStore.govermentEducation2SalaryFixed))
-                {
-                    MainDataStore.govermentEducation2Salary = (byte)(((MainDataStore.citizenSalaryTotal * 0.9f) / MainDataStore.citizenCount));
-                }
-
-                if (((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount) > (float)(MainDataStore.govermentEducation3SalaryFixed))
-                {
-                    MainDataStore.govermentEducation3Salary = (byte)((float)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount));
-                }
+                MainDataStore.govermentEducation0Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.65f) / MainDataStore.citizenCount);
+                MainDataStore.govermentEducation1Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount);
+                MainDataStore.govermentEducation2Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount);
+                MainDataStore.govermentEducation3Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.95f) / MainDataStore.citizenCount);
             }
         }
 
@@ -218,7 +203,7 @@ namespace RealCity
             if (temp == 99)
             {
                 System.Random rand = new System.Random();
-                switch (rand.Next(10))
+                switch (rand.Next(8))
                 {
                     case 0:
                         if (Politics.residentTax >= 20)
@@ -429,13 +414,13 @@ namespace RealCity
                 }
                 Politics.currentIdx = (byte)idex;
             }
-            else if (_cashAmount > 8000000)
+            else if (_cashAmount > 12000000)
             {
-                MoneyOffset = 2000;
+                MoneyOffset = 3000;
             }
             else
             {
-                MoneyOffset = -2000 + (int)(_cashAmount / 2000);
+                MoneyOffset = -3000 + (int)(_cashAmount / 2000);
             }
 
             //citizenOffset
