@@ -4,3 +4,5 @@
 *.cache
 .vs/RealCity/v14/.suo
 *.xml
+RealCity.csproj
+RealCity.sln
