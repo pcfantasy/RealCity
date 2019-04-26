@@ -40,7 +40,7 @@ namespace RealCity
                         Politics.parliamentCount--;
                         if (Politics.parliamentCount < 0)
                         {
-                            Politics.parliamentCount = 40;
+                            Politics.parliamentCount = 10;
                         }
                         //2. Caculate minimumLivingAllowance
                         MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
@@ -51,6 +51,15 @@ namespace RealCity
                             CitizenStatus();
                         }
                     }
+
+                    if ((MainDataStore.update_money_count & 3u) == 0)
+                    {
+                        if (Politics.parliamentCount != 0)
+                        {
+                            HoldMeeting();
+                        }
+                    }
+
                     CaculateCitizenTransportFee();
                     MainDataStore.update_money_count++;
                     if (MainDataStore.update_money_count == 17)
@@ -183,10 +192,6 @@ namespace RealCity
                 GetSeats();
                 CreateGoverment();
             }
-            else
-            {
-                HoldMeeting();
-            }
             //Caculate goverment salary
             if (MainDataStore.citizenCount != 0)
             {
@@ -195,6 +200,66 @@ namespace RealCity
                 MainDataStore.govermentEducation2Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount);
                 MainDataStore.govermentEducation3Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.95f) / MainDataStore.citizenCount);
             }
+        }
+
+        public byte ReturnOtherIdx(byte orgIdx)
+        {
+            System.Random rand = new System.Random();
+            int avoidIdx0 = 8;
+            int avoidIdx1 = 8;
+            int avoidIdx2 = 8;
+            int avoidIdx3 = 8;
+            if (Politics.residentTax >= 20)
+            {
+                avoidIdx0 = 0;
+            }
+            else if (Politics.residentTax <= 1)
+            {
+                avoidIdx0 = 1;
+            }
+
+            if (Politics.benefitOffset >= 10)
+            {
+                avoidIdx1 = 2;
+            }
+            else if (Politics.benefitOffset <= 0)
+            {
+                avoidIdx1 = 3;
+            }
+
+            if (Politics.commericalTax >= 20)
+            {
+                avoidIdx2 = 4;
+            }
+            else if (Politics.commericalTax <= 1)
+            {
+                avoidIdx2 = 5;
+            }
+
+            if (Politics.industryTax >= 20)
+            {
+                avoidIdx3 = 6;
+            }
+            else if (Politics.industryTax <= 1)
+            {
+                avoidIdx3 = 7;
+            }
+
+            if ((orgIdx == avoidIdx0) || (orgIdx == avoidIdx1) || (orgIdx == avoidIdx2) || (orgIdx == avoidIdx3))
+            {
+                while (true)
+                {
+                    byte returnValue = (byte)rand.Next(8);
+                    if (!((returnValue == avoidIdx0) || (returnValue == avoidIdx1) || (returnValue == avoidIdx2) || (returnValue == avoidIdx3)))
+                    {
+                        return returnValue;
+                    }
+                }
+            }
+            else
+            {
+                return orgIdx;
+            }            
         }
 
         public void HoldMeeting()
@@ -206,85 +271,21 @@ namespace RealCity
                 switch (rand.Next(8))
                 {
                     case 0:
-                        if (Politics.residentTax >= 20)
-                        {
-                            Politics.currentIdx = 1;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 0;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(0);break;
                     case 1:
-                        if (Politics.residentTax <= 1)
-                        {
-                            Politics.currentIdx = 0;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 1;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(1); break;
                     case 2:
-                        if (Politics.benefitOffset >= 10)
-                        {
-                            Politics.currentIdx = 3;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 2;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(2); break;
                     case 3:
-                        if (Politics.benefitOffset <= 0)
-                        {
-                            Politics.currentIdx = 2;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 3;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(3); break;
                     case 4:
-                        if (Politics.commericalTax >= 20)
-                        {
-                            Politics.currentIdx = 5;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 4;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(4); break;
                     case 5:
-                        if (Politics.commericalTax <= 1)
-                        {
-                            Politics.currentIdx = 4;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 5;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(5); break;
                     case 6:
-                        if (Politics.industryTax >= 20)
-                        {
-                            Politics.currentIdx = 7;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 6;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(6); break;
                     case 7:
-                        if (Politics.industryTax <= 1)
-                        {
-                            Politics.currentIdx = 6;
-                        }
-                        else
-                        {
-                            Politics.currentIdx = 7;
-                        }
-                        break;
+                        Politics.currentIdx = ReturnOtherIdx(7); break;
                     default: Politics.currentIdx = 8; break;
                 }
                 VoteResult(Politics.currentIdx);

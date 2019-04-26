@@ -557,9 +557,9 @@ namespace RealCity.CustomAI
                     {
                         if (citizenData.Dead == false)
                         {
-                            citizenCount++;                            
+                            citizenCount++;
+                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen0];
                         }
-                        MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen0];
                     }
                 }
                 if (data.m_citizen1 != 0)
@@ -570,8 +570,8 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             citizenCount++;
+                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen1];
                         }
-                        MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen1];
                     }
                 }
                 if (data.m_citizen2 != 0)
@@ -582,8 +582,8 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             citizenCount++;
+                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen2];
                         }
-                        MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen2];
                     }
                 }
                 if (data.m_citizen3 != 0)
@@ -594,8 +594,8 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             citizenCount++;
+                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen3];
                         }
-                        MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen3];
                     }
                 }
                 if (data.m_citizen4 != 0)
@@ -606,8 +606,8 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             citizenCount++;
+                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen4];
                         }
-                        MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen4];
                     }
                 }
             }

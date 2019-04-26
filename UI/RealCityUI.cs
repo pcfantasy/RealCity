@@ -457,7 +457,7 @@ namespace RealCity.UI
             all_total_income_ui = AddUIComponent<UILabel>();
             all_total_income_ui.text = Localization.Get("CITY_TOTAL_INCOME_TITLE");
             all_total_income_ui.textScale = 1.1f;
-            all_total_income_ui.relativePosition = new Vector3(policeStationIncomeTitle.relativePosition.x, policeStationIncomeTitle.relativePosition.y + SPACING22 + 10f);
+            all_total_income_ui.relativePosition = new Vector3(playerIndustryIncomeTitle.relativePosition.x, playerIndustryIncomeTitle.relativePosition.y + SPACING22 + 10f);
             all_total_income_ui.autoSize = true;
         }
 

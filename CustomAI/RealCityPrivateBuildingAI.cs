@@ -522,47 +522,47 @@ namespace RealCity.CustomAI
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                idex = 0.03f;
+                                idex = 0.025f;
                             } else
                             {
-                                idex = 0.005f;
+                                idex = 0.01f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.01f;
+                            idex = 0.015f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.015f;
+                            idex = 0.02f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.02f;
+                            idex = 0.025f;
                         }
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                idex1 = 0.01f;
+                                idex1 = 0.05f;
                             }
                             else
                             {
-                                idex1 = 0.03f;
+                                idex1 = 0.035f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex1 = 0.02f;
+                            idex1 = 0.04f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex1 = 0.015f;
+                            idex1 = 0.045f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex1 = 0.01f;
+                            idex1 = 0.05f;
                         }
 
                         greaterThan20000ProfitBuildingMoney += (long)(MainDataStore.building_money[buildingID] * idex);

@@ -214,7 +214,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoShipAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 6400 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 6000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                             {
@@ -225,7 +225,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 6400 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 8000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
                             {
@@ -236,7 +236,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 4800 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 7000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
                             {
