@@ -6,3 +6,5 @@
 *.xml
 RealCity.csproj
 RealCity.sln
+packages/Lib.Harmony.1.2.0.1/Lib.Harmony.1.2.0.1.nupkg
+packages/Lib.Harmony.1.2.0.1/.signature.p7s
