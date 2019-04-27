@@ -42,7 +42,6 @@
         //1.3 income-expense
         public static float[] family_money = new float[524288];
         public static ushort[] familyGoods = new ushort[524288];
-        public static float[] family_money_threat = new float[524288];
 
         public static uint family_profit_money_num = 0;
         public static uint family_loss_money_num = 0;
