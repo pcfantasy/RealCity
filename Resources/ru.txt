@@ -5,7 +5,7 @@ FAMILY_COUNT	Количество семей
 SALARY_PER_FAMILY	Среднесемейный доход
 CITIZEN_TAX_PER_FAMILY	Среднесемейные налоги
 EXPENSE_PER_FAMILY	Среднесемейные затраты
-AVERAGE_TRANPORT_FEE	Средние транспортные расходы 
+AVERAGE_TRANPORT_FEE	из них на транспорт
 HIGH_SALARY_COUNT	Высокий оклад
 MEDIUM_SALARY_COUNT	Средних доходов
 LOW_SALARY_COUNT	Низких доходов
@@ -26,22 +26,23 @@ LIVING_ALLOWANCE	Выплаты бедным и малоимущим
 USE_TMPE_TIP	Используйте TMPE и запретите исчезновение транспорта
 STARTUP_TIP	Индустриализация важна для улучшения экономики и Ваших финансов на старте
 TOURIST_TIP	Используйте соответсвующую специализацию, чтобы привлечь туристов
-OFFICE_TIP	Офисы могут привлекать "внешние инвестиции" в зависимости от вашей индустрии
+
+OFFICE_TIP	Офисы могут привлекать "внешние инвестиции" в зависимости от индустрии
 UNLOCK_TIP	Не разблокируйте всё в начале игры
 UG_TIP	Больше деталей в руководстве пользователя
-CITY_SALARY_TAX_INCOME_TITLE	1.Сборы от подоходного налога
+CITY_SALARY_TAX_INCOME_TITLE	1. Сборы от подоходного налога
 SALARY_TAX_INCOME	Сборы от подоходного налога
 TOURIST_INCOME_TITLE	2. Сборы от туризма
 FROM_RESIDENT	от жителей
 FROM_TOURIST	от гостей города
 LAND_TAX_INCOME_TITLE	3. Сборы от земельного налога
-RESIDENT_HIGH_LAND_INCOME	С жилых кварталов высокой плотности
-RESIDENT_LOW_LAND_INCOME	С жилых кварталов низкой плотности
-RESIDENT_HIGH_ECO_LAND_INCOME	С жилых эко-кварталов высокой плотности
-RESIDENT_LOW_ECO_LAND_INCOME	С жилых эко-кварталов низкой плотности
-COMMERICAL_HIGH_LAND_INCOME	С комерческих кварталов высокой плотности
-COMMERICAL_LOW_LAND_INCOME	С комерческих кварталов низкой плотности
-COMMERICAL_ECO_LAND_INCOME	С комерческих эко-кварталов
+RESIDENT_HIGH_LAND_INCOME	С многоквартирных домов
+RESIDENT_LOW_LAND_INCOME	С домов частного сектора
+RESIDENT_HIGH_ECO_LAND_INCOME	С многоквартирных эко-домов
+RESIDENT_LOW_ECO_LAND_INCOME	С эко-домов частного сектора
+COMMERICAL_HIGH_LAND_INCOME	С торговых центров
+COMMERICAL_LOW_LAND_INCOME	С торговых ларьков
+COMMERICAL_ECO_LAND_INCOME	С эко-коммерции
 COMMERICAL_TOURISM_LAND_INCOME	С туристических кварталов
 COMMERICAL_LEISURE_LAND_INCOME	С развлекательных кварталов
 INDUSTRIAL_GENERAL_LAND_INCOME	С производственных кварталов
@@ -52,9 +53,9 @@ INDUSTRIAL_ORE_LAND_INCOME	С горнорудных районов
 OFFICE_GENERAL_LAND_INCOME	С офисных кварталов
 OFFICE_HIGH_TECH_LAND_INCOME	С IT-кварталов
 CITY_TRADE_INCOME_TITLE	4. Сборы от налога с продаж
-COMMERICAL_HIGH_TRADE_INCOME	С комерческих кварталов высокой плотности
-COMMERICAL_LOW_TRADE_INCOME	С комерческих кварталов низкой плотности
-COMMERICAL_ECO_TRADE_INCOME	С комерческих эко-кварталов
+COMMERICAL_HIGH_TRADE_INCOME		С торговых центров
+COMMERICAL_LOW_TRADE_INCOME	С торговых ларьков
+COMMERICAL_ECO_TRADE_INCOME	С эко-коммерции
 COMMERICAL_TOURISM_TRADE_INCOME	С туристических кварталов
 COMMERICAL_LEISURE_TRADE_INCOME	С развлекательных кварталов
 INDUSTRIAL_GENERAL_TRADE_INCOME	С производственных кварталов
@@ -73,13 +74,14 @@ TAXI	Такси
 CABLECAR	Канатная дорога
 MONORAIL	Монорельс
 CITY_PLAYER_BUILDING_INCOME_TITLE	6. Доход от городских служб
-ROAD	От платных дорог (+ АЗС)
-GARBAGE	От ввоза мусора
-SCHOOL	От учреждений образования
-HEALTHCARE	Медицинское обслуживание
-FIRESTATION	 Противопожарный механизм
-POLICESTATION	Служба полиции 
-PLAYERINDUSTRY	Государственная промышленность
+
+ROAD	Платные дороги и АЗС
+GARBAGE	Ввоз мусора
+SCHOOL	Школы и ВУЗы
+HEALTHCARE	Медпомощь
+FIRESTATION	Тушение пожаров
+POLICESTATION	От полицейских командировок
+PLAYERINDUSTRY	Госпромзоны
 CITY_TOTAL_INCOME_TITLE	7. Совокупный городской доход
 CITY_INCOME_DATA	Данные о доходе (₡)
 PARLIAMENT_HALL	Парламент
@@ -88,15 +90,16 @@ COMMUNIST	Коммунисты
 GREEN	Зелёные
 SOCIALIST	Социалисты
 LIBERAL	Либералы
-NATIONAL	Националисты
-GOVERMENT	Правительство
+NATIONAL	Правые
+GOVERMENT	Правительство 
 LEFT_UNION	(Союз левых)
 WIDE_LEFT_UNION	(Левая коалиция)
 RIGHT_UNION	(Союз правых)
 ALL_UNION	(Коалиция)
-NEXT_VOTE	Следующее голосование
+NEXT_VOTE	Следующие выборы
 CURRENT_MEETING_ITEM	Текущее обсуждение
-RISE_RESIDENT_TAX	Повышениен ставки алога для домовладельцев
+RISE_RESIDENT_TAX	Повышение ставки налога для домовладельцев
+
 FALL_RESIDENT_TAX	Снижение ставки налога для домовладельцев
 RISE_BENEFIT	Увеличение поддержки малоимущих
 FALL_BENEFIT	Сокращение поддержки малоимущих
@@ -160,5 +163,7 @@ DEBUG_MODE	Отображать больше информации
 REDUCE_CARGO_DESCRIPTION	Сократить количество груза (и для DLC Industries и для зональных зданий)
 REDUCE_CARGO_ENABLE	Включить функцию сокращения груза
 INCOMPATIBILITY_CHECK_TIP	Модификация RealCity(series) обнаружила несовместимые модификации
-REMOVE_STUCK_DESCRIPTION	Auto remove stuck citizen&vehicle(impact performance a little)
-REMOVE_STUCK_ENABLE	Remove stuck citizen&vehicle enable
+
+REMOVE_STUCK_DESCRIPTION	Автоматическое удаление застрявших жителей и транспорта (немного увеличивает производительность)
+REMOVE_STUCK_ENABLE	Включить удаление жителей и транспорта
+

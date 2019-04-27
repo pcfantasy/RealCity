@@ -5,7 +5,7 @@ using RealCity.Util;
 
 namespace RealCity.CustomAI
 {
-    public class RealCityIndustrialBuildingAI : PrivateBuildingAI
+    public class RealCityIndustrialBuildingAI :  PrivateBuildingAI
     {
         private int GetConsumptionDivider(ushort buildingID, Building data)
         {

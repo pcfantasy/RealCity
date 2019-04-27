@@ -2,6 +2,7 @@
 using ColossalFramework.Math;
 using RealCity.Util;
 using RealCity.UI;
+using System;
 
 namespace RealCity.CustomAI
 {
@@ -91,6 +92,35 @@ namespace RealCity.CustomAI
             LimitAndCheckBuildingMoney(buildingData, buildingID);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
             ProcessAdditionProduct(buildingID, ref buildingData);
+        }
+
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+        public static void PrivateBuildingAIGetColorPostFix(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode, ref UnityEngine.Color __result)       {
+            if (infoMode == InfoManager.InfoMode.LandValue)
+            {
+                ItemClass @class = data.Info.m_class;
+                ItemClass.Service service = @class.m_service;
+                switch (service)
+                {
+                    case ItemClass.Service.Residential:
+                        if (MainDataStore.family_money_threat[buildingID] < 0.5f)
+                            __result =  UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.family_money_threat[buildingID] * 2.0f);
+                        else
+                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.family_money_threat[buildingID] - 0.5f) * 2.0f);
+                        break;
+
+                    case ItemClass.Service.Office:
+                    case ItemClass.Service.Industrial:
+                    case ItemClass.Service.Commercial:
+                        if (MainDataStore.building_money_threat[buildingID] < 0.5f)
+                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
+                        else
+                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
+                        break;
+                }
+            }
         }
 
         public static void ProcessAdditionProductIndustrialExtractorAI(ushort buildingID, ref Building buildingData)
@@ -424,6 +454,138 @@ namespace RealCity.CustomAI
             return price;
         }
 
+        public static float CaculateEmployeeOutcome(Building building, ushort buildingID)
+        {
+            float num1 = 0;
+            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+            int aliveWorkerCount = 0;
+            int totalWorkerCount = 0;
+            GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
+
+            if (totalWorkerCount > 0)
+            {
+                if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
+                {
+                    if (MainDataStore.building_money[buildingID] > 0)
+                    {
+                        switch (building.Info.m_class.m_subService)
+                        {
+                            case ItemClass.SubService.CommercialLow:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.6f / totalWorkerCount);
+                                }
+                                break;
+                            case ItemClass.SubService.CommercialHigh:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.4f / totalWorkerCount);
+                                }
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                                {
+                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.7f / totalWorkerCount);
+                                }
+                                break;
+                            case ItemClass.SubService.CommercialLeisure:
+                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.7f / totalWorkerCount);
+                                break;
+                            case ItemClass.SubService.CommercialTourist:
+                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.9f / totalWorkerCount);
+                                break;
+                            case ItemClass.SubService.CommercialEco:
+                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.5f / totalWorkerCount);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
+                }
+
+                if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+                {
+                    if (MainDataStore.building_money[buildingID] > 0)
+                    {
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
+                        }
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
+                        }
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
+                        }
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
+                }
+
+
+                if (building.Info.m_class.m_service == ItemClass.Service.Office)
+                {
+                    if (MainDataStore.building_money[buildingID] > 0)
+                    {
+                        num1 = (MainDataStore.building_money[buildingID] / totalWorkerCount);
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
+                }
+
+                if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
+                {
+                    if (MainDataStore.building_money[buildingID] > 0)
+                    {
+                        num1 = (MainDataStore.building_money[buildingID] * 0.2f / totalWorkerCount);
+                    }
+                    else
+                    {
+                        num1 = 0;
+                    }
+                }
+            }
+            return num1;
+        }
+
+        public static void GetWorkBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = buildingData.m_citizenUnits;
+            int num2 = 0;
+            while (num != 0u)
+            {
+                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
+                {
+                    instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenWorkBehaviour(ref behaviour, ref aliveCount, ref totalCount);
+                }
+                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                if (++num2 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+        }
+        
         public static void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)
         {
             if (preBuidlingId > buildingID)
@@ -450,16 +612,44 @@ namespace RealCity.CustomAI
                 MainDataStore.building_money[buildingID] = 0;
             }
 
+            float building_money = MainDataStore.building_money[buildingID];
+
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                if (MainDataStore.building_money[buildingID] < 0)
-                {
+                if (building_money < 0)
                     RealCityEconomyExtension.industrialLackMoneyCount++;
-                }
                 else
-                {
                     RealCityEconomyExtension.industrialEarnMoneyCount++;
-                }
+            }
+
+            if (building_money < 0)
+                MainDataStore.building_money_threat[buildingID] = 1.0f;
+
+            switch (buildingData.Info.m_class.m_service)
+            {
+                case ItemClass.Service.Residential:
+                    break;
+
+                case ItemClass.Service.Commercial:
+                case ItemClass.Service.Industrial:
+
+                    float averageBuildingSalary = CaculateEmployeeOutcome(buildingData, buildingID);
+
+                    if (MainDataStore.citizenCount > 0.0)
+                    {
+                        float averageCitySalary = MainDataStore.citizenSalaryTotal / MainDataStore.citizenCount;
+                        float salaryFactor = averageBuildingSalary / averageCitySalary;
+                        if (salaryFactor > 1.6f)
+                            salaryFactor = 1.6f;
+                        else if (salaryFactor < 0.0f)
+                            salaryFactor = 0.0f;
+
+                        MainDataStore.building_money_threat[buildingID] = (1.0f - salaryFactor / 1.6f);
+                    }
+                    else
+                        MainDataStore.building_money_threat[buildingID] = 1.0f;
+
+                    break;
             }
 
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
