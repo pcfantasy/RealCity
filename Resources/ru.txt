@@ -53,7 +53,7 @@ INDUSTRIAL_ORE_LAND_INCOME	С горнорудных районов
 OFFICE_GENERAL_LAND_INCOME	С офисных кварталов
 OFFICE_HIGH_TECH_LAND_INCOME	С IT-кварталов
 CITY_TRADE_INCOME_TITLE	4. Сборы от налога с продаж
-COMMERICAL_HIGH_TRADE_INCOME		С торговых центров
+COMMERICAL_HIGH_TRADE_INCOME	С торговых центров
 COMMERICAL_LOW_TRADE_INCOME	С торговых ларьков
 COMMERICAL_ECO_TRADE_INCOME	С эко-коммерции
 COMMERICAL_TOURISM_TRADE_INCOME	С туристических кварталов
