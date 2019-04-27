@@ -415,13 +415,13 @@ namespace RealCity
                 }
                 Politics.currentIdx = (byte)idex;
             }
-            else if (_cashAmount > 12000000)
+            else if (_cashAmount > 16000000)
             {
-                MoneyOffset = 3000;
+                MoneyOffset = 4000;
             }
             else
             {
-                MoneyOffset = -3000 + (int)(_cashAmount / 2000);
+                MoneyOffset = -4000 + (int)(_cashAmount / 2000);
             }
 
             //citizenOffset
