@@ -12,6 +12,7 @@ namespace RealCity.CustomAI
             MainDataStore.building_buffer3[buildingID] = 0;
             MainDataStore.building_buffer4[buildingID] = 0;
             MainDataStore.isBuildingWorkerUpdated[buildingID] = false;
+            MainDataStore.building_money_threat[buildingID] = 0;
         }
     }
 }

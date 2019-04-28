@@ -67,7 +67,7 @@ namespace RealCity.CustomAI
                 }
                 else
                 {
-                    int consumptionMoney = rand.Next(400);
+                    int consumptionMoney = rand.Next(100);
                     if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                     {
                         if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
@@ -91,7 +91,7 @@ namespace RealCity.CustomAI
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    int tourism_fee = rand.Next(100) + 1;
+                    int tourism_fee = rand.Next(400) + 1;
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
                         tourism_fee = tourism_fee << 4;

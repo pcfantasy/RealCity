@@ -9,7 +9,7 @@ namespace RealCity.UI
     public class RealCityUI : UIPanel
     {
         public static readonly string cacheName = "RealCityUI";
-        private static readonly float WIDTH = 960f;
+        private static readonly float WIDTH = 900f;
         private static readonly float HEIGHT = 780f;
         private static readonly float HEADER = 40f;
         private static readonly float SPACING = 15f;
@@ -157,7 +157,7 @@ namespace RealCity.UI
             canFocus = true;
             isInteractive = true;
             BringToFront();
-            relativePosition = new Vector3((Loader.parentGuiView.fixedWidth / 2), 170f);
+            relativePosition = new Vector3((Loader.parentGuiView.fixedWidth / 2 + 20f), 170f);
             opacity = 1f;
             cachedName = cacheName;
             m_DragHandler = AddUIComponent<UIDragHandle>();
@@ -213,7 +213,7 @@ namespace RealCity.UI
 
             tourist_income = AddUIComponent<UILabel>();
             tourist_income.text = Localization.Get("FROM_TOURIST");
-            tourist_income.relativePosition = new Vector3(citizen_income.relativePosition.x + 480f, citizen_income.relativePosition.y);
+            tourist_income.relativePosition = new Vector3(citizen_income.relativePosition.x + 450f, citizen_income.relativePosition.y);
             tourist_income.autoSize = true;
 
             //3、City land tax income
@@ -230,7 +230,7 @@ namespace RealCity.UI
 
             resident_low_landincome = AddUIComponent<UILabel>();
             resident_low_landincome.text = Localization.Get("RESIDENT_LOW_LAND_INCOME");
-            resident_low_landincome.relativePosition = new Vector3(resident_high_landincome.relativePosition.x + 480f, resident_high_landincome.relativePosition.y);
+            resident_low_landincome.relativePosition = new Vector3(resident_high_landincome.relativePosition.x + 450f, resident_high_landincome.relativePosition.y);
             resident_low_landincome.autoSize = true;
 
             resident_high_eco_landincome = AddUIComponent<UILabel>();
@@ -317,7 +317,7 @@ namespace RealCity.UI
 
             comm_low_tradeincome = AddUIComponent<UILabel>();
             comm_low_tradeincome.text = Localization.Get("COMMERICAL_LOW_TRADE_INCOME");
-            comm_low_tradeincome.relativePosition = new Vector3(comm_high_tradeincome.relativePosition.x + 480f, comm_high_tradeincome.relativePosition.y);
+            comm_low_tradeincome.relativePosition = new Vector3(comm_high_tradeincome.relativePosition.x + 450f, comm_high_tradeincome.relativePosition.y);
             comm_low_tradeincome.autoSize = true;
 
             comm_eco_tradeincome = AddUIComponent<UILabel>();
@@ -374,12 +374,12 @@ namespace RealCity.UI
 
             from_tram = AddUIComponent<UILabel>();
             from_tram.text = Localization.Get("TRAM");
-            from_tram.relativePosition = new Vector3(from_bus.relativePosition.x + 320f, from_bus.relativePosition.y);
+            from_tram.relativePosition = new Vector3(from_bus.relativePosition.x + 300f, from_bus.relativePosition.y);
             from_tram.autoSize = true;
 
             from_metro = AddUIComponent<UILabel>();
             from_metro.text = Localization.Get("TRAIN");
-            from_metro.relativePosition = new Vector3(from_tram.relativePosition.x + 320f, from_tram.relativePosition.y);
+            from_metro.relativePosition = new Vector3(from_tram.relativePosition.x + 300f, from_tram.relativePosition.y);
             from_metro.autoSize = true;
 
             from_train = AddUIComponent<UILabel>();
@@ -434,10 +434,10 @@ namespace RealCity.UI
             road_income_title.relativePosition = new Vector3(from_monorail.relativePosition.x, from_monorail.relativePosition.y + 2 * SPACING22 + 10f);
             road_income_title.autoSize = true;
 
-            policeStationIncomeTitle = AddUIComponent<UILabel>();
-            policeStationIncomeTitle.text = Localization.Get("POLICESTATION");
-            policeStationIncomeTitle.relativePosition = new Vector3(garbage_income_title.relativePosition.x, garbage_income_title.relativePosition.y + SPACING22);
-            policeStationIncomeTitle.autoSize = true;
+            playerIndustryIncomeTitle = AddUIComponent<UILabel>();
+            playerIndustryIncomeTitle.text = Localization.Get("PLAYERINDUSTRY");
+            playerIndustryIncomeTitle.relativePosition = new Vector3(garbage_income_title.relativePosition.x, garbage_income_title.relativePosition.y + SPACING22);
+            playerIndustryIncomeTitle.autoSize = true;
 
             healthCareIncomeTitle = AddUIComponent<UILabel>();
             healthCareIncomeTitle.text = Localization.Get("HEALTHCARE");
@@ -449,10 +449,10 @@ namespace RealCity.UI
             fireStationIncomeTitle.relativePosition = new Vector3(road_income_title.relativePosition.x, road_income_title.relativePosition.y + SPACING22);
             fireStationIncomeTitle.autoSize = true;
 
-            playerIndustryIncomeTitle = AddUIComponent<UILabel>();
-            playerIndustryIncomeTitle.text = Localization.Get("PLAYERINDUSTRY");
-            playerIndustryIncomeTitle.relativePosition = new Vector3(policeStationIncomeTitle.relativePosition.x, policeStationIncomeTitle.relativePosition.y + SPACING22);
-            playerIndustryIncomeTitle.autoSize = true;
+            policeStationIncomeTitle = AddUIComponent<UILabel>();
+            policeStationIncomeTitle.text = Localization.Get("POLICESTATION");
+            policeStationIncomeTitle.relativePosition = new Vector3(playerIndustryIncomeTitle.relativePosition.x, playerIndustryIncomeTitle.relativePosition.y + SPACING22);
+            policeStationIncomeTitle.autoSize = true;
 
             all_total_income_ui = AddUIComponent<UILabel>();
             all_total_income_ui.text = Localization.Get("CITY_TOTAL_INCOME_TITLE");
