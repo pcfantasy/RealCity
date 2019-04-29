@@ -1,12 +1,23 @@
 cmake_minimum_required(VERSION 3.8.2)
 project(RealCity VERSION 0.1.0 LANGUAGES CSharp)
 
+set(CITIES_STEAM_ID 255710)
+set(REAL_CITY_STEAM_ID 1192503086)
+
 file(GLOB_RECURSE SRCS *.cs)
 file(GLOB_RECURSE RES Resources/*)
 file(GLOB_RECURSE ICONS Icon/*)
 
-set(CITIES_STEAM_ID 255710)
-set(REAL_CITY_STEAM_ID 1192503086)
+
+if(WIN32)
+	set(MOD_INSTALL_INITAL_PATH "$ENV{LOCALAPPDATA}/Colossal Order/Cities_Skylines/${PROJECT_NAME}")
+elseif(APPLE)
+	set(MOD_INSTALL_INITAL_PATH "$ENV{HOME}//Library/Application Support/Colossal Order/Cities_Skylines/${PROJECT_NAME}" )
+else()
+	set(MOD_INSTALL_INITAL_PATH "$ENV{HOME}/.local/share/Colossal Order/Cities_Skylines/${PROJECT_NAME}" )
+endif()
+
+set(MOD_INSTALL_PATH "${MOD_INSTALL_INITAL_PATH}" CACHE PATH "Path for publishing mod")
 
 set(STEAM_CITIES_LIBRARY "C:/Program Files (x86)/Steam" CACHE PATH "Path to steam library which contents Cities:Skylines")
 find_path(CITIES_MOD_PARENT_PATH 
@@ -16,7 +27,7 @@ find_path(CITIES_MOD_PARENT_PATH
 		 
 set(MOD_PATH "${CITIES_MOD_PARENT_PATH}/${CITIES_STEAM_ID}/${REAL_CITY_STEAM_ID}") 
 
-add_library(${PROJECT_NAME} ${SRCS})
+add_library(${PROJECT_NAME} ${SRCS} ${RES})
 
 find_path(CITIES_MANAGED_PATH
 	ICities.dll
@@ -82,8 +93,18 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DOTNET_REFERENCES_COPY_LOCAL Fal
 
 execute_process(COMMAND "${NUGET}" install "${CMAKE_SOURCE_DIR}/packages.config" -OutputDirectory "${CMAKE_BINARY_DIR}/packages" -SolutionDirectory "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}") 
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_SOURCE_DIR}/Resources" "${MOD_PATH}/Resources")
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_SOURCE_DIR}/Icon" "${MOD_PATH}/Icon")
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${PROJECT_NAME}.dll" "${MOD_PATH}")
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_BINARY_DIR}/packages/Lib.Harmony.1.2.0.1/lib/net35/0Harmony.dll" "${MOD_PATH}/0Harmony.dll")
+function(add_mod_file SRC DEST)
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${SRC}" "${DEST}" COMMENT "Copying ${SRC} -> ${DEST}\r")
+	install(FILES "${DEST}" DESTINATION "${MOD_INSTALL_PATH}")
+endfunction(add_mod_file)
 
+function(add_mod_directory SRC DEST)
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_directory "${SRC}" "${DEST}" COMMENT "Copying ${SRC} -> ${DEST}\r")
+	install(DIRECTORY "${DEST}" DESTINATION  "${MOD_INSTALL_PATH}")
+endfunction(add_mod_directory)
+
+add_mod_directory("${CMAKE_SOURCE_DIR}/Resources" "${MOD_PATH}/Resources")
+add_mod_directory("${CMAKE_SOURCE_DIR}/Icon" "${MOD_PATH}/Icon")
+
+add_mod_file("${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${PROJECT_NAME}.dll" "${MOD_PATH}/${PROJECT_NAME}.dll")
+add_mod_file("${CMAKE_BINARY_DIR}/packages/Lib.Harmony.1.2.0.1/lib/net35/0Harmony.dll" "${MOD_PATH}/0Harmony.dll")
