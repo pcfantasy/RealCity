@@ -482,8 +482,8 @@ namespace RealCity.UI
                     resident_high_eco_landincome.text = string.Format(Localization.Get("RESIDENT_HIGH_ECO_LAND_INCOME") + " [{0}]", resident_high_eco_landincome_forui);
                     resident_low_eco_landincome.text = string.Format(Localization.Get("RESIDENT_LOW_ECO_LAND_INCOME") + " [{0}]", resident_low_eco_landincome_forui);
                     comm_high_landincome.text = string.Format(Localization.Get("COMMERICAL_HIGH_LAND_INCOME") + " [{0}]", comm_high_landincome_forui);
-                    comm_low_landincome.text = string.Format(Localization.Get("COMMERICAL_LEISURE_LAND_INCOME") + " [{0}]", comm_low_landincome_forui);
-                    comm_lei_landincome.text = string.Format(Localization.Get("COMMERICAL_ECO_LAND_INCOME") + " [{0}]", comm_lei_landincome_forui);
+                    comm_low_landincome.text = string.Format(Localization.Get("COMMERICAL_LOW_LAND_INCOME") + " [{0}]", comm_low_landincome_forui);
+                    comm_lei_landincome.text = string.Format(Localization.Get("COMMERICAL_LEISURE_LAND_INCOME") + " [{0}]", comm_lei_landincome_forui);
                     comm_tou_landincome.text = string.Format(Localization.Get("COMMERICAL_TOURISM_LAND_INCOME") + " [{0}]", comm_tou_landincome_forui);
                     comm_eco_landincome.text = string.Format(Localization.Get("COMMERICAL_ECO_LAND_INCOME") + " [{0}]", comm_eco_landincome_forui);
                     indu_gen_landincome.text = string.Format(Localization.Get("INDUSTRIAL_GENERAL_LAND_INCOME") + " [{0}]", indu_gen_landincome_forui);
