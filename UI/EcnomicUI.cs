@@ -259,8 +259,8 @@ namespace RealCity.UI
                     family_weight_stable_low.text = string.Format(Localization.Get("WEALTH_LOW_COUNT") + " [{0}]", MainDataStore.family_weight_stable_low);
                     //Building
                     m_secondline_building.text = Localization.Get("BUILDING_STATUS");
-                    profitBuildingCount.text = string.Format(Localization.Get("PROFIT_BUIDLING_COUNT") + " [{0}]", RealCityPrivateBuildingAI.greaterThan20000ProfitBuildingCountFinal);
-                    externalInvestments.text = string.Format(Localization.Get("EXTERNAL_INVESTMENTS") + " [{0}]", RealCityPrivateBuildingAI.greaterThan20000ProfitBuildingMoneyFinal);
+                    profitBuildingCount.text = string.Format(Localization.Get("PROFIT_BUIDLING_COUNT") + " [{0}]", RealCityPrivateBuildingAI.profitBuildingCountFinal);
+                    externalInvestments.text = string.Format(Localization.Get("EXTERNAL_INVESTMENTS") + " [{0}]", RealCityPrivateBuildingAI.profitBuildingMoneyFinal);
                     //Policy
                     mThirdLinePolicy.text = Localization.Get("POLICY_COST");
                     minimumLivingAllowance.text = string.Format(Localization.Get("LIVING_ALLOWANCE") + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));

@@ -21,10 +21,10 @@ namespace RealCity.CustomAI
         public static ushort allOfficeLevel2BuildingCountFinal = 0;
         public static ushort allOfficeLevel3BuildingCountFinal = 0;
         public static ushort allOfficeHighTechBuildingCountFinal = 0;
-        public static long greaterThan20000ProfitBuildingMoney = 0;
-        public static long greaterThan20000ProfitBuildingMoneyFinal = 0;
-        public static ushort greaterThan20000ProfitBuildingCount = 0;
-        public static ushort greaterThan20000ProfitBuildingCountFinal = 0;
+        public static long profitBuildingMoney = 0;
+        public static long profitBuildingMoneyFinal = 0;
+        public static ushort profitBuildingCount = 0;
+        public static ushort profitBuildingCountFinal = 0;
         public static ushort allBuildingsFinal = 0;
 
         public static byte[] saveData = new byte[44];
@@ -33,30 +33,21 @@ namespace RealCity.CustomAI
         {
             int i = 0;
             preBuidlingId = SaveAndRestore.load_uint(ref i, saveData);
-
             allBuildings = SaveAndRestore.load_ushort(ref i, saveData);
             allBuildingsFinal = SaveAndRestore.load_ushort(ref i, saveData);
             allOfficeLevel1BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
             allOfficeLevel2BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
             allOfficeLevel3BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
             allOfficeHighTechBuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
-
             allOfficeLevel1BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
             allOfficeLevel2BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
             allOfficeLevel3BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
             allOfficeHighTechBuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
-
-            greaterThan20000ProfitBuildingMoney = SaveAndRestore.load_long(ref i, saveData);
-            greaterThan20000ProfitBuildingMoneyFinal = SaveAndRestore.load_long(ref i, saveData);
-            greaterThan20000ProfitBuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
-            greaterThan20000ProfitBuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
-
-            //office_gen_salary_index = saveandrestore.load_float(ref i, saveData);
-            //office_high_tech_salary_index = saveandrestore.load_float(ref i, saveData);
-
+            profitBuildingMoney = SaveAndRestore.load_long(ref i, saveData);
+            profitBuildingMoneyFinal = SaveAndRestore.load_long(ref i, saveData);
+            profitBuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
+            profitBuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
             DebugLog.LogToFileOnly("saveData in private building is " + i.ToString());
-
-
         }
 
 
@@ -79,10 +70,10 @@ namespace RealCity.CustomAI
             SaveAndRestore.save_ushort(ref i, allOfficeLevel3BuildingCountFinal, ref saveData);
             SaveAndRestore.save_ushort(ref i, allOfficeHighTechBuildingCountFinal, ref saveData);
 
-            SaveAndRestore.save_long(ref i, greaterThan20000ProfitBuildingMoney, ref saveData);
-            SaveAndRestore.save_long(ref i, greaterThan20000ProfitBuildingMoneyFinal, ref saveData);
-            SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCount, ref saveData);
-            SaveAndRestore.save_ushort(ref i, greaterThan20000ProfitBuildingCountFinal, ref saveData);
+            SaveAndRestore.save_long(ref i, profitBuildingMoney, ref saveData);
+            SaveAndRestore.save_long(ref i, profitBuildingMoneyFinal, ref saveData);
+            SaveAndRestore.save_ushort(ref i, profitBuildingCount, ref saveData);
+            SaveAndRestore.save_ushort(ref i, profitBuildingCountFinal, ref saveData);
         }
         //TODO: move to harmony
         public static void PrivateBuildingAISimulationStepActivePostFix(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
@@ -502,103 +493,22 @@ namespace RealCity.CustomAI
 
             if (totalWorkerCount > 0)
             {
-                if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
+                if (MainDataStore.building_money[buildingID] > 0)
                 {
-                    if (MainDataStore.building_money[buildingID] > 0)
+                    switch (building.Info.m_class.m_service)
                     {
-                        switch (building.Info.m_class.m_subService)
-                        {
-                            case ItemClass.SubService.CommercialLow:
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                {
-                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
-                                }
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                {
-                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
-                                }
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                                {
-                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.6f / totalWorkerCount);
-                                }
-                                break;
-                            case ItemClass.SubService.CommercialHigh:
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                {
-                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
-                                }
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                {
-                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.4f / totalWorkerCount);
-                                }
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                                {
-                                    num1 = (int)((MainDataStore.building_money[buildingID]) * 0.7f / totalWorkerCount);
-                                }
-                                break;
-                            case ItemClass.SubService.CommercialLeisure:
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.7f / totalWorkerCount);
-                                break;
-                            case ItemClass.SubService.CommercialTourist:
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.9f / totalWorkerCount);
-                                break;
-                            case ItemClass.SubService.CommercialEco:
-                                num1 = (int)((MainDataStore.building_money[buildingID]) * 0.5f / totalWorkerCount);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-
-                if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-                {
-                    if (MainDataStore.building_money[buildingID] > 0)
-                    {
-                        if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                        {
+                        case ItemClass.Service.Commercial:
+                        case ItemClass.Service.Industrial:
                             num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
-                        }
-                        if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                        {
-                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.2f / totalWorkerCount);
-                        }
-                        if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                        {
-                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.3f / totalWorkerCount);
-                        }
-                    }
-                    else
-                    {
-                        num1 = 0;
+                            break;
+                        case ItemClass.Service.Office:
+                            num1 = (int)(MainDataStore.building_money[buildingID] / totalWorkerCount);
+                            break;
                     }
                 }
-
-
-                if (building.Info.m_class.m_service == ItemClass.Service.Office)
+                else
                 {
-                    if (MainDataStore.building_money[buildingID] > 0)
-                    {
-                        num1 = (MainDataStore.building_money[buildingID] / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
-                }
-
-                if (building.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOre || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialOil || building.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry)
-                {
-                    if (MainDataStore.building_money[buildingID] > 0)
-                    {
-                        num1 = (MainDataStore.building_money[buildingID] * 0.2f / totalWorkerCount);
-                    }
-                    else
-                    {
-                        num1 = 0;
-                    }
+                    num1 = 0;
                 }
             }
             return num1;
@@ -632,11 +542,11 @@ namespace RealCity.CustomAI
                 allOfficeLevel1BuildingCountFinal = allOfficeLevel1BuildingCount;
                 allOfficeLevel2BuildingCountFinal = allOfficeLevel2BuildingCount;
                 allOfficeLevel3BuildingCountFinal = allOfficeLevel3BuildingCount;
-                greaterThan20000ProfitBuildingCountFinal = greaterThan20000ProfitBuildingCount;
-                greaterThan20000ProfitBuildingMoneyFinal = greaterThan20000ProfitBuildingMoney;
+                profitBuildingCountFinal = profitBuildingCount;
+                profitBuildingMoneyFinal = profitBuildingMoney;
                 allBuildingsFinal = allBuildings;
-                greaterThan20000ProfitBuildingMoney = 0;
-                greaterThan20000ProfitBuildingCount = 0;
+                profitBuildingMoney = 0;
+                profitBuildingCount = 0;
                 allOfficeLevel1BuildingCount = 0;
                 allOfficeLevel2BuildingCount = 0;
                 allOfficeLevel3BuildingCount = 0;
@@ -742,59 +652,59 @@ namespace RealCity.CustomAI
                 {
                     if (!(building.Info.m_buildingAI is IndustrialExtractorAI))
                     {
-                        greaterThan20000ProfitBuildingCount++;
-                        float idex = 0;
-                        float idex1 = 0;
-                        // outside will to invest
+                        profitBuildingCount++;
+                        float bossTake = 0;
+                        float investToOffice = 0;
+                        // boss take and return to office
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric  && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                idex = 0.025f;
+                                investToOffice = 0.05f;
                             } else
                             {
-                                idex = 0.01f;
+                                investToOffice = 0.01f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex = 0.015f;
+                            investToOffice = 0.02f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex = 0.02f;
+                            investToOffice = 0.03f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex = 0.025f;
+                            investToOffice = 0.04f;
                         }
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                idex1 = 0.05f;
+                                bossTake = 0.1f;
                             }
                             else
                             {
-                                idex1 = 0.035f;
+                                bossTake = 0.02f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            idex1 = 0.04f;
+                            bossTake = 0.04f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            idex1 = 0.045f;
+                            bossTake = 0.06f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            idex1 = 0.05f;
+                            bossTake = 0.08f;
                         }
 
-                        greaterThan20000ProfitBuildingMoney += (long)(MainDataStore.building_money[buildingID] * idex);
-                        MainDataStore.building_money[buildingID] -= (long)(MainDataStore.building_money[buildingID] * idex1);
+                        profitBuildingMoney += (long)(MainDataStore.building_money[buildingID] * investToOffice);
+                        MainDataStore.building_money[buildingID] -= (long)(MainDataStore.building_money[buildingID] * bossTake);
                     }
                 }
             }
@@ -807,21 +717,21 @@ namespace RealCity.CustomAI
                     {
                         if (allOfficeLevel1BuildingCountFinal > 0)
                         {
-                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.1f / allOfficeLevel1BuildingCountFinal;
+                            MainDataStore.building_money[buildingID] += profitBuildingMoneyFinal * 0.1f / allOfficeLevel1BuildingCountFinal;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         if (allOfficeLevel2BuildingCountFinal > 0)
                         {
-                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.2f / allOfficeLevel2BuildingCountFinal;
+                            MainDataStore.building_money[buildingID] += profitBuildingMoneyFinal * 0.2f / allOfficeLevel2BuildingCountFinal;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         if (allOfficeLevel3BuildingCountFinal > 0)
                         {
-                            MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.3f / allOfficeLevel3BuildingCountFinal;
+                            MainDataStore.building_money[buildingID] += profitBuildingMoneyFinal * 0.3f / allOfficeLevel3BuildingCountFinal;
                         }
                     }
                 }
@@ -829,7 +739,7 @@ namespace RealCity.CustomAI
                 {
                     if (allOfficeHighTechBuildingCountFinal > 0)
                     {
-                        MainDataStore.building_money[buildingID] += greaterThan20000ProfitBuildingMoneyFinal * 0.4f / allOfficeHighTechBuildingCountFinal;
+                        MainDataStore.building_money[buildingID] += profitBuildingMoneyFinal * 0.4f / allOfficeHighTechBuildingCountFinal;
                     }
                 }
             }

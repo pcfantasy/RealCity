@@ -197,103 +197,17 @@ namespace RealCity.CustomAI
                     BuildingUI.GetWorkBehaviour(workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     if (!isGoverment(workBuilding))
                     {
-                        switch (buildingData.Info.m_class.m_subService)
+                        switch (buildingData.Info.m_class.m_service)
                         {
-                            case ItemClass.SubService.CommercialHigh:
+                            case ItemClass.Service.Commercial:
+                            case ItemClass.Service.Industrial:
                                 if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
                                 {
-                                    switch (buildingData.Info.m_class.m_level)
-                                    {
-                                        case ItemClass.Level.Level1:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.2f / totalWorkCount);
-                                            break;
-                                        case ItemClass.Level.Level2:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.4f / totalWorkCount);
-                                            break;
-                                        case ItemClass.Level.Level3:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.7f / totalWorkCount);
-                                            break;
-                                    }
-                                }
-                                break; //
-                            case ItemClass.SubService.CommercialLow:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    switch (buildingData.Info.m_class.m_level)
-                                    {
-                                        case ItemClass.Level.Level1:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.1f / totalWorkCount);
-                                            break;
-                                        case ItemClass.Level.Level2:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.3f / totalWorkCount);
-                                            break;
-                                        case ItemClass.Level.Level3:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.6f / totalWorkCount);
-                                            break;
-                                    }
-                                }
-                                break; //
-                            case ItemClass.SubService.IndustrialGeneric:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    switch (buildingData.Info.m_class.m_level)
-                                    {
-                                        case ItemClass.Level.Level1:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.1f / totalWorkCount);
-                                            break;
-                                        case ItemClass.Level.Level2:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.2f / totalWorkCount);
-                                            break;
-                                        case ItemClass.Level.Level3:
-                                            salary = (int)(MainDataStore.building_money[workBuilding] * 0.3f / totalWorkCount);
-                                            break;
-                                    }
-                                }
-                                break; //
-                            case ItemClass.SubService.IndustrialFarming:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.2f / totalWorkCount);
-                                }
-                                break; //
-                            case ItemClass.SubService.IndustrialForestry:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.2f / totalWorkCount);
-                                }
-                                break; //
-                            case ItemClass.SubService.IndustrialOil:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.2f / totalWorkCount);
-                                }
-                                break; //
-                            case ItemClass.SubService.IndustrialOre:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.2f / totalWorkCount);
+                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.1f / totalWorkCount);
+                                    break;
                                 }
                                 break;
-                            case ItemClass.SubService.CommercialLeisure:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.7f / totalWorkCount);
-                                }
-                                break;
-                            case ItemClass.SubService.CommercialTourist:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.9f / totalWorkCount);
-                                }
-                                break;
-                            case ItemClass.SubService.CommercialEco:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.5f / totalWorkCount);
-                                }
-                                break;
-                            case ItemClass.SubService.OfficeGeneric:
-                            case ItemClass.SubService.OfficeHightech:
+                            case ItemClass.Service.Office:
                                 if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
                                 {
                                     salary = (int)(MainDataStore.building_money[workBuilding] / totalWorkCount);
@@ -1161,7 +1075,7 @@ namespace RealCity.CustomAI
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
                 //Only university will cost money
-                if (MainDataStore.family_money[homeid] > 0 && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education2)))
+                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education2))
                 {
                     educationFee += 20;
                     Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
