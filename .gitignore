@@ -8,3 +8,9 @@ RealCity.csproj
 RealCity.sln
 packages/Lib.Harmony.1.2.0.1/Lib.Harmony.1.2.0.1.nupkg
 packages/Lib.Harmony.1.2.0.1/.signature.p7s
+.vs/RealCity/v16/.suo
+.vs/RealCity/v16/Server/sqlite3/db.lock
+*.ide
+*.ide-shm
+*.ide-wal
+obj/Release/RealCity.csproj.CopyComplete

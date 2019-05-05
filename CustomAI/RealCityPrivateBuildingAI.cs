@@ -483,37 +483,6 @@ namespace RealCity.CustomAI
             return price;
         }
 
-        public static float CaculateEmployeeOutcome(Building building, ushort buildingID)
-        {
-            float num1 = 0;
-            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-            int aliveWorkerCount = 0;
-            int totalWorkerCount = 0;
-            GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-
-            if (totalWorkerCount > 0)
-            {
-                if (MainDataStore.building_money[buildingID] > 0)
-                {
-                    switch (building.Info.m_class.m_service)
-                    {
-                        case ItemClass.Service.Commercial:
-                        case ItemClass.Service.Industrial:
-                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.1f / totalWorkerCount);
-                            break;
-                        case ItemClass.Service.Office:
-                            num1 = (int)(MainDataStore.building_money[buildingID] / totalWorkerCount);
-                            break;
-                    }
-                }
-                else
-                {
-                    num1 = 0;
-                }
-            }
-            return num1;
-        }
-
         public static void GetWorkBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
@@ -580,8 +549,8 @@ namespace RealCity.CustomAI
 
                 case ItemClass.Service.Commercial:
                 case ItemClass.Service.Industrial:
-
-                    float averageBuildingSalary = CaculateEmployeeOutcome(buildingData, buildingID);
+                    int num = 0; int num1 = 0;
+                    float averageBuildingSalary = BuildingUI.CaculateEmployeeOutcome(buildingData, buildingID, out num, out num1);
 
                     if (MainDataStore.citizenCount > 0.0)
                     {
@@ -660,47 +629,47 @@ namespace RealCity.CustomAI
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                investToOffice = 0.05f;
+                                investToOffice = 0.005f;
                             } else
                             {
-                                investToOffice = 0.01f;
+                                investToOffice = 0.001f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            investToOffice = 0.02f;
+                            investToOffice = 0.002f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            investToOffice = 0.03f;
+                            investToOffice = 0.003f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            investToOffice = 0.04f;
+                            investToOffice = 0.004f;
                         }
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                bossTake = 0.1f;
+                                bossTake = 0.01f;
                             }
                             else
                             {
-                                bossTake = 0.02f;
+                                bossTake = 0.002f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            bossTake = 0.04f;
+                            bossTake = 0.004f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            bossTake = 0.06f;
+                            bossTake = 0.006f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            bossTake = 0.08f;
+                            bossTake = 0.008f;
                         }
 
                         profitBuildingMoney += (long)(MainDataStore.building_money[buildingID] * investToOffice);

@@ -17,7 +17,7 @@ namespace RealCity.CustomManager
             MainDataStore.family_money[unit] = 0;
         }
 
-        public static void CitizenManagerReleaseCitizenInstancePostFix(ushort instance)
+        public static void CitizenManagerReleaseCitizenInstanceImplementationPreFix(ushort instance, ref CitizenInstance data)
         {
             RealCityHumanAI.watingPathTime[instance] = 0;
         }

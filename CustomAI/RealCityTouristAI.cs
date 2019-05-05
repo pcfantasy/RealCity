@@ -51,7 +51,7 @@ namespace RealCity.CustomAI
         public static void FindVisitPlace(uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
             TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-            offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(8u);
+            offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(7u);
             offer.Citizen = citizenID;
             offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[sourceBuilding].m_position;
             offer.Amount = 1;
