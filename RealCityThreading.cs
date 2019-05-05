@@ -153,7 +153,7 @@ namespace RealCity
                             RealCityVehicleManager.stuckTime[vehicleID] = 0;
                         }
 
-                        if (RealCityVehicleManager.stuckTime[vehicleID] > 60)
+                        if (RealCityVehicleManager.stuckTime[vehicleID] > 600)
                         {
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle transfer type is " + vehicleData.m_transferType.ToString());
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle flag is " + vehicleData.m_flags.ToString());
