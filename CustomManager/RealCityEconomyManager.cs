@@ -148,8 +148,12 @@ namespace RealCity.CustomManager
         public static int[] healthCareIncomeForUI = new int[17];
         public static float fireStationIncome = 0f;
         public static int[] fireStationIncomeForUI = new int[17];
-        //2628+216 = 2844
-        public static byte[] saveData = new byte[2844];
+        //3*4 = 12
+        public static float PlayerEducation = 0f;
+        public static float Museums = 0f;
+        public static float VarsitySports = 0f;
+        //2628+216+12 = 2856
+        public static byte[] saveData = new byte[2856];
 
         public static void CleanCurrent(int current_idex)
         {
@@ -376,6 +380,9 @@ namespace RealCity.CustomManager
             healthCareIncome = SaveAndRestore.load_float(ref i, saveData);
             fireStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             fireStationIncome = SaveAndRestore.load_float(ref i, saveData);
+            PlayerEducation = SaveAndRestore.load_float(ref i, saveData);
+            Museums = SaveAndRestore.load_float(ref i, saveData);
+            VarsitySports = SaveAndRestore.load_float(ref i, saveData);
             DebugLog.LogToFileOnly("saveData in EM is " + i.ToString());
         }
 
@@ -528,6 +535,10 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, healthCareIncome, ref saveData);
             SaveAndRestore.save_ints(ref i, fireStationIncomeForUI, ref saveData);
             SaveAndRestore.save_float(ref i, fireStationIncome, ref saveData);
+
+            SaveAndRestore.save_float(ref i, PlayerEducation, ref saveData);
+            SaveAndRestore.save_float(ref i, Museums, ref saveData);
+            SaveAndRestore.save_float(ref i, VarsitySports, ref saveData);
         }
 
         public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
@@ -667,6 +678,36 @@ namespace RealCity.CustomManager
                         {
                             temp = (int)PlayerIndustry;
                             PlayerIndustry = PlayerIndustry - (int)PlayerIndustry;
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
+                        }
+                        return amount;
+                    case ItemClass.Service.PlayerEducation:
+                        PlayerEducation += (float)amount / MainDataStore.gameExpenseDivide;
+                        if (PlayerEducation > 1)
+                        {
+                            temp = (int)PlayerEducation;
+                            PlayerEducation = PlayerEducation - (int)PlayerEducation;
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
+                        }
+                        return amount;
+                    case ItemClass.Service.Museums:
+                        Museums += (float)amount / MainDataStore.gameExpenseDivide;
+                        if (Museums > 1)
+                        {
+                            temp = (int)Museums;
+                            Museums = Museums - (int)Museums;
+                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+                            return amount;
+                        }
+                        return amount;
+                    case ItemClass.Service.VarsitySports:
+                        VarsitySports += (float)amount / MainDataStore.gameExpenseDivide;
+                        if (VarsitySports > 1)
+                        {
+                            temp = (int)VarsitySports;
+                            VarsitySports = VarsitySports - (int)VarsitySports;
                             Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
                             return amount;
                         }

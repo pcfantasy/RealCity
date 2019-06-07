@@ -171,6 +171,9 @@ namespace RealCity.CustomAI
                 case ItemClass.Service.FireDepartment:
                 case ItemClass.Service.PlayerIndustry:
                 case ItemClass.Service.PublicTransport:
+                case ItemClass.Service.PlayerEducation:
+                case ItemClass.Service.Museums:
+                case ItemClass.Service.VarsitySports:
                     isGoverment = true; break;
             }
             return isGoverment;

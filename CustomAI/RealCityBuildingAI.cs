@@ -86,8 +86,7 @@ namespace RealCity.CustomAI
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
                 }
             }
-
-            if (info.m_class.m_service == ItemClass.Service.Monument)
+            else if (info.m_class.m_service == ItemClass.Service.Monument)
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
@@ -106,6 +105,75 @@ namespace RealCity.CustomAI
                 else
                 {
                     int tourism_fee = (int)(0.4f * MainDataStore.citizenMoney[citizen]);
+                    if (tourism_fee > 0)
+                    {
+                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - tourism_fee);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
+                    }
+                }
+            }
+            else if (info.m_class.m_service == ItemClass.Service.PlayerEducation)
+            {
+                if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                {
+                    int tourism_fee = rand.Next(100) + 1;
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
+                    {
+                        tourism_fee = tourism_fee << 4;
+                    }
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
+                    {
+                        tourism_fee = tourism_fee << 2;
+                    }
+
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
+                }
+            }
+            else if (info.m_class.m_service == ItemClass.Service.Museums)
+            {
+                if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                {
+                    int tourism_fee = rand.Next(200) + 1;
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
+                    {
+                        tourism_fee = tourism_fee << 4;
+                    }
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
+                    {
+                        tourism_fee = tourism_fee << 2;
+                    }
+
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
+                }
+                else
+                {
+                    int tourism_fee = (int)(0.1f * MainDataStore.citizenMoney[citizen]);
+                    if (tourism_fee > 0)
+                    {
+                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - tourism_fee);
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114);
+                    }
+                }
+            }
+            else if (info.m_class.m_service == ItemClass.Service.VarsitySports)
+            {
+                if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                {
+                    int tourism_fee = rand.Next(300) + 1;
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
+                    {
+                        tourism_fee = tourism_fee << 4;
+                    }
+                    if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
+                    {
+                        tourism_fee = tourism_fee << 2;
+                    }
+
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113);
+                }
+                else
+                {
+                    int tourism_fee = (int)(0.2f * MainDataStore.citizenMoney[citizen]);
                     if (tourism_fee > 0)
                     {
                         MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - tourism_fee);

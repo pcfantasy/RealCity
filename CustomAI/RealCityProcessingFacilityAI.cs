@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using RealCity.Util;
+using System;
 
 namespace RealCity.CustomAI
 {
@@ -70,10 +71,15 @@ namespace RealCity.CustomAI
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-            num1 += behaviour.m_educated0Count * MainDataStore.govermentEducation0Salary;
-            num1 += behaviour.m_educated1Count * MainDataStore.govermentEducation1Salary;
-            num1 += behaviour.m_educated2Count * MainDataStore.govermentEducation2Salary;
-            num1 += behaviour.m_educated3Count * MainDataStore.govermentEducation3Salary;
+            int budget = Singleton<EconomyManager>.instance.GetBudget(building.Info.m_class);
+            int education0Salary = Math.Max((int)((budget * MainDataStore.govermentEducation0SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation0Salary);
+            int education1Salary = Math.Max((int)((budget * MainDataStore.govermentEducation1SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation1Salary);
+            int education2Salary = Math.Max((int)((budget * MainDataStore.govermentEducation2SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation2Salary);
+            int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation3Salary);
+            num1 += behaviour.m_educated0Count * education0Salary;
+            num1 += behaviour.m_educated1Count * education1Salary;
+            num1 += behaviour.m_educated2Count * education2Salary;
+            num1 += behaviour.m_educated3Count * education3Salary;
             int allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, building, true, false);
             if (totalWorkerCount > allWorkCount)
             {
@@ -82,7 +88,7 @@ namespace RealCity.CustomAI
 
             if ((aliveWorkerCount == 0) && (allWorkCount != 0))
             {
-                num1 = MainDataStore.govermentEducation3Salary * allWorkCount * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID);
+                num1 = education3Salary * allWorkCount;
             }
 
             float idex = (totalWorkerCount != 0) ? (allWorkCount / totalWorkerCount) : 1;
