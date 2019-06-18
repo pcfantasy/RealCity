@@ -819,7 +819,7 @@ namespace RealCity.CustomAI
             ProcessCitizen(homeID, ref data, false);
             //9. Fixed m_goods consuption
             //9.1 based on incomeMinusExpense
-            float fixedGoodsConsumption = incomeMinusExpense / (10f * MainDataStore.reduceCargoDiv);
+            float fixedGoodsConsumption = incomeMinusExpense / 10f;
             //9.2 based on familyMoney
             if (MainDataStore.family_money[homeID] > 0)
             {

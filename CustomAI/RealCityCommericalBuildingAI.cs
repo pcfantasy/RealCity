@@ -61,7 +61,14 @@ namespace RealCity.CustomAI
             amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
             // NON-STOCK CODE START
             caculate_trade_income(buildingID, ref data, material, ref amountDelta);
-            data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
+            if (RealCity.reduceVehicle)
+            {
+                data.m_customBuffer2 = (ushort)(customBuffer2 + (amountDelta / MainDataStore.reduceCargoDiv));
+            }
+            else
+            {
+                data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
+            }
             MainDataStore.building_buffer2[buildingID] = data.m_customBuffer2;
             /// NON-STOCK CODE END ///
             data.m_outgoingProblemTimer = 0;
