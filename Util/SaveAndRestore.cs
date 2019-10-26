@@ -502,7 +502,7 @@ namespace RealCity.Util
             if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
             {
                 DebugLog.LogToFileOnly("startsave");
-                RealCityEconomyManager.saveData = new byte[2844];
+                RealCityEconomyManager.saveData = new byte[2856];
                 MainDataStore.saveData1 = new byte[4194304];
                 MainDataStore.saveData2 = new byte[1048576];
                 RealCityPrivateBuildingAI.saveData = new byte[44];

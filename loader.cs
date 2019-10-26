@@ -100,7 +100,7 @@ namespace RealCity
         {
             MainDataStore.data_init();
             RealCityEconomyManager.dataInit();
-            RealCityEconomyManager.saveData = new byte[2844];
+            RealCityEconomyManager.saveData = new byte[2856];
             RealCityPrivateBuildingAI.saveData = new byte[316];
             RealCityResidentAI.saveData = new byte[140];
             MainDataStore.saveData = new byte[3932402];
