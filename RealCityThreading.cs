@@ -5,12 +5,15 @@ using ColossalFramework.UI;
 using ColossalFramework;
 using RealCity.CustomManager;
 using System;
+using System.Reflection;
+using RealCity.CustomAI;
 
 namespace RealCity
 {
     public class RealCityThreading : ThreadingExtensionBase
     {
         public static bool isFirstTime = true;
+        public static Assembly RealGasStation = null;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -45,6 +48,36 @@ namespace RealCity
             //This is for Detour Other Mod method
             DebugLog.LogToFileOnly("Init DetourAfterLoad");
             bool detourFailed = false;
+
+            if (Loader.isRealGasStationRunning)
+            {
+                RealGasStation = Assembly.Load("RealGasStation");
+                //1
+                DebugLog.LogToFileOnly("Detour RealCityCargoTruckAI::ProcessResourceArriveAtTarget calls");
+                try
+                {
+                    Loader.Detours.Add(new Loader.Detour(RealGasStation.GetType("RealGasStation.CustomAI.CustomCargoTruckAI").GetMethod("ProcessResourceArriveAtTargetForRealCity", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int).MakeByRefType() }, null),
+                                           typeof(RealCityCargoTruckAI).GetMethod("ProcessResourceArriveAtTarget", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(),typeof(int).MakeByRefType() }, null)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour RealCityCargoTruckAI::ProcessResourceArriveAtTarget");
+                    detourFailed = true;
+                }
+
+                //2
+                DebugLog.LogToFileOnly("Detour RealCityPassengerCarAI::GetVehicleRunningTiming calls");
+                try
+                {
+                    Loader.Detours.Add(new Loader.Detour(RealGasStation.GetType("RealGasStation.CustomAI.CustomPassengerCarAI").GetMethod("GetVehicleRunningTimingForRealCity", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
+                                           typeof(RealCityPassengerCarAI).GetMethod("GetVehicleRunningTiming", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour RealCityPassengerCarAI::GetVehicleRunningTiming");
+                    detourFailed = true;
+                }
+            }
 
             if (detourFailed)
             {

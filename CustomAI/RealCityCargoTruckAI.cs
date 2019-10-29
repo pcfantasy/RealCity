@@ -7,36 +7,13 @@ namespace RealCity.CustomAI
 {
     public class RealCityCargoTruckAI: CargoTruckAI
     {
-        public void CargoTruckAIArriveAtTargetForRealGasStationPre(ushort vehicleID, ref Vehicle data)
-        {
-            DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ CargoTruckAIArriveAtTargetForRealGasStationPre");
-        }
-
-        public void CargoTruckAIArriveAtTargetForRealGasStationPost(ushort vehicleID, ref Vehicle data)
-        {
-            DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ CargoTruckAIArriveAtTargetForRealGasStationPost");
-        }
-
-        public void CargoTruckAIArriveAtTargetForRealConstruction(ushort vehicleID, ref Vehicle data)
+        public static void CargoTruckAIArriveAtTargetForRealConstruction(ushort vehicleID, ref Vehicle data)
         {
             DebugLog.LogToFileOnly("Error: Should be detour by RealConstruction @ CargoTruckAIArriveAtTargetForRealConstruction");
         }
 
-        public void CargoTruckAISetSourceForRealConstruction(ushort vehicleID, ref Vehicle data, ushort sourceBuilding)
-        {
-            DebugLog.LogToFileOnly("Error: Should be detour by RealConstruction @ CargoTruckAISetSourceForRealConstruction");
-        }
-
         private bool ArriveAtTarget(ushort vehicleID, ref Vehicle data)
         {
-            // NON-STOCK CODE START
-            // 112 means fuel demand, see more in RealGasStation mod
-            if (data.m_transferType == 112 && Loader.isRealGasStationRunning)
-            {
-                CargoTruckAIArriveAtTargetForRealGasStationPre(vehicleID, ref data);
-                return true;
-            }
-            /// NON-STOCK CODE END ///
             if (data.m_targetBuilding == 0)
             {
                 return true;
@@ -49,10 +26,6 @@ namespace RealCity.CustomAI
                 if (Loader.isRealConstructionRunning)
                 {
                     CargoTruckAIArriveAtTargetForRealConstruction(vehicleID, ref data);
-                }
-                if (Loader.isRealGasStationRunning)
-                {
-                    CargoTruckAIArriveAtTargetForRealGasStationPost(vehicleID, ref data);
                 }
                 /// NON-STOCK CODE END ///
                 num = data.m_transferSize;
@@ -127,7 +100,7 @@ namespace RealCity.CustomAI
             return false;
         }
 
-        private void ProcessResourceArriveAtTarget(ushort vehicleID, ref Vehicle data, ref int num)
+        public static void ProcessResourceArriveAtTarget(ushort vehicleID, ref Vehicle data, ref int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
             Building building = instance.m_buildings.m_buffer[data.m_sourceBuilding];

@@ -1078,9 +1078,22 @@ namespace RealCity.CustomAI
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
                 //Only university will cost money
-                if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education2))
+                bool isCampusDLC = false;
+                //Campus DLC cost 100
+                ushort visitBuilding = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_visitBuilding;
+                if (visitBuilding != 0u)
                 {
-                    educationFee += 20;
+                    Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[visitBuilding];
+                    if (buildingData.Info.m_class.m_service == ItemClass.Service.PlayerEducation)
+                    {
+                        educationFee = 100;
+                        isCampusDLC = true;
+                    }
+                }
+
+                if (!isCampusDLC && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education2)))
+                {
+                    educationFee = 20;
                     Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
                 }
             }

@@ -200,6 +200,36 @@ namespace RealCity
                 MainDataStore.govermentEducation2Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount);
                 MainDataStore.govermentEducation3Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.95f) / MainDataStore.citizenCount);
             }
+            //reset playereducation fee
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent != 1)
+            {
+                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level1 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent.ToString());
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent = 1;                
+            }
+
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent != 1)
+            {
+                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level2 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent.ToString());
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent = 1;
+            }
+
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent != 1)
+            {
+                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level3 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent.ToString());
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent = 1;
+            }
+
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent != 1)
+            {
+                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level4 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent.ToString());
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent = 1;
+            }
+
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent != 1)
+            {
+                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level5 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent.ToString());
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent = 1;
+            }
         }
 
         public byte ReturnOtherIdx(byte orgIdx)

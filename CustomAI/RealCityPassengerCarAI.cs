@@ -7,20 +7,9 @@ namespace RealCity.CustomAI
 {
     public class RealCityPassengerCarAI: PassengerCarAI
     {
-        public void PassengerCarAIArriveAtTargetForRealGasStationPre(ushort vehicleID, ref Vehicle data)
-        {
-            DebugLog.LogToFileOnly("Error: Should be detour by RealGasStation @ PassengerCarAIArriveAtTargetForRealGasStationPre");
-        }
-
         private bool CustomArriveAtTarget(ushort vehicleID, ref Vehicle data)
         {
             // NON-STOCK CODE START
-            //RealGasStation Mod related
-            if (data.m_transferType == 112 && Loader.isRealGasStationRunning)
-            {
-                PassengerCarAIArriveAtTargetForRealGasStationPre(vehicleID, ref data);
-                return true;
-            }
             GetVehicleRunningTiming(vehicleID, ref data);
             // NON-STOCK CODE END
             if ((data.m_flags & Vehicle.Flags.Parking) != 0)
@@ -128,7 +117,7 @@ namespace RealCity.CustomAI
             }
         }
 
-        private ushort GetDriverInstance(ushort vehicleID, ref Vehicle data)
+        private static ushort GetDriverInstance(ushort vehicleID, ref Vehicle data)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint num = data.m_citizenUnits;
@@ -158,7 +147,7 @@ namespace RealCity.CustomAI
             return 0;
         }
 
-        public void GetVehicleRunningTiming(ushort vehicleID, ref Vehicle vehicleData)
+        public static void GetVehicleRunningTiming(ushort vehicleID, ref Vehicle vehicleData)
         {
             if (vehicleID > 16384)
             {

@@ -2029,6 +2029,10 @@ namespace RealCity.CustomManager
                     tourist_income_forui[MainDataStore.update_money_count] += amount;
                 }
             }
+            else if (resource == EconomyManager.Resource.PublicIncome && itemClass.m_service == ItemClass.Service.PlayerEducation)
+            {
+                school_income_forui[MainDataStore.update_money_count] += amount;
+            }
             /// NON-STOCK CODE END ///
             return Singleton<EconomyManager>.instance.AddResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level, DistrictPolicies.Taxation.None);
         }
