@@ -5,18 +5,22 @@ using UnityEngine;
 namespace RealCity.UI
 {
     public class PlayerBuildingButton : UIButton
-    { 
-        public static void PlayerBuildingUIToggle()
+    {
+        private UIPanel playerBuildingInfo;
+        private PlayerBuildingUI playerBuildingUI;
+        private InstanceID BuildingID = InstanceID.Empty;
+        public void PlayerBuildingUIToggle()
         {
-            if (!Loader.playerBuildingUI.isVisible)
-            {
+            if ((!playerBuildingUI.isVisible) && (BuildingID != InstanceID.Empty))
+            { 
+                playerBuildingUI.position = new Vector3(playerBuildingInfo.size.x, playerBuildingInfo.size.y);
+                playerBuildingUI.size = new Vector3(playerBuildingInfo.size.x, playerBuildingInfo.size.y);
                 PlayerBuildingUI.refeshOnce = true;
-                MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
-                Loader.playerBuildingUI.Show();
+                playerBuildingUI.Show();
             }
             else
             {
-                Loader.playerBuildingUI.Hide();
+                playerBuildingUI.Hide();
             }
         }
 
@@ -35,6 +39,16 @@ namespace RealCity.UI
             internalSprite.width = 40f;
             internalSprite.height = 40f;
             size = new Vector2(40f, 40f);
+            //Setup PlayerBuildingUI
+            var buildingWindowGameObject = new GameObject("buildingWindowObject");
+            playerBuildingUI = (PlayerBuildingUI)buildingWindowGameObject.AddComponent(typeof(PlayerBuildingUI));
+            playerBuildingInfo = UIView.Find<UIPanel>("(Library) CityServiceWorldInfoPanel");
+            if (playerBuildingInfo == null)
+            {
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) CityServiceWorldInfoPanel\nAvailable panels are:\n");
+            }
+            playerBuildingUI.transform.parent = playerBuildingInfo.transform;
+            playerBuildingUI.baseBuildingWindow = playerBuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
             eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 PlayerBuildingUIToggle();
@@ -44,8 +58,12 @@ namespace RealCity.UI
         public override void Update()
         {
             if (Loader.isGuiRunning)
-            { 
-                relativePosition = new Vector3(120, Loader.playerbuildingInfo.size.y - height);
+            {
+                if (WorldInfoPanel.GetCurrentInstanceID() != InstanceID.Empty)
+                {
+                    BuildingID = WorldInfoPanel.GetCurrentInstanceID();
+                }
+                relativePosition = new Vector3(120, playerBuildingInfo.size.y - height);
                 Show();
             }
             base.Update();

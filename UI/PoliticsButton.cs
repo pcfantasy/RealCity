@@ -6,14 +6,15 @@ namespace RealCity.UI
 {
     public class PoliticsButton : UIButton
     {
-        private UIComponent MoreeconomicUITrigger_paneltime;
-        private UIComponent MoreeconomicUITrigger_chirper;
-        private UIComponent MoreeconomicUITrigger_esc;
-        private UIComponent MoreeconomicUITrigger_infopanel;
-        private UIComponent MoreeconomicUITrigger_bottombars;
+        private UIComponent PoliticsUITrigger_paneltime;
+        private UIComponent PoliticsUITrigger_chirper;
+        private UIComponent PoliticsUITrigger_esc;
+        private UIComponent PoliticsUITrigger_infopanel;
+        private UIComponent PoliticsUITrigger_bottombars;
         private UIDragHandle m_DragHandler;
-
-        public static void MoreeconomicUIToggle()
+        private float tmpX;
+        private float tmpY;
+        public static void PoliticsUIToggle()
         {
             if (!Loader.politicsUI.isVisible)
             {
@@ -31,9 +32,9 @@ namespace RealCity.UI
             }
         }
 
-        public void MoreeconomicUIOff()
+        public void PoliticsUIOff()
         {
-            if (Loader.politicsUI.isVisible && !Loader.politicsUI.containsMouse && !containsMouse && MoreeconomicUITrigger_paneltime != null && !MoreeconomicUITrigger_paneltime.containsMouse)
+            if (Loader.politicsUI.isVisible && !Loader.politicsUI.containsMouse && !containsMouse && PoliticsUITrigger_paneltime != null && !PoliticsUITrigger_paneltime.containsMouse)
             {
                 Loader.politicsUI.Hide();
             }
@@ -64,41 +65,49 @@ namespace RealCity.UI
             m_DragHandler.zOrder = 10;
             m_DragHandler.Start();
             m_DragHandler.enabled = true;
-            eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            tmpX = relativePosition.x;
+            tmpY = relativePosition.y;
+            eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                MoreeconomicUIToggle();
+                if (tmpX == relativePosition.x && tmpY == relativePosition.y)
+                {
+                    PoliticsUIToggle();
+                }
+                tmpX = relativePosition.x;
+                tmpY = relativePosition.y;
+
             };
-            MoreeconomicUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
-            MoreeconomicUITrigger_esc = UIView.Find<UIButton>("Esc");
-            MoreeconomicUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
-            MoreeconomicUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
-            MoreeconomicUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
-            if (MoreeconomicUITrigger_chirper != null && MoreeconomicUITrigger_paneltime != null)
+            PoliticsUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
+            PoliticsUITrigger_esc = UIView.Find<UIButton>("Esc");
+            PoliticsUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
+            PoliticsUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
+            PoliticsUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
+            if (PoliticsUITrigger_chirper != null && PoliticsUITrigger_paneltime != null)
             {
-                MoreeconomicUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                PoliticsUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    MoreeconomicUIOff();
+                    PoliticsUIOff();
                 };
             }
-            if (MoreeconomicUITrigger_esc != null && MoreeconomicUITrigger_paneltime != null)
+            if (PoliticsUITrigger_esc != null && PoliticsUITrigger_paneltime != null)
             {
-                MoreeconomicUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                PoliticsUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    MoreeconomicUIOff();
+                    PoliticsUIOff();
                 };
             }
-            if (MoreeconomicUITrigger_infopanel != null && MoreeconomicUITrigger_paneltime != null)
+            if (PoliticsUITrigger_infopanel != null && PoliticsUITrigger_paneltime != null)
             {
-                MoreeconomicUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                PoliticsUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    MoreeconomicUIOff();
+                    PoliticsUIOff();
                 };
             }
-            if (MoreeconomicUITrigger_bottombars != null && MoreeconomicUITrigger_paneltime != null)
+            if (PoliticsUITrigger_bottombars != null && PoliticsUITrigger_paneltime != null)
             {
-                MoreeconomicUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+                PoliticsUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
                 {
-                    MoreeconomicUIOff();
+                    PoliticsUIOff();
                 };
             }
         }
@@ -109,7 +118,7 @@ namespace RealCity.UI
             {
                 if (Loader.politicsUI.isVisible)
                 {
-                    Focus();
+                    //Focus();
                     Hide();
                 }
                 else

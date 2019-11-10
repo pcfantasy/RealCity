@@ -12,7 +12,8 @@ namespace RealCity.UI
         private UIComponent RealCityUITrigger_infopanel;
         private UIComponent RealCityUITrigger_bottombars;
         private UIDragHandle m_DragHandler;
-
+        private float tmpX;
+        private float tmpY;
         public static void RealCityUIToggle()
         {
             if (!Loader.realCityUI.isVisible)
@@ -63,9 +64,16 @@ namespace RealCity.UI
             m_DragHandler.zOrder = 10;
             m_DragHandler.Start();
             m_DragHandler.enabled = true;
+            tmpX = relativePosition.x;
+            tmpY = relativePosition.y;
             eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                RealCityUIToggle();
+                if (tmpX == relativePosition.x && tmpY == relativePosition.y)
+                {
+                    RealCityUIToggle();
+                }
+                tmpX = relativePosition.x;
+                tmpY = relativePosition.y;
             };
             RealCityUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
             RealCityUITrigger_esc = UIView.Find<UIButton>("Esc");
@@ -108,7 +116,7 @@ namespace RealCity.UI
             {
                 if (Loader.realCityUI.isVisible)
                 {
-                    Focus();
+                    //Focus();
                     Hide();
                 }
                 else

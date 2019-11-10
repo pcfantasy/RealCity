@@ -12,7 +12,8 @@ namespace RealCity.UI
         private UIComponent MoreeconomicUITrigger_infopanel;
         private UIComponent MoreeconomicUITrigger_bottombars;
         private UIDragHandle m_DragHandler;
-
+        private float tmpX;
+        private float tmpY;
         public static void MoreeconomicUIToggle()
         {
             if (!Loader.ecnomicUI.isVisible)
@@ -59,9 +60,16 @@ namespace RealCity.UI
             m_DragHandler.zOrder = 10;
             m_DragHandler.Start();
             m_DragHandler.enabled = true;
-            eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            tmpX = relativePosition.x;
+            tmpY = relativePosition.y;
+            eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
-                MoreeconomicUIToggle();
+                if (tmpX == relativePosition.x && tmpY == relativePosition.y)
+                {
+                    MoreeconomicUIToggle();
+                }
+                tmpX = relativePosition.x;
+                tmpY = relativePosition.y;
             };
             MoreeconomicUITrigger_chirper = UIView.Find<UIPanel>("ChirperPanel");
             MoreeconomicUITrigger_esc = UIView.Find<UIButton>("Esc");
@@ -104,7 +112,7 @@ namespace RealCity.UI
             {
                 if (Loader.ecnomicUI.isVisible)
                 {
-                    Focus();
+                    //Focus();
                     Hide();
                 }
                 else

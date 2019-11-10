@@ -36,19 +36,14 @@ namespace RealCity
         public static bool HarmonyDetourInited = false;
         public static bool HarmonyDetourFailed = true;
         public static UIView parentGuiView;
-        public static UIPanel buildingInfo;
-        public static UIPanel playerbuildingInfo;
         public static UIPanel HumanInfo;
         public static UIPanel TouristInfo;
         public static EcnomicUI ecnomicUI;
         public static RealCityUI realCityUI;
-        public static BuildingUI buildingUI;
         public static HumanUI humanUI;
-        public static PlayerBuildingUI playerBuildingUI;
         public static PoliticsUI politicsUI;
         public static TouristUI touristUI;
         public static GameObject buildingWindowGameObject;
-        public static GameObject PlayerbuildingWindowGameObject;
         public static GameObject HumanWindowGameObject;
         public static GameObject TouristWindowGameObject;
         public static LoadMode CurrentLoadMode;
@@ -187,10 +182,8 @@ namespace RealCity
                     politicsUI = (PoliticsUI)parentGuiView.AddUIComponent(typeof(PoliticsUI));
                 }
 
-                SetupBuidingGui();
                 SetupHumanGui();
                 SetupTouristGui();
-                SetupPlayerBuidingGui();
                 SetupEcnomicButton();
                 SetupPLButton();
                 SetupCityButton();
@@ -198,22 +191,6 @@ namespace RealCity
                 SetupPlayerBuildingButton();
                 isGuiRunning = true;
             }
-        }
-
-        public static void SetupBuidingGui()
-        {
-            buildingWindowGameObject = new GameObject("buildingWindowObject");
-            buildingUI = (BuildingUI)buildingWindowGameObject.AddComponent(typeof(BuildingUI));
-            buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
-            if (buildingInfo == null)
-            {
-                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) ZonedBuildingWorldInfoPanel\nAvailable panels are:\n");
-            }
-            buildingUI.transform.parent = buildingInfo.transform;
-            buildingUI.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
-            buildingUI.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-            buildingUI.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
-            buildingInfo.eventVisibilityChanged += buildingInfo_eventVisibilityChanged;
         }
 
         public static void SetupHumanGui()
@@ -248,22 +225,6 @@ namespace RealCity
             TouristInfo.eventVisibilityChanged += TouristInfo_eventVisibilityChanged;
         }
 
-        public static void SetupPlayerBuidingGui()
-        {
-            PlayerbuildingWindowGameObject = new GameObject("PlayerbuildingWindowGameObject");
-            playerBuildingUI = (PlayerBuildingUI)PlayerbuildingWindowGameObject.AddComponent(typeof(PlayerBuildingUI));
-            playerbuildingInfo = UIView.Find<UIPanel>("(Library) CityServiceWorldInfoPanel");
-            if (playerbuildingInfo == null)
-            {
-                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) CityServiceWorldInfoPanel\nAvailable panels are:\n");
-            }
-            playerBuildingUI.transform.parent = playerbuildingInfo.transform;
-            playerBuildingUI.size = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
-            playerBuildingUI.baseBuildingWindow = playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
-            playerBuildingUI.position = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
-            playerbuildingInfo.eventVisibilityChanged += playerbuildingInfo_eventVisibilityChanged;
-        }
-
         public static void SetupEcnomicButton()
         {
             if (EcButton == null)
@@ -284,6 +245,7 @@ namespace RealCity
 
         public static void SetupBuildingButton()
         {
+            var buildingInfo = UIView.Find<UIPanel>("(Library) ZonedBuildingWorldInfoPanel");
             if (BButton == null)
             {
                 BButton = (buildingInfo.AddUIComponent(typeof(BuildingButton)) as BuildingButton);
@@ -296,13 +258,14 @@ namespace RealCity
 
         public static void SetupPlayerBuildingButton()
         {
+            var playerBuildingInfo = UIView.Find<UIPanel>("(Library) CityServiceWorldInfoPanel");
             if (PBButton == null)
             {
-                PBButton = (playerbuildingInfo.AddUIComponent(typeof(PlayerBuildingButton)) as PlayerBuildingButton);
+                PBButton = (playerBuildingInfo.AddUIComponent(typeof(PlayerBuildingButton)) as PlayerBuildingButton);
             }
             PBButton.width = 40f;
             PBButton.height = 35f;
-            PBButton.relativePosition = new Vector3(120, playerbuildingInfo.size.y - PBButton.height);
+            PBButton.relativePosition = new Vector3(120, playerBuildingInfo.size.y - PBButton.height);
             PBButton.Show();
         }
 
@@ -313,38 +276,6 @@ namespace RealCity
                 PlButton = (parentGuiView.AddUIComponent(typeof(PoliticsButton)) as PoliticsButton);
             }
             PlButton.Show();
-        }
-
-        public static void buildingInfo_eventVisibilityChanged(UIComponent component, bool value)
-        {
-            buildingUI.isEnabled = value;
-            if (value)
-            {
-                buildingUI.transform.parent = buildingInfo.transform;
-                buildingUI.size = new Vector3(buildingInfo.size.x, buildingInfo.size.y + 50f);
-                buildingUI.baseBuildingWindow = buildingInfo.gameObject.transform.GetComponentInChildren<ZonedBuildingWorldInfoPanel>();
-                buildingUI.position = new Vector3(buildingInfo.size.x, buildingInfo.size.y);
-            }
-            else
-            {
-                buildingUI.Hide();
-            }
-        }
-
-        public static void playerbuildingInfo_eventVisibilityChanged(UIComponent component, bool value)
-        {
-            playerBuildingUI.isEnabled = value;
-            if (value)
-            {
-                playerBuildingUI.transform.parent = playerbuildingInfo.transform;
-                playerBuildingUI.size = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
-                playerBuildingUI.baseBuildingWindow = playerbuildingInfo.gameObject.transform.GetComponentInChildren<CityServiceWorldInfoPanel>();
-                playerBuildingUI.position = new Vector3(playerbuildingInfo.size.x, playerbuildingInfo.size.y);
-            }
-            else
-            {
-                playerBuildingUI.Hide();
-            }
         }
 
         public static void HumanInfo_eventVisibilityChanged(UIComponent component, bool value)
@@ -405,25 +336,18 @@ namespace RealCity
                 PlButton = null;
             }
 
-            if (buildingInfo != null)
+            if (BButton != null)
             {
                 UnityEngine.Object.Destroy(BButton);
                 BButton = null;
             }
 
-            if (playerbuildingInfo != null)
+            if (PBButton != null)
             {
                 UnityEngine.Object.Destroy(PBButton);
                 PBButton = null;
             }
-            //remove buildingUI
-            if (buildingUI != null)
-            {
-                if (buildingUI.parent != null)
-                {
-                    buildingUI.parent.eventVisibilityChanged -= buildingInfo_eventVisibilityChanged;
-                }
-            }
+
             if (buildingWindowGameObject != null)
             {
                 UnityEngine.Object.Destroy(buildingWindowGameObject);
@@ -440,14 +364,6 @@ namespace RealCity
             {
                 UnityEngine.Object.Destroy(HumanWindowGameObject);
             }
-            //remove PlayerbuildingUI
-            if (playerBuildingUI != null)
-            {
-                if (playerBuildingUI.parent != null)
-                {
-                    playerBuildingUI.parent.eventVisibilityChanged -= playerbuildingInfo_eventVisibilityChanged;
-                }
-            }
             //remove TouristUI
             if (touristUI != null)
             {
@@ -460,11 +376,6 @@ namespace RealCity
             if (TouristWindowGameObject != null)
             {
                 UnityEngine.Object.Destroy(TouristWindowGameObject);
-            }
-
-            if (PlayerbuildingWindowGameObject != null)
-            {
-                UnityEngine.Object.Destroy(PlayerbuildingWindowGameObject);
             }
         }
 
