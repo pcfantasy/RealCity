@@ -66,7 +66,7 @@ namespace RealCity.UI
             m_DragHandler.enabled = true;
             tmpX = relativePosition.x;
             tmpY = relativePosition.y;
-            eventDoubleClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 if (tmpX == relativePosition.x && tmpY == relativePosition.y)
                 {
