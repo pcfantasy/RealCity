@@ -85,7 +85,7 @@ namespace RealCity.Util
                 null,
                 new HarmonyMethod(vehicleManagerReleaseVehicleImplementationPostFix));
             //8
-            var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance);
+            var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null);
             var buildingAIVisitorEnterPostFix = typeof(RealCityBuildingAI).GetMethod("BuildingAIVisitorEnterPostFix");
             harmony.ConditionalPatch(buildingAIVisitorEnter,
                 null,
@@ -172,6 +172,13 @@ namespace RealCity.Util
                 null,
                 new HarmonyMethod(privateBuildingAIGetColorPostFix));
 
+            //20
+            var humanAIEnterVehicle = typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
+            var humanAIEnterVehiclePreFix = typeof(RealCityHumanAI).GetMethod("HumanAIEnterVehiclePreFix");
+            harmony.ConditionalPatch(humanAIEnterVehicle,
+                new HarmonyMethod(humanAIEnterVehiclePreFix),
+                null);
+
             Loader.HarmonyDetourFailed = false;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -221,7 +228,7 @@ namespace RealCity.Util
                 null,
                 new HarmonyMethod(vehicleManagerReleaseVehicleImplementationPostFix));
             //8
-            var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance);
+            var buildingAIVisitorEnter = typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null);
             var buildingAIVisitorEnterPostFix = typeof(RealCityBuildingAI).GetMethod("BuildingAIVisitorEnterPostFix");
             harmony.ConditionalUnPatch(buildingAIVisitorEnter,
                 null,
@@ -307,6 +314,12 @@ namespace RealCity.Util
             harmony.ConditionalUnPatch(originalGetColorMethod,
                 null,
                 new HarmonyMethod(privateBuildingAIGetColorPostFix));
+
+            var humanAIEnterVehicle = typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
+            var humanAIEnterVehiclePreFix = typeof(RealCityHumanAI).GetMethod("HumanAIEnterVehiclePreFix");
+            harmony.ConditionalUnPatch(humanAIEnterVehicle,
+                new HarmonyMethod(humanAIEnterVehiclePreFix),
+                null);
 
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }

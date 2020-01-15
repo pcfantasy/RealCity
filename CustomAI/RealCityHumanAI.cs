@@ -38,7 +38,52 @@ namespace RealCity.CustomAI
             }
         }
 
-        protected virtual bool CustomEnterVehicle(ushort instanceID, ref CitizenInstance citizenData)
+        public static void HumanAIEnterVehiclePreFix(ushort instanceID, ref CitizenInstance citizenData)
+        {
+            //DebugLog.LogToFileOnly("DebugInfo: HumanAIEnterVehiclePreFix");
+            uint citizen = citizenData.m_citizen;
+            if (citizen != 0u)
+            {
+                VehicleManager instance = Singleton<VehicleManager>.instance;
+                ushort num = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_vehicle;
+                if (num != 0)
+                {
+                    num = instance.m_vehicles.m_buffer[num].GetFirstVehicle(num);
+                }
+                if (num != 0)
+                {
+                    VehicleInfo info = instance.m_vehicles.m_buffer[num].Info;
+                    int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[num]);
+                    if (ticketPrice != 0)
+                    {
+                        // NON-STOCK CODE START
+                        CitizenManager instance3 = Singleton<CitizenManager>.instance;
+                        ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+                        BuildingManager instance2 = Singleton<BuildingManager>.instance;
+                        uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
+                        {
+                            MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (ticketPrice));
+                        }
+                        else
+                        {
+                            if (MainDataStore.citizenMoney[citizen] < ticketPrice)
+                            {
+                                ticketPrice = (MainDataStore.citizenMoney[citizen] > 0) ? (int)MainDataStore.citizenMoney[citizen] + 1 : 1;
+                                MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - ticketPrice);
+                            }
+                            else
+                            {
+                                MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (ticketPrice));
+                            }
+                        }
+                        /// NON-STOCK CODE END ///
+                    }
+                }
+            }
+        }
+
+        /*protected virtual bool CustomEnterVehicle(ushort instanceID, ref CitizenInstance citizenData)
         {
             citizenData.m_flags &= ~CitizenInstance.Flags.EnteringVehicle;
             citizenData.Unspawn(instanceID);
@@ -84,7 +129,7 @@ namespace RealCity.CustomAI
                 }
             }
             return false;
-        }
+        }*/
 
         public static byte[] watingPathTime = new byte[65536];
         public static void HumanAISimulationStepPostFix(ushort instanceID, ref CitizenInstance citizenData, ref CitizenInstance.Frame frameData, bool lodPhysics)

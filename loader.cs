@@ -519,15 +519,15 @@ namespace RealCity
                 }
 
                 //7
-                DebugLog.LogToFileOnly("Detour EconomyManager::FetchResource calls");
+                DebugLog.LogToFileOnly("Detour EconomyWrapper::OnFetchResource calls");
                 try
                 {
-                    Detours.Add(new Detour(typeof(EconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null),
-                                            typeof(RealCityEconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null)));
+                    Detours.Add(new Detour(typeof(EconomyWrapper).GetMethod("OnFetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int).MakeByRefType(), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null),
+                                            typeof(RealCityEconomyManager).GetMethod("OnFetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int).MakeByRefType(), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null)));
                 }
                 catch (Exception)
                 {
-                    DebugLog.LogToFileOnly("Could not detour EconomyManager::FetchResource");
+                    DebugLog.LogToFileOnly("Could not detour EconomyWrapper::OnFetchResource");
                     detourFailed = true;
                 }
 
@@ -575,7 +575,7 @@ namespace RealCity
 
 
                 //11
-                DebugLog.LogToFileOnly("Detour HumanAI::EnterVehicle calls");
+                /*DebugLog.LogToFileOnly("Detour HumanAI::EnterVehicle calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null),
@@ -585,7 +585,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour HumanAI::EnterVehicle");
                     detourFailed = true;
-                }
+                }*/
 
                 //12
                 DebugLog.LogToFileOnly("Detour CargoTruckAI::SetSource calls");
@@ -727,6 +727,20 @@ namespace RealCity
                 catch (Exception)
                 {
                     DebugLog.LogToFileOnly("Could not detour LandfillSiteAI::GetGarbageRate");
+                    detourFailed = true;
+                }
+
+                //23
+                //private void CalculateArenasExpenses(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)
+                DebugLog.LogToFileOnly("Detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses calls");
+                try
+                {
+                    Detours.Add(new Detour(typeof(EconomyPanel).GetNestedType("IncomeExpensesPoll", BindingFlags.NonPublic).GetMethod("CalculateArenasExpenses", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(EconomyPanel.ArenaIndex), typeof(long).MakeByRefType() }, null),
+                                           typeof(RealCityEconomyPanel).GetMethod("CalculateArenasExpenses", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(EconomyPanel.ArenaIndex), typeof(long).MakeByRefType() }, null)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses");
                     detourFailed = true;
                 }
 

@@ -448,6 +448,36 @@ namespace RealCity.CustomAI
                     HeatingPlantAI buildingAI = data.Info.m_buildingAI as HeatingPlantAI;
                     totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
                 }
+                else if (data.Info.m_buildingAI is MainCampusBuildingAI)
+                {
+                    MainCampusBuildingAI buildingAI = data.Info.m_buildingAI as MainCampusBuildingAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is MuseumAI)
+                {
+                    MuseumAI buildingAI = data.Info.m_buildingAI as MuseumAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is UniqueFactoryAI)
+                {
+                    UniqueFactoryAI buildingAI = data.Info.m_buildingAI as UniqueFactoryAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is UniqueFacultyAI)
+                {
+                    UniqueFacultyAI buildingAI = data.Info.m_buildingAI as UniqueFacultyAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is VarsitySportsArenaAI)
+                {
+                    VarsitySportsArenaAI buildingAI = data.Info.m_buildingAI as VarsitySportsArenaAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is LibraryAI)
+                {
+                    LibraryAI buildingAI = data.Info.m_buildingAI as LibraryAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
                 else
                 {
                     if (!checkOnly)

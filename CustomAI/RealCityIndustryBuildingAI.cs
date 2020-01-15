@@ -2,7 +2,7 @@
 
 namespace RealCity.CustomAI
 {
-    public class RealCityIndustryBuildingAI
+    public class RealCityIndustryBuildingAI: PlayerBuildingAI
     {
         public static int CustomGetResourcePrice(TransferManager.TransferReason material)
         {

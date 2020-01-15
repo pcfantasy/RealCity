@@ -541,12 +541,13 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, VarsitySports, ref saveData);
         }
 
-        public int FetchResource(EconomyManager.Resource resource, int amount, ItemClass itemClass)
+        public void OnFetchResource(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
-            int temp;
+            int temp = 0;
             if (resource == EconomyManager.Resource.Maintenance)
             {
-                switch (itemClass.m_service)
+                //DebugLog.LogToFileOnly("maintain fee is " + itemClass.ToString());
+                switch (service)
                 {
                     case ItemClass.Service.Road:
                         Road += (float)amount / MainDataStore.gameExpenseDivide;
@@ -554,164 +555,144 @@ namespace RealCity.CustomManager
                         {
                             temp = (int)Road;
                             Road = Road - (int)Road;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Garbage:
                         Garbage += (float)amount / MainDataStore.gameExpenseDivide;
                         if (Garbage > 1)
                         {
                             temp = (int)Garbage;
                             Garbage = Garbage - (int)Garbage;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.PoliceDepartment:
                         PoliceDepartment += (float)amount / MainDataStore.gameExpenseDivide;
                         if (PoliceDepartment > 1)
                         {
                             temp = (int)PoliceDepartment;
                             PoliceDepartment = PoliceDepartment - (int)PoliceDepartment;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Beautification:
                         Beautification += (float)amount / MainDataStore.gameExpenseDivide;
                         if (Beautification > 1)
                         {
                             temp = (int)Beautification;
                             Beautification = Beautification - (int)Beautification;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Water:
                         Water += (float)amount / MainDataStore.gameExpenseDivide;
                         if (Water > 1)
                         {
                             temp = (int)Water;
                             Water = Water - (int)Water;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Education:
                         Education += (float)amount / MainDataStore.gameExpenseDivide;
                         if (Education > 1)
                         {
                             temp = (int)Education;
                             Education = Education - (int)Education;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Electricity:
                         Electricity += (float)amount / MainDataStore.gameExpenseDivide;
                         if (Electricity > 1)
                         {
                             temp = (int)Electricity;
                             Electricity = Electricity - (int)Electricity;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.FireDepartment:
                         FireDepartment += (float)amount / MainDataStore.gameExpenseDivide;
                         if (FireDepartment > 1)
                         {
                             temp = (int)FireDepartment;
                             FireDepartment = FireDepartment - (int)FireDepartment;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Monument:
                         Monument += amount / MainDataStore.gameExpenseDivide;
                         if (Monument > 1)
                         {
                             temp = (int)Monument;
                             Monument = Monument - (int)Monument;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.HealthCare:
                         HealthCare += (float)amount / MainDataStore.gameExpenseDivide;
                         if (HealthCare > 1)
                         {
                             temp = (int)HealthCare;
                             HealthCare = HealthCare - (int)HealthCare;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.PublicTransport:
                         PublicTransport += (float)amount / MainDataStore.gameExpenseDivide;
                         if (PublicTransport > 1)
                         {
                             temp = (int)PublicTransport;
                             PublicTransport = PublicTransport - (int)PublicTransport;
-                            //if (itemClass.m_subService == ItemClass.SubService.PublicTransportPost)
-                            //{
-                            //    DebugLog.LogToFileOnly("post maintain fee is " + temp.ToString());
-                            //}
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Disaster:
                         Disaster += (float)amount / MainDataStore.gameExpenseDivide;
                         if (Disaster > 1)
                         {
                             temp = (int)Disaster;
                             Disaster = Disaster - (int)Disaster;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.PlayerIndustry:
                         PlayerIndustry += (float)amount / MainDataStore.gameExpenseDivide;
                         if (PlayerIndustry > 1)
                         {
                             temp = (int)PlayerIndustry;
                             PlayerIndustry = PlayerIndustry - (int)PlayerIndustry;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.PlayerEducation:
                         PlayerEducation += (float)amount / MainDataStore.gameExpenseDivide;
                         if (PlayerEducation > 1)
                         {
                             temp = (int)PlayerEducation;
                             PlayerEducation = PlayerEducation - (int)PlayerEducation;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.Museums:
                         Museums += (float)amount / MainDataStore.gameExpenseDivide;
                         if (Museums > 1)
                         {
                             temp = (int)Museums;
                             Museums = Museums - (int)Museums;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     case ItemClass.Service.VarsitySports:
                         VarsitySports += (float)amount / MainDataStore.gameExpenseDivide;
                         if (VarsitySports > 1)
                         {
                             temp = (int)VarsitySports;
                             VarsitySports = VarsitySports - (int)VarsitySports;
-                            Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                            return amount;
                         }
-                        return amount;
+                        amount = temp;
+                        break;
                     default: break;
                 }
             }
@@ -722,12 +703,10 @@ namespace RealCity.CustomManager
                 {
                     temp = (int)Policy_cost;
                     Policy_cost = Policy_cost - (int)Policy_cost;
-                    Singleton<EconomyManager>.instance.FetchResource(resource, temp, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
-                    return amount;
                 }
-                return amount;
+                amount = temp;
             }
-                return Singleton<EconomyManager>.instance.FetchResource(resource, amount, itemClass.m_service, itemClass.m_subService, itemClass.m_level);
+     
         }
 
         public int EXAddGovermentIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
@@ -2073,15 +2052,7 @@ namespace RealCity.CustomManager
             {
                 return -1;
             }
-            int num;
-            if (privateSubServiceIndex != -1)
-            {
-                num = 8 + privateSubServiceIndex;
-            }
-            else
-            {
-                num = privateServiceIndex;
-            }
+            int num = (privateSubServiceIndex == -1) ? privateServiceIndex : (8 + privateSubServiceIndex);
             num *= 5;
             if (level != ItemClass.Level.None)
             {
@@ -2098,21 +2069,16 @@ namespace RealCity.CustomManager
             {
                 return -1;
             }
-            int result;
-            if (publicSubServiceIndex != -1)
+            if (publicSubServiceIndex == -1)
             {
-                result = 13 + publicSubServiceIndex;
+                return publicServiceIndex;
             }
-            else
-            {
-                result = publicServiceIndex;
-            }
-            return result;
+            return 16 + publicSubServiceIndex;
         }
 
         public static void Init()
         {
-            DebugLog.LogToFileOnly("Init fake transfer manager");
+            DebugLog.LogToFileOnly("Init fake EconomyManager");
             try
             {
                 var inst = Singleton<EconomyManager>.instance;
