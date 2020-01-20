@@ -184,8 +184,8 @@
                 vehicleTransferTimeLegacy[j] = vehicleTransferTime[j];
                 isVehicleChargedLegacy[j] = isVehicleCharged[j];
             }
-            SaveAndRestore.save_ushorts(ref i, vehicleTransferTime, ref saveData);
-            SaveAndRestore.save_bools(ref i, isVehicleCharged, ref saveData);
+            SaveAndRestore.save_ushorts(ref i, vehicleTransferTimeLegacy, ref saveData);
+            SaveAndRestore.save_bools(ref i, isVehicleChargedLegacy, ref saveData);
             SaveAndRestore.save_uint(ref i, totalCitizenDrivingTime, ref saveData);
             SaveAndRestore.save_uint(ref i, totalCitizenDrivingTimeFinal, ref saveData);
             SaveAndRestore.save_uint(ref i, reserved1, ref saveData);
@@ -285,9 +285,16 @@
             int i = 0;
             citizenExpensePerFamily = SaveAndRestore.load_long(ref i, saveData);
             citizenExpense = SaveAndRestore.load_long(ref i, saveData);
-            //for legacy, other 49152 will save in other place
-            vehicleTransferTime = SaveAndRestore.load_ushorts(ref i, saveData, 16384);
-            isVehicleCharged = SaveAndRestore.load_bools(ref i, saveData, 16384);
+            //for legacy, other 49152 will loadedin other place
+            ushort[] vehicleTransferTimeLegacy = new ushort[16384];
+            bool[] isVehicleChargedLegacy = new bool[16384];
+            vehicleTransferTimeLegacy = SaveAndRestore.load_ushorts(ref i, saveData, vehicleTransferTimeLegacy.Length);
+            isVehicleChargedLegacy = SaveAndRestore.load_bools(ref i, saveData, isVehicleChargedLegacy.Length);
+            for (int j = 0; j < 16384; j++)
+            {
+                vehicleTransferTime[j] = vehicleTransferTimeLegacy[j];
+                isVehicleCharged[j] = isVehicleChargedLegacy[j];
+            }
             totalCitizenDrivingTime = SaveAndRestore.load_uint(ref i, saveData);
             totalCitizenDrivingTimeFinal = SaveAndRestore.load_uint(ref i, saveData);
             reserved1 = SaveAndRestore.load_uint(ref i, saveData);
