@@ -203,7 +203,7 @@ namespace RealCity
 
         public void VehicleStatus(int i)
         {
-            if (i < 16384)
+            if (i < Singleton<VehicleManager>.instance.m_vehicles.m_size)
             {
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                 int num4 = (int)(currentFrameIndex & 4095u);

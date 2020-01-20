@@ -149,9 +149,9 @@ namespace RealCity.CustomAI
 
         public static void GetVehicleRunningTiming(ushort vehicleID, ref Vehicle vehicleData)
         {
-            if (vehicleID > 16384)
+            if (vehicleID > Singleton<VehicleManager>.instance.m_vehicles.m_size)
             {
-                DebugLog.LogToFileOnly("Error: vehicle ID greater than 16384");
+                DebugLog.LogToFileOnly("Error: vehicle ID greater than " + Singleton<VehicleManager>.instance.m_vehicles.m_size.ToString());
             }
             
             CitizenManager citizenMan = Singleton<CitizenManager>.instance;

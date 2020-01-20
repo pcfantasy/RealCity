@@ -1,6 +1,7 @@
 ﻿using System;
 using ICities;
 using RealCity.CustomAI;
+using RealCity.CustomData;
 using RealCity.CustomManager;
 
 namespace RealCity.Util
@@ -486,6 +487,7 @@ namespace RealCity.Util
             RealCityResidentAI.Save();
             RealCityPrivateBuildingAI.save();
             Politics.Save();
+            CustomTransportLine.save();
         }
 
         public override void OnCreated(ISerializableData serializableData)
@@ -508,7 +510,9 @@ namespace RealCity.Util
                 RealCityPrivateBuildingAI.saveData = new byte[44];
                 RealCityResidentAI.saveData = new byte[144];
                 MainDataStore.saveData = new byte[3932402];
+                MainDataStore.saveDataForMoreVehicle = new byte[147456];
                 Politics.saveData = new byte[103];
+                CustomTransportLine.saveData = new byte[512];
                 gather_saveData();
                 _serializableData.SaveData("real_city pc_EconomyManager", RealCityEconomyManager.saveData);
                 _serializableData.SaveData("real_city comm_data", MainDataStore.saveData);
@@ -517,6 +521,8 @@ namespace RealCity.Util
                 _serializableData.SaveData("real_city citizenMoney", MainDataStore.saveData1);
                 _serializableData.SaveData("real_city citizenFlag", MainDataStore.saveData2);
                 _serializableData.SaveData("real_city politics", Politics.saveData);
+                _serializableData.SaveData("real_city SPTB", CustomTransportLine.saveData);
+                _serializableData.SaveData("real_city MoreVehicle", MainDataStore.saveDataForMoreVehicle);
             }
         }
 
@@ -593,6 +599,24 @@ namespace RealCity.Util
                 else
                 {
                     Politics.Load();
+                }
+                CustomTransportLine.saveData = _serializableData.LoadData("real_city SPTB");
+                if (CustomTransportLine.saveData == null)
+                {
+                    DebugLog.LogToFileOnly("no CustomTransportLine.saveData, please check");
+                }
+                else
+                {
+                    CustomTransportLine.load();
+                }
+                MainDataStore.saveDataForMoreVehicle = _serializableData.LoadData("real_city MoreVehicle");
+                if (MainDataStore.saveDataForMoreVehicle == null)
+                {
+                    DebugLog.LogToFileOnly("no comm_data saveDataForMoreVehicle, please check");
+                }
+                else
+                {
+                    MainDataStore.loadForMoreVehicle();
                 }
             }
 

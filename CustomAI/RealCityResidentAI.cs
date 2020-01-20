@@ -822,7 +822,7 @@ namespace RealCity.CustomAI
                 int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f + Politics.benefitOffset * 10);
                 MainDataStore.family_money[homeID] = 0;
                 MainDataStore.minimumLivingAllowance += num;
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num * MainDataStore.gameExpenseDivide, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
             }
             else
             {
@@ -830,7 +830,7 @@ namespace RealCity.CustomAI
                 {
                     MainDataStore.family_money[homeID] += (Politics.benefitOffset * 10);
                     MainDataStore.minimumLivingAllowance += (Politics.benefitOffset * 10);
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset * 10, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset * 10 * MainDataStore.gameExpenseDivide, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
             }
 

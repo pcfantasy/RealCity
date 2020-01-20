@@ -31,8 +31,8 @@
         public const ushort residentHighLevel5Rent = 780;
         public static long citizenExpensePerFamily = 0;
         public static long citizenExpense = 0;
-        public static ushort[] vehicleTransferTime = new ushort[16384];
-        public static bool[] isVehicleCharged = new bool[16384];
+        public static ushort[] vehicleTransferTime = new ushort[65536];
+        public static bool[] isVehicleCharged = new bool[65536];
         public static uint totalCitizenDrivingTime = 0;
         public static uint totalCitizenDrivingTimeFinal = 0;
         public static uint reserved1 = 0;   //not used
@@ -100,6 +100,7 @@
         public static float current_time = 0f;
         public static float prev_time = 0f;
         public static ushort last_buildingid = 0;
+        public static ushort lastLineID = 0;
         public static uint last_citizenid = 0;
         public static long reserved5 = 0;//no use now
         public static byte lastLanguage = 255;
@@ -138,6 +139,7 @@
         public static byte[] saveData1 = new byte[4194304];
         public static bool[] isCitizenFirstMovingIn = new bool[1048576];
         public static byte[] saveData2 = new byte[1048576];
+        public static byte[] saveDataForMoreVehicle = new byte[147456];
 
         public static void data_init()
         {
@@ -174,6 +176,14 @@
             int i = 0;
             SaveAndRestore.save_long(ref i, citizenExpensePerFamily, ref saveData);
             SaveAndRestore.save_long(ref i, citizenExpense, ref saveData);
+            ushort[] vehicleTransferTimeLegacy = new ushort[16384];
+            bool[] isVehicleChargedLegacy = new bool[16384];
+            //for legacy, other 49152 will save in other place
+            for (int j = 0; j < 16384; j++)
+            {
+                vehicleTransferTimeLegacy[j] = vehicleTransferTime[j];
+                isVehicleChargedLegacy[j] = isVehicleCharged[j];
+            }
             SaveAndRestore.save_ushorts(ref i, vehicleTransferTime, ref saveData);
             SaveAndRestore.save_bools(ref i, isVehicleCharged, ref saveData);
             SaveAndRestore.save_uint(ref i, totalCitizenDrivingTime, ref saveData);
@@ -258,6 +268,16 @@
             SaveAndRestore.save_floats(ref i, citizenMoney, ref saveData1);
             i = 0;
             SaveAndRestore.save_bools(ref i, isCitizenFirstMovingIn, ref saveData2);
+            i = 0;
+            ushort[] vehicleTransferTimeMoreVehicle = new ushort[49152];
+            bool[] isVehicleChargedMoreVehicle = new bool[49152];
+            for (int j = 0; j < 49152; j++)
+            {
+                vehicleTransferTimeMoreVehicle[j] = vehicleTransferTime[j + 16384];
+                isVehicleChargedMoreVehicle[j] = isVehicleCharged[j + 16384];
+            }
+            SaveAndRestore.save_ushorts(ref i, vehicleTransferTimeMoreVehicle, ref saveDataForMoreVehicle);
+            SaveAndRestore.save_bools(ref i, isVehicleChargedMoreVehicle, ref saveDataForMoreVehicle);
         }
 
         public static void load()
@@ -265,8 +285,9 @@
             int i = 0;
             citizenExpensePerFamily = SaveAndRestore.load_long(ref i, saveData);
             citizenExpense = SaveAndRestore.load_long(ref i, saveData);
-            vehicleTransferTime = SaveAndRestore.load_ushorts(ref i, saveData, vehicleTransferTime.Length);
-            isVehicleCharged = SaveAndRestore.load_bools(ref i, saveData, isVehicleCharged.Length);
+            //for legacy, other 49152 will save in other place
+            vehicleTransferTime = SaveAndRestore.load_ushorts(ref i, saveData, 16384);
+            isVehicleCharged = SaveAndRestore.load_bools(ref i, saveData, 16384);
             totalCitizenDrivingTime = SaveAndRestore.load_uint(ref i, saveData);
             totalCitizenDrivingTimeFinal = SaveAndRestore.load_uint(ref i, saveData);
             reserved1 = SaveAndRestore.load_uint(ref i, saveData);
@@ -358,6 +379,21 @@
             int i = 0;
             isCitizenFirstMovingIn = SaveAndRestore.load_bools(ref i, saveData2, isCitizenFirstMovingIn.Length);
             DebugLog.LogToFileOnly("saveData2 in MainDataStore is " + i.ToString());
+        }
+
+        public static void loadForMoreVehicle()
+        {
+            int i = 0;
+            ushort[] vehicleTransferTimeMoreVehicle = new ushort[49152];
+            bool[] isVehicleChargedMoreVehicle = new bool[49152];
+            vehicleTransferTimeMoreVehicle = SaveAndRestore.load_ushorts(ref i, saveDataForMoreVehicle, vehicleTransferTimeMoreVehicle.Length);
+            isVehicleChargedMoreVehicle = SaveAndRestore.load_bools(ref i, saveDataForMoreVehicle, isVehicleChargedMoreVehicle.Length);
+            for (int j = 0; j < 49152; j++)
+            {
+                vehicleTransferTime[j + 16384] = vehicleTransferTimeMoreVehicle[j];
+                isVehicleCharged[j + 16384] = isVehicleChargedMoreVehicle[j];
+            }
+            DebugLog.LogToFileOnly("saveData3 in MainDataStore is " + i.ToString());
         }
     }
 }

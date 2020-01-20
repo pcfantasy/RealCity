@@ -76,6 +76,7 @@ namespace RealCity
                     BuildingUI.refeshOnce = true;
                     HumanUI.refeshOnce = true;
                     TouristUI.refeshOnce = true;
+                    PBLUI.refeshOnce = true;
                     //5 update money
                     if (!RealCityEconomyManager._init)
                     {

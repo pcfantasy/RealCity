@@ -163,7 +163,19 @@ DEBUG_MODE	Отображать больше информации
 REDUCE_CARGO_DESCRIPTION	Сократить количество груза (и для DLC Industries и для зональных зданий)
 REDUCE_CARGO_ENABLE	Включить функцию сокращения груза
 INCOMPATIBILITY_CHECK_TIP	Модификация RealCity(series) обнаружила несовместимые модификации
-
 REMOVE_STUCK_DESCRIPTION	Автоматическое удаление застрявших жителей и транспорта (немного увеличивает производительность)
 REMOVE_STUCK_ENABLE	Включить удаление жителей и транспорта
-
+BASIC_SETTING	Basic Setting
+SPTB	SPTB function
+SMART_PUBLIC_TRANSPORT_BUDGET_WEEKDAY	Smart public transport budget(weekday)
+SMART_PUBLIC_TRANSPORT_BUDGET_WEEKEND	Smart public transport budget(weekend)
+WEEKDAY_MORNING_BUDGET	weekday morning budget(8-10)
+WEEKDAY_EVENING_BUDGET	weekday evening budget(17-19)
+WEEKDAY_DEEPNIGHT_BUDGET	weekday deepnight budget(0-4)
+WEEKDAY_OTHER_BUDGET	weekday other budget
+WEEKEND_MORNING_BUDGET	weekend morning budget(8-10)
+WEEKEND_EVENING_BUDGET	weekend evening budget(17-19)
+WEEKEND_DEEPNIGHT_BUDGET	weekend deepnight budget(0-4)
+WeekDayPlan	WeekDayPlan
+WeekEndPlan	WeekEndPlan
+NoPlan	NoPlan

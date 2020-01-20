@@ -2,6 +2,7 @@
 using System.IO;
 using RealCity.Util;
 using ColossalFramework.UI;
+using UnityEngine;
 
 namespace RealCity
 {
@@ -11,6 +12,23 @@ namespace RealCity
         public static bool debugMode = false;
         public static bool reduceVehicle = false;
         public static bool removeStuck = false;
+        public static int morningBudgetWeekDay = 200;
+        public static int eveningBudgetWeekDay = 200;
+        public static int deepNightBudgetWeekDay = 20;
+        public static int otherBudgetWeekDay = 80;
+        public static int morningBudgetWeekEnd = 80;
+        public static int eveningBudgetWeekEnd = 80;
+        public static int deepNightBudgetWeekEnd = 20;
+        public static int otherBudgetWeekEnd = 80;
+
+        static UISlider morningBudgetWeekDaySlider;
+        static UISlider eveningBudgetWeekDaySlider;
+        static UISlider deepNightBudgetWeekDaySlider;
+        static UISlider otherBudgetWeekDaySlider;
+        static UISlider morningBudgetWeekEndSlider;
+        static UISlider eveningBudgetWeekEndSlider;
+        static UISlider deepNightBudgetWeekEndSlider;
+        static UISlider otherBudgetWeekEndSlider;
 
         public string Name
         {
@@ -57,6 +75,14 @@ namespace RealCity
             streamWriter.WriteLine(debugMode);
             streamWriter.WriteLine(reduceVehicle);
             streamWriter.WriteLine(removeStuck);
+            streamWriter.WriteLine(morningBudgetWeekDay);
+            streamWriter.WriteLine(eveningBudgetWeekDay);
+            streamWriter.WriteLine(deepNightBudgetWeekDay);
+            streamWriter.WriteLine(otherBudgetWeekDay);
+            streamWriter.WriteLine(morningBudgetWeekEnd);
+            streamWriter.WriteLine(eveningBudgetWeekEnd);
+            streamWriter.WriteLine(deepNightBudgetWeekEnd);
+            streamWriter.WriteLine(otherBudgetWeekEnd);
             streamWriter.Flush();
             fs.Close();
         }
@@ -100,6 +126,23 @@ namespace RealCity
                     removeStuck = false;
                 }
 
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out morningBudgetWeekDay)) morningBudgetWeekDay = 200;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out eveningBudgetWeekDay)) eveningBudgetWeekDay = 200;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out deepNightBudgetWeekDay)) deepNightBudgetWeekDay = 20;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out otherBudgetWeekDay)) otherBudgetWeekDay = 80;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out morningBudgetWeekEnd)) morningBudgetWeekEnd = 80;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out eveningBudgetWeekEnd)) eveningBudgetWeekEnd = 80;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out deepNightBudgetWeekEnd)) deepNightBudgetWeekEnd = 20;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out otherBudgetWeekEnd)) otherBudgetWeekEnd = 80;
+
                 sr.Close();
                 fs.Close();
             }
@@ -108,13 +151,90 @@ namespace RealCity
         public void OnSettingsUI(UIHelperBase helper)
         {
             LoadSetting();
-            UIHelperBase group = helper.AddGroup(Localization.Get("DEBUG_MODE"));
+            UIHelper actualHelper = helper as UIHelper;
+            UIComponent container = actualHelper.self as UIComponent;
+
+            UITabstrip tabStrip = container.AddUIComponent<UITabstrip>();
+            tabStrip.relativePosition = new Vector3(0, 0);
+            tabStrip.size = new Vector2(container.width - 20, 40);
+
+            UITabContainer tabContainer = container.AddUIComponent<UITabContainer>();
+            tabContainer.relativePosition = new Vector3(0, 40);
+            tabContainer.size = new Vector2(container.width - 20, container.height - tabStrip.height - 20);
+            tabStrip.tabPages = tabContainer;
+
+            int tabIndex = 0;
+            // Lane_ShortCut
+
+            AddOptionTab(tabStrip, Localization.Get("BASIC_SETTING"));
+            tabStrip.selectedIndex = tabIndex;
+
+            UIPanel currentPanel = tabStrip.tabContainer.components[tabIndex] as UIPanel;
+            currentPanel.autoLayout = true;
+            currentPanel.autoLayoutDirection = LayoutDirection.Vertical;
+            currentPanel.autoLayoutPadding.top = 5;
+            currentPanel.autoLayoutPadding.left = 10;
+            currentPanel.autoLayoutPadding.right = 10;
+
+            UIHelper panelHelper = new UIHelper(currentPanel);
+
+            UIHelperBase group = panelHelper.AddGroup(Localization.Get("BASIC_SETTING"));
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), debugMode, (index) => debugModeEnable(index));
-            UIHelperBase group1 = helper.AddGroup(Localization.Get("REDUCE_CARGO_DESCRIPTION"));
-            group1.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), reduceVehicle, (index) => reduceVehicleEnable(index));
-            UIHelperBase group2 = helper.AddGroup(Localization.Get("REMOVE_STUCK_DESCRIPTION"));
-            group2.AddCheckbox(Localization.Get("REMOVE_STUCK_ENABLE"), removeStuck, (index) => removeStuckEnable(index));
+            group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), reduceVehicle, (index) => reduceVehicleEnable(index));
+            group.AddCheckbox(Localization.Get("REMOVE_STUCK_ENABLE"), removeStuck, (index) => removeStuckEnable(index));
+
+            ++tabIndex;
+
+            AddOptionTab(tabStrip, Localization.Get("SPTB"));
+            tabStrip.selectedIndex = tabIndex;
+
+            currentPanel = tabStrip.tabContainer.components[tabIndex] as UIPanel;
+            currentPanel.autoLayout = true;
+            currentPanel.autoLayoutDirection = LayoutDirection.Vertical;
+            currentPanel.autoLayoutPadding.top = 5;
+            currentPanel.autoLayoutPadding.left = 10;
+            currentPanel.autoLayoutPadding.right = 10;
+
+            panelHelper = new UIHelper(currentPanel);
+            var generalGroup2 = panelHelper.AddGroup(Localization.Get("SMART_PUBLIC_TRANSPORT_BUDGET_WEEKDAY")) as UIHelper;
+            morningBudgetWeekDaySlider = generalGroup2.AddSlider(Localization.Get("WEEKDAY_MORNING_BUDGET") + "(" + morningBudgetWeekDay.ToString() + "%)", 10, 300, 5, morningBudgetWeekDay, onMorningBudgetWeekDayChanged) as UISlider;
+            morningBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+            eveningBudgetWeekDaySlider = generalGroup2.AddSlider(Localization.Get("WEEKDAY_EVENING_BUDGET") + "(" + eveningBudgetWeekDay.ToString() + "%)", 10, 300, 5, eveningBudgetWeekDay, onEveningBudgetWeekDayChanged) as UISlider;
+            eveningBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+            deepNightBudgetWeekDaySlider = generalGroup2.AddSlider(Localization.Get("WEEKDAY_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetWeekDay.ToString() + "%)", 10, 300, 5, deepNightBudgetWeekDay, onDeepNightBudgetWeekDayChanged) as UISlider;
+            deepNightBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+            otherBudgetWeekDaySlider = generalGroup2.AddSlider(Localization.Get("WEEKDAY_OTHER_BUDGET") + "(" + otherBudgetWeekDay.ToString() + "%)", 10, 300, 5, otherBudgetWeekDay, onOtherBudgetWeekDayChanged) as UISlider;
+            otherBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+
+            var generalGroup3 = panelHelper.AddGroup(Localization.Get("SMART_PUBLIC_TRANSPORT_BUDGET_WEEKEND")) as UIHelper;
+            morningBudgetWeekEndSlider = generalGroup3.AddSlider(Localization.Get("WEEKEND_MORNING_BUDGET") + "(" + morningBudgetWeekEnd.ToString() + "%)", 10, 300, 5, morningBudgetWeekEnd, onMorningBudgetWeekEndChanged) as UISlider;
+            morningBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+            eveningBudgetWeekEndSlider = generalGroup3.AddSlider(Localization.Get("WEEKEND_EVENING_BUDGET") + "(" + eveningBudgetWeekEnd.ToString() + "%)", 10, 300, 5, eveningBudgetWeekEnd, onEveningBudgetWeekEndChanged) as UISlider;
+            eveningBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+            deepNightBudgetWeekEndSlider = generalGroup3.AddSlider(Localization.Get("WEEKEND_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetWeekEnd.ToString() + "%)", 10, 300, 5, deepNightBudgetWeekEnd, onDeepNightBudgetWeekEndChanged) as UISlider;
+            deepNightBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+            otherBudgetWeekEndSlider = generalGroup3.AddSlider(Localization.Get("WEEKEND_OTHER_BUDGET") + "(" + otherBudgetWeekEnd.ToString() + "%)", 10, 300, 5, otherBudgetWeekEnd, onOtherBudgetWeekEndChanged) as UISlider;
+            otherBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+
+
             SaveSetting();
+        }
+
+        private static UIButton AddOptionTab(UITabstrip tabStrip, string caption)
+        {
+            UIButton tabButton = tabStrip.AddTab(caption);
+
+            tabButton.normalBgSprite = "SubBarButtonBase";
+            tabButton.disabledBgSprite = "SubBarButtonBaseDisabled";
+            tabButton.focusedBgSprite = "SubBarButtonBaseFocused";
+            tabButton.hoveredBgSprite = "SubBarButtonBaseHovered";
+            tabButton.pressedBgSprite = "SubBarButtonBasePressed";
+
+            tabButton.textPadding = new RectOffset(10, 10, 10, 10);
+            tabButton.autoSize = true;
+            tabButton.tooltip = caption;
+
+            return tabButton;
         }
 
         public void debugModeEnable(bool index)
@@ -132,6 +252,70 @@ namespace RealCity
         public void removeStuckEnable(bool index)
         {
             removeStuck = index;
+            SaveSetting();
+        }
+
+        private static void onMorningBudgetWeekDayChanged(float newVal)
+        {
+            morningBudgetWeekDay = (int)newVal;
+            morningBudgetWeekDaySlider.tooltip = newVal.ToString();
+            morningBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_MORNING_BUDGET") + "(" + morningBudgetWeekDay.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onEveningBudgetWeekDayChanged(float newVal)
+        {
+            eveningBudgetWeekDay = (int)newVal;
+            eveningBudgetWeekDaySlider.tooltip = newVal.ToString();
+            eveningBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_EVENING_BUDGET") + "(" + eveningBudgetWeekDay.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onDeepNightBudgetWeekDayChanged(float newVal)
+        {
+            deepNightBudgetWeekDay = (int)newVal;
+            deepNightBudgetWeekDaySlider.tooltip = newVal.ToString();
+            deepNightBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetWeekDay.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onOtherBudgetWeekDayChanged(float newVal)
+        {
+            otherBudgetWeekDay = (int)newVal;
+            otherBudgetWeekDaySlider.tooltip = newVal.ToString();
+            otherBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_OTHER_BUDGET") + "(" + otherBudgetWeekDay.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onMorningBudgetWeekEndChanged(float newVal)
+        {
+            morningBudgetWeekEnd = (int)newVal;
+            morningBudgetWeekEndSlider.tooltip = newVal.ToString();
+            morningBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_MORNING_BUDGET") + "(" + morningBudgetWeekEnd.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onEveningBudgetWeekEndChanged(float newVal)
+        {
+            eveningBudgetWeekEnd = (int)newVal;
+            eveningBudgetWeekEndSlider.tooltip = newVal.ToString();
+            eveningBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKEND_EVENING_BUDGET") + "(" + eveningBudgetWeekEnd.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onDeepNightBudgetWeekEndChanged(float newVal)
+        {
+            deepNightBudgetWeekEnd = (int)newVal;
+            deepNightBudgetWeekEndSlider.tooltip = newVal.ToString();
+            deepNightBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKEND_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetWeekEnd.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onOtherBudgetWeekEndChanged(float newVal)
+        {
+            otherBudgetWeekEnd = (int)newVal;
+            otherBudgetWeekEndSlider.tooltip = newVal.ToString();
+            otherBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKEND_OTHER_BUDGET") + "(" + otherBudgetWeekEnd.ToString() + "%)";
             SaveSetting();
         }
     }

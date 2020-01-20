@@ -12,6 +12,7 @@ using RealCity.Util;
 using RealCity.CustomManager;
 using ColossalFramework.Plugins;
 using RealCity.RebalancedIndustries;
+using RealCity.CustomData;
 
 namespace RealCity
 {
@@ -58,6 +59,9 @@ namespace RealCity
         public static PlayerBuildingButton PBButton;
         public static string m_atlasName = "RealCity";
         public static bool m_atlasLoaded;
+        public static UIPanel PBLInfo;
+        public static PBLUI PBLUI;
+        public static GameObject PBLWindowGameObject;
 
         public override void OnCreated(ILoading loading)
         {
@@ -94,6 +98,7 @@ namespace RealCity
         public static void InitData()
         {
             MainDataStore.data_init();
+            CustomTransportLine.DataInit();
             RealCityEconomyManager.dataInit();
             RealCityEconomyManager.saveData = new byte[2856];
             RealCityPrivateBuildingAI.saveData = new byte[316];
@@ -101,12 +106,14 @@ namespace RealCity
             MainDataStore.saveData = new byte[3932402];
             MainDataStore.saveData1 = new byte[4194304];
             MainDataStore.saveData2 = new byte[1048576];
+            MainDataStore.saveDataForMoreVehicle = new byte[147456];
             Politics.saveData = new byte[103];
+            CustomTransportLine.saveData = new byte[512];
             System.Random rand = new System.Random();
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
             RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);
 
-            for (int i = 0; i < 16384; i++)
+            for (int i = 0; i < Singleton<VehicleManager>.instance.m_vehicles.m_size; i++)
             {
                 RealCityVehicleManager.watingPathTime[i] = 0;
                 RealCityVehicleManager.stuckTime[i] = 0;
@@ -189,10 +196,46 @@ namespace RealCity
                 SetupCityButton();
                 SetupBuildingButton();
                 SetupPlayerBuildingButton();
+                SetupPBLUIGui();
                 isGuiRunning = true;
             }
         }
-
+        public static void SetupPBLUIGui()
+        {
+            PBLWindowGameObject = new GameObject("PBLWindowGameObject");
+            PBLUI = (PBLUI)PBLWindowGameObject.AddComponent(typeof(PBLUI));
+            PBLInfo = UIView.Find<UIPanel>("(Library) PublicTransportWorldInfoPanel");
+            if (PBLInfo == null)
+            {
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) PublicTransportWorldInfoPanel\nAvailable panels are:\n");
+            }
+            PBLUI.transform.parent = PBLInfo.transform;
+            PBLUI.size = new Vector3(150, 100);
+            PBLUI.baseBuildingWindow = PBLInfo.gameObject.transform.GetComponentInChildren<PublicTransportWorldInfoPanel>();
+            UILabel UILabel = PBLUI.baseBuildingWindow.Find<UILabel>("ModelLabel");
+            PBLUI.position = new Vector3(UILabel.relativePosition.x + 50f, PBLInfo.size.y - (UILabel.relativePosition.y + 160f));
+            PBLInfo.eventVisibilityChanged += PBLInfo_eventVisibilityChanged;
+        }
+        public static void PBLInfo_eventVisibilityChanged(UIComponent component, bool value)
+        {
+            PBLUI.isEnabled = value;
+            if (value)
+            {
+                //initialize PBL ui again
+                PBLUI.transform.parent = PBLInfo.transform;
+                PBLUI.size = new Vector3(150, 100);
+                PBLUI.baseBuildingWindow = PBLInfo.gameObject.transform.GetComponentInChildren<PublicTransportWorldInfoPanel>();
+                UILabel UILabel = PBLUI.baseBuildingWindow.Find<UILabel>("ModelLabel");
+                //DebugLog.LogToFileOnly(UILabel.relativePosition.x.ToString() + "    " +  UILabel.relativePosition.y.ToString());
+                PBLUI.position = new Vector3(UILabel.relativePosition.x + 50f, PBLInfo.size.y - (UILabel.relativePosition.y + 160f));
+                PBLUI.refeshOnce = true;
+                PBLUI.Show();
+            }
+            else
+            {
+                PBLUI.Hide();
+            }
+        }
         public static void SetupHumanGui()
         {
             HumanWindowGameObject = new GameObject("HumanWindowGameObject");
@@ -377,6 +420,20 @@ namespace RealCity
             {
                 UnityEngine.Object.Destroy(TouristWindowGameObject);
             }
+
+            if (PBLUI != null)
+            {
+                if (PBLUI.parent != null)
+                {
+                    PBLUI.parent.eventVisibilityChanged -= PBLInfo_eventVisibilityChanged;
+                }
+            }
+
+            if (PBLWindowGameObject != null)
+            {
+                UnityEngine.Object.Destroy(PBLWindowGameObject);
+            }
+            PBLUI._initialized = false;
         }
 
         private bool Check3rdPartyModLoaded(string namespaceStr, bool printAll = false)
@@ -741,6 +798,47 @@ namespace RealCity
                 catch (Exception)
                 {
                     DebugLog.LogToFileOnly("Could not detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses");
+                    detourFailed = true;
+                }
+
+                //24
+                //public static uint CalculatePolicyExpenses(ref DistrictPark district)
+                DebugLog.LogToFileOnly("Detour DistrictPark::CalculatePolicyExpenses calls");
+                try
+                {
+                    Detours.Add(new Detour(typeof(DistrictPark).GetMethod("CalculatePolicyExpenses", BindingFlags.Public | BindingFlags.Instance),
+                                           typeof(CustomDistrictPark).GetMethod("CalculatePolicyExpenses", BindingFlags.Public | BindingFlags.Static, null, new Type[] {typeof(DistrictPark).MakeByRefType() }, null)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour Detour DistrictPark::CalculatePolicyExpenses");
+                    detourFailed = true;
+                }
+
+                //25
+                //public static void CalculateVarsityExpenses(ref DistrictPark district, out ulong upkeep, out int coaching, out int cheerleading, out int policies, out ulong total)
+                DebugLog.LogToFileOnly("Detour DistrictPark:CalculateVarsityExpenses calls");
+                try
+                {
+                    Detours.Add(new Detour(typeof(DistrictPark).GetMethod("CalculateVarsityExpenses", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ulong).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(ulong).MakeByRefType() }, null),
+                                           typeof(CustomDistrictPark).GetMethod("CalculateVarsityExpenses", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(DistrictPark).MakeByRefType(), typeof(ulong).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(ulong).MakeByRefType() }, null)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not DistrictPark:CalculateVarsityExpenses");
+                    detourFailed = true;
+                }
+
+                //26
+                DebugLog.LogToFileOnly("Detour TransportLine::CalculateTargetVehicleCount calls");
+                try
+                {
+                    Detours.Add(new Detour(typeof(TransportLine).GetMethod("CalculateTargetVehicleCount", BindingFlags.Public | BindingFlags.Instance),
+                                           typeof(CustomTransportLine).GetMethod("CalculateTargetVehicleCount", BindingFlags.Public | BindingFlags.Static)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour TransportLine::CalculateTargetVehicleCount");
                     detourFailed = true;
                 }
 
