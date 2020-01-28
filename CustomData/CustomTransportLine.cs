@@ -129,6 +129,60 @@ namespace RealCity.CustomData
                         budget = (int)((RealCity.otherBudgetWeekEnd) * 0.01f * budget);
                     }
                 }
+                else if (WeekEndPlan[FindLineID(transportLine)] == 3)
+                {
+                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
+                    {
+                        budget = (int)((RealCity.morningBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
+                    {
+                        budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
+                    {
+                        budget = (int)((RealCity.eveningBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
+                    {
+                        budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
+                    {
+                        budget = (int)((RealCity.deepNightBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
+                    {
+                        budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
+                    }
+                }
+                else if (WeekEndPlan[FindLineID(transportLine)] == 4)
+                {
+                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
+                    {
+                        budget = (int)((RealCity.morningBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
+                    {
+                        budget = (int)((RealCity.otherBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
+                    {
+                        budget = (int)((RealCity.eveningBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
+                    {
+                        budget = (int)((RealCity.otherBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
+                    {
+                        budget = (int)((RealCity.deepNightBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
+                    {
+                        budget = (int)((RealCity.otherBudgetMin) * 0.01f * budget);
+                    }
+                }
             }
             else
             {
@@ -185,6 +239,60 @@ namespace RealCity.CustomData
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
                         budget = (int)((RealCity.otherBudgetWeekEnd) * 0.01f * budget);
+                    }
+                }
+                else if (WeekDayPlan[FindLineID(transportLine)] == 3)
+                {
+                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
+                    {
+                        budget = (int)((RealCity.morningBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
+                    {
+                        budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
+                    {
+                        budget = (int)((RealCity.eveningBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
+                    {
+                        budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
+                    {
+                        budget = (int)((RealCity.deepNightBudgetMax) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
+                    {
+                        budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
+                    }
+                }
+                else if (WeekDayPlan[FindLineID(transportLine)] == 4)
+                {
+                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
+                    {
+                        budget = (int)((RealCity.morningBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
+                    {
+                        budget = (int)((RealCity.otherBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
+                    {
+                        budget = (int)((RealCity.eveningBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
+                    {
+                        budget = (int)((RealCity.otherBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
+                    {
+                        budget = (int)((RealCity.deepNightBudgetMin) * 0.01f * budget);
+                    }
+                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
+                    {
+                        budget = (int)((RealCity.otherBudgetMin) * 0.01f * budget);
                     }
                 }
             }

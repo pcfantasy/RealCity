@@ -55,7 +55,7 @@ namespace RealCity.UI
             WeekDayPlan.autoSize = true;
 
             WeekDayPlanDD = CreateDropDown(this);
-            WeekDayPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan") };
+            WeekDayPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
             WeekDayPlanDD.selectedIndex = CustomTransportLine.WeekDayPlan[MainDataStore.lastLineID];
             WeekDayPlanDD.size = new Vector2(130f, 25f);
             WeekDayPlanDD.relativePosition = new Vector3(0f, 20f);
@@ -70,7 +70,7 @@ namespace RealCity.UI
             WeekEndPlan.autoSize = true;
 
             WeekEndPlanDD = CreateDropDown(this);
-            WeekEndPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan") };
+            WeekEndPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
             WeekEndPlanDD.selectedIndex = CustomTransportLine.WeekEndPlan[MainDataStore.lastLineID];
             WeekEndPlanDD.eventSelectedIndexChanged += delegate (UIComponent c, int sel)
             {

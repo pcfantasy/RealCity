@@ -16,10 +16,10 @@ namespace RealCity
         public static int eveningBudgetWeekDay = 200;
         public static int deepNightBudgetWeekDay = 20;
         public static int otherBudgetWeekDay = 80;
-        public static int morningBudgetWeekEnd = 80;
-        public static int eveningBudgetWeekEnd = 80;
+        public static int morningBudgetWeekEnd = 100;
+        public static int eveningBudgetWeekEnd = 100;
         public static int deepNightBudgetWeekEnd = 20;
-        public static int otherBudgetWeekEnd = 80;
+        public static int otherBudgetWeekEnd = 100;
 
         static UISlider morningBudgetWeekDaySlider;
         static UISlider eveningBudgetWeekDaySlider;
@@ -29,6 +29,24 @@ namespace RealCity
         static UISlider eveningBudgetWeekEndSlider;
         static UISlider deepNightBudgetWeekEndSlider;
         static UISlider otherBudgetWeekEndSlider;
+
+        public static int morningBudgetMax = 250;
+        public static int eveningBudgetMax = 250;
+        public static int deepNightBudgetMax = 50;
+        public static int otherBudgetMax = 150;
+        public static int morningBudgetMin = 60;
+        public static int eveningBudgetMin = 60;
+        public static int deepNightBudgetMin = 10;
+        public static int otherBudgetMin = 30;
+
+        static UISlider morningBudgetMaxSlider;
+        static UISlider eveningBudgetMaxSlider;
+        static UISlider deepNightBudgetMaxSlider;
+        static UISlider otherBudgetMaxSlider;
+        static UISlider morningBudgetMinSlider;
+        static UISlider eveningBudgetMinSlider;
+        static UISlider deepNightBudgetMinSlider;
+        static UISlider otherBudgetMinSlider;
 
         public string Name
         {
@@ -83,6 +101,14 @@ namespace RealCity
             streamWriter.WriteLine(eveningBudgetWeekEnd);
             streamWriter.WriteLine(deepNightBudgetWeekEnd);
             streamWriter.WriteLine(otherBudgetWeekEnd);
+            streamWriter.WriteLine(morningBudgetMax);
+            streamWriter.WriteLine(eveningBudgetMax);
+            streamWriter.WriteLine(deepNightBudgetMax);
+            streamWriter.WriteLine(otherBudgetMax);
+            streamWriter.WriteLine(morningBudgetMin);
+            streamWriter.WriteLine(eveningBudgetMin);
+            streamWriter.WriteLine(deepNightBudgetMin);
+            streamWriter.WriteLine(otherBudgetMin);
             streamWriter.Flush();
             fs.Close();
         }
@@ -135,13 +161,30 @@ namespace RealCity
                 strLine = sr.ReadLine();
                 if (!int.TryParse(strLine, out otherBudgetWeekDay)) otherBudgetWeekDay = 80;
                 strLine = sr.ReadLine();
-                if (!int.TryParse(strLine, out morningBudgetWeekEnd)) morningBudgetWeekEnd = 80;
+                if (!int.TryParse(strLine, out morningBudgetWeekEnd)) morningBudgetWeekEnd = 100;
                 strLine = sr.ReadLine();
-                if (!int.TryParse(strLine, out eveningBudgetWeekEnd)) eveningBudgetWeekEnd = 80;
+                if (!int.TryParse(strLine, out eveningBudgetWeekEnd)) eveningBudgetWeekEnd = 100;
                 strLine = sr.ReadLine();
                 if (!int.TryParse(strLine, out deepNightBudgetWeekEnd)) deepNightBudgetWeekEnd = 20;
                 strLine = sr.ReadLine();
-                if (!int.TryParse(strLine, out otherBudgetWeekEnd)) otherBudgetWeekEnd = 80;
+                if (!int.TryParse(strLine, out otherBudgetWeekEnd)) otherBudgetWeekEnd = 100;
+                strLine = sr.ReadLine();
+
+                if (!int.TryParse(strLine, out morningBudgetMax)) morningBudgetMax = 250;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out eveningBudgetMax)) eveningBudgetMax = 250;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out deepNightBudgetMax)) deepNightBudgetMax = 50;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out otherBudgetMax)) otherBudgetMax = 150;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out morningBudgetMin)) morningBudgetMin = 60;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out eveningBudgetMin)) eveningBudgetMin = 60;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out deepNightBudgetMin)) deepNightBudgetMin = 10;
+                strLine = sr.ReadLine();
+                if (!int.TryParse(strLine, out otherBudgetMin)) otherBudgetMin = 30;
 
                 sr.Close();
                 fs.Close();
@@ -182,6 +225,14 @@ namespace RealCity
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), debugMode, (index) => debugModeEnable(index));
             group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), reduceVehicle, (index) => reduceVehicleEnable(index));
             group.AddCheckbox(Localization.Get("REMOVE_STUCK_ENABLE"), removeStuck, (index) => removeStuckEnable(index));
+            if (Loader.isTransportLinesManagerRunning)
+            {
+                UIHelperBase group1 = panelHelper.AddGroup(Localization.Get("TLMRUNNING"));
+            }
+            else
+            {
+                UIHelperBase group1 = panelHelper.AddGroup(Localization.Get("TLMNOTRUNNING"));
+            }
 
             ++tabIndex;
 
@@ -216,6 +267,38 @@ namespace RealCity
             otherBudgetWeekEndSlider = generalGroup3.AddSlider(Localization.Get("WEEKEND_OTHER_BUDGET") + "(" + otherBudgetWeekEnd.ToString() + "%)", 10, 300, 5, otherBudgetWeekEnd, onOtherBudgetWeekEndChanged) as UISlider;
             otherBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
 
+            ++tabIndex;
+
+            AddOptionTab(tabStrip, Localization.Get("SPTB2"));
+            tabStrip.selectedIndex = tabIndex;
+
+            currentPanel = tabStrip.tabContainer.components[tabIndex] as UIPanel;
+            currentPanel.autoLayout = true;
+            currentPanel.autoLayoutDirection = LayoutDirection.Vertical;
+            currentPanel.autoLayoutPadding.top = 5;
+            currentPanel.autoLayoutPadding.left = 10;
+            currentPanel.autoLayoutPadding.right = 10;
+
+            panelHelper = new UIHelper(currentPanel);
+            var generalGroup4 = panelHelper.AddGroup(Localization.Get("SMART_PUBLIC_TRANSPORT_BUDGET_MAX")) as UIHelper;
+            morningBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_MORNING_BUDGET") + "(" + morningBudgetMax.ToString() + "%)", 10, 300, 5, morningBudgetMax, onMorningBudgetMaxChanged) as UISlider;
+            morningBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+            eveningBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_EVENING_BUDGET") + "(" + eveningBudgetMax.ToString() + "%)", 10, 300, 5, eveningBudgetMax, onEveningBudgetMaxChanged) as UISlider;
+            eveningBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+            deepNightBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMax.ToString() + "%)", 10, 300, 5, deepNightBudgetMax, onDeepNightBudgetMaxChanged) as UISlider;
+            deepNightBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+            otherBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_OTHER_BUDGET") + "(" + otherBudgetMax.ToString() + "%)", 10, 300, 5, otherBudgetMax, onOtherBudgetMaxChanged) as UISlider;
+            otherBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+
+            var generalGroup5 = panelHelper.AddGroup(Localization.Get("SMART_PUBLIC_TRANSPORT_BUDGET_MIN")) as UIHelper;
+            morningBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_MORNING_BUDGET") + "(" + morningBudgetMin.ToString() + "%)", 10, 300, 5, morningBudgetMin, onMorningBudgetMinChanged) as UISlider;
+            morningBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+            eveningBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_EVENING_BUDGET") + "(" + eveningBudgetMin.ToString() + "%)", 10, 300, 5, eveningBudgetMin, onEveningBudgetMinChanged) as UISlider;
+            eveningBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+            deepNightBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMin.ToString() + "%)", 10, 300, 5, deepNightBudgetMin, onDeepNightBudgetMinChanged) as UISlider;
+            deepNightBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+            otherBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_OTHER_BUDGET") + "(" + otherBudgetMin.ToString() + "%)", 10, 300, 5, otherBudgetMin, onOtherBudgetMinChanged) as UISlider;
+            otherBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
 
             SaveSetting();
         }
@@ -316,6 +399,70 @@ namespace RealCity
             otherBudgetWeekEnd = (int)newVal;
             otherBudgetWeekEndSlider.tooltip = newVal.ToString();
             otherBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKEND_OTHER_BUDGET") + "(" + otherBudgetWeekEnd.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onMorningBudgetMaxChanged(float newVal)
+        {
+            morningBudgetMax = (int)newVal;
+            morningBudgetMaxSlider.tooltip = newVal.ToString();
+            morningBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_MORNING_BUDGET") + "(" + morningBudgetMax.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onEveningBudgetMaxChanged(float newVal)
+        {
+            eveningBudgetMax = (int)newVal;
+            eveningBudgetMaxSlider.tooltip = newVal.ToString();
+            eveningBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_EVENING_BUDGET") + "(" + eveningBudgetMax.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onDeepNightBudgetMaxChanged(float newVal)
+        {
+            deepNightBudgetMax = (int)newVal;
+            deepNightBudgetMaxSlider.tooltip = newVal.ToString();
+            deepNightBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMax.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onOtherBudgetMaxChanged(float newVal)
+        {
+            otherBudgetMax = (int)newVal;
+            otherBudgetMaxSlider.tooltip = newVal.ToString();
+            otherBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_OTHER_BUDGET") + "(" + otherBudgetMax.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onMorningBudgetMinChanged(float newVal)
+        {
+            morningBudgetMin = (int)newVal;
+            morningBudgetMinSlider.tooltip = newVal.ToString();
+            morningBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_MORNING_BUDGET") + "(" + morningBudgetMin.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onEveningBudgetMinChanged(float newVal)
+        {
+            eveningBudgetMin = (int)newVal;
+            eveningBudgetMinSlider.tooltip = newVal.ToString();
+            eveningBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_EVENING_BUDGET") + "(" + eveningBudgetMin.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onDeepNightBudgetMinChanged(float newVal)
+        {
+            deepNightBudgetMin = (int)newVal;
+            deepNightBudgetMinSlider.tooltip = newVal.ToString();
+            deepNightBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMin.ToString() + "%)";
+            SaveSetting();
+        }
+
+        private static void onOtherBudgetMinChanged(float newVal)
+        {
+            otherBudgetMin = (int)newVal;
+            otherBudgetMinSlider.tooltip = newVal.ToString();
+            otherBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_OTHER_BUDGET") + "(" + otherBudgetMin.ToString() + "%)";
             SaveSetting();
         }
     }

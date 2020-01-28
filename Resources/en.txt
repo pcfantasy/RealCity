@@ -173,6 +173,22 @@ WEEKDAY_OTHER_BUDGET	weekday other budget
 WEEKEND_MORNING_BUDGET	weekend morning budget(8-10)
 WEEKEND_EVENING_BUDGET	weekend evening budget(17-19)
 WEEKEND_DEEPNIGHT_BUDGET	weekend deepnight budget(0-4)
+WEEKEND_OTHER_BUDGET	weekend other budget
 WeekDayPlan	WeekDayPlan
 WeekEndPlan	WeekEndPlan
 NoPlan	NoPlan
+TLMRUNNING	TransportLineManager is running, SPTB function disabled, use TLM instead.
+TLMNOTRUNNING	TransportLineManager is not running, SPTB function can be used.
+MAX_MORNING_BUDGET	max morning budget(8-10)
+MAX_EVENING_BUDGET	max evening budget(17-19)
+MAX_DEEPNIGHT_BUDGET	max deepnight budget(0-4)
+MAX_OTHER_BUDGET	max other budget
+MIN_MORNING_BUDGET	min morning budget(8-10)
+MIN_EVENING_BUDGET	min evening budget(17-19)
+MIN_DEEPNIGHT_BUDGET	min deepnight budget(0-4)
+MIN_OTHER_BUDGET	min other budget
+MaxPlan	MaxPlan
+MinPlan	MinPlan
+SPTB2	SPTB function2
+SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Smart public transport budget(max)
+SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Smart public transport budget(min)

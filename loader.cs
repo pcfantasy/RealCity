@@ -62,6 +62,7 @@ namespace RealCity
         public static UIPanel PBLInfo;
         public static PBLUI PBLUI;
         public static GameObject PBLWindowGameObject;
+        public static bool isTransportLinesManagerRunning = false;
 
         public override void OnCreated(ILoading loading)
         {
@@ -77,10 +78,14 @@ namespace RealCity
             {
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
                 {
-                    SetupGui();
                     isRealConstructionRunning = CheckRealConstructionIsLoaded();
                     isRealGasStationRunning = CheckRealGasStationIsLoaded();
                     isAdvancedJunctionRuleRunning = CheckAdvancedJunctionRuleIsLoaded();
+                    isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
+                    //refresh OptionsMainPanel
+                    MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+                    method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+                    SetupGui();
                     InitDetour();
                     HarmonyInitDetour();
                     RealCity.LoadSetting();
@@ -196,7 +201,8 @@ namespace RealCity
                 SetupCityButton();
                 SetupBuildingButton();
                 SetupPlayerBuildingButton();
-                SetupPBLUIGui();
+                if (!isTransportLinesManagerRunning)
+                    SetupPBLUIGui();
                 isGuiRunning = true;
             }
         }
@@ -209,12 +215,15 @@ namespace RealCity
             {
                 DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) PublicTransportWorldInfoPanel\nAvailable panels are:\n");
             }
-            PBLUI.transform.parent = PBLInfo.transform;
-            PBLUI.size = new Vector3(150, 100);
-            PBLUI.baseBuildingWindow = PBLInfo.gameObject.transform.GetComponentInChildren<PublicTransportWorldInfoPanel>();
-            UILabel UILabel = PBLUI.baseBuildingWindow.Find<UILabel>("ModelLabel");
-            PBLUI.position = new Vector3(UILabel.relativePosition.x + 50f, PBLInfo.size.y - (UILabel.relativePosition.y + 160f));
-            PBLInfo.eventVisibilityChanged += PBLInfo_eventVisibilityChanged;
+            else
+            {
+                PBLUI.transform.parent = PBLInfo.transform;
+                PBLUI.size = new Vector3(150, 100);
+                PBLUI.baseBuildingWindow = PBLInfo.gameObject.transform.GetComponentInChildren<PublicTransportWorldInfoPanel>();
+                UILabel UILabel = PBLUI.baseBuildingWindow.Find<UILabel>("ModelLabel");
+                PBLUI.position = new Vector3(UILabel.relativePosition.x + 50f, PBLInfo.size.y - (UILabel.relativePosition.y + 160f));
+                PBLInfo.eventVisibilityChanged += PBLInfo_eventVisibilityChanged;
+            }
         }
         public static void PBLInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
@@ -421,19 +430,22 @@ namespace RealCity
                 UnityEngine.Object.Destroy(TouristWindowGameObject);
             }
 
-            if (PBLUI != null)
+            if (!isTransportLinesManagerRunning)
             {
-                if (PBLUI.parent != null)
+                if (PBLUI != null)
                 {
-                    PBLUI.parent.eventVisibilityChanged -= PBLInfo_eventVisibilityChanged;
+                    if (PBLUI.parent != null)
+                    {
+                        PBLUI.parent.eventVisibilityChanged -= PBLInfo_eventVisibilityChanged;
+                    }
                 }
-            }
 
-            if (PBLWindowGameObject != null)
-            {
-                UnityEngine.Object.Destroy(PBLWindowGameObject);
+                if (PBLWindowGameObject != null)
+                {
+                    UnityEngine.Object.Destroy(PBLWindowGameObject);
+                }
+                PBLUI._initialized = false;
             }
-            PBLUI._initialized = false;
         }
 
         private bool Check3rdPartyModLoaded(string namespaceStr, bool printAll = false)
@@ -829,17 +841,20 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //26
-                DebugLog.LogToFileOnly("Detour TransportLine::CalculateTargetVehicleCount calls");
-                try
+                if (!isTransportLinesManagerRunning)
                 {
-                    Detours.Add(new Detour(typeof(TransportLine).GetMethod("CalculateTargetVehicleCount", BindingFlags.Public | BindingFlags.Instance),
-                                           typeof(CustomTransportLine).GetMethod("CalculateTargetVehicleCount", BindingFlags.Public | BindingFlags.Static)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour TransportLine::CalculateTargetVehicleCount");
-                    detourFailed = true;
+                    //26
+                    DebugLog.LogToFileOnly("Detour TransportLine::CalculateTargetVehicleCount calls");
+                    try
+                    {
+                        Detours.Add(new Detour(typeof(TransportLine).GetMethod("CalculateTargetVehicleCount", BindingFlags.Public | BindingFlags.Instance),
+                                               typeof(CustomTransportLine).GetMethod("CalculateTargetVehicleCount", BindingFlags.Public | BindingFlags.Static)));
+                    }
+                    catch (Exception)
+                    {
+                        DebugLog.LogToFileOnly("Could not detour TransportLine::CalculateTargetVehicleCount");
+                        detourFailed = true;
+                    }
                 }
 
                 if (detourFailed)
@@ -879,6 +894,11 @@ namespace RealCity
         private bool CheckAdvancedJunctionRuleIsLoaded()
         {
             return Check3rdPartyModLoaded("AdvancedJunctionRule", false);
+        }
+
+        private bool CheckTransportLinesManagerIsLoaded()
+        {
+            return Check3rdPartyModLoaded("Klyte.TransportLinesManager", true);
         }
     }
 }
