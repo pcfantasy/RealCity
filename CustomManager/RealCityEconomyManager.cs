@@ -1068,7 +1068,7 @@ namespace RealCity.CustomManager
 
         public int EXAddTourismIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
-            if (taxRate == 114)
+            if (taxRate == 114333)
             {
                 taxRate = 100;
                 citizen_income += (amount * taxRate/100f);
@@ -1898,9 +1898,9 @@ namespace RealCity.CustomManager
             {
                 DebugLog.LogToFileOnly("income < 0 error: class =" + service.ToString() + subService.ToString() + level.ToString());
             }
-            if (taxRate == 115)
+            if (taxRate == 115333)
             {
-                //115 means playerbuilding income
+                //115333 means playerbuilding income
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddGovermentIncome(amount, service, subService, level, taxRate);
@@ -1915,9 +1915,9 @@ namespace RealCity.CustomManager
                 MainDataStore.cashAmount += amount;
                 MainDataStore.cashDelta += amount;
             }
-            else if ((taxRate == 113) || (taxRate == 114))
+            else if ((taxRate == 113333) || (taxRate == 114333))
             {
-                //113 means tourist tourism income // 114 means resident tourism income
+                //113333 means tourist tourism income // 114333 means resident tourism income
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddTourismIncome(amount, service, subService, level, taxRate);
                 int num = ClassIndex(service, subService, level);
@@ -1928,9 +1928,9 @@ namespace RealCity.CustomManager
                 MainDataStore.cashAmount += amount;
                 MainDataStore.cashDelta += amount;
             }
-            else if (taxRate == 112)
+            else if (taxRate == 112333)
             {
-                //112 means personal slary tax income
+                //112333 means personal slary tax income
                 taxRate = 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPersonalTaxIncome(amount, service, subService, level, taxRate);
@@ -1958,6 +1958,7 @@ namespace RealCity.CustomManager
             }
             else if (taxRate >= 100)
             {
+                taxRate = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Economics, taxRate);
                 taxRate = taxRate / 100;
                 Singleton<EconomyManager>.instance.m_EconomyWrapper.OnAddResource(EconomyManager.Resource.PrivateIncome, ref amount, service, subService, level);
                 amount = EXAddPrivateLandIncome(amount, service, subService, level, taxRate);

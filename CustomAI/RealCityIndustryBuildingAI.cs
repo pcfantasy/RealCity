@@ -64,7 +64,7 @@ namespace RealCity.CustomAI
             {
                 price *= MainDataStore.reduceCargoDiv;
             }
-            return price;
+            return UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, price);
         }
 
         public static float GetResourcePrice(TransferManager.TransferReason material)
@@ -101,7 +101,7 @@ namespace RealCity.CustomAI
             {
                 price *= MainDataStore.reduceCargoDiv;
             }
-            return price;
+            return (UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, 100) / 100f) * price;
         }
     }
 }

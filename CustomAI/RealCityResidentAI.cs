@@ -271,7 +271,8 @@ namespace RealCity.CustomAI
                     }
                 }
             }
-            return salary;
+
+            return UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, salary);
         }//public
 
 
@@ -786,6 +787,8 @@ namespace RealCity.CustomAI
                 educationFee += GetExpenseRate(homeID, data.m_citizen0, out expenseRate);
             }
             ProcessCitizenHouseRent(homeID, expenseRate);
+            //campus DLC added.
+            expenseRate = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Economics, expenseRate);
             citizenExpenseCount += (educationFee + expenseRate);
 
             //4. income - expense
@@ -872,7 +875,7 @@ namespace RealCity.CustomAI
             CitizenManager instance = Singleton<CitizenManager>.instance;
             ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
             Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
-            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112);
+            Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112333);
         }
 
         public void ProcessCitizenHouseRent(uint homeID, int expenserate)
@@ -1124,7 +1127,7 @@ namespace RealCity.CustomAI
                 if (!isCampusDLC && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education2)))
                 {
                     educationFee = 20;
-                    Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115);
+                    Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115333);
                 }
             }
             return educationFee;

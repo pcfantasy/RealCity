@@ -281,24 +281,24 @@ namespace RealCity
 
             panelHelper = new UIHelper(currentPanel);
             var generalGroup4 = panelHelper.AddGroup(Localization.Get("SMART_PUBLIC_TRANSPORT_BUDGET_MAX")) as UIHelper;
-            morningBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_MORNING_BUDGET") + "(" + morningBudgetMax.ToString() + "%)", 10, 300, 5, morningBudgetMax, onMorningBudgetMaxChanged) as UISlider;
-            morningBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
-            eveningBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_EVENING_BUDGET") + "(" + eveningBudgetMax.ToString() + "%)", 10, 300, 5, eveningBudgetMax, onEveningBudgetMaxChanged) as UISlider;
-            eveningBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
-            deepNightBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMax.ToString() + "%)", 10, 300, 5, deepNightBudgetMax, onDeepNightBudgetMaxChanged) as UISlider;
-            deepNightBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
-            otherBudgetWeekDaySlider = generalGroup4.AddSlider(Localization.Get("MAX_OTHER_BUDGET") + "(" + otherBudgetMax.ToString() + "%)", 10, 300, 5, otherBudgetMax, onOtherBudgetMaxChanged) as UISlider;
-            otherBudgetWeekDaySlider.parent.Find<UILabel>("Label").width = 500f;
+            morningBudgetMaxSlider = generalGroup4.AddSlider(Localization.Get("MAX_MORNING_BUDGET") + "(" + morningBudgetMax.ToString() + "%)", 10, 300, 5, morningBudgetMax, onMorningBudgetMaxChanged) as UISlider;
+            morningBudgetMaxSlider.parent.Find<UILabel>("Label").width = 500f;
+            eveningBudgetMaxSlider = generalGroup4.AddSlider(Localization.Get("MAX_EVENING_BUDGET") + "(" + eveningBudgetMax.ToString() + "%)", 10, 300, 5, eveningBudgetMax, onEveningBudgetMaxChanged) as UISlider;
+            eveningBudgetMaxSlider.parent.Find<UILabel>("Label").width = 500f;
+            deepNightBudgetMaxSlider = generalGroup4.AddSlider(Localization.Get("MAX_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMax.ToString() + "%)", 10, 300, 5, deepNightBudgetMax, onDeepNightBudgetMaxChanged) as UISlider;
+            deepNightBudgetMaxSlider.parent.Find<UILabel>("Label").width = 500f;
+            otherBudgetMaxSlider = generalGroup4.AddSlider(Localization.Get("MAX_OTHER_BUDGET") + "(" + otherBudgetMax.ToString() + "%)", 10, 300, 5, otherBudgetMax, onOtherBudgetMaxChanged) as UISlider;
+            otherBudgetMaxSlider.parent.Find<UILabel>("Label").width = 500f;
 
             var generalGroup5 = panelHelper.AddGroup(Localization.Get("SMART_PUBLIC_TRANSPORT_BUDGET_MIN")) as UIHelper;
-            morningBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_MORNING_BUDGET") + "(" + morningBudgetMin.ToString() + "%)", 10, 300, 5, morningBudgetMin, onMorningBudgetMinChanged) as UISlider;
-            morningBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
-            eveningBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_EVENING_BUDGET") + "(" + eveningBudgetMin.ToString() + "%)", 10, 300, 5, eveningBudgetMin, onEveningBudgetMinChanged) as UISlider;
-            eveningBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
-            deepNightBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMin.ToString() + "%)", 10, 300, 5, deepNightBudgetMin, onDeepNightBudgetMinChanged) as UISlider;
-            deepNightBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
-            otherBudgetWeekEndSlider = generalGroup5.AddSlider(Localization.Get("MIN_OTHER_BUDGET") + "(" + otherBudgetMin.ToString() + "%)", 10, 300, 5, otherBudgetMin, onOtherBudgetMinChanged) as UISlider;
-            otherBudgetWeekEndSlider.parent.Find<UILabel>("Label").width = 500f;
+            morningBudgetMinSlider = generalGroup5.AddSlider(Localization.Get("MIN_MORNING_BUDGET") + "(" + morningBudgetMin.ToString() + "%)", 10, 300, 5, morningBudgetMin, onMorningBudgetMinChanged) as UISlider;
+            morningBudgetMinSlider.parent.Find<UILabel>("Label").width = 500f;
+            eveningBudgetMinSlider = generalGroup5.AddSlider(Localization.Get("MIN_EVENING_BUDGET") + "(" + eveningBudgetMin.ToString() + "%)", 10, 300, 5, eveningBudgetMin, onEveningBudgetMinChanged) as UISlider;
+            eveningBudgetMinSlider.parent.Find<UILabel>("Label").width = 500f;
+            deepNightBudgetMinSlider = generalGroup5.AddSlider(Localization.Get("MIN_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMin.ToString() + "%)", 10, 300, 5, deepNightBudgetMin, onDeepNightBudgetMinChanged) as UISlider;
+            deepNightBudgetMinSlider.parent.Find<UILabel>("Label").width = 500f;
+            otherBudgetMinSlider = generalGroup5.AddSlider(Localization.Get("MIN_OTHER_BUDGET") + "(" + otherBudgetMin.ToString() + "%)", 10, 300, 5, otherBudgetMin, onOtherBudgetMinChanged) as UISlider;
+            otherBudgetMinSlider.parent.Find<UILabel>("Label").width = 500f;
 
             SaveSetting();
         }
