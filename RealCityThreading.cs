@@ -207,7 +207,7 @@ namespace RealCity
             {
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                 int num4 = (int)(currentFrameIndex & 4095u);
-                if (((num4 >> 8) & 255u) == (i & 255u))
+                if (((num4 >> 4) & 255u) == (i & 255u))
                 {
                     VehicleManager instance = Singleton<VehicleManager>.instance;
                     Vehicle vehicle = instance.m_vehicles.m_buffer[i];
@@ -233,7 +233,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is TaxiAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 320 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 500 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is BusAI)
                             {
@@ -251,7 +251,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoShipAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 6000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 5000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                             {
@@ -262,7 +262,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 8000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 15000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
                             {
@@ -273,7 +273,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 7000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 10000 * MainDataStore.gameExpenseDivide, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
                             {
