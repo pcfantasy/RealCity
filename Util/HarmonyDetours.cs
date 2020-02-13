@@ -193,6 +193,13 @@ namespace RealCity.Util
                 new HarmonyMethod(cargoTruckAIReleaseVehiclePrefix),
                 null);
 
+            //23
+            var economyManagerPeekResource = typeof(EconomyManager).GetMethod("PeekResource", BindingFlags.Public | BindingFlags.Instance);
+            var economyManagerPeekResourcePreFix = typeof(RealCityEconomyManager).GetMethod("EconomyManagerPeekResourcePreFix");
+            harmony.ConditionalPatch(economyManagerPeekResource,
+                new HarmonyMethod(economyManagerPeekResourcePreFix),
+                null);
+
             Loader.HarmonyDetourFailed = false;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -348,6 +355,13 @@ namespace RealCity.Util
             var cargoTruckAIReleaseVehiclePrefix = typeof(RealCityCargoTruckAI).GetMethod("CargoTruckAIReleaseVehiclePrefix");
             harmony.ConditionalUnPatch(cargoTruckAIReleaseVehicle,
                 new HarmonyMethod(cargoTruckAIReleaseVehiclePrefix),
+                null);
+
+            //23
+            var economyManagerPeekResource = typeof(EconomyManager).GetMethod("PeekResource", BindingFlags.Public | BindingFlags.Instance);
+            var economyManagerPeekResourcePreFix = typeof(RealCityEconomyManager).GetMethod("EconomyManagerPeekResourcePreFix");
+            harmony.ConditionalUnPatch(economyManagerPeekResource,
+                new HarmonyMethod(economyManagerPeekResourcePreFix),
                 null);
 
             DebugLog.LogToFileOnly("Harmony patches DeApplied");

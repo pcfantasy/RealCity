@@ -117,7 +117,7 @@ namespace RealCity.CustomAI
                     int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
                     int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation3Salary);
                     float num1 = (education3Salary / 16) * allWorkCount;
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)num1, data.Info.m_class.m_service, data.Info.m_class.m_subService, data.Info.m_class.m_level);
+                    Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)num1, data.Info.m_class);
                 }
             }
         }

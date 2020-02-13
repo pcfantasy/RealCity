@@ -270,7 +270,7 @@ namespace RealCity.UI
                     //Policy
                     mThirdLinePolicy.text = Localization.Get("POLICY_COST");
                     minimumLivingAllowance.text = string.Format(Localization.Get("LIVING_ALLOWANCE") + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));
-                    unfinishedTransitionLost.text = string.Format(Localization.Get("UNFINISHED_DEAL_LOST") + " [{0}]", (MainDataStore.unfinishedTransitionLostFinal / 100));
+                    unfinishedTransitionLost.text = string.Format(Localization.Get("UNFINISHED_DEAL_LOST") + " [{0}]", MainDataStore.unfinishedTransitionLostFinal);
                     //Tip
                     tip1.text = string.Format(Localization.Get("TIP1") + "  " + Localization.Get("USE_TMPE_TIP"));
                     tip2.text = string.Format(Localization.Get("TIP2") + "  " + Localization.Get("STARTUP_TIP"));

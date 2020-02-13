@@ -267,7 +267,7 @@ namespace RealCity.CustomAI
                         if (!checkOnly)
                         {
                             var m_class = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class;
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(salary * vitualWorkersRatio), m_class.m_service, m_class.m_subService, m_class.m_level);
+                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)(salary * vitualWorkersRatio), m_class);
                         }
                     }
                 }
