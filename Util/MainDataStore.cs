@@ -35,7 +35,7 @@
         public static bool[] isVehicleCharged = new bool[65536];
         public static uint totalCitizenDrivingTime = 0;
         public static uint totalCitizenDrivingTimeFinal = 0;
-        public static uint reserved1 = 0;   //not used
+        public static int unfinishedTransitionLost = 0;
         public static long publicTransportFee = 0;
         public static long allTransportFee = 0;
         public static byte citizenAverageTransportFee = 0;
@@ -75,8 +75,9 @@
         public static float[] building_money_threat = new float[49152];
 
         //3 Govement expense
+        public static int reserved2 = 0; //old gameExpenseDivide no need to restore now.
         public static int minimumLivingAllowance = 0;
-        public static int reserved2 = 0; //old resettlement, RealConstruction Mod replace this function
+        public static int unfinishedTransitionLostFinal = 0; //old resettlement, RealConstruction Mod replace this function
         public static int minimumLivingAllowanceFinal = 0;
         public static int reserved3 = 0; //old resettlementFinal, RealConstruction Mod replace this function
         public static int PoliceDepartment = 0;
@@ -188,7 +189,7 @@
             SaveAndRestore.save_bools(ref i, isVehicleChargedLegacy, ref saveData);
             SaveAndRestore.save_uint(ref i, totalCitizenDrivingTime, ref saveData);
             SaveAndRestore.save_uint(ref i, totalCitizenDrivingTimeFinal, ref saveData);
-            SaveAndRestore.save_uint(ref i, reserved1, ref saveData);
+            SaveAndRestore.save_int(ref i, unfinishedTransitionLost, ref saveData);
             SaveAndRestore.save_long(ref i, publicTransportFee, ref saveData);
             SaveAndRestore.save_long(ref i, allTransportFee, ref saveData);
             SaveAndRestore.save_floats(ref i, family_money, ref saveData);
@@ -199,9 +200,9 @@
             SaveAndRestore.save_uint(ref i, family_weight_stable_high, ref saveData);
             SaveAndRestore.save_uint(ref i, family_weight_stable_low, ref saveData);
             SaveAndRestore.save_floats(ref i, building_money, ref saveData);
-            SaveAndRestore.save_int(ref i, gameExpenseDivide, ref saveData);
-            SaveAndRestore.save_int(ref i, minimumLivingAllowance, ref saveData);
             SaveAndRestore.save_int(ref i, reserved2, ref saveData);
+            SaveAndRestore.save_int(ref i, minimumLivingAllowance, ref saveData);
+            SaveAndRestore.save_int(ref i, unfinishedTransitionLostFinal, ref saveData);
             SaveAndRestore.save_int(ref i, minimumLivingAllowanceFinal, ref saveData);
             SaveAndRestore.save_int(ref i, reserved3, ref saveData);
             SaveAndRestore.save_byte(ref i, govermentEducation0Salary, ref saveData);
@@ -297,7 +298,7 @@
             }
             totalCitizenDrivingTime = SaveAndRestore.load_uint(ref i, saveData);
             totalCitizenDrivingTimeFinal = SaveAndRestore.load_uint(ref i, saveData);
-            reserved1 = SaveAndRestore.load_uint(ref i, saveData);
+            unfinishedTransitionLost = SaveAndRestore.load_int(ref i, saveData);
             publicTransportFee = SaveAndRestore.load_long(ref i, saveData);
             allTransportFee = SaveAndRestore.load_long(ref i, saveData);
             family_money = SaveAndRestore.load_floats(ref i, saveData, family_money.Length);
@@ -310,7 +311,7 @@
             building_money = SaveAndRestore.load_floats(ref i, saveData, building_money.Length);
             SaveAndRestore.load_int(ref i, saveData);
             minimumLivingAllowance = SaveAndRestore.load_int(ref i, saveData);
-            SaveAndRestore.load_int(ref i, saveData);
+            unfinishedTransitionLostFinal = SaveAndRestore.load_int(ref i, saveData);
             minimumLivingAllowanceFinal = SaveAndRestore.load_int(ref i, saveData);
             SaveAndRestore.load_int(ref i, saveData);
             govermentEducation0Salary = SaveAndRestore.load_byte(ref i, saveData);

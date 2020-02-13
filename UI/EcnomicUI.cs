@@ -43,6 +43,7 @@ namespace RealCity.UI
         //3 Policy
         private UILabel mThirdLinePolicy;
         private UILabel minimumLivingAllowance;
+        private UILabel unfinishedTransitionLost;
         //4 Tips
         private UILabel tip1;
         private UILabel tip2;
@@ -193,6 +194,11 @@ namespace RealCity.UI
             minimumLivingAllowance.relativePosition = new Vector3(SPACING, mThirdLinePolicy.relativePosition.y + SPACING22);
             minimumLivingAllowance.autoSize = true;
 
+            unfinishedTransitionLost = AddUIComponent<UILabel>();
+            unfinishedTransitionLost.text = Localization.Get("UNFINISHED_DEAL_LOST");
+            unfinishedTransitionLost.relativePosition = new Vector3(minimumLivingAllowance.relativePosition.x + 450f, minimumLivingAllowance.relativePosition.y);
+            unfinishedTransitionLost.autoSize = true;
+
             tip1 = AddUIComponent<UILabel>();
             tip1.text = Localization.Get("TIP1");
             tip1.relativePosition = new Vector3(SPACING, minimumLivingAllowance.relativePosition.y + SPACING22 + 10f);
@@ -264,6 +270,7 @@ namespace RealCity.UI
                     //Policy
                     mThirdLinePolicy.text = Localization.Get("POLICY_COST");
                     minimumLivingAllowance.text = string.Format(Localization.Get("LIVING_ALLOWANCE") + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));
+                    unfinishedTransitionLost.text = string.Format(Localization.Get("UNFINISHED_DEAL_LOST") + " [{0}]", (MainDataStore.unfinishedTransitionLostFinal / 100));
                     //Tip
                     tip1.text = string.Format(Localization.Get("TIP1") + "  " + Localization.Get("USE_TMPE_TIP"));
                     tip2.text = string.Format(Localization.Get("TIP2") + "  " + Localization.Get("STARTUP_TIP"));

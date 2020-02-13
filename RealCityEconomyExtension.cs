@@ -46,9 +46,11 @@ namespace RealCity
                         {
                             Politics.parliamentCount = 10;
                         }
-                        //2. Caculate minimumLivingAllowance
+                        //2. Caculate minimumLivingAllowance and unfinishedTransitionLost
                         MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
                         MainDataStore.minimumLivingAllowance = 0;
+                        MainDataStore.unfinishedTransitionLostFinal = MainDataStore.unfinishedTransitionLost;
+                        MainDataStore.unfinishedTransitionLost = 0;
                         if (MainDataStore.citizenCount > 0)
                         {
                             //3. Citizen Status
@@ -253,7 +255,7 @@ namespace RealCity
                 avoidIdx0 = 1;
             }
 
-            if (Politics.benefitOffset >= 10)
+            if (Politics.benefitOffset >= 100)
             {
                 avoidIdx1 = 2;
             }
@@ -524,7 +526,7 @@ namespace RealCity
             int no = 0;
             int noAttend = 0;
             int residentTax = 10 - (Politics.residentTax);
-            int benefitOffset = 10 - (Politics.benefitOffset * 2);
+            int benefitOffset = 10 - (Politics.benefitOffset / 5);
             int commericalTax = 10 - (Politics.commericalTax);
             int industryTax = 10 - (Politics.industryTax);
             int temp3 = 0; // money offset
@@ -740,9 +742,9 @@ namespace RealCity
                             Politics.residentTax -= 1;
                             break;
                         case 2:
-                            Politics.benefitOffset += 1; break;
+                            Politics.benefitOffset += 10; break;
                         case 3:
-                            Politics.benefitOffset -= 1; break;
+                            Politics.benefitOffset -= 10; break;
                         case 4:
                             Politics.commericalTax += 1;
                             break;

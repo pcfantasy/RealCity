@@ -186,6 +186,13 @@ namespace RealCity.Util
                 new HarmonyMethod(economyManagerFetchResourcePreFix),
                 null);
 
+            //22
+            var cargoTruckAIReleaseVehicle = typeof(CargoTruckAI).GetMethod("ReleaseVehicle", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var cargoTruckAIReleaseVehiclePrefix = typeof(RealCityCargoTruckAI).GetMethod("CargoTruckAIReleaseVehiclePrefix");
+            harmony.ConditionalPatch(cargoTruckAIReleaseVehicle,
+                new HarmonyMethod(cargoTruckAIReleaseVehiclePrefix),
+                null);
+
             Loader.HarmonyDetourFailed = false;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -334,6 +341,13 @@ namespace RealCity.Util
             var economyManagerFetchResourcePreFix = typeof(RealCityEconomyManager).GetMethod("EconomyManagerFetchResourcePreFix");
             harmony.ConditionalUnPatch(economyManagerFetchResource,
                 new HarmonyMethod(economyManagerFetchResourcePreFix),
+                null);
+
+            //22
+            var cargoTruckAIReleaseVehicle = typeof(CargoTruckAI).GetMethod("ReleaseVehicle", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+            var cargoTruckAIReleaseVehiclePrefix = typeof(RealCityCargoTruckAI).GetMethod("CargoTruckAIReleaseVehiclePrefix");
+            harmony.ConditionalUnPatch(cargoTruckAIReleaseVehicle,
+                new HarmonyMethod(cargoTruckAIReleaseVehiclePrefix),
                 null);
 
             DebugLog.LogToFileOnly("Harmony patches DeApplied");

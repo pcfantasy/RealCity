@@ -23,6 +23,7 @@ TIP5	Tip5
 TIP6	Tip6
 POLICY_COST	3. Mod Policy Cost (₡)
 LIVING_ALLOWANCE	Living Allowance & Benefit
+UNFINISHED_DEAL_LOST	Unfinished deal refund
 USE_TMPE_TIP	Use TMPE and disable vehicle spawning
 STARTUP_TIP	Industrialising is important to improve the economy and your finances at start
 TOURIST_TIP	Try commerical tourist to retain tourists

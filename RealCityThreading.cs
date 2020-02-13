@@ -218,75 +218,75 @@ namespace RealCity
                         {
                             if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 1600, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is HearseAI)
                             {
                                 Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_sourceBuilding];
                                 if (!building.m_flags.IsFlagSet(Building.Flags.Untouchable))
                                 {
-                                    Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 1600, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                                 }
                             }
                             else if (vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 1600, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is TaxiAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 500, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 500, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is BusAI)
                             {
                                 int num = 0;
                                 GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100 * num, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 100 * num, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI)
                             {
                                 int num = 0;
                                 GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 50 * num, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 50 * num, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoShipAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5000, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 5000, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                             {
                                 int num = 0;
                                 GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, num * 300, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, num * 300, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 15000, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 15000, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
                             {
                                 int num = 0;
                                 GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, num * 250, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, num * 250, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10000, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 10000, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
                             {
                                 int num = 0;
                                 GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, num * 200, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, num * 200, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, 20000, vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
                             {
                                 int num = 0;
                                 GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (num * 150), vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (num * 150), vehicle.Info.m_class.m_service, vehicle.Info.m_class.m_subService, vehicle.Info.m_class.m_level);
                             }
                             else if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car))
                             {

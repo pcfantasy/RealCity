@@ -251,7 +251,7 @@ namespace RealCity.CustomAI
                         {
                             Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
                         }
-                        float vitualWorkersRatio = (totalWorkCount != 0) ? ((float)allWorkCount / (float)totalWorkCount) : 1f;
+                        float vitualWorkersRatio = (totalWorkCount != 0) ? (allWorkCount / (float)totalWorkCount) : 1f;
 
                         //Budget offset for Salary
                         int budget = Singleton<EconomyManager>.instance.GetBudget(buildingData.Info.m_class);
@@ -266,7 +266,8 @@ namespace RealCity.CustomAI
 #endif
                         if (!checkOnly)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)(salary * vitualWorkersRatio), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                            var m_class = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class;
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(salary * vitualWorkersRatio), m_class.m_service, m_class.m_subService, m_class.m_level);
                         }
                     }
                 }
@@ -820,20 +821,20 @@ namespace RealCity.CustomAI
             }
 
             //7. Caculate minimumLivingAllowance and benefitOffset
-            if (MainDataStore.family_money[homeID] < (-Politics.benefitOffset * 10))
+            if (MainDataStore.family_money[homeID] < (-Politics.benefitOffset))
             {
-                int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f + Politics.benefitOffset * 10);
+                int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f + Politics.benefitOffset);
                 MainDataStore.family_money[homeID] = 0;
                 MainDataStore.minimumLivingAllowance += num;
-                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, num * MainDataStore.gameExpenseDivide, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
             }
             else
             {
                 if (Politics.benefitOffset > 0)
                 {
-                    MainDataStore.family_money[homeID] += (Politics.benefitOffset * 10);
-                    MainDataStore.minimumLivingAllowance += (Politics.benefitOffset * 10);
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.PolicyCost, Politics.benefitOffset * 10 * MainDataStore.gameExpenseDivide, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
+                    MainDataStore.family_money[homeID] += Politics.benefitOffset;
+                    MainDataStore.minimumLivingAllowance += Politics.benefitOffset;
+                    Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, Politics.benefitOffset, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
             }
 
