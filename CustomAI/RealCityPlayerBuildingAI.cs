@@ -103,7 +103,7 @@ namespace RealCity.CustomAI
                 int allWorkCount = 0;
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                 int num4 = (int)(currentFrameIndex & 4095u);
-                if (((num4 >> 4) & 15u) == (buildingID & 15u))
+                if (((num4 >> 8) & 15u) == (buildingID & 15u))
                 {
                     allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, data, true, true);
                 }
@@ -117,7 +117,7 @@ namespace RealCity.CustomAI
                     int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
                     int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation3Salary);
                     float num1 = (education3Salary / 16) * allWorkCount;
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(num1 * MainDataStore.gameExpenseDivide), data.Info.m_class);
+                    Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)num1, data.Info.m_class);
                 }
             }
         }

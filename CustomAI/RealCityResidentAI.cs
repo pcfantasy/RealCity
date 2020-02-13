@@ -251,7 +251,7 @@ namespace RealCity.CustomAI
                         {
                             Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
                         }
-                        float vitualWorkersRatio = (totalWorkCount != 0) ? (allWorkCount / totalWorkCount) : 1;
+                        float vitualWorkersRatio = (totalWorkCount != 0) ? ((float)allWorkCount / (float)totalWorkCount) : 1f;
 
                         //Budget offset for Salary
                         int budget = Singleton<EconomyManager>.instance.GetBudget(buildingData.Info.m_class);
@@ -266,7 +266,7 @@ namespace RealCity.CustomAI
 #endif
                         if (!checkOnly)
                         {
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Maintenance, (int)(salary * vitualWorkersRatio * MainDataStore.gameExpenseDivide), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
+                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)(salary * vitualWorkersRatio), Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class);
                         }
                     }
                 }
@@ -1144,20 +1144,20 @@ namespace RealCity.CustomAI
                     DebugLog.LogToFileOnly("Error: Chance is not equal 800 " + (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance).ToString());
                 }
             }
-            int temp = rand.Next(800 + RealCityEconomyExtension.partyTrendStrength) + 1;
-            if (temp < Politics.cPartyChance)
+
+            if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance)
             {
                 Politics.cPartyTickets++;
             }
-            else if (temp < Politics.cPartyChance + Politics.gPartyChance)
+            else if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance + Politics.gPartyChance)
             {
                 Politics.gPartyTickets++;
             }
-            else if (temp < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance)
+            else if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance)
             {
                 Politics.sPartyTickets++;
             }
-            else if (temp < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance)
+            else if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance)
             {
                 Politics.lPartyTickets++;
             }

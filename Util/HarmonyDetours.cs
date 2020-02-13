@@ -179,6 +179,13 @@ namespace RealCity.Util
                 new HarmonyMethod(humanAIEnterVehiclePreFix),
                 null);
 
+            //21
+            var economyManagerFetchResource = typeof(EconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null);
+            var economyManagerFetchResourcePreFix = typeof(RealCityEconomyManager).GetMethod("EconomyManagerFetchResourcePreFix");
+            harmony.ConditionalPatch(economyManagerFetchResource,
+                new HarmonyMethod(economyManagerFetchResourcePreFix),
+                null);
+
             Loader.HarmonyDetourFailed = false;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
@@ -315,10 +322,18 @@ namespace RealCity.Util
                 null,
                 new HarmonyMethod(privateBuildingAIGetColorPostFix));
 
+            //20
             var humanAIEnterVehicle = typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
             var humanAIEnterVehiclePreFix = typeof(RealCityHumanAI).GetMethod("HumanAIEnterVehiclePreFix");
             harmony.ConditionalUnPatch(humanAIEnterVehicle,
                 new HarmonyMethod(humanAIEnterVehiclePreFix),
+                null);
+
+            //21
+            var economyManagerFetchResource = typeof(EconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null);
+            var economyManagerFetchResourcePreFix = typeof(RealCityEconomyManager).GetMethod("EconomyManagerFetchResourcePreFix");
+            harmony.ConditionalUnPatch(economyManagerFetchResource,
+                new HarmonyMethod(economyManagerFetchResourcePreFix),
                 null);
 
             DebugLog.LogToFileOnly("Harmony patches DeApplied");

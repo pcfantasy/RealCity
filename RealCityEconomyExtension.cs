@@ -23,6 +23,7 @@ namespace RealCity
         public static byte isStateOwnedCount = 0;
         public static bool haveGarbageBuilding = false;
         public static bool haveGarbageBuildingFinal = false;
+        public static int voteRandom = 950;
 
         public override long OnUpdateMoneyAmount(long internalMoneyAmount)
         {
@@ -35,6 +36,9 @@ namespace RealCity
                 {
                     //1 Building Status
                     BuildingStatus();
+                    //caculate voteRandom once 
+                    System.Random rand = new System.Random();
+                    voteRandom = rand.Next(800 + partyTrendStrength) + 1;
                     if (MainDataStore.update_money_count == 16)
                     {
                         Politics.parliamentCount--;

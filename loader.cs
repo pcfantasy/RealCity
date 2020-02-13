@@ -588,7 +588,7 @@ namespace RealCity
                 }
 
                 //7
-                DebugLog.LogToFileOnly("Detour EconomyWrapper::OnFetchResource calls");
+                /*DebugLog.LogToFileOnly("Detour EconomyWrapper::OnFetchResource calls");
                 try
                 {
                     Detours.Add(new Detour(typeof(EconomyWrapper).GetMethod("OnFetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int).MakeByRefType(), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null),
@@ -598,7 +598,7 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour EconomyWrapper::OnFetchResource");
                     detourFailed = true;
-                }
+                }*/
 
                 //8
                 DebugLog.LogToFileOnly("Detour EconomyManager::AddPrivateIncome calls");
