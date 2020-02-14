@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using RealCity.Util;
 using ColossalFramework.UI;
 using ColossalFramework;
-using RealCity.CustomManager;
 using System;
 using System.Reflection;
 using RealCity.CustomAI;
+using RealCity.Patch;
 
 namespace RealCity
 {
@@ -14,6 +14,7 @@ namespace RealCity
     {
         public static bool isFirstTime = true;
         public static Assembly RealGasStation = null;
+        public const int HarmonyPatchNum = 22;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -131,6 +132,35 @@ namespace RealCity
                     DebugLog.LogToFileOnly(error);
                     UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage("Incompatibility Issue", error, true);
                 }
+                else
+                {
+                    var methods = HarmonyDetours.harmony.GetPatchedMethods();
+                    int i = 0;
+                    foreach (var method in methods)
+                    {
+                        var info = HarmonyDetours.harmony.GetPatchInfo(method);
+                        if (info.Owners?.Contains(HarmonyDetours.harmony.Id) == true)
+                        {
+                            DebugLog.LogToFileOnly("Harmony patch method = " + method.Name.ToString());
+                            if (info.Prefixes != null)
+                            {
+                                DebugLog.LogToFileOnly("Harmony patch method has PreFix");
+                            }
+                            if (info.Postfixes != null)
+                            {
+                                DebugLog.LogToFileOnly("Harmony patch method has PostFix");
+                            }
+                            i++;
+                        }
+                    }
+
+                    if (i != HarmonyPatchNum)
+                    {
+                        string error = $"RealCity HarmonyDetour Patch Num is {i}, Right Num is {HarmonyPatchNum} Send RealCity.txt to Author.";
+                        DebugLog.LogToFileOnly(error);
+                        UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage("Incompatibility Issue", error, true);
+                    }
+                }
             }
         }
 
@@ -142,12 +172,12 @@ namespace RealCity
             {
                 if (vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingPath))
                 {
-                    RealCityVehicleManager.stuckTime[vehicleID] = 0;
+                    VehicleManagerReleaseVehicleImplementationPatch.stuckTime[vehicleID] = 0;
                     if (vehicleData.m_path != 0)
                     {
-                        RealCityVehicleManager.watingPathTime[vehicleID]++;
+                        VehicleManagerReleaseVehicleImplementationPatch.watingPathTime[vehicleID]++;
                     }
-                    if (RealCityVehicleManager.watingPathTime[vehicleID] > 10)
+                    if (VehicleManagerReleaseVehicleImplementationPatch.watingPathTime[vehicleID] > 10)
                     {
                         ushort building = 0;
                         if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.GoingBack))
@@ -166,7 +196,7 @@ namespace RealCity
                         DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle flag is " + vehicleData.m_flags.ToString());
                         DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
                         DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle pathflag is " + Singleton<PathManager>.instance.m_pathUnits.m_buffer[vehicleData.m_path].m_simulationFlags.ToString());
-                        RealCityVehicleManager.watingPathTime[vehicleID] = 0;
+                        VehicleManagerReleaseVehicleImplementationPatch.watingPathTime[vehicleID] = 0;
                         Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
                         vehicleData.m_path = 0u;
                         vehicleData.m_flags = (vehicleData.m_flags & ~Vehicle.Flags.WaitingPath);
@@ -174,25 +204,25 @@ namespace RealCity
                 }
                 else
                 {
-                    RealCityVehicleManager.watingPathTime[vehicleID] = 0;
+                    VehicleManagerReleaseVehicleImplementationPatch.watingPathTime[vehicleID] = 0;
                     if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingCargo) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingLoading) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingTarget) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Stopped) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Congestion))
                     {
                         float realSpeed = (float)Math.Sqrt(vehicleData.GetLastFrameVelocity().x * vehicleData.GetLastFrameVelocity().x + vehicleData.GetLastFrameVelocity().y * vehicleData.GetLastFrameVelocity().y + vehicleData.GetLastFrameVelocity().z * vehicleData.GetLastFrameVelocity().z);
                         if (realSpeed < 0.1f)
                         {
-                            RealCityVehicleManager.stuckTime[vehicleID]++;
+                            VehicleManagerReleaseVehicleImplementationPatch.stuckTime[vehicleID]++;
                         }
                         else
                         {
-                            RealCityVehicleManager.stuckTime[vehicleID] = 0;
+                            VehicleManagerReleaseVehicleImplementationPatch.stuckTime[vehicleID] = 0;
                         }
 
-                        if (RealCityVehicleManager.stuckTime[vehicleID] > 600)
+                        if (VehicleManagerReleaseVehicleImplementationPatch.stuckTime[vehicleID] > 600)
                         {
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle transfer type is " + vehicleData.m_transferType.ToString());
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle flag is " + vehicleData.m_flags.ToString());
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
-                            RealCityVehicleManager.stuckTime[vehicleID] = 0;
+                            VehicleManagerReleaseVehicleImplementationPatch.stuckTime[vehicleID] = 0;
                             Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
                             vehicleData.m_path = 0u;
                             Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);

@@ -7,20 +7,7 @@ namespace RealCity.CustomManager
 {
     public class RealCityEconomyManager
     {
-        public static float Road = 0f;
-        public static float Electricity = 0f;
-        public static float Water = 0f;
-        public static float Beautification = 0f;
-        public static float Garbage = 0f;
-        public static float HealthCare = 0f;
-        public static float PoliceDepartment = 0f;
-        public static float Education = 0f;
-        public static float Monument = 0f;
-        public static float FireDepartment = 0f;
-        public static float PublicTransport = 0f;
-        public static float Policy_cost = 0f;
-        public static float Disaster = 0f;
-        public static float PlayerIndustry = 0f;
+        
         public static float citizen_income = 0f;
         public static float tourist_income = 0f;
         public static float resident_low_level1_tax_income = 0f;
@@ -149,9 +136,6 @@ namespace RealCity.CustomManager
         public static float fireStationIncome = 0f;
         public static int[] fireStationIncomeForUI = new int[17];
         //3*4 = 12
-        public static float PlayerEducation = 0f;
-        public static float Museums = 0f;
-        public static float VarsitySports = 0f;
         //2628+216+12 = 2856
         public static byte[] saveData = new byte[2856];
 
@@ -243,19 +227,19 @@ namespace RealCity.CustomManager
         public static void Load()
         {
             int i = 0;
-            Road = SaveAndRestore.load_float(ref i, saveData);
-            Electricity = SaveAndRestore.load_float(ref i, saveData);
-            Water = SaveAndRestore.load_float(ref i, saveData);
-            Beautification = SaveAndRestore.load_float(ref i, saveData);
-            Garbage = SaveAndRestore.load_float(ref i, saveData);
-            HealthCare = SaveAndRestore.load_float(ref i, saveData);
-            PoliceDepartment = SaveAndRestore.load_float(ref i, saveData);
-            Education = SaveAndRestore.load_float(ref i, saveData);
-            Monument = SaveAndRestore.load_float(ref i, saveData);
-            FireDepartment = SaveAndRestore.load_float(ref i, saveData);
-            PublicTransport = SaveAndRestore.load_float(ref i, saveData);
-            Policy_cost = SaveAndRestore.load_float(ref i, saveData);
-            Disaster = SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
             citizen_income = SaveAndRestore.load_float(ref i, saveData);
             tourist_income = SaveAndRestore.load_float(ref i, saveData);
             resident_low_level1_tax_income = SaveAndRestore.load_float(ref i, saveData);
@@ -373,16 +357,16 @@ namespace RealCity.CustomManager
             garbage_income = SaveAndRestore.load_float(ref i, saveData);
             school_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
             school_income = SaveAndRestore.load_float(ref i, saveData);
-            PlayerIndustry = SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
             policeStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             policeStationIncome = SaveAndRestore.load_float(ref i, saveData);
             healthCareIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             healthCareIncome = SaveAndRestore.load_float(ref i, saveData);
             fireStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
             fireStationIncome = SaveAndRestore.load_float(ref i, saveData);
-            PlayerEducation = SaveAndRestore.load_float(ref i, saveData);
-            Museums = SaveAndRestore.load_float(ref i, saveData);
-            VarsitySports = SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.load_float(ref i, saveData);
             DebugLog.LogToFileOnly("saveData in EM is " + i.ToString());
         }
 
@@ -391,19 +375,19 @@ namespace RealCity.CustomManager
             int i = 0;
             //680+1292+64+160+80+52 = 2382
             //15*4 = 60
-            SaveAndRestore.save_float(ref i, Road, ref saveData);
-            SaveAndRestore.save_float(ref i, Electricity, ref saveData);
-            SaveAndRestore.save_float(ref i, Water, ref saveData);
-            SaveAndRestore.save_float(ref i, Beautification, ref saveData);
-            SaveAndRestore.save_float(ref i, Garbage, ref saveData);
-            SaveAndRestore.save_float(ref i, HealthCare, ref saveData);
-            SaveAndRestore.save_float(ref i, PoliceDepartment, ref saveData);
-            SaveAndRestore.save_float(ref i, Education, ref saveData);
-            SaveAndRestore.save_float(ref i, Monument, ref saveData);
-            SaveAndRestore.save_float(ref i, FireDepartment, ref saveData);
-            SaveAndRestore.save_float(ref i, PoliceDepartment, ref saveData);
-            SaveAndRestore.save_float(ref i, Policy_cost, ref saveData);
-            SaveAndRestore.save_float(ref i, Disaster, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
             SaveAndRestore.save_float(ref i, citizen_income, ref saveData);
             SaveAndRestore.save_float(ref i, tourist_income, ref saveData);
             //20*4 = 80
@@ -528,7 +512,7 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_ints(ref i, school_income_forui, ref saveData);
             //3 * 4 = 12   - 8
             SaveAndRestore.save_float(ref i, school_income, ref saveData);
-            SaveAndRestore.save_float(ref i, PlayerIndustry, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
             SaveAndRestore.save_ints(ref i, policeStationIncomeForUI, ref saveData);
             SaveAndRestore.save_float(ref i, policeStationIncome, ref saveData);
             SaveAndRestore.save_ints(ref i, healthCareIncomeForUI, ref saveData);
@@ -536,202 +520,9 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_ints(ref i, fireStationIncomeForUI, ref saveData);
             SaveAndRestore.save_float(ref i, fireStationIncome, ref saveData);
 
-            SaveAndRestore.save_float(ref i, PlayerEducation, ref saveData);
-            SaveAndRestore.save_float(ref i, Museums, ref saveData);
-            SaveAndRestore.save_float(ref i, VarsitySports, ref saveData);
-        }
-
-        public static void OnFetchResourceMaintenance(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
-        {
-            int temp = 0;
-            switch (service)
-            {
-                case ItemClass.Service.Road:
-                    Road += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Road > 1)
-                    {
-                        temp = (int)Road;
-                        Road = Road - (int)Road;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Garbage:
-                    Garbage += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Garbage > 1)
-                    {
-                        temp = (int)Garbage;
-                        Garbage = Garbage - (int)Garbage;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.PoliceDepartment:
-                    PoliceDepartment += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PoliceDepartment > 1)
-                    {
-                        temp = (int)PoliceDepartment;
-                        PoliceDepartment = PoliceDepartment - (int)PoliceDepartment;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Beautification:
-                    Beautification += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Beautification > 1)
-                    {
-                        temp = (int)Beautification;
-                        Beautification = Beautification - (int)Beautification;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Water:
-                    Water += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Water > 1)
-                    {
-                        temp = (int)Water;
-                        Water = Water - (int)Water;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Education:
-                    Education += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Education > 1)
-                    {
-                        temp = (int)Education;
-                        Education = Education - (int)Education;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Electricity:
-                    Electricity += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Electricity > 1)
-                    {
-                        temp = (int)Electricity;
-                        Electricity = Electricity - (int)Electricity;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.FireDepartment:
-                    FireDepartment += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (FireDepartment > 1)
-                    {
-                        temp = (int)FireDepartment;
-                        FireDepartment = FireDepartment - (int)FireDepartment;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Monument:
-                    Monument += amount / MainDataStore.gameExpenseDivide;
-                    if (Monument > 1)
-                    {
-                        temp = (int)Monument;
-                        Monument = Monument - (int)Monument;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.HealthCare:
-                    HealthCare += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (HealthCare > 1)
-                    {
-                        temp = (int)HealthCare;
-                        HealthCare = HealthCare - (int)HealthCare;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.PublicTransport:
-                    PublicTransport += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PublicTransport > 1)
-                    {
-                        temp = (int)PublicTransport;
-                        PublicTransport = PublicTransport - (int)PublicTransport;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Disaster:
-                    Disaster += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Disaster > 1)
-                    {
-                        temp = (int)Disaster;
-                        Disaster = Disaster - (int)Disaster;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.PlayerIndustry:
-                    PlayerIndustry += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PlayerIndustry > 1)
-                    {
-                        temp = (int)PlayerIndustry;
-                        PlayerIndustry = PlayerIndustry - (int)PlayerIndustry;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.PlayerEducation:
-                    PlayerEducation += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PlayerEducation > 1)
-                    {
-                        temp = (int)PlayerEducation;
-                        PlayerEducation = PlayerEducation - (int)PlayerEducation;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.Museums:
-                    Museums += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Museums > 1)
-                    {
-                        temp = (int)Museums;
-                        Museums = Museums - (int)Museums;
-                    }
-                    amount = temp;
-                    break;
-                case ItemClass.Service.VarsitySports:
-                    VarsitySports += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (VarsitySports > 1)
-                    {
-                        temp = (int)VarsitySports;
-                        VarsitySports = VarsitySports - (int)VarsitySports;
-                    }
-                    amount = temp;
-                    break;
-                default: break;
-            }
-        }
-
-        public static void OnFetchResourcePolicy(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
-        {
-            int temp = 0;
-            Policy_cost += (float)amount / MainDataStore.gameExpenseDivide;
-            if (Policy_cost > 1)
-            {
-                temp = (int)Policy_cost;
-                Policy_cost = Policy_cost - (int)Policy_cost;
-            }
-            amount = temp;
-        }
-
-        public static void EconomyManagerFetchResourcePreFix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
-        {
-            if (resource == EconomyManager.Resource.PolicyCost)
-            {
-                OnFetchResourcePolicy(resource, ref amount, service, subService, level);
-            }
-            if (resource == EconomyManager.Resource.Maintenance)
-            {
-                OnFetchResourceMaintenance(resource, ref amount, service, subService, level);
-            }
-            else if (resource == (EconomyManager.Resource)16)
-            {
-                resource = EconomyManager.Resource.Maintenance;
-            }
-            else if (resource == (EconomyManager.Resource)17)
-            {
-                resource = EconomyManager.Resource.PolicyCost;
-            }
-        }
-
-        public static void EconomyManagerPeekResourcePreFix(EconomyManager.Resource resource, ref int amount)
-        {
-            if (resource == EconomyManager.Resource.Maintenance)
-            {
-                amount *= 100;
-            }
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            SaveAndRestore.save_float(ref i, 0, ref saveData);
         }
 
         public int EXAddGovermentIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)

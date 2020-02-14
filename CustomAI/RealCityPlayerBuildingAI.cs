@@ -1,5 +1,4 @@
 ﻿using ColossalFramework;
-using RealCity.UI;
 using RealCity.Util;
 using System;
 
@@ -84,42 +83,6 @@ namespace RealCity.CustomAI
                 return info.m_eventAI.GetBudget(eventIndex, ref instance.m_events.m_buffer[eventIndex]);
             }
             return Singleton<EconomyManager>.instance.GetBudget(m_info.m_class);
-        }
-
-        public static void PlayerBuildingAISimulationStepPostFix(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
-        {
-            ProcessZeroWorker(buildingID, ref buildingData);
-        }
-
-        public static void ProcessZeroWorker(ushort buildingID, ref Building data)
-        {
-            if (data.m_flags.IsFlagSet(Building.Flags.Completed))
-            {
-                int aliveWorkCount = 0;
-                int totalWorkCount = 0;
-                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
-                Random rand = new Random();
-                int allWorkCount = 0;
-                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                int num4 = (int)(currentFrameIndex & 4095u);
-                if (((num4 >> 8) & 15u) == (buildingID & 15u))
-                {
-                    allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, data, true, true);
-                }
-                else
-                {
-                    allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, data, true, false);
-                }
-
-                if (totalWorkCount == 0 && allWorkCount != 0)
-                {
-                    int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
-                    int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation3Salary);
-                    float num1 = (education3Salary / 16) * allWorkCount;
-                    Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)num1, data.Info.m_class);
-                }
-            }
         }
     }
 }

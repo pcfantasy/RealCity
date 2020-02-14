@@ -4,12 +4,19 @@ using RealCity.Util;
 using ColossalFramework;
 using ColossalFramework.Globalization;
 using ColossalFramework.UI;
+using System.Reflection;
+using Harmony;
 
 namespace RealCity.RebalancedIndustries
 {
-    public class CustomExtractingFacilityAI
+    [HarmonyPatch]
+    public static class ExtractingFacilityAIProduceGoodsPatch
     {
-        public static void ExtractingFacilityAIProduceGoodsPrefix(ushort buildingID, ref Building buildingData, ExtractingFacilityAI __instance, out ushort __state)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        public static void Prefix(ushort buildingID, ref Building buildingData, ExtractingFacilityAI __instance, out ushort __state)
         {
             if (Mod.IsIndustriesBuilding(__instance))
                 __state = buildingData.m_customBuffer1;
@@ -17,7 +24,7 @@ namespace RealCity.RebalancedIndustries
                 __state = 0;
         }
 
-        public static void ExtractingFacilityAIProduceGoodsPostfix(ushort buildingID, ref Building buildingData, ExtractingFacilityAI __instance, ref ushort __state)
+        public static void Postfix(ushort buildingID, ref Building buildingData, ExtractingFacilityAI __instance, ref ushort __state)
         {
             int cargoDiff;
 
@@ -33,8 +40,17 @@ namespace RealCity.RebalancedIndustries
                 DebugLog.LogToFileOnly($"Unknown EF instance {__instance.name} ({__instance.GetType()})");
             }
         }
+    }
+    
+    [HarmonyPatch]
+    public static class ExtractingFacilityAIGetLocalizedStatsPatch
+    {
+        public static MethodBase TargetMethod()
+        {
+            return typeof(ExtractingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
+        }
 
-        public static void ExtractingFacilityAIGetLocalizedStatsPrefix(ushort buildingID, ref Building data, out byte __state)
+        public static void Prefix(ushort buildingID, ref Building data, out byte __state)
         {
             __state = data.m_education3;
             if (RealCity.reduceVehicle)
@@ -43,16 +59,21 @@ namespace RealCity.RebalancedIndustries
             }
         }
 
-        public static void ExtractingFacilityAIGetLocalizedStatsPostfix(ushort buildingID, ref Building data, ref byte __state)
+        public static void Postfix(ushort buildingID, ref Building data, ref byte __state)
         {
             data.m_education3 = __state;
         }
     }
 
     // Includes Unique Factories
-    public class CustomProcessingFacilityAI
+    [HarmonyPatch]
+    public static class ProcessingFacilityAIProduceGoodsPatch
     {
-        public static void ProcessingFacilityAIProduceGoodsPrefix(ushort buildingID, ref Building buildingData, ProcessingFacilityAI __instance, out ushort[] __state)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(ProcessingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        public static void Prefix(ushort buildingID, ref Building buildingData, ProcessingFacilityAI __instance, out ushort[] __state)
         {
             __state = new ushort[5];
 
@@ -68,7 +89,7 @@ namespace RealCity.RebalancedIndustries
                 __state[0] = __state[1] = __state[2] = __state[3] = __state[4] = 0;
         }
 
-        public static void ProcessingFacilityAIProduceGoodsPostfix(ushort buildingID, ref Building buildingData, ProcessingFacilityAI __instance, ref ushort[] __state)
+        public static void Postfix(ushort buildingID, ref Building buildingData, ProcessingFacilityAI __instance, ref ushort[] __state)
         {
             int cargoDiff = 0;
 
@@ -125,8 +146,16 @@ namespace RealCity.RebalancedIndustries
                 DebugLog.LogToFileOnly($"Unknown PF instance {__instance.name} ({__instance.GetType()})");
             }
         }
+    }
 
-        public static void ProcessingFacilityAIGetLocalizedStatsPrefix(ushort buildingID, ref Building data, out byte __state)
+    [HarmonyPatch]
+    public static class ProcessingFacilityAIGetLocalizedStatsPatch
+    {
+        public static MethodBase TargetMethod()
+        {
+            return typeof(ProcessingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
+        }
+        public static void Prefix(ushort buildingID, ref Building data, out byte __state)
         {
             __state = data.m_education3;
             if (RealCity.reduceVehicle)
@@ -135,20 +164,25 @@ namespace RealCity.RebalancedIndustries
             }
         }
 
-        public static void ProcessingFacilityAIGetLocalizedStatsPostfix(ushort buildingID, ref Building data, ref byte __state)
+        public static void Postfix(ushort buildingID, ref Building data, ref byte __state)
         {
             data.m_education3 = __state;
         }
     }
 
-    public class CustomLandfillSiteAI
+    [HarmonyPatch]
+    public static class LandfillSiteAIProduceGoodsPatch
     {
-        public static void LandfillSiteAIProduceGoodsPrefix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, out ushort __state)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(LandfillSiteAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        public static void Prefix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, out ushort __state)
         {
             __state = buildingData.m_customBuffer1;
         }
 
-        public static void LandfillSiteAIProduceGoodsPostfix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, ref ushort __state)
+        public static void Postfix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, ref ushort __state)
         {
             int cargoDiff = 0;
 
@@ -164,7 +198,10 @@ namespace RealCity.RebalancedIndustries
             //Debug.Log($"ID:{buildingID}={(ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000)} ({__state + cargoDiff}), state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
             buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000);
         }
+    }
 
+    public class LandfillSiteAIGetGarbageRate
+    {
         public int CustomGetGarbageRate(ushort buildingID, ref Building data)
         {
             LandfillSiteAI AI = data.Info.m_buildingAI as LandfillSiteAI;
@@ -206,9 +243,14 @@ namespace RealCity.RebalancedIndustries
         }
     }
 
-    public class CustomUniqueFactoryWorldInfoPanel
+    [HarmonyPatch]
+    public static class UniqueFactoryWorldInfoPanelUpdateBindingsPatch
     {
-        public static void UniqueFactoryWorldInfoPanelUpdateBindingsPostfix(ref InstanceID ___m_InstanceID, ref UILabel ___m_expenses)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        public static void Postfix(ref InstanceID ___m_InstanceID, ref UILabel ___m_expenses)
         {
             ushort id = ___m_InstanceID.Building;
             Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[id];

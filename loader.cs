@@ -13,6 +13,7 @@ using RealCity.CustomManager;
 using ColossalFramework.Plugins;
 using RealCity.RebalancedIndustries;
 using RealCity.CustomData;
+using RealCity.Patch;
 
 namespace RealCity
 {
@@ -120,13 +121,13 @@ namespace RealCity
 
             for (int i = 0; i < Singleton<VehicleManager>.instance.m_vehicles.m_size; i++)
             {
-                RealCityVehicleManager.watingPathTime[i] = 0;
-                RealCityVehicleManager.stuckTime[i] = 0;
+                VehicleManagerReleaseVehicleImplementationPatch.watingPathTime[i] = 0;
+                VehicleManagerReleaseVehicleImplementationPatch.stuckTime[i] = 0;
             }
 
             for (int j = 0; j < 65536; j++)
             {
-                RealCityHumanAI.watingPathTime[j] = 0;
+                HumanAISimulationStepPatch.watingPathTime[j] = 0;
             }
         }
 
@@ -588,17 +589,17 @@ namespace RealCity
                 }
 
                 //7
-                /*DebugLog.LogToFileOnly("Detour EconomyManager::FetchResource calls");
+                DebugLog.LogToFileOnly("Detour OfficeBuildingAI::GetOutgoingTransferReason calls");
                 try
                 {
-                    Detours.Add(new Detour(typeof(EconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null),
-                                            typeof(RealCityEconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass) }, null)));
+                    Detours.Add(new Detour(typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance),
+                                           typeof(RealCityOfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance)));
                 }
                 catch (Exception)
                 {
-                    DebugLog.LogToFileOnly("Could not detour EconomyManager::FetchResource");
+                    DebugLog.LogToFileOnly("Could not detour OfficeBuildingAI::GetOutgoingTransferReason");
                     detourFailed = true;
-                }*/
+                }
 
                 //8
                 DebugLog.LogToFileOnly("Detour EconomyManager::AddPrivateIncome calls");
@@ -791,7 +792,7 @@ namespace RealCity
                 try
                 {
                     Detours.Add(new Detour(typeof(LandfillSiteAI).GetMethod("GetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null),
-                                           typeof(CustomLandfillSiteAI).GetMethod("CustomGetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null)));
+                                           typeof(LandfillSiteAIGetGarbageRate).GetMethod("CustomGetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null)));
                 }
                 catch (Exception)
                 {

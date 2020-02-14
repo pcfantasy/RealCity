@@ -1,16 +1,23 @@
 ﻿using ColossalFramework;
+using Harmony;
+using RealCity.CustomAI;
 using RealCity.Util;
 using System;
+using System.Reflection;
 
-namespace RealCity.CustomAI
+namespace RealCity.Patch
 {
-    public class RealCityBuildingAI
+    [HarmonyPatch]
+    public static class BuildingAIVisitorEnterPatch
     {
-        public static void BuildingAIVisitorEnterPostFix(ushort buildingID, ref Building data, uint citizen)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null);
+        }
+        public static void Postfix(ushort buildingID, ref Building data, uint citizen)
         {
             ProcessTourismIncome(buildingID, ref data, citizen);
         }
-
         public static void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
         {
             BuildingManager instance2 = Singleton<BuildingManager>.instance;

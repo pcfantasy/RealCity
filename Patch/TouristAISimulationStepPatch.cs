@@ -1,11 +1,19 @@
 ﻿using ColossalFramework;
+using Harmony;
 using RealCity.Util;
+using System;
+using System.Reflection;
 
-namespace RealCity.CustomAI
+namespace RealCity.Patch
 {
-    public class RealCityTouristAI
+    [HarmonyPatch]
+    public static class TouristAISimulationStepPatch
     {
-        public static void TouristAISimulationStepPostFix(uint citizenID, ref Citizen data)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(TouristAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
+        }
+        public static void Postfix(uint citizenID, ref Citizen data)
         {
             //Add initial money
             if (!MainDataStore.isCitizenFirstMovingIn[citizenID])
