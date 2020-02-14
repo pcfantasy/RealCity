@@ -164,11 +164,14 @@ namespace RealCity.CustomAI
                 {
                     if (!(citizenMan.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.DummyTraffic)))
                     {
-                        MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + MainDataStore.vehicleTransferTime[vehicleID];
-                        if (vehicleData.m_citizenUnits != 0)
+                        if (!(citizenMan.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist)))
                         {
-                            MainDataStore.citizenMoney[citizenID] -= MainDataStore.vehicleTransferTime[vehicleID];
-                        } 
+                            MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + MainDataStore.vehicleTransferTime[vehicleID];
+                            if (vehicleData.m_citizenUnits != 0)
+                            {
+                                MainDataStore.citizenMoney[citizenID] -= MainDataStore.vehicleTransferTime[vehicleID];
+                            }
+                        }
                     }
                 }
             }

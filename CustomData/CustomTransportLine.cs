@@ -1,10 +1,12 @@
 ﻿using ColossalFramework;
+using Harmony;
 using RealCity.Util;
 using System;
-using UnityEngine;
+using System.Reflection;
 
 namespace RealCity.CustomData
 {
+    [HarmonyPatch]
     public static class CustomTransportLine
     {
         public static byte[] WeekDayPlan = new byte[256];
@@ -35,47 +37,19 @@ namespace RealCity.CustomData
             WeekEndPlan = SaveAndRestore.load_bytes(ref i, saveData, WeekEndPlan.Length);
         }
 
-        public static int CalculateTargetVehicleCount(ref TransportLine transportLine)
+        public static MethodBase TargetMethod()
         {
-            TransportInfo info = transportLine.Info;
-            float num = transportLine.m_totalLength;
-            if (num == 0f && transportLine.m_stops != 0)
-            {
-                NetManager instance = Singleton<NetManager>.instance;
-                ushort stops = transportLine.m_stops;
-                ushort num2 = stops;
-                int num3 = 0;
-                while (num2 != 0)
-                {
-                    ushort num4 = 0;
-                    for (int i = 0; i < 8; i++)
-                    {
-                        ushort segment = instance.m_nodes.m_buffer[num2].GetSegment(i);
-                        if (segment != 0 && instance.m_segments.m_buffer[segment].m_startNode == num2)
-                        {
-                            num += instance.m_segments.m_buffer[segment].m_averageLength;
-                            num4 = instance.m_segments.m_buffer[segment].m_endNode;
-                            break;
-                        }
-                    }
-                    num2 = num4;
-                    if (num2 == stops)
-                    {
-                        break;
-                    }
-                    if (++num3 >= 32768)
-                    {
-                        CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                        break;
-                    }
-                }
-            }
-            int budget = Singleton<EconomyManager>.instance.GetBudget(info.m_class);
-            //Non-stock code begin
-            //DebugLog.LogToFileOnly("Change budget begin," + Singleton<SimulationManager>.instance.m_currentGameTime.Hour.ToString());
+            return typeof(TransportLine).GetMethod("CalculateTargetVehicleCount", BindingFlags.Public | BindingFlags.Instance);
+        }
+
+        public static void Prefix(ref TransportLine __instance, out float __state)
+        {
+            __state = __instance.m_totalLength;
+            if (Loader.isTransportLinesManagerRunning) { return; }
+            float budget = __instance.m_totalLength;
             if (IsWeekend(Singleton<SimulationManager>.instance.m_currentGameTime))
             {
-                if (WeekEndPlan[FindLineID(transportLine)] == 1)
+                if (WeekEndPlan[FindLineID(__instance)] == 1)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -102,7 +76,7 @@ namespace RealCity.CustomData
                         budget = (int)((RealCity.otherBudgetWeekDay) * 0.01f * budget);
                     }
                 }
-                else if (WeekEndPlan[FindLineID(transportLine)] == 2)
+                else if (WeekEndPlan[FindLineID(__instance)] == 2)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -129,7 +103,7 @@ namespace RealCity.CustomData
                         budget = (int)((RealCity.otherBudgetWeekEnd) * 0.01f * budget);
                     }
                 }
-                else if (WeekEndPlan[FindLineID(transportLine)] == 3)
+                else if (WeekEndPlan[FindLineID(__instance)] == 3)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -156,7 +130,7 @@ namespace RealCity.CustomData
                         budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
                     }
                 }
-                else if (WeekEndPlan[FindLineID(transportLine)] == 4)
+                else if (WeekEndPlan[FindLineID(__instance)] == 4)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -187,7 +161,7 @@ namespace RealCity.CustomData
             else
             {
                 //PlanA
-                if (WeekDayPlan[FindLineID(transportLine)] == 1)
+                if (WeekDayPlan[FindLineID(__instance)] == 1)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -214,7 +188,7 @@ namespace RealCity.CustomData
                         budget = (int)((RealCity.otherBudgetWeekDay) * 0.01f * budget);
                     }
                 }
-                else if (WeekDayPlan[FindLineID(transportLine)] == 2)
+                else if (WeekDayPlan[FindLineID(__instance)] == 2)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -241,7 +215,7 @@ namespace RealCity.CustomData
                         budget = (int)((RealCity.otherBudgetWeekEnd) * 0.01f * budget);
                     }
                 }
-                else if (WeekDayPlan[FindLineID(transportLine)] == 3)
+                else if (WeekDayPlan[FindLineID(__instance)] == 3)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -268,7 +242,7 @@ namespace RealCity.CustomData
                         budget = (int)((RealCity.otherBudgetMax) * 0.01f * budget);
                     }
                 }
-                else if (WeekDayPlan[FindLineID(transportLine)] == 4)
+                else if (WeekDayPlan[FindLineID(__instance)] == 4)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -296,9 +270,14 @@ namespace RealCity.CustomData
                     }
                 }
             }
-            //Non-stock code end
-            budget = (budget * transportLine.m_budget + 50) / 100;
-            return Mathf.CeilToInt(budget * num / (info.m_defaultVehicleDistance * 100f));
+
+            __instance.m_totalLength = budget;
+        }
+
+        public static void Postfix(ref TransportLine __instance, ref float __state)
+        {
+            if (Loader.isTransportLinesManagerRunning) { return; }
+            __instance.m_totalLength = __state;
         }
 
         public static bool IsWeekend(this DateTime dateTime)

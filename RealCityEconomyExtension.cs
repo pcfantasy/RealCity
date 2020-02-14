@@ -83,18 +83,6 @@ namespace RealCity
                     HumanUI.refeshOnce = true;
                     TouristUI.refeshOnce = true;
                     PBLUI.refeshOnce = true;
-                    //5 update money
-                    if (!RealCityEconomyManager._init)
-                    {
-                        RealCityEconomyManager.Init();
-                        RealCityEconomyManager._init = true;
-                    }
-                    long _cashAmount = (long)RealCityEconomyManager.cashAmount.GetValue(Singleton<EconomyManager>.instance);
-                    RealCityEconomyManager.cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + MainDataStore.cashAmount));
-                    long _cashDelta = (long)RealCityEconomyManager.cashDelta.GetValue(Singleton<EconomyManager>.instance);
-                    RealCityEconomyManager.cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + MainDataStore.cashDelta));
-                    MainDataStore.cashAmount = 0;
-                    MainDataStore.cashDelta = 0;
                 }
             }
             return internalMoneyAmount;

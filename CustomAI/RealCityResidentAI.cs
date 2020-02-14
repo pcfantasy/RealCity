@@ -3,10 +3,13 @@ using ColossalFramework;
 using UnityEngine;
 using RealCity.Util;
 using RealCity.UI;
+using Harmony;
+using System.Reflection;
 
 namespace RealCity.CustomAI
 {
-    public class RealCityResidentAI : ResidentAI
+    [HarmonyPatch]
+    public static class RealCityResidentAI
     {
         public static uint preCitizenId = 0;
         public static int familyCount = 0;
@@ -49,6 +52,11 @@ namespace RealCity.CustomAI
 
         public static byte[] saveData = new byte[144];
         //public static byte[] saveData = new byte[140];
+
+        public static MethodBase TargetMethod()
+        {
+            return typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType() }, null);
+        }
 
         public static void Load()
         {
@@ -182,7 +190,6 @@ namespace RealCity.CustomAI
         public static int ProcessCitizenSalary(uint citizenId, bool checkOnly)
         {
             int salary = 0;
-            System.Random rand = new System.Random();
             if (citizenId != 0u)
             {
                 Citizen.Flags tempFlag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_flags;
@@ -494,7 +501,7 @@ namespace RealCity.CustomAI
             return totalWorkCount;
         }
 
-        public void ProcessCitizen(uint homeID, ref CitizenUnit data, bool isPre)
+        public static void ProcessCitizen(uint homeID, ref CitizenUnit data, bool isPre)
         {
             if (isPre)
             {
@@ -680,7 +687,7 @@ namespace RealCity.CustomAI
 
         }
 
-        public byte ProcessFamily(uint homeID, ref CitizenUnit data)
+        public static byte ProcessFamily(uint homeID, ref CitizenUnit data)
         {
             if (preCitizenId > homeID)
             {
@@ -871,7 +878,7 @@ namespace RealCity.CustomAI
         }
 
 
-        public void ProcessCitizenIncomeTax(uint homeID, float tax)
+        public static void ProcessCitizenIncomeTax(uint homeID, float tax)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
@@ -879,7 +886,7 @@ namespace RealCity.CustomAI
             Singleton<EconomyManager>.instance.AddPrivateIncome((int)(tax), buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 112333);
         }
 
-        public void ProcessCitizenHouseRent(uint homeID, int expenserate)
+        public static void ProcessCitizenHouseRent(uint homeID, int expenserate)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
@@ -890,118 +897,21 @@ namespace RealCity.CustomAI
         }
 
         // ResidentAI
-        public void CustomSimulationStep(uint homeID, ref CitizenUnit data)
+        public static void Prefix(uint homeID, ref CitizenUnit data)
         {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
-            if (data.m_citizen0 != 0u && data.m_citizen1 != 0u && (data.m_citizen2 == 0u || data.m_citizen3 == 0u || data.m_citizen4 == 0u))
-            {
-                bool flag = CanMakeBabies(data.m_citizen0, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)]);
-                bool flag2 = CanMakeBabies(data.m_citizen1, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)]);
-                if (flag && flag2 && Singleton<SimulationManager>.instance.m_randomizer.Int32(12u) == 0)
-                {
-                    int family = instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].m_family;
-                    uint num;
-                    if (instance.CreateCitizen(out num, 0, family, ref Singleton<SimulationManager>.instance.m_randomizer))
-                    {
-                        instance.m_citizens.m_buffer[(int)((UIntPtr)num)].SetHome(num, 0, homeID);
-                        Citizen[] expr_126_cp_0 = instance.m_citizens.m_buffer;
-                        UIntPtr expr_126_cp_1 = (UIntPtr)num;
-                        expr_126_cp_0[(int)expr_126_cp_1].m_flags = (expr_126_cp_0[(int)expr_126_cp_1].m_flags | Citizen.Flags.Original);
-                        if (building != 0)
-                        {
-                            DistrictManager instance2 = Singleton<DistrictManager>.instance;
-                            Vector3 position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building].m_position;
-                            byte district = instance2.GetDistrict(position);
-                            District[] expr_183_cp_0_cp_0 = instance2.m_districts.m_buffer;
-                            byte expr_183_cp_0_cp_1 = district;
-                            expr_183_cp_0_cp_0[expr_183_cp_0_cp_1].m_birthData.m_tempCount = expr_183_cp_0_cp_0[expr_183_cp_0_cp_1].m_birthData.m_tempCount + 1u;
-                        }
-                    }
-                }
-            }
-            if (data.m_citizen0 != 0u && data.m_citizen1 == 0u)
-            {
-                TryFindPartner(data.m_citizen0, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)]);
-            }
-            else if (data.m_citizen1 != 0u && data.m_citizen0 == 0u)
-            {
-                TryFindPartner(data.m_citizen1, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)]);
-            }
-            if (data.m_citizen2 != 0u)
-            {
-                TryMoveAwayFromHome(data.m_citizen2, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)]);
-            }
-            if (data.m_citizen3 != 0u)
-            {
-                TryMoveAwayFromHome(data.m_citizen3, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)]);
-            }
-            if (data.m_citizen4 != 0u)
-            {
-                TryMoveAwayFromHome(data.m_citizen4, ref instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)]);
-            }
-
             // NON-STOCK CODE START
+            // -20 because later in game code, m_goods will minus 20
             int fixedGoodsConsumption = 0;
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
-                fixedGoodsConsumption = ProcessFamily(homeID, ref data);
+                fixedGoodsConsumption = ProcessFamily(homeID, ref data) - 20;
             }
-            data.m_goods = (ushort)Mathf.Max(1, (data.m_goods - fixedGoodsConsumption)); //here we can adjust demand
-            MainDataStore.familyGoods[homeID] = data.m_goods;
+            data.m_goods = (ushort)Mathf.Max(21, (data.m_goods - fixedGoodsConsumption)); //here we can adjust demand
+            MainDataStore.familyGoods[homeID] = (ushort)Mathf.Max(0, data.m_goods - 20);
             // NON-STOCK CODE END
-            if (data.m_goods < 200)
-            {
-                int num2 = Singleton<SimulationManager>.instance.m_randomizer.Int32(5u);
-                for (int i = 0; i < 5; i++)
-                {
-                    uint citizen = data.GetCitizen((num2 + i) % 5);
-                    if (citizen != 0u)
-                    {
-                        Citizen[] expr_2FA_cp_0 = instance.m_citizens.m_buffer;
-                        UIntPtr expr_2FA_cp_1 = (UIntPtr)citizen;
-                        expr_2FA_cp_0[(int)expr_2FA_cp_1].m_flags = (expr_2FA_cp_0[(int)expr_2FA_cp_1].m_flags | Citizen.Flags.NeedGoods);
-                        break;
-                    }
-                }
-            }
-            if (building != 0 && (Singleton<BuildingManager>.instance.m_buildings.m_buffer[building].m_problems & (Notification.Problem.MajorProblem | Notification.Problem.FatalProblem)) != Notification.Problem.None)
-            {
-                uint num3 = 0u;
-                int num4 = 0;
-                if (data.m_citizen4 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)].Dead)
-                {
-                    num4++;
-                    num3 = data.m_citizen4;
-                }
-                if (data.m_citizen3 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)].Dead)
-                {
-                    num4++;
-                    num3 = data.m_citizen3;
-                }
-                if (data.m_citizen2 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)].Dead)
-                {
-                    num4++;
-                    num3 = data.m_citizen2;
-                }
-                if (data.m_citizen1 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)].Dead)
-                {
-                    num4++;
-                    num3 = data.m_citizen1;
-                }
-                if (data.m_citizen0 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].Dead)
-                {
-                    num4++;
-                    num3 = data.m_citizen0;
-                }
-                if (num3 != 0u)
-                {
-                    TryMoveFamily(num3, ref instance.m_citizens.m_buffer[(int)((UIntPtr)num3)], num4);
-                }
-            }
         }
 
-        public int GetExpenseRate(uint homeid, uint citizenID, out int incomeAccumulation)
+        public static int GetExpenseRate(uint homeid, uint citizenID, out int incomeAccumulation)
         {
             BuildingManager instance1 = Singleton<BuildingManager>.instance;
             CitizenManager instance2 = Singleton<CitizenManager>.instance;
@@ -1134,8 +1044,7 @@ namespace RealCity.CustomAI
             return educationFee;
         }
 
-
-        public void GetVoteTickets()
+        public static void GetVoteTickets()
         {
             System.Random rand = new System.Random();
             if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance != (800 + RealCityEconomyExtension.partyTrendStrength))
@@ -1168,7 +1077,7 @@ namespace RealCity.CustomAI
             }
         }
 
-        public void GetVoteChance(uint citizenID, Citizen citizen, uint homeID)
+        public static  void GetVoteChance(uint citizenID, Citizen citizen, uint homeID)
         {
             if ((int)Citizen.GetAgeGroup(citizen.m_age) >= 2)
             {

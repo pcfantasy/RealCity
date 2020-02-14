@@ -14,7 +14,7 @@ namespace RealCity
     {
         public static bool isFirstTime = true;
         public static Assembly RealGasStation = null;
-        public const int HarmonyPatchNum = 22;
+        public const int HarmonyPatchNum = 27;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -59,7 +59,7 @@ namespace RealCity
                 try
                 {
                     Loader.Detours.Add(new Loader.Detour(RealGasStation.GetType("RealGasStation.CustomAI.CustomCargoTruckAI").GetMethod("ProcessResourceArriveAtTargetForRealCity", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int).MakeByRefType() }, null),
-                                           typeof(RealCityCargoTruckAI).GetMethod("ProcessResourceArriveAtTarget", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(),typeof(int).MakeByRefType() }, null)));
+                                           typeof(RealCityCargoTruckAI).GetMethod("ProcessResourceArriveAtTarget", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int).MakeByRefType() }, null)));
                 }
                 catch (Exception)
                 {
@@ -142,11 +142,11 @@ namespace RealCity
                         if (info.Owners?.Contains(HarmonyDetours.harmony.Id) == true)
                         {
                             DebugLog.LogToFileOnly("Harmony patch method = " + method.Name.ToString());
-                            if (info.Prefixes != null)
+                            if (info.Prefixes.Count != 0)
                             {
                                 DebugLog.LogToFileOnly("Harmony patch method has PreFix");
                             }
-                            if (info.Postfixes != null)
+                            if (info.Postfixes.Count != 0)
                             {
                                 DebugLog.LogToFileOnly("Harmony patch method has PostFix");
                             }
@@ -344,7 +344,7 @@ namespace RealCity
             {
                 if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Vehicle) != 0)
                 {
-                    maxcount += 5 ;
+                    maxcount += 5;
                 }
                 num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
                 if (++num2 > 524288)

@@ -82,7 +82,7 @@ namespace RealCity.CustomAI
             SaveAndRestore.save_ushort(ref i, profitBuildingCountFinal, ref saveData);
         }
 
-        public static void Postfix(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
+        public static void Postfix(ushort buildingID, ref Building buildingData)
         {
             ProcessLandFee(buildingData, buildingID);
             LimitAndCheckBuildingMoney(buildingData, buildingID);
