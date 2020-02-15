@@ -87,9 +87,9 @@ namespace RealCity.Patch
                         }
                     }
 
-                    consumptionMoney = -(consumptionMoney / MainDataStore.reduceCargoDiv);
+                    consumptionMoney = -(consumptionMoney >> MainDataStore.reduceCargoDivShift);
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref consumptionMoney);
-                    consumptionMoney = -100 / MainDataStore.reduceCargoDiv;
+                    consumptionMoney = -(100 >> MainDataStore.reduceCargoDivShift);
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
                 }
             }

@@ -62,7 +62,7 @@ namespace RealCity.CustomAI
 
             if (RealCity.reduceVehicle)
             {
-                price *= MainDataStore.reduceCargoDiv;
+                price <<= MainDataStore.reduceCargoDivShift;
             }
             return UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, price);
         }

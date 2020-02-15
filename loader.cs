@@ -11,7 +11,6 @@ using RealCity.UI;
 using RealCity.Util;
 using RealCity.CustomManager;
 using ColossalFramework.Plugins;
-using RealCity.RebalancedIndustries;
 using RealCity.CustomData;
 using RealCity.Patch;
 
@@ -709,17 +708,17 @@ namespace RealCity
                 }
 
                 //17
-                DebugLog.LogToFileOnly("Detour LandfillSiteAI::GetGarbageRate calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(LandfillSiteAI).GetMethod("GetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null),
-                                           typeof(LandfillSiteAIGetGarbageRate).GetMethod("CustomGetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour LandfillSiteAI::GetGarbageRate");
-                    detourFailed = true;
-                }
+                //DebugLog.LogToFileOnly("Detour LandfillSiteAI::GetGarbageRate calls");
+                //try
+                //{
+                //    Detours.Add(new Detour(typeof(LandfillSiteAI).GetMethod("GetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null),
+                //                           typeof(LandfillSiteAIGetGarbageRate).GetMethod("CustomGetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null)));
+                //}
+                //catch (Exception)
+                //{
+                //    DebugLog.LogToFileOnly("Could not detour LandfillSiteAI::GetGarbageRate");
+                //    detourFailed = true;
+                //}
 
                 //18
                 //private void CalculateArenasExpenses(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)

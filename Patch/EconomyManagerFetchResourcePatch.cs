@@ -31,152 +31,55 @@ namespace RealCity.Patch
         }
         public static void OnFetchResourceMaintenance(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
-            int temp = 0;
             switch (service)
             {
                 case ItemClass.Service.Road:
-                    Road += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Road > 1)
-                    {
-                        temp = (int)Road;
-                        Road = Road - (int)Road;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Road);
                     break;
                 case ItemClass.Service.Garbage:
-                    Garbage += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Garbage > 1)
-                    {
-                        temp = (int)Garbage;
-                        Garbage = Garbage - (int)Garbage;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Garbage);
                     break;
                 case ItemClass.Service.PoliceDepartment:
-                    PoliceDepartment += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PoliceDepartment > 1)
-                    {
-                        temp = (int)PoliceDepartment;
-                        PoliceDepartment = PoliceDepartment - (int)PoliceDepartment;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref PoliceDepartment);
                     break;
                 case ItemClass.Service.Beautification:
-                    Beautification += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Beautification > 1)
-                    {
-                        temp = (int)Beautification;
-                        Beautification = Beautification - (int)Beautification;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Beautification);
                     break;
                 case ItemClass.Service.Water:
-                    Water += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Water > 1)
-                    {
-                        temp = (int)Water;
-                        Water = Water - (int)Water;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Water);
                     break;
                 case ItemClass.Service.Education:
-                    Education += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Education > 1)
-                    {
-                        temp = (int)Education;
-                        Education = Education - (int)Education;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Education);
                     break;
                 case ItemClass.Service.Electricity:
-                    Electricity += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Electricity > 1)
-                    {
-                        temp = (int)Electricity;
-                        Electricity = Electricity - (int)Electricity;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Electricity);
                     break;
                 case ItemClass.Service.FireDepartment:
-                    FireDepartment += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (FireDepartment > 1)
-                    {
-                        temp = (int)FireDepartment;
-                        FireDepartment = FireDepartment - (int)FireDepartment;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref FireDepartment);
                     break;
                 case ItemClass.Service.Monument:
-                    Monument += amount / MainDataStore.gameExpenseDivide;
-                    if (Monument > 1)
-                    {
-                        temp = (int)Monument;
-                        Monument = Monument - (int)Monument;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Monument);
                     break;
                 case ItemClass.Service.HealthCare:
-                    HealthCare += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (HealthCare > 1)
-                    {
-                        temp = (int)HealthCare;
-                        HealthCare = HealthCare - (int)HealthCare;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref HealthCare);
                     break;
                 case ItemClass.Service.PublicTransport:
-                    PublicTransport += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PublicTransport > 1)
-                    {
-                        temp = (int)PublicTransport;
-                        PublicTransport = PublicTransport - (int)PublicTransport;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref PublicTransport);
                     break;
                 case ItemClass.Service.Disaster:
-                    Disaster += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Disaster > 1)
-                    {
-                        temp = (int)Disaster;
-                        Disaster = Disaster - (int)Disaster;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Disaster);
                     break;
                 case ItemClass.Service.PlayerIndustry:
-                    PlayerIndustry += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PlayerIndustry > 1)
-                    {
-                        temp = (int)PlayerIndustry;
-                        PlayerIndustry = PlayerIndustry - (int)PlayerIndustry;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref PlayerIndustry);
                     break;
                 case ItemClass.Service.PlayerEducation:
-                    PlayerEducation += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (PlayerEducation > 1)
-                    {
-                        temp = (int)PlayerEducation;
-                        PlayerEducation = PlayerEducation - (int)PlayerEducation;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref PlayerEducation);
                     break;
                 case ItemClass.Service.Museums:
-                    Museums += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (Museums > 1)
-                    {
-                        temp = (int)Museums;
-                        Museums = Museums - (int)Museums;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref Museums);
                     break;
                 case ItemClass.Service.VarsitySports:
-                    VarsitySports += (float)amount / MainDataStore.gameExpenseDivide;
-                    if (VarsitySports > 1)
-                    {
-                        temp = (int)VarsitySports;
-                        VarsitySports = VarsitySports - (int)VarsitySports;
-                    }
-                    amount = temp;
+                    ProcessUnit(ref amount, ref VarsitySports);
                     break;
                 default: break;
             }
@@ -184,14 +87,21 @@ namespace RealCity.Patch
 
         public static void OnFetchResourcePolicy(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
-            int temp = 0;
-            Policy_cost += (float)amount / MainDataStore.gameExpenseDivide;
-            if (Policy_cost > 1)
+            ProcessUnit(ref amount, ref Policy_cost);
+        }
+
+        public static void ProcessUnit(ref int amount, ref float container)
+        {
+            container += amount / MainDataStore.gameExpenseDivide;
+            if (container > 1)
             {
-                temp = (int)Policy_cost;
-                Policy_cost = Policy_cost - (int)Policy_cost;
+                amount = (int)container;
+                container = container - (int)container;
             }
-            amount = temp;
+            else
+            {
+                amount = 0;
+            }
         }
 
         public static void Prefix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)

@@ -5,6 +5,7 @@
         public const int gameExpenseDivide = 100;
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const int reduceCargoDiv = 2;
+        public const int reduceCargoDivShift = 1;
         //start from V6, goverment salary is floating now
         public static byte govermentEducation0Salary = 50;
         public static byte govermentEducation1Salary = 55;

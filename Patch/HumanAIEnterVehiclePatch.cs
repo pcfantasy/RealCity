@@ -13,7 +13,7 @@ namespace RealCity.Patch
         {
             return typeof(HumanAI).GetMethod("EnterVehicle", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() }, null);
         }
-        public static void Prefix(ushort instanceID, ref CitizenInstance citizenData)
+        public static void Prefix(ref CitizenInstance citizenData)
         {
             uint citizen = citizenData.m_citizen;
             if (citizen != 0u)

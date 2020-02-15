@@ -13,7 +13,7 @@ namespace RealCity.Patch
         {
             return typeof(TollBoothAI).GetMethod("EnterBuildingSegment", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(ushort), typeof(byte), typeof(InstanceID) }, null);
         }
-        public static void Prefix(ref ushort buildingID, ref Building data, ushort segmentID, byte offset, InstanceID itemID)
+        public static bool Prefix(ref Building data, InstanceID itemID)
         {
             bool canCharge = false;
             if ((data.m_flags & Building.Flags.Active) != Building.Flags.None)
@@ -77,7 +77,8 @@ namespace RealCity.Patch
                     }
                 }
             }
-            if (!canCharge) { buildingID = 0; }
+            if (!canCharge) { return false; }
+            return true;
         }
     }
 }

@@ -189,7 +189,7 @@ namespace RealCity.RebalancedIndustries
             // Output
             if (RealCity.reduceVehicle)
             {
-                cargoDiff = Convert.ToInt32((buildingData.m_customBuffer2 - __state) / MainDataStore.reduceCargoDiv);
+                cargoDiff = Convert.ToInt32((buildingData.m_customBuffer2 - __state) >> MainDataStore.reduceCargoDivShift);
             }
             else
             {
@@ -200,45 +200,18 @@ namespace RealCity.RebalancedIndustries
         }
     }
 
-    public class LandfillSiteAIGetGarbageRate
+    [HarmonyPatch]
+    public static class LandfillSiteAIGetGarbageRate
     {
-        public int CustomGetGarbageRate(ushort buildingID, ref Building data)
+        public static MethodBase TargetMethod()
         {
-            LandfillSiteAI AI = data.Info.m_buildingAI as LandfillSiteAI;
-            int num = data.m_productionRate;
-            if ((data.m_flags & (Building.Flags.Evacuating | Building.Flags.Active)) == Building.Flags.Active)
-            {
-                int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
-                num = PlayerBuildingAI.GetProductionRate(num, budget);
-                int num2 = (data.m_customBuffer1 * 1000 + data.m_garbageBuffer);
-                num = Mathf.Min(num, num2 / (AI.m_garbageCapacity / 200));
-            }
-            else
-            {
-                num = 0;
-            }
-            int num3 = AI.m_garbageConsumption;
-            int electricityProduction = AI.m_electricityProduction;
-            int materialProduction = AI.m_materialProduction;
-            if (materialProduction != 0)
-            {
-                DistrictManager instance = Singleton<DistrictManager>.instance;
-                byte district = instance.GetDistrict(data.m_position);
-                DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
-                if ((servicePolicies & DistrictPolicies.Services.RecyclePlastic) != DistrictPolicies.Services.None)
-                {
-                    int num4 = Mathf.Max(1, materialProduction + electricityProduction);
-                    num4 = (materialProduction * 20 + (num4 >> 1)) / num4;
-                    num3 = (num3 * (100 + num4) + 50) / 100;
-                }
-            }
+            return typeof(LandfillSiteAI).GetMethod("GetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
+        }
+        public static void Postfix(ref int __result)
+        {
             if (RealCity.reduceVehicle)
             {
-                return -((num * num3 + 99) / (100 * MainDataStore.reduceCargoDiv));
-            }
-            else
-            {
-                return -((num * num3 + 99) / 100);
+                __result >>= 1;
             }
         }
     }
