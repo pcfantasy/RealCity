@@ -695,19 +695,6 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //15
-                DebugLog.LogToFileOnly("Detour TollBoothAI::EnterBuildingSegment calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(TollBoothAI).GetMethod("EnterBuildingSegment", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(ushort), typeof(byte), typeof(InstanceID) }, null),
-                                           typeof(RealCityTollBooth).GetMethod("EnterBuildingSegment", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(ushort), typeof(byte), typeof(InstanceID) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour TollBoothAI::EnterBuildingSegment");
-                    detourFailed = true;
-                }
-
                 //16
                 DebugLog.LogToFileOnly("Detour HumanAI::EnterParkArea calls");
                 try
@@ -773,6 +760,19 @@ namespace RealCity
                 catch (Exception)
                 {
                     DebugLog.LogToFileOnly("Could not DistrictPark:CalculateVarsityExpenses");
+                    detourFailed = true;
+                }
+
+                //21
+                DebugLog.LogToFileOnly("Detour EconomyManager::AddPrivateIncome calls");
+                try
+                {
+                    Detours.Add(new Detour(typeof(EconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance),
+                                           typeof(RealCityEconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour EconomyManager::AddPrivateIncome");
                     detourFailed = true;
                 }
 

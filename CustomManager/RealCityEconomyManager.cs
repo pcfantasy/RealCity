@@ -1,11 +1,8 @@
 ﻿using ColossalFramework;
-using Harmony;
 using RealCity.Util;
-using System.Reflection;
 
 namespace RealCity.CustomManager
 {
-    [HarmonyPatch]
     public class RealCityEconomyManager
     {
         
@@ -91,10 +88,6 @@ namespace RealCity.CustomManager
         //2628+216+12 = 2856
         public static byte[] saveData = new byte[2856];
 
-        public static MethodBase TargetMethod()
-        {
-            return typeof(EconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance);
-        }
         public static void CleanCurrent(int current_idex)
         {
             int i = current_idex;
@@ -481,7 +474,7 @@ namespace RealCity.CustomManager
             SaveAndRestore.save_float(ref i, 0, ref saveData);
         }
 
-        public static void EXAddGovermentIncome(ref int amount, ItemClass.Service service)
+        public void EXAddGovermentIncome(ref int amount, ItemClass.Service service)
         {
             switch (service)
             {
@@ -512,7 +505,7 @@ namespace RealCity.CustomManager
             }
         }
 
-        public static void EXAddPersonalTaxIncome(ref int amount, ItemClass.Service service)
+        public void EXAddPersonalTaxIncome(ref int amount, ItemClass.Service service)
         {
             switch (service)
             {
@@ -526,7 +519,7 @@ namespace RealCity.CustomManager
             citizen_tax_income_forui[MainDataStore.update_money_count] = citizen_tax_income_forui[MainDataStore.update_money_count] + amount;
         }
 
-        public static void EXAddTourismIncome(ref int amount, int taxRate)
+        public void EXAddTourismIncome(ref int amount, int taxRate)
         {
             if (taxRate == 114333)
             {
@@ -540,7 +533,7 @@ namespace RealCity.CustomManager
             }
         }
 
-        public static void EXAddPrivateTradeIncome(ref int amount, ItemClass.SubService subService)
+        public void EXAddPrivateTradeIncome(ref int amount, ItemClass.SubService subService)
         {
             switch (subService)
             {
@@ -591,7 +584,7 @@ namespace RealCity.CustomManager
             }
         }
 
-        public static void EXAddPrivateLandIncome(ref int amount, ItemClass.SubService subService, int taxRate)
+        public void EXAddPrivateLandIncome(ref int amount, ItemClass.SubService subService, int taxRate)
         {
             switch (subService)
             {
@@ -666,7 +659,7 @@ namespace RealCity.CustomManager
             }
         }
 
-        public static void ProcessUnit(ref int amount, ref float container, int taxRate)
+        public void ProcessUnit(ref int amount, ref float container, int taxRate)
         {
             container += (amount * taxRate / 100f);
             if (container > 1)
@@ -680,7 +673,7 @@ namespace RealCity.CustomManager
             }
         }
 
-        public static void ProcessUnitTax100(ref int amount, ref float container)
+        public void ProcessUnitTax100(ref int amount, ref float container)
         {
             container += amount;
             if (container > 1)
@@ -693,7 +686,7 @@ namespace RealCity.CustomManager
                 amount = 0;
             }
         }
-        public static void Prefix(ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
+        public void AddPrivateIncome(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
         {
             if (amount < 0)
             {
@@ -737,7 +730,6 @@ namespace RealCity.CustomManager
             }
 
             Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.ResourcePrice, amount, service, subService, level, DistrictPolicies.Taxation.None);
-            amount = 0;
         }
     }
 }

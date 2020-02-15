@@ -1,7 +1,6 @@
 ﻿using ColossalFramework;
 using RealCity.Util;
 using System;
-using UnityEngine;
 
 namespace RealCity.CustomAI
 {
@@ -89,31 +88,6 @@ namespace RealCity.CustomAI
             {
                 Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_targetBuilding].RemoveGuestVehicle(vehicleID, ref data);
                 data.m_targetBuilding = 0;
-            }
-        }
-
-        public override void EnterTollRoad(ushort vehicle, ref Vehicle vehicleData, ushort buildingID, ushort segmentID, int basePrice)
-        {
-            if (buildingID != 0)
-            {
-                int num = basePrice;
-                BuildingManager instance = Singleton<BuildingManager>.instance;
-                DistrictManager instance2 = Singleton<DistrictManager>.instance;
-                byte district = instance2.GetDistrict(instance.m_buildings.m_buffer[buildingID].m_position);
-                DistrictPolicies.CityPlanning cityPlanningPolicies = instance2.m_districts.m_buffer[district].m_cityPlanningPolicies;
-                if ((cityPlanningPolicies & DistrictPolicies.CityPlanning.AutomatedToll) != DistrictPolicies.CityPlanning.None)
-                {
-                    num = (num * 70 + Singleton<SimulationManager>.instance.m_randomizer.Int32(100u)) / 100;
-                    District[] expr_82_cp_0 = instance2.m_districts.m_buffer;
-                    byte expr_82_cp_1 = district;
-                    expr_82_cp_0[expr_82_cp_1].m_cityPlanningPoliciesEffect = (expr_82_cp_0[expr_82_cp_1].m_cityPlanningPoliciesEffect | DistrictPolicies.CityPlanning.AutomatedToll);
-                }
-                else
-                {
-                    vehicleData.m_flags2 |= Vehicle.Flags2.EndStop;
-                }
-                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num, ItemClass.Service.Vehicles, ItemClass.SubService.None, ItemClass.Level.Level1);
-                instance.m_buildings.m_buffer[buildingID].m_customBuffer1 = (ushort)Mathf.Min((instance.m_buildings.m_buffer[buildingID].m_customBuffer1 + 1), 65535);
             }
         }
 
