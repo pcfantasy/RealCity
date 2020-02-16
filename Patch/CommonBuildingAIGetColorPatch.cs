@@ -1,13 +1,14 @@
 ﻿using ColossalFramework;
-using Harmony;
+using HarmonyLib;
 using RealCity.Util;
 using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public static class CommonBuildingAIGetColorPatch
+    public class CommonBuildingAIGetColorPatch
     {
         public static MethodBase TargetMethod()
         {
@@ -18,9 +19,8 @@ namespace RealCity.Patch
                     new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(InfoManager.InfoMode) },
                     new ParameterModifier[0]);
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-        public static void Postfix(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode, ref UnityEngine.Color __result)
+
+        public static void Postfix(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode, ref Color __result)
         {
             if (infoMode == InfoManager.InfoMode.LandValue)
             {
@@ -36,18 +36,18 @@ namespace RealCity.Patch
                             MainDataStore.building_money_threat[buildingID] = (15000.0f - family_money) / 20000.0f;
 
                         if (MainDataStore.building_money_threat[buildingID] < 0.5f)
-                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
+                            __result = Color.Lerp(Color.green, Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
                         else
-                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
+                            __result = Color.Lerp(Color.yellow, Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
                         break;
 
                     case ItemClass.Service.Office:
                     case ItemClass.Service.Industrial:
                     case ItemClass.Service.Commercial:
                         if (MainDataStore.building_money_threat[buildingID] < 0.5f)
-                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.green, UnityEngine.Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
+                            __result = Color.Lerp(Color.green, Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
                         else
-                            __result = UnityEngine.Color.Lerp(UnityEngine.Color.yellow, UnityEngine.Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
+                            __result = Color.Lerp(Color.yellow, Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
                         break;
                 }
             }

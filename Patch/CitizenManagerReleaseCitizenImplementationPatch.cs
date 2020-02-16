@@ -1,11 +1,11 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using RealCity.Util;
 using System.Reflection;
 
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public static class CitizenManagerReleaseCitizenImplementationPatch
+    public class CitizenManagerReleaseCitizenImplementationPatch
     {
         public static MethodBase TargetMethod()
         {

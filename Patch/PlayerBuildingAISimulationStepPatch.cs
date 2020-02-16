@@ -1,5 +1,5 @@
 ﻿using ColossalFramework;
-using Harmony;
+using HarmonyLib;
 using RealCity.CustomAI;
 using RealCity.UI;
 using RealCity.Util;
@@ -9,7 +9,7 @@ using System.Reflection;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public static class PlayerBuildingAISimulationStepPatch
+    public class PlayerBuildingAISimulationStepPatch
     {
         public static MethodBase TargetMethod()
         {

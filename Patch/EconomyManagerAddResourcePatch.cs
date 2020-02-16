@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using RealCity.CustomManager;
 using RealCity.Util;
 using System;
@@ -7,7 +7,7 @@ using System.Reflection;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public static class EconomyManagerAddResourcePatch
+    public class EconomyManagerAddResourcePatch
     {
         public static MethodBase TargetMethod()
         {

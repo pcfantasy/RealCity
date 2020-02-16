@@ -1,21 +1,23 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 
 namespace RealCity.Util
 {
-    public static class HarmonyDetours
+    public class HarmonyDetours
     {
-        public static HarmonyInstance harmony = null;
+        public const string ID = "pcfantasy.realcity";
         public static void Apply()
         {
-            harmony = HarmonyInstance.Create("RealCity");
-            harmony.PatchAll();
+            Harmony.DEBUG = true;
+            var harmony = new Harmony(ID);
+            harmony.PatchAll(typeof(HarmonyDetours).Assembly);
             Loader.HarmonyDetourFailed = false;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
 
         public static void DeApply()
         {
-            harmony.UnpatchAll("RealCity");
+            var harmony = new Harmony(ID);
+            harmony.UnpatchAll(ID);
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }
     }

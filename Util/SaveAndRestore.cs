@@ -395,18 +395,6 @@ namespace RealCity.Util
             return tmp;
         }
 
-        /*public static short[] load_shorts(ref int idex, byte[] container, int length)
-        {
-            short[] tmp = new short[length];
-            int i;
-            for (i = 0; i < length; i++)
-            {
-                tmp[i] = BitConverter.ToInt16(container, idex);
-                idex = idex + 2;
-            }
-            return tmp;
-        }*/
-
         public static long load_long(ref int idex, byte[] container)
         {
             long tmp = 0;
@@ -421,26 +409,6 @@ namespace RealCity.Util
             idex = idex + 8;
             return tmp;
         }
-
-        /*public static double load_double(ref int idex, byte[] container)
-        {
-            double tmp;
-            tmp = BitConverter.ToDouble(container, idex);
-            idex = idex + 8;
-            return tmp;
-        }*/
-
-        /*public static long[] load_longs(ref int idex, byte[] container, int length)
-        {
-            long[] tmp = new long[length];
-            int i;
-            for (i = 0; i < length; i++)
-            {
-                tmp[i] = BitConverter.ToInt64(container, idex);
-                idex = idex + 8;
-            }
-            return tmp;
-        }*/
 
         public static byte load_byte(ref int idex, byte[] container)
         {
@@ -485,7 +453,7 @@ namespace RealCity.Util
             RealCityEconomyManager.Save();
             MainDataStore.save();
             RealCityResidentAI.Save();
-            RealCityPrivateBuildingAI.save();
+            RealCityPrivateBuildingAI.Save();
             Politics.Save();
             CustomTransportLine.save();
         }

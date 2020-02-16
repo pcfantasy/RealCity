@@ -2,6 +2,8 @@
 {
     public class MainDataStore
     {
+        public static byte[] watingPathTime = new byte[65536];
+        public static ushort[] stuckTime = new ushort[65536];
         public const int gameExpenseDivide = 100;
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const int reduceCargoDiv = 2;

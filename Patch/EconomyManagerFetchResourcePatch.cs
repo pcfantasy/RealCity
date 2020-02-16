@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using RealCity.Util;
 using System;
 using System.Reflection;
@@ -6,7 +6,7 @@ using System.Reflection;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public static class EconomyManagerFetchResourcePatch
+    public class EconomyManagerFetchResourcePatch
     {
         public static float Road = 0f;
         public static float Electricity = 0f;

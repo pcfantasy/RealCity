@@ -120,8 +120,8 @@ namespace RealCity
 
             for (int i = 0; i < Singleton<VehicleManager>.instance.m_vehicles.m_size; i++)
             {
-                VehicleManagerReleaseVehicleImplementationPatch.watingPathTime[i] = 0;
-                VehicleManagerReleaseVehicleImplementationPatch.stuckTime[i] = 0;
+                MainDataStore.watingPathTime[i] = 0;
+                MainDataStore.stuckTime[i] = 0;
             }
 
             for (int j = 0; j < 65536; j++)
