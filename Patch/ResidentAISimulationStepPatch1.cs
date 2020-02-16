@@ -2,7 +2,7 @@
 using ColossalFramework;
 using UnityEngine;
 using RealCity.Util;
-using HarmonyLib;
+using Harmony;
 using System.Reflection;
 
 namespace RealCity.CustomAI
