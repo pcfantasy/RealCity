@@ -455,7 +455,7 @@ namespace RealCity.Util
             RealCityResidentAI.Save();
             RealCityPrivateBuildingAI.Save();
             Politics.Save();
-            CustomTransportLine.save();
+            CustomTransportLine.Save();
         }
 
         public override void OnCreated(ISerializableData serializableData)
@@ -575,7 +575,7 @@ namespace RealCity.Util
                 }
                 else
                 {
-                    CustomTransportLine.load();
+                    CustomTransportLine.Load();
                 }
                 MainDataStore.saveDataForMoreVehicle = _serializableData.LoadData("real_city MoreVehicle");
                 if (MainDataStore.saveDataForMoreVehicle == null)

@@ -1,12 +1,32 @@
 ﻿using ColossalFramework;
+using Harmony;
 using System;
+using System.Reflection;
 using UnityEngine;
 
-namespace RealCity.CustomManager
+namespace RealCity.Patch
 {
-    public class RealCityBuildingManager
+    [HarmonyPatch]
+    public class BuildingManagerFindBuildingPatch
     {
-        public void SetNum(ref int[] source, ref int[] array)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(BuildingManager).GetMethod("FindBuilding", BindingFlags.Public | BindingFlags.Instance);
+        }
+        //change wealth
+        public static bool Prefix(ref ushort __result, Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
+        {
+            BuildingManager building = Singleton<BuildingManager>.instance;
+            if (maxDistance == 32f)
+            {
+                maxDistance = 128f;
+                __result = FindRandomBuilding(pos, maxDistance, service, subService, flagsRequired, flagsForbidden);
+                return false;
+            }
+            return true;
+        }
+
+        public static void SetNum(ref int[] source, ref int[] array)
         {
             System.Random rd = new System.Random();
             int range = array.Length;
@@ -22,7 +42,7 @@ namespace RealCity.CustomManager
             }
         }
 
-        public ushort FindRandomBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
+        public static ushort FindRandomBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
         {
             int num = Mathf.Max((int)((pos.x - maxDistance) / 64f + 135f), 0);
             int num2 = Mathf.Max((int)((pos.z - maxDistance) / 64f + 135f), 0);
@@ -101,54 +121,6 @@ namespace RealCity.CustomManager
                                 num6 = tempBuilding[rd.Next(tempBuildingIdex)];
                                 return num6;
                             }
-                        }
-                    }
-                }
-            }
-            return result;
-        }
-
-        public ushort CustomFindBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
-        {
-            BuildingManager building = Singleton<BuildingManager>.instance;
-            if (maxDistance == 32f)
-            {
-                maxDistance = 128f;
-                return FindRandomBuilding(pos, maxDistance, service, subService, flagsRequired, flagsForbidden);
-            }
-            int num = Mathf.Max((int)((pos.x - maxDistance) / 64f + 135f), 0);
-            int num2 = Mathf.Max((int)((pos.z - maxDistance) / 64f + 135f), 0);
-            int num3 = Mathf.Min((int)((pos.x + maxDistance) / 64f + 135f), 269);
-            int num4 = Mathf.Min((int)((pos.z + maxDistance) / 64f + 135f), 269);
-            ushort result = 0;
-            float num5 = maxDistance * maxDistance;
-            for (int i = num2; i <= num4; i++)
-            {
-                for (int j = num; j <= num3; j++)
-                {
-                    ushort num6 = building.m_buildingGrid[i * 270 + j];
-                    int num7 = 0;
-                    while (num6 != 0)
-                    {
-                        BuildingInfo info = building.m_buildings.m_buffer[num6].Info;
-                        if ((info.m_class.m_service == service || service == ItemClass.Service.None) && (info.m_class.m_subService == subService || subService == ItemClass.SubService.None))
-                        {
-                            Building.Flags flags = building.m_buildings.m_buffer[num6].m_flags;
-                            if ((flags & (flagsRequired | flagsForbidden)) == flagsRequired)
-                            {
-                                float num8 = Vector3.SqrMagnitude(pos - building.m_buildings.m_buffer[num6].m_position);
-                                if (num8 < num5)
-                                {
-                                    result = num6;
-                                    num5 = num8;
-                                }
-                            }
-                        }
-                        num6 = building.m_buildings.m_buffer[num6].m_nextGridBuilding;
-                        if (++num7 >= 49152)
-                        {
-                            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                            break;
                         }
                     }
                 }

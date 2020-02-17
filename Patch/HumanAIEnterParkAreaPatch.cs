@@ -1,12 +1,19 @@
-﻿using System;
-using ColossalFramework;
+﻿using ColossalFramework;
+using Harmony;
 using RealCity.Util;
+using System;
+using System.Reflection;
 
-namespace RealCity.CustomAI
+namespace RealCity.Patch
 {
-    public class RealCityHumanAI : HumanAI
+    [HarmonyPatch]
+    public class HumanAIEnterParkAreaPatch
     {
-        public override void EnterParkArea(ushort instanceID, ref CitizenInstance citizenData, byte park, ushort gateID)
+        public static MethodBase TargetMethod()
+        {
+            return typeof(HumanAI).GetMethod("EnterParkArea", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(byte), typeof(ushort) }, null);
+        }
+        public static bool Prefix(ushort instanceID, ref CitizenInstance citizenData, byte park, ushort gateID)
         {
             if (gateID != 0)
             {
@@ -44,6 +51,7 @@ namespace RealCity.CustomAI
                     expr_6C_cp_0[park].m_tempTicketIncome = expr_6C_cp_0[park].m_tempTicketIncome + (uint)ticketPrice;
                 }
             }
+            return false;
         }
     }
 }

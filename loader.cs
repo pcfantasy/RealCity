@@ -104,7 +104,7 @@ namespace RealCity
         {
             MainDataStore.data_init();
             CustomTransportLine.DataInit();
-            RealCityEconomyManager.dataInit();
+            RealCityEconomyManager.DataInit();
             RealCityEconomyManager.saveData = new byte[2856];
             RealCityPrivateBuildingAI.saveData = new byte[316];
             RealCityResidentAI.saveData = new byte[140];
@@ -523,58 +523,6 @@ namespace RealCity
                 }
 
                 //2
-                DebugLog.LogToFileOnly("Detour IndustrialBuildingAI::ModifyMaterialBuffer calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(IndustrialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null),
-                                           typeof(RealCityIndustrialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour IndustrialBuildingAI::ModifyMaterialBuffer");
-                    detourFailed = true;
-                }
-
-                //3
-                DebugLog.LogToFileOnly("Detour IndustrialExtractorAI::ModifyMaterialBuffer calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(IndustrialExtractorAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null),
-                                           typeof(RealCityIndustrialExtractorAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour IndustrialExtractorAI::ModifyMaterialBuffer");
-                    detourFailed = true;
-                }
-
-                //4
-                DebugLog.LogToFileOnly("Detour CommercialBuildingAI::ModifyMaterialBuffer calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(CommercialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null),
-                                           typeof(RealCityCommercialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour CommercialBuildingAI::ModifyMaterialBuffer");
-                    detourFailed = true;
-                }
-
-                //5
-                DebugLog.LogToFileOnly("Detour ProcessingFacilityAI::GetResourceRate calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(ProcessingFacilityAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null),
-                                           typeof(RealCityProcessingFacilityAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour ProcessingFacilityAI::GetResourceRate");
-                    detourFailed = true;
-                }
-
-                //6
                 DebugLog.LogToFileOnly("Detour OfficeBuildingAI::GetOutgoingTransferReason calls");
                 try
                 {
@@ -587,7 +535,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //7
+                //3
                 if (!isRealGasStationRunning)
                 {
                     DebugLog.LogToFileOnly("Detour PassengerCarAI::ArriveAtTarget calls");
@@ -602,7 +550,7 @@ namespace RealCity
                         detourFailed = true;
                     }
 
-                    //8
+                    //4
                     DebugLog.LogToFileOnly("Detour CargoTruckAI::ArriveAtTarget calls");
                     try
                     {
@@ -616,111 +564,7 @@ namespace RealCity
                     }
                 }
 
-                //9
-                DebugLog.LogToFileOnly("Detour CargoTruckAI::SetSource calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(CargoTruckAI).GetMethod("SetSource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort) }, null),
-                                           typeof(RealCityCargoTruckAI).GetMethod("SetSource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(ushort) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour CargoTruckAI::SetSource");
-                    detourFailed = true;
-                }
-
-                //10
-                DebugLog.LogToFileOnly("Detour TaxiAI::UnloadPassengers calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(TaxiAI).GetMethod("UnloadPassengers", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransportPassengerData).MakeByRefType() }, null),
-                                           typeof(RealCityTaxiAI).GetMethod("UnloadPassengers", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransportPassengerData).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour TaxiAI::UnloadPassengers");
-                    detourFailed = true;
-                }
-
-                //11
-                DebugLog.LogToFileOnly("Detour ExtractingFacilityAI::GetResourceRate calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(ExtractingFacilityAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null),
-                                           typeof(RealCityExtractingFacilityAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour ExtractingFacilityAI::GetResourceRate");
-                    detourFailed = true;
-                }
-
-                //12
-                DebugLog.LogToFileOnly("Detour PlayerBuildingAI::GetResourceRate calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(PlayerBuildingAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null),
-                                           typeof(RealCityPlayerBuildingAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour PlayerBuildingAI::GetResourceRate");
-                    detourFailed = true;
-                }
-
-                //13
-                DebugLog.LogToFileOnly("Detour BuildingManager::FindBuilding calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(BuildingManager).GetMethod("FindBuilding", BindingFlags.Public | BindingFlags.Instance),
-                                           typeof(RealCityBuildingManager).GetMethod("CustomFindBuilding", BindingFlags.Public | BindingFlags.Instance)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour BuildingManager::FindBuilding");
-                    detourFailed = true;
-                }
-
-                //14
-                DebugLog.LogToFileOnly("Detour IndustryBuildingAI::GetResourcePrice calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(IndustryBuildingAI).GetMethod("GetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static),
-                                           typeof(RealCityIndustryBuildingAI).GetMethod("CustomGetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour IndustryBuildingAI::GetResourcePrice ");
-                    detourFailed = true;
-                }
-
-                //16
-                DebugLog.LogToFileOnly("Detour HumanAI::EnterParkArea calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(HumanAI).GetMethod("EnterParkArea", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(byte), typeof(ushort) }, null),
-                                           typeof(RealCityHumanAI).GetMethod("EnterParkArea", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(byte), typeof(ushort) }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour HumanAI::EnterParkArea");
-                    detourFailed = true;
-                }
-
-                //17
-                //DebugLog.LogToFileOnly("Detour LandfillSiteAI::GetGarbageRate calls");
-                //try
-                //{
-                //    Detours.Add(new Detour(typeof(LandfillSiteAI).GetMethod("GetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null),
-                //                           typeof(LandfillSiteAIGetGarbageRate).GetMethod("CustomGetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType()}, null)));
-                //}
-                //catch (Exception)
-                //{
-                //    DebugLog.LogToFileOnly("Could not detour LandfillSiteAI::GetGarbageRate");
-                //    detourFailed = true;
-                //}
-
-                //18
+                //5
                 //private void CalculateArenasExpenses(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)
                 DebugLog.LogToFileOnly("Detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses calls");
                 try
@@ -734,7 +578,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //19
+                //6
                 //public static uint CalculatePolicyExpenses(ref DistrictPark district)
                 DebugLog.LogToFileOnly("Detour DistrictPark::CalculatePolicyExpenses calls");
                 try
@@ -748,7 +592,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //20
+                //7
                 //public static void CalculateVarsityExpenses(ref DistrictPark district, out ulong upkeep, out int coaching, out int cheerleading, out int policies, out ulong total)
                 DebugLog.LogToFileOnly("Detour DistrictPark:CalculateVarsityExpenses calls");
                 try
@@ -759,19 +603,6 @@ namespace RealCity
                 catch (Exception)
                 {
                     DebugLog.LogToFileOnly("Could not DistrictPark:CalculateVarsityExpenses");
-                    detourFailed = true;
-                }
-
-                //21
-                DebugLog.LogToFileOnly("Detour EconomyManager::AddPrivateIncome calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(EconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance),
-                                           typeof(RealCityEconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour EconomyManager::AddPrivateIncome");
                     detourFailed = true;
                 }
 

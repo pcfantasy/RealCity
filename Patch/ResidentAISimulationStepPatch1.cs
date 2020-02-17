@@ -522,14 +522,7 @@ namespace RealCity.CustomAI
                 }
                 int num2;
                 num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
-                if (MainDataStore.family_money[homeid] > 0)
-                {
-                    incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 10000));
-                }
-                else
-                {
-                    incomeAccumulation = 0;
-                }
+                incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 10000));
             }
 
             int educationFee = 0;

@@ -6,7 +6,6 @@ using ColossalFramework;
 using System;
 using System.Reflection;
 using RealCity.CustomAI;
-using Harmony;
 
 namespace RealCity
 {
@@ -14,7 +13,7 @@ namespace RealCity
     {
         public static bool isFirstTime = true;
         public static Assembly RealGasStation = null;
-        public const int HarmonyPatchNum = 28;
+        public const int HarmonyPatchNum = 39;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();

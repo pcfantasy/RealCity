@@ -1,6 +1,4 @@
-﻿using Harmony;
-
-namespace RealCity.Util
+﻿namespace RealCity.Util
 {
     public class HarmonyDetours
     {
