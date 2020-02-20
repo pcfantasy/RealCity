@@ -2,7 +2,7 @@
 
 namespace RealCity.CustomAI
 {
-    public class RealCityIndustrialExtractorAI : PrivateBuildingAI
+    public class RealCityIndustrialExtractorAI
     {
         public static TransferManager.TransferReason GetOutgoingTransferReason(ushort buildingID)
         {

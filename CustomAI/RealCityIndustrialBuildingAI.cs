@@ -3,7 +3,7 @@ using ColossalFramework.Math;
 
 namespace RealCity.CustomAI
 {
-    public class RealCityIndustrialBuildingAI :  PrivateBuildingAI
+    public class RealCityIndustrialBuildingAI
     {
         public static TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
         {
