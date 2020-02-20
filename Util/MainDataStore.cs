@@ -52,27 +52,27 @@
         public static uint family_weight_stable_high = 0;
         public static uint family_weight_stable_low = 0;
         //2 Building
-        //2.1 building expense
-        public const byte comm_high_level1 = 20;
-        public const byte comm_high_level2 = 25;
-        public const byte comm_high_level3 = 30;
-        public const byte comm_low_level1 = 30;
-        public const byte comm_low_level2 = 35;
-        public const byte comm_low_level3 = 40;
-        public const byte comm_tourist = 100;
-        public const byte comm_leisure = 50;
-        public const byte comm_eco = 45;
-        public const byte indu_gen_level1 = 10;
-        public const byte indu_gen_level2 = 15;
-        public const byte indu_gen_level3 = 20;
-        public const byte indu_forest = 10;
-        public const byte indu_farm = 15;
-        public const byte indu_oil = 20;
-        public const byte indu_ore = 20;
-        public const byte office_gen_levell = 190;
-        public const byte office_gen_level2 = 210;
+        //2.1 land rent
+        public const byte comm_high_level1 = 90;
+        public const byte comm_high_level2 = 100;
+        public const byte comm_high_level3 = 110;
+        public const byte comm_low_level1 = 60;
+        public const byte comm_low_level2 = 70;
+        public const byte comm_low_level3 = 80;
+        public const byte comm_tourist = 140;
+        public const byte comm_leisure = 130;
+        public const byte comm_eco = 120;
+        public const byte indu_gen_level1 = 50;
+        public const byte indu_gen_level2 = 60;
+        public const byte indu_gen_level3 = 70;
+        public const byte indu_forest = 90;
+        public const byte indu_farm = 80;
+        public const byte indu_oil = 110;
+        public const byte indu_ore = 120;
+        public const byte office_gen_levell = 220;
+        public const byte office_gen_level2 = 230;
         public const byte office_gen_level3 = 240;
-        public const byte office_high_tech = 255;
+        public const byte office_high_tech = 250;
         //2.3 buildingMoney 
         public static float[] building_money = new float[49152];
         public static float[] building_money_threat = new float[49152];

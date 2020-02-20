@@ -17,7 +17,6 @@ namespace RealCity.Patch
         }
         public static void Prefix(ref CargoTruckAI __instance,  ushort vehicleID, ref Vehicle data, ushort sourceBuilding)
         {
-            data.m_sourceBuilding = sourceBuilding;
             if (sourceBuilding != 0)
             {
                 BuildingManager instance = Singleton<BuildingManager>.instance;
@@ -25,7 +24,7 @@ namespace RealCity.Patch
                 if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
                 {
                     var AI = (CargoTruckAI)data.Info.m_vehicleAI;
-                    DebugLog.LogToFileOnly($"CargoTruckAISetSourcePatch: m_cargoCapacity = {__instance.m_cargoCapacity} or {AI.m_cargoCapacity}");
+                    //DebugLog.LogToFileOnly($"CargoTruckAISetSourcePatch: m_cargoCapacity = {__instance.m_cargoCapacity} or {AI.m_cargoCapacity}");
                     int num = Mathf.Min(0, data.m_transferSize - __instance.m_cargoCapacity);
                     ProcessGabargeIncome(vehicleID, ref data, num);
                 }

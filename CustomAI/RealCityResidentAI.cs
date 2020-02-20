@@ -204,7 +204,7 @@ namespace RealCity.CustomAI
                             case ItemClass.Service.Industrial:
                                 if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
                                 {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.05f / totalWorkCount);
+                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.025f / totalWorkCount);
                                     break;
                                 }
                                 break;

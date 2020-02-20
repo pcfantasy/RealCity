@@ -606,6 +606,19 @@ namespace RealCity
                     detourFailed = true;
                 }
 
+                //8
+                DebugLog.LogToFileOnly("Detour IndustryBuildingAI::GetResourcePrice calls");
+                try
+                {
+                    Detours.Add(new Detour(typeof(IndustryBuildingAI).GetMethod("GetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static),
+                                           typeof(RealCityIndustryBuildingAI).GetMethod("CustomGetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)));
+                }
+                catch (Exception)
+                {
+                    DebugLog.LogToFileOnly("Could not detour IndustryBuildingAI::GetResourcePrice ");
+                    detourFailed = true;
+                }
+
                 if (detourFailed)
                 {
                     DebugLog.LogToFileOnly("Detours failed");

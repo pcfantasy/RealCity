@@ -15,32 +15,35 @@ namespace RealCity.CustomAI
             return typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
-        public static void Postfix(ushort buildingID, ref Building buildingData)
+        public static void Prefix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
+        {
+            __state = new ushort[2];
+            __state[0] = buildingData.m_customBuffer1;
+            __state[1] = buildingData.m_customBuffer2;
+        }
+
+        public static void Postfix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
             ProcessLandFee(buildingData, buildingID);
             LimitAndCheckBuildingMoney(buildingData, buildingID);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
-            ProcessAdditionProduct(buildingID, ref buildingData);
+            ProcessAdditionProduct(buildingID, ref buildingData, ref __state);
         }
 
-        public static void ProcessAdditionProductIndustrialExtractorAI(ushort buildingID, ref Building buildingData)
+        public static void ProcessAdditionProductIndustrialExtractorAI(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
-            int deltaCustomBuffer1 = buildingData.m_customBuffer1 - MainDataStore.building_buffer1[buildingID];
+            int deltaCustomBuffer1 = buildingData.m_customBuffer1 - __state[0];
             if (deltaCustomBuffer1 > 0)
             {
-                if (deltaCustomBuffer1 > 500)
-                {
-                    deltaCustomBuffer1 = 500;
-                }
                 if (RealCity.reduceVehicle)
                 {
                     if (!Singleton<SimulationManager>.instance.m_isNightTime)
                     {
-                        //NightTime 2x , reduceVehicle 1/2, so do nothing
                         buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 >> MainDataStore.reduceCargoDivShift));
                     }
                     else
                     {
+                        //NightTime 2x , reduceVehicle 1/2, so do nothing
                         //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 / (float)MainDataStore.reduceCargoDiv) * 2f);
                     }
                 }
@@ -52,20 +55,14 @@ namespace RealCity.CustomAI
                     }
                 }
             }
-            MainDataStore.building_buffer1[buildingID] = buildingData.m_customBuffer1;
         }
 
-        public static void ProcessAdditionProductOthers(ushort buildingID, ref Building buildingData)
+        public static void ProcessAdditionProductOthers(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
             float temp = GetComsumptionDivider(buildingData, buildingID);
-            int deltaCustomBuffer1 = MainDataStore.building_buffer1[buildingID] - buildingData.m_customBuffer1;
+            int deltaCustomBuffer1 = __state[0] - buildingData.m_customBuffer1;
             if (deltaCustomBuffer1 > 0)
             {
-                if (deltaCustomBuffer1 > 500)
-                {
-                    deltaCustomBuffer1 = 500;
-                }
-
                 if (RealCity.reduceVehicle)
                 {
                     buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / (temp * MainDataStore.reduceCargoDiv)));
@@ -75,25 +72,19 @@ namespace RealCity.CustomAI
                     buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
                 }
             }
-            MainDataStore.building_buffer1[buildingID] = buildingData.m_customBuffer1;
 
-            int deltaCustomBuffer2 = buildingData.m_customBuffer2 - MainDataStore.building_buffer2[buildingID];
+            int deltaCustomBuffer2 = buildingData.m_customBuffer2 - __state[1];
             if (deltaCustomBuffer2 > 0)
             {
-                if (deltaCustomBuffer2 > 500)
-                {
-                    deltaCustomBuffer2 = 500;
-                }
-
                 if (RealCity.reduceVehicle)
                 {
                     if (!Singleton<SimulationManager>.instance.m_isNightTime)
                     {
-                        //NightTime 2x , reduceVehicle 1/2, so do nothing
                         buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 >> MainDataStore.reduceCargoDivShift));
                     }
                     else
                     {
+                        //NightTime 2x , reduceVehicle 1/2, so do nothing
                         //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv) * 2f);
                     }
                 }
@@ -105,20 +96,19 @@ namespace RealCity.CustomAI
                     }
                 }
             }
-            MainDataStore.building_buffer2[buildingID] = buildingData.m_customBuffer2;
         }
 
-        public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData)
+        public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
                 if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                 {
-                    ProcessAdditionProductIndustrialExtractorAI(buildingID, ref buildingData);
+                    ProcessAdditionProductIndustrialExtractorAI(buildingID, ref buildingData, ref __state);
                 }
                 else
                 {
-                    ProcessAdditionProductOthers(buildingID, ref buildingData);
+                    ProcessAdditionProductOthers(buildingID, ref buildingData, ref __state);
                 }
             }
         }
@@ -249,47 +239,47 @@ namespace RealCity.CustomAI
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                investToOffice = 0.005f;
+                                investToOffice = 0.00025f;
                             } else
                             {
-                                investToOffice = 0.001f;
+                                investToOffice = 0.0005f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            investToOffice = 0.002f;
+                            investToOffice = 0.001f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            investToOffice = 0.003f;
+                            investToOffice = 0.0015f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            investToOffice = 0.004f;
+                            investToOffice = 0.002f;
                         }
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                bossTake = 0.01f;
+                                bossTake = 0.005f;
                             }
                             else
                             {
-                                bossTake = 0.002f;
+                                bossTake = 0.001f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            bossTake = 0.004f;
+                            bossTake = 0.002f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            bossTake = 0.006f;
+                            bossTake = 0.003f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            bossTake = 0.008f;
+                            bossTake = 0.004f;
                         }
 
                         RealCityPrivateBuildingAI.profitBuildingMoney += (long)(MainDataStore.building_money[buildingID] * investToOffice);
