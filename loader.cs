@@ -51,7 +51,6 @@ namespace RealCity
         public static bool isGuiRunning = false;
         public static bool isRealConstructionRunning = false;
         public static bool isRealGasStationRunning = false;
-        public static bool isAdvancedJunctionRuleRunning = false;
         public static PoliticsButton PlButton;
         public static EcnomicButton EcButton;
         public static RealCityButton RcButton;
@@ -80,7 +79,6 @@ namespace RealCity
                 {
                     isRealConstructionRunning = CheckRealConstructionIsLoaded();
                     isRealGasStationRunning = CheckRealGasStationIsLoaded();
-                    isAdvancedJunctionRuleRunning = CheckAdvancedJunctionRuleIsLoaded();
                     isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
                     //refresh OptionsMainPanel
                     MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -102,26 +100,20 @@ namespace RealCity
 
         public static void InitData()
         {
-            MainDataStore.data_init();
-            CustomTransportLine.DataInit();
+            TransportLineData.DataInit();
+            VehicleData.DataInit();
+            BuildingData.DataInit();
+            CitizenUnitData.DataInit();
+            CitizenData.DataInit();
             RealCityEconomyManager.DataInit();
-            RealCityEconomyManager.saveData = new byte[2856];
-            RealCityPrivateBuildingAI.saveData = new byte[316];
-            RealCityResidentAI.saveData = new byte[140];
-            MainDataStore.saveData = new byte[3932402];
-            MainDataStore.saveData1 = new byte[4194304];
-            MainDataStore.saveData2 = new byte[1048576];
-            MainDataStore.saveDataForMoreVehicle = new byte[147456];
-            Politics.saveData = new byte[103];
-            CustomTransportLine.saveData = new byte[512];
             System.Random rand = new System.Random();
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
             RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);
 
             for (int i = 0; i < Singleton<VehicleManager>.instance.m_vehicles.m_size; i++)
             {
-                MainDataStore.watingPathTime[i] = 0;
-                MainDataStore.stuckTime[i] = 0;
+                VehicleData.watingPathTime[i] = 0;
+                VehicleData.stuckTime[i] = 0;
             }
 
             for (int j = 0; j < 65536; j++)
@@ -650,17 +642,12 @@ namespace RealCity
 
         private bool CheckRealGasStationIsLoaded()
         {
-            return Check3rdPartyModLoaded("RealGasStation", true);
-        }
-
-        private bool CheckAdvancedJunctionRuleIsLoaded()
-        {
-            return Check3rdPartyModLoaded("AdvancedJunctionRule", false);
+            return Check3rdPartyModLoaded("RealGasStation", false);
         }
 
         private bool CheckTransportLinesManagerIsLoaded()
         {
-            return Check3rdPartyModLoaded("Klyte.TransportLinesManager", true);
+            return Check3rdPartyModLoaded("Klyte.TransportLinesManager", false);
         }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using ColossalFramework;
 using RealCity.CustomAI;
 using RealCity.Util;
+using RealCity.CustomData;
 
 namespace RealCity.UI
 {
@@ -64,17 +65,17 @@ namespace RealCity.UI
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
      
-            if (refeshOnce || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 if (isVisible)
                 {
-                    MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
-                    Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
+                    BuildingData.lastBuildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+                    Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[BuildingData.lastBuildingID];
                     int aliveWorkCount = 0;
                     int totalWorkCount = 0;
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                    BuildingUI.GetWorkBehaviour(MainDataStore.last_buildingid, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
-                    int allWorkCount = RealCityResidentAI.TotalWorkCount(MainDataStore.last_buildingid, buildingData, true, false);
+                    BuildingUI.GetWorkBehaviour(BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+                    int allWorkCount = RealCityResidentAI.TotalWorkCount(BuildingData.lastBuildingID, buildingData, true, false);
                     maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
                     workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS") + totalWorkCount.ToString() + "/" + allWorkCount.ToString();
                     refeshOnce = false;

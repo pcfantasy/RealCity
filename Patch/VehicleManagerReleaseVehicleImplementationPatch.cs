@@ -1,5 +1,5 @@
 ﻿using Harmony;
-using RealCity.Util;
+using RealCity.CustomData;
 using System;
 using System.Reflection;
 
@@ -14,10 +14,10 @@ namespace RealCity.Patch
         }
         public static void Postfix(ushort vehicle, ref Vehicle data)
         {
-            MainDataStore.vehicleTransferTime[vehicle] = 0;
-            MainDataStore.isVehicleCharged[vehicle] = false;
-            MainDataStore.watingPathTime[vehicle] = 0;
-            MainDataStore.stuckTime[vehicle] = 0;
+            VehicleData.vehicleTransferTime[vehicle] = 0;
+            VehicleData.isVehicleCharged[vehicle] = false;
+            VehicleData.watingPathTime[vehicle] = 0;
+            VehicleData.stuckTime[vehicle] = 0;
         }
     }
 }

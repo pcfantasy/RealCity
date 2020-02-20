@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using Harmony;
 using RealCity.CustomAI;
+using RealCity.CustomData;
 using RealCity.Util;
 using System;
 using System.Reflection;
@@ -58,7 +59,7 @@ namespace RealCity.Patch
                         }
                     }
 
-                    int consumptionMoney = -(int)(consumptionIndex * MainDataStore.citizenMoney[citizen]);
+                    int consumptionMoney = -(int)(consumptionIndex * CitizenData.citizenMoney[citizen]);
 
                     if (consumptionMoney < 0)
                     {
@@ -70,7 +71,7 @@ namespace RealCity.Patch
                     }
                     int num = -100;
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
-                    MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
                 }
                 else
                 {
@@ -111,10 +112,10 @@ namespace RealCity.Patch
                 }
                 else
                 {
-                    int tourism_fee = (int)(0.4f * MainDataStore.citizenMoney[citizen]);
+                    int tourism_fee = (int)(0.4f * CitizenData.citizenMoney[citizen]);
                     if (tourism_fee > 0)
                     {
-                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - tourism_fee);
+                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
                     }
                 }
@@ -154,10 +155,10 @@ namespace RealCity.Patch
                 }
                 else
                 {
-                    int tourism_fee = (int)(0.1f * MainDataStore.citizenMoney[citizen]);
+                    int tourism_fee = (int)(0.1f * CitizenData.citizenMoney[citizen]);
                     if (tourism_fee > 0)
                     {
-                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - tourism_fee);
+                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
                     }
                 }
@@ -180,10 +181,10 @@ namespace RealCity.Patch
                 }
                 else
                 {
-                    int tourism_fee = (int)(0.2f * MainDataStore.citizenMoney[citizen]);
+                    int tourism_fee = (int)(0.2f * CitizenData.citizenMoney[citizen]);
                     if (tourism_fee > 0)
                     {
-                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - tourism_fee);
+                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);
                         Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
                     }
                 }

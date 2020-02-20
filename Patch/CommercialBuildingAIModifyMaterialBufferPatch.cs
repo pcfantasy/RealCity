@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using Harmony;
 using RealCity.CustomAI;
+using RealCity.CustomData;
 using RealCity.Util;
 using System;
 using System.Reflection;
@@ -55,7 +56,7 @@ namespace RealCity.Patch
         public static void processIncoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-            MainDataStore.building_money[buildingID] = MainDataStore.building_money[buildingID] - trade_income1;
+            BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - trade_income1;
         }
 
         public static void caculateTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
@@ -64,7 +65,7 @@ namespace RealCity.Patch
             float trade_income = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
             trade_tax = -trade_income * RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) / 100f;
             Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
-            MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (trade_income + trade_tax));
+            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (trade_income + trade_tax));
         }
     }
 }

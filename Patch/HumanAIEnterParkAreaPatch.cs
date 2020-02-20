@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using Harmony;
+using RealCity.CustomData;
 using RealCity.Util;
 using System;
 using System.Reflection;
@@ -29,19 +30,19 @@ namespace RealCity.Patch
                     uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizenData.m_citizen, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                     if ((instance3.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                     {
-                        MainDataStore.citizenMoney[citizenData.m_citizen] -= ticketPrice;
+                        CitizenData.citizenMoney[citizenData.m_citizen] -= ticketPrice;
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, info.m_class);
                     }
                     else
                     {
-                        if (MainDataStore.citizenMoney[citizenData.m_citizen] < ticketPrice)
+                        if (CitizenData.citizenMoney[citizenData.m_citizen] < ticketPrice)
                         {
-                            ticketPrice = (MainDataStore.citizenMoney[citizenData.m_citizen] > 0) ? (int)MainDataStore.citizenMoney[citizenData.m_citizen] : 0;
-                            MainDataStore.citizenMoney[citizenData.m_citizen] = 0;
+                            ticketPrice = (CitizenData.citizenMoney[citizenData.m_citizen] > 0) ? (int)CitizenData.citizenMoney[citizenData.m_citizen] : 0;
+                            CitizenData.citizenMoney[citizenData.m_citizen] = 0;
                         }
                         else
                         {
-                            MainDataStore.citizenMoney[citizenData.m_citizen] = (MainDataStore.citizenMoney[citizenData.m_citizen] - ticketPrice);
+                            CitizenData.citizenMoney[citizenData.m_citizen] = (CitizenData.citizenMoney[citizenData.m_citizen] - ticketPrice);
                         }
                         //Negetive price to help identify tourist and resident.
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -ticketPrice, info.m_class);

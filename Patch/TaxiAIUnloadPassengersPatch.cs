@@ -1,6 +1,6 @@
 ﻿using ColossalFramework;
 using Harmony;
-using RealCity.Util;
+using RealCity.CustomData;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -42,14 +42,14 @@ namespace RealCity.Patch
                                 BuildingManager instance4 = Singleton<BuildingManager>.instance;
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                                 {
-                                    MainDataStore.citizenMoney[citizen] -= (num4);
+                                    CitizenData.citizenMoney[citizen] -= (num4);
                                 }
                                 else
                                 {
-                                    if (MainDataStore.citizenMoney[citizen] < num4)
+                                    if (CitizenData.citizenMoney[citizen] < num4)
                                     {
-                                        num4 = (MainDataStore.citizenMoney[citizen] > 0) ? (int)MainDataStore.citizenMoney[citizen] + 1 : 1;
-                                        MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (num4) - 1);
+                                        num4 = (CitizenData.citizenMoney[citizen] > 0) ? (int)CitizenData.citizenMoney[citizen] + 1 : 1;
+                                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (num4) - 1);
                                     }
                                 }
                                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4, data.Info.m_class);

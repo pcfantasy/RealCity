@@ -1,5 +1,5 @@
 ﻿using Harmony;
-using RealCity.Util;
+using RealCity.CustomData;
 using System.Reflection;
 
 namespace RealCity.Patch
@@ -13,13 +13,10 @@ namespace RealCity.Patch
         }
         public static void Postfix(ushort buildingID)
         {
-            MainDataStore.building_money[buildingID] = 0;
-            MainDataStore.building_buffer2[buildingID] = 0;
-            MainDataStore.building_buffer1[buildingID] = 0;
-            MainDataStore.building_buffer3[buildingID] = 0;
-            MainDataStore.building_buffer4[buildingID] = 0;
-            MainDataStore.isBuildingWorkerUpdated[buildingID] = false;
-            MainDataStore.building_money_threat[buildingID] = 0;
+            BuildingData.buildingMoney[buildingID] = 0;
+            BuildingData.buildingWorkCount[buildingID] = 0;
+            BuildingData.isBuildingWorkerUpdated[buildingID] = false;
+            BuildingData.buildingMoneyThreat[buildingID] = 0;
         }
     }
 }

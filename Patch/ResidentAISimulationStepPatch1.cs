@@ -4,6 +4,7 @@ using UnityEngine;
 using RealCity.Util;
 using Harmony;
 using System.Reflection;
+using RealCity.CustomData;
 
 namespace RealCity.CustomAI
 {
@@ -19,7 +20,7 @@ namespace RealCity.CustomAI
         {
             if (isPre)
             {
-                MainDataStore.family_money[homeID] = 0;
+                CitizenUnitData.familyMoney[homeID] = 0;
                 if (data.m_citizen0 != 0)
                 {
                     Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0];
@@ -28,7 +29,7 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             RealCityResidentAI.citizenCount++;
-                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen0];
+                            CitizenUnitData.familyMoney[homeID] += CitizenData.citizenMoney[data.m_citizen0];
                         }
                     }
                 }
@@ -40,7 +41,7 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             RealCityResidentAI.citizenCount++;
-                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen1];
+                            CitizenUnitData.familyMoney[homeID] += CitizenData.citizenMoney[data.m_citizen1];
                         }
                     }
                 }
@@ -52,7 +53,7 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             RealCityResidentAI.citizenCount++;
-                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen2];
+                            CitizenUnitData.familyMoney[homeID] += CitizenData.citizenMoney[data.m_citizen2];
                         }
                     }
                 }
@@ -64,7 +65,7 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             RealCityResidentAI.citizenCount++;
-                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen3];
+                            CitizenUnitData.familyMoney[homeID] += CitizenData.citizenMoney[data.m_citizen3];
                         }
                     }
                 }
@@ -76,18 +77,18 @@ namespace RealCity.CustomAI
                         if (citizenData.Dead == false)
                         {
                             RealCityResidentAI.citizenCount++;
-                            MainDataStore.family_money[homeID] += MainDataStore.citizenMoney[data.m_citizen4];
+                            CitizenUnitData.familyMoney[homeID] += CitizenData.citizenMoney[data.m_citizen4];
                         }
                     }
                 }
             }
             else
             {
-                if (MainDataStore.family_money[homeID] < 5000)
+                if (CitizenUnitData.familyMoney[homeID] < 5000)
                 {
                     RealCityResidentAI.familyWeightStableLow++;
                 }
-                else if (MainDataStore.family_money[homeID] >= 20000)
+                else if (CitizenUnitData.familyMoney[homeID] >= 20000)
                 {
                     RealCityResidentAI.familyWeightStableHigh++;
                 }
@@ -161,7 +162,7 @@ namespace RealCity.CustomAI
                         Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen0];
                         if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                         {
-                            MainDataStore.citizenMoney[data.m_citizen0] = MainDataStore.family_money[homeID] / temp;
+                            CitizenData.citizenMoney[data.m_citizen0] = CitizenUnitData.familyMoney[homeID] / temp;
                         }
                     }
                     if (data.m_citizen1 != 0)
@@ -169,7 +170,7 @@ namespace RealCity.CustomAI
                         Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen1];
                         if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                         {
-                            MainDataStore.citizenMoney[data.m_citizen1] = MainDataStore.family_money[homeID] / temp;
+                            CitizenData.citizenMoney[data.m_citizen1] = CitizenUnitData.familyMoney[homeID] / temp;
                         }
                     }
                     if (data.m_citizen2 != 0)
@@ -177,7 +178,7 @@ namespace RealCity.CustomAI
                         Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen2];
                         if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                         {
-                            MainDataStore.citizenMoney[data.m_citizen2] = MainDataStore.family_money[homeID] / temp;
+                            CitizenData.citizenMoney[data.m_citizen2] = CitizenUnitData.familyMoney[homeID] / temp;
                         }
                     }
                     if (data.m_citizen3 != 0)
@@ -185,7 +186,7 @@ namespace RealCity.CustomAI
                         Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen3];
                         if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                         {
-                            MainDataStore.citizenMoney[data.m_citizen3] = MainDataStore.family_money[homeID] / temp;
+                            CitizenData.citizenMoney[data.m_citizen3] = CitizenUnitData.familyMoney[homeID] / temp;
                         }
                     }
                     if (data.m_citizen4 != 0)
@@ -193,7 +194,7 @@ namespace RealCity.CustomAI
                         Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[data.m_citizen4];
                         if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false))
                         {
-                            MainDataStore.citizenMoney[data.m_citizen4] = MainDataStore.family_money[homeID] / temp;
+                            CitizenData.citizenMoney[data.m_citizen4] = CitizenUnitData.familyMoney[homeID] / temp;
                         }
                     }
                 }
@@ -207,9 +208,9 @@ namespace RealCity.CustomAI
             {
                 MainDataStore.familyCount = RealCityResidentAI.familyCount;
                 MainDataStore.citizenCount = RealCityResidentAI.citizenCount;
-                MainDataStore.family_profit_money_num = RealCityResidentAI.familyProfitMoneyCount;
-                MainDataStore.family_very_profit_money_num = RealCityResidentAI.familyVeryProfitMoneyCount;
-                MainDataStore.family_loss_money_num = RealCityResidentAI.familyLossMoneyCount;
+                MainDataStore.profitFamilyNum = RealCityResidentAI.familyProfitMoneyCount;
+                MainDataStore.veryProfitFamilyNum = RealCityResidentAI.familyVeryProfitMoneyCount;
+                MainDataStore.lossFamilyNum = RealCityResidentAI.familyLossMoneyCount;
                 if (RealCityResidentAI.familyCount != 0)
                 {
                     MainDataStore.citizenSalaryPerFamily = ((RealCityResidentAI.citizenSalaryCount / RealCityResidentAI.familyCount));
@@ -218,23 +219,22 @@ namespace RealCity.CustomAI
                 MainDataStore.citizenExpense = RealCityResidentAI.citizenExpenseCount;
                 MainDataStore.citizenSalaryTaxTotal = RealCityResidentAI.citizenSalaryTaxTotal;
                 MainDataStore.citizenSalaryTotal = RealCityResidentAI.citizenSalaryCount;
-                if (MainDataStore.familyCount < MainDataStore.family_weight_stable_high)
+                if (MainDataStore.familyCount < MainDataStore.familyWeightStableHigh)
                 {
-                    MainDataStore.family_weight_stable_high = (uint)MainDataStore.familyCount;
+                    MainDataStore.familyWeightStableHigh = (uint)MainDataStore.familyCount;
                 }
                 else
                 {
-                    MainDataStore.family_weight_stable_high = RealCityResidentAI.familyWeightStableHigh;
+                    MainDataStore.familyWeightStableHigh = RealCityResidentAI.familyWeightStableHigh;
                 }
-                if (MainDataStore.familyCount < MainDataStore.family_weight_stable_low)
+                if (MainDataStore.familyCount < MainDataStore.familyWeightStableLow)
                 {
-                    MainDataStore.family_weight_stable_low = (uint)MainDataStore.familyCount;
+                    MainDataStore.familyWeightStableLow = (uint)MainDataStore.familyCount;
                 }
                 else
                 {
-                    MainDataStore.family_weight_stable_low = RealCityResidentAI.familyWeightStableLow;
+                    MainDataStore.familyWeightStableLow = RealCityResidentAI.familyWeightStableLow;
                 }
-                RealCityResidentAI.citizenGoods = RealCityResidentAI.citizenGoodsTemp;
                 RealCityResidentAI.familyVeryProfitMoneyCount = 0;
                 RealCityResidentAI.familyProfitMoneyCount = 0;
                 RealCityResidentAI.familyLossMoneyCount = 0;
@@ -246,12 +246,9 @@ namespace RealCity.CustomAI
                 RealCityResidentAI.tempCitizenSalaryTaxTotal = 0f;
                 RealCityResidentAI.familyWeightStableHigh = 0;
                 RealCityResidentAI.familyWeightStableLow = 0;
-                RealCityResidentAI.citizenGoodsTemp = 0;
             }
             RealCityResidentAI.preCitizenId = homeID;
-
             RealCityResidentAI.familyCount++;
-            RealCityResidentAI.citizenGoodsTemp += data.m_goods;
 
             if (homeID > 524288)
             {
@@ -315,16 +312,16 @@ namespace RealCity.CustomAI
 
             //4. income - expense
             float incomeMinusExpense = familySalaryCurrent - tax - educationFee - expenseRate;
-            MainDataStore.family_money[homeID] += incomeMinusExpense;
+            CitizenUnitData.familyMoney[homeID] += incomeMinusExpense;
 
             //5. Process shopping
-            if (MainDataStore.familyGoods[homeID] == 0)
+            if (CitizenUnitData.familyGoods[homeID] == 0)
             {
                 //first time
             }
-            else if (MainDataStore.familyGoods[homeID] < data.m_goods)
+            else if (CitizenUnitData.familyGoods[homeID] < data.m_goods)
             {
-                MainDataStore.family_money[homeID] -= RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * (data.m_goods - MainDataStore.familyGoods[homeID]);
+                CitizenUnitData.familyMoney[homeID] -= RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * (data.m_goods - CitizenUnitData.familyGoods[homeID]);
             }
 
             //6. Process citizen status
@@ -342,10 +339,10 @@ namespace RealCity.CustomAI
             }
 
             //7. Caculate minimumLivingAllowance and benefitOffset
-            if (MainDataStore.family_money[homeID] < (-Politics.benefitOffset))
+            if (CitizenUnitData.familyMoney[homeID] < (-Politics.benefitOffset))
             {
-                int num = (int)(-(MainDataStore.family_money[homeID]) + 0.5f + Politics.benefitOffset);
-                MainDataStore.family_money[homeID] = 0;
+                int num = (int)(-(CitizenUnitData.familyMoney[homeID]) + 0.5f + Politics.benefitOffset);
+                CitizenUnitData.familyMoney[homeID] = 0;
                 MainDataStore.minimumLivingAllowance += num;
                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
             }
@@ -353,21 +350,21 @@ namespace RealCity.CustomAI
             {
                 if (Politics.benefitOffset > 0)
                 {
-                    MainDataStore.family_money[homeID] += Politics.benefitOffset;
+                    CitizenUnitData.familyMoney[homeID] += Politics.benefitOffset;
                     MainDataStore.minimumLivingAllowance += Politics.benefitOffset;
                     Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, Politics.benefitOffset, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
             }
 
             //8. Limit familyMoney
-            if (MainDataStore.family_money[homeID] > 32000000f)
+            if (CitizenUnitData.familyMoney[homeID] > 32000000f)
             {
-                MainDataStore.family_money[homeID] = 32000000f;
+                CitizenUnitData.familyMoney[homeID] = 32000000f;
             }
 
-            if (MainDataStore.family_money[homeID] < -32000000f)
+            if (CitizenUnitData.familyMoney[homeID] < -32000000f)
             {
-                MainDataStore.family_money[homeID] = -32000000f;
+                CitizenUnitData.familyMoney[homeID] = -32000000f;
             }
 
             //ProcessCitizen post, split all familyMoney to citizen
@@ -376,9 +373,9 @@ namespace RealCity.CustomAI
             //9.1 based on incomeMinusExpense
             float fixedGoodsConsumption = incomeMinusExpense / 10f;
             //9.2 based on familyMoney
-            if (MainDataStore.family_money[homeID] > 0)
+            if (CitizenUnitData.familyMoney[homeID] > 0)
             {
-                fixedGoodsConsumption += (int)(MainDataStore.family_money[homeID] / 5000);
+                fixedGoodsConsumption += (int)(CitizenUnitData.familyMoney[homeID] / 5000);
             }
             if (fixedGoodsConsumption < 1)
             {
@@ -421,7 +418,7 @@ namespace RealCity.CustomAI
                 fixedGoodsConsumption = ProcessFamily(homeID, ref data) - 20;
             }
             data.m_goods = (ushort)Mathf.Max(21, (data.m_goods - fixedGoodsConsumption)); //here we can adjust demand
-            MainDataStore.familyGoods[homeID] = (ushort)Mathf.Max(0, data.m_goods - 20);
+            CitizenUnitData.familyGoods[homeID] = (ushort)Mathf.Max(0, data.m_goods - 20);
             // NON-STOCK CODE END
         }
 
@@ -691,11 +688,11 @@ namespace RealCity.CustomAI
                     Politics.lPartyChance += (ushort)(Politics.workplace[idex, 3] << 1);
                     Politics.nPartyChance += (ushort)(Politics.workplace[idex, 4] << 1);
 
-                    if (MainDataStore.family_money[homeID] < 5000)
+                    if (CitizenUnitData.familyMoney[homeID] < 5000)
                     {
                         idex = 0;
                     }
-                    else if (MainDataStore.family_money[homeID] >= 20000)
+                    else if (CitizenUnitData.familyMoney[homeID] >= 20000)
                     {
                         idex = 2;
                     }

@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using RealCity.CustomData;
 using RealCity.Util;
 using System;
 
@@ -140,16 +141,16 @@ namespace RealCity.CustomAI
                     {
                         if (!(citizenMan.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist)))
                         {
-                            MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + MainDataStore.vehicleTransferTime[vehicleID];
+                            MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + VehicleData.vehicleTransferTime[vehicleID];
                             if (vehicleData.m_citizenUnits != 0)
                             {
-                                MainDataStore.citizenMoney[citizenID] -= MainDataStore.vehicleTransferTime[vehicleID];
+                                CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
                             }
                         }
                     }
                 }
             }
-            MainDataStore.vehicleTransferTime[vehicleID] = 0;
+            VehicleData.vehicleTransferTime[vehicleID] = 0;
         }
     }
 }

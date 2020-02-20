@@ -2,6 +2,7 @@
 using ColossalFramework;
 using RealCity.Util;
 using RealCity.UI;
+using RealCity.CustomData;
 
 namespace RealCity.CustomAI
 {
@@ -17,129 +18,53 @@ namespace RealCity.CustomAI
         public static int citizenExpenseCount = 0;
         public static int citizenSalaryTaxTotal = 0;
         public static float tempCitizenSalaryTaxTotal = 0f;
-        //public static bool citizen_process_done = false;
-        //govement salary outconme
-        public static int Road = 0;
-        public static int Electricity = 0;
-        public static int Water = 0;
-        public static int Beautification = 0;
-        public static int Garbage = 0;
-        public static int HealthCare = 0;
-        public static int PoliceDepartment = 0;
-        public static int Education = 0;
-        public static int Monument = 0;
-        public static int FireDepartment = 0;
-        public static int PublicTransport_bus = 0;
-        public static int PublicTransport_tram = 0;
-        public static int PublicTransport_ship = 0;
-        public static int PublicTransport_plane = 0;
-        public static int PublicTransport_metro = 0;
-        public static int PublicTransport_train = 0;
-        public static int PublicTransport_taxi = 0;
-        public static int PublicTransport_cablecar = 0;
-        public static int PublicTransport_monorail = 0;
-        public static int Disaster = 0;
-
         public static uint familyWeightStableHigh = 0;
         public static uint familyWeightStableLow = 0;
 
-        public static long citizenGoodsTemp = 0;
-        public static long citizenGoods = 0;
-
-        public static byte[] saveData = new byte[144];
-        //public static byte[] saveData = new byte[140];
-
-        public static void Load()
+        public static void Load(ref byte[] saveData)
         {
             int i = 0;
-            preCitizenId = SaveAndRestore.load_uint(ref i, saveData);
-            familyCount = SaveAndRestore.load_int(ref i, saveData);
-            familyVeryProfitMoneyCount = SaveAndRestore.load_uint(ref i, saveData);
-            familyProfitMoneyCount = SaveAndRestore.load_uint(ref i, saveData);
-            familyLossMoneyCount = SaveAndRestore.load_uint(ref i, saveData);
-            citizenSalaryCount = SaveAndRestore.load_int(ref i, saveData);
-            citizenExpenseCount = SaveAndRestore.load_int(ref i, saveData);
-            citizenSalaryTaxTotal = SaveAndRestore.load_int(ref i, saveData);
-            tempCitizenSalaryTaxTotal = SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.LoadData(ref i, saveData, ref preCitizenId);
+            SaveAndRestore.LoadData(ref i, saveData, ref familyCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref familyVeryProfitMoneyCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref familyProfitMoneyCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref familyLossMoneyCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref citizenExpenseCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryTaxTotal);
+            SaveAndRestore.LoadData(ref i, saveData, ref tempCitizenSalaryTaxTotal);
+            SaveAndRestore.LoadData(ref i, saveData, ref familyWeightStableHigh);
+            SaveAndRestore.LoadData(ref i, saveData, ref familyWeightStableLow);
+            SaveAndRestore.LoadData(ref i, saveData, ref citizenCount);
 
-            Road = SaveAndRestore.load_int(ref i, saveData);
-            Electricity = SaveAndRestore.load_int(ref i, saveData);
-            Water = SaveAndRestore.load_int(ref i, saveData);
-            Beautification = SaveAndRestore.load_int(ref i, saveData);
-            Garbage = SaveAndRestore.load_int(ref i, saveData);
-            HealthCare = SaveAndRestore.load_int(ref i, saveData);
-            PoliceDepartment = SaveAndRestore.load_int(ref i, saveData);
-            Education = SaveAndRestore.load_int(ref i, saveData);
-            Monument = SaveAndRestore.load_int(ref i, saveData);
-            FireDepartment = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_bus = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_tram = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_ship = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_plane = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_metro = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_train = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_taxi = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_cablecar = SaveAndRestore.load_int(ref i, saveData);
-            PublicTransport_monorail = SaveAndRestore.load_int(ref i, saveData);
-            Disaster = SaveAndRestore.load_int(ref i, saveData);
-
-            familyWeightStableHigh = SaveAndRestore.load_uint(ref i, saveData);
-            familyWeightStableLow = SaveAndRestore.load_uint(ref i, saveData);
-
-            citizenGoods = SaveAndRestore.load_long(ref i, saveData);
-            citizenGoodsTemp = SaveAndRestore.load_long(ref i, saveData);
-            citizenCount = SaveAndRestore.load_int(ref i, saveData);
-
-            DebugLog.LogToFileOnly("saveData in residentAI is " + i.ToString());
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"RealCityResidentAI Load Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
 
-        public static void Save()
+        public static void Save(ref byte[] saveData)
         {
             int i = 0;
 
-            //2*4 + 3*4 + 4*4 = 36
-            SaveAndRestore.save_uint(ref i, preCitizenId, ref saveData);
-            SaveAndRestore.save_int(ref i, familyCount, ref saveData);
-            SaveAndRestore.save_uint(ref i, familyVeryProfitMoneyCount, ref saveData);
-            SaveAndRestore.save_uint(ref i, familyProfitMoneyCount, ref saveData);
-            SaveAndRestore.save_uint(ref i, familyLossMoneyCount, ref saveData);
-            SaveAndRestore.save_int(ref i, citizenSalaryCount, ref saveData);
-            SaveAndRestore.save_int(ref i, citizenExpenseCount, ref saveData);
-            SaveAndRestore.save_int(ref i, citizenSalaryTaxTotal, ref saveData);
-            SaveAndRestore.save_float(ref i, tempCitizenSalaryTaxTotal, ref saveData);
+            //48
+            SaveAndRestore.SaveData(ref i, preCitizenId, ref saveData);
+            SaveAndRestore.SaveData(ref i, familyCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, familyVeryProfitMoneyCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, familyProfitMoneyCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, familyLossMoneyCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, citizenSalaryCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, citizenExpenseCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, citizenSalaryTaxTotal, ref saveData);
+            SaveAndRestore.SaveData(ref i, tempCitizenSalaryTaxTotal, ref saveData);
+            SaveAndRestore.SaveData(ref i, familyWeightStableHigh, ref saveData);
+            SaveAndRestore.SaveData(ref i, familyWeightStableLow, ref saveData);
+            SaveAndRestore.SaveData(ref i, citizenCount, ref saveData);
 
-            //20 * 4 = 80
-            SaveAndRestore.save_int(ref i, Road, ref saveData);
-            SaveAndRestore.save_int(ref i, Electricity, ref saveData);
-            SaveAndRestore.save_int(ref i, Water, ref saveData);
-            SaveAndRestore.save_int(ref i, Beautification, ref saveData);
-            SaveAndRestore.save_int(ref i, Garbage, ref saveData);
-            SaveAndRestore.save_int(ref i, HealthCare, ref saveData);
-            SaveAndRestore.save_int(ref i, PoliceDepartment, ref saveData);
-            SaveAndRestore.save_int(ref i, Education, ref saveData);
-            SaveAndRestore.save_int(ref i, Monument, ref saveData);
-            SaveAndRestore.save_int(ref i, FireDepartment, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_bus, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_tram, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_ship, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_plane, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_metro, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_train, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_taxi, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_cablecar, ref saveData);
-            SaveAndRestore.save_int(ref i, PublicTransport_monorail, ref saveData);
-            SaveAndRestore.save_int(ref i, Disaster, ref saveData);
-
-            //8
-            SaveAndRestore.save_uint(ref i, familyWeightStableHigh, ref saveData);
-            SaveAndRestore.save_uint(ref i, familyWeightStableLow, ref saveData);
-
-            //16
-            SaveAndRestore.save_long(ref i, citizenGoods, ref saveData);
-            SaveAndRestore.save_long(ref i, citizenGoodsTemp, ref saveData);
-            SaveAndRestore.save_int(ref i, citizenCount, ref saveData);
-
-            DebugLog.LogToFileOnly("(save)saveData in residentAI is " + i.ToString());
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"RealCityResidentAI Save Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
 
         public static float ProcessSalaryLandPriceAdjust(ushort workBuilding)
@@ -202,23 +127,23 @@ namespace RealCity.CustomAI
                         {
                             case ItemClass.Service.Commercial:
                             case ItemClass.Service.Industrial:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
+                                if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
                                 {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] * 0.025f / totalWorkCount);
+                                    salary = (int)(BuildingData.buildingMoney[workBuilding] * 0.025f / totalWorkCount);
                                     break;
                                 }
                                 break;
                             case ItemClass.Service.Office:
-                                if (MainDataStore.building_money[workBuilding] > 0 && totalWorkCount != 0)
+                                if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
                                 {
-                                    salary = (int)(MainDataStore.building_money[workBuilding] / totalWorkCount);
+                                    salary = (int)(BuildingData.buildingMoney[workBuilding] / totalWorkCount);
                                 }
                                 break;
                             default: break;
                         }
                         if (!checkOnly)
                         {
-                            MainDataStore.building_money[workBuilding] -= salary;
+                            BuildingData.buildingMoney[workBuilding] -= salary;
                         }
                     }
                     else
@@ -282,9 +207,9 @@ namespace RealCity.CustomAI
 #if FASTRUN
             update = false;
 #endif
-            if (MainDataStore.isBuildingWorkerUpdated[buildingID] && !update)
+            if (BuildingData.isBuildingWorkerUpdated[buildingID] && !update)
             {
-                totalWorkCount = MainDataStore.building_buffer1[buildingID];
+                totalWorkCount = BuildingData.buildingWorkCount[buildingID];
             }
             else
             {
@@ -486,8 +411,8 @@ namespace RealCity.CustomAI
                     }
                 }
 
-                MainDataStore.isBuildingWorkerUpdated[buildingID] = true;
-                MainDataStore.building_buffer1[buildingID] = totalWorkCount;
+                BuildingData.isBuildingWorkerUpdated[buildingID] = true;
+                BuildingData.buildingWorkCount[buildingID] = totalWorkCount;
             }
             return totalWorkCount;
         }     

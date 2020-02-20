@@ -5,9 +5,7 @@ namespace RealCity.CustomManager
     public class RealCityEconomyManager
     {
        
-        //citizen tax income
         public static int[] citizen_tax_income_forui = new int[17];
-        //tourist for both citizen and tourist
         public static int[] citizen_income_forui = new int[17];
         public static int[] tourist_income_forui = new int[17];
         //land income
@@ -43,13 +41,9 @@ namespace RealCity.CustomManager
         public static int[] road_income_forui = new int[17];
         public static int[] playerIndustryIncomeForUI = new int[17];
         public static int[] school_income_forui = new int[17];
-       //72*3 = 216
         public static int[] policeStationIncomeForUI = new int[17];
         public static int[] healthCareIncomeForUI = new int[17];
         public static int[] fireStationIncomeForUI = new int[17];
-        //3*4 = 12
-        //2628+216+12 = 2856
-        public static byte[] saveData = new byte[2856];
 
         public static void CleanCurrent(int current_idex)
         {
@@ -94,8 +88,7 @@ namespace RealCity.CustomManager
 
         public static void DataInit()
         {
-            int i = 0;
-            for (i = 0; i < 17; i++)
+            for (int i = 0; i < 17; i++)
             {
                 citizen_tax_income_forui[i] = 0;
                 citizen_income_forui[i] = 0;
@@ -136,305 +129,97 @@ namespace RealCity.CustomManager
             }
         }
 
-        public static void Load()
+        public static void Load(ref byte[] saveData)
         {
             int i = 0;
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            // 97*4 = 388
-            // 35*4*17 = 2768
-            citizen_tax_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            citizen_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            tourist_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            resident_high_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            resident_low_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            resident_high_eco_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            resident_low_eco_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_high_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_low_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_lei_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_tou_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_eco_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_gen_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_farmer_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_foresty_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_oil_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_ore_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            office_gen_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            office_high_tech_landincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_high_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_low_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_lei_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_tou_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            comm_eco_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_gen_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_farmer_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_foresty_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_oil_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            indu_ore_tradeincome_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            road_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            playerIndustryIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
-            garbage_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            school_income_forui = SaveAndRestore.load_ints(ref i, saveData, 17);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            policeStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
-            SaveAndRestore.load_float(ref i, saveData);
-            healthCareIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
-            SaveAndRestore.load_float(ref i, saveData);
-            fireStationIncomeForUI = SaveAndRestore.load_ints(ref i, saveData, 17);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            SaveAndRestore.load_float(ref i, saveData);
-            DebugLog.LogToFileOnly("saveData in EM is " + i.ToString());
+            SaveAndRestore.LoadData(ref i, saveData, ref citizen_tax_income_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref citizen_income_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref tourist_income_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref resident_high_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref resident_low_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref resident_high_eco_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref resident_low_eco_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_high_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_low_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_lei_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_tou_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_eco_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_gen_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_farmer_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_foresty_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_oil_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_ore_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref office_gen_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref office_high_tech_landincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_high_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_low_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_lei_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_tou_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref comm_eco_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_gen_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_farmer_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_foresty_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_oil_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref indu_ore_tradeincome_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref road_income_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref playerIndustryIncomeForUI);
+            SaveAndRestore.LoadData(ref i, saveData, ref garbage_income_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref school_income_forui);
+            SaveAndRestore.LoadData(ref i, saveData, ref policeStationIncomeForUI);
+            SaveAndRestore.LoadData(ref i, saveData, ref healthCareIncomeForUI);
+            SaveAndRestore.LoadData(ref i, saveData, ref fireStationIncomeForUI);
+
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"RealCityEconomyManager Load Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
 
-        public static void Save()
+        public static void Save(ref byte[] saveData)
         {
             int i = 0;
-            //680+1292+64+160+80+52 = 2382
-            //15*4 = 60
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            //20*4 = 80
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            //40*4 = 160
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            //16*4 = 64
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            //19*4*17 = 1292
-            SaveAndRestore.save_ints(ref i, citizen_tax_income_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, citizen_income_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, tourist_income_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, resident_high_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, resident_low_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, resident_high_eco_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, resident_low_eco_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_high_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_low_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_lei_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_tou_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_eco_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_gen_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_farmer_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_foresty_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_oil_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_ore_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, office_gen_landincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, office_high_tech_landincome_forui, ref saveData);
-            //10*17*4 = 680
-            SaveAndRestore.save_ints(ref i, comm_high_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_low_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_lei_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_tou_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, comm_eco_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_gen_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_farmer_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_foresty_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_oil_tradeincome_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, indu_ore_tradeincome_forui, ref saveData);
-            //3 * 17 * 4 = 204
-            SaveAndRestore.save_ints(ref i, road_income_forui, ref saveData);
-            SaveAndRestore.save_ints(ref i, playerIndustryIncomeForUI, ref saveData);
-            SaveAndRestore.save_ints(ref i, garbage_income_forui, ref saveData);
-            //3 * 4 = 12
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            //3 * 17 * 4 = 204    - 136
-            SaveAndRestore.save_ints(ref i, school_income_forui, ref saveData);
-            //3 * 4 = 12   - 8
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_ints(ref i, policeStationIncomeForUI, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_ints(ref i, healthCareIncomeForUI, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_ints(ref i, fireStationIncomeForUI, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            //36 * 4 * 17 = 2448
+            SaveAndRestore.SaveData(ref i, citizen_tax_income_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, citizen_income_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, tourist_income_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, resident_high_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, resident_low_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, resident_high_eco_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, resident_low_eco_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_high_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_low_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_lei_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_tou_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_eco_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_gen_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_farmer_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_foresty_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_oil_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_ore_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, office_gen_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, office_high_tech_landincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_high_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_low_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_lei_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_tou_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, comm_eco_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_gen_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_farmer_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_foresty_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_oil_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, indu_ore_tradeincome_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, road_income_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, playerIndustryIncomeForUI, ref saveData);
+            SaveAndRestore.SaveData(ref i, garbage_income_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, school_income_forui, ref saveData);
+            SaveAndRestore.SaveData(ref i, policeStationIncomeForUI, ref saveData);
+            SaveAndRestore.SaveData(ref i, healthCareIncomeForUI, ref saveData);
+            SaveAndRestore.SaveData(ref i, fireStationIncomeForUI, ref saveData);
 
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
-            SaveAndRestore.save_float(ref i, 0, ref saveData);
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"RealCityEconomyManager Save Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
     }
 }

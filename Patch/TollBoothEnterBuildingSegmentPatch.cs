@@ -1,6 +1,6 @@
 ﻿using ColossalFramework;
 using Harmony;
-using RealCity.Util;
+using RealCity.CustomData;
 using System;
 using System.Reflection;
 
@@ -26,12 +26,12 @@ namespace RealCity.Patch
                     VehicleInfo info = instance.m_vehicles.m_buffer[vehicle].Info;
                     if (vehicleData.m_transferType != 112)
                     {
-                        if (!MainDataStore.isVehicleCharged[vehicle])
+                        if (!VehicleData.isVehicleCharged[vehicle])
                         {
                             if (info.m_vehicleAI is CargoTruckAI && (instance.m_vehicles.m_buffer[vehicle].m_flags.IsFlagSet(Vehicle.Flags.DummyTraffic)))
                             {
                                 canCharge = true;
-                                MainDataStore.isVehicleCharged[vehicle] = true;
+                                VehicleData.isVehicleCharged[vehicle] = true;
                             }
                             else if (info.m_vehicleAI is PassengerCarAI)
                             {
@@ -69,7 +69,7 @@ namespace RealCity.Patch
                                 }
                                 if (is_dummy || is_tourist)
                                 {
-                                    MainDataStore.isVehicleCharged[vehicle] = true;
+                                    VehicleData.isVehicleCharged[vehicle] = true;
                                     canCharge = true;
                                 }
                             }

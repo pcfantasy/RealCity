@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using Harmony;
 using RealCity.CustomAI;
+using RealCity.CustomData;
 using RealCity.Util;
 using System;
 using System.Reflection;
@@ -45,7 +46,7 @@ namespace RealCity.Patch
             trade_tax = -trade_income1 * RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) / 100f;
             MainDataStore.unfinishedTransitionLost += (int)(trade_tax / 100f);
             Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, (int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level);
-            MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] + (trade_income1 - trade_tax));
+            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] + (trade_income1 - trade_tax));
         }
 
         public static void RevertGabargeIncome(ushort vehicleID, ref Vehicle data, int num)

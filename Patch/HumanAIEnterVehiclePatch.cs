@@ -1,6 +1,6 @@
 ﻿using ColossalFramework;
 using Harmony;
-using RealCity.Util;
+using RealCity.CustomData;
 using System;
 using System.Reflection;
 
@@ -37,18 +37,18 @@ namespace RealCity.Patch
                         uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                         if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
-                            MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (ticketPrice));
+                            CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (ticketPrice));
                         }
                         else
                         {
-                            if (MainDataStore.citizenMoney[citizen] < ticketPrice)
+                            if (CitizenData.citizenMoney[citizen] < ticketPrice)
                             {
-                                ticketPrice = (MainDataStore.citizenMoney[citizen] > 0) ? (int)MainDataStore.citizenMoney[citizen] + 1 : 1;
-                                MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - ticketPrice);
+                                ticketPrice = (CitizenData.citizenMoney[citizen] > 0) ? (int)CitizenData.citizenMoney[citizen] + 1 : 1;
+                                CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPrice);
                             }
                             else
                             {
-                                MainDataStore.citizenMoney[citizen] = (MainDataStore.citizenMoney[citizen] - (ticketPrice));
+                                CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (ticketPrice));
                             }
                         }
                         /// NON-STOCK CODE END ///

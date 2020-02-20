@@ -1,5 +1,5 @@
 ﻿using Harmony;
-using RealCity.Util;
+using RealCity.CustomData;
 using System.Reflection;
 
 namespace RealCity.Patch
@@ -13,8 +13,8 @@ namespace RealCity.Patch
         }
         public static void Postfix(uint citizen)
         {
-            MainDataStore.citizenMoney[citizen] = 0;
-            MainDataStore.isCitizenFirstMovingIn[citizen] = false;
+            CitizenData.citizenMoney[citizen] = 0;
+            CitizenData.isCitizenFirstMovingIn[citizen] = false;
         }
     }
 }

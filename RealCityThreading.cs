@@ -6,6 +6,7 @@ using ColossalFramework;
 using System;
 using System.Reflection;
 using RealCity.CustomAI;
+using RealCity.CustomData;
 
 namespace RealCity
 {
@@ -172,12 +173,12 @@ namespace RealCity
             {
                 if (vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingPath))
                 {
-                    MainDataStore.stuckTime[vehicleID] = 0;
+                    VehicleData.stuckTime[vehicleID] = 0;
                     if (vehicleData.m_path != 0)
                     {
-                        MainDataStore.watingPathTime[vehicleID]++;
+                        VehicleData.watingPathTime[vehicleID]++;
                     }
-                    if (MainDataStore.watingPathTime[vehicleID] > 10)
+                    if (VehicleData.watingPathTime[vehicleID] > 10)
                     {
                         ushort building = 0;
                         if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.GoingBack))
@@ -196,7 +197,7 @@ namespace RealCity
                         DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle flag is " + vehicleData.m_flags.ToString());
                         DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
                         DebugLog.LogToFileOnly("DebugInfo: Stuck at waitingpath vehicle pathflag is " + Singleton<PathManager>.instance.m_pathUnits.m_buffer[vehicleData.m_path].m_simulationFlags.ToString());
-                        MainDataStore.watingPathTime[vehicleID] = 0;
+                        VehicleData.watingPathTime[vehicleID] = 0;
                         Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
                         vehicleData.m_path = 0u;
                         vehicleData.m_flags = (vehicleData.m_flags & ~Vehicle.Flags.WaitingPath);
@@ -204,25 +205,25 @@ namespace RealCity
                 }
                 else
                 {
-                    MainDataStore.watingPathTime[vehicleID] = 0;
+                    VehicleData.watingPathTime[vehicleID] = 0;
                     if (!vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingCargo) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingLoading) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingTarget) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.WaitingSpace) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Stopped) && !vehicleData.m_flags.IsFlagSet(Vehicle.Flags.Congestion))
                     {
                         float realSpeed = (float)Math.Sqrt(vehicleData.GetLastFrameVelocity().x * vehicleData.GetLastFrameVelocity().x + vehicleData.GetLastFrameVelocity().y * vehicleData.GetLastFrameVelocity().y + vehicleData.GetLastFrameVelocity().z * vehicleData.GetLastFrameVelocity().z);
                         if (realSpeed < 0.1f)
                         {
-                            MainDataStore.stuckTime[vehicleID]++;
+                            VehicleData.stuckTime[vehicleID]++;
                         }
                         else
                         {
-                            MainDataStore.stuckTime[vehicleID] = 0;
+                            VehicleData.stuckTime[vehicleID] = 0;
                         }
 
-                        if (MainDataStore.stuckTime[vehicleID] > 600)
+                        if (VehicleData.stuckTime[vehicleID] > 600)
                         {
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle transfer type is " + vehicleData.m_transferType.ToString());
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle flag is " + vehicleData.m_flags.ToString());
                             DebugLog.LogToFileOnly("DebugInfo: Stuck vehicle ai is " + vehicleData.Info.m_vehicleAI.ToString());
-                            MainDataStore.stuckTime[vehicleID] = 0;
+                            VehicleData.stuckTime[vehicleID] = 0;
                             Singleton<PathManager>.instance.ReleasePath(vehicleData.m_path);
                             vehicleData.m_path = 0u;
                             Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
@@ -322,7 +323,7 @@ namespace RealCity
                             {
                                 if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
                                 {
-                                    MainDataStore.vehicleTransferTime[i] = (ushort)(MainDataStore.vehicleTransferTime[i] + 64);
+                                    VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 64);
                                 }
                             }
                         }

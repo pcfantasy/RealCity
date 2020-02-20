@@ -20,7 +20,7 @@ namespace RealCity.Patch
             float budget = 1f;
             if (IsWeekend(Singleton<SimulationManager>.instance.m_currentGameTime))
             {
-                if (CustomTransportLine.WeekEndPlan[FindLineID(ref __instance)] == 1)
+                if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 1)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -47,7 +47,7 @@ namespace RealCity.Patch
                         budget = RealCity.otherBudgetWeekDay * 0.01f;
                     }
                 }
-                else if (CustomTransportLine.WeekEndPlan[FindLineID(ref __instance)] == 2)
+                else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 2)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -74,7 +74,7 @@ namespace RealCity.Patch
                         budget = RealCity.otherBudgetWeekEnd * 0.01f;
                     }
                 }
-                else if (CustomTransportLine.WeekEndPlan[FindLineID(ref __instance)] == 3)
+                else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 3)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -101,7 +101,7 @@ namespace RealCity.Patch
                         budget = RealCity.otherBudgetMax * 0.01f;
                     }
                 }
-                else if (CustomTransportLine.WeekEndPlan[FindLineID(ref __instance)] == 4)
+                else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 4)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -132,7 +132,7 @@ namespace RealCity.Patch
             else
             {
                 //PlanA
-                if (CustomTransportLine.WeekDayPlan[FindLineID(ref __instance)] == 1)
+                if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 1)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -159,7 +159,7 @@ namespace RealCity.Patch
                         budget = RealCity.otherBudgetWeekDay * 0.01f;
                     }
                 }
-                else if (CustomTransportLine.WeekDayPlan[FindLineID(ref __instance)] == 2)
+                else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 2)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -186,7 +186,7 @@ namespace RealCity.Patch
                         budget = RealCity.otherBudgetWeekEnd * 0.01f;
                     }
                 }
-                else if (CustomTransportLine.WeekDayPlan[FindLineID(ref __instance)] == 3)
+                else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 3)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
@@ -213,7 +213,7 @@ namespace RealCity.Patch
                         budget = RealCity.otherBudgetMax * 0.01f;
                     }
                 }
-                else if (CustomTransportLine.WeekDayPlan[FindLineID(ref __instance)] == 4)
+                else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 4)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {

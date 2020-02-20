@@ -1,6 +1,6 @@
 ﻿using ColossalFramework;
 using Harmony;
-using RealCity.Util;
+using RealCity.CustomData;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -31,23 +31,23 @@ namespace RealCity.Patch
                     case ItemClass.Service.Residential:
                         long family_money = GetResidentialBuildingAverageMoney(buildingID, ref data);
                         if (family_money < 5000)
-                            MainDataStore.building_money_threat[buildingID] = 1.0f - family_money / 10000.0f;
+                            BuildingData.buildingMoneyThreat[buildingID] = 1.0f - family_money / 10000.0f;
                         else
-                            MainDataStore.building_money_threat[buildingID] = (15000.0f - family_money) / 20000.0f;
+                            BuildingData.buildingMoneyThreat[buildingID] = (15000.0f - family_money) / 20000.0f;
 
-                        if (MainDataStore.building_money_threat[buildingID] < 0.5f)
-                            __result = Color.Lerp(Color.green, Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
+                        if (BuildingData.buildingMoneyThreat[buildingID] < 0.5f)
+                            __result = Color.Lerp(Color.green, Color.yellow, BuildingData.buildingMoneyThreat[buildingID] * 2.0f);
                         else
-                            __result = Color.Lerp(Color.yellow, Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
+                            __result = Color.Lerp(Color.yellow, Color.red, (BuildingData.buildingMoneyThreat[buildingID] - 0.5f) * 2.0f);
                         break;
 
                     case ItemClass.Service.Office:
                     case ItemClass.Service.Industrial:
                     case ItemClass.Service.Commercial:
-                        if (MainDataStore.building_money_threat[buildingID] < 0.5f)
-                            __result = Color.Lerp(Color.green, Color.yellow, MainDataStore.building_money_threat[buildingID] * 2.0f);
+                        if (BuildingData.buildingMoneyThreat[buildingID] < 0.5f)
+                            __result = Color.Lerp(Color.green, Color.yellow, BuildingData.buildingMoneyThreat[buildingID] * 2.0f);
                         else
-                            __result = Color.Lerp(Color.yellow, Color.red, (MainDataStore.building_money_threat[buildingID] - 0.5f) * 2.0f);
+                            __result = Color.Lerp(Color.yellow, Color.red, (BuildingData.buildingMoneyThreat[buildingID] - 0.5f) * 2.0f);
                         break;
                 }
             }
@@ -66,7 +66,7 @@ namespace RealCity.Patch
                     if ((instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen0 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen1 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen2 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen3 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen4 != 0))
                     {
                         num2++;
-                        totalMoney += (long)MainDataStore.family_money[num];
+                        totalMoney += (long)CitizenUnitData.familyMoney[num];
                     }
                 }
                 num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;

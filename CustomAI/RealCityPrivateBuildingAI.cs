@@ -9,67 +9,75 @@ namespace RealCity.CustomAI
         public static ushort allBuildings = 0;
         public static uint preBuidlingId = 0;
 
-        public static ushort allOfficeLevel1BuildingCount = 0;
-        public static ushort allOfficeLevel2BuildingCount = 0;
-        public static ushort allOfficeLevel3BuildingCount = 0;
-        public static ushort allOfficeHighTechBuildingCount = 0;
+        public static int allOfficeLevel1WorkCount = 0;
+        public static int allOfficeLevel2WorkCount = 0;
+        public static int allOfficeLevel3WorkCount = 0;
+        public static int allOfficeHighTechWorkCount = 0;
 
-        public static ushort allOfficeLevel1BuildingCountFinal = 0;
-        public static ushort allOfficeLevel2BuildingCountFinal = 0;
-        public static ushort allOfficeLevel3BuildingCountFinal = 0;
-        public static ushort allOfficeHighTechBuildingCountFinal = 0;
+        public static int allOfficeLevel1WorkCountFinal = 0;
+        public static int allOfficeLevel2WorkCountFinal = 0;
+        public static int allOfficeLevel3WorkCountFinal = 0;
+        public static int allOfficeHighTechWorkCountFinal = 0;
         public static long profitBuildingMoney = 0;
         public static long profitBuildingMoneyFinal = 0;
         public static ushort profitBuildingCount = 0;
         public static ushort profitBuildingCountFinal = 0;
         public static ushort allBuildingsFinal = 0;
 
-        public static byte[] saveData = new byte[44];
-
-        public static void Load()
+        public static void Load(ref byte[] saveData)
         {
+            //60
             int i = 0;
-            preBuidlingId = SaveAndRestore.load_uint(ref i, saveData);
-            allBuildings = SaveAndRestore.load_ushort(ref i, saveData);
-            allBuildingsFinal = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeLevel1BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeLevel2BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeLevel3BuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeHighTechBuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeLevel1BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeLevel2BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeLevel3BuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
-            allOfficeHighTechBuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
-            profitBuildingMoney = SaveAndRestore.load_long(ref i, saveData);
-            profitBuildingMoneyFinal = SaveAndRestore.load_long(ref i, saveData);
-            profitBuildingCount = SaveAndRestore.load_ushort(ref i, saveData);
-            profitBuildingCountFinal = SaveAndRestore.load_ushort(ref i, saveData);
-            DebugLog.LogToFileOnly("saveData in private building is " + i.ToString());
+            SaveAndRestore.LoadData(ref i, saveData, ref preBuidlingId);
+
+            SaveAndRestore.LoadData(ref i, saveData, ref allBuildings);
+            SaveAndRestore.LoadData(ref i, saveData, ref allBuildingsFinal);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeLevel1WorkCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeLevel2WorkCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeLevel3WorkCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeHighTechWorkCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeLevel1WorkCountFinal);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeLevel2WorkCountFinal);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeLevel3WorkCountFinal);
+            SaveAndRestore.LoadData(ref i, saveData, ref allOfficeHighTechWorkCountFinal);
+
+            SaveAndRestore.LoadData(ref i, saveData, ref profitBuildingMoney);
+            SaveAndRestore.LoadData(ref i, saveData, ref profitBuildingMoneyFinal);
+            SaveAndRestore.LoadData(ref i, saveData, ref profitBuildingCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref profitBuildingCountFinal);
+
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"RealCityPrivateBuildingAI Load Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
 
-        public static void Save()
+        public static void Save(ref byte[] saveData)
         {
+            //60
             int i = 0;
+            SaveAndRestore.SaveData(ref i, preBuidlingId, ref saveData);
 
-            //12*2 + 7*4 = 52
-            SaveAndRestore.save_uint(ref i, preBuidlingId, ref saveData);
+            SaveAndRestore.SaveData(ref i, allBuildings, ref saveData);
+            SaveAndRestore.SaveData(ref i, allBuildingsFinal, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeLevel1WorkCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeLevel2WorkCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeLevel3WorkCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeHighTechWorkCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeLevel1WorkCountFinal, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeLevel2WorkCountFinal, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeLevel3WorkCountFinal, ref saveData);
+            SaveAndRestore.SaveData(ref i, allOfficeHighTechWorkCountFinal, ref saveData);
 
-            //20 + 20
-            SaveAndRestore.save_ushort(ref i, allBuildings, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allBuildingsFinal, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeLevel1BuildingCount, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeLevel2BuildingCount, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeLevel3BuildingCount, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeHighTechBuildingCount, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeLevel1BuildingCountFinal, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeLevel2BuildingCountFinal, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeLevel3BuildingCountFinal, ref saveData);
-            SaveAndRestore.save_ushort(ref i, allOfficeHighTechBuildingCountFinal, ref saveData);
+            SaveAndRestore.SaveData(ref i, profitBuildingMoney, ref saveData);
+            SaveAndRestore.SaveData(ref i, profitBuildingMoneyFinal, ref saveData);
+            SaveAndRestore.SaveData(ref i, profitBuildingCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, profitBuildingCountFinal, ref saveData);
 
-            SaveAndRestore.save_long(ref i, profitBuildingMoney, ref saveData);
-            SaveAndRestore.save_long(ref i, profitBuildingMoneyFinal, ref saveData);
-            SaveAndRestore.save_ushort(ref i, profitBuildingCount, ref saveData);
-            SaveAndRestore.save_ushort(ref i, profitBuildingCountFinal, ref saveData);
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"RealCityPrivateBuildingAI Save Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
 
         public static string GetProductionType(bool isSelling, ushort buildingID, Building data)

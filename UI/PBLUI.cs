@@ -56,12 +56,12 @@ namespace RealCity.UI
 
             WeekDayPlanDD = CreateDropDown(this);
             WeekDayPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
-            WeekDayPlanDD.selectedIndex = CustomTransportLine.WeekDayPlan[MainDataStore.lastLineID];
+            WeekDayPlanDD.selectedIndex = TransportLineData.WeekDayPlan[TransportLineData.lastLineID];
             WeekDayPlanDD.size = new Vector2(130f, 25f);
             WeekDayPlanDD.relativePosition = new Vector3(0f, 20f);
             WeekDayPlanDD.eventSelectedIndexChanged += delegate (UIComponent c, int sel)
             {
-                CustomTransportLine.WeekDayPlan[MainDataStore.lastLineID] = (byte)sel;
+                TransportLineData.WeekDayPlan[TransportLineData.lastLineID] = (byte)sel;
             };
 
             WeekEndPlan = AddUIComponent<UILabel>();
@@ -71,10 +71,10 @@ namespace RealCity.UI
 
             WeekEndPlanDD = CreateDropDown(this);
             WeekEndPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
-            WeekEndPlanDD.selectedIndex = CustomTransportLine.WeekEndPlan[MainDataStore.lastLineID];
+            WeekEndPlanDD.selectedIndex = TransportLineData.WeekEndPlan[TransportLineData.lastLineID];
             WeekEndPlanDD.eventSelectedIndexChanged += delegate (UIComponent c, int sel)
             {
-                CustomTransportLine.WeekEndPlan[MainDataStore.lastLineID] = (byte)sel;
+                TransportLineData.WeekEndPlan[TransportLineData.lastLineID] = (byte)sel;
             };
             WeekEndPlanDD.size = new Vector2(130f, 25f);
             WeekEndPlanDD.relativePosition = new Vector3(0f, 70f);
@@ -149,15 +149,15 @@ namespace RealCity.UI
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (refeshOnce || (MainDataStore.lastLineID != GetLineID()))
+            if (refeshOnce || (TransportLineData.lastLineID != GetLineID()))
             {
                 if (isVisible)
                 {
-                    MainDataStore.lastLineID = GetLineID();
+                    TransportLineData.lastLineID = GetLineID();
                     WeekDayPlan.text = Localization.Get("WeekDayPlan");
                     WeekEndPlan.text = Localization.Get("WeekEndPlan");
-                    WeekDayPlanDD.selectedIndex = CustomTransportLine.WeekDayPlan[MainDataStore.lastLineID];
-                    WeekEndPlanDD.selectedIndex = CustomTransportLine.WeekEndPlan[MainDataStore.lastLineID];
+                    WeekDayPlanDD.selectedIndex = TransportLineData.WeekDayPlan[TransportLineData.lastLineID];
+                    WeekEndPlanDD.selectedIndex = TransportLineData.WeekEndPlan[TransportLineData.lastLineID];
                     refeshOnce = false;
                 }
             }

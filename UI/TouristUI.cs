@@ -2,6 +2,7 @@
 using UnityEngine;
 using ColossalFramework;
 using RealCity.Util;
+using RealCity.CustomData;
 
 namespace RealCity.UI
 {
@@ -54,12 +55,12 @@ namespace RealCity.UI
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (refeshOnce || (MainDataStore.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
+            if (refeshOnce || (CitizenData.lastCitizenID != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
                 if (isVisible)
                 {
-                    MainDataStore.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
-                    TouristMoney.text = string.Format(Localization.Get("TOURIST_MONEY") + " [{0}]", MainDataStore.citizenMoney[MainDataStore.last_citizenid]);
+                    CitizenData.lastCitizenID = WorldInfoPanel.GetCurrentInstanceID().Citizen;
+                    TouristMoney.text = string.Format(Localization.Get("TOURIST_MONEY") + " [{0}]", CitizenData.citizenMoney[CitizenData.lastCitizenID]);
                     refeshOnce = false;
                 }
             }
