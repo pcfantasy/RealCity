@@ -14,7 +14,7 @@ namespace RealCity.Patch
         {
             return typeof(TaxiAI).GetMethod("UnloadPassengers", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(TransportPassengerData).MakeByRefType() }, null);
         }
-        public static void Prefix(ref TaxiAI __instance, ushort vehicleID, ref Vehicle data, ref TransportPassengerData passengerData)
+        public static void Prefix(ref TaxiAI __instance, ref Vehicle data)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             Vector3 lastFramePosition = data.GetLastFramePosition();

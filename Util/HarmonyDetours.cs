@@ -5,7 +5,6 @@
         public const string Id = "pcfantasy.realcity";
         public static void Apply()
         {
-            Harmony.Harmony.DEBUG = true;
             var harmony = new Harmony.Harmony(Id);
             harmony.PatchAll(typeof(HarmonyDetours).Assembly);
             Loader.HarmonyDetourFailed = false;

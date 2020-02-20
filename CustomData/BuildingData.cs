@@ -40,7 +40,7 @@ namespace RealCity.CustomData
             int i = 0;
             SaveAndRestore.LoadData(ref i, saveData, ref buildingMoney);
             SaveAndRestore.LoadData(ref i, saveData, ref buildingWorkCount);
-            SaveAndRestore.LoadData(ref i, saveData, ref buildingWorkCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref isBuildingWorkerUpdated);
 
             if (i != saveData.Length)
             {

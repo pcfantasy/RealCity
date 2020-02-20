@@ -17,7 +17,8 @@ namespace RealCity.RebalancedIndustries
                 case TransferManager.TransferReason.Lumber:
                 case TransferManager.TransferReason.Logs:
                 case TransferManager.TransferReason.Goods:
-                //case TransferManager.TransferReason.LuxuryProducts:
+                case TransferManager.TransferReason.LuxuryProducts:
+                case TransferManager.TransferReason.Paper:
                 case TransferManager.TransferReason.AnimalProducts:
                 case TransferManager.TransferReason.Flours:
                 case TransferManager.TransferReason.Petroleum:

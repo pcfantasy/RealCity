@@ -49,8 +49,6 @@ namespace RealCity
         public static GameObject TouristWindowGameObject;
         public static LoadMode CurrentLoadMode;
         public static bool isGuiRunning = false;
-        public static bool isRealConstructionRunning = false;
-        public static bool isRealGasStationRunning = false;
         public static PoliticsButton PlButton;
         public static EcnomicButton EcButton;
         public static RealCityButton RcButton;
@@ -77,8 +75,6 @@ namespace RealCity
             {
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
                 {
-                    isRealConstructionRunning = CheckRealConstructionIsLoaded();
-                    isRealGasStationRunning = CheckRealGasStationIsLoaded();
                     isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
                     //refresh OptionsMainPanel
                     MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -468,11 +464,6 @@ namespace RealCity
             return result;
         }
 
-        private bool CheckRealConstructionIsLoaded()
-        {
-            return Check3rdPartyModLoaded("RealConstruction", false);
-        }
-
         public void HarmonyInitDetour()
         {
             if (!HarmonyDetourInited)
@@ -525,35 +516,6 @@ namespace RealCity
                 {
                     DebugLog.LogToFileOnly("Could not detour OfficeBuildingAI::GetOutgoingTransferReason");
                     detourFailed = true;
-                }
-
-                //3
-                if (!isRealGasStationRunning)
-                {
-                    DebugLog.LogToFileOnly("Detour PassengerCarAI::ArriveAtTarget calls");
-                    try
-                    {
-                        Detours.Add(new Detour(typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
-                                               typeof(RealCityPassengerCarAI).GetMethod("CustomArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null)));
-                    }
-                    catch (Exception)
-                    {
-                        DebugLog.LogToFileOnly("Could not detour PassengerCarAI::ArriveAtTarget");
-                        detourFailed = true;
-                    }
-
-                    //4
-                    DebugLog.LogToFileOnly("Detour CargoTruckAI::ArriveAtTarget calls");
-                    try
-                    {
-                        Detours.Add(new Detour(typeof(CargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null),
-                                               typeof(RealCityCargoTruckAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null)));
-                    }
-                    catch (Exception)
-                    {
-                        DebugLog.LogToFileOnly("Could not detour CargoTruckAI::ArriveAtTarget");
-                        detourFailed = true;
-                    }
                 }
 
                 //5
@@ -638,11 +600,6 @@ namespace RealCity
                 Detours.Clear();
                 DebugLog.LogToFileOnly("Reverting detours finished.");
             }
-        }
-
-        private bool CheckRealGasStationIsLoaded()
-        {
-            return Check3rdPartyModLoaded("RealGasStation", false);
         }
 
         private bool CheckTransportLinesManagerIsLoaded()

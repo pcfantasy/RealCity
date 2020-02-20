@@ -95,81 +95,101 @@ namespace RealCity.RebalancedIndustries
 
             if (Mod.IsIndustriesBuilding(__instance))
             {
-                int allInputRate = 0;
-                float reduceInputRate = 1f;
-                if (__instance.m_inputResource1 != TransferManager.TransferReason.None)
+                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+                int num4 = (int)(currentFrameIndex & 4095u);
+                if (((num4 >> 8) & 15u) == (buildingID & 15u))
                 {
-                    allInputRate += __instance.m_inputRate1;
-                }
-                if (__instance.m_inputResource2 != TransferManager.TransferReason.None)
-                {
-                    allInputRate += __instance.m_inputRate2;
-                }
-                if (__instance.m_inputResource3 != TransferManager.TransferReason.None)
-                {
-                    allInputRate += __instance.m_inputRate3;
-                }
-                if (__instance.m_inputResource4 != TransferManager.TransferReason.None)
-                {
-                    allInputRate += __instance.m_inputRate4;
-                }
+                    int allInputRate = 0;
+                    float reduceInputRate = 1f;
+                    if (__instance.m_inputResource1 != TransferManager.TransferReason.None)
+                    {
+                        allInputRate += __instance.m_inputRate1;
+                    }
+                    if (__instance.m_inputResource2 != TransferManager.TransferReason.None)
+                    {
+                        allInputRate += __instance.m_inputRate2;
+                    }
+                    if (__instance.m_inputResource3 != TransferManager.TransferReason.None)
+                    {
+                        allInputRate += __instance.m_inputRate3;
+                    }
+                    if (__instance.m_inputResource4 != TransferManager.TransferReason.None)
+                    {
+                        allInputRate += __instance.m_inputRate4;
+                    }
 
-                if (allInputRate != 0)
-                {
-                    reduceInputRate = (float)allInputRate / __instance.m_outputRate;
-                    DebugLog.LogToFileOnly($"{buildingData.Info} reduceInputRate = {reduceInputRate}");
+                    if (allInputRate != 0)
+                    {
+                        reduceInputRate = (float)allInputRate / __instance.m_outputRate;
+                        //DebugLog.LogToFileOnly($"{buildingData.Info} reduceInputRate = {reduceInputRate}");
+                    }
+
+
+                    // Input
+                    if (__instance.m_inputResource1 != TransferManager.TransferReason.None)
+                    {
+                        //DebugLog.LogToFileOnly($"cargoDiff m_inputResource1 = {__state[1] - buildingData.m_customBuffer2}");
+                        cargoDiff = Convert.ToInt32((__state[1] - buildingData.m_customBuffer2) / RI_Data.GetFactorCargo(__instance.m_inputResource1));
+                        //DebugLog.LogToFileOnly($"cargoDiff1 m_inputResource1 = {cargoDiff}");
+                        //DebugLog.LogToFileOnly($"pre m_customBuffer2 m_inputResource1 = {buildingData.m_customBuffer2}");
+                        buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1] - (cargoDiff << 4), 0, 64000);
+                        //DebugLog.LogToFileOnly($"m_customBuffer2 m_inputResource1 = {buildingData.m_customBuffer2}");
+                    }
+
+                    if (__instance.m_inputResource2 != TransferManager.TransferReason.None)
+                    {
+                        cargoDiff = Convert.ToInt32((__state[2] - Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs)) / RI_Data.GetFactorCargo(__instance.m_inputResource2));
+                        Mod.SplitBytes((ushort)Mathf.Clamp(__state[2] - (cargoDiff << 4), 0, 64000), ref buildingData.m_teens, ref buildingData.m_youngs);
+                    }
+
+                    if (__instance.m_inputResource3 != TransferManager.TransferReason.None)
+                    {
+                        cargoDiff = Convert.ToInt32((__state[3] - Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors)) / RI_Data.GetFactorCargo(__instance.m_inputResource3));
+                        Mod.SplitBytes((ushort)Mathf.Clamp(__state[3] - (cargoDiff << 4), 0, 64000), ref buildingData.m_adults, ref buildingData.m_seniors);
+                    }
+
+                    if (__instance.m_inputResource4 != TransferManager.TransferReason.None)
+                    {
+                        cargoDiff = Convert.ToInt32((__state[4] - Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2)) / RI_Data.GetFactorCargo(__instance.m_inputResource4));
+                        Mod.SplitBytes((ushort)Mathf.Clamp(__state[4] - (cargoDiff << 4), 0, 64000), ref buildingData.m_education1, ref buildingData.m_education2);
+                    }
+
+                    // Output (materials being produced)
+                    if (__instance.m_outputResource != TransferManager.TransferReason.None)
+                    {
+                        //try
+                        //{
+                        //} catch (OverflowException Ex)
+                        //{
+                        //    Debug.Log($"Output overflow caught: cargoDiff:{buildingData.m_customBuffer1}-{__state[0]}={(buildingData.m_customBuffer1 - __state[0])} factor:{RI_Data.GetFactorCargo(__instance.m_outputResource)}\n{Ex.ToString()}");
+                        //    Singleton<SimulationManager>.instance.SimulationPaused = true;
+                        //}
+                        //DebugLog.LogToFileOnly($"cargoDiff m_outputResource = {buildingData.m_customBuffer1 - __state[0]}");
+                        cargoDiff = Convert.ToInt32((buildingData.m_customBuffer1 - __state[0]) * reduceInputRate / RI_Data.GetFactorCargo(__instance.m_outputResource));
+                        //DebugLog.LogToFileOnly($"cargoDiff1 m_outputResource = {cargoDiff}");
+                        //DebugLog.LogToFileOnly($"pre m_customBuffer1 m_outputResource = {buildingData.m_customBuffer1}");
+                        buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0] + (cargoDiff << 4), 0, 64000);
+                        //DebugLog.LogToFileOnly($"m_customBuffer1 m_outputResource = {buildingData.m_customBuffer1}");
+                        //DebugLog.LogToFileOnly($"Out ID:{buildingID}, state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
+                    }
+
+                    //if (__instance is UniqueFactoryAI)
+                    //    DebugLog.LogToFileOnly($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]},{__state[2]},{__state[3]},{__state[4]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2},{Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs)},{Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors)},{Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2)})");
+                    //else
+                    //    DebugLog.LogToFileOnly($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2})");
+                    else
+                    {
+                        DebugLog.LogToFileOnly($"Unknown PF instance {__instance.name} ({__instance.GetType()})");
+                    }
                 }
-
-
-                // Input
-                if (__instance.m_inputResource1 != TransferManager.TransferReason.None)
+                else
                 {
-                    cargoDiff = Convert.ToInt32((__state[1] - buildingData.m_customBuffer2) / (RI_Data.GetFactorCargo(__instance.m_inputResource1) * reduceInputRate));
-                    buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1] - cargoDiff, 0, 64000);
+                    buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1], 0, 64000);
+                    Mod.SplitBytes((ushort)Mathf.Clamp(__state[2], 0, 64000), ref buildingData.m_teens, ref buildingData.m_youngs);
+                    Mod.SplitBytes((ushort)Mathf.Clamp(__state[3], 0, 64000), ref buildingData.m_adults, ref buildingData.m_seniors);
+                    Mod.SplitBytes((ushort)Mathf.Clamp(__state[4], 0, 64000), ref buildingData.m_education1, ref buildingData.m_education2);
+                    buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0], 0, 64000);
                 }
-
-                if (__instance.m_inputResource2 != TransferManager.TransferReason.None)
-                {
-                    cargoDiff = Convert.ToInt32((__state[2] - Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs)) / (RI_Data.GetFactorCargo(__instance.m_inputResource2) * reduceInputRate));
-                    Mod.SplitBytes((ushort)Mathf.Clamp(__state[2] - cargoDiff, 0, 64000), ref buildingData.m_teens, ref buildingData.m_youngs);
-                }
-
-                if (__instance.m_inputResource3 != TransferManager.TransferReason.None)
-                {
-                    cargoDiff = Convert.ToInt32((__state[3] - Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors)) / (RI_Data.GetFactorCargo(__instance.m_inputResource3) * reduceInputRate));
-                    Mod.SplitBytes((ushort)Mathf.Clamp(__state[3] - cargoDiff, 0, 64000), ref buildingData.m_adults, ref buildingData.m_seniors);
-                }
-
-                if (__instance.m_inputResource4 != TransferManager.TransferReason.None)
-                {
-                    cargoDiff = Convert.ToInt32((__state[4] - Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2)) / (RI_Data.GetFactorCargo(__instance.m_inputResource4) * reduceInputRate));
-                    Mod.SplitBytes((ushort)Mathf.Clamp(__state[4] - cargoDiff, 0, 64000), ref buildingData.m_education1, ref buildingData.m_education2);
-                }
-
-                // Output (materials being produced)
-                if (__instance.m_outputResource != TransferManager.TransferReason.None)
-                {
-                    //try
-                    //{
-                    //} catch (OverflowException Ex)
-                    //{
-                    //    Debug.Log($"Output overflow caught: cargoDiff:{buildingData.m_customBuffer1}-{__state[0]}={(buildingData.m_customBuffer1 - __state[0])} factor:{RI_Data.GetFactorCargo(__instance.m_outputResource)}\n{Ex.ToString()}");
-                    //    Singleton<SimulationManager>.instance.SimulationPaused = true;
-                    //}
-
-                    cargoDiff = Convert.ToInt32((buildingData.m_customBuffer1 - __state[0]) / RI_Data.GetFactorCargo(__instance.m_outputResource));
-                    buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0] + cargoDiff, 0, 64000);
-                    //DebugLog.LogToFileOnly($"Out ID:{buildingID}, state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
-                }
-
-                //if (__instance is UniqueFactoryAI)
-                //    DebugLog.LogToFileOnly($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]},{__state[2]},{__state[3]},{__state[4]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2},{Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs)},{Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors)},{Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2)})");
-                //else
-                //    DebugLog.LogToFileOnly($"PF:{__instance.name}, ID:{buildingID}, lastDiff:{cargoDiff} (Old:{__state[0]}-{__state[1]} - New:{buildingData.m_customBuffer1}-{buildingData.m_customBuffer2})");
-            }
-            else
-            {
-                DebugLog.LogToFileOnly($"Unknown PF instance {__instance.name} ({__instance.GetType()})");
             }
         }
     }
