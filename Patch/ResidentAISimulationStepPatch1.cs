@@ -206,6 +206,7 @@ namespace RealCity.CustomAI
         {
             if (RealCityResidentAI.preCitizenId > homeID)
             {
+                //DebugLog.LogToFileOnly("Another period started");
                 MainDataStore.familyCount = RealCityResidentAI.familyCount;
                 MainDataStore.citizenCount = RealCityResidentAI.citizenCount;
                 MainDataStore.profitFamilyNum = RealCityResidentAI.familyProfitMoneyCount;
@@ -254,8 +255,11 @@ namespace RealCity.CustomAI
             {
                 DebugLog.LogToFileOnly("Error: citizen ID greater than 524288");
             }
+
+            //DebugLog.LogToFileOnly($"ProcessCitizen pre family {homeID} moneny {CitizenUnitData.familyMoney[homeID]}");
             //ProcessCitizen pre, gather all citizenMoney to family
             ProcessCitizen(homeID, ref data, true);
+            //DebugLog.LogToFileOnly($"ProcessCitizen post family {homeID} moneny {CitizenUnitData.familyMoney[homeID]}");
             //1.We caculate citizen income
             int familySalaryCurrent = 0;
             familySalaryCurrent += RealCityResidentAI.ProcessCitizenSalary(data.m_citizen0, false);
@@ -282,28 +286,23 @@ namespace RealCity.CustomAI
             CitizenManager instance = Singleton<CitizenManager>.instance;
             if (data.m_citizen4 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)].Dead)
             {
-                expenseRate = 0;
-                educationFee += GetExpenseRate(homeID, data.m_citizen4, out expenseRate);
+                educationFee += GetExpenseRate(data.m_citizen4, out expenseRate);
             }
             if (data.m_citizen3 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)].Dead)
             {
-                expenseRate = 0;
-                educationFee += GetExpenseRate(homeID, data.m_citizen3, out expenseRate);
+                educationFee += GetExpenseRate(data.m_citizen3, out expenseRate);
             }
             if (data.m_citizen2 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)].Dead)
             {
-                expenseRate = 0;
-                educationFee += GetExpenseRate(homeID, data.m_citizen2, out expenseRate);
+                educationFee += GetExpenseRate(data.m_citizen2, out expenseRate);
             }
             if (data.m_citizen1 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)].Dead)
             {
-                expenseRate = 0;
-                educationFee += GetExpenseRate(homeID, data.m_citizen1, out expenseRate);
+                educationFee += GetExpenseRate(data.m_citizen1, out expenseRate);
             }
             if (data.m_citizen0 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].Dead)
             {
-                expenseRate = 0;
-                educationFee += GetExpenseRate(homeID, data.m_citizen0, out expenseRate);
+                educationFee += GetExpenseRate(data.m_citizen0, out expenseRate);
             }
             ProcessCitizenHouseRent(homeID, expenseRate);
             //campus DLC added.
@@ -341,8 +340,8 @@ namespace RealCity.CustomAI
             //7. Caculate minimumLivingAllowance and benefitOffset
             if (CitizenUnitData.familyMoney[homeID] < (-Politics.benefitOffset))
             {
-                int num = (int)(-(CitizenUnitData.familyMoney[homeID]) + 0.5f + Politics.benefitOffset);
-                CitizenUnitData.familyMoney[homeID] = 0;
+                int num = (int)(-CitizenUnitData.familyMoney[homeID]);
+                CitizenUnitData.familyMoney[homeID] += num;
                 MainDataStore.minimumLivingAllowance += num;
                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, num, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
             }
@@ -402,8 +401,6 @@ namespace RealCity.CustomAI
             CitizenManager instance = Singleton<CitizenManager>.instance;
             ushort building = instance.m_units.m_buffer[(int)((UIntPtr)homeID)].m_building;
             Building buildingdata = Singleton<BuildingManager>.instance.m_buildings.m_buffer[building];
-            DistrictManager instance2 = Singleton<DistrictManager>.instance;
-            byte district = instance2.GetDistrict(buildingdata.m_position);
             Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate * 100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 100);
         }
 
@@ -415,14 +412,14 @@ namespace RealCity.CustomAI
             int fixedGoodsConsumption = 0;
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
-                fixedGoodsConsumption = ProcessFamily(homeID, ref data) - 20;
+                fixedGoodsConsumption = ProcessFamily(homeID, ref data) - 21;
+                data.m_goods = (ushort)Mathf.Max(20, (data.m_goods - fixedGoodsConsumption)); //here we can adjust demand
             }
-            data.m_goods = (ushort)Mathf.Max(21, (data.m_goods - fixedGoodsConsumption)); //here we can adjust demand
             CitizenUnitData.familyGoods[homeID] = (ushort)Mathf.Max(0, data.m_goods - 20);
             // NON-STOCK CODE END
         }
 
-        public static int GetExpenseRate(uint homeid, uint citizenID, out int incomeAccumulation)
+        public static int GetExpenseRate(uint citizenID, out int incomeAccumulation)
         {
             BuildingManager instance1 = Singleton<BuildingManager>.instance;
             CitizenManager instance2 = Singleton<CitizenManager>.instance;
@@ -581,7 +578,7 @@ namespace RealCity.CustomAI
             }
         }
 
-        public static  void GetVoteChance(uint citizenID, Citizen citizen, uint homeID)
+        public static void GetVoteChance(uint citizenID, Citizen citizen, uint homeID)
         {
             if ((int)Citizen.GetAgeGroup(citizen.m_age) >= 2)
             {

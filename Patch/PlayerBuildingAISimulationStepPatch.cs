@@ -15,7 +15,7 @@ namespace RealCity.Patch
         {
             return typeof(PlayerBuildingAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() }, null);
         }
-        public static void Postfix(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
+        public static void Postfix(ushort buildingID, ref Building buildingData)
         {
             ProcessZeroWorker(buildingID, ref buildingData);
         }
@@ -26,10 +26,9 @@ namespace RealCity.Patch
             {
                 int aliveWorkCount = 0;
                 int totalWorkCount = 0;
-                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                Citizen.BehaviourData behaviour = default;
                 BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
-                Random rand = new Random();
-                int allWorkCount = 0;
+                int allWorkCount;
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                 int num4 = (int)(currentFrameIndex & 4095u);
                 if (((num4 >> 8) & 15u) == (buildingID & 15u))

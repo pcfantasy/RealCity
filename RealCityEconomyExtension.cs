@@ -51,18 +51,10 @@ namespace RealCity
                         MainDataStore.minimumLivingAllowance = 0;
                         MainDataStore.unfinishedTransitionLostFinal = MainDataStore.unfinishedTransitionLost;
                         MainDataStore.unfinishedTransitionLost = 0;
-                        if (MainDataStore.citizenCount > 0)
+                        if (MainDataStore.citizenCount > 500)
                         {
                             //3. Citizen Status
                             CitizenStatus();
-                        }
-                    }
-
-                    if ((MainDataStore.update_money_count & 3u) == 0)
-                    {
-                        if (Politics.parliamentCount != 0)
-                        {
-                            HoldMeeting();
                         }
                     }
 
@@ -187,6 +179,15 @@ namespace RealCity
                 GetSeats();
                 CreateGoverment();
             }
+
+            if ((MainDataStore.update_money_count & 3u) == 0)
+            {
+                if (Politics.parliamentCount != 0)
+                {
+                    HoldMeeting();
+                }
+            }
+
             //Caculate goverment salary
             if (MainDataStore.citizenCount != 0)
             {

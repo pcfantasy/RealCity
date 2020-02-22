@@ -65,13 +65,6 @@ namespace RealCity.Patch
                     {
                         info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref consumptionMoney);
                     }
-                    else
-                    {
-                        consumptionMoney = 0;
-                    }
-                    int num = -100;
-                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
-                    CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
                 }
                 else
                 {

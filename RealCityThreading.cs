@@ -272,11 +272,21 @@ namespace RealCity
                                 GetVehicleCapacity((ushort)i, ref vehicle, ref num);
                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (num * 150), vehicle.Info.m_class);
                             }
-                            else if ((vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Car))
+                            else if (vehicle.Info.m_vehicleAI is PassengerCarAI  && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Parking) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Arriving))
                             {
-                                if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped))
+                                if ((vehicle.Info.m_class.m_subService == ItemClass.SubService.ResidentialLow))
                                 {
-                                    VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 64);
+                                    if (RealCity.reduceVehicle)
+                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 24 << MainDataStore.reduceCargoDivShift);
+                                    else
+                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 24);
+                                }
+                                else
+                                {
+                                    if (RealCity.reduceVehicle)
+                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 12 << MainDataStore.reduceCargoDivShift);
+                                    else
+                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 12);
                                 }
                             }
                         }

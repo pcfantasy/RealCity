@@ -19,7 +19,7 @@ namespace RealCity.Patch
         {
             return typeof(PassengerCarAI).GetMethod("ArriveAtTarget", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
         }
-        public static void Prefix(ref CargoTruckAI __instance, ushort vehicleID, ref Vehicle data)
+        public static void Prefix(ushort vehicleID, ref Vehicle data)
         {
             GetVehicleRunningTiming(vehicleID, ref data);
         }

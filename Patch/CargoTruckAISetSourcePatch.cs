@@ -19,19 +19,15 @@ namespace RealCity.Patch
         {
             if (sourceBuilding != 0)
             {
-                BuildingManager instance = Singleton<BuildingManager>.instance;
-                BuildingInfo info = instance.m_buildings.m_buffer[sourceBuilding].Info;
                 if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
                 {
-                    var AI = (CargoTruckAI)data.Info.m_vehicleAI;
-                    //DebugLog.LogToFileOnly($"CargoTruckAISetSourcePatch: m_cargoCapacity = {__instance.m_cargoCapacity} or {AI.m_cargoCapacity}");
                     int num = Mathf.Min(0, data.m_transferSize - __instance.m_cargoCapacity);
-                    ProcessGabargeIncome(vehicleID, ref data, num);
+                    ProcessGabargeIncome(ref data, num);
                 }
             }
         }
 
-        public static void ProcessGabargeIncome(ushort vehicleID, ref Vehicle data, int num)
+        public static void ProcessGabargeIncome(ref Vehicle data, int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
             Building building = instance.m_buildings.m_buffer[data.m_sourceBuilding];

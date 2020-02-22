@@ -47,10 +47,6 @@ namespace RealCity.Patch
                     break;
             }
             caculateTradeIncome(buildingID, ref data, material, ref amountDelta);
-            if (RealCity.reduceVehicle)
-            {
-                data.m_customBuffer2 -= (ushort)(amountDelta >> MainDataStore.reduceCargoDivShift);
-            }
         }
 
         public static void processIncoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)

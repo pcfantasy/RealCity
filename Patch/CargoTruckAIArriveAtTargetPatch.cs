@@ -29,9 +29,6 @@ namespace RealCity.Patch
             {
                 num = Mathf.Min(0, data.m_transferSize - __instance.m_cargoCapacity);
             }
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            BuildingInfo info = instance.m_buildings.m_buffer[data.m_targetBuilding].Info;
-
             // NON-STOCK CODE START
             ProcessResourceArriveAtTarget(vehicleID, ref data, ref num);
         }

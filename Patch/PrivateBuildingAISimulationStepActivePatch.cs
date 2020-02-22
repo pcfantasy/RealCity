@@ -16,7 +16,7 @@ namespace RealCity.CustomAI
             return typeof(PrivateBuildingAI).GetMethod("SimulationStepActive", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
-        public static void Prefix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
+        public static void Prefix(ref Building buildingData, ref ushort[] __state)
         {
             __state = new ushort[2];
             __state[0] = buildingData.m_customBuffer1;
@@ -31,7 +31,7 @@ namespace RealCity.CustomAI
             ProcessAdditionProduct(buildingID, ref buildingData, ref __state);
         }
 
-        public static void ProcessAdditionProductIndustrialExtractorAI(ushort buildingID, ref Building buildingData, ref ushort[] __state)
+        public static void ProcessAdditionProductIndustrialExtractorAI(ref Building buildingData, ref ushort[] __state)
         {
             int deltaCustomBuffer1 = buildingData.m_customBuffer1 - __state[0];
             if (deltaCustomBuffer1 > 0)
@@ -105,7 +105,7 @@ namespace RealCity.CustomAI
             {
                 if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                 {
-                    ProcessAdditionProductIndustrialExtractorAI(buildingID, ref buildingData, ref __state);
+                    ProcessAdditionProductIndustrialExtractorAI(ref buildingData, ref __state);
                 }
                 else
                 {

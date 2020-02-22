@@ -187,6 +187,7 @@ namespace RealCity.CustomAI
 #if Debug
                         DebugLog.LogToFileOnly("DebugInfo: LandPrice offset for Salary is " + landPriceOffset.ToString());
 #endif
+                        salary = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, salary);
                         if (!checkOnly)
                         {
                             var m_class = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class;
@@ -196,7 +197,7 @@ namespace RealCity.CustomAI
                 }
             }
 
-            return UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, salary);
+            return salary;
         }//public
 
 

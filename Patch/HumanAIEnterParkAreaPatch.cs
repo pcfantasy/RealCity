@@ -14,7 +14,7 @@ namespace RealCity.Patch
         {
             return typeof(HumanAI).GetMethod("EnterParkArea", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(byte), typeof(ushort) }, null);
         }
-        public static bool Prefix(ushort instanceID, ref CitizenInstance citizenData, byte park, ushort gateID)
+        public static bool Prefix(ref CitizenInstance citizenData, byte park, ushort gateID)
         {
             if (gateID != 0)
             {
