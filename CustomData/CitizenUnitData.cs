@@ -5,23 +5,20 @@ namespace RealCity.CustomData
     public class CitizenUnitData
     {
         public static float[] familyMoney = new float[524288];
-        public static ushort[] familyGoods = new ushort[524288];
 
         public static void DataInit()
         {
             for (int i = 0; i < familyMoney.Length; i++)
             {
                 familyMoney[i] = 0f;
-                familyGoods[i] = 0;
             }
         }
 
         public static void Save(ref byte[] saveData)
         {
-            //3145728;
+            //2097152;
             int i = 0;
             SaveAndRestore.SaveData(ref i, familyMoney, ref saveData);
-            SaveAndRestore.SaveData(ref i, familyGoods, ref saveData);
 
             if (i != saveData.Length)
             {
@@ -33,7 +30,6 @@ namespace RealCity.CustomData
         {
             int i = 0;
             SaveAndRestore.LoadData(ref i, saveData, ref familyMoney);
-            SaveAndRestore.LoadData(ref i, saveData, ref familyGoods);
 
             if (i != saveData.Length)
             {

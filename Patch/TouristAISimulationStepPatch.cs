@@ -1,4 +1,4 @@
-﻿using ColossalFramework;
+﻿﻿using ColossalFramework;
 using Harmony;
 using RealCity.CustomData;
 using System;
@@ -15,29 +15,9 @@ namespace RealCity.Patch
         }
         public static void Postfix(uint citizenID, ref Citizen data)
         {
-            //Add initial money
-            if (!CitizenData.isCitizenFirstMovingIn[citizenID])
+            if (CitizenData.citizenMoney[citizenID] < 100)
             {
-                CitizenData.isCitizenFirstMovingIn[citizenID] = true;
-                if (data.WealthLevel == Citizen.Wealth.Low)
-                {
-                    CitizenData.citizenMoney[citizenID] += 3000;
-                }
-                else if (data.WealthLevel == Citizen.Wealth.Medium)
-                {
-                    CitizenData.citizenMoney[citizenID] += 6000;
-                }
-                else
-                {
-                    CitizenData.citizenMoney[citizenID] += 9000;
-                }
-            }
-            else
-            {
-                if (CitizenData.citizenMoney[citizenID] < 100)
-                {
-                    FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(citizenID, ref data));
-                }
+                FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(citizenID, ref data));
             }
         }
 

@@ -14,7 +14,7 @@ namespace RealCity
     {
         public static bool isFirstTime = true;
         public static Assembly RealGasStation = null;
-        public const int HarmonyPatchNum = 43;
+        public const int HarmonyPatchNum = 45;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -283,10 +283,7 @@ namespace RealCity
                                 }
                                 else
                                 {
-                                    if (RealCity.reduceVehicle)
-                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 12 << MainDataStore.reduceCargoDivShift);
-                                    else
-                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 12);
+                                    VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 12);
                                 }
                             }
                         }

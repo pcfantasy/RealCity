@@ -314,14 +314,6 @@ namespace RealCity.CustomAI
             CitizenUnitData.familyMoney[homeID] += incomeMinusExpense;
 
             //5. Process shopping
-            if (CitizenUnitData.familyGoods[homeID] == 0)
-            {
-                //first time
-            }
-            else if (CitizenUnitData.familyGoods[homeID] < data.m_goods)
-            {
-                CitizenUnitData.familyMoney[homeID] -= RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * (data.m_goods - CitizenUnitData.familyGoods[homeID]);
-            }
 
             //6. Process citizen status
             if (incomeMinusExpense <= 0)
@@ -415,7 +407,6 @@ namespace RealCity.CustomAI
                 fixedGoodsConsumption = ProcessFamily(homeID, ref data) - 21;
                 data.m_goods = (ushort)Mathf.Max(20, (data.m_goods - fixedGoodsConsumption)); //here we can adjust demand
             }
-            CitizenUnitData.familyGoods[homeID] = (ushort)Mathf.Max(0, data.m_goods - 20);
             // NON-STOCK CODE END
         }
 

@@ -13,6 +13,7 @@ namespace RealCity.Patch
         {
             return typeof(TollBoothAI).GetMethod("EnterBuildingSegment", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(ushort), typeof(byte), typeof(InstanceID) }, null);
         }
+
         public static bool Prefix(ref Building data, InstanceID itemID)
         {
             bool canCharge = false;
@@ -24,7 +25,7 @@ namespace RealCity.Patch
                     VehicleManager instance = Singleton<VehicleManager>.instance;
                     Vehicle vehicleData = instance.m_vehicles.m_buffer[vehicle];
                     VehicleInfo info = instance.m_vehicles.m_buffer[vehicle].Info;
-                    if (vehicleData.m_transferType != 112)
+                    if (vehicleData.m_transferType != 112 && vehicleData.m_transferType != 113)
                     {
                         if (!VehicleData.isVehicleCharged[vehicle])
                         {

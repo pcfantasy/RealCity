@@ -13,7 +13,6 @@ namespace RealCity.Patch
         }
         public static void Postfix(uint unit)
         {
-            CitizenUnitData.familyGoods[unit] = 0;
             CitizenUnitData.familyMoney[unit] = 0;
         }
     }

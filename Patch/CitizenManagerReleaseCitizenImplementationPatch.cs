@@ -14,7 +14,6 @@ namespace RealCity.Patch
         public static void Postfix(uint citizen)
         {
             CitizenData.citizenMoney[citizen] = 0;
-            CitizenData.isCitizenFirstMovingIn[citizen] = false;
         }
     }
 }

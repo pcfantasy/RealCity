@@ -446,7 +446,7 @@ namespace RealCity.Util
                 _serializableData.SaveData("RealCity RealCityPrivateBuildingAI", saveData);
 
                 //5
-                saveData = new byte[5242880];
+                saveData = new byte[4194304];
                 CitizenData.Save(ref saveData);
                 _serializableData.SaveData("RealCity CitizenData", saveData);
 
@@ -471,7 +471,7 @@ namespace RealCity.Util
                 _serializableData.SaveData("RealCity VehicleData", saveData);
 
                 //10
-                saveData = new byte[3145728];
+                saveData = new byte[2097152];
                 CitizenUnitData.Save(ref saveData);
                 _serializableData.SaveData("RealCity CitizenUnitData", saveData);
             }

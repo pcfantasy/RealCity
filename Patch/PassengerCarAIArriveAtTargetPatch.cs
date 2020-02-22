@@ -42,10 +42,13 @@ namespace RealCity.Patch
                     {
                         if (!(citizenMan.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist)))
                         {
-                            MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + VehicleData.vehicleTransferTime[vehicleID];
-                            if (vehicleData.m_citizenUnits != 0)
+                            if (!isOutSide(citizenMan.m_instances.m_buffer[instanceID].GetLastFramePosition()))
                             {
-                                CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
+                                MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + VehicleData.vehicleTransferTime[vehicleID];
+                                if (vehicleData.m_citizenUnits != 0)
+                                {
+                                    CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
+                                }
                             }
                         }
                     }
@@ -53,6 +56,14 @@ namespace RealCity.Patch
             }
             VehicleData.vehicleTransferTime[vehicleID] = 0;
         }
+
+        public static bool isOutSide(Vector3 pos)
+        {
+            if (pos.x > 8000 || pos.z > 8000 || pos.x < -8000 || pos.z < -8000)
+                return true;
+            return false;
+        }
+
 
         public static ushort GetDriverInstance(ushort vehicleID, ref Vehicle data)
         {
