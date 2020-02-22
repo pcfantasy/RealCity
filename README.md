@@ -4,5 +4,6 @@ Cities: Skylines Mod: Make your city act like a real world! Combine CS and Simci
 [User Guide/说明书](https://github.com/pcfantasy/RealCity/wiki) <br>
 
 
-# How to build a env
-Goto VSPROJ folder,Copy .csproj and .sln to ../ Then use VS to modify these two files and build your project in your local
+RealCity use a local build of harmony2.0(remove some functions to be compatiable with harmony1.2)<br>
+
+https://github.com/pcfantasy/Harmony
