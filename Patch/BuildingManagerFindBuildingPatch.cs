@@ -13,7 +13,7 @@ namespace RealCity.Patch
         {
             return typeof(BuildingManager).GetMethod("FindBuilding", BindingFlags.Public | BindingFlags.Instance);
         }
-        //change wealth
+        
         public static bool Prefix(ref ushort __result, Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, Building.Flags flagsRequired, Building.Flags flagsForbidden)
         {
             BuildingManager building = Singleton<BuildingManager>.instance;

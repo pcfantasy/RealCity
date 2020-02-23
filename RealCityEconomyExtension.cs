@@ -51,7 +51,7 @@ namespace RealCity
                         MainDataStore.minimumLivingAllowance = 0;
                         MainDataStore.unfinishedTransitionLostFinal = MainDataStore.unfinishedTransitionLost;
                         MainDataStore.unfinishedTransitionLost = 0;
-                        if (MainDataStore.citizenCount > 500)
+                        if (MainDataStore.citizenCount > 0)
                         {
                             //3. Citizen Status
                             CitizenStatus();

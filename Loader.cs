@@ -493,19 +493,6 @@ namespace RealCity
                 bool detourFailed = false;
 
                 //1
-                DebugLog.LogToFileOnly("Detour TransferManager::StartTransfer calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(TransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance),
-                                           typeof(RealCityTransferManager).GetMethod("StartTransfer", BindingFlags.NonPublic | BindingFlags.Instance)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour TransferManager::StartTransfer");
-                    detourFailed = true;
-                }
-
-                //2
                 DebugLog.LogToFileOnly("Detour OfficeBuildingAI::GetOutgoingTransferReason calls");
                 try
                 {
@@ -518,7 +505,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //3
+                //2
                 //private void CalculateArenasExpenses(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)
                 DebugLog.LogToFileOnly("Detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses calls");
                 try
@@ -532,7 +519,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //4
+                //3
                 //public static uint CalculatePolicyExpenses(ref DistrictPark district)
                 DebugLog.LogToFileOnly("Detour DistrictPark::CalculatePolicyExpenses calls");
                 try
@@ -546,7 +533,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //5
+                //4
                 //public static void CalculateVarsityExpenses(ref DistrictPark district, out ulong upkeep, out int coaching, out int cheerleading, out int policies, out ulong total)
                 DebugLog.LogToFileOnly("Detour DistrictPark:CalculateVarsityExpenses calls");
                 try
@@ -560,7 +547,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //6
+                //5
                 DebugLog.LogToFileOnly("Detour IndustryBuildingAI::GetResourcePrice calls");
                 try
                 {

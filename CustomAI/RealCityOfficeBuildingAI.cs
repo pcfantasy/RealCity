@@ -5,7 +5,7 @@ namespace RealCity.CustomAI
     {
         public TransferManager.TransferReason GetOutgoingTransferReason()
         {
-                return TransferManager.TransferReason.None;
+            return TransferManager.TransferReason.None;
         }
     }
 }

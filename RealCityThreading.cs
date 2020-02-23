@@ -14,7 +14,7 @@ namespace RealCity
     {
         public static bool isFirstTime = true;
         public static Assembly RealGasStation = null;
-        public const int HarmonyPatchNum = 45;
+        public const int HarmonyPatchNum = 46;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
