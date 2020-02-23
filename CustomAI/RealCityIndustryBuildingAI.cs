@@ -6,7 +6,7 @@ namespace RealCity.CustomAI
     {
         public static int CustomGetResourcePrice(TransferManager.TransferReason material)
         {
-            int price = 0;
+            int price;
             switch (material)
             {
                 case TransferManager.TransferReason.AnimalProducts:
@@ -62,7 +62,7 @@ namespace RealCity.CustomAI
 
             if (RealCity.reduceVehicle)
             {
-                price *= MainDataStore.reduceCargoDiv;
+                price <<= MainDataStore.reduceCargoDivShift;
             }
             return UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, price);
         }

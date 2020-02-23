@@ -130,10 +130,6 @@
                                                 {70, 30, 0},
                                               };
 
-
-        public static bool reserved1 = false;
-
-
         public static ushort cPartyChance = 0;
         public static ushort gPartyChance = 0;
         public static ushort sPartyChance = 0;
@@ -151,18 +147,6 @@
         public static ushort sPartySeats = 0;
         public static ushort lPartySeats = 0;
         public static ushort nPartySeats = 0;
-
-        public static float cPartySeatsPollsUnUsed = 0;
-        public static float gPartySeatsPollsUnUsed = 0;
-        public static float sPartySeatsPollsUnUsed = 0;
-        public static float lPartySeatsPollsUnUsed = 0;
-        public static float nPartySeatsPollsUnUsed = 0;
-
-        public static float cPartySeatsPollsFinalUnUsed = 0;
-        public static float gPartySeatsPollsFinalUnUsed = 0;
-        public static float sPartySeatsPollsFinalUnUsed = 0;
-        public static float lPartySeatsPollsFinalUnUsed = 0;
-        public static float nPartySeatsPollsFinalUnUsed = 0;
 
         public static short parliamentCount = 0;
 
@@ -183,141 +167,105 @@
         public static int commericalTax = 20;    //(0-20)
         public static int industryTax = 20;    //(0-20)
         public static short benefitOffset = 0;         //(0-10)
-        public static short reserved = 10;         //(0-10)
 
-        public static byte[] saveData = new byte[103];
-
-        public static void Save()
+        public static void Save(ref byte[] saveData)
         {
+            //58
             int i = 0;
-
-            //1
-            SaveAndRestore.save_bool(ref i, reserved1, ref saveData);
 
             //30
-            SaveAndRestore.save_ushort(ref i, cPartyChance, ref saveData);
-            SaveAndRestore.save_ushort(ref i, gPartyChance, ref saveData);
-            SaveAndRestore.save_ushort(ref i, sPartyChance, ref saveData);
-            SaveAndRestore.save_ushort(ref i, lPartyChance, ref saveData);
-            SaveAndRestore.save_ushort(ref i, nPartyChance, ref saveData);
+            SaveAndRestore.SaveData(ref i, cPartyChance, ref saveData);
+            SaveAndRestore.SaveData(ref i, gPartyChance, ref saveData);
+            SaveAndRestore.SaveData(ref i, sPartyChance, ref saveData);
+            SaveAndRestore.SaveData(ref i, lPartyChance, ref saveData);
+            SaveAndRestore.SaveData(ref i, nPartyChance, ref saveData);
 
-            SaveAndRestore.save_ushort(ref i, cPartyTickets, ref saveData);
-            SaveAndRestore.save_ushort(ref i, gPartyTickets, ref saveData);
-            SaveAndRestore.save_ushort(ref i, sPartyTickets, ref saveData);
-            SaveAndRestore.save_ushort(ref i, lPartyTickets, ref saveData);
-            SaveAndRestore.save_ushort(ref i, nPartyTickets, ref saveData);
+            SaveAndRestore.SaveData(ref i, cPartyTickets, ref saveData);
+            SaveAndRestore.SaveData(ref i, gPartyTickets, ref saveData);
+            SaveAndRestore.SaveData(ref i, sPartyTickets, ref saveData);
+            SaveAndRestore.SaveData(ref i, lPartyTickets, ref saveData);
+            SaveAndRestore.SaveData(ref i, nPartyTickets, ref saveData);
 
-            SaveAndRestore.save_ushort(ref i, cPartySeats, ref saveData);
-            SaveAndRestore.save_ushort(ref i, gPartySeats, ref saveData);
-            SaveAndRestore.save_ushort(ref i, sPartySeats, ref saveData);
-            SaveAndRestore.save_ushort(ref i, lPartySeats, ref saveData);
-            SaveAndRestore.save_ushort(ref i, nPartySeats, ref saveData);
+            SaveAndRestore.SaveData(ref i, cPartySeats, ref saveData);
+            SaveAndRestore.SaveData(ref i, gPartySeats, ref saveData);
+            SaveAndRestore.SaveData(ref i, sPartySeats, ref saveData);
+            SaveAndRestore.SaveData(ref i, lPartySeats, ref saveData);
+            SaveAndRestore.SaveData(ref i, nPartySeats, ref saveData);
 
-            //20
-            SaveAndRestore.save_float(ref i, cPartySeatsPollsUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, gPartySeatsPollsUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, sPartySeatsPollsUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, lPartySeatsPollsUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, nPartySeatsPollsUnUsed, ref saveData);
+            //14
+            SaveAndRestore.SaveData(ref i, parliamentCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, case1, ref saveData);
+            SaveAndRestore.SaveData(ref i, case2, ref saveData);
+            SaveAndRestore.SaveData(ref i, case3, ref saveData);
+            SaveAndRestore.SaveData(ref i, case4, ref saveData);
+            SaveAndRestore.SaveData(ref i, case5, ref saveData);
+            SaveAndRestore.SaveData(ref i, case6, ref saveData);
+            SaveAndRestore.SaveData(ref i, case7, ref saveData);
+            SaveAndRestore.SaveData(ref i, case8, ref saveData);
+            SaveAndRestore.SaveData(ref i, currentIdx, ref saveData);
+            SaveAndRestore.SaveData(ref i, currentYes, ref saveData);
+            SaveAndRestore.SaveData(ref i, currentNo, ref saveData);
+            SaveAndRestore.SaveData(ref i, currentNoAttend, ref saveData);
 
-            //20
-            SaveAndRestore.save_float(ref i, cPartySeatsPollsFinalUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, gPartySeatsPollsFinalUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, sPartySeatsPollsFinalUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, lPartySeatsPollsFinalUnUsed, ref saveData);
-            SaveAndRestore.save_float(ref i, nPartySeatsPollsFinalUnUsed, ref saveData);
+            //14
+            SaveAndRestore.SaveData(ref i, residentTax, ref saveData);
+            SaveAndRestore.SaveData(ref i, commericalTax, ref saveData);
+            SaveAndRestore.SaveData(ref i, industryTax, ref saveData);
+            SaveAndRestore.SaveData(ref i, benefitOffset, ref saveData);
 
-            //4
-            SaveAndRestore.save_short(ref i, parliamentCount, ref saveData);
-            SaveAndRestore.save_short(ref i, 0, ref saveData);
-
-            //8
-            SaveAndRestore.save_bool(ref i, case1, ref saveData);
-            SaveAndRestore.save_bool(ref i, case2, ref saveData);
-            SaveAndRestore.save_bool(ref i, case3, ref saveData);
-            SaveAndRestore.save_bool(ref i, case4, ref saveData);
-            SaveAndRestore.save_bool(ref i, case5, ref saveData);
-            SaveAndRestore.save_bool(ref i, case6, ref saveData);
-            SaveAndRestore.save_bool(ref i, case7, ref saveData);
-            SaveAndRestore.save_bool(ref i, case8, ref saveData);
-
-            //4
-            SaveAndRestore.save_byte(ref i, currentIdx, ref saveData);
-            SaveAndRestore.save_byte(ref i, currentYes, ref saveData);
-            SaveAndRestore.save_byte(ref i, currentNo, ref saveData);
-            SaveAndRestore.save_byte(ref i, currentNoAttend, ref saveData);
-
-            //12
-            SaveAndRestore.save_int(ref i, residentTax, ref saveData);
-            SaveAndRestore.save_int(ref i, commericalTax, ref saveData);
-            SaveAndRestore.save_int(ref i, industryTax, ref saveData);
-
-            //6
-            SaveAndRestore.save_short(ref i, benefitOffset, ref saveData);
-            SaveAndRestore.save_short(ref i, reserved, ref saveData);
-
-            DebugLog.LogToFileOnly("(save)saveData in politics is " + i.ToString());
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"Politics Save Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
 
-        public static void Load()
+        public static void Load(ref byte[] saveData)
         {
             int i = 0;
 
-            reserved1 = SaveAndRestore.load_bool(ref i, saveData);
 
-            cPartyChance = SaveAndRestore.load_ushort(ref i, saveData);
-            gPartyChance = SaveAndRestore.load_ushort(ref i, saveData);
-            sPartyChance = SaveAndRestore.load_ushort(ref i, saveData);
-            lPartyChance = SaveAndRestore.load_ushort(ref i, saveData);
-            nPartyChance = SaveAndRestore.load_ushort(ref i, saveData);
+            SaveAndRestore.LoadData(ref i, saveData, ref cPartyChance);
+            SaveAndRestore.LoadData(ref i, saveData, ref gPartyChance);
+            SaveAndRestore.LoadData(ref i, saveData, ref sPartyChance);
+            SaveAndRestore.LoadData(ref i, saveData, ref lPartyChance);
+            SaveAndRestore.LoadData(ref i, saveData, ref nPartyChance);
 
-            cPartyTickets = SaveAndRestore.load_ushort(ref i, saveData);
-            gPartyTickets = SaveAndRestore.load_ushort(ref i, saveData);
-            sPartyTickets = SaveAndRestore.load_ushort(ref i, saveData);
-            lPartyTickets = SaveAndRestore.load_ushort(ref i, saveData);
-            nPartyTickets = SaveAndRestore.load_ushort(ref i, saveData);
+            SaveAndRestore.LoadData(ref i, saveData, ref cPartyTickets);
+            SaveAndRestore.LoadData(ref i, saveData, ref gPartyTickets);
+            SaveAndRestore.LoadData(ref i, saveData, ref sPartyTickets);
+            SaveAndRestore.LoadData(ref i, saveData, ref lPartyTickets);
+            SaveAndRestore.LoadData(ref i, saveData, ref nPartyTickets);
 
-            cPartySeats = SaveAndRestore.load_ushort(ref i, saveData);
-            gPartySeats = SaveAndRestore.load_ushort(ref i, saveData);
-            sPartySeats = SaveAndRestore.load_ushort(ref i, saveData);
-            lPartySeats = SaveAndRestore.load_ushort(ref i, saveData);
-            nPartySeats = SaveAndRestore.load_ushort(ref i, saveData);
+            SaveAndRestore.LoadData(ref i, saveData, ref cPartySeats);
+            SaveAndRestore.LoadData(ref i, saveData, ref gPartySeats);
+            SaveAndRestore.LoadData(ref i, saveData, ref sPartySeats);
+            SaveAndRestore.LoadData(ref i, saveData, ref lPartySeats);
+            SaveAndRestore.LoadData(ref i, saveData, ref nPartySeats);
 
-            cPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            gPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            sPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            lPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            nPartySeatsPollsUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.LoadData(ref i, saveData, ref parliamentCount);
 
-            cPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            gPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            sPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            lPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
-            nPartySeatsPollsFinalUnUsed = SaveAndRestore.load_float(ref i, saveData);
+            SaveAndRestore.LoadData(ref i, saveData, ref case1);
+            SaveAndRestore.LoadData(ref i, saveData, ref case2);
+            SaveAndRestore.LoadData(ref i, saveData, ref case3);
+            SaveAndRestore.LoadData(ref i, saveData, ref case4);
+            SaveAndRestore.LoadData(ref i, saveData, ref case5);
+            SaveAndRestore.LoadData(ref i, saveData, ref case6);
+            SaveAndRestore.LoadData(ref i, saveData, ref case7);
+            SaveAndRestore.LoadData(ref i, saveData, ref case8);
 
-            parliamentCount = SaveAndRestore.load_short(ref i, saveData);
-            short temp = SaveAndRestore.load_short(ref i, saveData);
+            SaveAndRestore.LoadData(ref i, saveData, ref currentIdx);
+            SaveAndRestore.LoadData(ref i, saveData, ref currentYes);
+            SaveAndRestore.LoadData(ref i, saveData, ref currentNo);
+            SaveAndRestore.LoadData(ref i, saveData, ref currentNoAttend);
+            SaveAndRestore.LoadData(ref i, saveData, ref residentTax);
+            SaveAndRestore.LoadData(ref i, saveData, ref commericalTax);
+            SaveAndRestore.LoadData(ref i, saveData, ref industryTax);
+            SaveAndRestore.LoadData(ref i, saveData, ref benefitOffset);
 
-            case1 = SaveAndRestore.load_bool(ref i, saveData);
-            case2 = SaveAndRestore.load_bool(ref i, saveData);
-            case3 = SaveAndRestore.load_bool(ref i, saveData);
-            case4 = SaveAndRestore.load_bool(ref i, saveData);
-            case5 = SaveAndRestore.load_bool(ref i, saveData);
-            case6 = SaveAndRestore.load_bool(ref i, saveData);
-            case7 = SaveAndRestore.load_bool(ref i, saveData);
-            case8 = SaveAndRestore.load_bool(ref i, saveData);
-
-            currentIdx = SaveAndRestore.load_byte(ref i, saveData);
-            currentYes = SaveAndRestore.load_byte(ref i, saveData);
-            currentNo = SaveAndRestore.load_byte(ref i, saveData);
-            currentNoAttend = SaveAndRestore.load_byte(ref i, saveData);
-
-            residentTax = SaveAndRestore.load_int(ref i, saveData);
-            commericalTax = SaveAndRestore.load_int(ref i, saveData);
-            industryTax = SaveAndRestore.load_int(ref i, saveData);
-
-            benefitOffset = SaveAndRestore.load_short(ref i, saveData);
-            reserved = SaveAndRestore.load_short(ref i, saveData);
+            if (i != saveData.Length)
+            {
+                DebugLog.LogToFileOnly($"Politics Load Error: saveData.Length = {saveData.Length} + i = {i}");
+            }
         }
      }
 }

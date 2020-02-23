@@ -3,9 +3,9 @@ namespace RealCity.CustomAI
 {
     public class RealCityOfficeBuildingAI
     {
-        public static TransferManager.TransferReason OfficeBuildingAIGetOutgoingTransferReasonPreFix()
+        public TransferManager.TransferReason GetOutgoingTransferReason()
         {
-                return TransferManager.TransferReason.None;
+            return TransferManager.TransferReason.None;
         }
     }
 }

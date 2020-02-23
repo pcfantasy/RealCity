@@ -1,31 +1,10 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
-using UnityEngine;
-using RealCity.Util;
 
 namespace RealCity.CustomAI
 {
-    public class RealCityIndustrialBuildingAI :  PrivateBuildingAI
+    public class RealCityIndustrialBuildingAI
     {
-        private int GetConsumptionDivider(ushort buildingID, Building data)
-        {
-            int ConsumptionDivider;
-            switch (m_info.m_class.m_subService)
-            {
-                case ItemClass.SubService.IndustrialForestry:
-                    ConsumptionDivider = 1; break;
-                case ItemClass.SubService.IndustrialFarming:
-                    ConsumptionDivider = 1; break;
-                case ItemClass.SubService.IndustrialOil:
-                    ConsumptionDivider = 1; break;
-                case ItemClass.SubService.IndustrialOre:
-                    ConsumptionDivider = 1; break;
-                default:
-                    ConsumptionDivider = 4; break;
-            }
-            return ConsumptionDivider;
-        }
-
         public static TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
         {
             switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService)
@@ -58,40 +37,9 @@ namespace RealCity.CustomAI
             }
         }
 
-        public override void ModifyMaterialBuffer(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public static TransferManager.TransferReason GetOutgoingTransferReason(ushort buildingID)
         {
-            if (material == GetIncomingTransferReason(buildingID) || material == GetSecondaryIncomingTransferReason(buildingID))
-            {
-                int width = data.Width;
-                int length = data.Length;
-                int num = 16000;
-                int num2 = CalculateProductionCapacity((ItemClass.Level)data.m_level, new Randomizer(buildingID), width, length);
-                float consumptionDivider = GetConsumptionDivider(buildingID, data);
-                int num3 = Mathf.Max((int)(num2 * 500 / consumptionDivider), num * 4);
-                num3 = 64000;
-                int customBuffer = data.m_customBuffer1;
-                amountDelta = Mathf.Clamp(amountDelta, 0, num3 - customBuffer);
-                process_incoming(buildingID, ref data, material, ref amountDelta);
-                data.m_customBuffer1 = (ushort)(customBuffer + amountDelta);
-                MainDataStore.building_buffer1[buildingID] = data.m_customBuffer1;
-            }
-            else if (material == GetOutgoingTransferReason())
-            {
-                int customBuffer2 = data.m_customBuffer2;
-                amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
-                caculate_trade_income(buildingID, ref data, material, ref amountDelta);
-                data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);
-                MainDataStore.building_buffer2[buildingID] = data.m_customBuffer2;
-            }
-            else
-            {
-                base.ModifyMaterialBuffer(buildingID, ref data, material, ref amountDelta);
-            }
-        }
-
-        private TransferManager.TransferReason GetOutgoingTransferReason()
-        {
-            switch (m_info.m_class.m_subService)
+            switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService)
             {
                 case ItemClass.SubService.IndustrialForestry:
                     return TransferManager.TransferReason.Lumber;
@@ -132,21 +80,6 @@ namespace RealCity.CustomAI
                 }
             }
             return TransferManager.TransferReason.None;
-        }
-
-        public void process_incoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
-        {
-            float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-            MainDataStore.building_money[buildingID] = MainDataStore.building_money[buildingID] - trade_income1;
-        }
-
-        public void caculate_trade_income(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
-        {
-            float trade_income1 = amountDelta * RealCityPrivateBuildingAI.GetPrice(true, buildingID, data);
-            float trade_tax = 0;
-            trade_tax = -trade_income1 * RealCityPrivateBuildingAI.GetTaxRate(data, buildingID) /100f;
-            Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
-            MainDataStore.building_money[buildingID] = (MainDataStore.building_money[buildingID] - (trade_income1 + trade_tax));                    
         }
     }
 }

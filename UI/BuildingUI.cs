@@ -6,6 +6,7 @@ using System;
 using ColossalFramework.Math;
 using RealCity.CustomAI;
 using RealCity.Util;
+using RealCity.CustomData;
 
 namespace RealCity.UI
 {
@@ -121,12 +122,12 @@ namespace RealCity.UI
         {
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
-            if (refeshOnce || (MainDataStore.last_buildingid != WorldInfoPanel.GetCurrentInstanceID().Building))
+            if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 if (isVisible)
                 {
-                    MainDataStore.last_buildingid = WorldInfoPanel.GetCurrentInstanceID().Building;
-                    Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[MainDataStore.last_buildingid];
+                    BuildingData.lastBuildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+                    Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[BuildingData.lastBuildingID];
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.Residential)
                     {
                         Hide();
@@ -135,13 +136,13 @@ namespace RealCity.UI
                     {
                         int aliveWorkerCount = 0;
                         int totalWorkerCount = 0;
-                        float num = CaculateEmployeeOutcome(buildingData, MainDataStore.last_buildingid, out aliveWorkerCount, out totalWorkerCount);
-                        int num1 = CaculateLandFee(buildingData, MainDataStore.last_buildingid);
-                        string type = RealCityPrivateBuildingAI.GetProductionType(false, MainDataStore.last_buildingid, buildingData);
-                        string type2 = RealCityPrivateBuildingAI.GetProductionType(true, MainDataStore.last_buildingid, buildingData);
-                        float price = RealCityPrivateBuildingAI.GetPrice(false, MainDataStore.last_buildingid, buildingData);
-                        float price2 = RealCityPrivateBuildingAI.GetPrice(true, MainDataStore.last_buildingid, buildingData);
-                        buildingMoney.text = string.Format(Localization.Get("BUILDING_MONEY") + " [{0}]", MainDataStore.building_money[MainDataStore.last_buildingid]);
+                        float num = CaculateEmployeeOutcome(buildingData, BuildingData.lastBuildingID, out aliveWorkerCount, out totalWorkerCount);
+                        int num1 = CaculateLandFee(buildingData, BuildingData.lastBuildingID);
+                        string type = RealCityPrivateBuildingAI.GetProductionType(false, BuildingData.lastBuildingID, buildingData);
+                        string type2 = RealCityPrivateBuildingAI.GetProductionType(true, BuildingData.lastBuildingID, buildingData);
+                        float price = RealCityPrivateBuildingAI.GetPrice(false, BuildingData.lastBuildingID, buildingData);
+                        float price2 = RealCityPrivateBuildingAI.GetPrice(true, BuildingData.lastBuildingID, buildingData);
+                        buildingMoney.text = string.Format(Localization.Get("BUILDING_MONEY") + " [{0}]", BuildingData.buildingMoney[BuildingData.lastBuildingID]);
                         buildingIncomeBuffer.text = string.Format(Localization.Get("MATERIAL_BUFFER") + " [{0}]" + " " + type, buildingData.m_customBuffer1);
                         buildingOutgoingBuffer.text = string.Format(Localization.Get("PRODUCTION_BUFFER") + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
                         employFee.text = Localization.Get("AVERAGE_EMPLOYFEE") + " " + num.ToString() + " " + Localization.Get("PROFIT_SHARING");
@@ -152,7 +153,7 @@ namespace RealCity.UI
                         float consumptionDivider = 0f;
                         if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
                         {
-                            consumptionDivider = RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, MainDataStore.last_buildingid) * 4f;
+                            consumptionDivider = RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, BuildingData.lastBuildingID) * 4f;
                             comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " [1:{0:N2}]", consumptionDivider);
                         }
                         else
@@ -163,12 +164,12 @@ namespace RealCity.UI
                             }
                             else
                             {
-                                consumptionDivider = RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, MainDataStore.last_buildingid);
+                                consumptionDivider = RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, BuildingData.lastBuildingID);
                                 comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " [1:{0:N2}]", consumptionDivider);
                             }
                         }
 
-                        int m_sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData, MainDataStore.last_buildingid);
+                        int m_sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData);
                         if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                         {
                             sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%] " + Localization.Get("INCLUDE_RESOURCE_TAX"), m_sellTax);
@@ -202,7 +203,7 @@ namespace RealCity.UI
                         int car = 0;
                         if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
                         {
-                            int num7 = CalculateProductionCapacity(buildingData, (ItemClass.Level)buildingData.m_level, new Randomizer(MainDataStore.last_buildingid), buildingData.m_width, buildingData.m_length);
+                            int num7 = CalculateProductionCapacity(buildingData, (ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
                             car = Mathf.Max(1, num7 / 6);
 
                             TransferManager.TransferReason tempReason = default(TransferManager.TransferReason);
@@ -215,7 +216,7 @@ namespace RealCity.UI
                                 tempReason = IndustrialGetOutgoingTransferReason(buildingData);
                             }
 
-                            CalculateOwnVehicles(MainDataStore.last_buildingid, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
+                            CalculateOwnVehicles(BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
                             usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar,car);
                         }
                         else
@@ -334,16 +335,16 @@ namespace RealCity.UI
 
             if (totalWorkerCount > 0)
             {
-                if (MainDataStore.building_money[buildingID] > 0)
+                if (BuildingData.buildingMoney[buildingID] > 0)
                 {
                     switch (building.Info.m_class.m_service)
                     {
                         case ItemClass.Service.Commercial:
                         case ItemClass.Service.Industrial:
-                            num1 = (int)((MainDataStore.building_money[buildingID]) * 0.05f / totalWorkerCount);
+                            num1 = (int)((BuildingData.buildingMoney[buildingID]) * 0.05f / totalWorkerCount);
                             break;
                         case ItemClass.Service.Office:
-                            num1 = (int)(MainDataStore.building_money[buildingID] / totalWorkerCount);
+                            num1 = (int)(BuildingData.buildingMoney[buildingID] / totalWorkerCount);
                             break;
                     }
                 }
@@ -392,7 +393,7 @@ namespace RealCity.UI
                 num = 0;
             }
 
-            if (MainDataStore.building_money[buildingID] < 0)
+            if (BuildingData.buildingMoney[buildingID] < 0)
             {
                 num = 0;
             }

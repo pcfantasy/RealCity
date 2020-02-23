@@ -58,14 +58,6 @@ namespace RealCity
                         }
                     }
 
-                    if ((MainDataStore.update_money_count & 3u) == 0)
-                    {
-                        if (Politics.parliamentCount != 0)
-                        {
-                            HoldMeeting();
-                        }
-                    }
-
                     CaculateCitizenTransportFee();
                     MainDataStore.update_money_count++;
                     if (MainDataStore.update_money_count == 17)
@@ -83,18 +75,6 @@ namespace RealCity
                     HumanUI.refeshOnce = true;
                     TouristUI.refeshOnce = true;
                     PBLUI.refeshOnce = true;
-                    //5 update money
-                    if (!RealCityEconomyManager._init)
-                    {
-                        RealCityEconomyManager.Init();
-                        RealCityEconomyManager._init = true;
-                    }
-                    long _cashAmount = (long)RealCityEconomyManager.cashAmount.GetValue(Singleton<EconomyManager>.instance);
-                    RealCityEconomyManager.cashAmount.SetValue(Singleton<EconomyManager>.instance, (_cashAmount + MainDataStore.cashAmount));
-                    long _cashDelta = (long)RealCityEconomyManager.cashDelta.GetValue(Singleton<EconomyManager>.instance);
-                    RealCityEconomyManager.cashDelta.SetValue(Singleton<EconomyManager>.instance, (_cashDelta + MainDataStore.cashDelta));
-                    MainDataStore.cashAmount = 0;
-                    MainDataStore.cashDelta = 0;
                 }
             }
             return internalMoneyAmount;
@@ -199,6 +179,15 @@ namespace RealCity
                 GetSeats();
                 CreateGoverment();
             }
+
+            if ((MainDataStore.update_money_count & 3u) == 0)
+            {
+                if (Politics.parliamentCount != 0)
+                {
+                    HoldMeeting();
+                }
+            }
+
             //Caculate goverment salary
             if (MainDataStore.citizenCount != 0)
             {

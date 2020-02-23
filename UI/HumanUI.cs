@@ -4,6 +4,7 @@ using ColossalFramework;
 using System;
 using RealCity.CustomAI;
 using RealCity.Util;
+using RealCity.CustomData;
 
 namespace RealCity.UI
 {
@@ -69,19 +70,19 @@ namespace RealCity.UI
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             uint num2 = currentFrameIndex & 255u;
 
-            if (refeshOnce || (MainDataStore.last_citizenid != WorldInfoPanel.GetCurrentInstanceID().Citizen))
+            if (refeshOnce || (CitizenData.lastCitizenID != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
                 if (isVisible)
                 {
-                    MainDataStore.last_citizenid = WorldInfoPanel.GetCurrentInstanceID().Citizen;
+                    CitizenData.lastCitizenID = WorldInfoPanel.GetCurrentInstanceID().Citizen;
                     CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                    ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)MainDataStore.last_citizenid)].m_homeBuilding;
+                    ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)CitizenData.lastCitizenID)].m_homeBuilding;
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                    uint homeId = instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].GetContainingUnit(MainDataStore.last_citizenid, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                    familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , MainDataStore.family_money[homeId]);
+                    uint homeId = instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].GetContainingUnit(CitizenData.lastCitizenID, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
+                    familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , CitizenUnitData.familyMoney[homeId]);
                     familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId));
 
-                    if ((instance3.m_citizens.m_buffer[MainDataStore.last_citizenid].m_flags & Citizen.Flags.NeedGoods) != 0)
+                    if ((instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].m_flags & Citizen.Flags.NeedGoods) != 0)
                     {
                         familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}] " + Localization.Get("FAMILY_NEED_GOODS"), instance3.m_units.m_buffer[homeId].m_goods.ToString());
                     }

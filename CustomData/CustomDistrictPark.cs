@@ -2,7 +2,7 @@
 
 namespace RealCity.CustomData
 {
-    public static class CustomDistrictPark
+    public class CustomDistrictPark
 	{
 		public static uint CalculatePolicyExpenses(ref DistrictPark district)
 		{
