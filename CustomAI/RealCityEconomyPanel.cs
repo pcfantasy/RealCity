@@ -42,14 +42,12 @@ namespace RealCity.CustomAI
 
             for (int i = 0; i < m_arenas[(int)arenaIndex].Count; i++)
             {
-                ushort num = m_arenas[(int)arenaIndex][i];
-                var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[num].Info;
+                ushort buildingID = m_arenas[(int)arenaIndex][i];
+                var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
                 if (Info != null)
                 {
-                    long num3 = 0L;
-                    long num4 = 0L;
-                    Singleton<EconomyManager>.instance.GetIncomeAndExpenses(Info.m_class.m_service, Info.m_class.m_subService, Info.m_class.m_level, out num3, out num4);
-                    expenses += num4;
+                    Singleton<EconomyManager>.instance.GetIncomeAndExpenses(Info.m_class.m_service, Info.m_class.m_subService, Info.m_class.m_level, out long _, out long expense);
+                    expenses += expense;
                     return;
                 }
             }

@@ -241,6 +241,7 @@ namespace RealCity.CustomAI
                             CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
                             if (commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Food || commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Goods)
                             {
+                                //SecondaryIncoming : FirstIncoming = 1:3
                                 price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(commercialBuildingAI.m_incomingResource) + (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.LuxuryProducts))) / 4f;
                             }
                             else
@@ -256,9 +257,10 @@ namespace RealCity.CustomAI
                             price = RealCityIndustryBuildingAI.GetResourcePrice(tempReason);
                             break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
-                            TransferManager.TransferReason tempReason2 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
-                            price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(tempReason1) + (RealCityIndustryBuildingAI.GetResourcePrice(tempReason2))) / 4f;
+                            TransferManager.TransferReason firstReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+                            TransferManager.TransferReason secondReason = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
+                            //SecondaryIncoming : FirstIncoming = 1:3
+                            price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(firstReason) + (RealCityIndustryBuildingAI.GetResourcePrice(secondReason))) / 4f;
                             break;
                         default:
                             price = 0; break;
@@ -311,7 +313,7 @@ namespace RealCity.CustomAI
             return price;
         }
 
-        public static int GetTaxRate(Building data, ushort buildingID)
+        public static int GetTaxRate(Building data)
         {
             if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
             {

@@ -518,7 +518,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //5
+                //3
                 //private void CalculateArenasExpenses(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)
                 DebugLog.LogToFileOnly("Detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses calls");
                 try
@@ -532,7 +532,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //6
+                //4
                 //public static uint CalculatePolicyExpenses(ref DistrictPark district)
                 DebugLog.LogToFileOnly("Detour DistrictPark::CalculatePolicyExpenses calls");
                 try
@@ -546,7 +546,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //7
+                //5
                 //public static void CalculateVarsityExpenses(ref DistrictPark district, out ulong upkeep, out int coaching, out int cheerleading, out int policies, out ulong total)
                 DebugLog.LogToFileOnly("Detour DistrictPark:CalculateVarsityExpenses calls");
                 try
@@ -560,7 +560,7 @@ namespace RealCity
                     detourFailed = true;
                 }
 
-                //8
+                //6
                 DebugLog.LogToFileOnly("Detour IndustryBuildingAI::GetResourcePrice calls");
                 try
                 {

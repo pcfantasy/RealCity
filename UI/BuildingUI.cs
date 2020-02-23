@@ -169,7 +169,7 @@ namespace RealCity.UI
                             }
                         }
 
-                        int m_sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData, BuildingData.lastBuildingID);
+                        int m_sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData);
                         if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                         {
                             sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%] " + Localization.Get("INCLUDE_RESOURCE_TAX"), m_sellTax);

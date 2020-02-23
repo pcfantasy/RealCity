@@ -42,18 +42,22 @@ namespace RealCity.CustomAI
                     {
                         buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 >> MainDataStore.reduceCargoDivShift));
                     }
-                    else
-                    {
+                    //else
+                    //{
                         //NightTime 2x , reduceVehicle 1/2, so do nothing
                         //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 / (float)MainDataStore.reduceCargoDiv) * 2f);
-                    }
+                    //}
                 }
                 else
                 {
-                    if (Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
-                    }
+                    //if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    //{
+                    //    buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
+                    //}
+                    //else
+                    //{
+                          buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
+                    //}
                 }
             }
         }
@@ -66,11 +70,25 @@ namespace RealCity.CustomAI
             {
                 if (RealCity.reduceVehicle)
                 {
-                    buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / (temp * MainDataStore.reduceCargoDiv)));
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    {
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / (temp * MainDataStore.reduceCargoDiv)));
+                    }
+                    else
+                    {
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
+                    }
                 }
                 else
                 {
-                    buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    {
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
+                    }
+                    else
+                    {
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)((deltaCustomBuffer1 << 1) / temp));
+                    }
                 }
             }
 
@@ -83,18 +101,23 @@ namespace RealCity.CustomAI
                     {
                         buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 >> MainDataStore.reduceCargoDivShift));
                     }
-                    else
-                    {
+                    //else
+                    //{
                         //NightTime 2x , reduceVehicle 1/2, so do nothing
                         //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv) * 2f);
-                    }
+                    //}
                 }
                 else
                 {
-                    if (Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + deltaCustomBuffer2);
-                    }
+                    //if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    //{
+                    //    buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2));
+                    //}
+                    //else
+                    //{
+                          //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 * 2f));
+                          buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + deltaCustomBuffer2);
+                    //}
                 }
             }
         }
@@ -337,36 +360,36 @@ namespace RealCity.CustomAI
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
-            int num = 0;
-            GetLandRent(out num, building, buildingID);
-            int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
+            int landFee;
+            GetLandRent(out landFee, building, buildingID);
+            int taxRate;
+            taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
             if (BuildingData.buildingMoney[buildingID] <= 0)
             {
-                num2 = 0;
+                landFee = 0;
             }
             if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
             {
-                num = 0;
+                landFee = 0;
             }
-            num = (int)(num * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
+            landFee = (int)(landFee * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
             if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
             {
-                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (float)(num * num2) / 100);
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (float)(landFee * taxRate) / 100);
             }
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
                 if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
                 {
-                    num = num * 95 / 100;
+                    landFee = landFee * 95 / 100;
                 }
             }
             if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None)
             {
-                num = num * 95 / 100;
+                landFee = landFee * 95 / 100;
             }
 
-            Singleton<EconomyManager>.instance.AddPrivateIncome(num, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, num2 * 100);
+            Singleton<EconomyManager>.instance.AddPrivateIncome(landFee, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, taxRate * 100);
         }
 
         public static void GetLandRent(out int incomeAccumulation, Building building, ushort buildingID)
@@ -491,7 +514,7 @@ namespace RealCity.CustomAI
             {
                 Randomizer randomizer = new Randomizer(buildingID);
                 int temp = randomizer.Int32(4u);
-                //petrol related
+                //2:petrol 3:coal, increase benefit
                 if (temp == 2)
                 {
                     finalIdex = finalIdex * 1.5f / 4f;

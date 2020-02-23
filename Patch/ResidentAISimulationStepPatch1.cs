@@ -202,7 +202,7 @@ namespace RealCity.CustomAI
 
         }
 
-        public static byte ProcessFamily(uint homeID, ref CitizenUnit data)
+        public static void ProcessFamily(uint homeID, ref CitizenUnit data)
         {
             if (RealCityResidentAI.preCitizenId > homeID)
             {
@@ -257,10 +257,10 @@ namespace RealCity.CustomAI
             }
 
             //DebugLog.LogToFileOnly($"ProcessCitizen pre family {homeID} moneny {CitizenUnitData.familyMoney[homeID]}");
-            //ProcessCitizen pre, gather all citizenMoney to family
+            //ProcessCitizen pre, gather all citizenMoney to familyMoney
             ProcessCitizen(homeID, ref data, true);
             //DebugLog.LogToFileOnly($"ProcessCitizen post family {homeID} moneny {CitizenUnitData.familyMoney[homeID]}");
-            //1.We caculate citizen income
+            //1.We calculate citizen income
             int familySalaryCurrent = 0;
             familySalaryCurrent += RealCityResidentAI.ProcessCitizenSalary(data.m_citizen0, false);
             familySalaryCurrent += RealCityResidentAI.ProcessCitizenSalary(data.m_citizen1, false);
@@ -274,13 +274,13 @@ namespace RealCity.CustomAI
                 familySalaryCurrent = 0;
             }
 
-            //2.We caculate salary tax
+            //2.We calculate salary tax
             float tax = (float)Politics.residentTax * familySalaryCurrent / 100f;
             RealCityResidentAI.tempCitizenSalaryTaxTotal = RealCityResidentAI.tempCitizenSalaryTaxTotal + (int)tax;
             RealCityResidentAI.citizenSalaryTaxTotal = (int)RealCityResidentAI.tempCitizenSalaryTaxTotal;
             ProcessCitizenIncomeTax(homeID, tax);
 
-            //3. We caculate expense
+            //3. We calculate expense
             int educationFee = 0;
             int expenseRate = 0;
             CitizenManager instance = Singleton<CitizenManager>.instance;
@@ -313,9 +313,7 @@ namespace RealCity.CustomAI
             float incomeMinusExpense = familySalaryCurrent - tax - educationFee - expenseRate;
             CitizenUnitData.familyMoney[homeID] += incomeMinusExpense;
 
-            //5. Process shopping
-
-            //6. Process citizen status
+            //5. Process citizen status
             if (incomeMinusExpense <= 0)
             {
                 RealCityResidentAI.familyLossMoneyCount++;
@@ -329,7 +327,37 @@ namespace RealCity.CustomAI
                 RealCityResidentAI.familyProfitMoneyCount++;
             }
 
-            //7. Caculate minimumLivingAllowance and benefitOffset
+            //6. Limit familyMoney
+            if (CitizenUnitData.familyMoney[homeID] > 3200000f)
+            {
+                CitizenUnitData.familyMoney[homeID] = 3200000f;
+            }
+
+            if (CitizenUnitData.familyMoney[homeID] < -3200000f)
+            {
+                CitizenUnitData.familyMoney[homeID] = -3200000f;
+            }
+
+            //7. Fixed m_goods consuption
+            //7.1 based on incomeMinusExpense
+            float fixedGoodsConsumption = incomeMinusExpense / 10f;
+            //7.2 based on familyMoney
+            if (CitizenUnitData.familyMoney[homeID] > 0)
+            {
+                fixedGoodsConsumption += (int)(CitizenUnitData.familyMoney[homeID] / 5000);
+            }
+            if (fixedGoodsConsumption < 1)
+            {
+                fixedGoodsConsumption = 1;
+            }
+            else if (fixedGoodsConsumption > 20)
+            {
+                fixedGoodsConsumption = 20;
+            }
+
+            CitizenUnitData.familyMoney[homeID] -= fixedGoodsConsumption * RealCityIndustryBuildingAI.CustomGetResourcePrice(TransferManager.TransferReason.Shopping);
+
+            //8. Caculate minimumLivingAllowance and benefitOffset
             if (CitizenUnitData.familyMoney[homeID] < (-Politics.benefitOffset))
             {
                 int num = (int)(-CitizenUnitData.familyMoney[homeID]);
@@ -347,36 +375,8 @@ namespace RealCity.CustomAI
                 }
             }
 
-            //8. Limit familyMoney
-            if (CitizenUnitData.familyMoney[homeID] > 32000000f)
-            {
-                CitizenUnitData.familyMoney[homeID] = 32000000f;
-            }
-
-            if (CitizenUnitData.familyMoney[homeID] < -32000000f)
-            {
-                CitizenUnitData.familyMoney[homeID] = -32000000f;
-            }
-
-            //ProcessCitizen post, split all familyMoney to citizen
+            //ProcessCitizen post, split all familyMoney to CitizenMoney
             ProcessCitizen(homeID, ref data, false);
-            //9. Fixed m_goods consuption
-            //9.1 based on incomeMinusExpense
-            float fixedGoodsConsumption = incomeMinusExpense / 10f;
-            //9.2 based on familyMoney
-            if (CitizenUnitData.familyMoney[homeID] > 0)
-            {
-                fixedGoodsConsumption += (int)(CitizenUnitData.familyMoney[homeID] / 5000);
-            }
-            if (fixedGoodsConsumption < 1)
-            {
-                fixedGoodsConsumption = 1;
-            }
-            else if (fixedGoodsConsumption > 20)
-            {
-                fixedGoodsConsumption = 20;
-            }
-            return (byte)fixedGoodsConsumption;
         }
 
 
@@ -397,17 +397,12 @@ namespace RealCity.CustomAI
         }
 
         // ResidentAI
-        public static void Prefix(uint homeID, ref CitizenUnit data)
+        public static void Postfix(uint homeID, ref CitizenUnit data)
         {
-            // NON-STOCK CODE START
-            // -20 because later in game code, m_goods will minus 20
-            int fixedGoodsConsumption = 0;
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
-                fixedGoodsConsumption = ProcessFamily(homeID, ref data) - 21;
-                data.m_goods = (ushort)Mathf.Max(20, (data.m_goods - fixedGoodsConsumption)); //here we can adjust demand
+                ProcessFamily(homeID, ref data);
             }
-            // NON-STOCK CODE END
         }
 
         public static int GetExpenseRate(uint citizenID, out int incomeAccumulation)

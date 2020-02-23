@@ -6,7 +6,7 @@ namespace RealCity.CustomAI
     {
         public static int CustomGetResourcePrice(TransferManager.TransferReason material)
         {
-            int price = 0;
+            int price;
             switch (material)
             {
                 case TransferManager.TransferReason.AnimalProducts:
