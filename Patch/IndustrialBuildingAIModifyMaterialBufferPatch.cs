@@ -5,6 +5,7 @@ using RealCity.CustomData;
 using RealCity.Util;
 using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace RealCity.Patch
 {
@@ -21,7 +22,7 @@ namespace RealCity.Patch
         {
             if (material == RealCityIndustrialBuildingAI.GetOutgoingTransferReason(buildingID))
             {
-                revertTradeIncome(buildingID, ref data, material, ref amountDelta);
+                RevertTradeIncome(buildingID, ref data, material, ref amountDelta);
             }
         }
 
@@ -29,41 +30,43 @@ namespace RealCity.Patch
         {
             if (material == RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID) || material == RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID))
             {
-                processIncoming(buildingID, ref data, material, ref amountDelta);
+                ProcessIncoming(buildingID, material, ref amountDelta);
             }
             else if (material == RealCityIndustrialBuildingAI.GetOutgoingTransferReason(buildingID))
             {
-                caculateTradeIncome(buildingID, ref data, material, ref amountDelta);
+                CaculateTradeIncome(buildingID, ref data, material, ref amountDelta);
             }
         }
 
-        public static void processIncoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public static void ProcessIncoming(ushort buildingID, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-            BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - trade_income1;
+            float tradeIncome = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+            BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - tradeIncome;
         }
 
-        public static void revertTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public static void RevertTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             if (amountDelta > 0)
             {
                 //revert
-                float trade_income1 = -amountDelta * RealCityPrivateBuildingAI.GetPrice(true, buildingID, data);
-                float trade_tax = 0;
-                trade_tax = -trade_income1 * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
-                MainDataStore.unfinishedTransitionLost += (int)(trade_tax / 100f);
-                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, (int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level);
-                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] + (trade_income1 - trade_tax));
+                data.m_customBuffer2 = (ushort)Mathf.Clamp(data.m_customBuffer2 + amountDelta, 0, 65535);
+                float tradeIncome = -amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                float tradeTax = -tradeIncome * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
+                MainDataStore.unfinishedTransitionLost += (int)(tradeTax / 100f);
+                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, (int)tradeTax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level);
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] + (tradeIncome - tradeTax));
             }
         }
 
-        public static void caculateTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
-        { 
-                float trade_income1 = amountDelta * RealCityPrivateBuildingAI.GetPrice(true, buildingID, data);
-                float trade_tax = 0;
-                trade_tax = -trade_income1 * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
-                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
-                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (trade_income1 + trade_tax));
+        public static void CaculateTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        {
+            if (amountDelta < 0)
+            {
+                float tradeIncome = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                float tradeTax = -tradeIncome * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
+                Singleton<EconomyManager>.instance.AddPrivateIncome((int)tradeTax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111);
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (tradeIncome + tradeTax));
+            }
         }
     }
 }

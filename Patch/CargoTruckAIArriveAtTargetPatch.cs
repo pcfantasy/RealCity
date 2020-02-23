@@ -30,13 +30,11 @@ namespace RealCity.Patch
                 num = Mathf.Min(0, data.m_transferSize - __instance.m_cargoCapacity);
             }
             // NON-STOCK CODE START
-            ProcessResourceArriveAtTarget(vehicleID, ref data, ref num);
+            ProcessResourceArriveAtTarget(ref data, ref num);
         }
-        public static void ProcessResourceArriveAtTarget(ushort vehicleID, ref Vehicle data, ref int num)
+        public static void ProcessResourceArriveAtTarget(ref Vehicle data, ref int num)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
-            Building building = instance.m_buildings.m_buffer[data.m_sourceBuilding];
-            Building building1 = instance.m_buildings.m_buffer[data.m_targetBuilding];
             BuildingInfo info = instance.m_buildings.m_buffer[data.m_targetBuilding].Info;
             if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
             { 
@@ -65,11 +63,6 @@ namespace RealCity.Patch
                     if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
                     {
                         data.m_transferSize = (ushort)Mathf.Clamp(data.m_transferSize - num, 0, data.m_transferSize);
-                    }
-
-                    if ((data.m_flags & Vehicle.Flags.TransferToSource) != 0)
-                    {
-                        data.m_transferSize += (ushort)Mathf.Max(0, -num);
                     }
                 }
             }

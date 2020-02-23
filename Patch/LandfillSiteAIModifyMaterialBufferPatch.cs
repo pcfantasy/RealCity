@@ -5,32 +5,32 @@ using RealCity.CustomData;
 using RealCity.Util;
 using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class IndustrialExtractorAIModifyMaterialBufferPatch
+    public class LandfillSiteAIModifyMaterialBufferPatch
     {
         public static MethodBase TargetMethod()
         {
-            return typeof(IndustrialExtractorAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
+            return typeof(LandfillSiteAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
         }
 
-        public static void Prefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public static void Prefix(ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == RealCityIndustrialExtractorAI.GetOutgoingTransferReason(buildingID))
+            if ((material == TransferManager.TransferReason.Lumber) || (material == TransferManager.TransferReason.Coal) || (material == TransferManager.TransferReason.Petrol))
             {
-                RevertGabargeIncome(buildingID, amountDelta, material);
+                RevertGabargeIncome(ref data, amountDelta, material);
             }
         }
 
-        public static void RevertGabargeIncome(ushort buildingID , int num , TransferManager.TransferReason material)
+        public static void RevertGabargeIncome(ref Building building , int num , TransferManager.TransferReason material)
         {
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            Building building = instance.m_buildings.m_buffer[buildingID];
             if (building.Info.m_class.m_service == ItemClass.Service.Garbage)
             {
-                float product_value = 0f;
+                building.m_customBuffer2 = (ushort)Mathf.Clamp(building.m_customBuffer2 + num, 0, 65535);
+                float product_value;
                 switch (material)
                 {
                     case TransferManager.TransferReason.Lumber:
