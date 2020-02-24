@@ -26,8 +26,8 @@
         public const byte indu_gen_level3 = 40;
         public const byte indu_forest = 30;
         public const byte indu_farm = 20;
-        public const byte indu_oil = 60;
-        public const byte indu_ore = 60;
+        public const byte indu_oil = 50;
+        public const byte indu_ore = 40;
         public const byte office_gen_levell = 220;
         public const byte office_gen_level2 = 230;
         public const byte office_gen_level3 = 240;
