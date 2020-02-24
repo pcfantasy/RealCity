@@ -50,14 +50,15 @@ namespace RealCity.CustomAI
                 }
                 else
                 {
-                    //if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    //{
-                    //    buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
-                    //}
-                    //else
-                    //{
-                          buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
-                    //}
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    {
+                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
+                    }
+                    else
+                    {
+                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + 2 * deltaCustomBuffer1);
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
+                    }
                 }
             }
         }
@@ -109,15 +110,15 @@ namespace RealCity.CustomAI
                 }
                 else
                 {
-                    //if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    //{
-                    //    buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2));
-                    //}
-                    //else
-                    //{
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    {
+                        //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2));
+                    }
+                    else
+                    {
                           //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 * 2f));
                           buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + deltaCustomBuffer2);
-                    //}
+                    }
                 }
             }
         }
