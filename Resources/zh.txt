@@ -177,7 +177,7 @@ WEEKEND_OTHER_BUDGET	周末其它时间预算
 WeekDayPlan	工作日预算
 WeekEndPlan	周末预算
 NoPlan	无预算
-TLMRUNNING	TransportLineManager正在工作,智能公共交通预算不会工作,用TLM内建功能
+TLMRUNNING	TransportLineManager正在工作或RealTime没在工作,智能公共交通预算不会工作
 TLMNOTRUNNING	TransportLineManager关闭,智能公共交通预算可以工作
 MAX_MORNING_BUDGET	最大发车早高峰预算(8-10)
 MAX_EVENING_BUDGET	最大发车晚高峰预算(17-19)

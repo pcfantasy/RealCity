@@ -178,7 +178,7 @@ WEEKEND_OTHER_BUDGET	weekend other budget
 WeekDayPlan	WeekDayPlan
 WeekEndPlan	WeekEndPlan
 NoPlan	NoPlan
-TLMRUNNING	TransportLineManager is running, SPTB function disabled, use TLM instead.
+TLMRUNNING	TransportLineManager is running or RealTime is not running, SPTB function disabled.
 TLMNOTRUNNING	TransportLineManager is not running, SPTB function can be used.
 MAX_MORNING_BUDGET	max morning budget(8-10)
 MAX_EVENING_BUDGET	max evening budget(17-19)

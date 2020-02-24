@@ -60,6 +60,7 @@ namespace RealCity
         public static PBLUI PBLUI;
         public static GameObject PBLWindowGameObject;
         public static bool isTransportLinesManagerRunning = false;
+        public static bool isRealTimeRunning = false;
 
         public override void OnCreated(ILoading loading)
         {
@@ -76,6 +77,10 @@ namespace RealCity
                 if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
                 {
                     isTransportLinesManagerRunning = CheckTransportLinesManagerIsLoaded();
+                    DebugLog.LogToFileOnly($"Check TLM running = {isTransportLinesManagerRunning}");
+                    isRealTimeRunning = CheckRealTimeIsLoaded();
+                    DebugLog.LogToFileOnly($"Check RealTime running = {isRealTimeRunning}");
+                    isTransportLinesManagerRunning = isTransportLinesManagerRunning || (!isRealTimeRunning);
                     //refresh OptionsMainPanel
                     MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
                     method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
@@ -592,6 +597,11 @@ namespace RealCity
         private bool CheckTransportLinesManagerIsLoaded()
         {
             return Check3rdPartyModLoaded("Klyte.TransportLinesManager", false);
+        }
+
+        private bool CheckRealTimeIsLoaded()
+        {
+            return Check3rdPartyModLoaded("RealTime.Core", false);
         }
     }
 }
