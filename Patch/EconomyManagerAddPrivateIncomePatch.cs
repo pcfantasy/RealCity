@@ -290,9 +290,9 @@ namespace RealCity.Patch
                 //taxRate = 100; no need to send taxRate.
                 EXAddPersonalTaxIncome(ref amount, service);
             }
-            else if (taxRate == 111)
+            else if (taxRate == 111333)
             {
-                //111 means trade income
+                //111333 means trade income
                 //taxRate = 100; no need to send taxRate.
                 EXAddPrivateTradeIncome(ref amount, subService);
             }

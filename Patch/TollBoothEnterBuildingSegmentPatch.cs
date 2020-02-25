@@ -25,7 +25,7 @@ namespace RealCity.Patch
                     VehicleManager instance = Singleton<VehicleManager>.instance;
                     Vehicle vehicleData = instance.m_vehicles.m_buffer[vehicle];
                     VehicleInfo info = instance.m_vehicles.m_buffer[vehicle].Info;
-                    if (vehicleData.m_transferType != 112 && vehicleData.m_transferType != 113)
+                    if (vehicleData.m_transferType != 212 && vehicleData.m_transferType != 213)
                     {
                         if (!VehicleData.isVehicleCharged[vehicle])
                         {
