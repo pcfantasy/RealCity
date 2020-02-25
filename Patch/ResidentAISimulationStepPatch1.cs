@@ -236,6 +236,9 @@ namespace RealCity.CustomAI
                 {
                     MainDataStore.familyWeightStableLow = RealCityResidentAI.familyWeightStableLow;
                 }
+
+                MainDataStore.totalFamilyGoodDemand = RealCityResidentAI.totalFamilyGoodDemand;
+
                 RealCityResidentAI.familyVeryProfitMoneyCount = 0;
                 RealCityResidentAI.familyProfitMoneyCount = 0;
                 RealCityResidentAI.familyLossMoneyCount = 0;
@@ -247,6 +250,7 @@ namespace RealCity.CustomAI
                 RealCityResidentAI.tempCitizenSalaryTaxTotal = 0f;
                 RealCityResidentAI.familyWeightStableHigh = 0;
                 RealCityResidentAI.familyWeightStableLow = 0;
+                RealCityResidentAI.totalFamilyGoodDemand = 0;
             }
             RealCityResidentAI.preCitizenId = homeID;
             RealCityResidentAI.familyCount++;
@@ -377,6 +381,8 @@ namespace RealCity.CustomAI
 
             //ProcessCitizen post, split all familyMoney to CitizenMoney
             ProcessCitizen(homeID, ref data, false);
+
+            RealCityResidentAI.totalFamilyGoodDemand += fixedGoodsConsumption;
         }
 
 

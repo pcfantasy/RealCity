@@ -56,8 +56,8 @@ namespace RealCity.Patch
                             product_value = num * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
                             Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.None, ItemClass.Level.Level1);
                             break;
-                        case (TransferManager.TransferReason)210:
-                        case (TransferManager.TransferReason)211: break;
+                        case (TransferManager.TransferReason)124:
+                        case (TransferManager.TransferReason)125: break;
                         default: DebugLog.LogToFileOnly("Error: ProcessResourceArriveAtTarget find unknow play building transition" + info.m_class.ToString() + "transfer reason " + data.m_transferType.ToString()); break;
                     }
                     if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)

@@ -125,6 +125,7 @@
     <Compile Include="Patch\EconomyManagerAddResourcePatch.cs" />
     <Compile Include="Patch\EconomyManagerAddResourcePatch1.cs" />
     <Compile Include="Patch\VehicleManagerReleaseVehicleImplementationPatch.cs" />
+    <Compile Include="Patch\ZoneManagerCalculateCommercialDemandPatch.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />
     <Compile Include="Patch\EconomyManagerFetchResourcePatch.cs" />
     <Compile Include="Patch\CitizenManagerReleaseCitizenImplementationPatch.cs" />
