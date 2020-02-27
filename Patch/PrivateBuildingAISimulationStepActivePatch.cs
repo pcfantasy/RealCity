@@ -264,47 +264,47 @@ namespace RealCity.CustomAI
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                investToOffice = 0.00025f;
+                                investToOffice = 0.005f;
                             } else
                             {
-                                investToOffice = 0.0005f;
+                                investToOffice = 0.001f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            investToOffice = 0.001f;
+                            investToOffice = 0.002f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            investToOffice = 0.0015f;
+                            investToOffice = 0.003f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            investToOffice = 0.002f;
+                            investToOffice = 0.004f;
                         }
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                bossTake = 0.005f;
+                                bossTake = 0.01f;
                             }
                             else
                             {
-                                bossTake = 0.001f;
+                                bossTake = 0.002f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            bossTake = 0.002f;
+                            bossTake = 0.004f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            bossTake = 0.003f;
+                            bossTake = 0.006f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            bossTake = 0.004f;
+                            bossTake = 0.008f;
                         }
 
                         RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);

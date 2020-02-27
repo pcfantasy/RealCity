@@ -17,7 +17,7 @@ namespace RealCity.Patch
         public static void Prefix(ref CitizenManager __instance, uint citizen)
         {
             var data = __instance.m_citizens.m_buffer[citizen];
-            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
+            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist) && data.m_flags.IsFlagSet(Citizen.Flags.MovingIn))
             {
                 //Add initial money
                 if (data.WealthLevel == Citizen.Wealth.Low)

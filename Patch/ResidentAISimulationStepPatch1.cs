@@ -202,7 +202,7 @@ namespace RealCity.CustomAI
 
         }
 
-        public static void ProcessFamily(uint homeID, ref CitizenUnit data)
+        public static float ProcessFamily(uint homeID, ref CitizenUnit data)
         {
             if (RealCityResidentAI.preCitizenId > homeID)
             {
@@ -344,19 +344,16 @@ namespace RealCity.CustomAI
 
             //7. Fixed m_goods consuption
             //7.1 based on incomeMinusExpense
-            float fixedGoodsConsumption = incomeMinusExpense / 10f;
+            float fixedGoodsConsumption = incomeMinusExpense / (RealCityIndustryBuildingAI.CustomGetResourcePrice(TransferManager.TransferReason.Shopping) << 1);
             //7.2 based on familyMoney
             if (CitizenUnitData.familyMoney[homeID] > 0)
             {
-                fixedGoodsConsumption += (int)(CitizenUnitData.familyMoney[homeID] / 5000);
+                fixedGoodsConsumption += (int)((CitizenUnitData.familyMoney[homeID] - 20000) / 5000);
             }
+
             if (fixedGoodsConsumption < 1)
             {
                 fixedGoodsConsumption = 1;
-            }
-            else if (fixedGoodsConsumption > 20)
-            {
-                fixedGoodsConsumption = 20;
             }
 
             CitizenUnitData.familyMoney[homeID] -= fixedGoodsConsumption * RealCityIndustryBuildingAI.CustomGetResourcePrice(TransferManager.TransferReason.Shopping);
@@ -383,6 +380,8 @@ namespace RealCity.CustomAI
             ProcessCitizen(homeID, ref data, false);
 
             RealCityResidentAI.totalFamilyGoodDemand += fixedGoodsConsumption;
+
+            return fixedGoodsConsumption;
         }
 
 
@@ -407,7 +406,11 @@ namespace RealCity.CustomAI
         {
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
-                ProcessFamily(homeID, ref data);
+                data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20 - ProcessFamily(homeID, ref data)), 0, 60000);
+            }
+            else
+            {
+                data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
             }
         }
 
