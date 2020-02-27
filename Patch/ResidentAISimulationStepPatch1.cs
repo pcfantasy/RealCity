@@ -348,7 +348,7 @@ namespace RealCity.Patch
 
             //7. Fixed m_goods consuption
             //7.1 based on incomeMinusExpense
-            float fixedGoodsConsumption = incomeMinusExpense / (RealCityIndustryBuildingAI.CustomGetResourcePrice(TransferManager.TransferReason.Shopping) << 1);
+            float fixedGoodsConsumption = incomeMinusExpense / (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * 2f);
             //7.2 based on familyMoney
             if (CitizenUnitData.familyMoney[homeID] > 0)
             {
@@ -360,7 +360,7 @@ namespace RealCity.Patch
                 fixedGoodsConsumption = 1;
             }
 
-            CitizenUnitData.familyMoney[homeID] -= fixedGoodsConsumption * RealCityIndustryBuildingAI.CustomGetResourcePrice(TransferManager.TransferReason.Shopping);
+            CitizenUnitData.familyMoney[homeID] -= fixedGoodsConsumption * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
 
             //8. Caculate minimumLivingAllowance and benefitOffset
             if (CitizenUnitData.familyMoney[homeID] < (-Politics.benefitOffset))
