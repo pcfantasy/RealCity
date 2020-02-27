@@ -5,8 +5,9 @@ using RealCity.UI;
 using Harmony;
 using System.Reflection;
 using RealCity.CustomData;
+using RealCity.CustomAI;
 
-namespace RealCity.CustomAI
+namespace RealCity.Patch
 {
     [HarmonyPatch]
     public class PrivateBuildingAISimulationStepActivePatch
@@ -147,18 +148,13 @@ namespace RealCity.CustomAI
                 RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal = RealCityPrivateBuildingAI.allOfficeLevel2WorkCount;
                 RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal = RealCityPrivateBuildingAI.allOfficeLevel3WorkCount;
                 RealCityPrivateBuildingAI.profitBuildingCountFinal = RealCityPrivateBuildingAI.profitBuildingCount;
-                RealCityPrivateBuildingAI.profitBuildingMoneyFinal = RealCityPrivateBuildingAI.profitBuildingMoney;
-                RealCityPrivateBuildingAI.allBuildingsFinal = RealCityPrivateBuildingAI.allBuildings;
-                RealCityPrivateBuildingAI.profitBuildingMoney = 0;
                 RealCityPrivateBuildingAI.profitBuildingCount = 0;
                 RealCityPrivateBuildingAI.allOfficeLevel1WorkCount = 0;
                 RealCityPrivateBuildingAI.allOfficeLevel2WorkCount = 0;
                 RealCityPrivateBuildingAI.allOfficeLevel3WorkCount = 0;
                 RealCityPrivateBuildingAI.allOfficeHighTechWorkCount = 0;
-                RealCityPrivateBuildingAI.allBuildings = 0;
             }
             RealCityPrivateBuildingAI.preBuidlingId = buildingID;
-            RealCityPrivateBuildingAI.allBuildings++;
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Residential)
             {
                 BuildingData.buildingMoney[buildingID] = 0;
@@ -264,47 +260,47 @@ namespace RealCity.CustomAI
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                investToOffice = 0.005f;
+                                investToOffice = 0.0025f;
                             } else
                             {
-                                investToOffice = 0.001f;
+                                investToOffice = 0.0005f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            investToOffice = 0.002f;
+                            investToOffice = 0.001f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            investToOffice = 0.003f;
+                            investToOffice = 0.0015f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            investToOffice = 0.004f;
+                            investToOffice = 0.002f;
                         }
                         // Boss will to take 
                         if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
                         {
                             if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                             {
-                                bossTake = 0.01f;
+                                bossTake = 0.005f;
                             }
                             else
                             {
-                                bossTake = 0.002f;
+                                bossTake = 0.001f;
                             }
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                         {
-                            bossTake = 0.004f;
+                            bossTake = 0.002f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                         {
-                            bossTake = 0.006f;
+                            bossTake = 0.003f;
                         }
                         else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                         {
-                            bossTake = 0.008f;
+                            bossTake = 0.004f;
                         }
 
                         RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
@@ -325,21 +321,21 @@ namespace RealCity.CustomAI
                     {
                         if (RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal > 0)
                         {
-                            BuildingData.buildingMoney[buildingID] += RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.1f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal;
+                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.1f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         if (RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal > 0)
                         {
-                            BuildingData.buildingMoney[buildingID] += RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.2f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal;
+                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.2f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         if (RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal > 0)
                         {
-                            BuildingData.buildingMoney[buildingID] += RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.3f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal;
+                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.3f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal;
                         }
                     }
                 }
@@ -347,7 +343,7 @@ namespace RealCity.CustomAI
                 {
                     if (RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal > 0)
                     {
-                        BuildingData.buildingMoney[buildingID] += RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.4f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
+                        BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.4f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
                     }
                 }
             }

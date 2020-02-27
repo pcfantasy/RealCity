@@ -7,6 +7,7 @@
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const int reduceCargoDiv = 2;
         public const int reduceCargoDivShift = 1;
+        public const float profitShareRatio = 0.03f;
 
         public const byte govermentEducation0SalaryFixed = 50;
         public const byte govermentEducation1SalaryFixed = 55;

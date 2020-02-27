@@ -79,7 +79,7 @@ namespace RealCity.CustomAI
             return (localSalaryIdex + citySalaryIdex) / 2f;
         }
 
-        public static bool isGoverment(ushort buildingID)
+        public static bool IsGoverment(ushort buildingID)
         {
             bool isGoverment = false;
             Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
@@ -124,7 +124,7 @@ namespace RealCity.CustomAI
                     int totalWorkCount = 0;
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                     BuildingUI.GetWorkBehaviour(workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
-                    if (!isGoverment(workBuilding))
+                    if (!IsGoverment(workBuilding))
                     {
                         switch (buildingData.Info.m_class.m_service)
                         {
@@ -132,8 +132,12 @@ namespace RealCity.CustomAI
                             case ItemClass.Service.Industrial:
                                 if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
                                 {
-                                    salary = (int)(BuildingData.buildingMoney[workBuilding] * 0.03f / totalWorkCount);
+                                    salary = (int)(BuildingData.buildingMoney[workBuilding] * MainDataStore.profitShareRatio / totalWorkCount);
                                     break;
+                                }
+                                if (!checkOnly)
+                                {
+                                    BuildingData.buildingMoney[workBuilding] -= salary;
                                 }
                                 break;
                             case ItemClass.Service.Office:
@@ -143,10 +147,6 @@ namespace RealCity.CustomAI
                                 }
                                 break;
                             default: break;
-                        }
-                        if (!checkOnly)
-                        {
-                            BuildingData.buildingMoney[workBuilding] -= salary;
                         }
                     }
                     else

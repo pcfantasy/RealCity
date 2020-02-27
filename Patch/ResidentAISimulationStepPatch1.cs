@@ -5,8 +5,9 @@ using RealCity.Util;
 using Harmony;
 using System.Reflection;
 using RealCity.CustomData;
+using RealCity.CustomAI;
 
-namespace RealCity.CustomAI
+namespace RealCity.Patch
 {
     [HarmonyPatch]
     public class ResidentAISimulationStepPatch1
@@ -239,6 +240,8 @@ namespace RealCity.CustomAI
 
                 MainDataStore.totalFamilyGoodDemand = RealCityResidentAI.totalFamilyGoodDemand;
 
+                RealCityPrivateBuildingAI.profitBuildingMoneyFinal = RealCityPrivateBuildingAI.profitBuildingMoney;
+
                 RealCityResidentAI.familyVeryProfitMoneyCount = 0;
                 RealCityResidentAI.familyProfitMoneyCount = 0;
                 RealCityResidentAI.familyLossMoneyCount = 0;
@@ -251,6 +254,7 @@ namespace RealCity.CustomAI
                 RealCityResidentAI.familyWeightStableHigh = 0;
                 RealCityResidentAI.familyWeightStableLow = 0;
                 RealCityResidentAI.totalFamilyGoodDemand = 0;
+                RealCityPrivateBuildingAI.profitBuildingMoney = 0;
             }
             RealCityResidentAI.preCitizenId = homeID;
             RealCityResidentAI.familyCount++;
