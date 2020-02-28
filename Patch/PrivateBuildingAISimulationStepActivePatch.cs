@@ -6,6 +6,7 @@ using Harmony;
 using System.Reflection;
 using RealCity.CustomData;
 using RealCity.CustomAI;
+using UnityEngine;
 
 namespace RealCity.Patch
 {
@@ -29,114 +30,6 @@ namespace RealCity.Patch
             ProcessLandFee(buildingData, buildingID);
             LimitAndCheckBuildingMoney(buildingData, buildingID);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
-            ProcessAdditionProduct(buildingID, ref buildingData, ref __state);
-        }
-
-        public static void ProcessAdditionProductIndustrialExtractorAI(ref Building buildingData, ref ushort[] __state)
-        {
-            int deltaCustomBuffer1 = buildingData.m_customBuffer1 - __state[0];
-            if (deltaCustomBuffer1 > 0)
-            {
-                if (RealCity.reduceVehicle)
-                {
-                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 >> MainDataStore.reduceCargoDivShift));
-                    }
-                    //else
-                    //{
-                        //NightTime 2x , reduceVehicle 1/2, so do nothing
-                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 / (float)MainDataStore.reduceCargoDiv) * 2f);
-                    //}
-                }
-                else
-                {
-                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
-                    }
-                    else
-                    {
-                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + 2 * deltaCustomBuffer1);
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
-                    }
-                }
-            }
-        }
-
-        public static void ProcessAdditionProductOthers(ushort buildingID, ref Building buildingData, ref ushort[] __state)
-        {
-            float temp = GetComsumptionDivider(buildingData, buildingID);
-            int deltaCustomBuffer1 = __state[0] - buildingData.m_customBuffer1;
-            if (deltaCustomBuffer1 > 0)
-            {
-                if (RealCity.reduceVehicle)
-                {
-                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / (temp * MainDataStore.reduceCargoDiv)));
-                    }
-                    else
-                    {
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
-                    }
-                }
-                else
-                {
-                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)(deltaCustomBuffer1 / temp));
-                    }
-                    else
-                    {
-                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - (int)((deltaCustomBuffer1 << 1) / temp));
-                    }
-                }
-            }
-
-            int deltaCustomBuffer2 = buildingData.m_customBuffer2 - __state[1];
-            if (deltaCustomBuffer2 > 0)
-            {
-                if (RealCity.reduceVehicle)
-                {
-                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 >> MainDataStore.reduceCargoDivShift));
-                    }
-                    //else
-                    //{
-                        //NightTime 2x , reduceVehicle 1/2, so do nothing
-                        //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv) * 2f);
-                    //}
-                }
-                else
-                {
-                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                    {
-                        //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2));
-                    }
-                    else
-                    {
-                          //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 * 2f));
-                          buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + deltaCustomBuffer2);
-                    }
-                }
-            }
-        }
-
-        public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state)
-        {
-            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial || buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
-            {
-                if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                    ProcessAdditionProductIndustrialExtractorAI(ref buildingData, ref __state);
-                }
-                else
-                {
-                    ProcessAdditionProductOthers(buildingID, ref buildingData, ref __state);
-                }
-            }
         }
         
         public static void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)
@@ -315,27 +208,28 @@ namespace RealCity.Patch
                 int aliveWorkerCount = 0;
                 int totalWorkerCount = 0;
                 BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                float allOfficeWorker = RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal + 2 * RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal + 3 * RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal + 4 * RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
                 if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeGeneric)
                 {
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         if (RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal > 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.1f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal;
+                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * aliveWorkerCount / allOfficeWorker;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         if (RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal > 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.2f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal;
+                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 2f * aliveWorkerCount / allOfficeWorker;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         if (RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal > 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.3f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal;
+                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 3f * aliveWorkerCount / allOfficeWorker;
                         }
                     }
                 }
@@ -343,7 +237,7 @@ namespace RealCity.Patch
                 {
                     if (RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal > 0)
                     {
-                        BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.4f * aliveWorkerCount / RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
+                        BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 4f * aliveWorkerCount / allOfficeWorker;
                     }
                 }
             }
@@ -487,45 +381,6 @@ namespace RealCity.Patch
                     break;
                 default: break;
             }
-        }
-
-        public static float GetComsumptionDivider(Building data, ushort buildingID)
-        {
-            if (data.Info.m_class.m_service == ItemClass.Service.Office)
-            {
-                return 0f;
-            }
-
-            Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
-            int aliveWorkerCount = 0;
-            int totalWorkerCount = 0;
-            BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-            float finalIdex = aliveWorkerCount / 10f;
-
-            if (finalIdex < 1f)
-            {
-                finalIdex = 1f;
-            }
-
-            if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-            {
-                Randomizer randomizer = new Randomizer(buildingID);
-                int temp = randomizer.Int32(4u);
-                //2:petrol 3:coal, increase benefit
-                if (temp == 2)
-                {
-                    finalIdex = finalIdex * 1.5f / 4f;
-                } else if (temp == 3)
-                {
-                    finalIdex = finalIdex * 1.25f / 4f;
-                }
-                else
-                {
-                    finalIdex = finalIdex / 4f;
-                }
-            }
-
-            return finalIdex;
         }
     }
 }

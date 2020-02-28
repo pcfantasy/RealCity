@@ -350,10 +350,15 @@ namespace RealCity.Patch
             //7.1 based on incomeMinusExpense
             float fixedGoodsConsumption = incomeMinusExpense / (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * 2f);
             //7.2 based on familyMoney
+            float additionGoodsConsumption = 0f;
             if (CitizenUnitData.familyMoney[homeID] > 0)
             {
-                fixedGoodsConsumption += (int)((CitizenUnitData.familyMoney[homeID] - 20000) / 5000);
+                additionGoodsConsumption = (int)((CitizenUnitData.familyMoney[homeID] - 20000) / (10f * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping)));
+                if (additionGoodsConsumption < 0)
+                    additionGoodsConsumption = 0;
             }
+
+            fixedGoodsConsumption += additionGoodsConsumption;
 
             if (fixedGoodsConsumption < 1)
             {

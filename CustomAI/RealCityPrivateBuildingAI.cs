@@ -1,6 +1,8 @@
 ﻿using ColossalFramework.Math;
 using RealCity.Util;
 using RealCity.UI;
+using ColossalFramework;
+using UnityEngine;
 
 namespace RealCity.CustomAI
 {
@@ -371,6 +373,112 @@ namespace RealCity.CustomAI
             }
 
             return finalIdex;
+        }
+
+        public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state)
+        {
+            //DebugLog.LogToFileOnly($"Process buildingID = {buildingID}");
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            int num4 = (int)(currentFrameIndex & 4095u);
+            //add production pre 16times
+            if (((num4 >> 8) & 15u) == (buildingID & 15u))
+            {
+                //DebugLog.LogToFileOnly($"Process buildingID inside 16times = {buildingID}");
+                float temp = GetComsumptionDivider(buildingData, buildingID);
+                int deltaCustomBuffer1 = __state[0] - buildingData.m_customBuffer1;
+                if (deltaCustomBuffer1 > 0)
+                {
+                    if (RealCity.reduceVehicle)
+                    {
+                        if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                        {
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / (temp * MainDataStore.reduceCargoDiv)) << 4));
+                        }
+                        else
+                        {
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / temp) << 4));
+                        }
+                    }
+                    else
+                    {
+                        if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                        {
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / temp) << 4));
+                        }
+                        else
+                        {
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)((deltaCustomBuffer1 << 1) / temp) << 4));
+                        }
+                    }
+                }
+
+                int deltaCustomBuffer2 = buildingData.m_customBuffer2 - __state[1];
+                if (deltaCustomBuffer2 > 0)
+                {
+                    if (RealCity.reduceVehicle)
+                    {
+                        if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                        {
+                            buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + ((deltaCustomBuffer2 >> MainDataStore.reduceCargoDivShift) << 4));
+                        }
+                        else
+                        {
+                        //NightTime 2x , reduceVehicle 1/2, so do nothing
+                            buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (((deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv) * 2f) *16f));
+                        }
+                    }
+                    else
+                    {
+                        if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                        {
+                            buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 << 4));
+                        }
+                        else
+                        {
+                            buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + ((deltaCustomBuffer2 << MainDataStore.reduceCargoDivShift) << 4));
+                            //buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + (deltaCustomBuffer2 << 4));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //DebugLog.LogToFileOnly($"Process buildingID outside 16times = {buildingID}");
+                buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0], 0, 64000);
+                buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1], 0, 64000);
+            }
+        }
+
+        public static void ProcessAdditionProduct(ref Building buildingData, ref ushort[] __state)
+        {
+            int deltaCustomBuffer1 = buildingData.m_customBuffer1 - __state[0];
+            if (deltaCustomBuffer1 > 0)
+            {
+                if (RealCity.reduceVehicle)
+                {
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    {
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 >> MainDataStore.reduceCargoDivShift));
+                    }
+                    //else
+                    //{
+                    //NightTime 2x , reduceVehicle 1/2, so do nothing
+                    //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 / (float)MainDataStore.reduceCargoDiv) * 2f);
+                    //}
+                }
+                else
+                {
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
+                    {
+                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
+                    }
+                    else
+                    {
+                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + 2 * deltaCustomBuffer1);
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
+                    }
+                }
+            }
         }
     }
 }

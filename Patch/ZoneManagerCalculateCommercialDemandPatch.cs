@@ -20,6 +20,8 @@ namespace RealCity.Patch
             if (MainDataStore.familyCount != 0)
             {
                 goodDemand = MainDataStore.totalFamilyGoodDemand / MainDataStore.familyCount;
+                if (RealCity.reduceVehicle)
+                    goodDemand *= MainDataStore.reduceCargoDiv;
                 //DebugLog.LogToFileOnly($"average good demand is {goodDemand}");
             }
 
