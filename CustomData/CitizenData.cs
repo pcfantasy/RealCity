@@ -1,10 +1,12 @@
-﻿using RealCity.Util;
+﻿using ColossalFramework;
+using RealCity.Util;
 
 namespace RealCity.CustomData
 {
     public class CitizenData
     {
         public static float[] citizenMoney = new float[1048576];
+        public static bool[] citizenCanUpdateGoods = new bool[1048576];
         public static uint lastCitizenID = 0;
 
         public static void DataInit()
@@ -12,6 +14,7 @@ namespace RealCity.CustomData
             for (int i = 0; i < citizenMoney.Length; i++)
             {
                 citizenMoney[i] = 0f;
+                citizenCanUpdateGoods[i] = false;
             }
         }
 
@@ -36,6 +39,15 @@ namespace RealCity.CustomData
             {
                 DebugLog.LogToFileOnly($"CitizenData Load Error: saveData.Length = {saveData.Length} + i = {i}");
             }
+        }
+
+        public static uint GetCitizenUnit(ushort buildingId)
+        {
+            if (buildingId != 0)
+            {
+                return Singleton<BuildingManager>.instance.m_buildings.m_buffer[(int)buildingId].m_citizenUnits;
+            }
+            return 0u;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace RealCity.Patch
 
         public static void Postfix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
-            RealCityPrivateBuildingAI.ProcessAdditionProduct(buildingID, ref buildingData, ref __state);
+            RealCityPrivateBuildingAI.ProcessAdditionProduct(buildingID, ref buildingData, ref __state, false);
         }
     }
 }

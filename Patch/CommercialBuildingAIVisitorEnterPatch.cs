@@ -67,6 +67,21 @@ namespace RealCity.Patch
                         num = -100;
                     }
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
+
+                    if (num != 0)
+                    {
+
+                        ushort homeBuilding = instance.m_citizens.m_buffer[citizen].m_homeBuilding;
+                        uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                        uint containingUnit = instance.m_citizens.m_buffer[citizen].GetContainingUnit((uint)citizen, citizenUnit, CitizenUnit.Flags.Home);
+
+                        if (containingUnit != 0)
+                        {
+                            num = -num;
+                            instance.m_units.m_buffer[containingUnit].m_goods += (ushort)num;
+                            CitizenData.citizenCanUpdateGoods[citizen] = true;
+                        }
+                    }
                 }
                 else
                 {

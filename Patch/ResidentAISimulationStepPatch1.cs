@@ -433,7 +433,40 @@ namespace RealCity.Patch
                     var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], TransferManager.TransferReason.Shopping, ref num);
                     //DebugLog.LogToFileOnly($"process viture shopping {data.m_goods}");
-                    data.m_goods = (ushort)(data.m_goods - num);
+
+                    if (num != 0)
+                    {
+                        if (data.m_citizen0 != 0)
+                        {
+                            data.m_goods = (ushort)(data.m_goods - num);
+                            CitizenData.citizenCanUpdateGoods[data.m_citizen0] = true;
+                            return;
+                        }
+                        if (data.m_citizen1 != 0)
+                        {
+                            data.m_goods = (ushort)(data.m_goods - num);
+                            CitizenData.citizenCanUpdateGoods[data.m_citizen1] = true;
+                            return;
+                        }
+                        if (data.m_citizen2 != 0)
+                        {
+                            data.m_goods = (ushort)(data.m_goods - num);
+                            CitizenData.citizenCanUpdateGoods[data.m_citizen2] = true;
+                            return;
+                        }
+                        if (data.m_citizen3 != 0)
+                        {
+                            data.m_goods = (ushort)(data.m_goods - num);
+                            CitizenData.citizenCanUpdateGoods[data.m_citizen3] = true;
+                            return;
+                        }
+                        if (data.m_citizen4 != 0)
+                        {
+                            data.m_goods = (ushort)(data.m_goods - num);
+                            CitizenData.citizenCanUpdateGoods[data.m_citizen4] = true;
+                            return;
+                        }
+                    }
                     //DebugLog.LogToFileOnly($"process viture shopping done {data.m_goods}");
                 }
             }
