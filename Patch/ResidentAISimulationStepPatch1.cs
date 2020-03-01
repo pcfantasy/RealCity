@@ -421,6 +421,22 @@ namespace RealCity.Patch
             {
                 data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
             }
+
+            if (data.m_goods < 50)
+            {
+                System.Random rd = new System.Random();
+                if (BuildingData.commBuildingNumFinal != 0)
+                {
+                    int num = -100;
+                    var BuildingIdex = rd.Next(BuildingData.commBuildingNumFinal) + 1;
+                    ushort buildingID = BuildingData.commBuildingID[BuildingIdex];
+                    var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
+                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], TransferManager.TransferReason.Shopping, ref num);
+                    //DebugLog.LogToFileOnly($"process viture shopping {data.m_goods}");
+                    data.m_goods = (ushort)(data.m_goods - num);
+                    //DebugLog.LogToFileOnly($"process viture shopping done {data.m_goods}");
+                }
+            }
         }
 
         public static int GetExpenseRate(uint citizenID, out int incomeAccumulation)

@@ -29,10 +29,10 @@
         public const byte indu_farm = 20;
         public const byte indu_oil = 80;
         public const byte indu_ore = 70;
-        public const byte office_gen_levell = 220;
-        public const byte office_gen_level2 = 230;
-        public const byte office_gen_level3 = 240;
-        public const byte office_high_tech = 250;
+        public const ushort office_gen_levell = 700;
+        public const ushort office_gen_level2 = 800;
+        public const ushort office_gen_level3 = 1000;
+        public const ushort office_high_tech = 900;
 
         public const ushort residentLowLevel1Rent = 300;
         public const ushort residentLowLevel2Rent = 420;

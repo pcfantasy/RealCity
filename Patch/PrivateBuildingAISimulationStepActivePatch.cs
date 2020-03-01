@@ -7,6 +7,7 @@ using System.Reflection;
 using RealCity.CustomData;
 using RealCity.CustomAI;
 using UnityEngine;
+using System;
 
 namespace RealCity.Patch
 {
@@ -27,8 +28,8 @@ namespace RealCity.Patch
 
         public static void Postfix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
+            LimitAndCheckOfficeMoney(buildingData, buildingID);
             ProcessLandFee(buildingData, buildingID);
-            LimitAndCheckBuildingMoney(buildingData, buildingID);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
         
@@ -41,6 +42,8 @@ namespace RealCity.Patch
                 RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal = RealCityPrivateBuildingAI.allOfficeLevel2WorkCount;
                 RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal = RealCityPrivateBuildingAI.allOfficeLevel3WorkCount;
                 RealCityPrivateBuildingAI.profitBuildingCountFinal = RealCityPrivateBuildingAI.profitBuildingCount;
+                BuildingData.commBuildingNumFinal = BuildingData.commBuildingNum;
+                BuildingData.commBuildingNum = 0;
                 RealCityPrivateBuildingAI.profitBuildingCount = 0;
                 RealCityPrivateBuildingAI.allOfficeLevel1WorkCount = 0;
                 RealCityPrivateBuildingAI.allOfficeLevel2WorkCount = 0;
@@ -95,6 +98,9 @@ namespace RealCity.Patch
 
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
+                //get all commercial building for resident.
+                BuildingData.commBuildingNum++;
+                BuildingData.commBuildingID[BuildingData.commBuildingNum] = buildingID;
                 if (BuildingData.buildingMoney[buildingID] < 0)
                 {
                     RealCityEconomyExtension.commericalLackMoneyCount++;
@@ -128,7 +134,7 @@ namespace RealCity.Patch
             }
         }
 
-        public static void LimitAndCheckBuildingMoney(Building building, ushort buildingID)
+        public static void LimitAndCheckOfficeMoney(Building building, ushort buildingID)
         {
             if (BuildingData.buildingMoney[buildingID] > 60000000)
             {
@@ -208,36 +214,68 @@ namespace RealCity.Patch
                 int aliveWorkerCount = 0;
                 int totalWorkerCount = 0;
                 BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                float allOfficeWorker = RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal + 2 * RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal + 3 * RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal + 4 * RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
+                int allOfficeWorker = RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal + RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
+                double a = 0;
+                double z = 0;
+                double c = allOfficeWorker * MainDataStore.citizenCount << 1;
+                if (allOfficeWorker != 0 && (c != 0))
+                {
+                    a = (RealCityPrivateBuildingAI.profitBuildingMoney / (double)(c));
+                }
+                if ((MainDataStore.citizenCount != 0))
+                {
+                    z = Math.Pow((aliveWorkerCount / (float)MainDataStore.citizenCount), a);
+                }
+
                 if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeGeneric)
                 {
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        if (RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal > 0)
+                        if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * aliveWorkerCount / allOfficeWorker;
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.7f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
+                        }
+                        else
+                        {
+                            BuildingData.buildingMoney[buildingID] = 0;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        if (RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal > 0)
+                        if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 2f * aliveWorkerCount / allOfficeWorker;
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.8f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
+                        }
+                        else
+                        {
+                            BuildingData.buildingMoney[buildingID] = 0;
                         }
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        if (RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal > 0)
+                        if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 3f * aliveWorkerCount / allOfficeWorker;
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
+                        }
+                        else
+                        {
+                            BuildingData.buildingMoney[buildingID] = 0;
                         }
                     }
                 }
                 else if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
                 {
-                    if (RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal > 0)
+                    if (allOfficeWorker != 0)
                     {
-                        BuildingData.buildingMoney[buildingID] = RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 4f * aliveWorkerCount / allOfficeWorker;
+                        BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.9f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                        BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
+                    }
+                    else
+                    {
+                        BuildingData.buildingMoney[buildingID] = 0;
                     }
                 }
             }

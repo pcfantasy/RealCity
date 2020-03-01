@@ -10,6 +10,10 @@ namespace RealCity.CustomData
         public static int[] buildingWorkCount = new int[49152];
         public static bool[] isBuildingWorkerUpdated = new bool[49152];
         public static ushort lastBuildingID = 0;
+        public static ushort[] commBuildingID = new ushort[49152];
+        public static ushort commBuildingNum = 0;
+        public static ushort commBuildingNumFinal = 0;
+
 
         public static void DataInit()
         {
@@ -18,6 +22,7 @@ namespace RealCity.CustomData
                 buildingMoney[i] = 0;
                 buildingWorkCount[i] = 0;
                 isBuildingWorkerUpdated[i] = false;
+                commBuildingID[i] = 0;
             }
         }
 
