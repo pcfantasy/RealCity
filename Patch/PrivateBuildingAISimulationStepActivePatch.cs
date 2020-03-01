@@ -29,7 +29,7 @@ namespace RealCity.Patch
         public static void Postfix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
             LimitAndCheckOfficeMoney(buildingData, buildingID);
-            ProcessLandFee(buildingData, buildingID);
+            ProcessLandFeeNoOffice(buildingData, buildingID);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
         
@@ -233,7 +233,7 @@ namespace RealCity.Patch
                     {
                         if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.7f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.65f * z * (aliveWorkerCount / (float)allOfficeWorker));
                             BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                         }
                         else
@@ -245,7 +245,7 @@ namespace RealCity.Patch
                     {
                         if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.8f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.7f * z * (aliveWorkerCount / (float)allOfficeWorker));
                             BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                         }
                         else
@@ -257,7 +257,7 @@ namespace RealCity.Patch
                     {
                         if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.8f * z * (aliveWorkerCount / (float)allOfficeWorker));
                             BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                         }
                         else
@@ -270,7 +270,7 @@ namespace RealCity.Patch
                 {
                     if (allOfficeWorker != 0)
                     {
-                        BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.9f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                        BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.75f * z * (aliveWorkerCount / (float)allOfficeWorker));
                         BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                     }
                     else
@@ -278,10 +278,12 @@ namespace RealCity.Patch
                         BuildingData.buildingMoney[buildingID] = 0;
                     }
                 }
+
+                ProcessLandFeeOffice(building, buildingID, BuildingData.buildingMoney[buildingID]);
             }
         }
 
-        public static void ProcessLandFee(Building building, ushort buildingID)
+        public static void ProcessLandFeeOffice(Building building, ushort buildingID, float money)
         {
             DistrictManager instance = Singleton<DistrictManager>.instance;
             byte district = instance.GetDistrict(building.m_position);
@@ -289,23 +291,10 @@ namespace RealCity.Patch
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
-            int landFee;
-            GetLandRent(out landFee, building, buildingID);
+            int landFee = (int)money;
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
-            if (BuildingData.buildingMoney[buildingID] <= 0)
-            {
-                landFee = 0;
-            }
-            if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
-            {
-                landFee = 0;
-            }
-            landFee = (int)(landFee * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
-            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial) || (building.Info.m_class.m_service == ItemClass.Service.Office))
-            {
-                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (float)(landFee * taxRate) / 100);
-            }
+
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
                 if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
@@ -318,10 +307,61 @@ namespace RealCity.Patch
                 landFee = landFee * 95 / 100;
             }
 
-            Singleton<EconomyManager>.instance.AddPrivateIncome(landFee, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, taxRate * 100);
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            int num4 = (int)(currentFrameIndex & 4095u);
+            if (((num4 >> 8) & 15u) == (buildingID & 15u))
+            {
+                Singleton<EconomyManager>.instance.AddPrivateIncome(landFee, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, taxRate * 100);
+            }
         }
 
-        public static void GetLandRent(out int incomeAccumulation, Building building, ushort buildingID)
+        public static void ProcessLandFeeNoOffice(Building building, ushort buildingID)
+        {
+            DistrictManager instance = Singleton<DistrictManager>.instance;
+            byte district = instance.GetDistrict(building.m_position);
+            DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
+            DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
+            DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
+
+            int landFee;
+            GetLandRentNoOffice(out landFee, building, buildingID);
+            int taxRate;
+            taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
+            if (BuildingData.buildingMoney[buildingID] <= 0)
+            {
+                landFee = 0;
+            }
+            if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
+            {
+                landFee = 0;
+            }
+            landFee = (int)(landFee * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
+
+            if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
+            {
+                if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
+                {
+                    landFee = landFee * 95 / 100;
+                }
+            }
+            if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None)
+            {
+                landFee = landFee * 95 / 100;
+            }
+
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            int num4 = (int)(currentFrameIndex & 4095u);
+            if (((num4 >> 8) & 15u) == (buildingID & 15u))
+            {
+                Singleton<EconomyManager>.instance.AddPrivateIncome(landFee, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, taxRate * 100);
+                if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+                {
+                    BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (float)(landFee * taxRate) / 100);
+                }
+            }
+        }
+
+        public static void GetLandRentNoOffice(out int incomeAccumulation, Building building, ushort buildingID)
         {
             ItemClass @class = building.Info.m_class;
             incomeAccumulation = 0;
@@ -333,24 +373,24 @@ namespace RealCity.Patch
             {
                 case ItemClass.SubService.OfficeHightech:
                     BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                    incomeAccumulation = (MainDataStore.office_high_tech);
+                    //incomeAccumulation = (MainDataStore.office_high_tech);
                     RealCityPrivateBuildingAI.allOfficeHighTechWorkCount += totalWorkerCount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = (MainDataStore.office_gen_levell);
+                        //incomeAccumulation = (MainDataStore.office_gen_levell);
                         RealCityPrivateBuildingAI.allOfficeLevel1WorkCount += totalWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = (MainDataStore.office_gen_level2);
+                        //incomeAccumulation = (MainDataStore.office_gen_level2);
                         RealCityPrivateBuildingAI.allOfficeLevel2WorkCount += totalWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = (MainDataStore.office_gen_level3);
+                        //incomeAccumulation = (MainDataStore.office_gen_level3);
                         RealCityPrivateBuildingAI.allOfficeLevel3WorkCount += totalWorkerCount;
                     }
                     break;

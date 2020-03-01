@@ -384,20 +384,50 @@ namespace RealCity.UI
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
-            int num = 0;
-            GetLandRent(building, buildingID, out num);
-            int num2;
-            num2 = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
+            int landFee = 0;
+            GetLandRent(building, buildingID, out landFee);
+            int taxRate;
+            taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
+
+            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            {
+                landFee = (int)(landFee * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
+            }
+
+            if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
+            {
+                if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
+                {
+                    taxRate = taxRate * 95 / 100;
+                }
+            }
+            if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None)
+            {
+                taxRate = taxRate * 95 / 100;
+            }
+
             if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
             {
-                num = 0;
+                landFee = 0;
             }
 
             if (BuildingData.buildingMoney[buildingID] < 0)
             {
-                num = 0;
+                landFee = 0;
             }
-            return num*num2;
+
+            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+            {
+                return taxRate * landFee;
+            }
+            else if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
+            {
+                return (int)(BuildingData.buildingMoney[buildingID] * taxRate);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
 
@@ -470,23 +500,6 @@ namespace RealCity.UI
                     break;
                 case ItemClass.SubService.CommercialEco:
                     incomeAccumulation = MainDataStore.comm_eco;
-                    break;
-                case ItemClass.SubService.OfficeGeneric:
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        incomeAccumulation = MainDataStore.office_gen_levell;
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        incomeAccumulation = MainDataStore.office_gen_level2;
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        incomeAccumulation = MainDataStore.office_gen_level3;
-                    }
-                    break;
-                case ItemClass.SubService.OfficeHightech:
-                    incomeAccumulation = MainDataStore.office_high_tech;
                     break;
                 default: break;
             }
