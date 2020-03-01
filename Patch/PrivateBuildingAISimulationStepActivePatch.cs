@@ -220,7 +220,7 @@ namespace RealCity.Patch
                 double c = allOfficeWorker * MainDataStore.citizenCount << 1;
                 if (allOfficeWorker != 0 && (c != 0))
                 {
-                    a = (RealCityPrivateBuildingAI.profitBuildingMoney / (double)(c));
+                    a = (RealCityPrivateBuildingAI.profitBuildingMoneyFinal / (double)(c));
                 }
                 if ((MainDataStore.citizenCount != 0))
                 {
@@ -233,7 +233,7 @@ namespace RealCity.Patch
                     {
                         if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.65f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.65f * z * (aliveWorkerCount / (float)allOfficeWorker));
                             BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                         }
                         else
@@ -245,7 +245,7 @@ namespace RealCity.Patch
                     {
                         if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.7f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.7f * z * (aliveWorkerCount / (float)allOfficeWorker));
                             BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                         }
                         else
@@ -257,7 +257,7 @@ namespace RealCity.Patch
                     {
                         if (allOfficeWorker != 0)
                         {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.8f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.8f * z * (aliveWorkerCount / (float)allOfficeWorker));
                             BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                         }
                         else
@@ -270,7 +270,7 @@ namespace RealCity.Patch
                 {
                     if (allOfficeWorker != 0)
                     {
-                        BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoney * 0.75f * z * (aliveWorkerCount / (float)allOfficeWorker));
+                        BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.75f * z * (aliveWorkerCount / (float)allOfficeWorker));
                         BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
                     }
                     else
@@ -374,24 +374,24 @@ namespace RealCity.Patch
                 case ItemClass.SubService.OfficeHightech:
                     BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     //incomeAccumulation = (MainDataStore.office_high_tech);
-                    RealCityPrivateBuildingAI.allOfficeHighTechWorkCount += totalWorkerCount;
+                    RealCityPrivateBuildingAI.allOfficeHighTechWorkCount += aliveWorkerCount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         //incomeAccumulation = (MainDataStore.office_gen_levell);
-                        RealCityPrivateBuildingAI.allOfficeLevel1WorkCount += totalWorkerCount;
+                        RealCityPrivateBuildingAI.allOfficeLevel1WorkCount += aliveWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
                         //incomeAccumulation = (MainDataStore.office_gen_level2);
-                        RealCityPrivateBuildingAI.allOfficeLevel2WorkCount += totalWorkerCount;
+                        RealCityPrivateBuildingAI.allOfficeLevel2WorkCount += aliveWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
                         //incomeAccumulation = (MainDataStore.office_gen_level3);
-                        RealCityPrivateBuildingAI.allOfficeLevel3WorkCount += totalWorkerCount;
+                        RealCityPrivateBuildingAI.allOfficeLevel3WorkCount += aliveWorkerCount;
                     }
                     break;
                 case ItemClass.SubService.IndustrialFarming:

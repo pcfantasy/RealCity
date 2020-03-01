@@ -93,7 +93,6 @@ namespace RealCity
                     if (mode == LoadMode.NewGame)
                     {
                         InitData();
-                        DebugLog.LogToFileOnly("InitData");
                     }
                 }
             }
@@ -101,6 +100,7 @@ namespace RealCity
 
         public static void InitData()
         {
+            DebugLog.LogToFileOnly("InitData");
             TransportLineData.DataInit();
             VehicleData.DataInit();
             BuildingData.DataInit();
@@ -121,6 +121,7 @@ namespace RealCity
             {
                 HumanAISimulationStepPatch.watingPathTime[j] = 0;
             }
+            DebugLog.LogToFileOnly("InitData Done");
         }
 
         public override void OnLevelUnloading()
