@@ -15,6 +15,16 @@ namespace RealCity.Patch
         {
             return typeof(CommercialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
         }
+
+        public static void Prefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        {
+            if (material == TransferManager.TransferReason.Entertainment)
+            {
+                DebugLog.LogToFileOnly($"ModifyMaterialBuffer Entertainment amountDelta post = {amountDelta}");
+                CaculateTradeIncome(buildingID, ref data, material, ref amountDelta);
+            }
+        }
+
         public static void Postfix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             switch (material)
@@ -32,30 +42,22 @@ namespace RealCity.Patch
                     {
                         if (material == TransferManager.TransferReason.Goods || material == TransferManager.TransferReason.Petrol || material == TransferManager.TransferReason.Food || material == TransferManager.TransferReason.LuxuryProducts)
                         {
-                            processIncoming(buildingID, ref data, material, ref amountDelta);
-                        }
-                        else
-                        {
-                            if (material == TransferManager.TransferReason.Entertainment)
-                            {
-                                caculateTradeIncome(buildingID, ref data, material, ref amountDelta);
-                                return;
-                            }
+                            ProcessIncoming(buildingID, ref data, material, ref amountDelta);
                         }
                         return;
                     }
                     break;
             }
-            caculateTradeIncome(buildingID, ref data, material, ref amountDelta);
+            CaculateTradeIncome(buildingID, ref data, material, ref amountDelta);
         }
 
-        public static void processIncoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public static void ProcessIncoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
             BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - trade_income1;
         }
 
-        public static void caculateTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public static void CaculateTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             float trade_tax = 0;
             float trade_income = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);

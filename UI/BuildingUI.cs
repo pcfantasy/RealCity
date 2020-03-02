@@ -420,7 +420,7 @@ namespace RealCity.UI
             {
                 return taxRate * landFee;
             }
-            else if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
+            else if (building.Info.m_class.m_service == ItemClass.Service.Office)
             {
                 return (int)(BuildingData.buildingMoney[buildingID] * taxRate);
             }

@@ -203,7 +203,7 @@ namespace RealCity.Patch
 
         }
 
-        public static float ProcessFamily(uint homeID, ref CitizenUnit data)
+        public static void ProcessFamily(uint homeID, ref CitizenUnit data)
         {
             if (RealCityResidentAI.preCitizenId > homeID)
             {
@@ -346,27 +346,6 @@ namespace RealCity.Patch
                 CitizenUnitData.familyMoney[homeID] = -3200000f;
             }
 
-            //7. Fixed m_goods consuption
-            //7.1 based on incomeMinusExpense
-            float fixedGoodsConsumption = incomeMinusExpense / (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping) * 2f);
-            //7.2 based on familyMoney
-            float additionGoodsConsumption = 0f;
-            if (CitizenUnitData.familyMoney[homeID] > 0)
-            {
-                additionGoodsConsumption = (int)((CitizenUnitData.familyMoney[homeID] - 20000) / (10f * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping)));
-                if (additionGoodsConsumption < 0)
-                    additionGoodsConsumption = 0;
-            }
-
-            fixedGoodsConsumption += additionGoodsConsumption;
-
-            if (fixedGoodsConsumption < 1)
-            {
-                fixedGoodsConsumption = 1;
-            }
-
-            CitizenUnitData.familyMoney[homeID] -= fixedGoodsConsumption * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
-
             //8. Caculate minimumLivingAllowance and benefitOffset
             if (CitizenUnitData.familyMoney[homeID] < (-Politics.benefitOffset))
             {
@@ -387,10 +366,6 @@ namespace RealCity.Patch
 
             //ProcessCitizen post, split all familyMoney to CitizenMoney
             ProcessCitizen(homeID, ref data, false);
-
-            RealCityResidentAI.totalFamilyGoodDemand += fixedGoodsConsumption;
-
-            return fixedGoodsConsumption;
         }
 
 
@@ -415,61 +390,23 @@ namespace RealCity.Patch
         {
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
-                data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20 - ProcessFamily(homeID, ref data)), 0, 60000);
+                ProcessFamily(homeID, ref data);
             }
+            data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
+
+            float reducedGoods;
+            if (CitizenUnitData.familyMoney[homeID] < 1000)
+                reducedGoods = data.m_goods * 0.01f;
+            else if (CitizenUnitData.familyMoney[homeID] < 5000)
+                reducedGoods = data.m_goods * 0.05f;
+            else if (CitizenUnitData.familyMoney[homeID] < 10000)
+                reducedGoods = data.m_goods * 0.1f;
+            else if (CitizenUnitData.familyMoney[homeID] < 20000)
+                reducedGoods = data.m_goods * 0.15f;
             else
-            {
-                data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
-            }
+                reducedGoods = data.m_goods * 0.2f;
 
-            if (data.m_goods < 50)
-            {
-                System.Random rd = new System.Random();
-                if (BuildingData.commBuildingNumFinal != 0)
-                {
-                    int num = -100;
-                    var BuildingIdex = rd.Next(BuildingData.commBuildingNumFinal) + 1;
-                    ushort buildingID = BuildingData.commBuildingID[BuildingIdex];
-                    var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
-                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID], TransferManager.TransferReason.Shopping, ref num);
-                    //DebugLog.LogToFileOnly($"process viture shopping {data.m_goods}");
-
-                    if (num != 0)
-                    {
-                        if (data.m_citizen0 != 0)
-                        {
-                            data.m_goods = (ushort)(data.m_goods - num);
-                            CitizenData.citizenCanUpdateGoods[data.m_citizen0] = true;
-                            return;
-                        }
-                        if (data.m_citizen1 != 0)
-                        {
-                            data.m_goods = (ushort)(data.m_goods - num);
-                            CitizenData.citizenCanUpdateGoods[data.m_citizen1] = true;
-                            return;
-                        }
-                        if (data.m_citizen2 != 0)
-                        {
-                            data.m_goods = (ushort)(data.m_goods - num);
-                            CitizenData.citizenCanUpdateGoods[data.m_citizen2] = true;
-                            return;
-                        }
-                        if (data.m_citizen3 != 0)
-                        {
-                            data.m_goods = (ushort)(data.m_goods - num);
-                            CitizenData.citizenCanUpdateGoods[data.m_citizen3] = true;
-                            return;
-                        }
-                        if (data.m_citizen4 != 0)
-                        {
-                            data.m_goods = (ushort)(data.m_goods - num);
-                            CitizenData.citizenCanUpdateGoods[data.m_citizen4] = true;
-                            return;
-                        }
-                    }
-                    //DebugLog.LogToFileOnly($"process viture shopping done {data.m_goods}");
-                }
-            }
+            data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods - reducedGoods), 0, 60000);
         }
 
         public static int GetExpenseRate(uint citizenID, out int incomeAccumulation)

@@ -93,7 +93,11 @@ namespace RealCity.CustomAI
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
-                    price = 1f; break;
+                    if (RealCity.reduceVehicle)
+                        price = 1f;
+                    else
+                        price = 0.5f;
+                    break;
                 default: return CustomGetResourcePrice(material) / 100f;
             }
 

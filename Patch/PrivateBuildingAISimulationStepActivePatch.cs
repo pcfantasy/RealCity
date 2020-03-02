@@ -30,6 +30,7 @@ namespace RealCity.Patch
         {
             LimitAndCheckOfficeMoney(buildingData, buildingID);
             ProcessLandFeeNoOffice(buildingData, buildingID);
+            LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
         
@@ -99,8 +100,11 @@ namespace RealCity.Patch
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
                 //get all commercial building for resident.
-                BuildingData.commBuildingNum++;
-                BuildingData.commBuildingID[BuildingData.commBuildingNum] = buildingID;
+                if (buildingData.m_customBuffer2 > 2000)
+                {
+                    BuildingData.commBuildingNum++;
+                    BuildingData.commBuildingID[BuildingData.commBuildingNum] = buildingID;
+                }
                 if (BuildingData.buildingMoney[buildingID] < 0)
                 {
                     RealCityEconomyExtension.commericalLackMoneyCount++;
@@ -132,6 +136,49 @@ namespace RealCity.Patch
                     buildingData.m_problems = problem;
                 }
             }
+        }
+
+        public static void LimitCommericalBuildingAccess(ushort buildingID, ref Building buildingData)
+        {
+            if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+            {
+                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                int alivevisitCount = 0;
+                int totalvisitCount = 0;
+                int maxcount = 0;
+                var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
+                GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);                
+                maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
+                if (maxcount <= totalvisitCount)
+                {
+                    buildingData.m_flags &= ~Building.Flags.Active;
+                }
+                else if (buildingData.m_customBuffer2 < 1000)
+                {
+                    buildingData.m_flags &= ~Building.Flags.Active;
+                }
+            }
+        }
+
+        public static void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = buildingData.m_citizenUnits;
+            int num2 = 0;
+            do
+            {
+                if (num == 0)
+                {
+                    return;
+                }
+                if ((instance.m_units.m_buffer[num].m_flags & CitizenUnit.Flags.Visit) != 0)
+                {
+                    instance.m_units.m_buffer[num].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
+                }
+                num = instance.m_units.m_buffer[num].m_nextUnit;
+            }
+            while (++num2 <= 524288);
+            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
         }
 
         public static void LimitAndCheckOfficeMoney(Building building, ushort buildingID)

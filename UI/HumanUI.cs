@@ -16,6 +16,7 @@ namespace RealCity.UI
         public CitizenWorldInfoPanel baseBuildingWindow;
         public static bool refeshOnce = false;
         private UILabel familyMoney;
+        private UILabel citizenMoney;
         private UILabel familySalary;
         private UILabel familyGoods;
 
@@ -59,9 +60,14 @@ namespace RealCity.UI
             familySalary.relativePosition = new Vector3(SPACING, familyMoney.relativePosition.y + SPACING22);
             familySalary.autoSize = true;
 
+            citizenMoney = AddUIComponent<UILabel>();
+            citizenMoney.text = Localization.Get("CITIZEN_SALARY");
+            citizenMoney.relativePosition = new Vector3(SPACING, familySalary.relativePosition.y + SPACING22);
+            citizenMoney.autoSize = true;
+
             familyGoods = AddUIComponent<UILabel>();
             familyGoods.text = Localization.Get("FAMILY_GOODS");
-            familyGoods.relativePosition = new Vector3(SPACING, familySalary.relativePosition.y + SPACING22);
+            familyGoods.relativePosition = new Vector3(SPACING, citizenMoney.relativePosition.y + SPACING22);
             familyGoods.autoSize = true;
         }
 
@@ -80,6 +86,7 @@ namespace RealCity.UI
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     uint homeId = instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].GetContainingUnit(CitizenData.lastCitizenID, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                     familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , CitizenUnitData.familyMoney[homeId]);
+                    citizenMoney.text = string.Format(Localization.Get("CITIZEN_MONEY") + " [{0}]", CitizenData.citizenMoney[CitizenData.lastCitizenID]);
                     familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId));
 
                     if ((instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].m_flags & Citizen.Flags.NeedGoods) != 0)
