@@ -120,7 +120,7 @@
     <Compile Include="Patch\PrivateBuildingAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\HumanAIEnterParkAreaPatch.cs" />
     <Compile Include="Patch\TaxiAIUnloadPassengersPatch.cs" />
-    <Compile Include="Patch\CargoTruckAISetSourcePatch.cs" />
+    <Compile Include="Patch\CargoTruckAIArriveAtSourcePatch.cs" />
     <Compile Include="Patch\PlayerBuildingAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\ExtractingFacilityAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\ProcessingFacilityAIGetResourceRatePatch.cs" />

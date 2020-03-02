@@ -25,11 +25,16 @@ namespace RealCity.Patch
                 var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding];
                 if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    if (CitizenData.citizenMoney[citizenID] < 10000)
+                    CitizenManager instance = Singleton<CitizenManager>.instance;
+                    ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                    uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                    uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+
+                    if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
                     {
                         sourceBuilding = targetBuilding;
                     }
-                    else if (building.m_customBuffer2 < 1000)
+                    else if (building.m_customBuffer2 < MainDataStore.maxGoodPurchase)
                     {
                         sourceBuilding = targetBuilding;
                     }

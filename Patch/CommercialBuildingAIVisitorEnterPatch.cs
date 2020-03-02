@@ -41,73 +41,79 @@ namespace RealCity.Patch
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
             }
             else
-            { 
-                float consumptionIndex = 0f;
-                if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
+            {
+                ushort homeBuilding = instance.m_citizens.m_buffer[citizen].m_homeBuilding;
+                uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                uint containingUnit = instance.m_citizens.m_buffer[citizen].GetContainingUnit((uint)citizen, citizenUnit, CitizenUnit.Flags.Home);
+
+                if (containingUnit != 0)
                 {
-                    if (info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                    int num = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+
+                    if (num < 0)
                     {
-                        consumptionIndex = 0.5f;
-                    }
-                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
-                    {
-                        consumptionIndex = 0.4f;
-                    }
-                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialEco))
-                    {
-                        consumptionIndex = 0.1f;
-                    }
-                    else if ((info.m_class.m_subService == ItemClass.SubService.CommercialHigh))
-                    {
-                        consumptionIndex = 0.3f;
+                        if (num < -MainDataStore.maxGoodPurchase)
+                        {
+                            num = -MainDataStore.maxGoodPurchase;
+                        }
+                        info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
+
+                        if (num != 0)
+                        {
+                            CitizenUnitData.familyGoods[containingUnit] = (ushort)(CitizenUnitData.familyGoods[containingUnit] - num);
+                            if (CitizenUnitData.familyGoods[containingUnit] > 200)
+                            {
+                                instance.m_citizens.m_buffer[citizen].m_flags &= ~Citizen.Flags.NeedGoods;
+                            }
+                        }
                     }
                     else
                     {
-                        consumptionIndex = 0.2f;
+                        num = 0;
                     }
-                }
 
-                int consumptionMoney = -(int)(consumptionIndex * CitizenData.citizenMoney[citizen]);
+                    var familyMoney = (CitizenUnitData.familyMoney[containingUnit] + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
 
-                if (consumptionMoney < 0)
-                {
-                    int tempMoney = consumptionMoney;
-                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref tempMoney);
-                }
-                else
-                {
-                    consumptionMoney = 0;
-                }
-
-                int num = (int)(-(CitizenData.citizenMoney[citizen] + consumptionMoney) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
-
-                if (num < 0)
-                {
-                    if (num < -1000)
+                    float consumptionIndex = 0f;
+                    if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                     {
-                        num = -1000;
-                    }
-                    info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
-
-                    if (num != 0)
-                    {
-
-                        ushort homeBuilding = instance.m_citizens.m_buffer[citizen].m_homeBuilding;
-                        uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
-                        uint containingUnit = instance.m_citizens.m_buffer[citizen].GetContainingUnit((uint)citizen, citizenUnit, CitizenUnit.Flags.Home);
-
-                        if (containingUnit != 0)
+                        if (info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
                         {
-                            CitizenUnitData.familyGoods[containingUnit] = (ushort)(CitizenUnitData.familyGoods[containingUnit] - num);
+                            consumptionIndex = 0.25f;
+                        }
+                        else if ((info.m_class.m_subService == ItemClass.SubService.CommercialTourist))
+                        {
+                            consumptionIndex = 0.2f;
+                        }
+                        else if ((info.m_class.m_subService == ItemClass.SubService.CommercialEco))
+                        {
+                            consumptionIndex = 0.05f;
+                        }
+                        else if ((info.m_class.m_subService == ItemClass.SubService.CommercialHigh))
+                        {
+                            consumptionIndex = 0.15f;
+                        }
+                        else
+                        {
+                            consumptionIndex = 0.1f;
                         }
                     }
-                }
-                else
-                {
-                    num = 0;
-                }
 
-                CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    int consumptionMoney = -(int)(consumptionIndex * familyMoney);
+
+                    if (consumptionMoney < 0)
+                    {
+                        int tempMoney = consumptionMoney;
+                        info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref tempMoney);
+                    }
+                    else
+                    {
+                        consumptionMoney = 0;
+                    }
+
+                    CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    CitizenUnitData.familyMoney[containingUnit] = CitizenUnitData.familyMoney[containingUnit] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
+                }
             }
 
             //base.VisitorEnter(buildingID, ref data, citizen);

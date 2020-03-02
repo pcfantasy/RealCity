@@ -12,6 +12,8 @@
         public const int lowWealth = 20000;
         public const int highWealth = 100000;
 
+        public const int maxGoodPurchase = 500;
+
         public const byte govermentEducation0SalaryFixed = 50;
         public const byte govermentEducation1SalaryFixed = 55;
         public const byte govermentEducation2SalaryFixed = 65;

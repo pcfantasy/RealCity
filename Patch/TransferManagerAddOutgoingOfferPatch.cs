@@ -41,7 +41,7 @@ namespace RealCity.Patch
 			{
 				if (instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service == ItemClass.Service.Commercial)
 				{
-					var amount = instance.m_buildings.m_buffer[offer.Building].m_customBuffer2 / 1000;
+					var amount = instance.m_buildings.m_buffer[offer.Building].m_customBuffer2 / MainDataStore.maxGoodPurchase;
 					if (amount == 0)
 					{
 						//no resource

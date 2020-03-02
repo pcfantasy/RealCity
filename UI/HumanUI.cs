@@ -87,7 +87,7 @@ namespace RealCity.UI
                     uint homeId = instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].GetContainingUnit(CitizenData.lastCitizenID, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
                     familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , CitizenUnitData.familyMoney[homeId]);
                     citizenMoney.text = string.Format(Localization.Get("CITIZEN_MONEY") + " [{0}]", CitizenData.citizenMoney[CitizenData.lastCitizenID]);
-                    familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId));
+                    familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId).ToString());
 
                     if ((instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].m_flags & Citizen.Flags.NeedGoods) != 0)
                     {
@@ -95,7 +95,7 @@ namespace RealCity.UI
                     }
                     else
                     {
-                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", instance3.m_units.m_buffer[homeId].m_goods.ToString());
+                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", CitizenUnitData.familyGoods[homeId].ToString());
                     }
 
                     refeshOnce = false;

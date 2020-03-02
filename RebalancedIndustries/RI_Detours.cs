@@ -225,7 +225,7 @@ namespace RealCity.RebalancedIndustries
         }
         public static void Prefix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, out ushort __state)
         {
-            __state = buildingData.m_customBuffer1;
+            __state = buildingData.m_customBuffer2;
         }
 
         public static void Postfix(ushort buildingID, ref Building buildingData, LandfillSiteAI __instance, ref ushort __state)

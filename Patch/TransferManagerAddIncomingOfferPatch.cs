@@ -4,6 +4,7 @@ using System.Reflection;
 using ColossalFramework;
 using RealCity.Util;
 using RealCity.CustomData;
+using RealCity.CustomAI;
 
 namespace RealCity.Patch
 {
@@ -40,7 +41,11 @@ namespace RealCity.Patch
 			var instance = Singleton<CitizenManager>.instance;
 			if (offer.Citizen != 0)
 			{
-				if (CitizenData.citizenMoney[offer.Citizen] < 10000)
+				ushort homeBuilding = instance.m_citizens.m_buffer[offer.Citizen].m_homeBuilding;
+				uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+				uint containingUnit = instance.m_citizens.m_buffer[offer.Citizen].GetContainingUnit((uint)offer.Citizen, citizenUnit, CitizenUnit.Flags.Home);
+
+				if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
 				{
 					//DebugLog.LogToFileOnly($"Reject Citizen money = {CitizenData.citizenMoney[offer.Citizen]}");
 					return false;
