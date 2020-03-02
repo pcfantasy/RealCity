@@ -7,7 +7,7 @@ using System.Reflection;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class ResidentAISimulationStepPatch2
+    public class ResidentAICitizenInstanceSimulationStepPatch
     {
         public static MethodBase TargetMethod()
         {

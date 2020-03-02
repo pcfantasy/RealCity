@@ -23,7 +23,7 @@ namespace RealCity.Patch
             if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
                 Random rand = new Random();
-                int consumptionMoney = rand.Next(100);
+                int consumptionMoney = rand.Next(1000);
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
@@ -37,10 +37,7 @@ namespace RealCity.Patch
                 }
 
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref consumptionMoney);
-                if (RealCity.reduceVehicle)
-                    consumptionMoney = -(100 >> MainDataStore.reduceCargoDivShift);
-                else
-                    consumptionMoney = -100;
+                consumptionMoney = -100;
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
             }
             else

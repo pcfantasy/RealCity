@@ -25,6 +25,7 @@
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'FASTRUNTIME|AnyCPU'">
     <OutputPath>bin\release\</OutputPath>
@@ -45,6 +47,7 @@
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony1.9">
@@ -102,7 +105,7 @@
     <Compile Include="Patch\IndustrialBuildingAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\CommercialBuildingAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\ResidentAIStartMovingPatch.cs" />
-    <Compile Include="Patch\ResidentAISimulationStepPatch2.cs" />
+    <Compile Include="Patch\ResidentAICitizenInstanceSimulationStepPatch.cs" />
     <Compile Include="Patch\TransferManagerStartTransferPatch.cs" />
     <Compile Include="Patch\TouristAISimulationStepPatch.cs" />
     <Compile Include="Patch\CommercialBuildingAIVisitorEnterPatch.cs" />
@@ -123,12 +126,12 @@
     <Compile Include="Patch\CommercialBuildingAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\IndustrialExtractorAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\IndustrialBuildingAICreateBuildingPatch.cs" />
-    <Compile Include="Patch\ResidentAISimulationStepPatch1.cs" />
+    <Compile Include="Patch\ResidentAICitizenUnitSimulationStepPatch.cs" />
     <Compile Include="Patch\TollBoothEnterBuildingSegmentPatch.cs" />
     <Compile Include="CustomData\TransportLineData.cs" />
     <Compile Include="CustomData\CustomDistrictPark.cs" />
-    <Compile Include="Patch\EconomyManagerAddResourcePatch.cs" />
-    <Compile Include="Patch\EconomyManagerAddResourcePatch1.cs" />
+    <Compile Include="Patch\EconomyManagerAddResourceItemClassPatch.cs" />
+    <Compile Include="Patch\EconomyManagerAddResourcePatchItemClassDetail.cs" />
     <Compile Include="Patch\VehicleManagerReleaseVehicleImplementationPatch.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />
     <Compile Include="Patch\EconomyManagerFetchResourcePatch.cs" />
@@ -136,7 +139,7 @@
     <Compile Include="Patch\CitizenManagerReleaseUnitCitizenPatch.cs" />
     <Compile Include="Patch\CitizenManagerReleaseCitizenInstanceImplementationPatch.cs" />
     <Compile Include="Patch\CitizenManagerCreateCitizenInstancePatch.cs" />
-    <Compile Include="Patch\ResidentAISimulationStepPatch.cs" />
+    <Compile Include="Patch\ResidentAICitizenSimulationStepPatch.cs" />
     <Compile Include="Patch\CommonBuildingAIGetColorPatch.cs" />
     <Compile Include="Patch\PlayerBuildingAISimulationStepPatch.cs" />
     <Compile Include="Patch\HumanAISimulationStepPatch.cs" />

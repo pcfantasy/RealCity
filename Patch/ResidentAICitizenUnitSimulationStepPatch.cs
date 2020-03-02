@@ -10,7 +10,7 @@ using RealCity.CustomAI;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class ResidentAISimulationStepPatch1
+    public class ResidentAICitizenUnitSimulationStepPatch
     {
         public static MethodBase TargetMethod()
         {
@@ -85,11 +85,11 @@ namespace RealCity.Patch
             }
             else
             {
-                if (CitizenUnitData.familyMoney[homeID] < 5000)
+                if (CitizenUnitData.familyMoney[homeID] < MainDataStore.lowWealth)
                 {
                     RealCityResidentAI.familyWeightStableLow++;
                 }
-                else if (CitizenUnitData.familyMoney[homeID] >= 20000)
+                else if (CitizenUnitData.familyMoney[homeID] >= MainDataStore.highWealth)
                 {
                     RealCityResidentAI.familyWeightStableHigh++;
                 }
@@ -321,21 +321,7 @@ namespace RealCity.Patch
             float incomeMinusExpense = familySalaryCurrent - tax - educationFee - expenseRate;
             CitizenUnitData.familyMoney[homeID] += incomeMinusExpense;
 
-            //5. Process citizen status
-            if (incomeMinusExpense <= 0)
-            {
-                RealCityResidentAI.familyLossMoneyCount++;
-            }
-            else if (incomeMinusExpense > 100)
-            {
-                RealCityResidentAI.familyVeryProfitMoneyCount++;
-            }
-            else
-            {
-                RealCityResidentAI.familyProfitMoneyCount++;
-            }
-
-            //6. Limit familyMoney
+            //5. Limit familyMoney
             if (CitizenUnitData.familyMoney[homeID] > 3200000f)
             {
                 CitizenUnitData.familyMoney[homeID] = 3200000f;
@@ -346,7 +332,7 @@ namespace RealCity.Patch
                 CitizenUnitData.familyMoney[homeID] = -3200000f;
             }
 
-            //8. Caculate minimumLivingAllowance and benefitOffset
+            //6. Caculate minimumLivingAllowance and benefitOffset
             if (CitizenUnitData.familyMoney[homeID] < (-Politics.benefitOffset))
             {
                 int num = (int)(-CitizenUnitData.familyMoney[homeID]);
@@ -362,6 +348,20 @@ namespace RealCity.Patch
                     MainDataStore.minimumLivingAllowance += Politics.benefitOffset;
                     Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, Politics.benefitOffset, ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
+            }
+
+            //7. Process citizen status
+            if ((familySalaryCurrent - CitizenUnitData.familyMoney[homeID] / 1000f) >= -10)
+            {
+                RealCityResidentAI.familyLossMoneyCount++;
+            }
+            else if ((familySalaryCurrent - CitizenUnitData.familyMoney[homeID] / 1000f) >= -100)
+            {
+                RealCityResidentAI.familyProfitMoneyCount++;
+            }
+            else
+            {
+                RealCityResidentAI.familyVeryProfitMoneyCount++;
             }
 
             //ProcessCitizen post, split all familyMoney to CitizenMoney
@@ -395,16 +395,16 @@ namespace RealCity.Patch
             data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
 
             float reducedGoods;
-            if (CitizenUnitData.familyMoney[homeID] < 1000)
+            if (CitizenUnitData.familyMoney[homeID] < 10000)
                 reducedGoods = data.m_goods * 0.01f;
-            else if (CitizenUnitData.familyMoney[homeID] < 5000)
-                reducedGoods = data.m_goods * 0.05f;
-            else if (CitizenUnitData.familyMoney[homeID] < 10000)
-                reducedGoods = data.m_goods * 0.1f;
             else if (CitizenUnitData.familyMoney[homeID] < 20000)
-                reducedGoods = data.m_goods * 0.15f;
-            else
+                reducedGoods = data.m_goods * 0.05f;
+            else if (CitizenUnitData.familyMoney[homeID] < 50000)
+                reducedGoods = data.m_goods * 0.1f;
+            else if (CitizenUnitData.familyMoney[homeID] < 100000)
                 reducedGoods = data.m_goods * 0.2f;
+            else
+                reducedGoods = data.m_goods * 0.3f;
 
             data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods - reducedGoods), 0, 60000);
         }

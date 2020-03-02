@@ -7,7 +7,7 @@ using System.Reflection;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class EconomyManagerAddResourcePatch1
+    public class EconomyManagerAddResourcePatchItemClassDetail
     {
         public static MethodBase TargetMethod()
         {

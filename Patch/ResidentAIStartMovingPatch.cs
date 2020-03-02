@@ -25,11 +25,11 @@ namespace RealCity.Patch
                 var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding];
                 if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    if (CitizenData.citizenMoney[citizenID] < 5000)
+                    if (CitizenData.citizenMoney[citizenID] < 10000)
                     {
                         sourceBuilding = targetBuilding;
                     }
-                    else if (building.m_customBuffer2 < 500)
+                    else if (building.m_customBuffer2 < 1000)
                     {
                         sourceBuilding = targetBuilding;
                     }

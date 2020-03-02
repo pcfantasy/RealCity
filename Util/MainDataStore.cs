@@ -9,6 +9,9 @@
         public const int reduceCargoDivShift = 1;
         public const float profitShareRatio = 0.03f;
 
+        public const int lowWealth = 20000;
+        public const int highWealth = 20000;
+
         public const byte govermentEducation0SalaryFixed = 50;
         public const byte govermentEducation1SalaryFixed = 55;
         public const byte govermentEducation2SalaryFixed = 65;

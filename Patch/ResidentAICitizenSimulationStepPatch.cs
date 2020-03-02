@@ -1,13 +1,14 @@
 ﻿using ColossalFramework;
 using Harmony;
 using RealCity.CustomData;
+using RealCity.Util;
 using System;
 using System.Reflection;
 
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class ResidentAISimulationStepPatch
+    public class ResidentAICitizenSimulationStepPatch
     {
         public static MethodBase TargetMethod()
         {
@@ -19,11 +20,11 @@ namespace RealCity.Patch
             BuildingManager instance = Singleton<BuildingManager>.instance;
             ushort homeBuilding = data.m_homeBuilding;
             uint homeId = data.GetContainingUnit(citizenID, instance.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-            if (CitizenUnitData.familyMoney[homeId] > 20000)
+            if (CitizenUnitData.familyMoney[homeId] > MainDataStore.highWealth)
             {
                 data.WealthLevel = Citizen.Wealth.High;
             }
-            else if (CitizenUnitData.familyMoney[homeId] < 5000)
+            else if (CitizenUnitData.familyMoney[homeId] < MainDataStore.lowWealth)
             {
                 data.WealthLevel = Citizen.Wealth.Low;
             }

@@ -147,7 +147,8 @@ PLASTICS	Plastics
 GLASS	Glass
 METALS	Metals
 LUXURY_PRODUCTS	Luxury Products
-FAMILY_MONEY	Family Wealth (1/100₡)
+FAMILY_MONEY	Family Money (1/100₡)
+FAMILY_MONEY	Citizen Money (1/100₡)
 FAMILY_SALARY	Family Salary
 FAMILY_GOODS	Family Goods
 FAMILY_NEED_GOODS	(Family Needed Goods)

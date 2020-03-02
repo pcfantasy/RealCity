@@ -150,6 +150,7 @@ GLASS	Стекло
 METALS	Металл
 LUXURY_PRODUCTS	Предметы роскоши
 FAMILY_MONEY	Семейные финансы (в центах)
+FAMILY_MONEY	Citizen Money (1/100₡)
 FAMILY_SALARY	Семейный доход
 FAMILY_GOODS  Товары семьи
 FAMILY_NEED_GOODS	(Семья нуждается)

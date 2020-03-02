@@ -153,7 +153,7 @@ namespace RealCity.Patch
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
-                else if (buildingData.m_customBuffer2 < 1000)
+                else if (buildingData.m_customBuffer2 < 1100)
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
