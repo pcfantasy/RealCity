@@ -100,7 +100,8 @@
     <Compile Include="CustomData\CitizenUnitData.cs" />
     <Compile Include="CustomData\CitizenData.cs" />
     <Compile Include="CustomData\VehicleData.cs" />
-    <Compile Include="Patch\CitizenManagerSimulationStepImplPatch.cs" />
+    <Compile Include="Patch\TransferManagerAddIncomingOfferPatch.cs" />
+    <Compile Include="Patch\TransferManagerAddOutgoingOfferPatch.cs" />
     <Compile Include="Patch\IndustrialExtractorAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\IndustrialBuildingAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\CommercialBuildingAISimulationStepActivePatch.cs" />

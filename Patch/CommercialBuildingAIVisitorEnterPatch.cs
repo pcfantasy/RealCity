@@ -98,8 +98,7 @@ namespace RealCity.Patch
 
                         if (containingUnit != 0)
                         {
-                            instance.m_units.m_buffer[containingUnit].m_goods = (ushort)(instance.m_units.m_buffer[containingUnit].m_goods - num);
-                            CitizenData.citizenCanUpdateGoods[citizen] = true;
+                            CitizenUnitData.familyGoods[containingUnit] = (ushort)(CitizenUnitData.familyGoods[containingUnit] - num);
                         }
                     }
                 }

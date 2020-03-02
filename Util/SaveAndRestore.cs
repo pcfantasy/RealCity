@@ -471,7 +471,7 @@ namespace RealCity.Util
                 _serializableData.SaveData("RealCity VehicleData", saveData);
 
                 //10
-                saveData = new byte[2097152];
+                saveData = new byte[3145728];
                 CitizenUnitData.Save(ref saveData);
                 _serializableData.SaveData("RealCity CitizenUnitData", saveData);
             }

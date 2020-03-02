@@ -6,7 +6,6 @@ namespace RealCity.CustomData
     public class CitizenData
     {
         public static float[] citizenMoney = new float[1048576];
-        public static bool[] citizenCanUpdateGoods = new bool[1048576];
         public static uint lastCitizenID = 0;
 
         public static void DataInit()
@@ -14,7 +13,6 @@ namespace RealCity.CustomData
             for (int i = 0; i < citizenMoney.Length; i++)
             {
                 citizenMoney[i] = 0f;
-                citizenCanUpdateGoods[i] = false;
             }
         }
 

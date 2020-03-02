@@ -385,9 +385,13 @@ namespace RealCity.Patch
             Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate * 100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 100);
         }
 
-        public static void Prefix(ref CitizenUnit data)
+        public static void Prefix(uint homeID, ref CitizenUnit data)
         {
-            data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
+            if (CitizenUnitData.familyGoods[homeID] == 65535)
+            {
+                //first time
+                CitizenUnitData.familyGoods[homeID] = data.m_goods;
+            }
         }
 
             // ResidentAI
@@ -396,21 +400,22 @@ namespace RealCity.Patch
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
                 ProcessFamily(homeID, ref data);
+
+                float reducedGoods;
+                if (CitizenUnitData.familyMoney[homeID] < 10000)
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.01f;
+                else if (CitizenUnitData.familyMoney[homeID] < 20000)
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.05f;
+                else if (CitizenUnitData.familyMoney[homeID] < 50000)
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.1f;
+                else if (CitizenUnitData.familyMoney[homeID] < 100000)
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.2f;
+                else
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.3f;
+
+                CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
             }
-
-            float reducedGoods;
-            if (CitizenUnitData.familyMoney[homeID] < 10000)
-                reducedGoods = data.m_goods * 0.01f;
-            else if (CitizenUnitData.familyMoney[homeID] < 20000)
-                reducedGoods = data.m_goods * 0.05f;
-            else if (CitizenUnitData.familyMoney[homeID] < 50000)
-                reducedGoods = data.m_goods * 0.1f;
-            else if (CitizenUnitData.familyMoney[homeID] < 100000)
-                reducedGoods = data.m_goods * 0.2f;
-            else
-                reducedGoods = data.m_goods * 0.3f;
-
-            data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods - reducedGoods), 0, 60000);
+            data.m_goods = CitizenUnitData.familyGoods[homeID];
         }
 
         public static int GetExpenseRate(uint citizenID, out int incomeAccumulation)
