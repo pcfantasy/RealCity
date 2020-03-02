@@ -385,14 +385,18 @@ namespace RealCity.Patch
             Singleton<EconomyManager>.instance.AddPrivateIncome(expenserate * 100, buildingdata.Info.m_class.m_service, buildingdata.Info.m_class.m_subService, buildingdata.Info.m_class.m_level, 100);
         }
 
-        // ResidentAI
+        public static void Prefix(ref CitizenUnit data)
+        {
+            data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
+        }
+
+            // ResidentAI
         public static void Postfix(uint homeID, ref CitizenUnit data)
         {
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
                 ProcessFamily(homeID, ref data);
             }
-            data.m_goods = (ushort)COMath.Clamp((int)(data.m_goods + 20), 0, 60000);
 
             float reducedGoods;
             if (CitizenUnitData.familyMoney[homeID] < 10000)

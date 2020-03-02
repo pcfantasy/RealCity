@@ -69,14 +69,10 @@ namespace RealCity.Patch
 
                 int consumptionMoney = -(int)(consumptionIndex * CitizenData.citizenMoney[citizen]);
 
-                DebugLog.LogToFileOnly($"consumptionMoney = {consumptionMoney}");
-
                 if (consumptionMoney < 0)
                 {
-                    DebugLog.LogToFileOnly($"ModifyMaterialBuffer consumptionMoney = {consumptionMoney}");
                     int tempMoney = consumptionMoney;
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref tempMoney);
-                    DebugLog.LogToFileOnly($"ModifyMaterialBuffer consumptionMoney post = {consumptionMoney}");
                 }
                 else
                 {
@@ -84,7 +80,6 @@ namespace RealCity.Patch
                 }
 
                 int num = (int)(-(CitizenData.citizenMoney[citizen] + consumptionMoney) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
-                DebugLog.LogToFileOnly($" num = {num}");
 
                 if (num < 0)
                 {
@@ -93,7 +88,6 @@ namespace RealCity.Patch
                         num = -1000;
                     }
                     info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
-                    DebugLog.LogToFileOnly($"ModifyMaterialBuffer num post = {num}");
 
                     if (num != 0)
                     {
@@ -114,9 +108,7 @@ namespace RealCity.Patch
                     num = 0;
                 }
 
-                DebugLog.LogToFileOnly($"citizenMoney num pre = {CitizenData.citizenMoney[citizen]}");
                 CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
-                DebugLog.LogToFileOnly($"citizenMoney num post = {CitizenData.citizenMoney[citizen]}");
             }
 
             //base.VisitorEnter(buildingID, ref data, citizen);
