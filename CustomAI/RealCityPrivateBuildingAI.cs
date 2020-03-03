@@ -330,7 +330,7 @@ namespace RealCity.CustomAI
                 }
                 else
                 {
-                    return Politics.industryTax;
+                    return Politics.industryTax + 20;
                 }
             }
 
