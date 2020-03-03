@@ -52,10 +52,7 @@
 
 
         //start from V6, goverment salary is floating now
-        public static byte govermentEducation0Salary = 50;
-        public static byte govermentEducation1Salary = 55;
-        public static byte govermentEducation2Salary = 65;
-        public static byte govermentEducation3Salary = 80;
+        public static int govermentSalary = 100;
 
         public static int citizenCount = 0;
         public static int familyCount = 0;
@@ -116,10 +113,7 @@
             SaveAndRestore.SaveData(ref i, unfinishedTransitionLostFinal, ref saveData);
 
             //4
-            SaveAndRestore.SaveData(ref i, govermentEducation0Salary, ref saveData);
-            SaveAndRestore.SaveData(ref i, govermentEducation1Salary, ref saveData);
-            SaveAndRestore.SaveData(ref i, govermentEducation2Salary, ref saveData);
-            SaveAndRestore.SaveData(ref i, govermentEducation3Salary, ref saveData);
+            SaveAndRestore.SaveData(ref i, govermentSalary, ref saveData);
 
             //37
             SaveAndRestore.SaveData(ref i, update_money_count, ref saveData);
@@ -161,10 +155,7 @@
             SaveAndRestore.LoadData(ref i, saveData, ref unfinishedTransitionLostFinal);
 
 
-            SaveAndRestore.LoadData(ref i, saveData, ref govermentEducation0Salary);
-            SaveAndRestore.LoadData(ref i, saveData, ref govermentEducation1Salary);
-            SaveAndRestore.LoadData(ref i, saveData, ref govermentEducation2Salary);
-            SaveAndRestore.LoadData(ref i, saveData, ref govermentEducation3Salary);
+            SaveAndRestore.LoadData(ref i, saveData, ref govermentSalary);
 
             SaveAndRestore.LoadData(ref i, saveData, ref update_money_count);
             SaveAndRestore.LoadData(ref i, saveData, ref current_time);
@@ -176,6 +167,8 @@
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryTaxTotal);
 
             SaveAndRestore.LoadData(ref i, saveData, ref totalFamilyGoodDemand);
+
+            MainDataStore.govermentSalary = (int)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount);
 
             if (i != saveData.Length)
             {

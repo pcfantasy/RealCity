@@ -42,7 +42,7 @@ namespace RealCity.Patch
                 }
                 else
                 {
-                    int tourism_fee = (int)(0.4f * CitizenData.citizenMoney[citizen]);
+                    int tourism_fee = (int)(0.2f * CitizenData.citizenMoney[citizen]);
                     if (tourism_fee > 0)
                     {
                         CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);

@@ -12,6 +12,10 @@ namespace RealCity.Patch
     [HarmonyPatch]
     public class ResidentAICitizenUnitSimulationStepPatch
     {
+        public static int lastHour = 0;
+        public static int lastMinute = 0;
+        public static int lastSecond = 0;
+        public static int minute = 1;
         public static MethodBase TargetMethod()
         {
             return typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType() }, null);
@@ -255,7 +259,38 @@ namespace RealCity.Patch
                 RealCityResidentAI.familyWeightStableLow = 0;
                 RealCityResidentAI.totalFamilyGoodDemand = 0;
                 RealCityPrivateBuildingAI.profitBuildingMoney = 0;
+
+                if ((lastHour == 0) && (lastMinute == 0) && (lastSecond == 0))
+                {
+                    minute = 1;
+                }
+                else
+                {
+                    if (lastHour > Singleton<SimulationManager>.instance.m_currentGameTime.Hour)
+                    {
+                        minute = (Singleton<SimulationManager>.instance.m_currentGameTime.Hour + 24 - lastHour) * 60 + (Singleton<SimulationManager>.instance.m_currentGameTime.Minute - lastMinute);
+                    }
+                    else
+                    {
+                        minute = (-Singleton<SimulationManager>.instance.m_currentGameTime.Hour + lastHour) * 60 + (Singleton<SimulationManager>.instance.m_currentGameTime.Minute - lastMinute);
+                    }
+                }
+
+                if (minute < 0)
+                {
+                    DebugLog.LogToFileOnly($"Error: minute < 0 {Singleton<SimulationManager>.instance.m_currentGameTime.Hour}   {Singleton<SimulationManager>.instance.m_currentGameTime.Minute}   {lastHour}   {lastMinute}");
+                    minute = 0;
+                }
+                else
+                {
+                    DebugLog.LogToFileOnly($"minute = {minute}");
+                }
+
+                lastHour = Singleton<SimulationManager>.instance.m_currentGameTime.Hour;
+                lastMinute = Singleton<SimulationManager>.instance.m_currentGameTime.Minute;
+                lastSecond = Singleton<SimulationManager>.instance.m_currentGameTime.Second;
             }
+
             RealCityResidentAI.preCitizenId = homeID;
             RealCityResidentAI.familyCount++;
 
@@ -351,17 +386,79 @@ namespace RealCity.Patch
             }
 
             //7. Process citizen status
-            if ((familySalaryCurrent - CitizenUnitData.familyMoney[homeID] / 1000f) >= -10)
+            if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrent)) >= 20)
             {
                 RealCityResidentAI.familyLossMoneyCount++;
             }
-            else if ((familySalaryCurrent - CitizenUnitData.familyMoney[homeID] / 1000f) >= -100)
+            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrent)) >= 100)
             {
                 RealCityResidentAI.familyProfitMoneyCount++;
             }
-            else
+            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrent)) >= 200)
             {
                 RealCityResidentAI.familyVeryProfitMoneyCount++;
+            }
+
+            //8 reduce goods
+            float reducedGoods;
+            if (Loader.isRealTimeRunning)
+            {
+                if (CitizenUnitData.familyMoney[homeID] < 10000)
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * minute / 2160f;
+                else
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * minute / 1440f;
+            }
+            else
+            {
+                if (CitizenUnitData.familyMoney[homeID] < 10000)
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.01f;
+                else
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.02f;
+            }
+
+            CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
+            data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
+
+            //9 move family
+            if ((CitizenUnitData.familyGoods[homeID] > 4000) && (familySalaryCurrent > 1))
+            {
+                if (data.m_goods == 0)
+                {
+                    uint num3 = 0u;
+                    int num4 = 0;
+                    if (data.m_citizen4 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)].Dead)
+                    {
+                        num4++;
+                        num3 = data.m_citizen4;
+                    }
+                    if (data.m_citizen3 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)].Dead)
+                    {
+                        num4++;
+                        num3 = data.m_citizen3;
+                    }
+                    if (data.m_citizen2 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)].Dead)
+                    {
+                        num4++;
+                        num3 = data.m_citizen2;
+                    }
+                    if (data.m_citizen1 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)].Dead)
+                    {
+                        num4++;
+                        num3 = data.m_citizen1;
+                    }
+                    if (data.m_citizen0 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].Dead)
+                    {
+                        num4++;
+                        num3 = data.m_citizen0;
+                    }
+
+                    CitizenUnitData.familyGoods[homeID] = 1000;
+                    data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
+
+                    CitizenUnitData.familyMoney[homeID] = CitizenUnitData.familyMoney[homeID] - 4000;
+
+                    Singleton<ResidentAI>.instance.TryMoveFamily(num3, ref instance.m_citizens.m_buffer[(int)((UIntPtr)num3)], num4);
+                }
             }
 
             //ProcessCitizen post, split all familyMoney to CitizenMoney
@@ -390,32 +487,20 @@ namespace RealCity.Patch
             if (CitizenUnitData.familyGoods[homeID] == 65535)
             {
                 //first time
-                CitizenUnitData.familyGoods[homeID] = data.m_goods;
+                if (data.m_goods < 6000)
+                    CitizenUnitData.familyGoods[homeID] = (ushort)(data.m_goods * 10);
+                else
+                    CitizenUnitData.familyGoods[homeID] = 60000;
             }
         }
 
-            // ResidentAI
+        // ResidentAI
         public static void Postfix(uint homeID, ref CitizenUnit data)
         {
             if ((Singleton<BuildingManager>.instance.m_buildings.m_buffer[data.m_building].m_flags & (Building.Flags.Completed | Building.Flags.Upgrading)) != Building.Flags.None)
             {
                 ProcessFamily(homeID, ref data);
-
-                float reducedGoods;
-                if (CitizenUnitData.familyMoney[homeID] < 10000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.01f;
-                else if (CitizenUnitData.familyMoney[homeID] < 20000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.05f;
-                else if (CitizenUnitData.familyMoney[homeID] < 50000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.1f;
-                else if (CitizenUnitData.familyMoney[homeID] < 100000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.2f;
-                else
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.3f;
-
-                CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
             }
-            data.m_goods = CitizenUnitData.familyGoods[homeID];
         }
 
         public static int GetExpenseRate(uint citizenID, out int incomeAccumulation)

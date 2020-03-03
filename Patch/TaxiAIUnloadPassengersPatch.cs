@@ -37,9 +37,6 @@ namespace RealCity.Patch
                             if (num4 != 0)
                             {
                                 //DebugLog.LogToFileOnly("UnloadPassengers ticketPrice pre = " + num4.ToString());
-                                CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                                ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-                                BuildingManager instance4 = Singleton<BuildingManager>.instance;
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                                 {
                                     CitizenData.citizenMoney[citizen] -= (num4);

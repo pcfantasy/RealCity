@@ -156,16 +156,16 @@ namespace RealCity.CustomAI
                         switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                         {
                             case Citizen.Education.Uneducated:
-                                salaryMax = MainDataStore.govermentEducation0Salary;
+                                salaryMax = (int)(MainDataStore.govermentSalary * 0.5);
                                 salary = MainDataStore.govermentEducation0SalaryFixed; break;
                             case Citizen.Education.OneSchool:
-                                salaryMax = MainDataStore.govermentEducation1Salary;
+                                salaryMax = (int)(MainDataStore.govermentSalary * 0.55);
                                 salary = MainDataStore.govermentEducation1SalaryFixed; break;
                             case Citizen.Education.TwoSchools:
-                                salaryMax = MainDataStore.govermentEducation2Salary;
+                                salaryMax = (int)(MainDataStore.govermentSalary * 0.65);
                                 salary = MainDataStore.govermentEducation2SalaryFixed; break;
                             case Citizen.Education.ThreeSchools:
-                                salaryMax = MainDataStore.govermentEducation3Salary;
+                                salaryMax = (int)(MainDataStore.govermentSalary * 0.8);
                                 salary = MainDataStore.govermentEducation3SalaryFixed; break;
                         }
                         int allWorkCount = 0;
@@ -202,7 +202,6 @@ namespace RealCity.CustomAI
 
             return salary;
         }//public
-
 
         public static int TotalWorkCount(ushort buildingID, Building data, bool checkOnly, bool update)
         {

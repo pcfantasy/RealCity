@@ -3,10 +3,11 @@ using RealCity.Util;
 using RealCity.UI;
 using ColossalFramework;
 using UnityEngine;
+using System;
 
 namespace RealCity.CustomAI
 {
-    public  class RealCityPrivateBuildingAI
+    public class RealCityPrivateBuildingAI
     {
         public static ushort allBuildings = 0;
         public static uint preBuidlingId = 0;
@@ -485,6 +486,27 @@ namespace RealCity.CustomAI
                     }
                 }
             }
+        }
+
+        public static void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = buildingData.m_citizenUnits;
+            int num2 = 0;
+            do
+            {
+                if (num == 0)
+                {
+                    return;
+                }
+                if ((instance.m_units.m_buffer[num].m_flags & CitizenUnit.Flags.Visit) != 0)
+                {
+                    instance.m_units.m_buffer[num].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
+                }
+                num = instance.m_units.m_buffer[num].m_nextUnit;
+            }
+            while (++num2 <= 524288);
+            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
         }
     }
 }

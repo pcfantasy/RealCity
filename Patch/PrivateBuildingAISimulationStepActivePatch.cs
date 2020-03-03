@@ -147,7 +147,7 @@ namespace RealCity.Patch
                 int totalvisitCount = 0;
                 int maxcount = 0;
                 var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
-                GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);                
+                RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);                
                 maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
                 if (maxcount <= totalvisitCount)
                 {
@@ -158,27 +158,6 @@ namespace RealCity.Patch
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
             }
-        }
-
-        public static void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-        {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            do
-            {
-                if (num == 0)
-                {
-                    return;
-                }
-                if ((instance.m_units.m_buffer[num].m_flags & CitizenUnit.Flags.Visit) != 0)
-                {
-                    instance.m_units.m_buffer[num].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                }
-                num = instance.m_units.m_buffer[num].m_nextUnit;
-            }
-            while (++num2 <= 524288);
-            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
         }
 
         public static void LimitAndCheckOfficeMoney(Building building, ushort buildingID)

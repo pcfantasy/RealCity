@@ -3,6 +3,8 @@ using System;
 using System.Reflection;
 using ColossalFramework;
 using RealCity.Util;
+using RealCity.CustomAI;
+using ColossalFramework.Math;
 
 namespace RealCity.Patch
 {
@@ -15,46 +17,24 @@ namespace RealCity.Patch
 		}
 
 		[HarmonyPriority(Priority.VeryHigh)]
-		public static bool Prefix(TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)
+		public static void Prefix(ref TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)
 		{
-			switch (material)
+			if (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single0B)
 			{
-				case TransferManager.TransferReason.Shopping:
-				case TransferManager.TransferReason.ShoppingB:
-				case TransferManager.TransferReason.ShoppingC:
-				case TransferManager.TransferReason.ShoppingD:
-				case TransferManager.TransferReason.ShoppingE:
-				case TransferManager.TransferReason.ShoppingF:
-				case TransferManager.TransferReason.ShoppingG:
-				case TransferManager.TransferReason.ShoppingH:
-				case TransferManager.TransferReason.Entertainment:
-				case TransferManager.TransferReason.EntertainmentB:
-				case TransferManager.TransferReason.EntertainmentC:
-				case TransferManager.TransferReason.EntertainmentD:
-					break;
-				default:
-					return true;
+				material = TransferManager.TransferReason.Family0;
 			}
-
-			var instance = Singleton<BuildingManager>.instance;
-			if (offer.Building != 0)
+			else if (material == TransferManager.TransferReason.Single1 || material == TransferManager.TransferReason.Single1B)
 			{
-				if (instance.m_buildings.m_buffer[offer.Building].Info.m_class.m_service == ItemClass.Service.Commercial)
-				{
-					var amount = instance.m_buildings.m_buffer[offer.Building].m_customBuffer2 / MainDataStore.maxGoodPurchase;
-					if (amount == 0)
-					{
-						//no resource
-						return false;
-					}
-					else
-					{
-						//DebugLog.LogToFileOnly($"Change offer amount from {offer.Amount} to {amount}");
-						offer.Amount = amount;
-					}
-				}
+				material = TransferManager.TransferReason.Family1;
 			}
-			return true;
+			else if (material == TransferManager.TransferReason.Single2 || material == TransferManager.TransferReason.Single2B)
+			{
+				material = TransferManager.TransferReason.Family2;
+			}
+			else if (material == TransferManager.TransferReason.Single3 || material == TransferManager.TransferReason.Single3B)
+			{
+				material = TransferManager.TransferReason.Family3;
+			}
 		}
 	}
 }

@@ -20,7 +20,6 @@ namespace RealCity.Patch
         {
             if (material == TransferManager.TransferReason.Entertainment)
             {
-                DebugLog.LogToFileOnly($"ModifyMaterialBuffer Entertainment amountDelta post = {amountDelta}");
                 CaculateTradeIncome(buildingID, ref data, material, ref amountDelta);
             }
         }

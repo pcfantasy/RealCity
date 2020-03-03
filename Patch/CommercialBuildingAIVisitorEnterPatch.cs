@@ -60,8 +60,8 @@ namespace RealCity.Patch
 
                         if (num != 0)
                         {
-                            CitizenUnitData.familyGoods[containingUnit] = (ushort)(CitizenUnitData.familyGoods[containingUnit] - num);
-                            if (CitizenUnitData.familyGoods[containingUnit] > 200)
+                            CitizenUnitData.familyGoods[containingUnit] = (ushort)(CitizenUnitData.familyGoods[containingUnit] - (num * 10));
+                            if (CitizenUnitData.familyGoods[containingUnit] > 2000)
                             {
                                 instance.m_citizens.m_buffer[citizen].m_flags &= ~Citizen.Flags.NeedGoods;
                             }

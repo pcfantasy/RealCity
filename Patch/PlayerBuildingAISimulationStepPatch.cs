@@ -43,7 +43,7 @@ namespace RealCity.Patch
                 if (totalWorkCount == 0 && allWorkCount != 0)
                 {
                     int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
-                    int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), MainDataStore.govermentEducation3Salary);
+                    int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), (int)(MainDataStore.govermentSalary * 0.8f));
                     float num1 = (education3Salary / 16) * allWorkCount;
                     Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)num1, data.Info.m_class);
                 }

@@ -100,14 +100,11 @@
     <Compile Include="CustomData\CitizenUnitData.cs" />
     <Compile Include="CustomData\CitizenData.cs" />
     <Compile Include="CustomData\VehicleData.cs" />
-    <Compile Include="Patch\TransferManagerAddIncomingOfferPatch.cs" />
     <Compile Include="Patch\TransferManagerAddOutgoingOfferPatch.cs" />
     <Compile Include="Patch\IndustrialExtractorAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\IndustrialBuildingAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\CommercialBuildingAISimulationStepActivePatch.cs" />
-    <Compile Include="Patch\ResidentAIStartMovingPatch.cs" />
     <Compile Include="Patch\ResidentAICitizenInstanceSimulationStepPatch.cs" />
-    <Compile Include="Patch\TransferManagerStartTransferPatch.cs" />
     <Compile Include="Patch\TouristAISimulationStepPatch.cs" />
     <Compile Include="Patch\CommercialBuildingAIVisitorEnterPatch.cs" />
     <Compile Include="Patch\LandfillSiteAIModifyMaterialBufferPatch.cs" />

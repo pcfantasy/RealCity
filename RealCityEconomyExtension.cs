@@ -191,10 +191,7 @@ namespace RealCity
             //Caculate goverment salary
             if (MainDataStore.citizenCount != 0)
             {
-                MainDataStore.govermentEducation0Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.65f) / MainDataStore.citizenCount);
-                MainDataStore.govermentEducation1Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.7f) / MainDataStore.citizenCount);
-                MainDataStore.govermentEducation2Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.8f) / MainDataStore.citizenCount);
-                MainDataStore.govermentEducation3Salary = (byte)((MainDataStore.citizenSalaryTotal * 0.95f) / MainDataStore.citizenCount);
+                MainDataStore.govermentSalary = (int)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount);
             }
             //reset playereducation fee
             if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent != 1)
@@ -327,7 +324,7 @@ namespace RealCity
             long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
             if (_cashAmount < 0)
             {
-                MoneyOffset = -2000;
+                MoneyOffset = -4000;
                 System.Random rand = new System.Random();
                 if (rand.Next(10) < 8)
                 {
@@ -441,13 +438,13 @@ namespace RealCity
                 }
                 Politics.currentIdx = (byte)idex;
             }
-            else if (_cashAmount > 16000000)
+            else if (_cashAmount > 24000000)
             {
                 MoneyOffset = 4000;
             }
             else
             {
-                MoneyOffset = -4000 + (int)(_cashAmount / 2000);
+                MoneyOffset = -4000 + (int)(_cashAmount / 3000);
             }
 
             //citizenOffset
