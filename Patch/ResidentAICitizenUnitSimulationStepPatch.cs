@@ -385,16 +385,18 @@ namespace RealCity.Patch
                 }
             }
 
+            var familySalaryCurrentTmp = (familySalaryCurrent > 4000) ? 4000 : familySalaryCurrent;
+
             //7. Process citizen status
-            if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrent)) >= 20)
+            if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 20)
             {
                 RealCityResidentAI.familyLossMoneyCount++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrent)) >= 100)
+            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 100)
             {
                 RealCityResidentAI.familyProfitMoneyCount++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrent)) >= 200)
+            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 200)
             {
                 RealCityResidentAI.familyVeryProfitMoneyCount++;
             }
