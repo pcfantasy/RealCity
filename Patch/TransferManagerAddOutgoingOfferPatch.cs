@@ -17,9 +17,53 @@ namespace RealCity.Patch
 		}
 
 		[HarmonyPriority(Priority.VeryHigh)]
-		public static void Prefix(ref TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)
+		public static bool Prefix(ref TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)
 		{
-			if (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single0B)
+            switch (material)
+            {
+                case TransferManager.TransferReason.Shopping:
+                case TransferManager.TransferReason.ShoppingB:
+                case TransferManager.TransferReason.ShoppingC:
+                case TransferManager.TransferReason.ShoppingD:
+                case TransferManager.TransferReason.ShoppingE:
+                case TransferManager.TransferReason.ShoppingF:
+                case TransferManager.TransferReason.ShoppingG:
+                case TransferManager.TransferReason.ShoppingH:
+                case TransferManager.TransferReason.Entertainment:
+                case TransferManager.TransferReason.EntertainmentB:
+                case TransferManager.TransferReason.EntertainmentC:
+                case TransferManager.TransferReason.EntertainmentD:
+                    break;
+                default:
+                    return true;
+            }
+
+            var instance = Singleton<BuildingManager>.instance;
+            var buildingID = offer.Building;
+            if (buildingID != 0)
+            {
+                var buildingData = instance.m_buildings.m_buffer[buildingID];
+                if (instance.m_buildings.m_buffer[buildingID].Info.m_class.m_service == ItemClass.Service.Commercial)
+                {
+                    Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                    int alivevisitCount = 0;
+                    int totalvisitCount = 0;
+                    RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                    var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                    if (amount <= 0)
+                    {
+                        //no resource
+                        return false;
+                    }
+                    else
+                    {
+                        //DebugLog.LogToFileOnly($"Change offer amount from {offer.Amount} to {amount}");
+                        offer.Amount = amount;
+                    }
+                }
+            }
+
+            if (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single0B)
 			{
 				material = TransferManager.TransferReason.Family0;
 			}
@@ -35,6 +79,8 @@ namespace RealCity.Patch
 			{
 				material = TransferManager.TransferReason.Family3;
 			}
+
+            return true;
 		}
 	}
 }
