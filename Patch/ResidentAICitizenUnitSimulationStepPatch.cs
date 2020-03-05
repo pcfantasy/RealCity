@@ -272,7 +272,7 @@ namespace RealCity.Patch
                     }
                     else
                     {
-                        minute = (-Singleton<SimulationManager>.instance.m_currentGameTime.Hour + lastHour) * 60 + (Singleton<SimulationManager>.instance.m_currentGameTime.Minute - lastMinute);
+                        minute = (Singleton<SimulationManager>.instance.m_currentGameTime.Hour - lastHour) * 60 + (Singleton<SimulationManager>.instance.m_currentGameTime.Minute - lastMinute);
                     }
                 }
 
@@ -388,41 +388,41 @@ namespace RealCity.Patch
             var familySalaryCurrentTmp = (familySalaryCurrent > 4000) ? 4000 : familySalaryCurrent;
 
             //7. Process citizen status
-            if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 20)
+            if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 200)
             {
-                RealCityResidentAI.familyLossMoneyCount++;
+                RealCityResidentAI.familyVeryProfitMoneyCount++;
             }
             else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 100)
             {
                 RealCityResidentAI.familyProfitMoneyCount++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 200)
+            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 50)
             {
-                RealCityResidentAI.familyVeryProfitMoneyCount++;
+                RealCityResidentAI.familyLossMoneyCount++;
             }
 
             //8 reduce goods
-            float reducedGoods;
+            int reducedGoods;
             if (Loader.isRealTimeRunning)
             {
                 if (CitizenUnitData.familyMoney[homeID] < 10000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * minute / 2160f;
+                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) >> 10;
                 else
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * minute / 1440f;
+                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) >> 8;
             }
             else
             {
                 if (CitizenUnitData.familyMoney[homeID] < 10000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.01f;
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] >> 7;
                 else
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] * 0.02f;
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] >> 6;
             }
 
             CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
             data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
 
             //9 move family
-            if ((CitizenUnitData.familyGoods[homeID] > 4000) && (familySalaryCurrent > 1))
+            if ((CitizenUnitData.familyMoney[homeID] > 4000) && (familySalaryCurrent > 1))
             {
                 if (data.m_goods == 0)
                 {

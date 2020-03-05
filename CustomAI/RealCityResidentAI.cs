@@ -126,20 +126,49 @@ namespace RealCity.CustomAI
                     BuildingUI.GetWorkBehaviour(workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     if (!IsGoverment(workBuilding))
                     {
+                        float profitShare = 0;
+                        switch (buildingData.Info.m_class.m_subService)
+                        {
+                            case ItemClass.SubService.IndustrialFarming:
+                            case ItemClass.SubService.IndustrialForestry:
+                            case ItemClass.SubService.IndustrialOil:
+                            case ItemClass.SubService.IndustrialOre:
+                                profitShare = 0.02f; break;
+                            case ItemClass.SubService.IndustrialGeneric:
+                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
+                                    profitShare = 0.01f;
+                                else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
+                                    profitShare = 0.02f;
+                                else
+                                    profitShare = 0.03f;
+                                break;
+                            case ItemClass.SubService.CommercialHigh:
+                            case ItemClass.SubService.CommercialLow:
+                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
+                                    profitShare = 0.003f;
+                                else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
+                                    profitShare = 0.007f;
+                                else
+                                    profitShare = 0.012f;
+                                break;
+                            case ItemClass.SubService.CommercialTourist:
+                            case ItemClass.SubService.CommercialLeisure:
+                                profitShare = 0.015f; break;
+                            case ItemClass.SubService.CommercialEco:
+                                profitShare = 0.009f; break;
+                        }
+
+                        if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
+                        {
+                            salary = (int)(BuildingData.buildingMoney[workBuilding] * profitShare / totalWorkCount);
+                        }
+                        if (!checkOnly)
+                        {
+                            BuildingData.buildingMoney[workBuilding] -= salary;
+                        }
+
                         switch (buildingData.Info.m_class.m_service)
                         {
-                            case ItemClass.Service.Commercial:
-                            case ItemClass.Service.Industrial:
-                                if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(BuildingData.buildingMoney[workBuilding] * MainDataStore.profitShareRatio / totalWorkCount);
-                                    break;
-                                }
-                                if (!checkOnly)
-                                {
-                                    BuildingData.buildingMoney[workBuilding] -= salary;
-                                }
-                                break;
                             case ItemClass.Service.Office:
                                 if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
                                 {

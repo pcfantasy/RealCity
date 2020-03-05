@@ -30,10 +30,10 @@ namespace RealCity.Patch
                 {
                     case ItemClass.Service.Residential:
                         long family_money = GetResidentialBuildingAverageMoney(buildingID, ref data);
-                        if (family_money < 5000)
-                            BuildingData.buildingMoneyThreat[buildingID] = 1.0f - family_money / 10000.0f;
+                        if (family_money < 50000)
+                            BuildingData.buildingMoneyThreat[buildingID] = 1.0f - family_money / 100000.0f;
                         else
-                            BuildingData.buildingMoneyThreat[buildingID] = (15000.0f - family_money) / 20000.0f;
+                            BuildingData.buildingMoneyThreat[buildingID] = (150000.0f - family_money) / 200000.0f;
 
                         if (BuildingData.buildingMoneyThreat[buildingID] < 0.5f)
                             __result = Color.Lerp(Color.green, Color.yellow, BuildingData.buildingMoneyThreat[buildingID] * 2.0f);

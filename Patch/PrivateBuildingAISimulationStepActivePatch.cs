@@ -30,7 +30,12 @@ namespace RealCity.Patch
         {
             LimitAndCheckOfficeMoney(buildingData, buildingID);
             ProcessLandFeeNoOffice(buildingData, buildingID);
-            LimitCommericalBuildingAccess(buildingID, ref buildingData);
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            int num4 = (int)(currentFrameIndex & 4095u);
+            if (((num4 >> 8) & 15u) == (buildingID & 15u))
+            {
+                LimitCommericalBuildingAccess(buildingID, ref buildingData);
+            }
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
         
@@ -77,8 +82,7 @@ namespace RealCity.Patch
 
                 case ItemClass.Service.Commercial:
                 case ItemClass.Service.Industrial:
-                    int num = 0; int num1 = 0;
-                    float averageBuildingSalary = BuildingUI.CaculateEmployeeOutcome(buildingData, buildingID, out num, out num1);
+                    float averageBuildingSalary = BuildingUI.CaculateEmployeeOutcome(buildingData, buildingID, out _, out _);
 
                     if (MainDataStore.citizenCount > 0.0)
                     {
@@ -145,15 +149,9 @@ namespace RealCity.Patch
                 Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                 int alivevisitCount = 0;
                 int totalvisitCount = 0;
-                int maxcount = 0;
-                var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
-                RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);                
-                maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
-                if (maxcount <= totalvisitCount)
-                {
-                    buildingData.m_flags &= ~Building.Flags.Active;
-                }
-                else if (buildingData.m_customBuffer2 < (MainDataStore.maxGoodPurchase + 100))
+                RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                if (amount <= 0)
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
@@ -179,54 +177,39 @@ namespace RealCity.Patch
                     {
                         RealCityPrivateBuildingAI.profitBuildingCount++;
                         float bossTake = 0;
-                        float investToOffice = 0;
                         // boss take and return to office
-                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric  && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
+                        switch (building.Info.m_class.m_subService)
                         {
-                            if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
-                            {
-                                investToOffice = 0.0025f;
-                            } else
-                            {
-                                investToOffice = 0.0005f;
-                            }
+                            case ItemClass.SubService.IndustrialFarming:
+                            case ItemClass.SubService.IndustrialForestry:
+                            case ItemClass.SubService.IndustrialOil:
+                            case ItemClass.SubService.IndustrialOre:
+                                bossTake = 0.02f; break;
+                            case ItemClass.SubService.IndustrialGeneric:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                    bossTake = 0.005f;
+                                else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                    bossTake = 0.01f;
+                                else
+                                    bossTake = 0.015f;
+                                break;
+                            case ItemClass.SubService.CommercialHigh:
+                            case ItemClass.SubService.CommercialLow:
+                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                    bossTake = 0.03f;
+                                else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                    bossTake = 0.09f;
+                                else
+                                    bossTake = 0.18f;
+                                break;
+                            case ItemClass.SubService.CommercialTourist:
+                            case ItemClass.SubService.CommercialLeisure:
+                                bossTake = 0.20f; break;
+                            case ItemClass.SubService.CommercialEco:
+                                bossTake = 0.24f; break;
                         }
-                        else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                        {
-                            investToOffice = 0.001f;
-                        }
-                        else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                        {
-                            investToOffice = 0.0015f;
-                        }
-                        else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                        {
-                            investToOffice = 0.002f;
-                        }
-                        // Boss will to take 
-                        if (building.Info.m_class.m_subService != ItemClass.SubService.IndustrialGeneric && building.Info.m_class.m_subService != ItemClass.SubService.CommercialHigh && building.Info.m_class.m_subService != ItemClass.SubService.CommercialLow)
-                        {
-                            if (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure || building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
-                            {
-                                bossTake = 0.005f;
-                            }
-                            else
-                            {
-                                bossTake = 0.001f;
-                            }
-                        }
-                        else if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                        {
-                            bossTake = 0.002f;
-                        }
-                        else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                        {
-                            bossTake = 0.003f;
-                        }
-                        else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                        {
-                            bossTake = 0.004f;
-                        }
+
+                        float investToOffice = bossTake * 0.5f;
 
                         RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
                         BuildingData.buildingMoney[buildingID] -= (long)(BuildingData.buildingMoney[buildingID] * bossTake);
@@ -305,19 +288,18 @@ namespace RealCity.Patch
                     }
                 }
 
-                ProcessLandFeeOffice(building, buildingID, BuildingData.buildingMoney[buildingID]);
+                ProcessLandFeeOffice(building, buildingID, totalWorkerCount);
             }
         }
 
-        public static void ProcessLandFeeOffice(Building building, ushort buildingID, float money)
+        public static void ProcessLandFeeOffice(Building building, ushort buildingID, int totalWorkerCount)
         {
             DistrictManager instance = Singleton<DistrictManager>.instance;
             byte district = instance.GetDistrict(building.m_position);
             DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
-            DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
-            int landFee = (int)money;
+            int landFee = totalWorkerCount * 160;
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
@@ -333,10 +315,9 @@ namespace RealCity.Patch
                 landFee = landFee * 95 / 100;
             }
 
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            int num4 = (int)(currentFrameIndex & 4095u);
-            if (((num4 >> 8) & 15u) == (buildingID & 15u))
+            if (BuildingData.buildingMoney[buildingID] >= 0)
             {
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (float)(landFee * taxRate) / 100);
                 Singleton<EconomyManager>.instance.AddPrivateIncome(landFee, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, taxRate * 100);
             }
         }
@@ -347,7 +328,6 @@ namespace RealCity.Patch
             byte district = instance.GetDistrict(building.m_position);
             DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
-            DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
             int landFee;
             GetLandRentNoOffice(out landFee, building, buildingID);

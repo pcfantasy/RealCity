@@ -34,9 +34,18 @@ namespace RealCity.Patch
                     {
                         sourceBuilding = targetBuilding;
                     }
-                    else if (building.m_customBuffer2 < MainDataStore.maxGoodPurchase)
+                    else
                     {
-                        sourceBuilding = targetBuilding;
+                        Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                        int alivevisitCount = 0;
+                        int totalvisitCount = 0;
+                        RealCityPrivateBuildingAI.GetVisitBehaviour(targetBuilding, ref building, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                        var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                        if (amount <= 0)
+                        {
+                            sourceBuilding = targetBuilding;
+                            building.m_flags &= ~Building.Flags.Active;
+                        }
                     }
                 }
             }
