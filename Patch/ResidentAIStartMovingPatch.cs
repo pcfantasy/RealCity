@@ -30,9 +30,13 @@ namespace RealCity.Patch
                     uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
                     uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
 
+
                     if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
                     {
-                        sourceBuilding = targetBuilding;
+                        if (!instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist))
+                        {
+                            sourceBuilding = targetBuilding;
+                        }
                     }
                     else
                     {
