@@ -16,8 +16,6 @@ namespace RealCity.Patch
         {
             VehicleData.vehicleTransferTime[vehicle] = 0;
             VehicleData.isVehicleCharged[vehicle] = false;
-            VehicleData.watingPathTime[vehicle] = 0;
-            VehicleData.stuckTime[vehicle] = 0;
         }
     }
 }

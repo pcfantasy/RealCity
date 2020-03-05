@@ -111,16 +111,6 @@ namespace RealCity
             RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
             RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);
 
-            for (int i = 0; i < Singleton<VehicleManager>.instance.m_vehicles.m_size; i++)
-            {
-                VehicleData.watingPathTime[i] = 0;
-                VehicleData.stuckTime[i] = 0;
-            }
-
-            for (int j = 0; j < 65536; j++)
-            {
-                HumanAISimulationStepPatch.watingPathTime[j] = 0;
-            }
             DebugLog.LogToFileOnly("InitData Done");
         }
 

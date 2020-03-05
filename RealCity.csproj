@@ -137,12 +137,10 @@
     <Compile Include="Patch\EconomyManagerFetchResourcePatch.cs" />
     <Compile Include="Patch\CitizenManagerReleaseCitizenImplementationPatch.cs" />
     <Compile Include="Patch\CitizenManagerReleaseUnitCitizenPatch.cs" />
-    <Compile Include="Patch\CitizenManagerReleaseCitizenInstanceImplementationPatch.cs" />
     <Compile Include="Patch\CitizenManagerCreateCitizenInstancePatch.cs" />
     <Compile Include="Patch\ResidentAICitizenSimulationStepPatch.cs" />
     <Compile Include="Patch\CommonBuildingAIGetColorPatch.cs" />
     <Compile Include="Patch\PlayerBuildingAISimulationStepPatch.cs" />
-    <Compile Include="Patch\HumanAISimulationStepPatch.cs" />
     <Compile Include="Patch\HumanAIEnterVehiclePatch.cs" />
     <Compile Include="Patch\CommonBuildingAIReleaseBuildingPatch.cs" />
     <Compile Include="Patch\BuildingAIVisitorEnterPatch.cs" />

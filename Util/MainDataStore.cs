@@ -168,7 +168,8 @@
 
             SaveAndRestore.LoadData(ref i, saveData, ref totalFamilyGoodDemand);
 
-            MainDataStore.govermentSalary = (int)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount);
+            if (MainDataStore.citizenCount != 0)
+                MainDataStore.govermentSalary = (int)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount);
 
             if (i != saveData.Length)
             {

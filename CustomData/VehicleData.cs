@@ -4,8 +4,6 @@ namespace RealCity.CustomData
 {
     public class VehicleData
     {
-        public static byte[] watingPathTime = new byte[65536];
-        public static ushort[] stuckTime = new ushort[65536];
         public static ushort[] vehicleTransferTime = new ushort[65536];
         public static bool[] isVehicleCharged = new bool[65536];
 

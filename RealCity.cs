@@ -224,7 +224,6 @@ namespace RealCity
             UIHelperBase group = panelHelper.AddGroup(Localization.Get("BASIC_SETTING"));
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), debugMode, (index) => debugModeEnable(index));
             group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), reduceVehicle, (index) => reduceVehicleEnable(index));
-            group.AddCheckbox(Localization.Get("REMOVE_STUCK_ENABLE"), removeStuck, (index) => removeStuckEnable(index));
             group.AddButton(Localization.Get("RESET_VALUE"), Loader.InitData);
 
             if (Loader.isTransportLinesManagerRunning)
@@ -331,12 +330,6 @@ namespace RealCity
         public void reduceVehicleEnable(bool index)
         {
             reduceVehicle = index;
-            SaveSetting();
-        }
-
-        public void removeStuckEnable(bool index)
-        {
-            removeStuck = index;
             SaveSetting();
         }
 
