@@ -299,7 +299,7 @@ namespace RealCity.Patch
             DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
 
-            int landFee = totalWorkerCount * 160;
+            int landFee = totalWorkerCount * 10;
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
