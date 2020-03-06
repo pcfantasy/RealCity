@@ -49,7 +49,7 @@ namespace RealCity.Patch
             if (amountDelta > 0)
             {
                 //revert
-                data.m_customBuffer2 = (ushort)Mathf.Clamp(data.m_customBuffer2 + amountDelta, 0, 65535);
+                //data.m_customBuffer2 = (ushort)Mathf.Clamp(data.m_customBuffer2 + amountDelta, 0, 65535);
                 float tradeIncome = -amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
                 float tradeTax = -tradeIncome * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
                 MainDataStore.unfinishedTransitionLost += (int)(tradeTax / 100f);
