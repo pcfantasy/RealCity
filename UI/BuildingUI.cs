@@ -433,7 +433,11 @@ namespace RealCity.UI
             }
             else if (building.Info.m_class.m_service == ItemClass.Service.Office)
             {
-                return (int)(BuildingData.buildingMoney[buildingID] * taxRate);
+                Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
+                int aliveWorkerCount = 0;
+                int totalWorkerCount = 0;
+                GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                return totalWorkerCount * 160 * taxRate;
             }
             else
             {
