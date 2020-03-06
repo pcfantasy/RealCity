@@ -158,7 +158,7 @@ namespace RealCity.CustomAI
                                 profitShare = 0.009f; break;
                         }
 
-                        if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
+                        if ((BuildingData.buildingMoney[workBuilding] > 0) && (totalWorkCount != 0))
                         {
                             salary = (int)(BuildingData.buildingMoney[workBuilding] * profitShare / totalWorkCount);
                         }

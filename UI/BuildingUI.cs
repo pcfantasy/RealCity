@@ -217,7 +217,18 @@ namespace RealCity.UI
                             }
 
                             CalculateOwnVehicles(BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
-                            usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar,car);
+                            usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar, car);
+                        }
+                        else if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+                        {
+                            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                            int alivevisitCount = 0;
+                            int totalvisitCount = 0;
+                            RealCityPrivateBuildingAI.GetVisitBehaviour(BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                            var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                            var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
+                            var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
+                            usedcar.text = string.Format("DEBUG" + " [{0}/{1}/{2}]", alivevisitCount, maxcount, amount);
                         }
                         else
                         {

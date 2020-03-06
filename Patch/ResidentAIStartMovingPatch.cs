@@ -31,25 +31,22 @@ namespace RealCity.Patch
                     uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
 
 
+                    Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                    int alivevisitCount = 0;
+                    int totalvisitCount = 0;
+                    RealCityPrivateBuildingAI.GetVisitBehaviour(targetBuilding, ref building, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                    var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                    if (amount <= 0)
+                    {
+                        sourceBuilding = targetBuilding;
+                        building.m_flags &= ~Building.Flags.Active;
+                        return;
+                    }
+
                     if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
                     {
-                        if (!instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist))
-                        {
-                            sourceBuilding = targetBuilding;
-                        }
-                    }
-                    else
-                    {
-                        Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                        int alivevisitCount = 0;
-                        int totalvisitCount = 0;
-                        RealCityPrivateBuildingAI.GetVisitBehaviour(targetBuilding, ref building, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                        var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
-                        if (amount <= 0)
-                        {
-                            sourceBuilding = targetBuilding;
-                            building.m_flags &= ~Building.Flags.Active;
-                        }
+                        sourceBuilding = targetBuilding;
+                        return;
                     }
                 }
             }

@@ -43,11 +43,11 @@ namespace RealCity.Patch
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    ProcessMonumentTourismTouristIncome(ref data, citizen);
+                    ProcessParkTourismTouristIncome(ref data, citizen);
                 }
                 else
                 {
-                    ProcessMonumentTourismResidentIncome(ref data, citizen);
+                    ProcessParkTourismResidentIncome(ref data, citizen);
                 }
             }
         }

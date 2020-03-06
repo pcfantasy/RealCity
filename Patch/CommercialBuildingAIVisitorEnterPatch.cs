@@ -36,8 +36,9 @@ namespace RealCity.Patch
                     }
                 }
 
+                consumptionMoney = -consumptionMoney;
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, tempTransferRreason, ref consumptionMoney);
-                consumptionMoney = -100;
+                consumptionMoney = -MainDataStore.maxGoodPurchase;
                 info.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
             }
             else

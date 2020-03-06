@@ -52,17 +52,23 @@ namespace RealCity.Patch
 
         public static void ProcessIncoming(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-            BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - trade_income1;
+            if (amountDelta > 0)
+            {
+                float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - trade_income1;
+            }
         }
 
         public static void CaculateTradeIncome(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            float trade_tax = 0;
-            float trade_income = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-            trade_tax = -trade_income * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
-            Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111333);
-            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (trade_income + trade_tax));
+            if (amountDelta < 0)
+            {
+                float trade_tax = 0;
+                float trade_income = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                trade_tax = -trade_income * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
+                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111333);
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (trade_income + trade_tax));
+            }
         }
     }
 }
