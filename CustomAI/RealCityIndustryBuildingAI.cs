@@ -88,7 +88,7 @@ namespace RealCity.CustomAI
                 case TransferManager.TransferReason.ShoppingD:
                 case TransferManager.TransferReason.ShoppingE:
                 case TransferManager.TransferReason.ShoppingH:
-                    price = 4.25f; break;
+                    price = 4.5f; break;
                 case TransferManager.TransferReason.Entertainment:
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:

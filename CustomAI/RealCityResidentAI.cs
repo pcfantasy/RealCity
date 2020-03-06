@@ -133,19 +133,19 @@ namespace RealCity.CustomAI
                             case ItemClass.SubService.IndustrialForestry:
                             case ItemClass.SubService.IndustrialOil:
                             case ItemClass.SubService.IndustrialOre:
-                                profitShare = 0.02f; break;
+                                profitShare = 0.015f; break;
                             case ItemClass.SubService.IndustrialGeneric:
                                 if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    profitShare = 0.01f;
+                                    profitShare = 0.006f;
                                 else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    profitShare = 0.02f;
+                                    profitShare = 0.009f;
                                 else
-                                    profitShare = 0.03f;
+                                    profitShare = 0.012f;
                                 break;
                             case ItemClass.SubService.CommercialHigh:
                             case ItemClass.SubService.CommercialLow:
                                 if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    profitShare = 0.003f;
+                                    profitShare = 0.004f;
                                 else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
                                     profitShare = 0.007f;
                                 else
@@ -153,9 +153,9 @@ namespace RealCity.CustomAI
                                 break;
                             case ItemClass.SubService.CommercialTourist:
                             case ItemClass.SubService.CommercialLeisure:
-                                profitShare = 0.015f; break;
+                                profitShare = 0.02f; break;
                             case ItemClass.SubService.CommercialEco:
-                                profitShare = 0.009f; break;
+                                profitShare = 0.015f; break;
                         }
 
                         if ((BuildingData.buildingMoney[workBuilding] > 0) && (totalWorkCount != 0))

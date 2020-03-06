@@ -54,5 +54,20 @@ namespace RealCity.Patch
                 }
             }
         }
+
+        public static void Postfix(uint citizenID, ref Citizen data, ref ushort targetBuilding, ref bool __result)
+        {
+            if (data.m_workBuilding != targetBuilding)
+            {
+                var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding];
+                if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
+                {
+                    if (__result)
+                    {
+                        data.SetVisitplace(citizenID, targetBuilding, 0u);
+                    }
+                }
+            }
+        }
     }
 }

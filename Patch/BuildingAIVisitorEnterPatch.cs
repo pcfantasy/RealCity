@@ -43,11 +43,11 @@ namespace RealCity.Patch
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
                 {
-                    ProcessParkTourismTouristIncome(ref data, citizen);
+                    ProcessParkIncome(ref data, citizen, true);
                 }
                 else
                 {
-                    ProcessParkTourismResidentIncome(ref data, citizen);
+                    ProcessParkIncome(ref data, citizen, false);
                 }
             }
         }
@@ -75,26 +75,34 @@ namespace RealCity.Patch
             }
         }
 
-        public static void ProcessParkTourismTouristIncome(ref Building data, uint citizen)
+        public static void ProcessParkIncome(ref Building data, uint citizen, bool isTourist)
         {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            Random rand = new Random();
-            int tourism_fee = rand.Next(100);
-            if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
-                tourism_fee <<= 4;
-            else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
-                tourism_fee <<= 2;
-
-            Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -tourism_fee, data.Info.m_class);
-        }
-
-        public static void ProcessParkTourismResidentIncome(ref Building data, uint citizen)
-        {
-            int tourism_fee = (int)(0.1f * CitizenData.citizenMoney[citizen]);
-            if (tourism_fee > 0)
+            DistrictManager instance2 = Singleton<DistrictManager>.instance;
+            byte b = instance2.GetPark(data.m_position);
+            if (b != 0 && !instance2.m_parks.m_buffer[b].IsPark)
             {
-                CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);
-                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, tourism_fee, data.Info.m_class);
+                b = 0;
+            }
+
+            if (b != 0)
+            {
+                int ticketPrice = instance2.m_parks.m_buffer[b].GetTicketPrice() / MainDataStore.gameExpenseDivide;
+
+                //Negetive price to help identify tourist and resident.
+                if (isTourist)
+                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -ticketPrice, data.Info.m_class);
+                else
+                {
+                    if (CitizenData.citizenMoney[citizen] > ticketPrice)
+                    {
+                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPrice);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, data.Info.m_class);
+                    }
+                }
+
+
+                DistrictPark[] park = instance2.m_parks.m_buffer;
+                park[b].m_tempTicketIncome = park[b].m_tempTicketIncome + (uint)ticketPrice;
             }
         }
     }

@@ -324,14 +324,7 @@ namespace RealCity.CustomAI
             }
             else if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                if (data.Info.m_buildingAI is IndustrialExtractorAI)
-                {
-                    return Politics.industryTax + 60 ;
-                }
-                else
-                {
-                    return Politics.industryTax;
-                }
+                return Politics.industryTax;
             }
 
             return 0;

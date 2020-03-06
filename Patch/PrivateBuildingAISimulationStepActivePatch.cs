@@ -28,14 +28,14 @@ namespace RealCity.Patch
 
         public static void Postfix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
-            LimitAndCheckOfficeMoney(buildingData, buildingID);
-            ProcessLandFeeNoOffice(buildingData, buildingID);
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
             int num4 = (int)(currentFrameIndex & 4095u);
             if (((num4 >> 8) & 15u) == (buildingID & 15u))
             {
-                LimitCommericalBuildingAccess(buildingID, ref buildingData);
+                LimitAndCheckOfficeMoney(buildingData, buildingID);
+                ProcessLandFeeNoOffice(buildingData, buildingID);
             }
+            LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
         
@@ -175,47 +175,62 @@ namespace RealCity.Patch
             {
                 if (building.Info.m_class.m_service == ItemClass.Service.Industrial || building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    if (!(building.Info.m_buildingAI is IndustrialExtractorAI))
+                    RealCityPrivateBuildingAI.profitBuildingCount++;
+                    float bossTake = 0;
+                    float investToOffice = 0;
+                    // boss take and return to office
+                    switch (building.Info.m_class.m_subService)
                     {
-                        RealCityPrivateBuildingAI.profitBuildingCount++;
-                        float bossTake = 0;
-                        // boss take and return to office
-                        switch (building.Info.m_class.m_subService)
-                        {
-                            case ItemClass.SubService.IndustrialFarming:
-                            case ItemClass.SubService.IndustrialForestry:
-                            case ItemClass.SubService.IndustrialOil:
-                            case ItemClass.SubService.IndustrialOre:
-                                bossTake = 0.02f; break;
-                            case ItemClass.SubService.IndustrialGeneric:
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    bossTake = 0.005f;
-                                else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    bossTake = 0.01f;
-                                else
-                                    bossTake = 0.015f;
-                                break;
-                            case ItemClass.SubService.CommercialHigh:
-                            case ItemClass.SubService.CommercialLow:
-                                if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    bossTake = 0.03f;
-                                else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    bossTake = 0.09f;
-                                else
-                                    bossTake = 0.18f;
-                                break;
-                            case ItemClass.SubService.CommercialTourist:
-                            case ItemClass.SubService.CommercialLeisure:
-                                bossTake = 0.20f; break;
-                            case ItemClass.SubService.CommercialEco:
-                                bossTake = 0.24f; break;
-                        }
-
-                        float investToOffice = bossTake * 0.5f;
-
-                        RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
-                        BuildingData.buildingMoney[buildingID] -= (long)(BuildingData.buildingMoney[buildingID] * bossTake);
+                        case ItemClass.SubService.IndustrialFarming:
+                        case ItemClass.SubService.IndustrialForestry:
+                        case ItemClass.SubService.IndustrialOil:
+                        case ItemClass.SubService.IndustrialOre:
+                            bossTake = 0.15f; investToOffice = 0.005f; break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                            {
+                                bossTake = 0.03f;
+                                investToOffice = 0.001f;
+                            }
+                            else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                            {
+                                bossTake = 0.06f;
+                                investToOffice = 0.0012f;
+                            }
+                            else
+                            {
+                                bossTake = 0.09f;
+                                investToOffice = 0.0015f;
+                            }
+                            break;
+                        case ItemClass.SubService.CommercialHigh:
+                        case ItemClass.SubService.CommercialLow:
+                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                            {
+                                bossTake = 0.09f;
+                                investToOffice = 0.06f;
+                            }
+                            else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                            {
+                                bossTake = 0.18f;
+                                investToOffice = 0.15f;
+                            }
+                            else
+                            {
+                                bossTake = 0.36f;
+                                investToOffice = 0.3f;
+                            }
+                            break;
+                        case ItemClass.SubService.CommercialTourist:
+                        case ItemClass.SubService.CommercialLeisure:
+                            bossTake = 0.4f; investToOffice = 0.2f; break;
+                        case ItemClass.SubService.CommercialEco:
+                            bossTake = 0.3f; investToOffice = 0.2f; break;
                     }
+
+
+                    RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
+                    BuildingData.buildingMoney[buildingID] -= (long)(BuildingData.buildingMoney[buildingID] * bossTake);
                 }
             }
 

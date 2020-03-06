@@ -215,7 +215,7 @@ namespace RealCity.UI
                     benefit.text = string.Format(Localization.Get("BENEFIT") + " " + ((int)((Politics.benefitOffset * MainDataStore.govermentSalary) / 100f)).ToString());
                     resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + Politics.residentTax.ToString() + "%");
                     commerical.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commericalTax.ToString() + "%");
-                    industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + (Politics.industryTax).ToString() + "%");
+                    industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + Politics.industryTax.ToString() + "%");
 
                     if (Politics.case1)
                     {
