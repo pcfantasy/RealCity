@@ -11,11 +11,11 @@ using ColossalFramework.Math;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class HumanAIStartMovingPatch
+    public class ResidentAIStartMovingPatch
     {
         public static MethodBase TargetMethod()
         {
-            return typeof(HumanAI).GetMethod("StartMoving", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(ushort), typeof(ushort) }, null);
+            return typeof(ResidentAI).GetMethod("StartMoving", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(ushort), typeof(ushort) }, null);
         }
 
         public static void Prefix(uint citizenID, ref Citizen data, ref ushort sourceBuilding, ref ushort targetBuilding)
@@ -48,6 +48,7 @@ namespace RealCity.Patch
 
                     if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
                     {
+                        //DebugLog.LogToFileOnly("reject poor citizen to building which lack of goods");
                         sourceBuilding = targetBuilding;
                         return;
                     }
