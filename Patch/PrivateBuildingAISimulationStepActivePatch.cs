@@ -151,7 +151,9 @@ namespace RealCity.Patch
                 int totalvisitCount = 0;
                 RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
                 var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
-                if (amount <= 0)
+                var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
+                var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
+                if ((amount <= 0) || (maxcount <= totalvisitCount))
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
