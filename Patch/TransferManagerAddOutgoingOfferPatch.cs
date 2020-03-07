@@ -49,7 +49,7 @@ namespace RealCity.Patch
                     int alivevisitCount = 0;
                     int totalvisitCount = 0;
                     RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                    var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                    var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
                     if (amount <= 0)
                     {
                         //no resource

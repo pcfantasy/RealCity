@@ -36,7 +36,7 @@ namespace RealCity.Patch
                     int alivevisitCount = 0;
                     int totalvisitCount = 0;
                     RealCityPrivateBuildingAI.GetVisitBehaviour(targetBuilding, ref building, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                    var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                    var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
                     var AI = building.Info.m_buildingAI as CommercialBuildingAI;
                     var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)building.m_level, new Randomizer(targetBuilding), building.m_width, building.m_length);
                     if ((amount <= 0) || (maxcount <= totalvisitCount))
@@ -48,28 +48,8 @@ namespace RealCity.Patch
 
                     if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
                     {
-                        //DebugLog.LogToFileOnly("reject poor citizen to building which lack of goods");
                         sourceBuilding = targetBuilding;
                         return;
-                    }
-                }
-            }
-        }
-
-        public static void Postfix(uint citizenID, ref Citizen data, ref ushort targetBuilding, ref bool __result)
-        {
-            if (data.m_workBuilding != targetBuilding)
-            {
-                var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding];
-                if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
-                {
-                    if (__result)
-                    {
-                        data.SetVisitplace(citizenID, targetBuilding, 0u);
-                    }
-                    else
-                    {
-                        data.SetVisitplace(citizenID, 0, 0u);
                     }
                 }
             }

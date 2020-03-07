@@ -225,10 +225,10 @@ namespace RealCity.UI
                             int alivevisitCount = 0;
                             int totalvisitCount = 0;
                             RealCityPrivateBuildingAI.GetVisitBehaviour(BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                            var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - alivevisitCount;
+                            var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
                             var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                             var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
-                            usedcar.text = string.Format("DEBUG" + " [{0}/{1}/{2}]", alivevisitCount, maxcount, amount);
+                            usedcar.text = string.Format("DEBUG" + " [{0}/{1}/{2}]", totalvisitCount, maxcount, amount);
                         }
                         else
                         {

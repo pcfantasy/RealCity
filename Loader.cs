@@ -95,6 +95,15 @@ namespace RealCity
                         InitData();
                     }
                 }
+                else
+                {
+                    if (RealCity.IsEnabled && DetourInited)
+                    {
+                        RealCityThreading.isFirstTime = true;
+                        RevertDetours();
+                        HarmonyRevertDetour();
+                    }
+                }
             }
         }
 
@@ -460,7 +469,7 @@ namespace RealCity
             return result;
         }
 
-        public void HarmonyInitDetour()
+        public static void HarmonyInitDetour()
         {
             if (!HarmonyDetourInited)
             {
@@ -470,7 +479,7 @@ namespace RealCity
             }
         }
 
-        public void HarmonyRevertDetour()
+        public static void HarmonyRevertDetour()
         {
             if (HarmonyDetourInited)
             {
@@ -481,7 +490,7 @@ namespace RealCity
             }
         }
 
-        public void InitDetour()
+        public static void InitDetour()
         {
             if (!DetourInited)
             {
@@ -569,7 +578,7 @@ namespace RealCity
             }
         }
 
-        public void RevertDetours()
+        public static void RevertDetours()
         {
             if (DetourInited)
             {
