@@ -27,13 +27,13 @@
         public const ushort comm_tourist = 40000;
         public const ushort comm_leisure = 60000;
         public const ushort comm_eco = 30000;
-        public const ushort indu_gen_level1 = 200;
-        public const ushort indu_gen_level2 = 300;
-        public const ushort indu_gen_level3 = 500;
-        public const ushort indu_forest = 400;
-        public const ushort indu_farm = 300;
-        public const ushort indu_oil = 600;
-        public const ushort indu_ore = 600;
+        public const ushort indu_gen_level1 = 400;
+        public const ushort indu_gen_level2 = 500;
+        public const ushort indu_gen_level3 = 600;
+        public const ushort indu_forest = 800;
+        public const ushort indu_farm = 700;
+        public const ushort indu_oil = 1000;
+        public const ushort indu_ore = 900;
         //public const ushort office_gen_levell = 700;
         //public const ushort office_gen_level2 = 800;
         //public const ushort office_gen_level3 = 1000;
@@ -72,9 +72,9 @@
         public static long allTransportFee = 0;
         public static byte citizenAverageTransportFee = 0;
 
-        public static uint profitFamilyNum = 0;
-        public static uint lossFamilyNum = 0;
-        public static uint veryProfitFamilyNum = 0;
+        public static uint level2HighWealth = 0;
+        public static uint level1HighWealth = 0;
+        public static uint level3HighWealth = 0;
         public static uint familyWeightStableHigh = 0;
         public static uint familyWeightStableLow = 0;
 
@@ -102,9 +102,9 @@
             SaveAndRestore.SaveData(ref i, totalCitizenDrivingTimeFinal, ref saveData);
             SaveAndRestore.SaveData(ref i, publicTransportFee, ref saveData);
             SaveAndRestore.SaveData(ref i, allTransportFee, ref saveData);
-            SaveAndRestore.SaveData(ref i, profitFamilyNum, ref saveData);
-            SaveAndRestore.SaveData(ref i, lossFamilyNum, ref saveData);
-            SaveAndRestore.SaveData(ref i, veryProfitFamilyNum, ref saveData);
+            SaveAndRestore.SaveData(ref i, level2HighWealth, ref saveData);
+            SaveAndRestore.SaveData(ref i, level1HighWealth, ref saveData);
+            SaveAndRestore.SaveData(ref i, level3HighWealth, ref saveData);
             SaveAndRestore.SaveData(ref i, familyWeightStableHigh, ref saveData);
             SaveAndRestore.SaveData(ref i, familyWeightStableLow, ref saveData);
             SaveAndRestore.SaveData(ref i, minimumLivingAllowance, ref saveData);
@@ -144,9 +144,9 @@
             SaveAndRestore.LoadData(ref i, saveData, ref totalCitizenDrivingTimeFinal);
             SaveAndRestore.LoadData(ref i, saveData, ref publicTransportFee);
             SaveAndRestore.LoadData(ref i, saveData, ref allTransportFee);
-            SaveAndRestore.LoadData(ref i, saveData, ref profitFamilyNum);
-            SaveAndRestore.LoadData(ref i, saveData, ref lossFamilyNum);
-            SaveAndRestore.LoadData(ref i, saveData, ref veryProfitFamilyNum);
+            SaveAndRestore.LoadData(ref i, saveData, ref level2HighWealth);
+            SaveAndRestore.LoadData(ref i, saveData, ref level1HighWealth);
+            SaveAndRestore.LoadData(ref i, saveData, ref level3HighWealth);
             SaveAndRestore.LoadData(ref i, saveData, ref familyWeightStableHigh);
             SaveAndRestore.LoadData(ref i, saveData, ref familyWeightStableLow);
             SaveAndRestore.LoadData(ref i, saveData, ref minimumLivingAllowance);

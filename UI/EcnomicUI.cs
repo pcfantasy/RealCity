@@ -136,17 +136,17 @@ namespace RealCity.UI
             citizen_average_transport_fee.autoSize = true;
 
             family_very_profit_num = AddUIComponent<UILabel>();
-            family_very_profit_num.text = Localization.Get("HIGH_SALARY_COUNT");
+            family_very_profit_num.text = Localization.Get("LEVEL3HIGHWEALTH");
             family_very_profit_num.relativePosition = new Vector3(SPACING, citizen_salary_tax_per_family.relativePosition.y + SPACING22);
             family_very_profit_num.autoSize = true;
 
             family_profit_money_num = AddUIComponent<UILabel>();
-            family_profit_money_num.text = Localization.Get("MEDIUM_SALARY_COUNT");
+            family_profit_money_num.text = Localization.Get("LEVEL2HIGHWEALTH");
             family_profit_money_num.relativePosition = new Vector3(citizen_expense_per_family.relativePosition.x, citizen_expense_per_family.relativePosition.y + SPACING22);
             family_profit_money_num.autoSize = true;
 
             family_loss_money_num = AddUIComponent<UILabel>();
-            family_loss_money_num.text = Localization.Get("LOW_SALARY_COUNT");
+            family_loss_money_num.text = Localization.Get("LEVEL1HIGHWEALTH");
             family_loss_money_num.relativePosition = new Vector3(citizen_average_transport_fee.relativePosition.x, citizen_average_transport_fee.relativePosition.y + SPACING22);
             family_loss_money_num.autoSize = true;
 
@@ -257,9 +257,9 @@ namespace RealCity.UI
                     citizen_expense_per_family.text = string.Format(Localization.Get("EXPENSE_PER_FAMILY") + " [{0}]", MainDataStore.citizenExpensePerFamily);
                     citizen_average_transport_fee.text = string.Format(Localization.Get("AVERAGE_TRANPORT_FEE") + " [{0}]", MainDataStore.citizenAverageTransportFee);
 
-                    family_very_profit_num.text = string.Format(Localization.Get("HIGH_SALARY_COUNT") + " [{0}]", MainDataStore.veryProfitFamilyNum);
-                    family_profit_money_num.text = string.Format(Localization.Get("MEDIUM_SALARY_COUNT") + " [{0}]", MainDataStore.profitFamilyNum);
-                    family_loss_money_num.text = string.Format(Localization.Get("LOW_SALARY_COUNT") + " [{0}]", MainDataStore.lossFamilyNum);
+                    family_very_profit_num.text = string.Format(Localization.Get("LEVEL3HIGHWEALTH") + " [{0}]", MainDataStore.level3HighWealth);
+                    family_profit_money_num.text = string.Format(Localization.Get("LEVEL2HIGHWEALTH") + " [{0}]", MainDataStore.level2HighWealth);
+                    family_loss_money_num.text = string.Format(Localization.Get("LEVEL1HIGHWEALTH") + " [{0}]", MainDataStore.level1HighWealth);
                     family_weight_stable_high.text = string.Format(Localization.Get("WEALTH_HIGH_COUNT") + " [{0}]", MainDataStore.familyWeightStableHigh);
                     family_weight_stable_medium.text = string.Format(Localization.Get("WEALTH_MEDIUM_COUNT") + " [{0}]", MainDataStore.familyCount - MainDataStore.familyWeightStableHigh - MainDataStore.familyWeightStableLow);
                     family_weight_stable_low.text = string.Format(Localization.Get("WEALTH_LOW_COUNT") + " [{0}]", MainDataStore.familyWeightStableLow);

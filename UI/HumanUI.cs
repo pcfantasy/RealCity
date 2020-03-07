@@ -85,17 +85,17 @@ namespace RealCity.UI
                     ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)CitizenData.lastCitizenID)].m_homeBuilding;
                     BuildingManager instance2 = Singleton<BuildingManager>.instance;
                     uint homeId = instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].GetContainingUnit(CitizenData.lastCitizenID, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                    familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , CitizenUnitData.familyMoney[homeId]) + $"({homeId})";
+                    familyMoney.text = string.Format(Localization.Get("FAMILY_MONEY") + " [{0}]" , CitizenUnitData.familyMoney[homeId]) + $"ID = ({homeId})";
                     citizenMoney.text = string.Format(Localization.Get("CITIZEN_MONEY") + " [{0}]", CitizenData.citizenMoney[CitizenData.lastCitizenID]);
                     familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId).ToString());
 
                     if ((instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].m_flags & Citizen.Flags.NeedGoods) != 0)
                     {
-                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}] " + Localization.Get("FAMILY_NEED_GOODS"), CitizenUnitData.familyGoods[homeId].ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
+                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}] " + Localization.Get("FAMILY_NEED_GOODS"), (CitizenUnitData.familyGoods[homeId] / 10f).ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
                     }
                     else
                     {
-                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", CitizenUnitData.familyGoods[homeId].ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
+                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", (CitizenUnitData.familyGoods[homeId]/10f).ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
                     }
 
                     refeshOnce = false;

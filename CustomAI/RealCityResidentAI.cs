@@ -11,9 +11,9 @@ namespace RealCity.CustomAI
         public static uint preCitizenId = 0;
         public static int familyCount = 0;
         public static int citizenCount = 0;
-        public static uint familyVeryProfitMoneyCount = 0;
-        public static uint familyProfitMoneyCount = 0;
-        public static uint familyLossMoneyCount = 0;
+        public static uint level3HighWealth = 0;
+        public static uint level2HighWealth = 0;
+        public static uint level1HighWealth = 0;
         public static int citizenSalaryCount = 0;
         public static int citizenExpenseCount = 0;
         public static int citizenSalaryTaxTotal = 0;
@@ -27,9 +27,9 @@ namespace RealCity.CustomAI
             int i = 0;
             SaveAndRestore.LoadData(ref i, saveData, ref preCitizenId);
             SaveAndRestore.LoadData(ref i, saveData, ref familyCount);
-            SaveAndRestore.LoadData(ref i, saveData, ref familyVeryProfitMoneyCount);
-            SaveAndRestore.LoadData(ref i, saveData, ref familyProfitMoneyCount);
-            SaveAndRestore.LoadData(ref i, saveData, ref familyLossMoneyCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref level3HighWealth);
+            SaveAndRestore.LoadData(ref i, saveData, ref level2HighWealth);
+            SaveAndRestore.LoadData(ref i, saveData, ref level1HighWealth);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryCount);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenExpenseCount);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryTaxTotal);
@@ -52,9 +52,9 @@ namespace RealCity.CustomAI
             //52
             SaveAndRestore.SaveData(ref i, preCitizenId, ref saveData);
             SaveAndRestore.SaveData(ref i, familyCount, ref saveData);
-            SaveAndRestore.SaveData(ref i, familyVeryProfitMoneyCount, ref saveData);
-            SaveAndRestore.SaveData(ref i, familyProfitMoneyCount, ref saveData);
-            SaveAndRestore.SaveData(ref i, familyLossMoneyCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, level3HighWealth, ref saveData);
+            SaveAndRestore.SaveData(ref i, level2HighWealth, ref saveData);
+            SaveAndRestore.SaveData(ref i, level1HighWealth, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenSalaryCount, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenExpenseCount, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenSalaryTaxTotal, ref saveData);

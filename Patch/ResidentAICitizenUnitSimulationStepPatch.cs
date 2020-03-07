@@ -214,9 +214,9 @@ namespace RealCity.Patch
                 //DebugLog.LogToFileOnly("Another period started");
                 MainDataStore.familyCount = RealCityResidentAI.familyCount;
                 MainDataStore.citizenCount = RealCityResidentAI.citizenCount;
-                MainDataStore.profitFamilyNum = RealCityResidentAI.familyProfitMoneyCount;
-                MainDataStore.veryProfitFamilyNum = RealCityResidentAI.familyVeryProfitMoneyCount;
-                MainDataStore.lossFamilyNum = RealCityResidentAI.familyLossMoneyCount;
+                MainDataStore.level2HighWealth = RealCityResidentAI.level2HighWealth;
+                MainDataStore.level3HighWealth = RealCityResidentAI.level3HighWealth;
+                MainDataStore.level1HighWealth = RealCityResidentAI.level1HighWealth;
                 if (RealCityResidentAI.familyCount != 0)
                 {
                     MainDataStore.citizenSalaryPerFamily = ((RealCityResidentAI.citizenSalaryCount / RealCityResidentAI.familyCount));
@@ -246,9 +246,9 @@ namespace RealCity.Patch
 
                 RealCityPrivateBuildingAI.profitBuildingMoneyFinal = RealCityPrivateBuildingAI.profitBuildingMoney;
 
-                RealCityResidentAI.familyVeryProfitMoneyCount = 0;
-                RealCityResidentAI.familyProfitMoneyCount = 0;
-                RealCityResidentAI.familyLossMoneyCount = 0;
+                RealCityResidentAI.level3HighWealth = 0;
+                RealCityResidentAI.level2HighWealth = 0;
+                RealCityResidentAI.level1HighWealth = 0;
                 RealCityResidentAI.familyCount = 0;
                 RealCityResidentAI.citizenCount = 0;
                 RealCityResidentAI.citizenSalaryCount = 0;
@@ -390,15 +390,15 @@ namespace RealCity.Patch
             //7. Process citizen status
             if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 200)
             {
-                RealCityResidentAI.familyVeryProfitMoneyCount++;
+                RealCityResidentAI.level3HighWealth++;
             }
             else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 100)
             {
-                RealCityResidentAI.familyProfitMoneyCount++;
+                RealCityResidentAI.level2HighWealth++;
             }
             else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 50)
             {
-                RealCityResidentAI.familyLossMoneyCount++;
+                RealCityResidentAI.level1HighWealth++;
             }
 
             //8 reduce goods

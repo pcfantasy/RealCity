@@ -6,9 +6,9 @@ SALARY_PER_FAMILY	Salary per Family
 CITIZEN_TAX_PER_FAMILY	Citizen tax per family
 EXPENSE_PER_FAMILY	Expenses per Family
 AVERAGE_TRANPORT_FEE	Average Transport Fee
-HIGH_SALARY_COUNT	High Salary Count
-MEDIUM_SALARY_COUNT	Medium Salary Count
-LOW_SALARY_COUNT	Loew Salary Count
+LEVEL3HIGHWEALTH	Level3 High Wealth
+LEVEL2HIGHWEALTH	Level2 High Wealth
+LEVEL1HIGHWEALTH	Level1 High Wealth
 WEALTH_HIGH_COUNT	High Wealth Count
 WEALTH_MEDIUM_COUNT	Medium Wealth Count
 WEALTH_LOW_COUNT	Low Wealth Count
