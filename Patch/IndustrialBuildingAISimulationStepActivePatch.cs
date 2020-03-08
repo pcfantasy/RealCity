@@ -29,5 +29,6 @@ namespace RealCity.Patch
         {
             RealCityPrivateBuildingAI.ProcessAdditionProduct(buildingID, ref buildingData, ref __state);
         }
+
     }
 }

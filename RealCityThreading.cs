@@ -129,7 +129,7 @@ namespace RealCity
                         {
                             if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 3200, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is HearseAI)
                             {
@@ -141,7 +141,7 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
                             {
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 3200, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is TaxiAI)
                             {

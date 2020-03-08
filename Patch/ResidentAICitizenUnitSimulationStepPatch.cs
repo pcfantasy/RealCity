@@ -656,7 +656,8 @@ namespace RealCity.Patch
                     }
                 }
             }
-            else if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
+            
+            if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].Sick)
             {
                 ushort visitBuilding = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_visitBuilding;
                 if (visitBuilding != 0u)
@@ -666,8 +667,8 @@ namespace RealCity.Patch
                     {
                         if (buildingData.Info.m_class.m_service == ItemClass.Service.HealthCare)
                         {
-                            hospitalFee = MainDataStore.govermentSalary >> 2;
-                            Singleton<EconomyManager>.instance.AddPrivateIncome(educationFee, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level2, 115333);
+                            hospitalFee = MainDataStore.govermentSalary >> 1;
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(hospitalFee, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level2, 115333);
                         }
                     }
                 }

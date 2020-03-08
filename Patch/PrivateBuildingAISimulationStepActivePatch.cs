@@ -185,47 +185,47 @@ namespace RealCity.Patch
                         case ItemClass.SubService.IndustrialForestry:
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
-                            bossTake = 0.15f; investToOffice = 0.005f; break;
+                            bossTake = MainDataStore.bossRatioInduOther; investToOffice = MainDataStore.investRatioInduOther; break;
                         case ItemClass.SubService.IndustrialGeneric:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                bossTake = 0.03f;
-                                investToOffice = 0.001f;
+                                bossTake = MainDataStore.bossRatioInduLevel1;
+                                investToOffice = MainDataStore.investRatioInduLevel1;
                             }
                             else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                bossTake = 0.06f;
-                                investToOffice = 0.0012f;
+                                bossTake = MainDataStore.bossRatioInduLevel2;
+                                investToOffice = MainDataStore.investRatioInduLevel2;
                             }
                             else
                             {
-                                bossTake = 0.09f;
-                                investToOffice = 0.0015f;
+                                bossTake = MainDataStore.bossRatioInduLevel3;
+                                investToOffice = MainDataStore.investRatioInduLevel3;
                             }
                             break;
                         case ItemClass.SubService.CommercialHigh:
                         case ItemClass.SubService.CommercialLow:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                             {
-                                bossTake = 0.09f;
-                                investToOffice = 0.06f;
+                                bossTake = MainDataStore.bossRatioCommLevel1;
+                                investToOffice = MainDataStore.investRatioCommLevel1;
                             }
                             else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                             {
-                                bossTake = 0.18f;
-                                investToOffice = 0.15f;
+                                bossTake = MainDataStore.bossRatioCommLevel2;
+                                investToOffice = MainDataStore.investRatioCommLevel2;
                             }
                             else
                             {
-                                bossTake = 0.36f;
-                                investToOffice = 0.3f;
+                                bossTake = MainDataStore.bossRatioCommLevel3;
+                                investToOffice = MainDataStore.investRatioCommLevel3;
                             }
                             break;
                         case ItemClass.SubService.CommercialTourist:
                         case ItemClass.SubService.CommercialLeisure:
-                            bossTake = 0.4f; investToOffice = 0.2f; break;
+                            bossTake = MainDataStore.bossRatioCommOther; investToOffice = MainDataStore.investRatioCommOther; break;
                         case ItemClass.SubService.CommercialEco:
-                            bossTake = 0.3f; investToOffice = 0.2f; break;
+                            bossTake = MainDataStore.bossRatioCommECO; investToOffice = MainDataStore.investRatioCommECO; break;
                     }
 
 

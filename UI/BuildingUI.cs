@@ -356,29 +356,29 @@ namespace RealCity.UI
                         case ItemClass.SubService.IndustrialForestry:
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
-                            profitShare = 0.01f; break;
+                            profitShare = MainDataStore.profitShareRatioInduOther; break;
                         case ItemClass.SubService.IndustrialGeneric:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                profitShare = 0.005f;
+                                profitShare = MainDataStore.profitShareRatioInduLevel1;
                             else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                profitShare = 0.01f;
+                                profitShare = MainDataStore.profitShareRatioInduLevel2;
                             else
-                                profitShare = 0.015f;
+                                profitShare = MainDataStore.profitShareRatioInduLevel3;
                             break;
                         case ItemClass.SubService.CommercialHigh:
                         case ItemClass.SubService.CommercialLow:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                profitShare = 0.01f;
+                                profitShare = MainDataStore.profitShareRatioCommLevel1;
                             else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                profitShare = 0.015f;
+                                profitShare = MainDataStore.profitShareRatioCommLevel2;
                             else
-                                profitShare = 0.02f;
+                                profitShare = MainDataStore.profitShareRatioCommLevel3;
                             break;
                         case ItemClass.SubService.CommercialTourist:
                         case ItemClass.SubService.CommercialLeisure:
-                            profitShare = 0.025f; break;
+                            profitShare = MainDataStore.profitShareRatioCommOther; break;
                         case ItemClass.SubService.CommercialEco:
-                            profitShare = 0.015f; break;
+                            profitShare = MainDataStore.profitShareRatioCommECO; break;
                         case ItemClass.SubService.OfficeGeneric:
                         case ItemClass.SubService.OfficeHightech:
                             profitShare = 1f; break;
