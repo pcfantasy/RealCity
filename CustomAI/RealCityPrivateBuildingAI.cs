@@ -85,6 +85,7 @@ namespace RealCity.CustomAI
 
         public static string GetProductionType(bool isSelling, ushort buildingID, Building data)
         {
+            RealCityIndustrialBuildingAI.InitDelegate();
             string material = "";
             if (!isSelling)
             {
@@ -126,7 +127,7 @@ namespace RealCity.CustomAI
                         case ItemClass.SubService.IndustrialFarming:
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
-                            TransferManager.TransferReason tempReason2 = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+                            TransferManager.TransferReason tempReason2 = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
                             switch (tempReason2)
                             {
                                 case TransferManager.TransferReason.Grain:
@@ -141,8 +142,8 @@ namespace RealCity.CustomAI
                             }
                             break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
-                            TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
+                            TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
+                            TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
                             switch (tempReason)
                             {
                                 case TransferManager.TransferReason.Food:
@@ -256,12 +257,12 @@ namespace RealCity.CustomAI
                         case ItemClass.SubService.IndustrialFarming:
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
-                            TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+                            TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
                             price = RealCityIndustryBuildingAI.GetResourcePrice(tempReason);
                             break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            TransferManager.TransferReason firstReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
-                            TransferManager.TransferReason secondReason = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason(buildingID);
+                            TransferManager.TransferReason firstReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
+                            TransferManager.TransferReason secondReason = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
                             //SecondaryIncoming : FirstIncoming = 1:3
                             price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(firstReason) + (RealCityIndustryBuildingAI.GetResourcePrice(secondReason))) / 4f;
                             break;
@@ -479,27 +480,6 @@ namespace RealCity.CustomAI
                     }
                 }
             }
-        }
-
-        public static void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-        {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            do
-            {
-                if (num == 0)
-                {
-                    return;
-                }
-                if ((instance.m_units.m_buffer[num].m_flags & CitizenUnit.Flags.Visit) != 0)
-                {
-                    instance.m_units.m_buffer[num].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                }
-                num = instance.m_units.m_buffer[num].m_nextUnit;
-            }
-            while (++num2 <= 524288);
-            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
         }
     }
 }

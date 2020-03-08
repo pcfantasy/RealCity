@@ -1,4 +1,7 @@
-﻿namespace RealCity.Util
+﻿using ColossalFramework;
+using System;
+
+namespace RealCity.Util
 {
     public class Politics
     {
@@ -212,6 +215,11 @@
             SaveAndRestore.SaveData(ref i, commericalTax, ref saveData);
             SaveAndRestore.SaveData(ref i, industryTax, ref saveData);
             SaveAndRestore.SaveData(ref i, benefitOffset, ref saveData);
+
+            residentTax = COMath.Clamp((int)residentTax, 0, 20);
+            commericalTax = COMath.Clamp((int)commericalTax, 0, 20);
+            industryTax = COMath.Clamp((int)industryTax, 0, 20);
+            benefitOffset = (short)COMath.Clamp((int)benefitOffset, 0, 100);
 
             if (i != saveData.Length)
             {

@@ -1,85 +1,57 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
+using RealCity.Util;
+using System;
+using UnityEngine;
 
 namespace RealCity.CustomAI
 {
     public class RealCityIndustrialBuildingAI
     {
-        public static TransferManager.TransferReason GetIncomingTransferReason(ushort buildingID)
-        {
-            switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService)
-            {
-                case ItemClass.SubService.IndustrialForestry:
-                    return TransferManager.TransferReason.Logs;
-                case ItemClass.SubService.IndustrialFarming:
-                    return TransferManager.TransferReason.Grain;
-                case ItemClass.SubService.IndustrialOil:
-                    return TransferManager.TransferReason.Oil;
-                case ItemClass.SubService.IndustrialOre:
-                    return TransferManager.TransferReason.Ore;
-                default:
-                    {
-                        Randomizer randomizer = new Randomizer(buildingID);
-                        switch (randomizer.Int32(4u))
-                        {
-                            case 0:
-                                return TransferManager.TransferReason.Lumber;
-                            case 1:
-                                return TransferManager.TransferReason.Food;
-                            case 2:
-                                return TransferManager.TransferReason.Petrol;
-                            case 3:
-                                return TransferManager.TransferReason.Coal;
-                            default:
-                                return TransferManager.TransferReason.None;
-                        }
-                    }
-            }
-        }
+        public delegate TransferManager.TransferReason IndustrialBuildingAIGetIncomingTransferReason(IndustrialBuildingAI IndustrialBuildingAI, ushort buildingID);
+        public static IndustrialBuildingAIGetIncomingTransferReason GetIncomingTransferReason;
 
-        public static TransferManager.TransferReason GetOutgoingTransferReason(ushort buildingID)
-        {
-            switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService)
-            {
-                case ItemClass.SubService.IndustrialForestry:
-                    return TransferManager.TransferReason.Lumber;
-                case ItemClass.SubService.IndustrialFarming:
-                    return TransferManager.TransferReason.Food;
-                case ItemClass.SubService.IndustrialOil:
-                    return TransferManager.TransferReason.Petrol;
-                case ItemClass.SubService.IndustrialOre:
-                    return TransferManager.TransferReason.Coal;
-                default:
-                    return TransferManager.TransferReason.Goods;
-            }
-        }
+        public delegate TransferManager.TransferReason IndustrialBuildingAIGetOutgoingTransferReason(IndustrialBuildingAI IndustrialBuildingAI);
+        public static IndustrialBuildingAIGetOutgoingTransferReason GetOutgoingTransferReason;
 
-        public static TransferManager.TransferReason GetSecondaryIncomingTransferReason(ushort buildingID)
+        public delegate TransferManager.TransferReason IndustrialBuildingAIGetSecondaryIncomingTransferReason(IndustrialBuildingAI IndustrialBuildingAI, ushort buildingID);
+        public static IndustrialBuildingAIGetSecondaryIncomingTransferReason GetSecondaryIncomingTransferReason;
+
+        public delegate int IndustrialBuildingAIMaxIncomingLoadSize(IndustrialBuildingAI IndustrialBuildingAI);
+        public static IndustrialBuildingAIMaxIncomingLoadSize MaxIncomingLoadSize;
+        
+        public delegate int IndustrialBuildingAIGetConsumptionDivider(IndustrialBuildingAI IndustrialBuildingAI);
+        public static IndustrialBuildingAIGetConsumptionDivider GetConsumptionDivider;
+
+        public delegate void IndustrialBuildingAICalculateGuestVehicles1(IndustrialBuildingAI IndustrialBuildingAI, ushort buildingID, ref Building data, TransferManager.TransferReason material1, TransferManager.TransferReason material2, ref int count, ref int cargo, ref int capacity, ref int outside);
+        public static IndustrialBuildingAICalculateGuestVehicles1 CalculateGuestVehicles1;
+
+        public delegate void IndustrialBuildingAICalculateGuestVehicles(IndustrialBuildingAI IndustrialBuildingAI, ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside);
+        public static IndustrialBuildingAICalculateGuestVehicles CalculateGuestVehicles;
+
+        public static void InitDelegate()
         {
-            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
-            {
-                Randomizer randomizer = new Randomizer(buildingID);
-                switch (randomizer.Int32(8u))
-                {
-                    case 0:
-                        return TransferManager.TransferReason.PlanedTimber;
-                    case 1:
-                        return TransferManager.TransferReason.Paper;
-                    case 2:
-                        return TransferManager.TransferReason.Flours;
-                    case 3:
-                        return TransferManager.TransferReason.AnimalProducts;
-                    case 4:
-                        return TransferManager.TransferReason.Petroleum;
-                    case 5:
-                        return TransferManager.TransferReason.Plastics;
-                    case 6:
-                        return TransferManager.TransferReason.Metals;
-                    case 7:
-                        return TransferManager.TransferReason.Glass;
-                }
-            }
-            return TransferManager.TransferReason.None;
+            if (GetIncomingTransferReason != null)
+                return;
+            if (GetOutgoingTransferReason != null)
+                return;
+            if (GetSecondaryIncomingTransferReason != null)
+                return;
+            if (MaxIncomingLoadSize != null)
+                return;
+            if (GetConsumptionDivider != null)
+                return;
+            if (CalculateGuestVehicles != null)
+                return;
+            if (CalculateGuestVehicles1 != null)
+                return;
+            GetIncomingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetIncomingTransferReason>(typeof(IndustrialBuildingAI), "GetIncomingTransferReason", instanceMethod: true);
+            GetOutgoingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetOutgoingTransferReason>(typeof(IndustrialBuildingAI), "GetOutgoingTransferReason", instanceMethod: true);
+            GetSecondaryIncomingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetSecondaryIncomingTransferReason>(typeof(IndustrialBuildingAI), "GetSecondaryIncomingTransferReason", instanceMethod: true);
+            MaxIncomingLoadSize = FastDelegateFactory.Create<IndustrialBuildingAIMaxIncomingLoadSize>(typeof(IndustrialBuildingAI), "MaxIncomingLoadSize", instanceMethod: true);
+            GetConsumptionDivider = FastDelegateFactory.Create<IndustrialBuildingAIGetConsumptionDivider>(typeof(IndustrialBuildingAI), "GetConsumptionDivider", instanceMethod: true);
+            CalculateGuestVehicles = FastDelegateFactory.Create<IndustrialBuildingAICalculateGuestVehicles>(typeof(IndustrialBuildingAI), "CalculateGuestVehicles", instanceMethod: true);
+            CalculateGuestVehicles1 = FastDelegateFactory.Create<IndustrialBuildingAICalculateGuestVehicles1>(typeof(IndustrialBuildingAI), "CalculateGuestVehicles", instanceMethod: true);
         }
     }
 }

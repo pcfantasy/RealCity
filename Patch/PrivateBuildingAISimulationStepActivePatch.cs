@@ -33,8 +33,8 @@ namespace RealCity.Patch
             if (((num4 >> 8) & 15u) == (buildingID & 15u))
             {
                 LimitAndCheckOfficeMoney(buildingData, buildingID);
-                ProcessLandFeeNoOffice(buildingData, buildingID);
             }
+            ProcessLandFeeNoOffice(buildingData, buildingID);
             LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
@@ -149,7 +149,8 @@ namespace RealCity.Patch
                 Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                 int alivevisitCount = 0;
                 int totalvisitCount = 0;
-                RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                RealCityCommercialBuildingAI.InitDelegate();
+                RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)buildingData.Info.m_buildingAI, buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
                 var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
                 var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                 var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);

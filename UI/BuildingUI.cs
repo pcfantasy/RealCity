@@ -224,7 +224,8 @@ namespace RealCity.UI
                             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                             int alivevisitCount = 0;
                             int totalvisitCount = 0;
-                            RealCityPrivateBuildingAI.GetVisitBehaviour(BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                            RealCityCommercialBuildingAI.InitDelegate();
+                            RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
                             var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
                             var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                             var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
@@ -422,27 +423,23 @@ namespace RealCity.UI
                 landFee = 0;
             }
 
-            if (BuildingData.buildingMoney[buildingID] < 0)
+            if (BuildingData.buildingMoney[buildingID] >= 0)
             {
-                landFee = 0;
+                if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+                {
+                    return taxRate * landFee;
+                }
+                else if (building.Info.m_class.m_service == ItemClass.Service.Office)
+                {
+                    Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
+                    int aliveWorkerCount = 0;
+                    int totalWorkerCount = 0;
+                    GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                    return totalWorkerCount * 10 * taxRate;
+                }
             }
 
-            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
-            {
-                return taxRate * landFee;
-            }
-            else if (building.Info.m_class.m_service == ItemClass.Service.Office)
-            {
-                Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
-                int aliveWorkerCount = 0;
-                int totalWorkerCount = 0;
-                GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                return totalWorkerCount * 160 * taxRate;
-            }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
 
 

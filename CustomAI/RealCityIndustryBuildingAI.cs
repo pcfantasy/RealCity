@@ -1,4 +1,5 @@
-﻿using RealCity.Util;
+﻿using ColossalFramework.Math;
+using RealCity.Util;
 
 namespace RealCity.CustomAI
 {

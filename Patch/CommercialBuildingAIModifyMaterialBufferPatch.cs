@@ -63,11 +63,10 @@ namespace RealCity.Patch
         {
             if (amountDelta < 0)
             {
-                float trade_tax = 0;
-                float trade_income = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-                trade_tax = -trade_income * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
-                Singleton<EconomyManager>.instance.AddPrivateIncome((int)trade_tax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111333);
-                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (trade_income + trade_tax));
+                float tradeIncome = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                float tradeTax = -tradeIncome * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
+                Singleton<EconomyManager>.instance.AddPrivateIncome((int)tradeTax, ItemClass.Service.Commercial, data.Info.m_class.m_subService, data.Info.m_class.m_level, 111333);
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] - (tradeIncome + tradeTax));
             }
         }
     }

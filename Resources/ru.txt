@@ -155,7 +155,7 @@ INCLUDE_RESOURCE_TAX	(Включая 60% налог на недра)
 CAR_USED	Использовано автомобилей
 MAINTAIN_FEE_TIPS	Затраты на содержания отображаемые в интерфейсе не включают затраты на транспорт
 LOCAL_WORKERS_DIV_TOTAL_WORKERS	Рабочих/ Рабочих мест
-TOURIST_MONEY	Tourist budget
+TOURIST_MONEY	Tourist transport budget
 SHOW_LACK_OF_RESOURCE	Отображать иконку недосточно ресурсов на коммерческих зданиях когда склад пустой
 DEBUG_MODE	Отображать больше информации
 REDUCE_CARGO_DESCRIPTION	Сократить количество груза (и для DLC Industries и для зональных зданий)

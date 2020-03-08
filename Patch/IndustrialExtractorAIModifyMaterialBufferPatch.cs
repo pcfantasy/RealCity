@@ -19,7 +19,8 @@ namespace RealCity.Patch
 
         public static void Prefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == RealCityIndustrialExtractorAI.GetOutgoingTransferReason(buildingID))
+            RealCityIndustrialExtractorAI.InitDelegate();
+            if (material == RealCityIndustrialExtractorAI.GetOutgoingTransferReason((IndustrialExtractorAI)(data.Info.m_buildingAI)))
             {
                 RevertTradeIncome(buildingID, ref data, material, ref amountDelta);
             }
@@ -27,7 +28,8 @@ namespace RealCity.Patch
 
         public static void Postfix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            if (material == RealCityIndustrialBuildingAI.GetOutgoingTransferReason(buildingID))
+            RealCityIndustrialBuildingAI.InitDelegate();
+            if (material == RealCityIndustrialBuildingAI.GetOutgoingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI)))
             {
                 CaculateTradeIncome(buildingID, ref data, material, ref amountDelta);
             }

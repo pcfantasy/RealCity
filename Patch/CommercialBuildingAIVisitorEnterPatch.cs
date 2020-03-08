@@ -23,16 +23,16 @@ namespace RealCity.Patch
             if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
                 Random rand = new Random();
-                int consumptionMoney = rand.Next(1000);
+                int consumptionMoney = MainDataStore.govermentSalary << 4;
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                     {
-                        consumptionMoney = consumptionMoney << 4;
+                        consumptionMoney <<= 1;
                     }
                     if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                     {
-                        consumptionMoney = consumptionMoney << 2;
+                        consumptionMoney <<= 2;
                     }
                 }
 

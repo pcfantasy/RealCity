@@ -55,10 +55,9 @@ namespace RealCity.Patch
         public static void ProcessMonumentTourismTouristIncome(ref Building data, uint citizen)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
-            Random rand = new Random();
-            int tourism_fee = rand.Next(1000);
+            int tourism_fee = MainDataStore.govermentSalary << 4;
             if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
-                tourism_fee <<= 4;
+                tourism_fee <<= 1;
             else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                 tourism_fee <<= 2;
 
@@ -86,7 +85,7 @@ namespace RealCity.Patch
 
             if (b != 0)
             {
-                int ticketPrice = instance2.m_parks.m_buffer[b].GetTicketPrice() / MainDataStore.gameExpenseDivide;
+                int ticketPrice = instance2.m_parks.m_buffer[b].GetTicketPrice();
 
                 //Negetive price to help identify tourist and resident.
                 if (isTourist)

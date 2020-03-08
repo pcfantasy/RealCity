@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using ColossalFramework;
+using Harmony;
 using RealCity.CustomAI;
 using RealCity.CustomData;
 using System;
@@ -15,7 +16,8 @@ namespace RealCity.Patch
         }
         public static void Postfix(ushort buildingID, ref Building data)
         {
-            var material = RealCityIndustrialBuildingAI.GetIncomingTransferReason(buildingID);
+            RealCityIndustrialBuildingAI.InitDelegate();
+            var material = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
             float initialMaterialFee = data.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(material);
             BuildingData.buildingMoney[buildingID] = -initialMaterialFee;
         }

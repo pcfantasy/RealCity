@@ -48,7 +48,8 @@ namespace RealCity.Patch
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
                     int alivevisitCount = 0;
                     int totalvisitCount = 0;
-                    RealCityPrivateBuildingAI.GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
+                    RealCityCommercialBuildingAI.InitDelegate();
+                    RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
                     var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
                     if (amount <= 0)
                     {

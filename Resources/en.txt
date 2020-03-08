@@ -156,7 +156,7 @@ INCLUDE_RESOURCE_TAX	(include 60% resource tax)
 CAR_USED	Car Used
 MAINTAIN_FEE_TIPS	Maintain Fee displayed on UI does not include vehicle expense
 LOCAL_WORKERS_DIV_TOTAL_WORKERS	Local Worker/ Total Worker
-TOURIST_MONEY	Tourist budget
+TOURIST_MONEY	Tourist transport budget
 SHOW_LACK_OF_RESOURCE	Show lack of resource icon on commerical buildings when sell out
 DEBUG_MODE	More Information
 REDUCE_CARGO_DESCRIPTION	Reduce cargo amount(for both industry dlc and growable building)
