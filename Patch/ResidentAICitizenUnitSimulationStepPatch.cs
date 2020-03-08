@@ -325,32 +325,45 @@ namespace RealCity.Patch
 
             //3. We calculate expense
             int educationFee = 0;
+            int hospitalFee = 0;
             int expenseRate = 0;
+            int tempEducationFee = 0;
+            int tempHospitalFee = 0;
             CitizenManager instance = Singleton<CitizenManager>.instance;
             if (data.m_citizen4 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)].Dead)
             {
-                educationFee += GetExpenseRate(data.m_citizen4, out expenseRate);
+                GetExpenseRate(data.m_citizen4, out expenseRate, out tempEducationFee, out tempHospitalFee);
+                educationFee += tempEducationFee;
+                hospitalFee += tempHospitalFee;
             }
             if (data.m_citizen3 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)].Dead)
             {
-                educationFee += GetExpenseRate(data.m_citizen3, out expenseRate);
+                GetExpenseRate(data.m_citizen3, out expenseRate, out tempEducationFee, out tempHospitalFee);
+                educationFee += tempEducationFee;
+                hospitalFee += tempHospitalFee;
             }
             if (data.m_citizen2 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)].Dead)
             {
-                educationFee += GetExpenseRate(data.m_citizen2, out expenseRate);
+                GetExpenseRate(data.m_citizen2, out expenseRate, out tempEducationFee, out tempHospitalFee);
+                educationFee += tempEducationFee;
+                hospitalFee += tempHospitalFee;
             }
             if (data.m_citizen1 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)].Dead)
             {
-                educationFee += GetExpenseRate(data.m_citizen1, out expenseRate);
+                GetExpenseRate(data.m_citizen1, out expenseRate, out tempEducationFee, out tempHospitalFee);
+                educationFee += tempEducationFee;
+                hospitalFee += tempHospitalFee;
             }
             if (data.m_citizen0 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].Dead)
             {
-                educationFee += GetExpenseRate(data.m_citizen0, out expenseRate);
+                GetExpenseRate(data.m_citizen0, out expenseRate, out tempEducationFee, out tempHospitalFee);
+                educationFee += tempEducationFee;
+                hospitalFee += tempHospitalFee;
             }
             ProcessCitizenHouseRent(homeID, expenseRate);
             //campus DLC added.
             expenseRate = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Economics, expenseRate);
-            RealCityResidentAI.citizenExpenseCount += (educationFee + expenseRate);
+            RealCityResidentAI.citizenExpenseCount += (educationFee + expenseRate + hospitalFee);
 
             //4. income - expense
             float incomeMinusExpense = familySalaryCurrent - tax - educationFee - expenseRate;
@@ -505,7 +518,7 @@ namespace RealCity.Patch
             }
         }
 
-        public static int GetExpenseRate(uint citizenID, out int incomeAccumulation)
+        public static void GetExpenseRate(uint citizenID, out int incomeAccumulation, out int educationFee, out int hospitalFee)
         {
             BuildingManager instance1 = Singleton<BuildingManager>.instance;
             CitizenManager instance2 = Singleton<CitizenManager>.instance;
@@ -605,30 +618,60 @@ namespace RealCity.Patch
                 incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 10000));
             }
 
-            int educationFee = 0;
+            educationFee = 0;
+            hospitalFee = 0;
             if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags & Citizen.Flags.Student) != Citizen.Flags.None)
             {
                 //Only university will cost money
                 bool isCampusDLC = false;
-                //Campus DLC cost 100
+                //Campus DLC cost 50
                 ushort visitBuilding = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_visitBuilding;
                 if (visitBuilding != 0u)
                 {
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[visitBuilding];
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.PlayerEducation)
                     {
-                        educationFee = 100;
+                        var tempEducationFee = (uint)((MainDataStore.govermentSalary >> 1) / 100f);
+                        educationFee = (int)tempEducationFee * 100;
                         isCampusDLC = true;
                     }
                 }
 
-                if (!isCampusDLC && (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education2)))
+                if (!isCampusDLC)
                 {
-                    educationFee = 20;
-                    Singleton<EconomyManager>.instance.AddPrivateIncome(20, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115333);
+                    if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education2))
+                    {
+                        educationFee = MainDataStore.govermentSalary >> 1;
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(educationFee, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level3, 115333);
+                    }
+                    else if (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Education1))
+                    {
+                        educationFee = MainDataStore.govermentSalary >> 2;
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(educationFee, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level2, 115333);
+                    }
+                    else
+                    {
+                        educationFee = MainDataStore.govermentSalary >> 2;
+                        Singleton<EconomyManager>.instance.AddPrivateIncome(educationFee, ItemClass.Service.Education, ItemClass.SubService.None, ItemClass.Level.Level1, 115333);
+                    }
                 }
             }
-            return educationFee;
+            else if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_flags & Citizen.Flags.Sick) != Citizen.Flags.None)
+            {
+                ushort visitBuilding = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_visitBuilding;
+                if (visitBuilding != 0u)
+                {
+                    Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[visitBuilding];
+                    if (visitBuilding != Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_workBuilding)
+                    {
+                        if (buildingData.Info.m_class.m_service == ItemClass.Service.HealthCare)
+                        {
+                            hospitalFee = MainDataStore.govermentSalary >> 2;
+                            Singleton<EconomyManager>.instance.AddPrivateIncome(educationFee, ItemClass.Service.HealthCare, ItemClass.SubService.None, ItemClass.Level.Level2, 115333);
+                        }
+                    }
+                }
+            }
         }
 
         public static void GetVoteTickets()

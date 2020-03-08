@@ -176,7 +176,6 @@ namespace RealCity.Patch
             {
                 if (building.Info.m_class.m_service == ItemClass.Service.Industrial || building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
-                    RealCityPrivateBuildingAI.profitBuildingCount++;
                     float bossTake = 0;
                     float investToOffice = 0;
                     // boss take and return to office
@@ -351,10 +350,16 @@ namespace RealCity.Patch
             GetLandRentNoOffice(out landFee, building, buildingID);
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
+
             if (BuildingData.buildingMoney[buildingID] <= 0)
             {
                 landFee = 0;
             }
+            else
+            {
+                RealCityPrivateBuildingAI.profitBuildingCount++;
+            }
+
             if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
             {
                 landFee = 0;

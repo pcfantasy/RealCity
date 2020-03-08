@@ -51,12 +51,12 @@ namespace RealCity.Patch
             if (amountDelta > 0)
             {
                 //revert
-                //data.m_customBuffer2 = (ushort)Mathf.Clamp(data.m_customBuffer2 + amountDelta, 0, 65535);
+                data.m_customBuffer2 = (ushort)Mathf.Clamp(data.m_customBuffer2 + amountDelta, 0, 65535);
                 float tradeIncome = -amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
                 float tradeTax = -tradeIncome * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
                 MainDataStore.unfinishedTransitionLost += (int)(tradeTax / 100f);
                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, (int)tradeTax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level);
-                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] + (tradeIncome - tradeTax));
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] + (tradeIncome + tradeTax));
             }
         }
 

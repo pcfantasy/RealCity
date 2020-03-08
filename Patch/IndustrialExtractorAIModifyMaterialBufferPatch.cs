@@ -45,7 +45,7 @@ namespace RealCity.Patch
                 float tradeTax = -tradeIncome * RealCityPrivateBuildingAI.GetTaxRate(data) / 100f;
                 MainDataStore.unfinishedTransitionLost += (int)(tradeTax / 100f);
                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, (int)tradeTax, ItemClass.Service.Industrial, data.Info.m_class.m_subService, data.Info.m_class.m_level);
-                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] + (tradeIncome - tradeTax));
+                BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] + (tradeIncome + tradeTax));
             }
         }
 

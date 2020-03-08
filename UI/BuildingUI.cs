@@ -349,16 +349,41 @@ namespace RealCity.UI
             {
                 if (BuildingData.buildingMoney[buildingID] > 0)
                 {
-                    switch (building.Info.m_class.m_service)
+                    float profitShare = 0;
+                    switch (building.Info.m_class.m_subService)
                     {
-                        case ItemClass.Service.Commercial:
-                        case ItemClass.Service.Industrial:
-                            num1 = (int)((BuildingData.buildingMoney[buildingID]) * 0.05f / totalWorkerCount);
+                        case ItemClass.SubService.IndustrialFarming:
+                        case ItemClass.SubService.IndustrialForestry:
+                        case ItemClass.SubService.IndustrialOil:
+                        case ItemClass.SubService.IndustrialOre:
+                            profitShare = 0.01f; break;
+                        case ItemClass.SubService.IndustrialGeneric:
+                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                profitShare = 0.005f;
+                            else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                profitShare = 0.01f;
+                            else
+                                profitShare = 0.015f;
                             break;
-                        case ItemClass.Service.Office:
-                            num1 = (int)(BuildingData.buildingMoney[buildingID] / totalWorkerCount);
+                        case ItemClass.SubService.CommercialHigh:
+                        case ItemClass.SubService.CommercialLow:
+                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                                profitShare = 0.01f;
+                            else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                                profitShare = 0.015f;
+                            else
+                                profitShare = 0.02f;
                             break;
+                        case ItemClass.SubService.CommercialTourist:
+                        case ItemClass.SubService.CommercialLeisure:
+                            profitShare = 0.025f; break;
+                        case ItemClass.SubService.CommercialEco:
+                            profitShare = 0.015f; break;
+                        case ItemClass.SubService.OfficeGeneric:
+                        case ItemClass.SubService.OfficeHightech:
+                            profitShare = 1f; break;
                     }
+                    num1 = (int)(BuildingData.buildingMoney[buildingID] * profitShare / totalWorkerCount);
                 }
                 else
                 {
@@ -441,7 +466,6 @@ namespace RealCity.UI
 
             return 0;
         }
-
 
         public void GetLandRent(Building building, ushort buildingID, out int incomeAccumulation)
         {

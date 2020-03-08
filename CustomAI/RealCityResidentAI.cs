@@ -112,7 +112,7 @@ namespace RealCity.CustomAI
             if (citizenId != 0u)
             {
                 Citizen.Flags citizenFlag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_flags;
-                if ((citizenFlag & Citizen.Flags.Student) != Citizen.Flags.None || (citizenFlag & Citizen.Flags.Sick) != Citizen.Flags.None)
+                if ((citizenFlag & Citizen.Flags.Student) != Citizen.Flags.None)
                 {
                     return salary;
                 }
@@ -133,29 +133,29 @@ namespace RealCity.CustomAI
                             case ItemClass.SubService.IndustrialForestry:
                             case ItemClass.SubService.IndustrialOil:
                             case ItemClass.SubService.IndustrialOre:
-                                profitShare = 0.0005f; break;
+                                profitShare = 0.01f; break;
                             case ItemClass.SubService.IndustrialGeneric:
                                 if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    profitShare = 0.0001f;
+                                    profitShare = 0.005f;
                                 else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    profitShare = 0.0003f;
+                                    profitShare = 0.01f;
                                 else
-                                    profitShare = 0.0006f;
+                                    profitShare = 0.015f;
                                 break;
                             case ItemClass.SubService.CommercialHigh:
                             case ItemClass.SubService.CommercialLow:
                                 if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    profitShare = 0.0004f;
+                                    profitShare = 0.01f;
                                 else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    profitShare = 0.0007f;
+                                    profitShare = 0.015f;
                                 else
-                                    profitShare = 0.0012f;
+                                    profitShare = 0.02f;
                                 break;
                             case ItemClass.SubService.CommercialTourist:
                             case ItemClass.SubService.CommercialLeisure:
-                                profitShare = 0.0015f; break;
+                                profitShare = 0.025f; break;
                             case ItemClass.SubService.CommercialEco:
-                                profitShare = 0.0015f; break;
+                                profitShare = 0.015f; break;
                         }
 
                         if ((BuildingData.buildingMoney[workBuilding] > 0) && (totalWorkCount != 0))

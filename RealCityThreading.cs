@@ -204,7 +204,7 @@ namespace RealCity
                                 if ((vehicle.Info.m_class.m_subService == ItemClass.SubService.ResidentialLow))
                                 {
                                     if (RealCity.reduceVehicle)
-                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 24 << MainDataStore.reduceCargoDivShift);
+                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + (24 << MainDataStore.reduceCargoDivShift));
                                     else
                                         VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 24);
                                 }

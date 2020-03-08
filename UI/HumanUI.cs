@@ -95,7 +95,7 @@ namespace RealCity.UI
                     }
                     else
                     {
-                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", (CitizenUnitData.familyGoods[homeId]/10f).ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
+                        familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", (CitizenUnitData.familyGoods[homeId] / 10f).ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
                     }
 
                     refeshOnce = false;
