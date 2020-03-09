@@ -61,7 +61,9 @@ namespace RealCity.Patch
             else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                 tourism_fee <<= 2;
 
-            Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
+            RealCityPrivateBuildingAI.profitBuildingMoney += (tourism_fee >> 1);
+
+            Singleton<EconomyManager>.instance.AddPrivateIncome((tourism_fee >> 1), ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
         }
 
         public static void ProcessMonumentTourismResidentIncome(ref Building data, uint citizen)
@@ -70,7 +72,8 @@ namespace RealCity.Patch
             if (tourism_fee > 0)
             {
                 CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);
-                Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
+                RealCityPrivateBuildingAI.profitBuildingMoney += (tourism_fee >> 1);
+                Singleton<EconomyManager>.instance.AddPrivateIncome((tourism_fee >> 1), ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
             }
         }
 
@@ -85,22 +88,23 @@ namespace RealCity.Patch
 
             if (b != 0)
             {
-                int ticketPrice = instance2.m_parks.m_buffer[b].GetTicketPrice() / 10;
-
+                int ticketPrice = instance2.m_parks.m_buffer[b].GetTicketPrice();
+                var ticketPriceLeft = (ticketPrice / 100f);
                 //Negetive price to help identify tourist and resident.
                 if (isTourist)
-                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -ticketPrice, data.Info.m_class);
+                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -(int)ticketPriceLeft, data.Info.m_class);
                 else
                 {
-                    if (CitizenData.citizenMoney[citizen] > ticketPrice)
+                    if (CitizenData.citizenMoney[citizen] > ticketPriceLeft)
                     {
-                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPrice);
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, ticketPrice, data.Info.m_class);
+                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPriceLeft);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, (int)ticketPriceLeft, data.Info.m_class);
                     }
                 }
 
+                RealCityPrivateBuildingAI.profitBuildingMoney += (long)(ticketPrice - ticketPriceLeft);
                 DistrictPark[] park = instance2.m_parks.m_buffer;
-                park[b].m_tempTicketIncome = park[b].m_tempTicketIncome + (uint)ticketPrice;
+                park[b].m_tempTicketIncome = park[b].m_tempTicketIncome + (uint)(ticketPriceLeft);
             }
         }
     }

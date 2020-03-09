@@ -22,7 +22,6 @@ namespace RealCity.Patch
             TransferManager.TransferReason tempTransferRreason = TransferManager.TransferReason.Entertainment;
             if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
             {
-                Random rand = new Random();
                 int consumptionMoney = MainDataStore.govermentSalary << 4;
                 if (tempTransferRreason == TransferManager.TransferReason.Entertainment)
                 {
