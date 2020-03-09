@@ -370,14 +370,14 @@ namespace RealCity.Patch
             CitizenUnitData.familyMoney[homeID] += incomeMinusExpense;
 
             //5. Limit familyMoney
-            if (CitizenUnitData.familyMoney[homeID] > 3200000f)
+            if (CitizenUnitData.familyMoney[homeID] > 100000000f)
             {
-                CitizenUnitData.familyMoney[homeID] = 3200000f;
+                CitizenUnitData.familyMoney[homeID] = 100000000f;
             }
 
-            if (CitizenUnitData.familyMoney[homeID] < -3200000f)
+            if (CitizenUnitData.familyMoney[homeID] < -100000000f)
             {
-                CitizenUnitData.familyMoney[homeID] = -3200000f;
+                CitizenUnitData.familyMoney[homeID] = -100000000f;
             }
 
             //6. Caculate minimumLivingAllowance and benefitOffset

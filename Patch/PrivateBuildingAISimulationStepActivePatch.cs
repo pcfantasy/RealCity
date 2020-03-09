@@ -163,13 +163,13 @@ namespace RealCity.Patch
 
         public static void LimitAndCheckOfficeMoney(Building building, ushort buildingID)
         {
-            if (BuildingData.buildingMoney[buildingID] > 60000000)
+            if (BuildingData.buildingMoney[buildingID] > 100000000f)
             {
-                BuildingData.buildingMoney[buildingID] = 60000000;
+                BuildingData.buildingMoney[buildingID] = 100000000f;
             }
-            else if (BuildingData.buildingMoney[buildingID] < -60000000)
+            else if (BuildingData.buildingMoney[buildingID] < -100000000f)
             {
-                BuildingData.buildingMoney[buildingID] = -60000000;
+                BuildingData.buildingMoney[buildingID] = -100000000f;
             }
 
             if (BuildingData.buildingMoney[buildingID] > 0)
@@ -222,6 +222,7 @@ namespace RealCity.Patch
                             }
                             break;
                         case ItemClass.SubService.CommercialTourist:
+                            bossTake = MainDataStore.bossRatioCommTou; investToOffice = MainDataStore.investRatioCommTou; break;
                         case ItemClass.SubService.CommercialLeisure:
                             bossTake = MainDataStore.bossRatioCommOther; investToOffice = MainDataStore.investRatioCommOther; break;
                         case ItemClass.SubService.CommercialEco:

@@ -144,6 +144,7 @@ namespace RealCity.CustomAI
                                     profitShare = MainDataStore.profitShareRatioCommLevel3;
                                 break;
                             case ItemClass.SubService.CommercialTourist:
+                                profitShare = MainDataStore.profitShareRatioCommTou; break;
                             case ItemClass.SubService.CommercialLeisure:
                                 profitShare = MainDataStore.profitShareRatioCommOther; break;
                             case ItemClass.SubService.CommercialEco:

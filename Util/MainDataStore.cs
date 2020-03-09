@@ -16,6 +16,7 @@
         public const float profitShareRatioCommLevel3 = 0.012f;
         public const float profitShareRatioCommECO    = 0.002f;
         public const float profitShareRatioCommOther  = 0.001f;
+        public const float profitShareRatioCommTou = 0.0005f;
 
         public const float bossRatioInduLevel1 = 0.04f;
         public const float bossRatioInduLevel2 = 0.05f;
@@ -26,6 +27,7 @@
         public const float bossRatioCommLevel3 = 0.32f;
         public const float bossRatioCommECO = 0.30f;
         public const float bossRatioCommOther = 0.40f;
+        public const float bossRatioCommTou = 0.10f;
 
         public const float investRatioInduLevel1 = 0.0004f;
         public const float investRatioInduLevel2 = 0.0006f;
@@ -36,6 +38,7 @@
         public const float investRatioCommLevel3 = 0.26f;
         public const float investRatioCommECO = 0.2f;
         public const float investRatioCommOther = 0.25f;
+        public const float investRatioCommTou = 0.01f;
 
         public const int lowWealth = 20000;
         public const int highWealth = 100000;
