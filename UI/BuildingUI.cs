@@ -134,8 +134,8 @@ namespace RealCity.UI
                     }
                     else
                     {
-                        int aliveWorkerCount = 0;
-                        int totalWorkerCount = 0;
+                        int aliveWorkerCount;
+                        int totalWorkerCount;
                         float num = CaculateEmployeeOutcome(buildingData, BuildingData.lastBuildingID, out aliveWorkerCount, out totalWorkerCount);
                         int num1 = CaculateLandFee(buildingData, BuildingData.lastBuildingID);
                         string type = RealCityPrivateBuildingAI.GetProductionType(false, BuildingData.lastBuildingID, buildingData);
@@ -203,20 +203,31 @@ namespace RealCity.UI
                         int car = 0;
                         if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
                         {
-                            int num7 = CalculateProductionCapacity(buildingData, (ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
-                            car = Mathf.Max(1, num7 / 6);
+                            int num7 = 0; 
 
                             TransferManager.TransferReason tempReason = default(TransferManager.TransferReason);
                             if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                             {
-                                tempReason = IndustrialExtractorGetOutgoingTransferReason(buildingData);
+                                RealCityIndustrialExtractorAI.InitDelegate();
+                                var AI = (IndustrialExtractorAI)buildingData.Info.m_buildingAI;
+                                num7 = AI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
+                                car = Mathf.Max(1, num7 / 6);
+                                tempReason = RealCityIndustrialExtractorAI.GetOutgoingTransferReason((IndustrialExtractorAI)buildingData.Info.m_buildingAI);
+                                RealCityCommonBuildingAI.InitDelegate();
+                                RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialExtractorAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
                             }
                             else
                             {
-                                tempReason = IndustrialGetOutgoingTransferReason(buildingData);
+                                RealCityIndustrialBuildingAI.InitDelegate();
+                                var AI = (IndustrialBuildingAI)buildingData.Info.m_buildingAI;
+                                num7 = AI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
+                                car = Mathf.Max(1, num7 / 6);
+                                tempReason = RealCityIndustrialBuildingAI.GetOutgoingTransferReason((IndustrialBuildingAI)buildingData.Info.m_buildingAI);
+                                RealCityCommonBuildingAI.InitDelegate();
+                                RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialBuildingAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
                             }
 
-                            CalculateOwnVehicles(BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
+
                             usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar, car);
                         }
                         else if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
@@ -243,107 +254,14 @@ namespace RealCity.UI
             }
         }
 
-        public TransferManager.TransferReason IndustrialExtractorGetOutgoingTransferReason(Building data)
-        {
-            switch (data.Info.m_class.m_subService)
-            {
-                case ItemClass.SubService.IndustrialForestry:
-                    return TransferManager.TransferReason.Logs;
-                case ItemClass.SubService.IndustrialFarming:
-                    return TransferManager.TransferReason.Grain;
-                case ItemClass.SubService.IndustrialOil:
-                    return TransferManager.TransferReason.Oil;
-                case ItemClass.SubService.IndustrialOre:
-                    return TransferManager.TransferReason.Ore;
-                default:
-                    return TransferManager.TransferReason.None;
-            }
-        }
-
-        private TransferManager.TransferReason IndustrialGetOutgoingTransferReason(Building data)
-        {
-            switch (data.Info.m_class.m_subService)
-            {
-                case ItemClass.SubService.IndustrialForestry:
-                    return TransferManager.TransferReason.Lumber;
-                case ItemClass.SubService.IndustrialFarming:
-                    return TransferManager.TransferReason.Food;
-                case ItemClass.SubService.IndustrialOil:
-                    return TransferManager.TransferReason.Petrol;
-                case ItemClass.SubService.IndustrialOre:
-                    return TransferManager.TransferReason.Coal;
-                default:
-                    return TransferManager.TransferReason.Goods;
-            }
-        }
-
-        protected void CalculateOwnVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
-        {
-            VehicleManager instance = Singleton<VehicleManager>.instance;
-            ushort num = data.m_ownVehicles;
-            int num2 = 0;
-            while (num != 0)
-            {
-                if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[num].m_transferType == material)
-                {
-                    VehicleInfo info = instance.m_vehicles.m_buffer[num].Info;
-                    int a;
-                    int num3;
-                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[num], out a, out num3);
-                    cargo += Mathf.Min(a, num3);
-                    capacity += num3;
-                    count++;
-                    if ((instance.m_vehicles.m_buffer[num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != 0)
-                    {
-                        outside++;
-                    }
-                }
-                num = instance.m_vehicles.m_buffer[num].m_nextOwnVehicle;
-                if (++num2 > Singleton<VehicleManager>.instance.m_vehicles.m_size)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
-        }
-
-        public int CalculateProductionCapacity(Building buildingData ,ItemClass.Level level, Randomizer r, int width, int length)
-        {
-            ItemClass @class = buildingData.Info.m_class;
-            int num;
-            if (@class.m_subService == ItemClass.SubService.IndustrialGeneric)
-            {
-                if (level == ItemClass.Level.Level1)
-                {
-                    num = 100;
-                }
-                else if (level == ItemClass.Level.Level2)
-                {
-                    num = 140;
-                }
-                else
-                {
-                    num = 160;
-                }
-            }
-            else
-            {
-                num = 100;
-            }
-            if (num != 0)
-            {
-                num = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
-            }
-            return num;
-        }
-
         public static float CaculateEmployeeOutcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
         {
             float num1 = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
             aliveWorkerCount = 0;
             totalWorkerCount = 0;
-            GetWorkBehaviour(buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
+            RealCityCommonBuildingAI.InitDelegate();
+            RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
 
             if (totalWorkerCount > 0)
             {
@@ -393,26 +311,6 @@ namespace RealCity.UI
             return num1;
         }
 
-        public static void GetWorkBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-        {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            while (num != 0u)
-            {
-                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
-                {
-                    instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizenWorkBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                }
-                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-                if (++num2 > 524288)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
-        }
-
         public int CaculateLandFee(Building building, ushort buildingID)
         {
             DistrictManager instance = Singleton<DistrictManager>.instance;
@@ -421,15 +319,10 @@ namespace RealCity.UI
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
-            int landFee = 0;
+            int landFee;
             GetLandRent(building, buildingID, out landFee);
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
-
-            if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
-            {
-                landFee = (int)(landFee * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
-            }
 
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
@@ -459,7 +352,8 @@ namespace RealCity.UI
                     Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
                     int aliveWorkerCount = 0;
                     int totalWorkerCount = 0;
-                    GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                    RealCityCommonBuildingAI.InitDelegate();
+                    RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     return totalWorkerCount * 10 * taxRate;
                 }
             }

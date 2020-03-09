@@ -239,7 +239,8 @@ namespace RealCity.Patch
                 Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
                 int aliveWorkerCount = 0;
                 int totalWorkerCount = 0;
-                BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                RealCityCommonBuildingAI.InitDelegate();
+                RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                 int allOfficeWorker = RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal + RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
                 double a = 0;
                 double z = 0;
@@ -364,7 +365,6 @@ namespace RealCity.Patch
             {
                 landFee = 0;
             }
-            landFee = (int)(landFee * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 100));
 
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
             {
@@ -398,15 +398,16 @@ namespace RealCity.Patch
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             ItemClass.SubService subService = @class.m_subService;
+            RealCityCommonBuildingAI.InitDelegate();
             switch (subService)
             {
                 case ItemClass.SubService.OfficeHightech:
-                    BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                    RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     //incomeAccumulation = (MainDataStore.office_high_tech);
                     RealCityPrivateBuildingAI.allOfficeHighTechWorkCount += aliveWorkerCount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
-                    BuildingUI.GetWorkBehaviour(buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                    RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
                         //incomeAccumulation = (MainDataStore.office_gen_levell);

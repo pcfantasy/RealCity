@@ -615,7 +615,7 @@ namespace RealCity.Patch
                 }
                 int num2;
                 num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
-                incomeAccumulation = (int)(num2 * incomeAccumulation * ((float)(instance.m_districts.m_buffer[district].GetLandValue() + 50) / 10000));
+                incomeAccumulation = (int)((num2 * incomeAccumulation) / 100f);
             }
 
             educationFee = 0;

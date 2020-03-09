@@ -27,7 +27,8 @@ namespace RealCity.Patch
                 int aliveWorkCount = 0;
                 int totalWorkCount = 0;
                 Citizen.BehaviourData behaviour = default;
-                BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+                RealCityCommonBuildingAI.InitDelegate();
+                RealCityCommonBuildingAI.GetWorkBehaviour((PlayerBuildingAI)data.Info.m_buildingAI, buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                 int allWorkCount;
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                 int num4 = (int)(currentFrameIndex & 4095u);
@@ -43,7 +44,7 @@ namespace RealCity.Patch
                 if (totalWorkCount == 0 && allWorkCount != 0)
                 {
                     int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
-                    int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed * RealCityResidentAI.ProcessSalaryLandPriceAdjust(buildingID)) / 100), (int)(MainDataStore.govermentSalary * 0.8f));
+                    int education3Salary = Math.Max((int)((budget * MainDataStore.govermentEducation3SalaryFixed) / 100), (int)(MainDataStore.govermentSalary * 0.8f));
                     float num1 = (education3Salary / 16) * allWorkCount;
                     Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)num1, data.Info.m_class);
                 }

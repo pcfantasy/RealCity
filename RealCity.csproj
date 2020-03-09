@@ -91,6 +91,7 @@
     <Compile Include="CustomAI\RealCityEconomyPanel.cs" />
     <Compile Include="CustomAI\RealCityCommercialBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialBuildingAI.cs" />
+    <Compile Include="CustomAI\RealCityCommonBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialExtractorAI.cs" />
     <Compile Include="CustomAI\RealCityIndustryBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityOfficeBuildingAI.cs" />

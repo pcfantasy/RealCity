@@ -7,9 +7,9 @@
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const int reduceCargoDiv = 2;
         public const int reduceCargoDivShift = 1;
-        public const float profitShareRatioInduLevel1 = 0.008f;
-        public const float profitShareRatioInduLevel2 = 0.010f;
-        public const float profitShareRatioInduLevel3 = 0.012f;
+        public const float profitShareRatioInduLevel1 = 0.010f;
+        public const float profitShareRatioInduLevel2 = 0.014f;
+        public const float profitShareRatioInduLevel3 = 0.016f;
         public const float profitShareRatioInduOther  = 0.015f;
         public const float profitShareRatioCommLevel1 = 0.005f;
         public const float profitShareRatioCommLevel2 = 0.008f;
@@ -42,10 +42,10 @@
 
         public const int maxGoodPurchase = 500;
 
-        public const byte govermentEducation0SalaryFixed = 50;
-        public const byte govermentEducation1SalaryFixed = 55;
-        public const byte govermentEducation2SalaryFixed = 65;
-        public const byte govermentEducation3SalaryFixed = 80;
+        public const byte govermentEducation0SalaryFixed = 20;
+        public const byte govermentEducation1SalaryFixed = 25;
+        public const byte govermentEducation2SalaryFixed = 35;
+        public const byte govermentEducation3SalaryFixed = 50;
         public const ushort comm_high_level1 = 5000;
         public const ushort comm_high_level2 = 10000;
         public const ushort comm_high_level3 = 20000;
@@ -55,9 +55,9 @@
         public const ushort comm_tourist = 40000;
         public const ushort comm_leisure = 60000;
         public const ushort comm_eco = 30000;
-        public const ushort indu_gen_level1 = 4000;
-        public const ushort indu_gen_level2 = 5000;
-        public const ushort indu_gen_level3 = 6000;
+        public const ushort indu_gen_level1 = 8000;
+        public const ushort indu_gen_level2 = 10000;
+        public const ushort indu_gen_level3 = 13000;
         public const ushort indu_forest = 8000;
         public const ushort indu_farm = 7000;
         public const ushort indu_oil = 10000;

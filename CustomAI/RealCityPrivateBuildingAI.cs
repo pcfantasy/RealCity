@@ -341,7 +341,7 @@ namespace RealCity.CustomAI
             Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
-            BuildingUI.GetWorkBehaviour(buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+            RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)data.Info.m_buildingAI, buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
             float finalIdex = aliveWorkerCount / 10f;
 
             if (finalIdex < 1f)

@@ -70,15 +70,6 @@ namespace RealCity.CustomAI
             }
         }
 
-        public static float ProcessSalaryLandPriceAdjust(ushort workBuilding)
-        {
-            DistrictManager districtMan = Singleton<DistrictManager>.instance;
-            ushort district = districtMan.GetDistrict(Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].m_position);
-            float localSalaryIdex = (districtMan.m_districts.m_buffer[district].GetLandValue() + 50f) / 50f;
-            float citySalaryIdex = (districtMan.m_districts.m_buffer[0].GetLandValue() + 50f) / 50f;
-            return (localSalaryIdex + citySalaryIdex) / 2f;
-        }
-
         public static bool IsGoverment(ushort buildingID)
         {
             bool isGoverment = false;
@@ -123,7 +114,8 @@ namespace RealCity.CustomAI
                     int aliveWorkCount = 0;
                     int totalWorkCount = 0;
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                    BuildingUI.GetWorkBehaviour(workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+                    RealCityCommonBuildingAI.InitDelegate();
+                    RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)buildingData.Info.m_buildingAI, workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     if (!IsGoverment(workBuilding))
                     {
                         float profitShare = 0;
@@ -211,10 +203,6 @@ namespace RealCity.CustomAI
                         //Budget offset for Salary
                         int budget = Singleton<EconomyManager>.instance.GetBudget(buildingData.Info.m_class);
                         salary = (int)(salary * budget / 100f);
-
-                        //LandPrice offset for Salary
-                        float landPriceOffset = ProcessSalaryLandPriceAdjust(workBuilding);
-                        salary = (int)(salary * landPriceOffset);
                         salary = Math.Max(salary, salaryMax);
 #if Debug
                         DebugLog.LogToFileOnly("DebugInfo: LandPrice offset for Salary is " + landPriceOffset.ToString());

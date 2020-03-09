@@ -23,12 +23,6 @@ namespace RealCity.CustomAI
         public delegate int IndustrialBuildingAIGetConsumptionDivider(IndustrialBuildingAI IndustrialBuildingAI);
         public static IndustrialBuildingAIGetConsumptionDivider GetConsumptionDivider;
 
-        public delegate void IndustrialBuildingAICalculateGuestVehicles1(IndustrialBuildingAI IndustrialBuildingAI, ushort buildingID, ref Building data, TransferManager.TransferReason material1, TransferManager.TransferReason material2, ref int count, ref int cargo, ref int capacity, ref int outside);
-        public static IndustrialBuildingAICalculateGuestVehicles1 CalculateGuestVehicles1;
-
-        public delegate void IndustrialBuildingAICalculateGuestVehicles(IndustrialBuildingAI IndustrialBuildingAI, ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside);
-        public static IndustrialBuildingAICalculateGuestVehicles CalculateGuestVehicles;
-
         public static void InitDelegate()
         {
             if (GetIncomingTransferReason != null)
@@ -41,17 +35,11 @@ namespace RealCity.CustomAI
                 return;
             if (GetConsumptionDivider != null)
                 return;
-            if (CalculateGuestVehicles != null)
-                return;
-            if (CalculateGuestVehicles1 != null)
-                return;
             GetIncomingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetIncomingTransferReason>(typeof(IndustrialBuildingAI), "GetIncomingTransferReason", instanceMethod: true);
             GetOutgoingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetOutgoingTransferReason>(typeof(IndustrialBuildingAI), "GetOutgoingTransferReason", instanceMethod: true);
             GetSecondaryIncomingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetSecondaryIncomingTransferReason>(typeof(IndustrialBuildingAI), "GetSecondaryIncomingTransferReason", instanceMethod: true);
             MaxIncomingLoadSize = FastDelegateFactory.Create<IndustrialBuildingAIMaxIncomingLoadSize>(typeof(IndustrialBuildingAI), "MaxIncomingLoadSize", instanceMethod: true);
             GetConsumptionDivider = FastDelegateFactory.Create<IndustrialBuildingAIGetConsumptionDivider>(typeof(IndustrialBuildingAI), "GetConsumptionDivider", instanceMethod: true);
-            CalculateGuestVehicles = FastDelegateFactory.Create<IndustrialBuildingAICalculateGuestVehicles>(typeof(IndustrialBuildingAI), "CalculateGuestVehicles", instanceMethod: true);
-            CalculateGuestVehicles1 = FastDelegateFactory.Create<IndustrialBuildingAICalculateGuestVehicles1>(typeof(IndustrialBuildingAI), "CalculateGuestVehicles", instanceMethod: true);
         }
     }
 }

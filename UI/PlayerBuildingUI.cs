@@ -74,7 +74,8 @@ namespace RealCity.UI
                     int aliveWorkCount = 0;
                     int totalWorkCount = 0;
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                    BuildingUI.GetWorkBehaviour(BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
+                    RealCityCommonBuildingAI.InitDelegate();
+                    RealCityCommonBuildingAI.GetWorkBehaviour((PlayerBuildingAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     int allWorkCount = RealCityResidentAI.TotalWorkCount(BuildingData.lastBuildingID, buildingData, true, false);
                     maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
                     workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS") + totalWorkCount.ToString() + "/" + allWorkCount.ToString();

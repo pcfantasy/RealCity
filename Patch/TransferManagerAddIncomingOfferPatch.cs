@@ -83,6 +83,7 @@ namespace RealCity.Patch
                 if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
                 {
                     RealCityIndustrialBuildingAI.InitDelegate();
+                    RealCityCommonBuildingAI.InitDelegate();
                     var AI = buildingData.Info.m_buildingAI as IndustrialBuildingAI;
                     TransferManager.TransferReason incomingTransferReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(buildingData.Info.m_buildingAI), buildingID);
                     TransferManager.TransferReason secondaryIncomingTransferReason = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason((IndustrialBuildingAI)(buildingData.Info.m_buildingAI), buildingID);
@@ -95,11 +96,11 @@ namespace RealCity.Patch
                     {
                         if (secondaryIncomingTransferReason != TransferManager.TransferReason.None)
                         {
-                            RealCityIndustrialBuildingAI.CalculateGuestVehicles1((IndustrialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, secondaryIncomingTransferReason, ref num28, ref num29, ref num30, ref value);
+                            RealCityCommonBuildingAI.CalculateGuestVehicles1((IndustrialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, secondaryIncomingTransferReason, ref num28, ref num29, ref num30, ref value);
                         }
                         else
                         {
-                            RealCityIndustrialBuildingAI.CalculateGuestVehicles((IndustrialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, ref num28, ref num29, ref num30, ref value);
+                            RealCityCommonBuildingAI.CalculateGuestVehicles((IndustrialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, ref num28, ref num29, ref num30, ref value);
                         }
                     }
                     int num7 = AI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer((int)buildingID), buildingData.m_width, buildingData.m_length);
@@ -127,6 +128,7 @@ namespace RealCity.Patch
                 else if(buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
                     RealCityCommercialBuildingAI.InitDelegate();
+                    RealCityCommonBuildingAI.InitDelegate();
                     var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                     int num5 = RealCityCommercialBuildingAI.MaxIncomingLoadSize((CommercialBuildingAI)(buildingData.Info.m_buildingAI));
                     int num8 = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer((int)buildingID), buildingData.m_width, buildingData.m_length);
@@ -141,11 +143,11 @@ namespace RealCity.Patch
                     {
                         if (incomingTransferReason == TransferManager.TransferReason.Goods || incomingTransferReason == TransferManager.TransferReason.Food)
                         {
-                            RealCityCommercialBuildingAI.CalculateGuestVehicles1((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, TransferManager.TransferReason.LuxuryProducts, ref num41, ref num42, ref num43, ref value);
+                            RealCityCommonBuildingAI.CalculateGuestVehicles1((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, TransferManager.TransferReason.LuxuryProducts, ref num41, ref num42, ref num43, ref value);
                         }
                         else
                         {
-                            RealCityCommercialBuildingAI.CalculateGuestVehicles((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, ref num41, ref num42, ref num43, ref value);
+                            RealCityCommonBuildingAI.CalculateGuestVehicles((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, incomingTransferReason, ref num41, ref num42, ref num43, ref value);
                         }
                         buildingData.m_tempImport = (byte)Mathf.Clamp(value, (int)buildingData.m_tempImport, 255);
                     }
