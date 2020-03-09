@@ -17,10 +17,10 @@
         public const float profitShareRatioCommECO    = 0.002f;
         public const float profitShareRatioCommOther  = 0.001f;
 
-        public const float bossRatioInduLevel1 = 0.05f;
-        public const float bossRatioInduLevel2 = 0.07f;
-        public const float bossRatioInduLevel3 = 0.08f;
-        public const float bossRatioInduOther = 0.1f;
+        public const float bossRatioInduLevel1 = 0.04f;
+        public const float bossRatioInduLevel2 = 0.05f;
+        public const float bossRatioInduLevel3 = 0.06f;
+        public const float bossRatioInduOther = 0.05f;
         public const float bossRatioCommLevel1 = 0.25f;
         public const float bossRatioCommLevel2 = 0.28f;
         public const float bossRatioCommLevel3 = 0.32f;
@@ -55,9 +55,9 @@
         public const ushort comm_tourist = 40000;
         public const ushort comm_leisure = 60000;
         public const ushort comm_eco = 30000;
-        public const ushort indu_gen_level1 = 8000;
-        public const ushort indu_gen_level2 = 10000;
-        public const ushort indu_gen_level3 = 13000;
+        public const ushort indu_gen_level1 = 6000;
+        public const ushort indu_gen_level2 = 8000;
+        public const ushort indu_gen_level3 = 10000;
         public const ushort indu_forest = 8000;
         public const ushort indu_farm = 7000;
         public const ushort indu_oil = 10000;

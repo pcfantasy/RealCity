@@ -103,7 +103,7 @@ namespace RealCity.CustomAI
             if (citizenId != 0u)
             {
                 Citizen.Flags citizenFlag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_flags;
-                if (((citizenFlag & Citizen.Flags.Student) != Citizen.Flags.None) || ((citizenFlag & Citizen.Flags.Sick) != Citizen.Flags.None))
+                if ((citizenFlag & Citizen.Flags.Student) != Citizen.Flags.None)
                 {
                     return salary;
                 }

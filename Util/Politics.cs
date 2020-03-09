@@ -169,7 +169,7 @@ namespace RealCity.Util
         public static int residentTax = 20;     //(0-20)
         public static int commericalTax = 20;    //(0-20)
         public static int industryTax = 20;    //(0-20)
-        public static short benefitOffset = 0;         //(0-10)
+        public static short benefitOffset = 0;         //(0-100)
 
         public static void Save(ref byte[] saveData)
         {

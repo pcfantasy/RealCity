@@ -97,10 +97,8 @@ namespace RealCity
                 }
                 else
                 {
-                    if (RealCity.IsEnabled && DetourInited)
+                    if (RealCity.IsEnabled)
                     {
-                        RealCityThreading.isFirstTime = true;
-                        RevertDetours();
                         HarmonyRevertDetour();
                     }
                 }
