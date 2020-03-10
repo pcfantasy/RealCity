@@ -435,7 +435,7 @@ namespace RealCity.Patch
             data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
 
             //9 move family
-            if ((CitizenUnitData.familyMoney[homeID] > 4000) && (familySalaryCurrent > 1))
+            if ((CitizenUnitData.familyMoney[homeID] > (MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))) && (familySalaryCurrent > 1))
             {
                 if (data.m_goods == 0)
                 {
@@ -470,7 +470,7 @@ namespace RealCity.Patch
                     CitizenUnitData.familyGoods[homeID] = 1000;
                     data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
 
-                    CitizenUnitData.familyMoney[homeID] = CitizenUnitData.familyMoney[homeID] - 4000;
+                    CitizenUnitData.familyMoney[homeID] = CitizenUnitData.familyMoney[homeID] - (MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
 
                     Singleton<ResidentAI>.instance.TryMoveFamily(num3, ref instance.m_citizens.m_buffer[(int)((UIntPtr)num3)], num4);
                 }
