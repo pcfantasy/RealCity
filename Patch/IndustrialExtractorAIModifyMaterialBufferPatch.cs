@@ -28,8 +28,8 @@ namespace RealCity.Patch
 
         public static void Postfix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
-            RealCityIndustrialBuildingAI.InitDelegate();
-            if (material == RealCityIndustrialBuildingAI.GetOutgoingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI)))
+            RealCityIndustrialExtractorAI.InitDelegate();
+            if (material == RealCityIndustrialExtractorAI.GetOutgoingTransferReason((IndustrialExtractorAI)(data.Info.m_buildingAI)))
             {
                 CaculateTradeIncome(buildingID, ref data, material, ref amountDelta);
             }
