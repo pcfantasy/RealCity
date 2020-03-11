@@ -342,32 +342,36 @@ namespace RealCity.CustomAI
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)data.Info.m_buildingAI, buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-            float finalIdex = aliveWorkerCount / 10f;
+            float comsumptionDivider = aliveWorkerCount / 8f;
 
-            if (finalIdex < 1f)
+            if (comsumptionDivider < 1f)
             {
-                finalIdex = 1f;
+                comsumptionDivider = 1f;
             }
 
-            if (data.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+            var incomingTransferReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)data.Info.m_buildingAI, buildingID);
+            //petrol related
+            if (incomingTransferReason == TransferManager.TransferReason.Petrol)
             {
-                Randomizer randomizer = new Randomizer(buildingID);
-                int temp = randomizer.Int32(4u);
-                //petrol related
-                if (temp == 2)
-                {
-                    finalIdex = finalIdex * 1.5f / 4f;
-                } else if (temp == 3)
-                {
-                    finalIdex = finalIdex * 1.25f / 4f;
-                }
-                else
-                {
-                    finalIdex = finalIdex / 4f;
-                }
+                //*2 / 4
+                comsumptionDivider = comsumptionDivider / 2f;
+            }
+            else if (incomingTransferReason == TransferManager.TransferReason.Coal)
+            {
+                //*1.67 / 4
+                comsumptionDivider = comsumptionDivider * 5f / 12f;
+            }
+            else if (incomingTransferReason == TransferManager.TransferReason.Lumber)
+            {
+                //*1.33 / 4
+                comsumptionDivider = comsumptionDivider / 3f;
+            }
+            else if (incomingTransferReason == TransferManager.TransferReason.Food)
+            {
+                comsumptionDivider = comsumptionDivider / 4f;
             }
 
-            return finalIdex;
+            return comsumptionDivider;
         }
 
         public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state, bool is16Times = true)
@@ -385,7 +389,7 @@ namespace RealCity.CustomAI
             if ((((num4 >> 8) & 15u) == (buildingID & 15u)) || (!is16Times))
             {
                 //DebugLog.LogToFileOnly($"Process buildingID inside 16times = {buildingID}");
-                float temp = GetComsumptionDivider(buildingData, buildingID);
+                float comsumptionDivider = GetComsumptionDivider(buildingData, buildingID);
                 int deltaCustomBuffer1 = __state[0] - buildingData.m_customBuffer1;
                 deltaCustomBuffer1 = (int)(deltaCustomBuffer1 * GetCompensateForIndustrial(buildingData, buildingID));
                 if (deltaCustomBuffer1 > 0)
@@ -394,22 +398,22 @@ namespace RealCity.CustomAI
                     {
                         if (!Singleton<SimulationManager>.instance.m_isNightTime)
                         {
-                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / (temp * MainDataStore.reduceCargoDiv)) << shift));
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / (comsumptionDivider * MainDataStore.reduceCargoDiv)) << shift));
                         }
                         else
                         {
-                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / temp) << shift));
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / comsumptionDivider) << shift));
                         }
                     }
                     else
                     {
                         if (!Singleton<SimulationManager>.instance.m_isNightTime)
                         {
-                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / temp) << shift));
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / comsumptionDivider) << shift));
                         }
                         else
                         {
-                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)((deltaCustomBuffer1 << 1) / temp) << shift));
+                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)((deltaCustomBuffer1 << 1) / comsumptionDivider) << shift));
                         }
                     }
                 }
