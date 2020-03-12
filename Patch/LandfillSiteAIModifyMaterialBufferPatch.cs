@@ -39,24 +39,23 @@ namespace RealCity.Patch
             }
         }
 
-        public static void ProcessGabargeIncome(ref Building building, int num, TransferManager.TransferReason material)
+        public static void ProcessGabargeIncome(ref Building building, int amountDelta, TransferManager.TransferReason material)
         {
-            BuildingManager instance = Singleton<BuildingManager>.instance;
             if (building.Info.m_class.m_service == ItemClass.Service.Garbage)
             {
-                float product_value = 0f;
+                float product_value;
                 switch (material)
                 {
                     case TransferManager.TransferReason.Lumber:
-                        product_value = -num * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                        product_value = -amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryForestry, ItemClass.Level.Level1);
                         break;
                     case TransferManager.TransferReason.Coal:
-                        product_value = -num * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                        product_value = -amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOre, ItemClass.Level.Level1);
                         break;
                     case TransferManager.TransferReason.Petrol:
-                        product_value = -num * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                        product_value = -amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
                         break;
                     default: DebugLog.LogToFileOnly("Error: ProcessGabargeIncome find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + material.ToString()); break;
@@ -64,23 +63,23 @@ namespace RealCity.Patch
             }
         }
 
-        public static void RevertGabargeIncome(ref Building building, int num, TransferManager.TransferReason material)
+        public static void RevertGabargeIncome(ref Building building, int amountDelta, TransferManager.TransferReason material)
         {
-            building.m_customBuffer2 = (ushort)Mathf.Clamp(building.m_customBuffer2 + num, 0, 65535);
-            float product_value;
+            building.m_customBuffer2 = (ushort)Mathf.Clamp(building.m_customBuffer2 + amountDelta, 0, 65535);
+            float productValue;
             switch (material)
             {
                 case TransferManager.TransferReason.Lumber:
-                    product_value = num * RealCityIndustryBuildingAI.GetResourcePrice(material);
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryForestry, ItemClass.Level.Level1);
+                    productValue = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productValue, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryForestry, ItemClass.Level.Level1);
                     break;
                 case TransferManager.TransferReason.Coal:
-                    product_value = num * RealCityIndustryBuildingAI.GetResourcePrice(material);
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOre, ItemClass.Level.Level1);
+                    productValue = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productValue, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOre, ItemClass.Level.Level1);
                     break;
                 case TransferManager.TransferReason.Petrol:
-                    product_value = num * RealCityIndustryBuildingAI.GetResourcePrice(material);
-                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
+                    productValue = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                    Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productValue, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
                     break;
                 default: DebugLog.LogToFileOnly("Error: ProcessGabargeIncome find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + material.ToString()); break;
             }

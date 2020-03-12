@@ -29,17 +29,17 @@ namespace RealCity
         {
             if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
             {
-                MainDataStore.current_time = Singleton<SimulationManager>.instance.m_currentDayTimeHour;
+                MainDataStore.currentTime = Singleton<SimulationManager>.instance.m_currentDayTimeHour;
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
                 uint num2 = currentFrameIndex & 255u;
-                if ((num2 == 255u) && (MainDataStore.current_time != MainDataStore.prev_time))
+                if ((num2 == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime))
                 {
                     //1 Building Status
                     BuildingStatus();
                     //caculate voteRandom once 
                     System.Random rand = new System.Random();
                     voteRandom = rand.Next(800 + partyTrendStrength) + 1;
-                    if (MainDataStore.update_money_count == 16)
+                    if (MainDataStore.updateMoneyCount == 16)
                     {
                         Politics.parliamentCount--;
                         if (Politics.parliamentCount < 0)
@@ -59,13 +59,13 @@ namespace RealCity
                     }
 
                     CaculateCitizenTransportFee();
-                    MainDataStore.update_money_count++;
-                    if (MainDataStore.update_money_count == 17)
+                    MainDataStore.updateMoneyCount++;
+                    if (MainDataStore.updateMoneyCount == 17)
                     {
-                        MainDataStore.update_money_count = 0;
+                        MainDataStore.updateMoneyCount = 0;
                     }
-                    RealCityEconomyManager.CleanCurrent(MainDataStore.update_money_count);
-                    MainDataStore.prev_time = MainDataStore.current_time;
+                    RealCityEconomyManager.CleanCurrent(MainDataStore.updateMoneyCount);
+                    MainDataStore.prevTime = MainDataStore.currentTime;
                     //4 refesh UI
                     PoliticsUI.refeshOnce = true;
                     RealCityUI.refeshOnce = true;
@@ -180,7 +180,7 @@ namespace RealCity
                 CreateGoverment();
             }
 
-            if ((MainDataStore.update_money_count & 3u) == 0)
+            if ((MainDataStore.updateMoneyCount & 3u) == 0)
             {
                 if (Politics.parliamentCount != 0)
                 {

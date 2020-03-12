@@ -127,8 +127,7 @@ namespace RealCity.CustomAI
                         case ItemClass.SubService.IndustrialFarming:
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
-                            TransferManager.TransferReason tempReason2 = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
-                            switch (tempReason2)
+                            switch (RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID))
                             {
                                 case TransferManager.TransferReason.Grain:
                                     material = Localization.Get("GRAIN_MEAT"); break;
@@ -142,9 +141,7 @@ namespace RealCity.CustomAI
                             }
                             break;
                         case ItemClass.SubService.IndustrialGeneric:
-                            TransferManager.TransferReason tempReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
-                            TransferManager.TransferReason tempReason1 = RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
-                            switch (tempReason)
+                            switch (RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID))
                             {
                                 case TransferManager.TransferReason.Food:
                                     material = Localization.Get("FOOD"); break;
@@ -156,7 +153,7 @@ namespace RealCity.CustomAI
                                     material = Localization.Get("COAL"); break;
                                 default: break;
                             }
-                            switch (tempReason1)
+                            switch (RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID))
                             {
                                 case TransferManager.TransferReason.AnimalProducts:
                                     material += Localization.Get("ANIMALPRODUCTS"); break;
@@ -378,7 +375,7 @@ namespace RealCity.CustomAI
         {
             //DebugLog.LogToFileOnly($"Process buildingID = {buildingID}");
             uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            int num4 = (int)(currentFrameIndex & 4095u);
+            int frameIndex = (int)(currentFrameIndex & 4095u);
             //add production pre 16times
             byte shift = 0;
             if (is16Times)
@@ -386,7 +383,7 @@ namespace RealCity.CustomAI
                 shift = 4;
             }
 
-            if ((((num4 >> 8) & 15u) == (buildingID & 15u)) || (!is16Times))
+            if ((((frameIndex >> 8) & 15u) == (buildingID & 15u)) || (!is16Times))
             {
                 //DebugLog.LogToFileOnly($"Process buildingID inside 16times = {buildingID}");
                 float comsumptionDivider = GetComsumptionDivider(buildingData, buildingID);

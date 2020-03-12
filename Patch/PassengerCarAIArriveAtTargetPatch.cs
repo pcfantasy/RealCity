@@ -25,26 +25,21 @@ namespace RealCity.Patch
         }
         public static void GetVehicleRunningTiming(ushort vehicleID, ref Vehicle vehicleData)
         {
-            if (vehicleID > Singleton<VehicleManager>.instance.m_vehicles.m_size)
-            {
-                DebugLog.LogToFileOnly("Error: vehicle ID greater than " + Singleton<VehicleManager>.instance.m_vehicles.m_size.ToString());
-            }
-
-            CitizenManager citizenMan = Singleton<CitizenManager>.instance;
+            CitizenManager citizenManager = Singleton<CitizenManager>.instance;
             ushort instanceID = GetDriverInstance(vehicleID, ref vehicleData);
 
             if (instanceID != 0)
             {
-                uint citizenID = citizenMan.m_instances.m_buffer[instanceID].m_citizen;
+                uint citizenID = citizenManager.m_instances.m_buffer[instanceID].m_citizen;
                 if (citizenID != 0)
                 {
-                    if (!(citizenMan.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.DummyTraffic)))
+                    if (!(citizenManager.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.DummyTraffic)))
                     {
-                        if (!(citizenMan.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist)))
+                        if (!(citizenManager.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist)))
                         {
-                            if (!isOutSide(citizenMan.m_instances.m_buffer[instanceID].GetLastFramePosition()))
+                            if (!IsOutSide(citizenManager.m_instances.m_buffer[instanceID].GetLastFramePosition()))
                             {
-                                MainDataStore.totalCitizenDrivingTime = MainDataStore.totalCitizenDrivingTime + VehicleData.vehicleTransferTime[vehicleID];
+                                MainDataStore.totalCitizenDrivingTime += VehicleData.vehicleTransferTime[vehicleID];
                                 if (vehicleData.m_citizenUnits != 0)
                                 {
                                     CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
@@ -57,13 +52,12 @@ namespace RealCity.Patch
             VehicleData.vehicleTransferTime[vehicleID] = 0;
         }
 
-        public static bool isOutSide(Vector3 pos)
+        public static bool IsOutSide(Vector3 pos)
         {
             if (pos.x > 8000 || pos.z > 8000 || pos.x < -8000 || pos.z < -8000)
                 return true;
             return false;
         }
-
 
         public static ushort GetDriverInstance(ushort vehicleID, ref Vehicle data)
         {

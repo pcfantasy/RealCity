@@ -22,15 +22,15 @@ namespace RealCity.Patch
                 //Add initial money
                 if (data.WealthLevel == Citizen.Wealth.Low)
                 {
-                    CitizenData.citizenMoney[citizen] += 2048;
+                    CitizenData.citizenMoney[citizen] = 2048;
                 }
                 else if (data.WealthLevel == Citizen.Wealth.Medium)
                 {
-                    CitizenData.citizenMoney[citizen] += 4096;
+                    CitizenData.citizenMoney[citizen] = 4096;
                 }
                 else
                 {
-                    CitizenData.citizenMoney[citizen] += 8192;
+                    CitizenData.citizenMoney[citizen] = 8192;
                 }
             }
         }

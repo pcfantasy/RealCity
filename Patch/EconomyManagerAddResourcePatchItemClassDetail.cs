@@ -21,12 +21,12 @@ namespace RealCity.Patch
             {
                 if (service == ItemClass.Service.Vehicles)
                 {
-                    RealCityEconomyManager.road_income_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.roadIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                 }
             }
             else if (resource == EconomyManager.Resource.ResourcePrice)
             {
-                RealCityEconomyManager.playerIndustryIncomeForUI[MainDataStore.update_money_count] += amount;
+                RealCityEconomyManager.playerIndustryIncomeForUI[MainDataStore.updateMoneyCount] += amount;
             }
             /// NON-STOCK CODE END ///
         }

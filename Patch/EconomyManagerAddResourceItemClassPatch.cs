@@ -23,24 +23,24 @@ namespace RealCity.Patch
             }
             else if (resource == EconomyManager.Resource.ResourcePrice)
             {
-                RealCityEconomyManager.playerIndustryIncomeForUI[MainDataStore.update_money_count] += amount;
+                RealCityEconomyManager.playerIndustryIncomeForUI[MainDataStore.updateMoneyCount] += amount;
             }
             else if (resource == EconomyManager.Resource.PublicIncome && itemClass.m_service == ItemClass.Service.Beautification)
             {
                 if (amount > 0)
                 {
-                    RealCityEconomyManager.citizen_income_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.citizenIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                 }
                 else
                 {
                     //We use negetive amount to identify tourist income
                     amount = -amount;
-                    RealCityEconomyManager.tourist_income_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.touristIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                 }
             }
             else if (resource == EconomyManager.Resource.PublicIncome && itemClass.m_service == ItemClass.Service.PlayerEducation)
             {
-                RealCityEconomyManager.school_income_forui[MainDataStore.update_money_count] += amount;
+                RealCityEconomyManager.schoolIncomeForUI[MainDataStore.updateMoneyCount] += amount;
             }
         }
     }

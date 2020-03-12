@@ -58,23 +58,23 @@ namespace RealCity.Patch
             {
                 case ItemClass.Service.Garbage:
                     ProcessUnitTax100(ref amount, ref garbage_income);
-                    RealCityEconomyManager.garbage_income_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.garbageIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.Service.Education:
                     ProcessUnitTax100(ref amount, ref school_income);
-                    RealCityEconomyManager.school_income_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.schoolIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.Service.HealthCare:
                     ProcessUnitTax100(ref amount, ref healthCareIncome);
-                    RealCityEconomyManager.healthCareIncomeForUI[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.healthCareIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.Service.FireDepartment:
                     ProcessUnitTax100(ref amount, ref fireStationIncome);
-                    RealCityEconomyManager.fireStationIncomeForUI[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.fireStationIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.Service.PoliceDepartment:
                     ProcessUnitTax100(ref amount, ref policeStationIncome);
-                    RealCityEconomyManager.policeStationIncomeForUI[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.policeStationIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 default:
                     amount = 0;
@@ -94,7 +94,7 @@ namespace RealCity.Patch
                     DebugLog.LogToFileOnly("Find unknown  EXAddPrivateLandIncome building" + " building service is" + service);
                     break;
             }
-            RealCityEconomyManager.citizen_tax_income_forui[MainDataStore.update_money_count] = RealCityEconomyManager.citizen_tax_income_forui[MainDataStore.update_money_count] + amount;
+            RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] = RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] + amount;
         }
 
         public static void EXAddTourismIncome(ref int amount, int taxRate)
@@ -102,12 +102,12 @@ namespace RealCity.Patch
             if (taxRate == 114333)
             {
                 ProcessUnitTax100(ref amount, ref citizen_income);
-                RealCityEconomyManager.citizen_income_forui[MainDataStore.update_money_count] += amount;
+                RealCityEconomyManager.citizenIncomeForUI[MainDataStore.updateMoneyCount] += amount;
             }
             else
             {
                 ProcessUnitTax100(ref amount, ref tourist_income);
-                RealCityEconomyManager.tourist_income_forui[MainDataStore.update_money_count] += amount;
+                RealCityEconomyManager.touristIncomeForUI[MainDataStore.updateMoneyCount] += amount;
             }
         }
 
@@ -117,43 +117,43 @@ namespace RealCity.Patch
             {
                 case ItemClass.SubService.IndustrialFarming:
                     ProcessUnitTax100(ref amount, ref industy_farm_trade_income);
-                    RealCityEconomyManager.indu_farmer_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induFarmerTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
                     ProcessUnitTax100(ref amount, ref industy_forest_trade_income);
-                    RealCityEconomyManager.indu_foresty_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
                     ProcessUnitTax100(ref amount, ref industy_oil_trade_income);
-                    RealCityEconomyManager.indu_oil_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induOilTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
                     ProcessUnitTax100(ref amount, ref industy_ore_trade_income);
-                    RealCityEconomyManager.indu_ore_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induOreTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
                     ProcessUnitTax100(ref amount, ref industy_gen_trade_income);
-                    RealCityEconomyManager.indu_gen_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induGenTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialHigh:
                     ProcessUnitTax100(ref amount, ref commerical_high_trade_income);
-                    RealCityEconomyManager.comm_high_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commHighTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLow:
                     ProcessUnitTax100(ref amount, ref commerical_low_trade_income);
-                    RealCityEconomyManager.comm_low_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commLowTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
                     ProcessUnitTax100(ref amount, ref commerical_lei_trade_income);
-                    RealCityEconomyManager.comm_lei_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commLeiTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
                     ProcessUnitTax100(ref amount, ref commerical_tou_trade_income);
-                    RealCityEconomyManager.comm_tou_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commTouTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
                     ProcessUnitTax100(ref amount, ref commerical_eco_trade_income);
-                    RealCityEconomyManager.comm_eco_tradeincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commEcoTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 default:
                     amount = 0;
@@ -168,67 +168,67 @@ namespace RealCity.Patch
             {
                 case ItemClass.SubService.IndustrialFarming:
                     ProcessUnit(ref amount, ref industy_farm_income, taxRate);
-                    RealCityEconomyManager.indu_farmer_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induFarmerLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
                     ProcessUnit(ref amount, ref industy_forest_income, taxRate);
-                    RealCityEconomyManager.indu_foresty_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
                     ProcessUnit(ref amount, ref industy_oil_income, taxRate);
-                    RealCityEconomyManager.indu_oil_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induOilLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
                     ProcessUnit(ref amount, ref industy_ore_income, taxRate);
-                    RealCityEconomyManager.indu_ore_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induOreLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
                     ProcessUnit(ref amount, ref industy_gen_income, taxRate);
-                    RealCityEconomyManager.indu_gen_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.induGenLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialHigh:
                     ProcessUnit(ref amount, ref commerical_high_income, taxRate);
-                    RealCityEconomyManager.comm_high_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commHighLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLow:
                     ProcessUnit(ref amount, ref commerical_low_income, taxRate);
-                    RealCityEconomyManager.comm_low_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commLowLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
                     ProcessUnit(ref amount, ref commerical_lei_income, taxRate);
-                    RealCityEconomyManager.comm_lei_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commLeiLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
                     ProcessUnit(ref amount, ref commerical_tou_income, taxRate);
-                    RealCityEconomyManager.comm_tou_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commTouLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
                     ProcessUnit(ref amount, ref commerical_eco_income, taxRate);
-                    RealCityEconomyManager.comm_eco_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.commEcoLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialHigh:
                     ProcessUnit(ref amount, ref resident_high_income, taxRate);
-                    RealCityEconomyManager.resident_high_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.residentHighLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialLow:
                     ProcessUnit(ref amount, ref resident_low_income, taxRate);
-                    RealCityEconomyManager.resident_low_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.residentLowLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialHighEco:
                     ProcessUnit(ref amount, ref resident_high_eco_income, taxRate);
-                    RealCityEconomyManager.resident_high_eco_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.residentHighEcoLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialLowEco:
                     ProcessUnit(ref amount, ref resident_low_eco_income, taxRate);
-                    RealCityEconomyManager.resident_low_eco_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.residentLowEcoLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     ProcessUnit(ref amount, ref office_gen_income, taxRate);
-                    RealCityEconomyManager.office_gen_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.officeGenLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.OfficeHightech:
                     ProcessUnit(ref amount, ref office_high_tech_income, taxRate);
-                    RealCityEconomyManager.office_high_tech_landincome_forui[MainDataStore.update_money_count] += amount;
+                    RealCityEconomyManager.officeHighTechLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 default:
                     amount = 0;

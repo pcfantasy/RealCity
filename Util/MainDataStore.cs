@@ -114,9 +114,9 @@
 
         //3 Govement expense
         //other in-game variable
-        public static byte update_money_count = 0;
-        public static float current_time = 0f;
-        public static float prev_time = 0f;
+        public static byte updateMoneyCount = 0;
+        public static float currentTime = 0f;
+        public static float prevTime = 0f;
 
         //new added
         public static float totalFamilyGoodDemand = 0;
@@ -150,9 +150,9 @@
             SaveAndRestore.SaveData(ref i, govermentSalary, ref saveData);
 
             //37
-            SaveAndRestore.SaveData(ref i, update_money_count, ref saveData);
-            SaveAndRestore.SaveData(ref i, current_time, ref saveData);
-            SaveAndRestore.SaveData(ref i, prev_time, ref saveData);
+            SaveAndRestore.SaveData(ref i, updateMoneyCount, ref saveData);
+            SaveAndRestore.SaveData(ref i, currentTime, ref saveData);
+            SaveAndRestore.SaveData(ref i, prevTime, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenCount, ref saveData);
             SaveAndRestore.SaveData(ref i, familyCount, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenSalaryPerFamily, ref saveData);
@@ -191,9 +191,9 @@
 
             SaveAndRestore.LoadData(ref i, saveData, ref govermentSalary);
 
-            SaveAndRestore.LoadData(ref i, saveData, ref update_money_count);
-            SaveAndRestore.LoadData(ref i, saveData, ref current_time);
-            SaveAndRestore.LoadData(ref i, saveData, ref prev_time);
+            SaveAndRestore.LoadData(ref i, saveData, ref updateMoneyCount);
+            SaveAndRestore.LoadData(ref i, saveData, ref currentTime);
+            SaveAndRestore.LoadData(ref i, saveData, ref prevTime);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenCount);
             SaveAndRestore.LoadData(ref i, saveData, ref familyCount);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryPerFamily);

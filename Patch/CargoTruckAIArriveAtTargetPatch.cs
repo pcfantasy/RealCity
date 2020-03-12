@@ -20,19 +20,19 @@ namespace RealCity.Patch
         }
         public static void Prefix(ref CargoTruckAI __instance, ref Vehicle data)
         {
-            int num = 0;
+            int transferSize = 0;
             if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
             {
-                num = data.m_transferSize;
+                transferSize = data.m_transferSize;
             }
             if ((data.m_flags & Vehicle.Flags.TransferToSource) != 0)
             {
-                num = Mathf.Min(0, data.m_transferSize - __instance.m_cargoCapacity);
+                transferSize = Mathf.Min(0, data.m_transferSize - __instance.m_cargoCapacity);
             }
             // NON-STOCK CODE START
-            ProcessResourceArriveAtTarget(ref data, ref num);
+            ProcessResourceArriveAtTarget(ref data, ref transferSize);
         }
-        public static void ProcessResourceArriveAtTarget(ref Vehicle data, ref int num)
+        public static void ProcessResourceArriveAtTarget(ref Vehicle data, ref int transferSize)
         {
             BuildingManager instance = Singleton<BuildingManager>.instance;
             BuildingInfo info = instance.m_buildings.m_buffer[data.m_targetBuilding].Info;
@@ -40,21 +40,21 @@ namespace RealCity.Patch
             { 
                 if ((info.m_class.m_service == ItemClass.Service.Electricity) || (info.m_class.m_service == ItemClass.Service.Water) || (info.m_class.m_service == ItemClass.Service.Disaster))
                 {
-                    info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref num);
-                    float product_value = 0f;
+                    info.m_buildingAI.ModifyMaterialBuffer(data.m_targetBuilding, ref instance.m_buildings.m_buffer[data.m_targetBuilding], (TransferManager.TransferReason)data.m_transferType, ref transferSize);
+                    float productValue;
                     switch ((TransferManager.TransferReason)data.m_transferType)
                     {
                         case TransferManager.TransferReason.Petrol:
-                            product_value = num * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
+                            productValue = transferSize * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productValue, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
                             break;
                         case TransferManager.TransferReason.Coal:
-                            product_value = num * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOre, ItemClass.Level.Level1);
+                            productValue = transferSize * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productValue, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOre, ItemClass.Level.Level1);
                             break;
                         case TransferManager.TransferReason.Goods:
-                            product_value = num * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
-                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.None, ItemClass.Level.Level1);
+                            productValue = transferSize * RealCityIndustryBuildingAI.GetResourcePrice((TransferManager.TransferReason)data.m_transferType);
+                            Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productValue, ItemClass.Service.PlayerIndustry, ItemClass.SubService.None, ItemClass.Level.Level1);
                             break;
                         case (TransferManager.TransferReason)124:
                         case (TransferManager.TransferReason)125: break;
@@ -62,7 +62,7 @@ namespace RealCity.Patch
                     }
                     if ((data.m_flags & Vehicle.Flags.TransferToTarget) != 0)
                     {
-                        data.m_transferSize = (ushort)Mathf.Clamp(data.m_transferSize - num, 0, data.m_transferSize);
+                        data.m_transferSize = (ushort)Mathf.Clamp(data.m_transferSize - transferSize, 0, data.m_transferSize);
                     }
                 }
             }

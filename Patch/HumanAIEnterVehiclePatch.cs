@@ -18,24 +18,21 @@ namespace RealCity.Patch
             uint citizen = citizenData.m_citizen;
             if (citizen != 0u)
             {
-                VehicleManager instance = Singleton<VehicleManager>.instance;
-                ushort num = Singleton<CitizenManager>.instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_vehicle;
-                if (num != 0)
+                VehicleManager vehicleManager = Singleton<VehicleManager>.instance;
+                ushort vehicleID = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_vehicle;
+                if (vehicleID != 0)
                 {
-                    num = instance.m_vehicles.m_buffer[num].GetFirstVehicle(num);
+                    vehicleID = vehicleManager.m_vehicles.m_buffer[vehicleID].GetFirstVehicle(vehicleID);
                 }
-                if (num != 0)
+                if (vehicleID != 0)
                 {
-                    VehicleInfo info = instance.m_vehicles.m_buffer[num].Info;
-                    int ticketPrice = info.m_vehicleAI.GetTicketPrice(num, ref instance.m_vehicles.m_buffer[num]);
+                    VehicleInfo info = vehicleManager.m_vehicles.m_buffer[vehicleID].Info;
+                    int ticketPrice = info.m_vehicleAI.GetTicketPrice(vehicleID, ref vehicleManager.m_vehicles.m_buffer[vehicleID]);
                     if (ticketPrice != 0)
                     {
                         // NON-STOCK CODE START
-                        CitizenManager instance3 = Singleton<CitizenManager>.instance;
-                        ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-                        BuildingManager instance2 = Singleton<BuildingManager>.instance;
-                        uint homeId = instance3.m_citizens.m_buffer[citizenData.m_citizen].GetContainingUnit(citizen, instance2.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
+                        CitizenManager citizenManager = Singleton<CitizenManager>.instance;
+                        if ((citizenManager.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                         {
                             CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (ticketPrice));
                         }

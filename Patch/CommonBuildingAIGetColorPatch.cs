@@ -29,11 +29,11 @@ namespace RealCity.Patch
                 switch (service)
                 {
                     case ItemClass.Service.Residential:
-                        long family_money = GetResidentialBuildingAverageMoney(buildingID, ref data);
-                        if (family_money < 50000)
-                            BuildingData.buildingMoneyThreat[buildingID] = 1.0f - family_money / 100000.0f;
+                        long familyMoney = GetResidentialBuildingAverageMoney(data);
+                        if (familyMoney < 50000)
+                            BuildingData.buildingMoneyThreat[buildingID] = 1.0f - familyMoney / 100000.0f;
                         else
-                            BuildingData.buildingMoneyThreat[buildingID] = (150000.0f - family_money) / 200000.0f;
+                            BuildingData.buildingMoneyThreat[buildingID] = (150000.0f - familyMoney) / 200000.0f;
 
                         if (BuildingData.buildingMoneyThreat[buildingID] < 0.5f)
                             __result = Color.Lerp(Color.green, Color.yellow, BuildingData.buildingMoneyThreat[buildingID] * 2.0f);
@@ -52,34 +52,34 @@ namespace RealCity.Patch
                 }
             }
         }
-        public static long GetResidentialBuildingAverageMoney(ushort buildingID, ref Building buildingData)
+        public static long GetResidentialBuildingAverageMoney(Building buildingData)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
+            uint citzenUnit = buildingData.m_citizenUnits;
+            int unitCount = 0;
             long totalMoney = 0;
             long averageMoney = 0;
-            while (num != 0u)
+            while (citzenUnit != 0u)
             {
-                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Home) != 0)
+                if ((ushort)(instance.m_units.m_buffer[citzenUnit].m_flags & CitizenUnit.Flags.Home) != 0)
                 {
-                    if ((instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen0 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen1 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen2 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen3 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen4 != 0))
+                    if ((instance.m_units.m_buffer[citzenUnit].m_citizen0 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen1 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen2 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen3 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen4 != 0))
                     {
-                        num2++;
-                        totalMoney += (long)CitizenUnitData.familyMoney[num];
+                        unitCount++;
+                        totalMoney += (long)CitizenUnitData.familyMoney[citzenUnit];
                     }
                 }
-                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-                if (++num2 > 524288)
+                citzenUnit = instance.m_units.m_buffer[citzenUnit].m_nextUnit;
+                if (++unitCount > 524288)
                 {
                     CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                     break;
                 }
             }
 
-            if (num2 != 0)
+            if (unitCount != 0)
             {
-                averageMoney = totalMoney / num2;
+                averageMoney = totalMoney / unitCount;
             }
 
             return averageMoney;
