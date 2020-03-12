@@ -11,6 +11,7 @@
         public const float profitShareRatioInduLevel2 = 0.014f;
         public const float profitShareRatioInduLevel3 = 0.016f;
         public const float profitShareRatioInduOther  = 0.015f;
+        public const float profitShareRatioInduExtractor = 1f;
         public const float profitShareRatioCommLevel1 = 0.005f;
         public const float profitShareRatioCommLevel2 = 0.008f;
         public const float profitShareRatioCommLevel3 = 0.012f;
@@ -18,10 +19,11 @@
         public const float profitShareRatioCommOther  = 0.001f;
         public const float profitShareRatioCommTou = 0.0005f;
 
-        public const float bossRatioInduLevel1 = 0.04f;
-        public const float bossRatioInduLevel2 = 0.05f;
-        public const float bossRatioInduLevel3 = 0.06f;
-        public const float bossRatioInduOther = 0.05f;
+        public const float bossRatioInduLevel1 = 0.05f;
+        public const float bossRatioInduLevel2 = 0.07f;
+        public const float bossRatioInduLevel3 = 0.08f;
+        public const float bossRatioInduOther = 0.04f;
+        public const float bossRatioInduExtractor = 0f;
         public const float bossRatioCommLevel1 = 0.25f;
         public const float bossRatioCommLevel2 = 0.28f;
         public const float bossRatioCommLevel3 = 0.32f;
@@ -33,6 +35,7 @@
         public const float investRatioInduLevel2 = 0.0006f;
         public const float investRatioInduLevel3 = 0.0008f;
         public const float investRatioInduOther = 0.007f;
+        public const float investRatioInduExtractor = 0f;
         public const float investRatioCommLevel1 = 0.14f;
         public const float investRatioCommLevel2 = 0.20f;
         public const float investRatioCommLevel3 = 0.26f;
@@ -58,13 +61,13 @@
         public const ushort comm_tourist = 40000;
         public const ushort comm_leisure = 60000;
         public const ushort comm_eco = 30000;
-        public const ushort indu_gen_level1 = 6000;
-        public const ushort indu_gen_level2 = 8000;
-        public const ushort indu_gen_level3 = 10000;
-        public const ushort indu_forest = 8000;
-        public const ushort indu_farm = 7000;
-        public const ushort indu_oil = 10000;
-        public const ushort indu_ore = 9000;
+        public const ushort indu_gen_level1 = 2000;
+        public const ushort indu_gen_level2 = 3000;
+        public const ushort indu_gen_level3 = 4000;
+        public const ushort indu_forest = 6000;
+        public const ushort indu_farm = 5000;
+        public const ushort indu_oil = 8000;
+        public const ushort indu_ore = 7000;
         //public const ushort office_gen_levell = 700;
         //public const ushort office_gen_level2 = 800;
         //public const ushort office_gen_level3 = 1000;

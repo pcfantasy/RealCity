@@ -123,6 +123,11 @@ namespace RealCity.CustomAI
                         {
                             case ItemClass.SubService.IndustrialFarming:
                             case ItemClass.SubService.IndustrialForestry:
+                                if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
+                                    profitShare = MainDataStore.profitShareRatioInduExtractor; 
+                                else
+                                    profitShare = MainDataStore.profitShareRatioInduOther;
+                                break;
                             case ItemClass.SubService.IndustrialOil:
                             case ItemClass.SubService.IndustrialOre:
                                 profitShare = MainDataStore.profitShareRatioInduOther; break;

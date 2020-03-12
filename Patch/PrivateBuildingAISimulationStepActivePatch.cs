@@ -183,6 +183,17 @@ namespace RealCity.Patch
                     {
                         case ItemClass.SubService.IndustrialFarming:
                         case ItemClass.SubService.IndustrialForestry:
+                            if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                            {
+                                bossTake = MainDataStore.bossRatioInduExtractor;
+                                investToOffice = MainDataStore.investRatioInduExtractor;
+                            }
+                            else
+                            {
+                                bossTake = MainDataStore.bossRatioInduOther;
+                                investToOffice = MainDataStore.investRatioInduOther;
+                            }
+                            break;
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
                             bossTake = MainDataStore.bossRatioInduOther; investToOffice = MainDataStore.investRatioInduOther; break;
