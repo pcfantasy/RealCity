@@ -23,10 +23,10 @@ namespace RealCity
                 {
                     CheckDetour();
                     int vehicleStep = (int)(Singleton<VehicleManager>.instance.m_vehicles.m_size >> 4);
-                    int num4 = (int)(Singleton<SimulationManager>.instance.m_currentFrameIndex & 15u);
-                    int num5 = num4 * vehicleStep;
-                    int num6 = (num4 + 1) * vehicleStep - 1;
-                    for (int k = num5; k <= num6; k++)
+                    int frameIndex = (int)(Singleton<SimulationManager>.instance.m_currentFrameIndex & 15u);
+                    int currentStartVehicleID = frameIndex * vehicleStep;
+                    int currentEndVehicleID = (frameIndex + 1) * vehicleStep - 1;
+                    for (int k = currentStartVehicleID; k <= currentEndVehicleID; k++)
                     {
                         VehicleManager instance = Singleton<VehicleManager>.instance;
                         Vehicle vehicle = instance.m_vehicles.m_buffer[k];
@@ -113,16 +113,16 @@ namespace RealCity
             }
         }
 
-        public void VehicleStatus(int i)
+        public void VehicleStatus(int vehicleID)
         {
-            if (i < Singleton<VehicleManager>.instance.m_vehicles.m_size)
+            if (vehicleID < Singleton<VehicleManager>.instance.m_vehicles.m_size)
             {
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                int num4 = (int)(currentFrameIndex & 4095u);
-                if (((num4 >> 4) & 255u) == (i & 255u))
+                int frameIndex = (int)(currentFrameIndex & 4095u);
+                if (((frameIndex >> 4) & 255u) == (vehicleID & 255u))
                 {
                     VehicleManager instance = Singleton<VehicleManager>.instance;
-                    Vehicle vehicle = instance.m_vehicles.m_buffer[i];
+                    Vehicle vehicle = instance.m_vehicles.m_buffer[vehicleID];
                     if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.WaitingPath) && vehicle.m_flags.IsFlagSet(Vehicle.Flags.Spawned))
                     {
                         if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
@@ -149,15 +149,15 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is BusAI)
                             {
-                                int num = 0;
-                                GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100 * num, vehicle.Info.m_class);
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100 * capacity, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI)
                             {
-                                int num = 0;
-                                GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 50 * num, vehicle.Info.m_class);
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 50 * capacity, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoShipAI)
                             {
@@ -165,9 +165,9 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
                             {
-                                int num = 0;
-                                GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, num * 300, vehicle.Info.m_class);
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity * 300, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                             {
@@ -175,9 +175,9 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
                             {
-                                int num = 0;
-                                GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, num * 250, vehicle.Info.m_class);
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity * 250, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                             {
@@ -185,9 +185,9 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
                             {
-                                int num = 0;
-                                GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, num * 200, vehicle.Info.m_class);
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity * 200, vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
                             {
@@ -195,22 +195,22 @@ namespace RealCity
                             }
                             else if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
                             {
-                                int num = 0;
-                                GetVehicleCapacity((ushort)i, ref vehicle, ref num);
-                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (num * 150), vehicle.Info.m_class);
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (capacity * 150), vehicle.Info.m_class);
                             }
                             else if (vehicle.Info.m_vehicleAI is PassengerCarAI  && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Parking) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Arriving))
                             {
                                 if ((vehicle.Info.m_class.m_subService == ItemClass.SubService.ResidentialLow))
                                 {
                                     if (RealCity.reduceVehicle)
-                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + (24 << MainDataStore.reduceCargoDivShift));
+                                        VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + (24 << MainDataStore.reduceCargoDivShift));
                                     else
-                                        VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 24);
+                                        VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + 24);
                                 }
                                 else
                                 {
-                                    VehicleData.vehicleTransferTime[i] = (ushort)(VehicleData.vehicleTransferTime[i] + 12);
+                                    VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + 12);
                                 }
                             }
                         }
@@ -219,11 +219,11 @@ namespace RealCity
             }
             else
             {
-                DebugLog.LogToFileOnly("Error: invalid vehicleID = " + i.ToString());
+                DebugLog.LogToFileOnly("Error: invalid vehicleID = " + vehicleID.ToString());
             }
         }
 
-        protected void GetVehicleCapacity(ushort vehicleID, ref Vehicle vehicleData, ref int maxcount)
+        protected void GetVehicleCapacity(ushort vehicleID, ref Vehicle vehicleData, ref int capacity)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint num = vehicleData.m_citizenUnits;
@@ -232,7 +232,7 @@ namespace RealCity
             {
                 if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Vehicle) != 0)
                 {
-                    maxcount += 5;
+                    capacity += 5;
                 }
                 num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
                 if (++num2 > 524288)

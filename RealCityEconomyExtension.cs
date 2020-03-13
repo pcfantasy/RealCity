@@ -24,8 +24,8 @@ namespace RealCity
             {
                 MainDataStore.currentTime = Singleton<SimulationManager>.instance.m_currentDayTimeHour;
                 uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                uint num2 = currentFrameIndex & 255u;
-                if ((num2 == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime))
+                uint frameIndex = currentFrameIndex & 255u;
+                if ((frameIndex == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime))
                 {
                     //caculate voteRandom once 
                     System.Random rand = new System.Random();
@@ -410,24 +410,23 @@ namespace RealCity
             }
 
             //citizenOffset
-            citizenOffset = 0;
-            int temp = 0;
+            int citizenOffsetBySalary = 0;
             if (MainDataStore.familyCount > 0)
             {
-                temp = (int)(MainDataStore.citizenSalaryPerFamily - (MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount) - MainDataStore.citizenExpensePerFamily);
+                citizenOffsetBySalary = (int)(MainDataStore.citizenSalaryPerFamily - (MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount) - MainDataStore.citizenExpensePerFamily);
             }
 
-            if (temp < 40)
+            if (citizenOffsetBySalary < 100)
             {
                 citizenOffset = 500;
             }
-            else if (temp > 90)
+            else if (citizenOffsetBySalary > 300)
             {
                 citizenOffset = -500;
             }
             else
             {
-                citizenOffset = 1300 - 20 * temp;
+                citizenOffset = 1000 - 5 * citizenOffsetBySalary;
             }
 
             //buildingOffset
@@ -477,11 +476,11 @@ namespace RealCity
             int benefitOffset = 10 - (Politics.benefitOffset / 5);
             int commericalTax = 10 - (Politics.commericalTax);
             int industryTax = 10 - (Politics.industryTax);
-            int temp3 = 0; // money offset
-            int temp4 = 0; // citizen offset
-            int temp5 = 0; //building offset
-            int temp6 = 0; //commbuilding offset
-            VoteOffset(ref idex, ref temp3, ref temp4, ref temp5, ref temp6);
+            int moneyOffset = 0; // money offset
+            int citizenOffset = 0; // citizen offset
+            int industrialBuildingOffset = 0; //industrial building offset
+            int commericalBuildingOffset = 0; //commerical building offset
+            VoteOffset(ref idex, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commericalBuildingOffset);
 
             if (temp == 99)
             {
@@ -503,8 +502,8 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.riseSalaryTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.riseSalaryTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.riseSalaryTax[4, 2];
-                        yes -= temp3;
-                        yes -= temp4;
+                        yes -= moneyOffset;
+                        yes -= citizenOffset;
                         break;
                     case 1:
                         yes += Politics.cPartySeats * (Politics.fallSalaryTax[0, 0] - residentTax);
@@ -522,8 +521,8 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.fallSalaryTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.fallSalaryTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.fallSalaryTax[4, 2];
-                        yes += temp3;
-                        yes += temp4;
+                        yes += moneyOffset;
+                        yes += citizenOffset;
                         break;
                     case 2:
                         yes += Politics.cPartySeats * (Politics.riseBenefit[0, 0] + benefitOffset);
@@ -541,7 +540,7 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.riseBenefit[2, 2];
                         noAttend += Politics.lPartySeats * Politics.riseBenefit[3, 2];
                         noAttend += Politics.nPartySeats * Politics.riseBenefit[4, 2];
-                        yes += temp3;
+                        yes += moneyOffset;
                         break;
                     case 3:
                         yes += Politics.cPartySeats * (Politics.fallBenefit[0, 0] - benefitOffset);
@@ -559,7 +558,7 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.fallBenefit[2, 2];
                         noAttend += Politics.lPartySeats * Politics.fallBenefit[3, 2];
                         noAttend += Politics.nPartySeats * Politics.fallBenefit[4, 2];
-                        yes -= temp3;
+                        yes -= moneyOffset;
                         break;
                     case 4:
                         yes += Politics.cPartySeats * (Politics.riseCommericalTax[0, 0] + commericalTax);
@@ -577,8 +576,8 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.riseCommericalTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.riseCommericalTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.riseCommericalTax[4, 2];
-                        yes -= temp3;
-                        yes += temp6;
+                        yes -= moneyOffset;
+                        yes += commericalBuildingOffset;
                         break;
                     case 5:
                         yes += Politics.cPartySeats * (Politics.fallCommericalTax[0, 0] - commericalTax);
@@ -596,8 +595,8 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.fallCommericalTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.fallCommericalTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.fallCommericalTax[4, 2];
-                        yes += temp3;
-                        yes -= temp6;
+                        yes += moneyOffset;
+                        yes -= commericalBuildingOffset;
                         break;
                     case 6:
                         yes += Politics.cPartySeats * (Politics.riseIndustryTax[0, 0] + industryTax);
@@ -615,8 +614,8 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.riseIndustryTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.riseIndustryTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.riseIndustryTax[4, 2];
-                        yes -= temp3;
-                        yes += temp5;
+                        yes -= moneyOffset;
+                        yes += industrialBuildingOffset;
                         break;
                     case 7:
                         yes += Politics.cPartySeats * (Politics.fallIndustryTax[0, 0] - industryTax);
@@ -634,8 +633,8 @@ namespace RealCity
                         noAttend += Politics.sPartySeats * Politics.fallIndustryTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.fallIndustryTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.fallIndustryTax[4, 2];
-                        yes += temp3;
-                        yes -= temp5;
+                        yes += moneyOffset;
+                        yes -= industrialBuildingOffset;
                         break;
                 }
 
@@ -652,25 +651,25 @@ namespace RealCity
                     noAttend = 0;
                 }
 
-                int temp1 = yes + no + noAttend;
-                if (temp1 != 0)
+                int allTickets = yes + no + noAttend;
+                if (allTickets != 0)
                 {
-                    yes = ((yes * 99) / temp1);
-                    no = ((no * 99) / temp1);
-                    noAttend = ((noAttend * 99) / temp1);
-                    temp1 = yes + no + noAttend;
+                    yes = ((yes * 99) / allTickets);
+                    no = ((no * 99) / allTickets);
+                    noAttend = ((noAttend * 99) / allTickets);
+                    allTickets = yes + no + noAttend;
 
-                    if (temp1 < 99)
+                    if (allTickets < 99)
                     {
                         System.Random rand = new System.Random();
                         switch (rand.Next(3))
                         {
                             case 0:
-                                yes += 99 - temp1; break;
+                                yes += 99 - allTickets; break;
                             case 1:
-                                no += 99 - temp1; break;
+                                no += 99 - allTickets; break;
                             case 2:
-                                noAttend += 99 - temp1; break;
+                                noAttend += 99 - allTickets; break;
                         }
                     }
                 }
@@ -817,14 +816,14 @@ namespace RealCity
 
         public void GetSeats()
         {
-            int temp = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
-            if (temp != 0)
+            int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
+            if (allTickets != 0)
             {
-                Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / temp);
-                Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / temp);
-                Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / temp);
-                Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / temp);
-                Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / temp);
+                Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / allTickets);
+                Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / allTickets);
+                Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / allTickets);
+                Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / allTickets);
+                Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / allTickets);
             }
             else
             {
@@ -840,22 +839,22 @@ namespace RealCity
             Politics.lPartyTickets = 0;
             Politics.nPartyTickets = 0;
 
-            temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-            if (temp < 99)
+            allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+            if (allTickets < 99)
             {
                 System.Random rand = new System.Random();
                 switch (rand.Next(5))
                 {
                     case 0:
-                        Politics.cPartySeats += (ushort)(99 - temp); break;
+                        Politics.cPartySeats += (ushort)(99 - allTickets); break;
                     case 1:
-                        Politics.gPartySeats += (ushort)(99 - temp); break;
+                        Politics.gPartySeats += (ushort)(99 - allTickets); break;
                     case 2:
-                        Politics.sPartySeats += (ushort)(99 - temp); break;
+                        Politics.sPartySeats += (ushort)(99 - allTickets); break;
                     case 3:
-                        Politics.lPartySeats += (ushort)(99 - temp); break;
+                        Politics.lPartySeats += (ushort)(99 - allTickets); break;
                     case 4:
-                        Politics.nPartySeats += (ushort)(99 - temp); break;
+                        Politics.nPartySeats += (ushort)(99 - allTickets); break;
                 }
             }
         }
