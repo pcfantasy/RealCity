@@ -16,32 +16,32 @@ namespace RealCity.UI
         private static readonly float SPACING = 17f;
         private static readonly float SPACING22 = 23f;
         private Dictionary<string, UILabel> _valuesControlContainer = new Dictionary<string, UILabel>(16);
-        private UIDragHandle m_DragHandler;
-        private UIButton m_closeButton;
-        private UILabel m_title;
+        private UIDragHandle dragHandler;
+        private UIButton closeButton;
+        private UILabel title;
         //1 Citizen
-        private UILabel m_firstline_citizen;
+        private UILabel firstline;
         //1.1 citizen income
-        private UILabel citizen_count;
-        private UILabel family_count;
-        private UILabel citizen_salary_per_family;
-        private UILabel citizen_salary_tax_per_family;
+        private UILabel citizenCount;
+        private UILabel familyCount;
+        private UILabel citizenSalaryPerFamily;
+        private UILabel citizenSalaryTaxPerFamily;
         //1.2 citizen expense
-        private UILabel citizen_expense_per_family;
-        private UILabel citizen_average_transport_fee;
+        private UILabel citizenExpensePerFamily;
+        private UILabel citizenAverageTransportFee;
         //1.3 income - expense
-        private UILabel family_profit_money_num;
-        private UILabel family_loss_money_num;
-        private UILabel family_very_profit_num;
-        private UILabel family_weight_stable_high;
-        private UILabel family_weight_stable_low;
-        private UILabel family_weight_stable_medium;
+        private UILabel level1HighWealth;
+        private UILabel level2HighWealth;
+        private UILabel level3HighWealth;
+        private UILabel wealthHigh;
+        private UILabel wealthLow;
+        private UILabel wealthMedium;
         //2 Building
-        private UILabel m_secondline_building;
+        private UILabel secondline;
         private UILabel profitBuildingCount;
         private UILabel externalInvestments;
         //3 Policy
-        private UILabel mThirdLinePolicy;
+        private UILabel thirdLine;
         private UILabel minimumLivingAllowance;
         private UILabel unfinishedTransitionLost;
         //4 Tips
@@ -70,18 +70,18 @@ namespace RealCity.UI
             relativePosition = new Vector3(50f, 170f);
             opacity = 1f;
             cachedName = cacheName;
-            m_DragHandler = AddUIComponent<UIDragHandle>();
-            m_DragHandler.target = this;
-            m_title = AddUIComponent<UILabel>();
-            m_title.text = Localization.Get("ECONOMIC_DATA");
-            m_title.relativePosition = new Vector3(WIDTH / 2f - m_title.width / 2f - 25f, HEADER / 2f - m_title.height / 2f);
-            m_title.textAlignment = UIHorizontalAlignment.Center;
-            m_closeButton = AddUIComponent<UIButton>();
-            m_closeButton.normalBgSprite = "buttonclose";
-            m_closeButton.hoveredBgSprite = "buttonclosehover";
-            m_closeButton.pressedBgSprite = "buttonclosepressed";
-            m_closeButton.relativePosition = new Vector3(WIDTH - 35f, 5f, 10f);
-            m_closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
+            dragHandler = AddUIComponent<UIDragHandle>();
+            dragHandler.target = this;
+            title = AddUIComponent<UILabel>();
+            title.text = Localization.Get("ECONOMIC_DATA");
+            title.relativePosition = new Vector3(WIDTH / 2f - title.width / 2f - 25f, HEADER / 2f - title.height / 2f);
+            title.textAlignment = UIHorizontalAlignment.Center;
+            closeButton = AddUIComponent<UIButton>();
+            closeButton.normalBgSprite = "buttonclose";
+            closeButton.hoveredBgSprite = "buttonclosehover";
+            closeButton.pressedBgSprite = "buttonclosepressed";
+            closeButton.relativePosition = new Vector3(WIDTH - 35f, 5f, 10f);
+            closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
             {
                 Hide();
             };
@@ -98,83 +98,83 @@ namespace RealCity.UI
         private void ShowOnGui()
         {
             //citizen
-            m_firstline_citizen = AddUIComponent<UILabel>();
-            m_firstline_citizen.text = Localization.Get("CITIZEN_STATUS");
-            m_firstline_citizen.textScale = 1.1f;
-            m_firstline_citizen.relativePosition = new Vector3(SPACING, 50f);
-            m_firstline_citizen.autoSize = true;
+            firstline = AddUIComponent<UILabel>();
+            firstline.text = Localization.Get("CITIZEN_STATUS");
+            firstline.textScale = 1.1f;
+            firstline.relativePosition = new Vector3(SPACING, 50f);
+            firstline.autoSize = true;
 
             //data
-            citizen_count = AddUIComponent<UILabel>();
-            citizen_count.text = Localization.Get("CITIZEN_COUNT");
-            citizen_count.relativePosition = new Vector3(SPACING, m_firstline_citizen.relativePosition.y + SPACING22);
-            citizen_count.autoSize = true;
+            citizenCount = AddUIComponent<UILabel>();
+            citizenCount.text = Localization.Get("CITIZEN_COUNT");
+            citizenCount.relativePosition = new Vector3(SPACING, firstline.relativePosition.y + SPACING22);
+            citizenCount.autoSize = true;
 
-            family_count = AddUIComponent<UILabel>();
-            family_count.text = Localization.Get("FAMILY_COUNT");
-            family_count.relativePosition = new Vector3(citizen_count.relativePosition.x + 300f, citizen_count.relativePosition.y);
-            family_count.autoSize = true;
+            familyCount = AddUIComponent<UILabel>();
+            familyCount.text = Localization.Get("FAMILY_COUNT");
+            familyCount.relativePosition = new Vector3(citizenCount.relativePosition.x + 300f, citizenCount.relativePosition.y);
+            familyCount.autoSize = true;
 
-            citizen_salary_per_family = AddUIComponent<UILabel>();
-            citizen_salary_per_family.text = Localization.Get("SALARY_PER_FAMILY");
-            citizen_salary_per_family.relativePosition = new Vector3(family_count.relativePosition.x + 300f, family_count.relativePosition.y);
-            citizen_salary_per_family.autoSize = true;
+            citizenSalaryPerFamily = AddUIComponent<UILabel>();
+            citizenSalaryPerFamily.text = Localization.Get("SALARY_PER_FAMILY");
+            citizenSalaryPerFamily.relativePosition = new Vector3(familyCount.relativePosition.x + 300f, familyCount.relativePosition.y);
+            citizenSalaryPerFamily.autoSize = true;
 
-            citizen_salary_tax_per_family = AddUIComponent<UILabel>();
-            citizen_salary_tax_per_family.text = Localization.Get("CITIZEN_TAX_PER_FAMILY");
-            citizen_salary_tax_per_family.relativePosition = new Vector3(SPACING, citizen_count.relativePosition.y + SPACING22);
-            citizen_salary_tax_per_family.autoSize = true;
+            citizenSalaryTaxPerFamily = AddUIComponent<UILabel>();
+            citizenSalaryTaxPerFamily.text = Localization.Get("CITIZEN_TAX_PER_FAMILY");
+            citizenSalaryTaxPerFamily.relativePosition = new Vector3(SPACING, citizenCount.relativePosition.y + SPACING22);
+            citizenSalaryTaxPerFamily.autoSize = true;
 
-            citizen_expense_per_family = AddUIComponent<UILabel>();
-            citizen_expense_per_family.text = Localization.Get("EXPENSE_PER_FAMILY");
-            citizen_expense_per_family.relativePosition = new Vector3(family_count.relativePosition.x, family_count.relativePosition.y + SPACING22);
-            citizen_expense_per_family.autoSize = true;
+            citizenExpensePerFamily = AddUIComponent<UILabel>();
+            citizenExpensePerFamily.text = Localization.Get("EXPENSE_PER_FAMILY");
+            citizenExpensePerFamily.relativePosition = new Vector3(familyCount.relativePosition.x, familyCount.relativePosition.y + SPACING22);
+            citizenExpensePerFamily.autoSize = true;
 
-            citizen_average_transport_fee = AddUIComponent<UILabel>();
-            citizen_average_transport_fee.text = Localization.Get("AVERAGE_TRANPORT_FEE");
-            citizen_average_transport_fee.relativePosition = new Vector3(citizen_salary_per_family.relativePosition.x, citizen_salary_per_family.relativePosition.y + SPACING22);
-            citizen_average_transport_fee.autoSize = true;
+            citizenAverageTransportFee = AddUIComponent<UILabel>();
+            citizenAverageTransportFee.text = Localization.Get("AVERAGE_TRANPORT_FEE");
+            citizenAverageTransportFee.relativePosition = new Vector3(citizenSalaryPerFamily.relativePosition.x, citizenSalaryPerFamily.relativePosition.y + SPACING22);
+            citizenAverageTransportFee.autoSize = true;
 
-            family_very_profit_num = AddUIComponent<UILabel>();
-            family_very_profit_num.text = Localization.Get("LEVEL3HIGHWEALTH");
-            family_very_profit_num.relativePosition = new Vector3(SPACING, citizen_salary_tax_per_family.relativePosition.y + SPACING22);
-            family_very_profit_num.autoSize = true;
+            level3HighWealth = AddUIComponent<UILabel>();
+            level3HighWealth.text = Localization.Get("LEVEL3_HIGH_WEALTH");
+            level3HighWealth.relativePosition = new Vector3(SPACING, citizenSalaryTaxPerFamily.relativePosition.y + SPACING22);
+            level3HighWealth.autoSize = true;
 
-            family_profit_money_num = AddUIComponent<UILabel>();
-            family_profit_money_num.text = Localization.Get("LEVEL2HIGHWEALTH");
-            family_profit_money_num.relativePosition = new Vector3(citizen_expense_per_family.relativePosition.x, citizen_expense_per_family.relativePosition.y + SPACING22);
-            family_profit_money_num.autoSize = true;
+            level2HighWealth = AddUIComponent<UILabel>();
+            level2HighWealth.text = Localization.Get("LEVEL2_HIGH_WEALTH");
+            level2HighWealth.relativePosition = new Vector3(citizenExpensePerFamily.relativePosition.x, citizenExpensePerFamily.relativePosition.y + SPACING22);
+            level2HighWealth.autoSize = true;
 
-            family_loss_money_num = AddUIComponent<UILabel>();
-            family_loss_money_num.text = Localization.Get("LEVEL1HIGHWEALTH");
-            family_loss_money_num.relativePosition = new Vector3(citizen_average_transport_fee.relativePosition.x, citizen_average_transport_fee.relativePosition.y + SPACING22);
-            family_loss_money_num.autoSize = true;
+            level1HighWealth = AddUIComponent<UILabel>();
+            level1HighWealth.text = Localization.Get("LEVEL1_HIGH_WEALTH");
+            level1HighWealth.relativePosition = new Vector3(citizenAverageTransportFee.relativePosition.x, citizenAverageTransportFee.relativePosition.y + SPACING22);
+            level1HighWealth.autoSize = true;
 
-            family_weight_stable_high = AddUIComponent<UILabel>();
-            family_weight_stable_high.text = Localization.Get("WEALTH_HIGH_COUNT");
-            family_weight_stable_high.relativePosition = new Vector3(SPACING, family_very_profit_num.relativePosition.y + SPACING22);
-            family_weight_stable_high.autoSize = true;
+            wealthHigh = AddUIComponent<UILabel>();
+            wealthHigh.text = Localization.Get("WEALTH_HIGH_COUNT");
+            wealthHigh.relativePosition = new Vector3(SPACING, level3HighWealth.relativePosition.y + SPACING22);
+            wealthHigh.autoSize = true;
 
-            family_weight_stable_medium = AddUIComponent<UILabel>();
-            family_weight_stable_medium.text = Localization.Get("WEALTH_MEDIUM_COUNT");
-            family_weight_stable_medium.relativePosition = new Vector3(family_profit_money_num.relativePosition.x, family_profit_money_num.relativePosition.y + SPACING22);
-            family_weight_stable_medium.autoSize = true;
+            wealthMedium = AddUIComponent<UILabel>();
+            wealthMedium.text = Localization.Get("WEALTH_MEDIUM_COUNT");
+            wealthMedium.relativePosition = new Vector3(level2HighWealth.relativePosition.x, level2HighWealth.relativePosition.y + SPACING22);
+            wealthMedium.autoSize = true;
 
-            family_weight_stable_low = AddUIComponent<UILabel>();
-            family_weight_stable_low.text = Localization.Get("WEALTH_LOW_COUNT");
-            family_weight_stable_low.relativePosition = new Vector3(family_loss_money_num.relativePosition.x, family_loss_money_num.relativePosition.y + SPACING22);
-            family_weight_stable_low.autoSize = true;
+            wealthLow = AddUIComponent<UILabel>();
+            wealthLow.text = Localization.Get("WEALTH_LOW_COUNT");
+            wealthLow.relativePosition = new Vector3(level1HighWealth.relativePosition.x, level1HighWealth.relativePosition.y + SPACING22);
+            wealthLow.autoSize = true;
 
             //building
-            m_secondline_building = AddUIComponent<UILabel>();
-            m_secondline_building.text = Localization.Get("BUILDING_STATUS");
-            m_secondline_building.textScale = 1.1f;
-            m_secondline_building.relativePosition = new Vector3(SPACING, family_weight_stable_high.relativePosition.y + SPACING22 + 10f);
-            m_secondline_building.autoSize = true;
+            secondline = AddUIComponent<UILabel>();
+            secondline.text = Localization.Get("BUILDING_STATUS");
+            secondline.textScale = 1.1f;
+            secondline.relativePosition = new Vector3(SPACING, wealthHigh.relativePosition.y + SPACING22 + 10f);
+            secondline.autoSize = true;
 
             profitBuildingCount = AddUIComponent<UILabel>();
             profitBuildingCount.text = Localization.Get("PROFIT_BUIDLING_COUNT");
-            profitBuildingCount.relativePosition = new Vector3(SPACING, m_secondline_building.relativePosition.y + SPACING22);
+            profitBuildingCount.relativePosition = new Vector3(SPACING, secondline.relativePosition.y + SPACING22);
             profitBuildingCount.autoSize = true;
 
             externalInvestments = AddUIComponent<UILabel>();
@@ -183,15 +183,15 @@ namespace RealCity.UI
             externalInvestments.autoSize = true;
 
             //policy
-            mThirdLinePolicy = AddUIComponent<UILabel>();
-            mThirdLinePolicy.text = Localization.Get("POLICY_COST");
-            mThirdLinePolicy.textScale = 1.1f;
-            mThirdLinePolicy.relativePosition = new Vector3(SPACING, profitBuildingCount.relativePosition.y + SPACING22 + 10f);
-            mThirdLinePolicy.autoSize = true;
+            thirdLine = AddUIComponent<UILabel>();
+            thirdLine.text = Localization.Get("POLICY_COST");
+            thirdLine.textScale = 1.1f;
+            thirdLine.relativePosition = new Vector3(SPACING, profitBuildingCount.relativePosition.y + SPACING22 + 10f);
+            thirdLine.autoSize = true;
 
             minimumLivingAllowance = AddUIComponent<UILabel>();
             minimumLivingAllowance.text = Localization.Get("LIVING_ALLOWANCE");
-            minimumLivingAllowance.relativePosition = new Vector3(SPACING, mThirdLinePolicy.relativePosition.y + SPACING22);
+            minimumLivingAllowance.relativePosition = new Vector3(SPACING, thirdLine.relativePosition.y + SPACING22);
             minimumLivingAllowance.autoSize = true;
 
             unfinishedTransitionLost = AddUIComponent<UILabel>();
@@ -232,43 +232,40 @@ namespace RealCity.UI
 
         private void RefreshDisplayData()
         {
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            uint num2 = currentFrameIndex & 255u;
-
             if (refeshOnce)
             {
                 if (isVisible)
                 {
                     //Citizen
-                    m_title.text = Localization.Get("ECONOMIC_DATA");
-                    m_firstline_citizen.text = Localization.Get("CITIZEN_STATUS");
-                    citizen_count.text = string.Format(Localization.Get("CITIZEN_COUNT") + " [{0}]", MainDataStore.citizenCount);
-                    family_count.text = string.Format(Localization.Get("FAMILY_COUNT") + " [{0}]", MainDataStore.familyCount);
-                    citizen_salary_per_family.text = string.Format(Localization.Get("SALARY_PER_FAMILY") + " [{0}]", MainDataStore.citizenSalaryPerFamily);
+                    title.text = Localization.Get("ECONOMIC_DATA");
+                    firstline.text = Localization.Get("CITIZEN_STATUS");
+                    citizenCount.text = string.Format(Localization.Get("CITIZEN_COUNT") + " [{0}]", MainDataStore.citizenCount);
+                    familyCount.text = string.Format(Localization.Get("FAMILY_COUNT") + " [{0}]", MainDataStore.familyCount);
+                    citizenSalaryPerFamily.text = string.Format(Localization.Get("SALARY_PER_FAMILY") + " [{0}]", MainDataStore.citizenSalaryPerFamily);
 
                     if (MainDataStore.familyCount != 0)
                     {
-                        citizen_salary_tax_per_family.text = string.Format(Localization.Get("CITIZEN_TAX_PER_FAMILY") + " [{0}]", MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount);
+                        citizenSalaryTaxPerFamily.text = string.Format(Localization.Get("CITIZEN_TAX_PER_FAMILY") + " [{0}]", MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount);
                     }
                     else
                     {
-                        citizen_salary_tax_per_family.text = string.Format(Localization.Get("CITIZEN_TAX_PER_FAMILY"));
+                        citizenSalaryTaxPerFamily.text = string.Format(Localization.Get("CITIZEN_TAX_PER_FAMILY"));
                     }
-                    citizen_expense_per_family.text = string.Format(Localization.Get("EXPENSE_PER_FAMILY") + " [{0}]", MainDataStore.citizenExpensePerFamily);
-                    citizen_average_transport_fee.text = string.Format(Localization.Get("AVERAGE_TRANPORT_FEE") + " [{0}]", MainDataStore.citizenAverageTransportFee);
+                    citizenExpensePerFamily.text = string.Format(Localization.Get("EXPENSE_PER_FAMILY") + " [{0}]", MainDataStore.citizenExpensePerFamily);
+                    citizenAverageTransportFee.text = string.Format(Localization.Get("AVERAGE_TRANPORT_FEE") + " [{0}]", MainDataStore.citizenAverageTransportFee);
 
-                    family_very_profit_num.text = string.Format(Localization.Get("LEVEL3HIGHWEALTH") + " [{0}]", MainDataStore.level3HighWealth);
-                    family_profit_money_num.text = string.Format(Localization.Get("LEVEL2HIGHWEALTH") + " [{0}]", MainDataStore.level2HighWealth);
-                    family_loss_money_num.text = string.Format(Localization.Get("LEVEL1HIGHWEALTH") + " [{0}]", MainDataStore.level1HighWealth);
-                    family_weight_stable_high.text = string.Format(Localization.Get("WEALTH_HIGH_COUNT") + " [{0}]", MainDataStore.familyWeightStableHigh);
-                    family_weight_stable_medium.text = string.Format(Localization.Get("WEALTH_MEDIUM_COUNT") + " [{0}]", MainDataStore.familyCount - MainDataStore.familyWeightStableHigh - MainDataStore.familyWeightStableLow);
-                    family_weight_stable_low.text = string.Format(Localization.Get("WEALTH_LOW_COUNT") + " [{0}]", MainDataStore.familyWeightStableLow);
+                    level3HighWealth.text = string.Format(Localization.Get("LEVEL3_HIGH_WEALTH") + " [{0}]", MainDataStore.level3HighWealth);
+                    level2HighWealth.text = string.Format(Localization.Get("LEVEL2_HIGH_WEALTH") + " [{0}]", MainDataStore.level2HighWealth);
+                    level1HighWealth.text = string.Format(Localization.Get("LEVEL1_HIGH_WEALTH") + " [{0}]", MainDataStore.level1HighWealth);
+                    wealthHigh.text = string.Format(Localization.Get("WEALTH_HIGH_COUNT") + " [{0}]", MainDataStore.familyWeightStableHigh);
+                    wealthMedium.text = string.Format(Localization.Get("WEALTH_MEDIUM_COUNT") + " [{0}]", MainDataStore.familyCount - MainDataStore.familyWeightStableHigh - MainDataStore.familyWeightStableLow);
+                    wealthLow.text = string.Format(Localization.Get("WEALTH_LOW_COUNT") + " [{0}]", MainDataStore.familyWeightStableLow);
                     //Building
-                    m_secondline_building.text = Localization.Get("BUILDING_STATUS");
+                    secondline.text = Localization.Get("BUILDING_STATUS");
                     profitBuildingCount.text = string.Format(Localization.Get("PROFIT_BUIDLING_COUNT") + " [{0}]", RealCityPrivateBuildingAI.profitBuildingCountFinal);
                     externalInvestments.text = string.Format(Localization.Get("EXTERNAL_INVESTMENTS") + " [{0}]", RealCityPrivateBuildingAI.profitBuildingMoneyFinal);
                     //Policy
-                    mThirdLinePolicy.text = Localization.Get("POLICY_COST");
+                    thirdLine.text = Localization.Get("POLICY_COST");
                     minimumLivingAllowance.text = string.Format(Localization.Get("LIVING_ALLOWANCE") + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));
                     unfinishedTransitionLost.text = string.Format(Localization.Get("UNFINISHED_DEAL_LOST") + " [{0}]", MainDataStore.unfinishedTransitionLostFinal);
                     //Tip
@@ -281,19 +278,6 @@ namespace RealCity.UI
 
                     refeshOnce = false;
                 }
-            }
-        }
-
-        private void ProcessVisibility()
-        {
-            if (!isVisible)
-            {
-                refeshOnce = true;
-                Show();
-            }
-            else
-            {
-                Hide();
             }
         }
     }

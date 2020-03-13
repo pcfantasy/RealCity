@@ -6,9 +6,9 @@ SALARY_PER_FAMILY	Salary per Family
 CITIZEN_TAX_PER_FAMILY	Citizen tax per family
 EXPENSE_PER_FAMILY	Expenses per Family
 AVERAGE_TRANPORT_FEE	Average Transport Fee
-LEVEL3HIGHWEALTH	Level3 High Wealth
-LEVEL2HIGHWEALTH	Level2 High Wealth
-LEVEL1HIGHWEALTH	Level1 High Wealth
+LEVEL3_HIGH_WEALTH	Level3 High Wealth
+LEVEL2_HIGH_WEALTH	Level2 High Wealth
+LEVEL1_HIGH_WEALTH	Level1 High Wealth
 WEALTH_HIGH_COUNT	High Wealth Count
 WEALTH_MEDIUM_COUNT	Medium Wealth Count
 WEALTH_LOW_COUNT	Low Wealth Count
@@ -148,7 +148,7 @@ GLASS	Glass
 METALS	Metals
 LUXURY_PRODUCTS	Luxury Products
 FAMILY_MONEY	Family Money (1/100₡)
-FAMILY_MONEY	Citizen Money (1/100₡)
+CITIZEN_MONEY	Citizen Money (1/100₡)
 FAMILY_SALARY	Family Salary
 FAMILY_GOODS	Family Goods
 FAMILY_NEED_GOODS	(Family Needed Goods)

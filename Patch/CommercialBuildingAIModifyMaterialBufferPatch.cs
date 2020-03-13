@@ -54,8 +54,8 @@ namespace RealCity.Patch
         {
             if (amountDelta > 0)
             {
-                float trade_income1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
-                BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - trade_income1;
+                float tradeIncome1 = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
+                BuildingData.buildingMoney[buildingID] = BuildingData.buildingMoney[buildingID] - tradeIncome1;
             }
         }
 

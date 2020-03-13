@@ -10,39 +10,39 @@ namespace RealCity.Patch
     public class EconomyManagerAddPrivateIncomePatch
     {
         
-        public static float citizen_income = 0f;
-        public static float tourist_income = 0f;
-        public static float resident_tax_income = 0f;
-        public static float commerical_low_income = 0f;
-        public static float commerical_high_income = 0f;
-        public static float commerical_lei_income = 0f;
-        public static float commerical_tou_income = 0f;
-        public static float commerical_eco_income = 0f;
-        public static float industy_forest_income = 0f;
-        public static float industy_farm_income = 0f;
-        public static float industy_oil_income = 0f;
-        public static float industy_ore_income = 0f;
-        public static float industy_gen_income = 0f;
-        public static float office_gen_income = 0f;
-        public static float office_high_tech_income = 0f;
-        public static float resident_low_income = 0f;
-        public static float resident_low_eco_income = 0f;
-        public static float resident_high_income = 0f;
-        public static float resident_high_eco_income = 0f;
-        public static float commerical_low_trade_income = 0f;
-        public static float commerical_high_trade_income = 0f;
-        public static float commerical_lei_trade_income = 0f;
-        public static float commerical_tou_trade_income = 0f;
-        public static float commerical_eco_trade_income = 0f;
-        public static float industy_forest_trade_income = 0f;
-        public static float industy_farm_trade_income = 0f;
-        public static float industy_oil_trade_income = 0f;
-        public static float industy_ore_trade_income = 0f;
-        public static float industy_gen_trade_income = 0f;
-        public static float garbage_income = 0f;
-        public static float road_income = 0f;
+        public static float citizenIncome = 0f;
+        public static float touristIncome = 0f;
+        public static float residentTaxIncome = 0f;
+        public static float commericalLowIncome = 0f;
+        public static float commericalHighIncome = 0f;
+        public static float commericalLeiIncome = 0f;
+        public static float commericalLTouIncome = 0f;
+        public static float commericalLEcoIncome = 0f;
+        public static float industyForestIncome = 0f;
+        public static float industyFarmIncome = 0f;
+        public static float industyOilIncome = 0f;
+        public static float industyOreIncome = 0f;
+        public static float industyGenIncome = 0f;
+        public static float officeGenIncome = 0f;
+        public static float officeHighTechIncome = 0f;
+        public static float residentLowIncome = 0f;
+        public static float residentLowEcoIncome = 0f;
+        public static float residentHighIncome = 0f;
+        public static float residentHighEcoIncome = 0f;
+        public static float commerical_low_tradeIncome = 0f;
+        public static float commerical_high_tradeIncome = 0f;
+        public static float commerical_lei_tradeIncome = 0f;
+        public static float commerical_tou_tradeIncome = 0f;
+        public static float commerical_eco_tradeIncome = 0f;
+        public static float industy_forest_tradeIncome = 0f;
+        public static float industy_farm_tradeIncome = 0f;
+        public static float industy_oil_tradeIncome = 0f;
+        public static float industy_ore_tradeIncome = 0f;
+        public static float industy_gen_tradeIncome = 0f;
+        public static float garbageIncome = 0f;
+        public static float roadIncome = 0f;
         public static float playerIndustryIncome = 0f;
-        public static float school_income = 0f;
+        public static float schoolIncome = 0f;
         public static float policeStationIncome = 0f;
         public static float healthCareIncome = 0f;
         public static float fireStationIncome = 0f;
@@ -52,16 +52,16 @@ namespace RealCity.Patch
             return typeof(EconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance);
         }
 
-        public static void EXAddGovermentIncome(ref int amount, ItemClass.Service service)
+        public static void CustomAddGovermentIncome(ref int amount, ItemClass.Service service)
         {
             switch (service)
             {
                 case ItemClass.Service.Garbage:
-                    ProcessUnitTax100(ref amount, ref garbage_income);
+                    ProcessUnitTax100(ref amount, ref garbageIncome);
                     RealCityEconomyManager.garbageIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.Service.Education:
-                    ProcessUnitTax100(ref amount, ref school_income);
+                    ProcessUnitTax100(ref amount, ref schoolIncome);
                     RealCityEconomyManager.schoolIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.Service.HealthCare:
@@ -83,12 +83,12 @@ namespace RealCity.Patch
             }
         }
 
-        public static void EXAddPersonalTaxIncome(ref int amount, ItemClass.Service service)
+        public static void CustomAddPersonalTaxIncome(ref int amount, ItemClass.Service service)
         {
             switch (service)
             {
                 case ItemClass.Service.Residential:
-                    ProcessUnitTax100(ref amount, ref resident_tax_income);
+                    ProcessUnitTax100(ref amount, ref residentTaxIncome);
                     break;
                 default:
                     DebugLog.LogToFileOnly("Find unknown  EXAddPrivateLandIncome building" + " building service is" + service);
@@ -97,62 +97,62 @@ namespace RealCity.Patch
             RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] = RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] + amount;
         }
 
-        public static void EXAddTourismIncome(ref int amount, int taxRate)
+        public static void CustomAddTourismIncome(ref int amount, int taxRate)
         {
             if (taxRate == 114333)
             {
-                ProcessUnitTax100(ref amount, ref citizen_income);
+                ProcessUnitTax100(ref amount, ref citizenIncome);
                 RealCityEconomyManager.citizenIncomeForUI[MainDataStore.updateMoneyCount] += amount;
             }
             else
             {
-                ProcessUnitTax100(ref amount, ref tourist_income);
+                ProcessUnitTax100(ref amount, ref touristIncome);
                 RealCityEconomyManager.touristIncomeForUI[MainDataStore.updateMoneyCount] += amount;
             }
         }
 
-        public static void EXAddPrivateTradeIncome(ref int amount, ItemClass.SubService subService)
+        public static void CustomAddPrivateTradeIncome(ref int amount, ItemClass.SubService subService)
         {
             switch (subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    ProcessUnitTax100(ref amount, ref industy_farm_trade_income);
+                    ProcessUnitTax100(ref amount, ref industy_farm_tradeIncome);
                     RealCityEconomyManager.induFarmerTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    ProcessUnitTax100(ref amount, ref industy_forest_trade_income);
+                    ProcessUnitTax100(ref amount, ref industy_forest_tradeIncome);
                     RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    ProcessUnitTax100(ref amount, ref industy_oil_trade_income);
+                    ProcessUnitTax100(ref amount, ref industy_oil_tradeIncome);
                     RealCityEconomyManager.induOilTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    ProcessUnitTax100(ref amount, ref industy_ore_trade_income);
+                    ProcessUnitTax100(ref amount, ref industy_ore_tradeIncome);
                     RealCityEconomyManager.induOreTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
-                    ProcessUnitTax100(ref amount, ref industy_gen_trade_income);
+                    ProcessUnitTax100(ref amount, ref industy_gen_tradeIncome);
                     RealCityEconomyManager.induGenTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialHigh:
-                    ProcessUnitTax100(ref amount, ref commerical_high_trade_income);
+                    ProcessUnitTax100(ref amount, ref commerical_high_tradeIncome);
                     RealCityEconomyManager.commHighTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLow:
-                    ProcessUnitTax100(ref amount, ref commerical_low_trade_income);
+                    ProcessUnitTax100(ref amount, ref commerical_low_tradeIncome);
                     RealCityEconomyManager.commLowTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    ProcessUnitTax100(ref amount, ref commerical_lei_trade_income);
+                    ProcessUnitTax100(ref amount, ref commerical_lei_tradeIncome);
                     RealCityEconomyManager.commLeiTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    ProcessUnitTax100(ref amount, ref commerical_tou_trade_income);
+                    ProcessUnitTax100(ref amount, ref commerical_tou_tradeIncome);
                     RealCityEconomyManager.commTouTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    ProcessUnitTax100(ref amount, ref commerical_eco_trade_income);
+                    ProcessUnitTax100(ref amount, ref commerical_eco_tradeIncome);
                     RealCityEconomyManager.commEcoTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 default:
@@ -162,72 +162,72 @@ namespace RealCity.Patch
             }
         }
 
-        public static void EXAddPrivateLandIncome(ref int amount, ItemClass.SubService subService, int taxRate)
+        public static void CustomAddPrivateLandIncome(ref int amount, ItemClass.SubService subService, int taxRate)
         {
             switch (subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    ProcessUnit(ref amount, ref industy_farm_income, taxRate);
+                    ProcessUnit(ref amount, ref industyFarmIncome, taxRate);
                     RealCityEconomyManager.induFarmerLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    ProcessUnit(ref amount, ref industy_forest_income, taxRate);
+                    ProcessUnit(ref amount, ref industyForestIncome, taxRate);
                     RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    ProcessUnit(ref amount, ref industy_oil_income, taxRate);
+                    ProcessUnit(ref amount, ref industyOilIncome, taxRate);
                     RealCityEconomyManager.induOilLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    ProcessUnit(ref amount, ref industy_ore_income, taxRate);
+                    ProcessUnit(ref amount, ref industyOreIncome, taxRate);
                     RealCityEconomyManager.induOreLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
-                    ProcessUnit(ref amount, ref industy_gen_income, taxRate);
+                    ProcessUnit(ref amount, ref industyGenIncome, taxRate);
                     RealCityEconomyManager.induGenLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialHigh:
-                    ProcessUnit(ref amount, ref commerical_high_income, taxRate);
+                    ProcessUnit(ref amount, ref commericalHighIncome, taxRate);
                     RealCityEconomyManager.commHighLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLow:
-                    ProcessUnit(ref amount, ref commerical_low_income, taxRate);
+                    ProcessUnit(ref amount, ref commericalLowIncome, taxRate);
                     RealCityEconomyManager.commLowLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    ProcessUnit(ref amount, ref commerical_lei_income, taxRate);
+                    ProcessUnit(ref amount, ref commericalLeiIncome, taxRate);
                     RealCityEconomyManager.commLeiLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    ProcessUnit(ref amount, ref commerical_tou_income, taxRate);
+                    ProcessUnit(ref amount, ref commericalLTouIncome, taxRate);
                     RealCityEconomyManager.commTouLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    ProcessUnit(ref amount, ref commerical_eco_income, taxRate);
+                    ProcessUnit(ref amount, ref commericalLEcoIncome, taxRate);
                     RealCityEconomyManager.commEcoLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialHigh:
-                    ProcessUnit(ref amount, ref resident_high_income, taxRate);
+                    ProcessUnit(ref amount, ref residentHighIncome, taxRate);
                     RealCityEconomyManager.residentHighLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialLow:
-                    ProcessUnit(ref amount, ref resident_low_income, taxRate);
+                    ProcessUnit(ref amount, ref residentLowIncome, taxRate);
                     RealCityEconomyManager.residentLowLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialHighEco:
-                    ProcessUnit(ref amount, ref resident_high_eco_income, taxRate);
+                    ProcessUnit(ref amount, ref residentHighEcoIncome, taxRate);
                     RealCityEconomyManager.residentHighEcoLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.ResidentialLowEco:
-                    ProcessUnit(ref amount, ref resident_low_eco_income, taxRate);
+                    ProcessUnit(ref amount, ref residentLowEcoIncome, taxRate);
                     RealCityEconomyManager.residentLowEcoLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
-                    ProcessUnit(ref amount, ref office_gen_income, taxRate);
+                    ProcessUnit(ref amount, ref officeGenIncome, taxRate);
                     RealCityEconomyManager.officeGenLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.OfficeHightech:
-                    ProcessUnit(ref amount, ref office_high_tech_income, taxRate);
+                    ProcessUnit(ref amount, ref officeHighTechIncome, taxRate);
                     RealCityEconomyManager.officeHighTechLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 default:
@@ -243,7 +243,7 @@ namespace RealCity.Patch
             if (container > 1)
             {
                 amount = (int)container;
-                container = container - (int)container;
+                container -= (int)container;
             }
             else
             {
@@ -257,7 +257,7 @@ namespace RealCity.Patch
             if (container > 1)
             {
                 amount = (int)container;
-                container = container - (int)container;
+                container -= (int)container;
             }
             else
             {
@@ -274,7 +274,7 @@ namespace RealCity.Patch
             {
                 //115333 means playerbuilding income
                 //taxRate = 100; no need to send taxRate.
-                EXAddGovermentIncome(ref amount, service);
+                CustomAddGovermentIncome(ref amount, service);
                 service = ItemClass.Service.Industrial;
                 subService = ItemClass.SubService.IndustrialGeneric;
                 level = ItemClass.Level.Level3;
@@ -282,25 +282,25 @@ namespace RealCity.Patch
             else if ((taxRate == 113333) || (taxRate == 114333))
             {
                 //113333 means tourist tourism income // 114333 means resident tourism income
-                EXAddTourismIncome(ref amount, taxRate);
+                CustomAddTourismIncome(ref amount, taxRate);
             }
             else if (taxRate == 112333)
             {
                 //112333 means personal slary tax income
                 //taxRate = 100; no need to send taxRate.
-                EXAddPersonalTaxIncome(ref amount, service);
+                CustomAddPersonalTaxIncome(ref amount, service);
             }
             else if (taxRate == 111333)
             {
                 //111333 means trade income
                 //taxRate = 100; no need to send taxRate.
-                EXAddPrivateTradeIncome(ref amount, subService);
+                CustomAddPrivateTradeIncome(ref amount, subService);
             }
             else if (taxRate >= 100)
             {
                 taxRate = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Economics, taxRate);
-                taxRate = taxRate / 100;
-                EXAddPrivateLandIncome(ref amount, subService, taxRate);
+                taxRate /= 100;
+                CustomAddPrivateLandIncome(ref amount, subService, taxRate);
             }
             else
             {

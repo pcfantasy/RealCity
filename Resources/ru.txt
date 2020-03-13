@@ -6,9 +6,9 @@ SALARY_PER_FAMILY	Среднесемейный доход
 CITIZEN_TAX_PER_FAMILY	Среднесемейные налоги
 EXPENSE_PER_FAMILY	Среднесемейные затраты
 AVERAGE_TRANPORT_FEE	из них на транспорт
-LEVEL3HIGHWEALTH	Level3 High Wealth
-LEVEL2HIGHWEALTH	Level2 High Wealth
-LEVEL1HIGHWEALTH	Level1 High Wealth
+LEVEL3_HIGH_WEALTH	Level3 High Wealth
+LEVEL2_HIGH_WEALTH	Level2 High Wealth
+LEVEL1_HIGH_WEALTH	Level1 High Wealth
 WEALTH_HIGH_COUNT	Высокого достатка
 WEALTH_MEDIUM_COUNT	Среднего достатка
 WEALTH_LOW_COUNT	Низкого достатка
@@ -147,7 +147,7 @@ GLASS	Стекло
 METALS	Металл
 LUXURY_PRODUCTS	Предметы роскоши
 FAMILY_MONEY	Семейные финансы (в центах)
-FAMILY_MONEY	Citizen Money (1/100₡)
+CITIZEN_MONEY	Citizen Money (1/100₡)
 FAMILY_SALARY	Семейный доход
 FAMILY_GOODS  Товары семьи
 FAMILY_NEED_GOODS	(Семья нуждается)
