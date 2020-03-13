@@ -10,19 +10,12 @@ namespace RealCity
 {
     public class RealCityEconomyExtension : EconomyExtensionBase
     {
-        public static int fixEmptyCitizenCount = 0;
-        public static int fixEmptyBuildingCount = 0;
-        public static bool updateOnce = false;
         public static byte partyTrend = 0;
         public static ushort partyTrendStrength = 0;
-        public static byte citizenStatus = 0;
         public static ushort industrialLackMoneyCount = 0;
         public static ushort industrialEarnMoneyCount = 0;
         public static ushort commericalLackMoneyCount = 0;
         public static ushort commericalEarnMoneyCount = 0;
-        public static byte isStateOwnedCount = 0;
-        public static bool haveGarbageBuilding = false;
-        public static bool haveGarbageBuildingFinal = false;
         public static int voteRandom = 950;
 
         public override long OnUpdateMoneyAmount(long internalMoneyAmount)
@@ -34,8 +27,6 @@ namespace RealCity
                 uint num2 = currentFrameIndex & 255u;
                 if ((num2 == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime))
                 {
-                    //1 Building Status
-                    BuildingStatus();
                     //caculate voteRandom once 
                     System.Random rand = new System.Random();
                     voteRandom = rand.Next(800 + partyTrendStrength) + 1;
@@ -46,14 +37,14 @@ namespace RealCity
                         {
                             Politics.parliamentCount = 10;
                         }
-                        //2. Caculate minimumLivingAllowance and unfinishedTransitionLost
+                        //1. Caculate minimumLivingAllowance and unfinishedTransitionLost
                         MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
                         MainDataStore.minimumLivingAllowance = 0;
                         MainDataStore.unfinishedTransitionLostFinal = MainDataStore.unfinishedTransitionLost;
                         MainDataStore.unfinishedTransitionLost = 0;
                         if (MainDataStore.citizenCount > 0)
                         {
-                            //3. Citizen Status
+                            //2. Citizen Status
                             CitizenStatus();
                         }
                     }
@@ -66,7 +57,7 @@ namespace RealCity
                     }
                     RealCityEconomyManager.CleanCurrent(MainDataStore.updateMoneyCount);
                     MainDataStore.prevTime = MainDataStore.currentTime;
-                    //4 refesh UI
+                    //3 refesh UI
                     PoliticsUI.refeshOnce = true;
                     RealCityUI.refeshOnce = true;
                     EcnomicUI.refeshOnce = true;
@@ -82,62 +73,53 @@ namespace RealCity
 
         public void CaculateCitizenTransportFee()
         {
-            ItemClass temp = ScriptableObject.CreateInstance<ItemClass>();
-            long temp2 = 0L;
+            ItemClass vituralClass = ScriptableObject.CreateInstance<ItemClass>();
             MainDataStore.publicTransportFee = 0L;
-            temp.m_service = ItemClass.Service.PublicTransport;
-            temp.m_subService = ItemClass.SubService.PublicTransportBus;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.busIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_service = ItemClass.Service.PublicTransport;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportBus;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out long transportFee, out _);
+            RealCityUI.busIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp.m_subService = ItemClass.SubService.PublicTransportTram;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.tramIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee += temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportTram;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.tramIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp2 = 0L;
-            temp.m_subService = ItemClass.SubService.PublicTransportMetro;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.metroIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportMetro;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.metroIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp2 = 0L;
-            temp.m_subService = ItemClass.SubService.PublicTransportTrain;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.trainIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportTrain;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.trainIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp2 = 0L;
-            temp.m_subService = ItemClass.SubService.PublicTransportTaxi;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.taxiIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportTaxi;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.taxiIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp2 = 0L;
-            temp.m_service = ItemClass.Service.PublicTransport;
-            temp.m_subService = ItemClass.SubService.PublicTransportPlane;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.planeIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportPlane;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.planeIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp2 = 0L;
-            temp.m_subService = ItemClass.SubService.PublicTransportShip;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.shipIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportShip;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.shipIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp2 = 0L;
-            temp.m_subService = ItemClass.SubService.PublicTransportMonorail;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.monorailIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportMonorail;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.monorailIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
-            temp2 = 0L;
-            temp.m_subService = ItemClass.SubService.PublicTransportCableCar;
-            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(temp, out temp2, out _);
-            RealCityUI.cablecarIncome = (double)temp2 / 100f;
-            MainDataStore.publicTransportFee = MainDataStore.publicTransportFee + temp2;
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportCableCar;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            RealCityUI.cablecarIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
 
             //add vehicle transport_fee
             MainDataStore.totalCitizenDrivingTimeFinal = MainDataStore.totalCitizenDrivingTime;
@@ -147,16 +129,6 @@ namespace RealCity
             {
                 MainDataStore.citizenAverageTransportFee = (byte)(MainDataStore.allTransportFee / MainDataStore.familyCount);
             }
-        }
-
-
-        public void BuildingStatus()
-        {
-            BuildingManager instance = Singleton<BuildingManager>.instance;
-            updateOnce = false;
-            haveGarbageBuildingFinal = haveGarbageBuilding;
-            haveGarbageBuilding = false;
-            updateOnce = true;
         }
 
         public void CitizenStatus()
