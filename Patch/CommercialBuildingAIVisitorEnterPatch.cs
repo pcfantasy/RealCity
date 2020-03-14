@@ -70,27 +70,27 @@ namespace RealCity.Patch
 
                     var familyMoney = (CitizenUnitData.familyMoney[containingUnit] + goodAmount * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
 
-                    float consumptionIndex = 0f;
-                        if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-                        {
-                            consumptionIndex = 0.25f;
-                        }
-                        else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialTourist))
-                        {
-                            consumptionIndex = 0.2f;
-                        }
-                        else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialEco))
-                        {
-                            consumptionIndex = 0.05f;
-                        }
-                        else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialHigh))
-                        {
-                            consumptionIndex = 0.15f;
-                        }
-                        else
-                        {
-                            consumptionIndex = 0.1f;
-                        }
+                    float consumptionIndex;
+                    if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                    {
+                        consumptionIndex = 0.25f;
+                    }
+                    else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialTourist))
+                    {
+                        consumptionIndex = 0.2f;
+                    }
+                    else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialEco))
+                    {
+                        consumptionIndex = 0.05f;
+                    }
+                    else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialHigh))
+                    {
+                        consumptionIndex = 0.15f;
+                    }
+                    else
+                    {
+                        consumptionIndex = 0.1f;
+                    }
 
                     int consumptionMoney = -(int)(consumptionIndex * familyMoney);
 
