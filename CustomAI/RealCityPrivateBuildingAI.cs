@@ -227,6 +227,7 @@ namespace RealCity.CustomAI
 
         public static float GetPrice(bool isSelling, ushort buildingID, Building data)
         {
+            RealCityIndustrialBuildingAI.InitDelegate();
             float price = 0f;
             if (!isSelling)
             {
@@ -330,11 +331,6 @@ namespace RealCity.CustomAI
 
         public static float GetComsumptionDivider(Building data, ushort buildingID)
         {
-            if (data.Info.m_class.m_service == ItemClass.Service.Office)
-            {
-                return 0f;
-            }
-
             Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
@@ -346,26 +342,29 @@ namespace RealCity.CustomAI
                 comsumptionDivider = 1f;
             }
 
-            var incomingTransferReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)data.Info.m_buildingAI, buildingID);
-            //petrol related
-            if (incomingTransferReason == TransferManager.TransferReason.Petrol)
+            if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                //*2 / 4
-                comsumptionDivider = comsumptionDivider / 2f;
-            }
-            else if (incomingTransferReason == TransferManager.TransferReason.Coal)
-            {
-                //*1.67 / 4
-                comsumptionDivider = comsumptionDivider * 5f / 12f;
-            }
-            else if (incomingTransferReason == TransferManager.TransferReason.Lumber)
-            {
-                //*1.33 / 4
-                comsumptionDivider = comsumptionDivider / 3f;
-            }
-            else if (incomingTransferReason == TransferManager.TransferReason.Food)
-            {
-                comsumptionDivider = comsumptionDivider / 4f;
+                var incomingTransferReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)data.Info.m_buildingAI, buildingID);
+                //petrol related
+                if (incomingTransferReason == TransferManager.TransferReason.Petrol)
+                {
+                    //*2 / 4
+                    comsumptionDivider /= 2f;
+                }
+                else if (incomingTransferReason == TransferManager.TransferReason.Coal)
+                {
+                    //*1.67 / 4
+                    comsumptionDivider /= 2.4f;
+                }
+                else if (incomingTransferReason == TransferManager.TransferReason.Lumber)
+                {
+                    //*1.33 / 4
+                    comsumptionDivider /= 3f;
+                }
+                else if (incomingTransferReason == TransferManager.TransferReason.Food)
+                {
+                    comsumptionDivider /= 4f;
+                }
             }
 
             return comsumptionDivider;
@@ -491,6 +490,7 @@ namespace RealCity.CustomAI
             var returnValue = 1f;
             if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
+                RealCityIndustrialBuildingAI.InitDelegate();
                 int num5 = RealCityIndustrialBuildingAI.MaxIncomingLoadSize((IndustrialBuildingAI)(building.Info.m_buildingAI));
                 var AI = building.Info.m_buildingAI as IndustrialBuildingAI;
                 int num7 = AI.CalculateProductionCapacity((ItemClass.Level)building.m_level, new Randomizer((int)buildingID), building.m_width, building.m_length);
