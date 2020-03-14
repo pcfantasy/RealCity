@@ -166,14 +166,7 @@ namespace RealCity.UI
                         }
 
                         int m_sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData);
-                        if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
-                        {
-                            sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%] " + Localization.Get("INCLUDE_RESOURCE_TAX"), m_sellTax);
-                        }
-                        else
-                        {
-                            sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%]", m_sellTax);
-                        }
+                        sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%]", m_sellTax);
 
                         if (consumptionDivider == 0f)
                         {
@@ -250,7 +243,7 @@ namespace RealCity.UI
         public static float CaculateEmployeeOutcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
         {
             float num1 = 0;
-            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+            Citizen.BehaviourData behaviour = default;
             aliveWorkerCount = 0;
             totalWorkerCount = 0;
             RealCityCommonBuildingAI.InitDelegate();
@@ -265,6 +258,11 @@ namespace RealCity.UI
                     {
                         case ItemClass.SubService.IndustrialFarming:
                         case ItemClass.SubService.IndustrialForestry:
+                            if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                                profitShare = MainDataStore.profitShareRatioInduExtractor;
+                            else
+                                profitShare = MainDataStore.profitShareRatioInduOther;
+                            break;
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
                             profitShare = MainDataStore.profitShareRatioInduOther; break;
@@ -334,7 +332,7 @@ namespace RealCity.UI
                 landFee = 0;
             }
 
-            if (BuildingData.buildingMoney[buildingID] >= 0)
+            if (BuildingData.buildingMoney[buildingID] > 0)
             {
                 if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
                 {
@@ -342,7 +340,7 @@ namespace RealCity.UI
                 }
                 else if (building.Info.m_class.m_service == ItemClass.Service.Office)
                 {
-                    Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
+                    Citizen.BehaviourData behaviourData = default;
                     int aliveWorkerCount = 0;
                     int totalWorkerCount = 0;
                     RealCityCommonBuildingAI.InitDelegate();

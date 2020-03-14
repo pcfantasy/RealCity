@@ -151,7 +151,6 @@ CITIZEN_MONEY	Citizen Money (1/100₡)
 FAMILY_SALARY	Семейный доход
 FAMILY_GOODS  Товары семьи
 FAMILY_NEED_GOODS	(Семья нуждается)
-INCLUDE_RESOURCE_TAX	(Включая 60% налог на недра)
 CAR_USED	Использовано автомобилей
 MAINTAIN_FEE_TIPS	Затраты на содержания отображаемые в интерфейсе не включают затраты на транспорт
 LOCAL_WORKERS_DIV_TOTAL_WORKERS	Рабочих/ Рабочих мест
