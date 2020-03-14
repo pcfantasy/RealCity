@@ -30,9 +30,7 @@ namespace RealCity.Patch
                 RealCityCommonBuildingAI.InitDelegate();
                 RealCityCommonBuildingAI.GetWorkBehaviour((PlayerBuildingAI)data.Info.m_buildingAI, buildingID, ref data, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                 int allWorkCount;
-                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                int num4 = (int)(currentFrameIndex & 4095u);
-                if (((num4 >> 8) & 15u) == (buildingID & 15u))
+                if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
                 {
                     allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, data, true, true);
                 }

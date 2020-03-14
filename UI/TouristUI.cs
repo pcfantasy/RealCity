@@ -52,9 +52,6 @@ namespace RealCity.UI
 
         private void RefreshDisplayData()
         {
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            uint num2 = currentFrameIndex & 255u;
-
             if (refeshOnce || (CitizenData.lastCitizenID != WorldInfoPanel.GetCurrentInstanceID().Citizen))
             {
                 if (isVisible)

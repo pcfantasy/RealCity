@@ -44,19 +44,19 @@ namespace RealCity.Patch
 
                 if (containingUnit != 0)
                 {
-                    int num = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
 
-                    if (num < 0)
+                    if (goodAmount < 0)
                     {
-                        if (num < -MainDataStore.maxGoodPurchase)
+                        if (goodAmount < -MainDataStore.maxGoodPurchase)
                         {
-                            num = -MainDataStore.maxGoodPurchase;
+                            goodAmount = -MainDataStore.maxGoodPurchase;
                         }
-                        buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref num);
+                        buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref goodAmount);
 
-                        if (num != 0)
+                        if (goodAmount != 0)
                         {
-                            CitizenUnitData.familyGoods[containingUnit] = (ushort)(CitizenUnitData.familyGoods[containingUnit] - (num * 10));
+                            CitizenUnitData.familyGoods[containingUnit] = (ushort)(CitizenUnitData.familyGoods[containingUnit] - (goodAmount * 10));
                             if (CitizenUnitData.familyGoods[containingUnit] > 2000)
                             {
                                 citizenManager.m_citizens.m_buffer[citizen].m_flags &= ~Citizen.Flags.NeedGoods;
@@ -65,10 +65,10 @@ namespace RealCity.Patch
                     }
                     else
                     {
-                        num = 0;
+                        goodAmount = 0;
                     }
 
-                    var familyMoney = (CitizenUnitData.familyMoney[containingUnit] + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    var familyMoney = (CitizenUnitData.familyMoney[containingUnit] + goodAmount * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
 
                     float consumptionIndex = 0f;
                         if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
@@ -104,8 +104,8 @@ namespace RealCity.Patch
                         consumptionMoney = 0;
                     }
 
-                    CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
-                    CitizenUnitData.familyMoney[containingUnit] = CitizenUnitData.familyMoney[containingUnit] + consumptionMoney + num * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
+                    CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + goodAmount * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    CitizenUnitData.familyMoney[containingUnit] = CitizenUnitData.familyMoney[containingUnit] + consumptionMoney + goodAmount * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
                 }
             }
 

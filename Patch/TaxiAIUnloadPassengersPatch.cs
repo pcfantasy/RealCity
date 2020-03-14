@@ -32,24 +32,24 @@ namespace RealCity.Patch
                         if (instance2 != 0)
                         {
                             Vector3 lastFramePosition2 = instance.m_instances.m_buffer[instance2].GetLastFramePosition();
-                            int num4 = Mathf.RoundToInt(__instance.m_transportInfo.m_ticketPrice * Vector3.Distance(lastFramePosition2, lastFramePosition) * 0.001f);
+                            int expense = Mathf.RoundToInt(__instance.m_transportInfo.m_ticketPrice * Vector3.Distance(lastFramePosition2, lastFramePosition) * 0.001f);
                             //new added begin
-                            if (num4 != 0)
+                            if (expense != 0)
                             {
                                 //DebugLog.LogToFileOnly("UnloadPassengers ticketPrice pre = " + num4.ToString());
                                 if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None)
                                 {
-                                    CitizenData.citizenMoney[citizen] -= (num4);
+                                    CitizenData.citizenMoney[citizen] -= (expense);
                                 }
                                 else
                                 {
-                                    if (CitizenData.citizenMoney[citizen] < num4)
+                                    if (CitizenData.citizenMoney[citizen] < expense)
                                     {
-                                        num4 = (CitizenData.citizenMoney[citizen] > 0) ? (int)CitizenData.citizenMoney[citizen] + 1 : 1;
-                                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (num4) - 1);
+                                        expense = (CitizenData.citizenMoney[citizen] > 0) ? (int)CitizenData.citizenMoney[citizen] + 1 : 1;
+                                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (expense) - 1);
                                     }
                                 }
-                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, num4, data.Info.m_class);
+                                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, expense, data.Info.m_class);
                             }
                             //new added end
                         }

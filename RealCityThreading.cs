@@ -33,7 +33,7 @@ namespace RealCity
                         Vehicle.Flags flags = vehicle.m_flags;
                         if ((flags & Vehicle.Flags.Created) != 0 && vehicle.m_leadingVehicle == 0)
                         {
-                            VehicleStatus(k);
+                            VehicleStatus((ushort)k);
                         }
                     }
                 }
@@ -113,13 +113,11 @@ namespace RealCity
             }
         }
 
-        public void VehicleStatus(int vehicleID)
+        public void VehicleStatus(ushort vehicleID)
         {
             if (vehicleID < Singleton<VehicleManager>.instance.m_vehicles.m_size)
             {
-                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                int frameIndex = (int)(currentFrameIndex & 4095u);
-                if (((frameIndex >> 4) & 255u) == (vehicleID & 255u))
+                if (RealCityEconomyExtension.Can16timesUpdate(vehicleID))
                 {
                     VehicleManager instance = Singleton<VehicleManager>.instance;
                     Vehicle vehicle = instance.m_vehicles.m_buffer[vehicleID];

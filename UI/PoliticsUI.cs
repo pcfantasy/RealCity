@@ -156,12 +156,8 @@ namespace RealCity.UI
             industrial.autoSize = true;
         }
 
-
         private void RefreshDisplayData()
         {
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            uint num2 = currentFrameIndex & 255u;
-
             if (refeshOnce)
             {
                 if (isVisible)
@@ -256,19 +252,6 @@ namespace RealCity.UI
 
                     refeshOnce = false;
                 }
-            }
-        }
-
-        private void ProcessVisibility()
-        {
-            if (!isVisible)
-            {
-                refeshOnce = true;
-                Show();
-            }
-            else
-            {
-                Hide();
             }
         }
     }

@@ -20,7 +20,6 @@ namespace RealCity.CustomAI
         public static float tempCitizenSalaryTaxTotal = 0f;
         public static uint familyWeightStableHigh = 0;
         public static uint familyWeightStableLow = 0;
-        public static float totalFamilyGoodDemand = 0;
 
         public static void Load(ref byte[] saveData)
         {
@@ -37,7 +36,6 @@ namespace RealCity.CustomAI
             SaveAndRestore.LoadData(ref i, saveData, ref familyWeightStableHigh);
             SaveAndRestore.LoadData(ref i, saveData, ref familyWeightStableLow);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenCount);
-            SaveAndRestore.LoadData(ref i, saveData, ref totalFamilyGoodDemand);
 
             if (i != saveData.Length)
             {
@@ -49,7 +47,7 @@ namespace RealCity.CustomAI
         {
             int i = 0;
 
-            //52
+            //48
             SaveAndRestore.SaveData(ref i, preCitizenId, ref saveData);
             SaveAndRestore.SaveData(ref i, familyCount, ref saveData);
             SaveAndRestore.SaveData(ref i, level3HighWealth, ref saveData);
@@ -62,7 +60,6 @@ namespace RealCity.CustomAI
             SaveAndRestore.SaveData(ref i, familyWeightStableHigh, ref saveData);
             SaveAndRestore.SaveData(ref i, familyWeightStableLow, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenCount, ref saveData);
-            SaveAndRestore.SaveData(ref i, totalFamilyGoodDemand, ref saveData);
 
             if (i != saveData.Length)
             {

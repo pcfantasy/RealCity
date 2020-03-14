@@ -120,8 +120,6 @@ namespace RealCity.UI
 
         private void RefreshDisplayData()
         {
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            uint num2 = currentFrameIndex & 255u;
             if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 if (isVisible)
@@ -134,21 +132,19 @@ namespace RealCity.UI
                     }
                     else
                     {
-                        int aliveWorkerCount;
-                        int totalWorkerCount;
-                        float num = CaculateEmployeeOutcome(buildingData, BuildingData.lastBuildingID, out aliveWorkerCount, out totalWorkerCount);
-                        int num1 = CaculateLandFee(buildingData, BuildingData.lastBuildingID);
-                        string type = RealCityPrivateBuildingAI.GetProductionType(false, BuildingData.lastBuildingID, buildingData);
-                        string type2 = RealCityPrivateBuildingAI.GetProductionType(true, BuildingData.lastBuildingID, buildingData);
-                        float price = RealCityPrivateBuildingAI.GetPrice(false, BuildingData.lastBuildingID, buildingData);
-                        float price2 = RealCityPrivateBuildingAI.GetPrice(true, BuildingData.lastBuildingID, buildingData);
+                        float averageEmployeeFee = CaculateEmployeeOutcome(buildingData, BuildingData.lastBuildingID, out int aliveWorkerCount, out int totalWorkerCount);
+                        int landRentFee = CaculateLandFee(buildingData, BuildingData.lastBuildingID);
+                        string incomeType = RealCityPrivateBuildingAI.GetProductionType(false, BuildingData.lastBuildingID, buildingData);
+                        string outgoingType = RealCityPrivateBuildingAI.GetProductionType(true, BuildingData.lastBuildingID, buildingData);
+                        float incomePrice = RealCityPrivateBuildingAI.GetPrice(false, BuildingData.lastBuildingID, buildingData);
+                        float outgoingPrice = RealCityPrivateBuildingAI.GetPrice(true, BuildingData.lastBuildingID, buildingData);
                         buildingMoney.text = string.Format(Localization.Get("BUILDING_MONEY") + " [{0}]", BuildingData.buildingMoney[BuildingData.lastBuildingID]);
-                        buildingIncomeBuffer.text = string.Format(Localization.Get("MATERIAL_BUFFER") + " [{0}]" + " " + type, buildingData.m_customBuffer1);
-                        buildingOutgoingBuffer.text = string.Format(Localization.Get("PRODUCTION_BUFFER") + " [{0}]"+ " " + type2, buildingData.m_customBuffer2);
-                        employFee.text = Localization.Get("AVERAGE_EMPLOYFEE") + " " + num.ToString() + " " + Localization.Get("PROFIT_SHARING");
-                        landRent.text = string.Format(Localization.Get("BUILDING_LANDRENT") + " [{0:N2}]", num1 / 100f);
-                        buyPrice.text = string.Format(Localization.Get("BUY_PRICE") + " " + type  + "[{0:N2}]", price);
-                        sellPrice.text = string.Format(Localization.Get("SELL_PRICE") + " " + type2  + " [{0:N2}]", price2);
+                        buildingIncomeBuffer.text = string.Format(Localization.Get("MATERIAL_BUFFER") + " [{0}]" + " " + incomeType, buildingData.m_customBuffer1);
+                        buildingOutgoingBuffer.text = string.Format(Localization.Get("PRODUCTION_BUFFER") + " [{0}]"+ " " + outgoingType, buildingData.m_customBuffer2);
+                        employFee.text = Localization.Get("AVERAGE_EMPLOYFEE") + " " + averageEmployeeFee.ToString() + " " + Localization.Get("PROFIT_SHARING");
+                        landRent.text = string.Format(Localization.Get("BUILDING_LANDRENT") + " [{0:N2}]", landRentFee / 100f);
+                        buyPrice.text = string.Format(Localization.Get("BUY_PRICE") + " " + incomeType + "[{0:N2}]", incomePrice);
+                        sellPrice.text = string.Format(Localization.Get("SELL_PRICE") + " " + outgoingType + " [{0:N2}]", outgoingPrice);
 
                         float consumptionDivider = 0f;
                         if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
@@ -185,14 +181,14 @@ namespace RealCity.UI
                         }
                         else
                         {
-                            float temp = (price2 * (1f - m_sellTax / 100f) - (price / consumptionDivider)) / price2;
+                            float profitRatio = (outgoingPrice * (1f - m_sellTax / 100f) - (incomePrice / consumptionDivider)) / outgoingPrice;
                             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                             {
-                                profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]" + Localization.Get("EXCLUDE_VISIT_INCOME"), (int)(temp * 100f));
+                                profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]" + Localization.Get("EXCLUDE_VISIT_INCOME"), (int)(profitRatio * 100f));
                             }
                             else
                             {
-                                profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]", (int)(temp * 100f));
+                                profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]", (int)(profitRatio * 100f));
                             }
                         }
 
@@ -203,15 +199,13 @@ namespace RealCity.UI
                         int car = 0;
                         if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
                         {
-                            int num7 = 0; 
-
                             TransferManager.TransferReason tempReason = default(TransferManager.TransferReason);
                             if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
                             {
                                 RealCityIndustrialExtractorAI.InitDelegate();
-                                var AI = (IndustrialExtractorAI)buildingData.Info.m_buildingAI;
-                                num7 = AI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
-                                car = Mathf.Max(1, num7 / 6);
+                                var industrialExtractorAI = (IndustrialExtractorAI)buildingData.Info.m_buildingAI;
+                                int productionCapacity = industrialExtractorAI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
+                                car = Mathf.Max(1, productionCapacity / 6);
                                 tempReason = RealCityIndustrialExtractorAI.GetOutgoingTransferReason((IndustrialExtractorAI)buildingData.Info.m_buildingAI);
                                 RealCityCommonBuildingAI.InitDelegate();
                                 RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialExtractorAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
@@ -219,28 +213,27 @@ namespace RealCity.UI
                             else
                             {
                                 RealCityIndustrialBuildingAI.InitDelegate();
-                                var AI = (IndustrialBuildingAI)buildingData.Info.m_buildingAI;
-                                num7 = AI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
-                                car = Mathf.Max(1, num7 / 6);
+                                var industrialBuildingAI = (IndustrialBuildingAI)buildingData.Info.m_buildingAI;
+                                int productionCapacity = industrialBuildingAI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
+                                car = Mathf.Max(1, productionCapacity / 6);
                                 tempReason = RealCityIndustrialBuildingAI.GetOutgoingTransferReason((IndustrialBuildingAI)buildingData.Info.m_buildingAI);
                                 RealCityCommonBuildingAI.InitDelegate();
                                 RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialBuildingAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
                             }
 
-
                             usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar, car);
                         }
                         else if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
                         {
-                            Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                            int alivevisitCount = 0;
-                            int totalvisitCount = 0;
+                            Citizen.BehaviourData behaviour = default;
+                            int aliveVisitCount = 0;
+                            int totalVisitCount = 0;
                             RealCityCommercialBuildingAI.InitDelegate();
-                            RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                            var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
-                            var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
-                            var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
-                            usedcar.text = string.Format("FORDEBUG" + " [{0}/{1}/{2}]", totalvisitCount, maxcount, amount);
+                            RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
+                            var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount;
+                            var commercialBuildingAI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
+                            var maxCount = commercialBuildingAI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
+                            usedcar.text = string.Format("FORDEBUG" + " [{0}/{1}/{2}]", totalVisitCount, maxCount, amount);
                         }
                         else
                         {

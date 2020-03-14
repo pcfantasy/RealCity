@@ -14,11 +14,5 @@ namespace RealCity.Util
                 streamWriter.Flush();
             }
         }
-
-        public static void LogWarning(string msg)
-        {
-            DebugOutputPanel.AddMessage(PluginManager.MessageType.Warning, msg);
-            //_logFile.WriteLine("Warning: " + msg);
-        }
     }
 }

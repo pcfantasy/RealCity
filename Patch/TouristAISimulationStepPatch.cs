@@ -17,11 +17,11 @@ namespace RealCity.Patch
         {
             if (CitizenData.citizenMoney[citizenID] < 100)
             {
-                FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(citizenID, ref data));
+                FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
             }
         }
 
-        public static TransferManager.TransferReason GetLeavingReason(uint citizenID, ref Citizen data)
+        public static TransferManager.TransferReason GetLeavingReason(ref Citizen data)
         {
             switch (data.WealthLevel)
             {
@@ -38,7 +38,7 @@ namespace RealCity.Patch
 
         public static void FindVisitPlace(uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
-            TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+            TransferManager.TransferOffer offer = default;
             offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(7u);
             offer.Citizen = citizenID;
             offer.Position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[sourceBuilding].m_position;

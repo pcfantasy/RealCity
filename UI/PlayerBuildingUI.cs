@@ -61,10 +61,7 @@ namespace RealCity.UI
         }
 
         private void RefreshDisplayData()
-        {
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            uint num2 = currentFrameIndex & 255u;
-     
+        {     
             if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building))
             {
                 if (isVisible)
@@ -73,7 +70,7 @@ namespace RealCity.UI
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[BuildingData.lastBuildingID];
                     int aliveWorkCount = 0;
                     int totalWorkCount = 0;
-                    Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                    Citizen.BehaviourData behaviour = default;
                     RealCityCommonBuildingAI.InitDelegate();
                     RealCityCommonBuildingAI.GetWorkBehaviour((PlayerBuildingAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     int allWorkCount = RealCityResidentAI.TotalWorkCount(BuildingData.lastBuildingID, buildingData, true, false);
@@ -86,8 +83,6 @@ namespace RealCity.UI
                     Hide();
                 }
             }
-
         }
-
     }
 }

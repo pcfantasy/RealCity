@@ -373,8 +373,6 @@ namespace RealCity.CustomAI
         public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state, bool is16Times = true)
         {
             //DebugLog.LogToFileOnly($"Process buildingID = {buildingID}");
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            int frameIndex = (int)(currentFrameIndex & 4095u);
             //add production pre 16times
             byte shift = 0;
             if (is16Times)
@@ -382,7 +380,7 @@ namespace RealCity.CustomAI
                 shift = 4;
             }
 
-            if ((((frameIndex >> 8) & 15u) == (buildingID & 15u)) || (!is16Times))
+            if ((RealCityEconomyExtension.Can16timesUpdate(buildingID)) || (!is16Times))
             {
                 //DebugLog.LogToFileOnly($"Process buildingID inside 16times = {buildingID}");
                 float comsumptionDivider = GetComsumptionDivider(buildingData, buildingID);

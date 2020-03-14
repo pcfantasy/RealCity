@@ -118,14 +118,9 @@
         public static float currentTime = 0f;
         public static float prevTime = 0f;
 
-        //new added
-        public static float totalFamilyGoodDemand = 0;
-
-
-
         public static void Save(ref byte[] saveData)
         {
-            //all 121
+            //all 117
             int i = 0;
             //16
             SaveAndRestore.SaveData(ref i, citizenExpensePerFamily, ref saveData);
@@ -158,8 +153,6 @@
             SaveAndRestore.SaveData(ref i, citizenSalaryPerFamily, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenSalaryTotal, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenSalaryTaxTotal, ref saveData);
-
-            SaveAndRestore.SaveData(ref i, totalFamilyGoodDemand, ref saveData);
 
             if (i != saveData.Length)
             {
@@ -199,8 +192,6 @@
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryPerFamily);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryTotal);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryTaxTotal);
-
-            SaveAndRestore.LoadData(ref i, saveData, ref totalFamilyGoodDemand);
 
             //avoid save data error:
             if (MainDataStore.citizenCount != 0)

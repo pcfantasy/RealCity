@@ -242,8 +242,6 @@ namespace RealCity.Patch
                     MainDataStore.familyWeightStableLow = RealCityResidentAI.familyWeightStableLow;
                 }
 
-                MainDataStore.totalFamilyGoodDemand = RealCityResidentAI.totalFamilyGoodDemand;
-
                 RealCityPrivateBuildingAI.profitBuildingMoneyFinal = RealCityPrivateBuildingAI.profitBuildingMoney;
 
                 RealCityResidentAI.level3HighWealth = 0;
@@ -257,7 +255,6 @@ namespace RealCity.Patch
                 RealCityResidentAI.tempCitizenSalaryTaxTotal = 0f;
                 RealCityResidentAI.familyWeightStableHigh = 0;
                 RealCityResidentAI.familyWeightStableLow = 0;
-                RealCityResidentAI.totalFamilyGoodDemand = 0;
                 RealCityPrivateBuildingAI.profitBuildingMoney = 0;
 
                 if ((lastHour == 0) && (lastMinute == 0) && (lastSecond == 0))
@@ -327,9 +324,9 @@ namespace RealCity.Patch
             int educationFee = 0;
             int hospitalFee = 0;
             int expenseRate = 0;
-            int tempEducationFee = 0;
-            int tempHospitalFee = 0;
             CitizenManager instance = Singleton<CitizenManager>.instance;
+            int tempEducationFee;
+            int tempHospitalFee;
             if (data.m_citizen4 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)].Dead)
             {
                 GetExpenseRate(data.m_citizen4, out expenseRate, out tempEducationFee, out tempHospitalFee);
@@ -397,19 +394,20 @@ namespace RealCity.Patch
                     Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, (int)((Politics.benefitOffset * MainDataStore.govermentSalary) / 100f), ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
             }
-
-            var familySalaryCurrentTmp = (familySalaryCurrent > 4000) ? 4000 : familySalaryCurrent;
+            
+            var canBuyGoodMoney = MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
+            var familySalaryCurrentTmp = (familySalaryCurrent > canBuyGoodMoney) ? canBuyGoodMoney : familySalaryCurrent;
 
             //7. Process citizen status
-            if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 200)
+            if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 200)
             {
                 RealCityResidentAI.level3HighWealth++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 100)
+            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 100)
             {
                 RealCityResidentAI.level2HighWealth++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (5000f - familySalaryCurrentTmp)) >= 50)
+            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 50)
             {
                 RealCityResidentAI.level1HighWealth++;
             }
@@ -435,7 +433,7 @@ namespace RealCity.Patch
             data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
 
             //9 move family
-            if ((CitizenUnitData.familyMoney[homeID] > (MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))) && (familySalaryCurrent > 1))
+            if ((CitizenUnitData.familyMoney[homeID] > canBuyGoodMoney) && (familySalaryCurrent > 1))
             {
                 if (data.m_goods == 0)
                 {
@@ -467,12 +465,11 @@ namespace RealCity.Patch
                         num3 = data.m_citizen0;
                     }
 
-                    CitizenUnitData.familyGoods[homeID] = 1000;
+                    CitizenUnitData.familyGoods[homeID] = 5000;
                     data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
+                    CitizenUnitData.familyMoney[homeID] -= canBuyGoodMoney;
 
-                    CitizenUnitData.familyMoney[homeID] = CitizenUnitData.familyMoney[homeID] - (MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
-
-                    Singleton<ResidentAI>.instance.TryMoveFamily(num3, ref instance.m_citizens.m_buffer[(int)((UIntPtr)num3)], num4);
+                    Singleton<ResidentAI>.instance.TryMoveFamily(num3, ref instance.m_citizens.m_buffer[num3], num4);
                 }
             }
 

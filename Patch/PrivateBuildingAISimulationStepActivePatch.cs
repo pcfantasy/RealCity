@@ -28,9 +28,7 @@ namespace RealCity.Patch
 
         public static void Postfix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
         {
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            int num4 = (int)(currentFrameIndex & 4095u);
-            if (((num4 >> 8) & 15u) == (buildingID & 15u))
+            if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
             {
                 LimitAndCheckOfficeMoney(buildingData, buildingID);
             }
@@ -147,14 +145,14 @@ namespace RealCity.Patch
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
                 Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                int alivevisitCount = 0;
-                int totalvisitCount = 0;
+                int aliveVisitCount = 0;
+                int totalVisitCount = 0;
                 RealCityCommercialBuildingAI.InitDelegate();
-                RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)buildingData.Info.m_buildingAI, buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
+                RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)buildingData.Info.m_buildingAI, buildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
+                var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount;
                 var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                 var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
-                if ((amount <= 0) || (maxcount <= totalvisitCount))
+                if ((amount <= 0) || (maxcount <= totalVisitCount))
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
@@ -390,9 +388,7 @@ namespace RealCity.Patch
                 landFee = landFee * 95 / 100;
             }
 
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            int num4 = (int)(currentFrameIndex & 4095u);
-            if (((num4 >> 8) & 15u) == (buildingID & 15u))
+            if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
             {
                 Singleton<EconomyManager>.instance.AddPrivateIncome(landFee, building.Info.m_class.m_service, building.Info.m_class.m_subService, building.Info.m_class.m_level, taxRate * 100);
                 if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))

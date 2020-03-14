@@ -91,13 +91,9 @@ namespace RealCity.RebalancedIndustries
 
         public static void Postfix(ushort buildingID, ref Building buildingData, ProcessingFacilityAI __instance, ref ushort[] __state)
         {
-            int cargoDiff = 0;
-
             if (Mod.IsIndustriesBuilding(__instance))
             {
-                uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                int num4 = (int)(currentFrameIndex & 4095u);
-                if (((num4 >> 8) & 15u) == (buildingID & 15u))
+                if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
                 {
                     int allInputRate = 0;
                     float reduceInputRate = 1f;
@@ -125,6 +121,7 @@ namespace RealCity.RebalancedIndustries
                     }
 
 
+                    int cargoDiff;
                     // Input
                     if (__instance.m_inputResource1 != TransferManager.TransferReason.None)
                     {

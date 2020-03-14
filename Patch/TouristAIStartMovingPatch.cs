@@ -30,16 +30,17 @@ namespace RealCity.Patch
                     uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
                     uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
 
-
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                    int alivevisitCount = 0;
-                    int totalvisitCount = 0;
-                    RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(building.Info.m_buildingAI), targetBuilding, ref building, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                    var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
-                    var AI = building.Info.m_buildingAI as CommercialBuildingAI;
-                    var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)building.m_level, new Randomizer(targetBuilding), building.m_width, building.m_length);
-                    if ((amount <= 0) || (maxcount <= totalvisitCount))
+                    int aliveVisitCount = 0;
+                    int totalVisitCount = 0;
+                    RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(building.Info.m_buildingAI), targetBuilding, ref building, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
+                    var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount;
+                    var CommercialBuildingAI = building.Info.m_buildingAI as CommercialBuildingAI;
+                    var maxCount = CommercialBuildingAI.CalculateVisitplaceCount((ItemClass.Level)building.m_level, new Randomizer(targetBuilding), building.m_width, building.m_length);
+                    if ((amount <= 0) || (maxCount <= totalVisitCount))
                     {
+                        //Close CommercialBuilding
+                        //Reject citizen to building which lack of goods
                         sourceBuilding = targetBuilding;
                         building.m_flags &= ~Building.Flags.Active;
                         return;

@@ -146,9 +146,6 @@ namespace RealCity.UI
 
         private void RefreshDisplayData()
         {
-            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-            uint num2 = currentFrameIndex & 255u;
-
             if (refeshOnce || (TransportLineData.lastLineID != GetLineID()))
             {
                 if (isVisible)

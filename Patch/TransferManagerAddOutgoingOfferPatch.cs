@@ -46,11 +46,11 @@ namespace RealCity.Patch
                 if (instance.m_buildings.m_buffer[buildingID].Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
                     Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
-                    int alivevisitCount = 0;
-                    int totalvisitCount = 0;
+                    int aliveVisitCount = 0;
+                    int totalVisitCount = 0;
                     RealCityCommercialBuildingAI.InitDelegate();
-                    RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, ref behaviour, ref alivevisitCount, ref totalvisitCount);
-                    var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalvisitCount;
+                    RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
+                    var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount;
                     if (amount <= 0)
                     {
                         //no resource
@@ -64,6 +64,7 @@ namespace RealCity.Patch
                 }
             }
 
+            //Remove cotenancy
             if (material == TransferManager.TransferReason.Single0 || material == TransferManager.TransferReason.Single0B)
 			{
 				material = TransferManager.TransferReason.Family0;

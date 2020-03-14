@@ -858,5 +858,16 @@ namespace RealCity
                 }
             }
         }
+
+        public static bool Can16timesUpdate(ushort ID)
+        {
+            uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+            int frameIndex = (int)(currentFrameIndex & 4095u);
+            if (((frameIndex >> 8) & 15u) == (ID & 15u))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
