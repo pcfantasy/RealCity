@@ -142,7 +142,7 @@ namespace RealCity.UI
                         buildingIncomeBuffer.text = string.Format(Localization.Get("MATERIAL_BUFFER") + " [{0}]" + " " + incomeType, buildingData.m_customBuffer1);
                         buildingOutgoingBuffer.text = string.Format(Localization.Get("PRODUCTION_BUFFER") + " [{0}]"+ " " + outgoingType, buildingData.m_customBuffer2);
                         employFee.text = Localization.Get("AVERAGE_EMPLOYFEE") + " " + averageEmployeeFee.ToString() + " " + Localization.Get("PROFIT_SHARING");
-                        landRent.text = string.Format(Localization.Get("BUILDING_LANDRENT") + " [{0:N2}]", landRentFee / 100f);
+                        landRent.text = string.Format(Localization.Get("BUILDING_LANDRENT") + " [{0:N2}]", landRentFee);
                         buyPrice.text = string.Format(Localization.Get("BUY_PRICE") + " " + incomeType + "[{0:N2}]", incomePrice);
                         sellPrice.text = string.Format(Localization.Get("SELL_PRICE") + " " + outgoingType + " [{0:N2}]", outgoingPrice);
 
@@ -310,8 +310,7 @@ namespace RealCity.UI
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
-            int landFee;
-            GetLandRent(building, buildingID, out landFee);
+            GetLandRent(building, buildingID, out int landFee);
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
@@ -336,7 +335,10 @@ namespace RealCity.UI
             {
                 if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
                 {
-                    return taxRate * landFee;
+                    if (BuildingData.buildingMoney[buildingID] > (taxRate * landFee / 100f))
+                        return (int)(taxRate * landFee / 100f);
+                    else
+                        return 0;
                 }
                 else if (building.Info.m_class.m_service == ItemClass.Service.Office)
                 {
@@ -345,7 +347,7 @@ namespace RealCity.UI
                     int totalWorkerCount = 0;
                     RealCityCommonBuildingAI.InitDelegate();
                     RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                    return totalWorkerCount * 10 * taxRate;
+                    return (int)(totalWorkerCount * taxRate / 10f);
                 }
             }
 

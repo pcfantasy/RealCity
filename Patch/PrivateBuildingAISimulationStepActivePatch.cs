@@ -362,15 +362,6 @@ namespace RealCity.Patch
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
-            if (BuildingData.buildingMoney[buildingID] <= 0)
-            {
-                landFee = 0;
-            }
-            else
-            {
-                RealCityPrivateBuildingAI.profitBuildingCount++;
-            }
-
             if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
             {
                 landFee = 0;
@@ -386,6 +377,15 @@ namespace RealCity.Patch
             if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None)
             {
                 landFee = landFee * 95 / 100;
+            }
+
+            if (BuildingData.buildingMoney[buildingID] <= ((landFee * taxRate) / 100f))
+            {
+                landFee = 0;
+            }
+            else
+            {
+                RealCityPrivateBuildingAI.profitBuildingCount++;
             }
 
             if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
