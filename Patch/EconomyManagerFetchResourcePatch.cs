@@ -104,9 +104,9 @@ namespace RealCity.Patch
             }
         }
 
-        public static void Prefix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, ref int __state)
+        public static void Prefix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, ref uint __state)
         {
-            __state = 0;
+            __state = 0xdeadbeaf;
 
             if (resource == EconomyManager.Resource.PolicyCost)
             {
@@ -115,7 +115,8 @@ namespace RealCity.Patch
             if (resource == EconomyManager.Resource.Maintenance)
             {
                 //we must return right amount for playerbuilding to work normally.
-                __state = amount;
+                if (amount > 0)
+                    __state = (uint)amount;
                 OnFetchResourceMaintenance(resource, ref amount, service, subService, level);
             }
             else if (resource == (EconomyManager.Resource)16)
@@ -128,11 +129,11 @@ namespace RealCity.Patch
             }
         }
 
-        public static void Postfix(ref int __result, ref int __state)
+        public static void Postfix(ref int __result, ref uint __state)
         {
-            if (__state != 0)
+            if (__state != 0xdeadbeaf)
             {
-                __result = __state;
+                __result = (int)__state;
             }
         }
     }
