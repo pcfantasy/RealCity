@@ -26,7 +26,7 @@ namespace RealCity.Patch
             __state[1] = buildingData.m_customBuffer2;
         }
 
-        public static void Postfix(ushort buildingID, ref Building buildingData, ref ushort[] __state)
+        public static void Postfix(ushort buildingID, ref Building buildingData)
         {
             if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
             {
@@ -144,7 +144,7 @@ namespace RealCity.Patch
         {
             if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                Citizen.BehaviourData behaviour = default;
                 int aliveVisitCount = 0;
                 int totalVisitCount = 0;
                 RealCityCommercialBuildingAI.InitDelegate();

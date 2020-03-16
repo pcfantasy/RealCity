@@ -186,9 +186,9 @@ namespace RealCity.UI
                         }
 
                         int usedCar = 0;
-                        int num27 = 0;
-                        int num28 = 0;
-                        int value = 0;
+                        int num = 0;
+                        int num1 = 0;
+                        int num2 = 0;
                         int car = 0;
                         if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
                         {
@@ -201,7 +201,7 @@ namespace RealCity.UI
                                 car = Mathf.Max(1, productionCapacity / 6);
                                 tempReason = RealCityIndustrialExtractorAI.GetOutgoingTransferReason((IndustrialExtractorAI)buildingData.Info.m_buildingAI);
                                 RealCityCommonBuildingAI.InitDelegate();
-                                RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialExtractorAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
+                                RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialExtractorAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num, ref num1, ref num2);
                             }
                             else
                             {
@@ -211,7 +211,7 @@ namespace RealCity.UI
                                 car = Mathf.Max(1, productionCapacity / 6);
                                 tempReason = RealCityIndustrialBuildingAI.GetOutgoingTransferReason((IndustrialBuildingAI)buildingData.Info.m_buildingAI);
                                 RealCityCommonBuildingAI.InitDelegate();
-                                RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialBuildingAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num27, ref num28, ref value);
+                                RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialBuildingAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num, ref num1, ref num2);
                             }
 
                             usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar, car);
@@ -310,7 +310,7 @@ namespace RealCity.UI
             DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
-            GetLandRent(building, buildingID, out int landFee);
+            GetLandRent(building, out int landFee);
             int taxRate;
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
@@ -354,7 +354,7 @@ namespace RealCity.UI
             return 0;
         }
 
-        public void GetLandRent(Building building, ushort buildingID, out int incomeAccumulation)
+        public void GetLandRent(Building building, out int incomeAccumulation)
         {
             ItemClass @class = building.Info.m_class;
             incomeAccumulation = 0;
