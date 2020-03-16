@@ -16,7 +16,6 @@ namespace RealCity
         public static ushort industrialEarnMoneyCount = 0;
         public static ushort commericalLackMoneyCount = 0;
         public static ushort commericalEarnMoneyCount = 0;
-        public static int voteRandom = 950;
 
         public override long OnUpdateMoneyAmount(long internalMoneyAmount)
         {
@@ -27,9 +26,6 @@ namespace RealCity
                 uint frameIndex = currentFrameIndex & 255u;
                 if ((frameIndex == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime))
                 {
-                    //caculate voteRandom once 
-                    System.Random rand = new System.Random();
-                    voteRandom = rand.Next(800 + partyTrendStrength) + 1;
                     if (MainDataStore.updateMoneyCount == 16)
                     {
                         Politics.parliamentCount--;

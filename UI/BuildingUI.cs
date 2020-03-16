@@ -362,67 +362,67 @@ namespace RealCity.UI
             switch (subService)
             {
                 case ItemClass.SubService.IndustrialFarming:
-                    incomeAccumulation = MainDataStore.indu_farm;
+                    incomeAccumulation = MainDataStore.induFarm;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    incomeAccumulation = MainDataStore.indu_forest;
+                    incomeAccumulation = MainDataStore.induForest;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    incomeAccumulation = MainDataStore.indu_oil;
+                    incomeAccumulation = MainDataStore.induOil;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    incomeAccumulation = MainDataStore.indu_ore;
+                    incomeAccumulation = MainDataStore.induOre;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = MainDataStore.indu_gen_level1;
+                        incomeAccumulation = MainDataStore.induGenLevel1;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = MainDataStore.indu_gen_level2;
+                        incomeAccumulation = MainDataStore.induGenLevel2;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = MainDataStore.indu_gen_level3;
+                        incomeAccumulation = MainDataStore.induGenLevel3;
                     }
                     break;
                 case ItemClass.SubService.CommercialHigh:
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = MainDataStore.comm_high_level1;
+                        incomeAccumulation = MainDataStore.commHighLevel1;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = MainDataStore.comm_high_level2;
+                        incomeAccumulation = MainDataStore.commHighLevel2;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = MainDataStore.comm_high_level3;
+                        incomeAccumulation = MainDataStore.commHighLevel3;
                     }
                     break;
                 case ItemClass.SubService.CommercialLow:
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = MainDataStore.comm_low_level1;
+                        incomeAccumulation = MainDataStore.commLowLevel1;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = MainDataStore.comm_low_level2;
+                        incomeAccumulation = MainDataStore.commLowLevel2;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = MainDataStore.comm_low_level3;
+                        incomeAccumulation = MainDataStore.commLowLevel3;
                     }
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    incomeAccumulation = MainDataStore.comm_leisure;
+                    incomeAccumulation = MainDataStore.commLeisure;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    incomeAccumulation = MainDataStore.comm_tourist;
+                    incomeAccumulation = MainDataStore.commTourist;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    incomeAccumulation = MainDataStore.comm_eco;
+                    incomeAccumulation = MainDataStore.commEco;
                     break;
                 default: break;
             }

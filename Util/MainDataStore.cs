@@ -2,7 +2,7 @@
 {
     public class MainDataStore
     {
-        //constant
+        //Constant value
         public const int gameExpenseDivide = 100;
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const int reduceCargoDiv = 2;
@@ -42,37 +42,31 @@
         public const float investRatioCommECO = 0.2f;
         public const float investRatioCommOther = 0.25f;
         public const float investRatioCommTou = 0.01f;
-
         public const int lowWealth = 20000;
         public const int highWealth = 100000;
-
         public const int maxGoodPurchase = 500;
-
         public const byte govermentEducation0SalaryFixed = 20;
         public const byte govermentEducation1SalaryFixed = 25;
         public const byte govermentEducation2SalaryFixed = 35;
         public const byte govermentEducation3SalaryFixed = 50;
-        public const ushort comm_high_level1 = 5000;
-        public const ushort comm_high_level2 = 10000;
-        public const ushort comm_high_level3 = 20000;
-        public const ushort comm_low_level1 = 10000;
-        public const ushort comm_low_level2 = 20000;
-        public const ushort comm_low_level3 = 30000;
-        public const ushort comm_tourist = 40000;
-        public const ushort comm_leisure = 60000;
-        public const ushort comm_eco = 30000;
-        public const ushort indu_gen_level1 = 2000;
-        public const ushort indu_gen_level2 = 3000;
-        public const ushort indu_gen_level3 = 4000;
-        public const ushort indu_forest = 6000;
-        public const ushort indu_farm = 5000;
-        public const ushort indu_oil = 8000;
-        public const ushort indu_ore = 7000;
-        //public const ushort office_gen_levell = 700;
-        //public const ushort office_gen_level2 = 800;
-        //public const ushort office_gen_level3 = 1000;
-        //public const ushort office_high_tech = 900;
 
+        //LandRen
+        public const ushort commHighLevel1 = 5000;
+        public const ushort commHighLevel2 = 10000;
+        public const ushort commHighLevel3 = 20000;
+        public const ushort commLowLevel1 = 10000;
+        public const ushort commLowLevel2 = 20000;
+        public const ushort commLowLevel3 = 30000;
+        public const ushort commTourist = 40000;
+        public const ushort commLeisure = 60000;
+        public const ushort commEco = 30000;
+        public const ushort induGenLevel1 = 2000;
+        public const ushort induGenLevel2 = 3000;
+        public const ushort induGenLevel3 = 4000;
+        public const ushort induForest = 6000;
+        public const ushort induFarm = 5000;
+        public const ushort induOil = 8000;
+        public const ushort induOre = 7000;
         public const ushort residentLowLevel1Rent = 100;
         public const ushort residentLowLevel2Rent = 150;
         public const ushort residentLowLevel3Rent = 200;
@@ -84,10 +78,8 @@
         public const ushort residentHighLevel4Rent = 120;
         public const ushort residentHighLevel5Rent = 150;
 
-
         //start from V6, goverment salary is floating now
         public static int govermentSalary = 100;
-
         public static int citizenCount = 0;
         public static int familyCount = 0;
         public static int citizenSalaryPerFamily = 0;
@@ -95,7 +87,6 @@
         public static long citizenSalaryTaxTotal = 0;
         public static long citizenExpensePerFamily = 0;
         public static long citizenExpense = 0;
-
         public static uint totalCitizenDrivingTime = 0;
         public static uint totalCitizenDrivingTimeFinal = 0;
         public static int unfinishedTransitionLost = 0;
@@ -105,14 +96,12 @@
         public static long publicTransportFee = 0;
         public static long allTransportFee = 0;
         public static byte citizenAverageTransportFee = 0;
-
         public static uint level2HighWealth = 0;
         public static uint level1HighWealth = 0;
         public static uint level3HighWealth = 0;
         public static uint familyWeightStableHigh = 0;
         public static uint familyWeightStableLow = 0;
 
-        //3 Govement expense
         //other in-game variable
         public static byte updateMoneyCount = 0;
         public static float currentTime = 0f;

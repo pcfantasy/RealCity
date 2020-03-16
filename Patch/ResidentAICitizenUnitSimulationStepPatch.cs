@@ -683,19 +683,20 @@ namespace RealCity.Patch
                 }
             }
 
-            if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance)
+            int voteRandom = rand.Next(800 + RealCityEconomyExtension.partyTrendStrength) + 1;
+            if (voteRandom < Politics.cPartyChance)
             {
                 Politics.cPartyTickets++;
             }
-            else if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance + Politics.gPartyChance)
+            else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance)
             {
                 Politics.gPartyTickets++;
             }
-            else if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance)
+            else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance)
             {
                 Politics.sPartyTickets++;
             }
-            else if (RealCityEconomyExtension.voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance)
+            else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance)
             {
                 Politics.lPartyTickets++;
             }
@@ -724,21 +725,9 @@ namespace RealCity.Patch
                     Politics.nPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 4] << 1);
 
                     int idex = 14;
-                    switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_service)
+                    if (RealCityResidentAI.IsGoverment(citizen.m_workBuilding))
                     {
-                        case ItemClass.Service.Beautification:
-                        case ItemClass.Service.Road:
-                        case ItemClass.Service.Water:
-                        case ItemClass.Service.FireDepartment:
-                        case ItemClass.Service.PoliceDepartment:
-                        case ItemClass.Service.HealthCare:
-                        case ItemClass.Service.Garbage:
-                        case ItemClass.Service.PublicTransport:
-                        case ItemClass.Service.Disaster:
-                        case ItemClass.Service.Education:
-                        case ItemClass.Service.Electricity:
-                        case ItemClass.Service.Monument:
-                            idex = 0; break;
+                        idex = 0;
                     }
 
                     switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_subService)
