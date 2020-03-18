@@ -167,7 +167,7 @@ namespace RealCity.Util
         public static byte currentNo = 0;
         public static byte currentNoAttend = 0;
         public static int residentTax = 20;     //(0-20)
-        public static int commericalTax = 20;    //(0-20)
+        public static int commercialTax = 20;    //(0-20)
         public static int industryTax = 20;    //(0-20)
         public static short benefitOffset = 0;         //(0-100)
 
@@ -212,12 +212,12 @@ namespace RealCity.Util
 
             //14
             SaveAndRestore.SaveData(ref i, residentTax, ref saveData);
-            SaveAndRestore.SaveData(ref i, commericalTax, ref saveData);
+            SaveAndRestore.SaveData(ref i, commercialTax, ref saveData);
             SaveAndRestore.SaveData(ref i, industryTax, ref saveData);
             SaveAndRestore.SaveData(ref i, benefitOffset, ref saveData);
 
             residentTax = COMath.Clamp((int)residentTax, 0, 20);
-            commericalTax = COMath.Clamp((int)commericalTax, 0, 20);
+            commercialTax = COMath.Clamp((int)commercialTax, 0, 20);
             industryTax = COMath.Clamp((int)industryTax, 0, 20);
             benefitOffset = (short)COMath.Clamp((int)benefitOffset, 0, 100);
 
@@ -266,7 +266,7 @@ namespace RealCity.Util
             SaveAndRestore.LoadData(ref i, saveData, ref currentNo);
             SaveAndRestore.LoadData(ref i, saveData, ref currentNoAttend);
             SaveAndRestore.LoadData(ref i, saveData, ref residentTax);
-            SaveAndRestore.LoadData(ref i, saveData, ref commericalTax);
+            SaveAndRestore.LoadData(ref i, saveData, ref commercialTax);
             SaveAndRestore.LoadData(ref i, saveData, ref industryTax);
             SaveAndRestore.LoadData(ref i, saveData, ref benefitOffset);
 

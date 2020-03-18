@@ -437,39 +437,44 @@ namespace RealCity.Patch
             {
                 if (data.m_goods == 0)
                 {
-                    uint num3 = 0u;
-                    int num4 = 0;
+                    uint citizenID = 0u;
+                    int familySize = 0;
                     if (data.m_citizen4 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen4)].Dead)
                     {
-                        num4++;
-                        num3 = data.m_citizen4;
+                        familySize++;
+                        citizenID = data.m_citizen4;
+                        instance.m_citizens.m_buffer[citizenID].m_flags &= ~Citizen.Flags.NeedGoods;
                     }
                     if (data.m_citizen3 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen3)].Dead)
                     {
-                        num4++;
-                        num3 = data.m_citizen3;
+                        familySize++;
+                        citizenID = data.m_citizen3;
+                        instance.m_citizens.m_buffer[citizenID].m_flags &= ~Citizen.Flags.NeedGoods;
                     }
                     if (data.m_citizen2 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen2)].Dead)
                     {
-                        num4++;
-                        num3 = data.m_citizen2;
+                        familySize++;
+                        citizenID = data.m_citizen2;
+                        instance.m_citizens.m_buffer[citizenID].m_flags &= ~Citizen.Flags.NeedGoods;
                     }
                     if (data.m_citizen1 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen1)].Dead)
                     {
-                        num4++;
-                        num3 = data.m_citizen1;
+                        familySize++;
+                        citizenID = data.m_citizen1;
+                        instance.m_citizens.m_buffer[citizenID].m_flags &= ~Citizen.Flags.NeedGoods;
                     }
                     if (data.m_citizen0 != 0u && !instance.m_citizens.m_buffer[(int)((UIntPtr)data.m_citizen0)].Dead)
                     {
-                        num4++;
-                        num3 = data.m_citizen0;
+                        familySize++;
+                        citizenID = data.m_citizen0;
+                        instance.m_citizens.m_buffer[citizenID].m_flags &= ~Citizen.Flags.NeedGoods;
                     }
 
                     CitizenUnitData.familyGoods[homeID] = 5000;
                     data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
                     CitizenUnitData.familyMoney[homeID] -= canBuyGoodMoney;
 
-                    Singleton<ResidentAI>.instance.TryMoveFamily(num3, ref instance.m_citizens.m_buffer[num3], num4);
+                    Singleton<ResidentAI>.instance.TryMoveFamily(citizenID, ref instance.m_citizens.m_buffer[citizenID], familySize);
                 }
             }
 

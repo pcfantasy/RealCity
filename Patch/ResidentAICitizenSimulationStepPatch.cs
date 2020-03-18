@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using Harmony;
+using RealCity.CustomAI;
 using RealCity.CustomData;
 using RealCity.Util;
 using System;
@@ -16,21 +17,24 @@ namespace RealCity.Patch
         }
         public static void Postfix(uint citizenID, ref Citizen data)
         {
-            //change wealth
             BuildingManager instance = Singleton<BuildingManager>.instance;
             ushort homeBuilding = data.m_homeBuilding;
             uint homeId = data.GetContainingUnit(citizenID, instance.m_buildings.m_buffer[homeBuilding].m_citizenUnits, CitizenUnit.Flags.Home);
-            if (CitizenUnitData.familyMoney[homeId] > MainDataStore.highWealth)
+            if (homeId != 0)
             {
-                data.WealthLevel = Citizen.Wealth.High;
-            }
-            else if (CitizenUnitData.familyMoney[homeId] < MainDataStore.lowWealth)
-            {
-                data.WealthLevel = Citizen.Wealth.Low;
-            }
-            else
-            {
-                data.WealthLevel = Citizen.Wealth.Medium;
+                //Change wealth
+                if (CitizenUnitData.familyMoney[homeId] > MainDataStore.highWealth)
+                {
+                    data.WealthLevel = Citizen.Wealth.High;
+                }
+                else if (CitizenUnitData.familyMoney[homeId] < MainDataStore.lowWealth)
+                {
+                    data.WealthLevel = Citizen.Wealth.Low;
+                }
+                else
+                {
+                    data.WealthLevel = Citizen.Wealth.Medium;
+                }
             }
         }
     }

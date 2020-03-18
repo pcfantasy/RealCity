@@ -3,7 +3,7 @@ using RealCity.Util;
 
 namespace RealCity.CustomAI
 {
-    public class RealCityIndustryBuildingAI: PlayerBuildingAI
+    public class RealCityIndustryBuildingAI
     {
         public static int CustomGetResourcePrice(TransferManager.TransferReason material)
         {

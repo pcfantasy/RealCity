@@ -29,7 +29,7 @@ namespace RealCity.UI
         private UILabel currentPolitics;
         private UILabel benefit;
         private UILabel resident;
-        private UILabel commerical;
+        private UILabel commercial;
         private UILabel industrial;
         public static bool refeshOnce = false;
 
@@ -145,14 +145,14 @@ namespace RealCity.UI
             resident.relativePosition = new Vector3(SPACING, benefit.relativePosition.y + SPACING22);
             resident.autoSize = true;
 
-            commerical = AddUIComponent<UILabel>();
-            commerical.text = Localization.Get("COMMERICAL_TRADE_TAX");
-            commerical.relativePosition = new Vector3(SPACING, resident.relativePosition.y + SPACING22);
-            commerical.autoSize = true;
+            commercial = AddUIComponent<UILabel>();
+            commercial.text = Localization.Get("COMMERICAL_TRADE_TAX");
+            commercial.relativePosition = new Vector3(SPACING, resident.relativePosition.y + SPACING22);
+            commercial.autoSize = true;
 
             industrial = AddUIComponent<UILabel>();
             industrial.text = Localization.Get("INDUSTRIAL_TRADE_TAX");
-            industrial.relativePosition = new Vector3(SPACING, commerical.relativePosition.y + SPACING22);
+            industrial.relativePosition = new Vector3(SPACING, commercial.relativePosition.y + SPACING22);
             industrial.autoSize = true;
         }
 
@@ -210,7 +210,7 @@ namespace RealCity.UI
                     currentPolitics.text = string.Format(Localization.Get("CURRENT_POLICY"));
                     benefit.text = string.Format(Localization.Get("BENEFIT") + " " + ((int)((Politics.benefitOffset * MainDataStore.govermentSalary) / 100f)).ToString());
                     resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + Politics.residentTax.ToString() + "%");
-                    commerical.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commericalTax.ToString() + "%");
+                    commercial.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commercialTax.ToString() + "%");
                     industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + Politics.industryTax.ToString() + "%");
 
                     if (Politics.case1)

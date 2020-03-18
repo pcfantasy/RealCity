@@ -109,11 +109,11 @@ namespace RealCity.Patch
                 }
                 if (BuildingData.buildingMoney[buildingID] < 0)
                 {
-                    RealCityEconomyExtension.commericalLackMoneyCount++;
+                    RealCityEconomyExtension.commercialLackMoneyCount++;
                 }
                 else
                 {
-                    RealCityEconomyExtension.commericalEarnMoneyCount++;
+                    RealCityEconomyExtension.commercialEarnMoneyCount++;
                 }
             }
 
@@ -149,7 +149,7 @@ namespace RealCity.Patch
                 int totalVisitCount = 0;
                 RealCityCommercialBuildingAI.InitDelegate();
                 RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)buildingData.Info.m_buildingAI, buildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
-                var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount;
+                var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - aliveVisitCount;
                 var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                 var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
                 if ((amount <= 0) || (maxcount <= totalVisitCount))

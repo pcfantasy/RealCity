@@ -118,7 +118,7 @@ namespace RealCity.Patch
                         {
                             //first remove.
                             //game bug, will send 2 incomingTransferReason per period
-                            TransferManager.TransferOffer offer1 = default(TransferManager.TransferOffer);
+                            TransferManager.TransferOffer offer1 = default;
                             offer1.Building = buildingID;
                             Singleton<TransferManager>.instance.RemoveIncomingOffer(incomingTransferReason, offer1);
                         }

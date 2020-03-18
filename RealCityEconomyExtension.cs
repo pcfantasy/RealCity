@@ -14,8 +14,8 @@ namespace RealCity
         public static ushort partyTrendStrength = 0;
         public static ushort industrialLackMoneyCount = 0;
         public static ushort industrialEarnMoneyCount = 0;
-        public static ushort commericalLackMoneyCount = 0;
-        public static ushort commericalEarnMoneyCount = 0;
+        public static ushort commercialLackMoneyCount = 0;
+        public static ushort commercialEarnMoneyCount = 0;
 
         public override long OnUpdateMoneyAmount(long internalMoneyAmount)
         {
@@ -208,11 +208,11 @@ namespace RealCity
                 avoidIdx1 = 3;
             }
 
-            if (Politics.commericalTax >= 20)
+            if (Politics.commercialTax >= 20)
             {
                 avoidIdx2 = 4;
             }
-            else if (Politics.commericalTax <= 1)
+            else if (Politics.commercialTax <= 1)
             {
                 avoidIdx2 = 5;
             }
@@ -303,7 +303,7 @@ namespace RealCity
                             {
                                 idex = 6;
                             }
-                            else if (Politics.commericalTax < 20)
+                            else if (Politics.commercialTax < 20)
                             {
                                 idex = 4;
                             }
@@ -319,7 +319,7 @@ namespace RealCity
                             {
                                 idex = 6;
                             }
-                            else if (Politics.commericalTax < 20)
+                            else if (Politics.commercialTax < 20)
                             {
                                 idex = 4;
                             }
@@ -331,7 +331,7 @@ namespace RealCity
                         case 6:
                         case 7:
                         case 8:
-                            if (Politics.commericalTax < 20)
+                            if (Politics.commercialTax < 20)
                             {
                                 idex = 4;
                             }
@@ -347,7 +347,7 @@ namespace RealCity
                             {
                                 idex = 0;
                             }
-                            else if (Politics.commericalTax < 20)
+                            else if (Politics.commercialTax < 20)
                             {
                                 idex = 4;
                             }
@@ -359,7 +359,7 @@ namespace RealCity
                             {
                                 idex = 6;
                             }
-                            else if (Politics.commericalTax < 20)
+                            else if (Politics.commercialTax < 20)
                             {
                                 idex = 4;
                             }
@@ -387,7 +387,7 @@ namespace RealCity
                             {
                                 idex = 0;
                             }
-                            else if (Politics.commericalTax < 20)
+                            else if (Politics.commercialTax < 20)
                             {
                                 idex = 4;
                             }
@@ -442,9 +442,9 @@ namespace RealCity
             }
 
             commBuildingOffset = 0;
-            if (commericalEarnMoneyCount + commericalLackMoneyCount > 0)
+            if (commercialEarnMoneyCount + commercialLackMoneyCount > 0)
             {
-                commBuildingOffset = ((int)(100f * (commericalEarnMoneyCount - commericalLackMoneyCount) / (commericalEarnMoneyCount + commericalLackMoneyCount))) << 4;
+                commBuildingOffset = ((int)(100f * (commercialEarnMoneyCount - commercialLackMoneyCount) / (commercialEarnMoneyCount + commercialLackMoneyCount))) << 4;
                 if (commBuildingOffset > 1500)
                 {
                     commBuildingOffset = 1500;
@@ -458,8 +458,8 @@ namespace RealCity
 
             industrialEarnMoneyCount = 0;
             industrialLackMoneyCount = 0;
-            commericalEarnMoneyCount = 0;
-            commericalLackMoneyCount = 0;
+            commercialEarnMoneyCount = 0;
+            commercialLackMoneyCount = 0;
         }
 
         public void VoteResult(int idex)
@@ -470,13 +470,13 @@ namespace RealCity
             int noAttend = 0;
             int residentTax = 10 - (Politics.residentTax);
             int benefitOffset = 10 - (Politics.benefitOffset / 5);
-            int commericalTax = 10 - (Politics.commericalTax);
+            int commercialTax = 10 - (Politics.commercialTax);
             int industryTax = 10 - (Politics.industryTax);
             int moneyOffset = 0; // money offset
             int citizenOffset = 0; // citizen offset
             int industrialBuildingOffset = 0; //industrial building offset
-            int commericalBuildingOffset = 0; //commerical building offset
-            VoteOffset(ref idex, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commericalBuildingOffset);
+            int commercialBuildingOffset = 0; //commercial building offset
+            VoteOffset(ref idex, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
 
             if (temp == 99)
             {
@@ -557,42 +557,42 @@ namespace RealCity
                         yes -= moneyOffset;
                         break;
                     case 4:
-                        yes += Politics.cPartySeats * (Politics.riseCommericalTax[0, 0] + commericalTax);
-                        yes += Politics.gPartySeats * (Politics.riseCommericalTax[1, 0] + commericalTax);
-                        yes += Politics.sPartySeats * (Politics.riseCommericalTax[2, 0] + commericalTax);
-                        yes += Politics.lPartySeats * (Politics.riseCommericalTax[3, 0] + commericalTax);
-                        yes += Politics.nPartySeats * (Politics.riseCommericalTax[4, 0] + commericalTax);
-                        no += Politics.cPartySeats * (Politics.riseCommericalTax[0, 1] - commericalTax);
-                        no += Politics.gPartySeats * (Politics.riseCommericalTax[1, 1] - commericalTax);
-                        no += Politics.sPartySeats * (Politics.riseCommericalTax[2, 1] - commericalTax);
-                        no += Politics.lPartySeats * (Politics.riseCommericalTax[3, 1] - commericalTax);
-                        no += Politics.nPartySeats * (Politics.riseCommericalTax[4, 1] - commericalTax);
+                        yes += Politics.cPartySeats * (Politics.riseCommericalTax[0, 0] + commercialTax);
+                        yes += Politics.gPartySeats * (Politics.riseCommericalTax[1, 0] + commercialTax);
+                        yes += Politics.sPartySeats * (Politics.riseCommericalTax[2, 0] + commercialTax);
+                        yes += Politics.lPartySeats * (Politics.riseCommericalTax[3, 0] + commercialTax);
+                        yes += Politics.nPartySeats * (Politics.riseCommericalTax[4, 0] + commercialTax);
+                        no += Politics.cPartySeats * (Politics.riseCommericalTax[0, 1] - commercialTax);
+                        no += Politics.gPartySeats * (Politics.riseCommericalTax[1, 1] - commercialTax);
+                        no += Politics.sPartySeats * (Politics.riseCommericalTax[2, 1] - commercialTax);
+                        no += Politics.lPartySeats * (Politics.riseCommericalTax[3, 1] - commercialTax);
+                        no += Politics.nPartySeats * (Politics.riseCommericalTax[4, 1] - commercialTax);
                         noAttend += Politics.cPartySeats * Politics.riseCommericalTax[0, 2];
                         noAttend += Politics.gPartySeats * Politics.riseCommericalTax[1, 2];
                         noAttend += Politics.sPartySeats * Politics.riseCommericalTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.riseCommericalTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.riseCommericalTax[4, 2];
                         yes -= moneyOffset;
-                        yes += commericalBuildingOffset;
+                        yes += commercialBuildingOffset;
                         break;
                     case 5:
-                        yes += Politics.cPartySeats * (Politics.fallCommericalTax[0, 0] - commericalTax);
-                        yes += Politics.gPartySeats * (Politics.fallCommericalTax[1, 0] - commericalTax);
-                        yes += Politics.sPartySeats * (Politics.fallCommericalTax[2, 0] - commericalTax);
-                        yes += Politics.lPartySeats * (Politics.fallCommericalTax[3, 0] - commericalTax);
-                        yes += Politics.nPartySeats * (Politics.fallCommericalTax[4, 0] - commericalTax);
-                        no += Politics.cPartySeats * (Politics.fallCommericalTax[0, 1] + commericalTax);
-                        no += Politics.gPartySeats * (Politics.fallCommericalTax[1, 1] + commericalTax);
-                        no += Politics.sPartySeats * (Politics.fallCommericalTax[2, 1] + commericalTax);
-                        no += Politics.lPartySeats * (Politics.fallCommericalTax[3, 1] + commericalTax);
-                        no += Politics.nPartySeats * (Politics.fallCommericalTax[4, 1] + commericalTax);
+                        yes += Politics.cPartySeats * (Politics.fallCommericalTax[0, 0] - commercialTax);
+                        yes += Politics.gPartySeats * (Politics.fallCommericalTax[1, 0] - commercialTax);
+                        yes += Politics.sPartySeats * (Politics.fallCommericalTax[2, 0] - commercialTax);
+                        yes += Politics.lPartySeats * (Politics.fallCommericalTax[3, 0] - commercialTax);
+                        yes += Politics.nPartySeats * (Politics.fallCommericalTax[4, 0] - commercialTax);
+                        no += Politics.cPartySeats * (Politics.fallCommericalTax[0, 1] + commercialTax);
+                        no += Politics.gPartySeats * (Politics.fallCommericalTax[1, 1] + commercialTax);
+                        no += Politics.sPartySeats * (Politics.fallCommericalTax[2, 1] + commercialTax);
+                        no += Politics.lPartySeats * (Politics.fallCommericalTax[3, 1] + commercialTax);
+                        no += Politics.nPartySeats * (Politics.fallCommericalTax[4, 1] + commercialTax);
                         noAttend += Politics.cPartySeats * Politics.fallCommericalTax[0, 2];
                         noAttend += Politics.gPartySeats * Politics.fallCommericalTax[1, 2];
                         noAttend += Politics.sPartySeats * Politics.fallCommericalTax[2, 2];
                         noAttend += Politics.lPartySeats * Politics.fallCommericalTax[3, 2];
                         noAttend += Politics.nPartySeats * Politics.fallCommericalTax[4, 2];
                         yes += moneyOffset;
-                        yes -= commericalBuildingOffset;
+                        yes -= commercialBuildingOffset;
                         break;
                     case 6:
                         yes += Politics.cPartySeats * (Politics.riseIndustryTax[0, 0] + industryTax);
@@ -689,10 +689,10 @@ namespace RealCity
                         case 3:
                             Politics.benefitOffset -= 10; break;
                         case 4:
-                            Politics.commericalTax += 1;
+                            Politics.commercialTax += 1;
                             break;
                         case 5:
-                            Politics.commericalTax -= 1;
+                            Politics.commercialTax -= 1;
                             break;
                         case 6:
                             Politics.industryTax += 1;

@@ -319,7 +319,7 @@ namespace RealCity.CustomAI
         {
             if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
             {
-                return Politics.commericalTax;
+                return Politics.commercialTax;
             }
             else if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
             {

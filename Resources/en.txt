@@ -26,7 +26,7 @@ LIVING_ALLOWANCE	Living Allowance & Benefit
 UNFINISHED_DEAL_LOST	Unfinished deal refund
 USE_TMPE_TIP	Use TMPE and disable vehicle spawning
 STARTUP_TIP	Industrialising is important to improve the economy and your finances at start
-TOURIST_TIP	Try commerical tourist to retain tourists
+TOURIST_TIP	Try commercial tourist to retain tourists
 OFFICE_TIP	Office can get "external investments" depended on your industry
 UNLOCK_TIP	Avoid unlocking everything at the start of the game.
 UG_TIP	Check more details in UG
@@ -156,7 +156,7 @@ CAR_USED	Car Used
 MAINTAIN_FEE_TIPS	Maintain Fee displayed on UI does not include vehicle expense
 LOCAL_WORKERS_DIV_TOTAL_WORKERS	Local Worker/ Total Worker
 TOURIST_MONEY	Tourist transport budget
-SHOW_LACK_OF_RESOURCE	Show lack of resource icon on commerical buildings when sell out
+SHOW_LACK_OF_RESOURCE	Show lack of resource icon on commercial buildings when sell out
 DEBUG_MODE	More Information
 REDUCE_CARGO_DESCRIPTION	Reduce cargo amount(for both industry dlc and growable building)
 REDUCE_CARGO_ENABLE	Reduce cargo function enable
