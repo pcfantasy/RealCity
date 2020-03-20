@@ -102,6 +102,7 @@
     <Compile Include="CustomData\CitizenUnitData.cs" />
     <Compile Include="CustomData\CitizenData.cs" />
     <Compile Include="CustomData\VehicleData.cs" />
+    <Compile Include="Patch\IndustryBuildingGetResourcePricePatch.cs" />
     <Compile Include="Patch\ResidentAIStartMovingPatch.cs" />
     <Compile Include="Patch\TransferManagerAddIncomingOfferPatch.cs" />
     <Compile Include="Patch\TouristAIStartMovingPatch.cs" />
