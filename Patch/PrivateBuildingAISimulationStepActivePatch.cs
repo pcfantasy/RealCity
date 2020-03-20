@@ -156,6 +156,106 @@ namespace RealCity.Patch
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
+
+                if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
+                {
+                    //Remove citizen which already have goods
+                    CitizenManager instance = Singleton<CitizenManager>.instance;
+                    uint num = buildingData.m_citizenUnits;
+                    int num2 = 0;
+                    while (num != 0u)
+                    {
+                        if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Visit) != 0)
+                        {
+                            var citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen0;
+                            if (citizenID != 0u)
+                            {
+                                ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                                uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                                uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+                                if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                                {
+                                    if (!instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist))
+                                    {
+                                        BuildingManager instance1 = Singleton<BuildingManager>.instance;
+                                        instance.m_citizens.m_buffer[citizenID].RemoveFromUnits(citizenID, instance1.m_buildings.m_buffer[buildingID].m_citizenUnits, CitizenUnit.Flags.Visit);
+                                        return;
+                                    }
+                                }
+                            }
+                            citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen1;
+                            if (citizenID != 0u)
+                            {
+                                ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                                uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                                uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+                                if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                                {
+                                    if (!instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist))
+                                    {
+                                        BuildingManager instance1 = Singleton<BuildingManager>.instance;
+                                        instance.m_citizens.m_buffer[citizenID].RemoveFromUnits(citizenID, instance1.m_buildings.m_buffer[buildingID].m_citizenUnits, CitizenUnit.Flags.Visit);
+                                        return;
+                                    }
+                                }
+                            }
+                            citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen2;
+                            if (citizenID != 0u)
+                            {
+                                ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                                uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                                uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+                                if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                                {
+                                    if (!instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist))
+                                    {
+                                        BuildingManager instance1 = Singleton<BuildingManager>.instance;
+                                        instance.m_citizens.m_buffer[citizenID].RemoveFromUnits(citizenID, instance1.m_buildings.m_buffer[buildingID].m_citizenUnits, CitizenUnit.Flags.Visit);
+                                        return;
+                                    }
+                                }
+                            }
+                            citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen3;
+                            if (citizenID != 0u)
+                            {
+                                ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                                uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                                uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+                                if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                                {
+                                    if (!instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist))
+                                    {
+                                        BuildingManager instance1 = Singleton<BuildingManager>.instance;
+                                        instance.m_citizens.m_buffer[citizenID].RemoveFromUnits(citizenID, instance1.m_buildings.m_buffer[buildingID].m_citizenUnits, CitizenUnit.Flags.Visit);
+                                        return;
+                                    }
+                                }
+                            }
+                            citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen4;
+                            if (citizenID != 0u)
+                            {
+                                ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                                uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                                uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+                                if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                                {
+                                    if (!instance.m_citizens.m_buffer[citizenID].m_flags.IsFlagSet(Citizen.Flags.Tourist))
+                                    {
+                                        BuildingManager instance1 = Singleton<BuildingManager>.instance;
+                                        instance.m_citizens.m_buffer[citizenID].RemoveFromUnits(citizenID, instance1.m_buildings.m_buffer[buildingID].m_citizenUnits, CitizenUnit.Flags.Visit);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                        if (++num2 > 524288)
+                        {
+                            CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                            break;
+                        }
+                    }
+                }
             }
         }
 

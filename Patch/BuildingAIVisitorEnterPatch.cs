@@ -27,7 +27,6 @@ namespace RealCity.Patch
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             BuildingInfo info = data.Info;
-            Random rand = new Random();
             if (info.m_class.m_service == ItemClass.Service.Monument)
             {
                 if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)

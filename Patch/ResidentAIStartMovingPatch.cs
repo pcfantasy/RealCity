@@ -35,7 +35,7 @@ namespace RealCity.Patch
                     int totalVisitCount = 0;
                     RealCityCommercialBuildingAI.InitDelegate();
                     RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(building.Info.m_buildingAI), targetBuilding, ref building, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
-                    var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - aliveVisitCount;
+                    var amount = building.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount;
                     var CommercialBuildingAI = building.Info.m_buildingAI as CommercialBuildingAI;
                     var maxCount = CommercialBuildingAI.CalculateVisitplaceCount((ItemClass.Level)building.m_level, new Randomizer(targetBuilding), building.m_width, building.m_length);
                     if ((amount <= 0) || (maxCount <= totalVisitCount))
@@ -53,6 +53,13 @@ namespace RealCity.Patch
                         sourceBuilding = targetBuilding;
                         return;
                     }
+                    else if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                    {
+                        //Reject citizen who already have enough goods to building
+                        sourceBuilding = targetBuilding;
+                        return;
+                    }
+
                 }
             }
         }

@@ -53,10 +53,10 @@ namespace RealCity.Patch
                     RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
                     var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                     var maxCount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
-                    var amount = Math.Min(buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - aliveVisitCount, maxCount - totalVisitCount);
+                    var amount = Math.Min(buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount, maxCount - totalVisitCount);
 
                     if ((amount <= 0) || (maxCount <= totalVisitCount))
-                    { 
+                    {
                         buildingData.m_flags &= ~Building.Flags.Active;
                         //no resource
                         return false;
@@ -64,7 +64,7 @@ namespace RealCity.Patch
                     else
                     {
                         offer.Amount = amount;
-                        AddIncomingOfferFixedForRealTime(material, offer);
+                        AddOutgoingOfferFixedForRealTime(material, offer);
                         return false;
                     }
                 }
@@ -91,7 +91,7 @@ namespace RealCity.Patch
 		}
 
         //RealTime do not let commercial building add shopping offer, may be a bug?
-        public static void AddIncomingOfferFixedForRealTime(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
+        public static void AddOutgoingOfferFixedForRealTime(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
         {
             if (!_init)
             {
@@ -109,7 +109,7 @@ namespace RealCity.Patch
                     return;
                 }
                 num2 = (int)material * 8 + num;
-                num3 = m_incomingCount[num2];
+                num3 = m_outgoingCount[num2];
                 if (num3 < 256)
                 {
                     break;
@@ -117,9 +117,9 @@ namespace RealCity.Patch
                 num--;
             }
             int num4 = num2 * 256 + num3;
-            m_incomingOffers[num4] = offer;
-            m_incomingCount[num2] = (ushort)(num3 + 1);
-            m_incomingAmount[(int)material] += offer.Amount;
+            m_outgoingOffers[num4] = offer;
+            m_outgoingCount[num2] = (ushort)(num3 + 1);
+            m_outgoingAmount[(int)material] += offer.Amount;
         }
 
         public static bool _init = false;
@@ -127,9 +127,6 @@ namespace RealCity.Patch
         public static void Init()
         {
             var inst = Singleton <TransferManager>.instance;
-            var incomingCount = typeof(TransferManager).GetField("m_incomingCount", BindingFlags.NonPublic | BindingFlags.Instance);
-            var incomingOffers = typeof(TransferManager).GetField("m_incomingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
-            var incomingAmount = typeof(TransferManager).GetField("m_incomingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
             var outgoingCount = typeof(TransferManager).GetField("m_outgoingCount", BindingFlags.NonPublic | BindingFlags.Instance);
             var outgoingOffers = typeof(TransferManager).GetField("m_outgoingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
             var outgoingAmount = typeof(TransferManager).GetField("m_outgoingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -139,19 +136,13 @@ namespace RealCity.Patch
                 DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "No instance of TransferManager found!");
                 return;
             }
-            m_incomingCount = incomingCount.GetValue(inst) as ushort[];
-            m_incomingOffers = incomingOffers.GetValue(inst) as TransferManager.TransferOffer[];
-            m_incomingAmount = incomingAmount.GetValue(inst) as int[];
             m_outgoingCount = outgoingCount.GetValue(inst) as ushort[];
             m_outgoingOffers = outgoingOffers.GetValue(inst) as TransferManager.TransferOffer[];
             m_outgoingAmount = outgoingAmount.GetValue(inst) as int[];
         }
 
         public static TransferManager.TransferOffer[] m_outgoingOffers;
-        public static TransferManager.TransferOffer[] m_incomingOffers;
         public static ushort[] m_outgoingCount;
-        public static ushort[] m_incomingCount;
         public static int[] m_outgoingAmount;
-        public static int[] m_incomingAmount;
     }
 }
