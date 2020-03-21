@@ -88,13 +88,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomAI\RealCityEconomyPanel.cs" />
+    <Compile Include="Patch\DistrictParkCalculateVarsityExpensesPatch.cs" />
+    <Compile Include="Patch\EconomyPanelIncomeExpensesPollPatch.cs" />
     <Compile Include="CustomAI\RealCityCommercialBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityCommonBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialExtractorAI.cs" />
     <Compile Include="CustomAI\RealCityIndustryBuildingAI.cs" />
-    <Compile Include="CustomAI\RealCityOfficeBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityPlayerBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityPrivateBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityResidentAI.cs" />
@@ -133,9 +133,10 @@
     <Compile Include="Patch\ResidentAICitizenUnitSimulationStepPatch.cs" />
     <Compile Include="Patch\TollBoothEnterBuildingSegmentPatch.cs" />
     <Compile Include="CustomData\TransportLineData.cs" />
-    <Compile Include="CustomData\CustomDistrictPark.cs" />
+    <Compile Include="Patch\DistrictParkCalculatePolicyExpensesPatch.cs" />
     <Compile Include="Patch\EconomyManagerAddResourceItemClassPatch.cs" />
     <Compile Include="Patch\EconomyManagerAddResourcePatchItemClassDetail.cs" />
+    <Compile Include="Patch\OfficeBuildingAIGetOutgoingTransferReasonPatch.cs" />
     <Compile Include="Patch\VehicleManagerReleaseVehicleImplementationPatch.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />
     <Compile Include="Patch\EconomyManagerFetchResourcePatch.cs" />

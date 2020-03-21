@@ -1,22 +1,19 @@
-﻿using RealCity.Util;
+﻿using Harmony;
+using RealCity.Util;
+using System.Reflection;
 
-namespace RealCity.CustomData
+namespace RealCity.Patch
 {
-    public class CustomDistrictPark
+	[HarmonyPatch]
+	public class DistrictParkCalculatePolicyExpensesPatch
 	{
-		public static uint CalculatePolicyExpenses(ref DistrictPark district)
+		public static MethodBase TargetMethod()
 		{
-			uint num = 0u;
-			DistrictPolicies.Park parkPolicies = district.m_parkPolicies;
-			if ((parkPolicies & DistrictPolicies.Park.StudentHealthcare) != 0)
-			{
-				num += district.m_studentCount * 5;
-			}
-			if ((parkPolicies & DistrictPolicies.Park.FreeLunch) != 0)
-			{
-				num += district.m_studentCount;
-			}
-			return num / MainDataStore.gameExpenseDivide;
+			return typeof(DistrictPark).GetMethod("CalculatePolicyExpenses", BindingFlags.Public | BindingFlags.Instance);
+		}
+		public static void Postfix(ref uint __result)
+		{
+			__result /= MainDataStore.gameExpenseDivide;
 		}
 
 		public static void CalculateVarsityExpenses(ref DistrictPark district, out ulong upkeep, out int coaching, out int cheerleading, out int policies, out ulong total)

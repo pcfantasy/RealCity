@@ -18,22 +18,6 @@ namespace RealCity
 {
     public class Loader : LoadingExtensionBase
     {
-        public class Detour
-        {
-            public MethodInfo OriginalMethod;
-            public MethodInfo CustomMethod;
-            public RedirectCallsState Redirect;
-
-            public Detour(MethodInfo originalMethod, MethodInfo customMethod)
-            {
-                OriginalMethod = originalMethod;
-                CustomMethod = customMethod;
-                Redirect = RedirectionHelper.RedirectCalls(originalMethod, customMethod);
-            }
-        }
-
-        public static List<Detour> Detours { get; set; }
-        public static bool DetourInited = false;
         public static bool HarmonyDetourInited = false;
         public static bool HarmonyDetourFailed = true;
         public static UIView parentGuiView;
@@ -65,7 +49,6 @@ namespace RealCity
         public override void OnCreated(ILoading loading)
         {
             base.OnCreated(loading);
-            Detours = new List<Detour>();
         }
 
         public override void OnLevelLoaded(LoadMode mode)
@@ -85,7 +68,6 @@ namespace RealCity
                     MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
                     method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
                     SetupGui();
-                    InitDetour();
                     HarmonyInitDetour();
                     RealCity.LoadSetting();
                     RealCityThreading.isFirstTime = true;
@@ -130,10 +112,9 @@ namespace RealCity
                 {
                     RemoveGui();
                 }
-                if (RealCity.IsEnabled && DetourInited)
+                if (RealCity.IsEnabled)
                 {
                     RealCityThreading.isFirstTime = true;
-                    RevertDetours();
                     HarmonyRevertDetour();
                 }
             }
@@ -485,97 +466,6 @@ namespace RealCity
                 HarmonyDetours.DeApply();
                 HarmonyDetourFailed = true;
                 HarmonyDetourInited = false;
-            }
-        }
-
-        public static void InitDetour()
-        {
-            if (!DetourInited)
-            {
-                DebugLog.LogToFileOnly("Init detours");
-                bool detourFailed = false;
-
-                //1
-                DebugLog.LogToFileOnly("Detour OfficeBuildingAI::GetOutgoingTransferReason calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(OfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.NonPublic | BindingFlags.Instance),
-                                           typeof(RealCityOfficeBuildingAI).GetMethod("GetOutgoingTransferReason", BindingFlags.Public | BindingFlags.Instance)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour OfficeBuildingAI::GetOutgoingTransferReason");
-                    detourFailed = true;
-                }
-
-                //2
-                //private void CalculateArenasExpenses(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)
-                DebugLog.LogToFileOnly("Detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(EconomyPanel).GetNestedType("IncomeExpensesPoll", BindingFlags.NonPublic).GetMethod("CalculateArenasExpenses", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(EconomyPanel.ArenaIndex), typeof(long).MakeByRefType() }, null),
-                                           typeof(RealCityEconomyPanel).GetMethod("CalculateArenasExpenses", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(EconomyPanel.ArenaIndex), typeof(long).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour EconomyPanel.IncomeExpensesPoll::CalculateArenasExpenses");
-                    detourFailed = true;
-                }
-
-                //3
-                //public static uint CalculatePolicyExpenses(ref DistrictPark district)
-                DebugLog.LogToFileOnly("Detour DistrictPark::CalculatePolicyExpenses calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(DistrictPark).GetMethod("CalculatePolicyExpenses", BindingFlags.Public | BindingFlags.Instance),
-                                           typeof(CustomDistrictPark).GetMethod("CalculatePolicyExpenses", BindingFlags.Public | BindingFlags.Static, null, new Type[] {typeof(DistrictPark).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not detour Detour DistrictPark::CalculatePolicyExpenses");
-                    detourFailed = true;
-                }
-
-                //4
-                //public static void CalculateVarsityExpenses(ref DistrictPark district, out ulong upkeep, out int coaching, out int cheerleading, out int policies, out ulong total)
-                DebugLog.LogToFileOnly("Detour DistrictPark:CalculateVarsityExpenses calls");
-                try
-                {
-                    Detours.Add(new Detour(typeof(DistrictPark).GetMethod("CalculateVarsityExpenses", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ulong).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(ulong).MakeByRefType() }, null),
-                                           typeof(CustomDistrictPark).GetMethod("CalculateVarsityExpenses", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(DistrictPark).MakeByRefType(), typeof(ulong).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(int).MakeByRefType(), typeof(ulong).MakeByRefType() }, null)));
-                }
-                catch (Exception)
-                {
-                    DebugLog.LogToFileOnly("Could not DistrictPark:CalculateVarsityExpenses");
-                    detourFailed = true;
-                }
-
-                if (detourFailed)
-                {
-                    DebugLog.LogToFileOnly("Detours failed");
-                }
-                else
-                {
-                    DebugLog.LogToFileOnly("Detours successful");
-                }
-
-                DetourInited = true;
-            }
-        }
-
-        public static void RevertDetours()
-        {
-            if (DetourInited)
-            {
-                DebugLog.LogToFileOnly("Revert detours");
-                Detours.Reverse();
-                foreach (Detour d in Detours)
-                {
-                    RedirectionHelper.RevertRedirect(d.OriginalMethod, d.Redirect);
-                }
-                DetourInited = false;
-                Detours.Clear();
-                DebugLog.LogToFileOnly("Reverting detours finished.");
             }
         }
 
