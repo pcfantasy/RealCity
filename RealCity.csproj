@@ -178,7 +178,6 @@
     <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
-    <Compile Include="Util\RedirectionHelper.cs" />
     <Compile Include="Util\SaveAndRestore.cs" />
     <Compile Include="Util\SpriteUtilities.cs" />
   </ItemGroup>
