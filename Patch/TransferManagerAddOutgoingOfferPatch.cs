@@ -5,7 +5,6 @@ using ColossalFramework;
 using RealCity.Util;
 using RealCity.CustomAI;
 using ColossalFramework.Math;
-using ColossalFramework.Plugins;
 
 namespace RealCity.Patch
 {
@@ -64,7 +63,6 @@ namespace RealCity.Patch
                     else
                     {
                         offer.Amount = amount;
-                        AddOutgoingOfferFixedForRealTime(material, offer);
                         return false;
                     }
                 }
@@ -89,60 +87,5 @@ namespace RealCity.Patch
 			}
             return true;
 		}
-
-        //RealTime do not let commercial building add shopping offer, may be a bug?
-        public static void AddOutgoingOfferFixedForRealTime(TransferManager.TransferReason material, TransferManager.TransferOffer offer)
-        {
-            if (!_init)
-            {
-                Init();
-                _init = true;
-            }
-
-            int num = offer.Priority;
-            int num2;
-            int num3;
-            while (true)
-            {
-                if (num < 0)
-                {
-                    return;
-                }
-                num2 = (int)material * 8 + num;
-                num3 = m_outgoingCount[num2];
-                if (num3 < 256)
-                {
-                    break;
-                }
-                num--;
-            }
-            int num4 = num2 * 256 + num3;
-            m_outgoingOffers[num4] = offer;
-            m_outgoingCount[num2] = (ushort)(num3 + 1);
-            m_outgoingAmount[(int)material] += offer.Amount;
-        }
-
-        public static bool _init = false;
-
-        public static void Init()
-        {
-            var inst = Singleton <TransferManager>.instance;
-            var outgoingCount = typeof(TransferManager).GetField("m_outgoingCount", BindingFlags.NonPublic | BindingFlags.Instance);
-            var outgoingOffers = typeof(TransferManager).GetField("m_outgoingOffers", BindingFlags.NonPublic | BindingFlags.Instance);
-            var outgoingAmount = typeof(TransferManager).GetField("m_outgoingAmount", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (inst == null)
-            {
-                CODebugBase<LogChannel>.Error(LogChannel.Core, "No instance of TransferManager found!");
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "No instance of TransferManager found!");
-                return;
-            }
-            m_outgoingCount = outgoingCount.GetValue(inst) as ushort[];
-            m_outgoingOffers = outgoingOffers.GetValue(inst) as TransferManager.TransferOffer[];
-            m_outgoingAmount = outgoingAmount.GetValue(inst) as int[];
-        }
-
-        public static TransferManager.TransferOffer[] m_outgoingOffers;
-        public static ushort[] m_outgoingCount;
-        public static int[] m_outgoingAmount;
     }
 }
