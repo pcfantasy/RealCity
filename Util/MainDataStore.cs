@@ -19,6 +19,17 @@
         public const float profitShareRatioCommOther  = 0.001f;
         public const float profitShareRatioCommTou = 0.0005f;
 
+        public const int salaryInduLevel1Max = 300;
+        public const int salaryInduLevel2Max = 450;
+        public const int salaryInduLevel3Max = 600;
+        public const int salaryInduOtherMax = 300;
+        public const int salaryCommLevel1Max = 100;
+        public const int salaryCommLevel2Max = 250;
+        public const int salaryCommLevel3Max = 400;
+        public const int salaryCommECOMax = 300;
+        public const int salaryCommOtherMax = 900;
+        public const int salaryCommTouMax = 600;
+
         public const float bossRatioInduLevel1 = 0.05f;
         public const float bossRatioInduLevel2 = 0.07f;
         public const float bossRatioInduLevel3 = 0.08f;
@@ -44,7 +55,7 @@
         public const float investRatioCommTou = 0.01f;
         public const int lowWealth = 20000;
         public const int highWealth = 100000;
-        public const int maxGoodPurchase = 500;
+        public const int maxGoodPurchase = 1000;
         public const byte govermentEducation0SalaryFixed = 20;
         public const byte govermentEducation1SalaryFixed = 25;
         public const byte govermentEducation2SalaryFixed = 35;

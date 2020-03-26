@@ -80,7 +80,8 @@ namespace RealCity.Patch
 
                 case ItemClass.Service.Commercial:
                 case ItemClass.Service.Industrial:
-                    float averageBuildingSalary = BuildingUI.CaculateEmployeeOutcome(buildingData, buildingID, out _, out _);
+                case ItemClass.Service.Office:
+                    float averageBuildingSalary = BuildingUI.CaculateEmployeeOutcome(buildingData, out _);
 
                     if (MainDataStore.citizenCount > 0.0)
                     {

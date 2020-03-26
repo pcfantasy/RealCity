@@ -416,17 +416,17 @@ namespace RealCity.Patch
             float reducedGoods;
             if (Loader.isRealTimeRunning)
             {
-                if (CitizenUnitData.familyMoney[homeID] < 10000)
-                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) / 1000f;
+                if (CitizenUnitData.familyMoney[homeID] < 20000)
+                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) / 400f;
                 else
-                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) / 250f;
+                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) / 100f;
             }
             else
             {
-                if (CitizenUnitData.familyMoney[homeID] < 10000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] / 125f;
+                if (CitizenUnitData.familyMoney[homeID] < 20000)
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] / 40f;
                 else
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] / 62.5f;
+                    reducedGoods = CitizenUnitData.familyGoods[homeID] / 10f;
             }
 
             CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);

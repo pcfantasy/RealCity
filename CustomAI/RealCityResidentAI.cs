@@ -157,21 +157,42 @@ namespace RealCity.CustomAI
                         if ((BuildingData.buildingMoney[workBuilding] > 0) && (totalWorkCount != 0))
                         {
                             salary = (int)(BuildingData.buildingMoney[workBuilding] * profitShare / totalWorkCount);
+                            switch (buildingData.Info.m_class.m_subService)
+                            {
+                                case ItemClass.SubService.IndustrialFarming:
+                                case ItemClass.SubService.IndustrialForestry:
+                                case ItemClass.SubService.IndustrialOil:
+                                case ItemClass.SubService.IndustrialOre:
+                                    salary = Math.Min(salary, MainDataStore.salaryInduOtherMax); break;
+                                case ItemClass.SubService.IndustrialGeneric:
+                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
+                                        salary = Math.Min(salary, MainDataStore.salaryInduLevel1Max);
+                                    else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
+                                        salary = Math.Min(salary, MainDataStore.salaryInduLevel2Max);
+                                    else
+                                        salary = Math.Min(salary, MainDataStore.salaryInduLevel3Max);
+                                    break;
+                                case ItemClass.SubService.CommercialHigh:
+                                case ItemClass.SubService.CommercialLow:
+                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
+                                        salary = Math.Min(salary, MainDataStore.salaryCommLevel1Max);
+                                    else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
+                                        salary = Math.Min(salary, MainDataStore.salaryCommLevel2Max);
+                                    else
+                                        salary = Math.Min(salary, MainDataStore.salaryCommLevel3Max);
+                                    break;
+                                case ItemClass.SubService.CommercialTourist:
+                                    salary = Math.Min(salary, MainDataStore.salaryCommTouMax); break;
+                                case ItemClass.SubService.CommercialLeisure:
+                                    salary = Math.Min(salary, MainDataStore.salaryCommOtherMax); break;
+                                case ItemClass.SubService.CommercialEco:
+                                    salary = Math.Min(salary, MainDataStore.salaryCommECOMax); break;
+                            }
                         }
+
                         if (!checkOnly)
                         {
                             BuildingData.buildingMoney[workBuilding] -= salary;
-                        }
-
-                        switch (buildingData.Info.m_class.m_service)
-                        {
-                            case ItemClass.Service.Office:
-                                if (BuildingData.buildingMoney[workBuilding] > 0 && totalWorkCount != 0)
-                                {
-                                    salary = (int)(BuildingData.buildingMoney[workBuilding] / totalWorkCount);
-                                }
-                                break;
-                            default: break;
                         }
                     }
                     else
