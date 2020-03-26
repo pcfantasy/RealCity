@@ -88,6 +88,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patch\MarketAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\DistrictParkCalculateVarsityExpensesPatch.cs" />
     <Compile Include="Patch\EconomyPanelIncomeExpensesPollPatch.cs" />
     <Compile Include="CustomAI\RealCityCommercialBuildingAI.cs" />

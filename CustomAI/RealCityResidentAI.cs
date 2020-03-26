@@ -89,6 +89,7 @@ namespace RealCity.CustomAI
                 case ItemClass.Service.PlayerEducation:
                 case ItemClass.Service.Museums:
                 case ItemClass.Service.VarsitySports:
+                case ItemClass.Service.Fishing:
                     isGoverment = true; break;
             }
             return isGoverment;
@@ -424,6 +425,31 @@ namespace RealCity.CustomAI
                 else if (data.Info.m_buildingAI is LibraryAI)
                 {
                     LibraryAI buildingAI = data.Info.m_buildingAI as LibraryAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is FishFarmAI)
+                {
+                    FishFarmAI buildingAI = data.Info.m_buildingAI as FishFarmAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is FishingHarborAI)
+                {
+                    FishingHarborAI buildingAI = data.Info.m_buildingAI as FishingHarborAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is EldercareAI)
+                {
+                    EldercareAI buildingAI = data.Info.m_buildingAI as EldercareAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is ChildcareAI)
+                {
+                    ChildcareAI buildingAI = data.Info.m_buildingAI as ChildcareAI;
+                    totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
+                }
+                else if (data.Info.m_buildingAI is MarketAI)
+                {
+                    MarketAI buildingAI = data.Info.m_buildingAI as MarketAI;
                     totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
                 }
                 else

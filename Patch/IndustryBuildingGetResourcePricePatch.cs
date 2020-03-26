@@ -48,7 +48,7 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.Goods:
                     if (sourceService == ItemClass.Service.Fishing)
                     {
-                        __result = 500;
+                        __result = 200;
                     }
                     else
                     {
