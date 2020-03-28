@@ -52,6 +52,13 @@ namespace RealCity.Patch
                         {
                             goodAmount = -MainDataStore.maxGoodPurchase;
                         }
+
+                        if (goodAmount == -100)
+                        {
+                            //Disable other -100 ModifyMaterialBuffer
+                            goodAmount = -99;
+                        }
+
                         buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref goodAmount);
 
                         if (goodAmount != 0)

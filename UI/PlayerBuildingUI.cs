@@ -16,6 +16,8 @@ namespace RealCity.UI
         public static bool refeshOnce = false;
         private UILabel maintainFeeTips;
         private UILabel workerStatus;
+        private UILabel fishAmount;
+        private UILabel fishVisitor;
 
         public override void Update()
         {
@@ -58,6 +60,16 @@ namespace RealCity.UI
             workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS");
             workerStatus.relativePosition = new Vector3(SPACING, maintainFeeTips.relativePosition.y + SPACING22);
             workerStatus.autoSize = true;
+
+            fishAmount = AddUIComponent<UILabel>();
+            fishAmount.text = "";
+            fishAmount.relativePosition = new Vector3(SPACING, workerStatus.relativePosition.y + SPACING22);
+            fishAmount.autoSize = true;
+
+            fishVisitor = AddUIComponent<UILabel>();
+            fishVisitor.text = "";
+            fishVisitor.relativePosition = new Vector3(SPACING, fishAmount.relativePosition.y + SPACING22);
+            fishVisitor.autoSize = true;
         }
 
         private void RefreshDisplayData()
@@ -76,6 +88,17 @@ namespace RealCity.UI
                     int allWorkCount = RealCityResidentAI.TotalWorkCount(BuildingData.lastBuildingID, buildingData, true, false);
                     maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
                     workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS") + totalWorkCount.ToString() + "/" + allWorkCount.ToString();
+
+                    if (buildingData.Info.m_buildingAI is MarketAI)
+                    {
+                        fishAmount.text = Localization.Get("MATERIAL_BUFFER") + "/" + Localization.Get("PRODUCTION_BUFFER") + ":" + buildingData.m_customBuffer1.ToString() + "/" + buildingData.m_customBuffer2.ToString();
+                        int aliveVisitCount = 0;
+                        int totalVisitCount = 0;
+                        RealCityMarketAI.InitDelegate();
+                        RealCityMarketAI.GetVisitBehaviour((MarketAI)(buildingData.Info.m_buildingAI), BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
+                        var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount + aliveVisitCount;
+                        fishVisitor.text = string.Format("FORDEBUG" + " [{0}/{1}/{2}]", aliveVisitCount, totalVisitCount, amount);
+                    }
                     refeshOnce = false;
                 }
                 else

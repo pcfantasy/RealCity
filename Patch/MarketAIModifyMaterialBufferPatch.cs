@@ -26,6 +26,12 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.ShoppingG:
                 case TransferManager.TransferReason.ShoppingH:
                     {
+                        if (amountDelta == -100)
+                        {
+                            //Disable other -100 ModifyMaterialBuffer
+                            return false;
+                        }
+
                         int customBuffer2 = data.m_customBuffer2;
                         amountDelta = Mathf.Clamp(amountDelta, -customBuffer2, 0);
                         data.m_customBuffer2 = (ushort)(customBuffer2 + amountDelta);

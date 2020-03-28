@@ -66,6 +66,26 @@ namespace RealCity.Patch
                         return true;
                     }
                 }
+                else if (instance.m_buildings.m_buffer[buildingID].Info.m_class.m_service == ItemClass.Service.Fishing)
+                {
+                    Citizen.BehaviourData behaviour = default;
+                    int aliveVisitCount = 0;
+                    int totalVisitCount = 0;
+                    RealCityMarketAI.InitDelegate();
+                    RealCityMarketAI.GetVisitBehaviour((MarketAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
+                    var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount + aliveVisitCount;
+
+                    if (amount <= 0)
+                    {
+                        buildingData.m_flags &= ~Building.Flags.Active;
+                        //no resource
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
             }
 
             //Remove cotenancy

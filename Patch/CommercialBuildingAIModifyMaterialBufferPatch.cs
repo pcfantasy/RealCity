@@ -16,12 +16,33 @@ namespace RealCity.Patch
             return typeof(CommercialBuildingAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
         }
 
-        public static void Prefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+        public static bool Prefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             if (material == TransferManager.TransferReason.Entertainment)
             {
                 CaculateTradeIncome(buildingID, ref data, material, ref amountDelta);
             }
+            else
+            {
+                switch (material)
+                {
+                    case TransferManager.TransferReason.Shopping:
+                    case TransferManager.TransferReason.ShoppingB:
+                    case TransferManager.TransferReason.ShoppingC:
+                    case TransferManager.TransferReason.ShoppingD:
+                    case TransferManager.TransferReason.ShoppingE:
+                    case TransferManager.TransferReason.ShoppingF:
+                    case TransferManager.TransferReason.ShoppingG:
+                    case TransferManager.TransferReason.ShoppingH:
+                        if (amountDelta == -100)
+                        {
+                            // Disable other - 100 ModifyMaterialBuffer
+                            return false;
+                        }
+                        break;
+                }
+            }
+            return true;
         }
 
         public static void Postfix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
