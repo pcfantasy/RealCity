@@ -126,6 +126,12 @@ namespace RealCity
                                 GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100 * capacity, vehicle.Info.m_class);
                             }
+                            else if (vehicle.Info.m_vehicleAI is TrolleybusAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 75 * capacity, vehicle.Info.m_class);
+                            }
                             else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI)
                             {
                                 int capacity = 0;

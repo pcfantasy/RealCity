@@ -74,47 +74,50 @@ namespace RealCity
             vituralClass.m_service = ItemClass.Service.PublicTransport;
             vituralClass.m_subService = ItemClass.SubService.PublicTransportBus;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out long transportFee, out _);
-            RealCityUI.busIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportTram;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.tramIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportMetro;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.metroIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportTrain;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.trainIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportTaxi;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.taxiIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportPlane;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.planeIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportShip;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.shipIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportMonorail;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.monorailIncome = (double)transportFee / 100f;
             MainDataStore.publicTransportFee += transportFee;
 
             vituralClass.m_subService = ItemClass.SubService.PublicTransportCableCar;
             Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
-            RealCityUI.cablecarIncome = (double)transportFee / 100f;
+            MainDataStore.publicTransportFee += transportFee;
+
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportTours;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            MainDataStore.publicTransportFee += transportFee;
+
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportPost;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
+            MainDataStore.publicTransportFee += transportFee;
+
+            vituralClass.m_subService = ItemClass.SubService.PublicTransportTrolleybus;
+            Singleton<EconomyManager>.instance.GetIncomeAndExpenses(vituralClass, out transportFee, out _);
             MainDataStore.publicTransportFee += transportFee;
 
             //add vehicle transport_fee

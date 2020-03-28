@@ -56,15 +56,6 @@ namespace RealCity.UI
         private UILabel induOreTradeIncome;
         //5、public transport income
         private UILabel publicTransportIncomeTitle;
-        private UILabel fromBus;
-        private UILabel fromTram;
-        private UILabel fromTrain;
-        private UILabel fromShip;
-        private UILabel fromPlane;
-        private UILabel fromMetro;
-        private UILabel fromTaxi;
-        private UILabel fromCableCar;
-        private UILabel fromMonorail;
         //6、goverment income
         private UILabel govermentIncomeTitle;
         private UILabel roadIncomeTitle;
@@ -130,15 +121,6 @@ namespace RealCity.UI
         public double cityPlayerbuildingIncomePercent;
         public double cityTransportIncomeTotal;
         public double cityTransportIncomePercent;
-        public static double busIncome;
-        public static double metroIncome;
-        public static double tramIncome;
-        public static double trainIncome;
-        public static double planeIncome;
-        public static double shipIncome;
-        public static double taxiIncome;
-        public static double cablecarIncome;
-        public static double monorailIncome;
         //all total income
         public double allTotalIncome;
         public static bool refeshOnce = false;
@@ -367,71 +349,26 @@ namespace RealCity.UI
             publicTransportIncomeTitle.relativePosition = new Vector3(SPACING, induOilTradeIncome.relativePosition.y + SPACING22 + 10f);
             publicTransportIncomeTitle.autoSize = true;
 
-            fromBus = AddUIComponent<UILabel>();
-            fromBus.text = Localization.Get("BUS");
-            fromBus.relativePosition = new Vector3(SPACING, publicTransportIncomeTitle.relativePosition.y + SPACING22);
-            fromBus.autoSize = true;
-
-            fromTram = AddUIComponent<UILabel>();
-            fromTram.text = Localization.Get("TRAM");
-            fromTram.relativePosition = new Vector3(fromBus.relativePosition.x + 300f, fromBus.relativePosition.y);
-            fromTram.autoSize = true;
-
-            fromMetro = AddUIComponent<UILabel>();
-            fromMetro.text = Localization.Get("TRAIN");
-            fromMetro.relativePosition = new Vector3(fromTram.relativePosition.x + 300f, fromTram.relativePosition.y);
-            fromMetro.autoSize = true;
-
-            fromTrain = AddUIComponent<UILabel>();
-            fromTrain.text = Localization.Get("SHIP");
-            fromTrain.relativePosition = new Vector3(SPACING, fromBus.relativePosition.y + SPACING22);
-            fromTrain.autoSize = true;
-
-            fromShip = AddUIComponent<UILabel>();
-            fromShip.text = Localization.Get("PLANE");
-            fromShip.relativePosition = new Vector3(fromTram.relativePosition.x, fromTram.relativePosition.y + SPACING22);
-            fromShip.autoSize = true;
-
-            fromTaxi = AddUIComponent<UILabel>();
-            fromTaxi.text = Localization.Get("METRO");
-            fromTaxi.relativePosition = new Vector3(fromMetro.relativePosition.x, fromMetro.relativePosition.y + SPACING22);
-            fromTaxi.autoSize = true;
-
-            fromPlane = AddUIComponent<UILabel>();
-            fromPlane.text = Localization.Get("TAXI");
-            fromPlane.relativePosition = new Vector3(SPACING, fromTrain.relativePosition.y + SPACING22);
-            fromPlane.autoSize = true;
-
-            fromCableCar = AddUIComponent<UILabel>();
-            fromCableCar.text = Localization.Get("CABLECAR");
-            fromCableCar.relativePosition = new Vector3(fromShip.relativePosition.x, fromShip.relativePosition.y + SPACING22);
-            fromCableCar.autoSize = true;
-
-            fromMonorail = AddUIComponent<UILabel>();
-            fromMonorail.text = Localization.Get("MONORAIL");
-            fromMonorail.relativePosition = new Vector3(fromTaxi.relativePosition.x, fromTaxi.relativePosition.y + SPACING22);
-            fromMonorail.autoSize = true;
-
             //6、Public transport income
             govermentIncomeTitle = AddUIComponent<UILabel>();
             govermentIncomeTitle.text = Localization.Get("CITY_PLAYER_BUILDING_INCOME_TITLE");
             govermentIncomeTitle.textScale = 1.1f;
-            govermentIncomeTitle.relativePosition = new Vector3(SPACING, fromPlane.relativePosition.y + SPACING22 + 10f);
+            govermentIncomeTitle.relativePosition = new Vector3(SPACING, publicTransportIncomeTitle.relativePosition.y + SPACING22 + 10f);
             govermentIncomeTitle.autoSize = true;
 
             garbageIncomeTitle = AddUIComponent<UILabel>();
             garbageIncomeTitle.text = Localization.Get("GARBAGE");
-            garbageIncomeTitle.relativePosition = new Vector3(SPACING, fromPlane.relativePosition.y + 2 * SPACING22 + 10f);
+            garbageIncomeTitle.relativePosition = new Vector3(SPACING, publicTransportIncomeTitle.relativePosition.y + 2 * SPACING22 + 10f);
             garbageIncomeTitle.autoSize = true;
 
             schoolIncomeTitle = AddUIComponent<UILabel>();
             schoolIncomeTitle.text = Localization.Get("SCHOOL");
-            schoolIncomeTitle.relativePosition = new Vector3(fromCableCar.relativePosition.x, fromCableCar.relativePosition.y + 2 * SPACING22 + 10f);
+            schoolIncomeTitle.relativePosition = new Vector3(garbageIncomeTitle.relativePosition.x + 300f, garbageIncomeTitle.relativePosition.y);
             schoolIncomeTitle.autoSize = true;
 
             roadIncomeTitle = AddUIComponent<UILabel>();
             roadIncomeTitle.text = Localization.Get("ROAD");
-            roadIncomeTitle.relativePosition = new Vector3(fromMonorail.relativePosition.x, fromMonorail.relativePosition.y + 2 * SPACING22 + 10f);
+            roadIncomeTitle.relativePosition = new Vector3(schoolIncomeTitle.relativePosition.x + 300f, schoolIncomeTitle.relativePosition.y);
             roadIncomeTitle.autoSize = true;
 
             playerIndustryIncomeTitle = AddUIComponent<UILabel>();
@@ -503,15 +440,6 @@ namespace RealCity.UI
                     induOilTradeIncome.text = string.Format(Localization.Get("INDUSTRIAL_OIL_TRADE_INCOME") + " [{0}]", induOilTradeIncomeForUI);
                     induOreTradeIncome.text = string.Format(Localization.Get("INDUSTRIAL_ORE_TRADE_INCOME") + " [{0}]", induOreTradeIncomeForUI);
                     publicTransportIncomeTitle.text = string.Format(Localization.Get("CITY_PUBLIC_TRANSPORT_INCOME_TITLE") + " [{0}]  [{1:N2}%]", cityTransportIncomeTotal, cityTransportIncomePercent * 100);
-                    fromBus.text = string.Format(Localization.Get("BUS") + " [{0}]", busIncome);
-                    fromTram.text = string.Format(Localization.Get("TRAM") + " [{0}]", tramIncome);
-                    fromTrain.text = string.Format(Localization.Get("TRAIN") + " [{0}]", trainIncome);
-                    fromShip.text = string.Format(Localization.Get("SHIP") + " [{0}]", shipIncome);
-                    fromPlane.text = string.Format(Localization.Get("PLANE") + " [{0}]", planeIncome);
-                    fromMetro.text = string.Format(Localization.Get("METRO") + " [{0}]", metroIncome);
-                    fromTaxi.text = string.Format(Localization.Get("TAXI") + " [{0}]", taxiIncome);
-                    fromCableCar.text = string.Format(Localization.Get("CABLECAR") + " [{0}]", cablecarIncome);
-                    fromMonorail.text = string.Format(Localization.Get("MONORAIL") + " [{0}]", monorailIncome);
                     govermentIncomeTitle.text = string.Format(Localization.Get("CITY_PLAYER_BUILDING_INCOME_TITLE") + " [{0}]  [{1:N2}%]", cityPlayerbuildingIncomeTotal, cityPlayerbuildingIncomePercent * 100);
                     roadIncomeTitle.text = string.Format(Localization.Get("ROAD") + " [{0}]", roadIncomeForUI);
                     garbageIncomeTitle.text = string.Format(Localization.Get("GARBAGE") + " [{0}]", garbageIncomeForUI);
@@ -685,15 +613,7 @@ namespace RealCity.UI
             cityTradeIncomeTotal += induOilTradeIncomeForUI;
             cityTradeIncomeTotal += induOreTradeIncomeForUI;
             cityTourismIncomeTotal = citizenIncomeForUI + touristIncomeForUI;
-            cityTransportIncomeTotal += busIncome;
-            cityTransportIncomeTotal += tramIncome;
-            cityTransportIncomeTotal += trainIncome;
-            cityTransportIncomeTotal += shipIncome;
-            cityTransportIncomeTotal += taxiIncome;
-            cityTransportIncomeTotal += planeIncome;
-            cityTransportIncomeTotal += metroIncome;
-            cityTransportIncomeTotal += cablecarIncome;
-            cityTransportIncomeTotal += monorailIncome;
+            cityTransportIncomeTotal = (double)MainDataStore.publicTransportFee / 100;
             cityPlayerbuildingIncomeTotal += roadIncomeForUI;
             cityPlayerbuildingIncomeTotal += playerIndustryIncomeForUI;
             cityPlayerbuildingIncomeTotal += healthCareIncomeForUI;
