@@ -48,7 +48,7 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.Goods:
                     if (sourceService == ItemClass.Service.Fishing)
                     {
-                        __result = 200;
+                        __result = 500;
                     }
                     else
                     {
@@ -71,7 +71,15 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.ShoppingD:
                 case TransferManager.TransferReason.ShoppingE:
                 case TransferManager.TransferReason.ShoppingH:
-                    __result = 0; break;
+                    if (sourceService == ItemClass.Service.Fishing)
+                    {
+                        __result = 200;
+                    }
+                    else
+                    {
+                        __result = 0;
+                    }
+                    break;
                 case TransferManager.TransferReason.Entertainment:
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:

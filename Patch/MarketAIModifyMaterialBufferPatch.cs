@@ -32,7 +32,7 @@ namespace RealCity.Patch
                         data.m_outgoingProblemTimer = 0;
                         data.m_education1 = (byte)Mathf.Clamp(data.m_education1 + (-amountDelta + 99) / 100, 0, 255);
                         int priceInt = 0;
-                        IndustryBuildingGetResourcePricePatch.Prefix(ref priceInt, material);
+                        IndustryBuildingGetResourcePricePatch.Prefix(ref priceInt, material, data.Info.m_class.m_service);
                         var m_goodsSellPrice = priceInt / 100;
                         int num = (-amountDelta * m_goodsSellPrice + 50) / 100;
                         if (num != 0)

@@ -256,4 +256,32 @@ namespace RealCity.RebalancedIndustries
             ___m_expenses.text = (input1 + input2 + input3 + input4).ToString(Settings.moneyFormatNoCents, LocaleManager.cultureInfo);
         }
     }
+
+    [HarmonyPatch]
+    public static class FishingBoatAISimulationStepPatch
+    {
+        public static MethodBase TargetMethod()
+        {
+            return typeof(FishingBoatAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(Vehicle.Frame).MakeByRefType(), typeof(ushort), typeof(Vehicle).MakeByRefType(), typeof(int) }, null);
+        }
+        public static void Prefix(ref Vehicle data, out ushort __state)
+        {
+            __state = data.m_transferSize;
+        }
+
+        public static void Postfix(ref Vehicle data, ref ushort __state)
+        {
+            int cargoDiff;
+            // Output
+            if (RealCity.reduceVehicle)
+            {
+                cargoDiff = Convert.ToInt32((data.m_transferSize - __state) >> MainDataStore.reduceCargoDivShift);
+            }
+            else
+            {
+                cargoDiff = Convert.ToInt32(data.m_transferSize - __state);
+            }
+            data.m_transferSize = (ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000);
+        }
+    }
 }
