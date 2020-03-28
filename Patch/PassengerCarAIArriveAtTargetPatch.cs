@@ -45,6 +45,30 @@ namespace RealCity.Patch
                                     CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
                                 }
                             }
+                            else
+                            {
+                                if (vehicleData.m_citizenUnits != 0)
+                                {
+                                    if (citizenManager.m_citizens.m_buffer[citizenID].m_vehicle == vehicleID)
+                                    {
+                                        Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                                        citizenManager.m_citizens.m_buffer[citizenID].m_vehicle = 0;
+                                    }
+                                    else if (citizenManager.m_citizens.m_buffer[citizenID].m_vehicle != 0)
+                                    {
+                                        DebugLog.LogToFileOnly($"Warning: citizen vehicleID = {citizenManager.m_citizens.m_buffer[citizenID].m_vehicle}, but vehicleID = {vehicleID}");
+                                        Singleton<VehicleManager>.instance.ReleaseVehicle(citizenManager.m_citizens.m_buffer[citizenID].m_vehicle);
+                                        Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                                        citizenManager.m_citizens.m_buffer[citizenID].m_vehicle = 0;
+                                    }
+
+                                    if (citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle != 0)
+                                    {
+                                        Singleton<VehicleManager>.instance.ReleaseParkedVehicle(citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle);
+                                        citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle = 0;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -54,7 +78,7 @@ namespace RealCity.Patch
 
         public static bool IsOutSide(Vector3 pos)
         {
-            if (pos.x > 8000 || pos.z > 8000 || pos.x < -8000 || pos.z < -8000)
+            if (pos.x > 8400 || pos.z > 8400 || pos.x < -8400 || pos.z < -8400)
                 return true;
             return false;
         }

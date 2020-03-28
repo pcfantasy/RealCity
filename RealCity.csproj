@@ -139,6 +139,7 @@
     <Compile Include="Patch\EconomyManagerAddResourcePatchItemClassDetail.cs" />
     <Compile Include="Patch\OfficeBuildingAIGetOutgoingTransferReasonPatch.cs" />
     <Compile Include="Patch\VehicleManagerReleaseVehicleImplementationPatch.cs" />
+    <Compile Include="Patch\ResidentAIGetCarProbabilityPatch.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />
     <Compile Include="Patch\EconomyManagerFetchResourcePatch.cs" />
     <Compile Include="Patch\CitizenManagerReleaseCitizenImplementationPatch.cs" />
