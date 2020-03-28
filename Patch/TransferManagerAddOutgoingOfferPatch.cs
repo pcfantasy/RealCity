@@ -63,7 +63,7 @@ namespace RealCity.Patch
                     else
                     {
                         offer.Amount = amount;
-                        return false;
+                        return true;
                     }
                 }
             }
