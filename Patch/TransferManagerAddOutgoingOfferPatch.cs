@@ -52,7 +52,7 @@ namespace RealCity.Patch
                     RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), buildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
                     var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                     var maxCount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
-                    var amount = Math.Min(buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount, maxCount - totalVisitCount);
+                    var amount = Math.Min(buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount + aliveVisitCount, maxCount - totalVisitCount);
 
                     if ((amount <= 0) || (maxCount <= totalVisitCount))
                     {

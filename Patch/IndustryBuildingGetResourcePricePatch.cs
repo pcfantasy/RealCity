@@ -90,7 +90,8 @@ namespace RealCity.Patch
 
             if (RealCity.reduceVehicle)
             {
-                __result <<= MainDataStore.reduceCargoDivShift;
+                if (material != TransferManager.TransferReason.Fish)
+                    __result <<= MainDataStore.reduceCargoDivShift;
             }
 
             __result = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, __result);
