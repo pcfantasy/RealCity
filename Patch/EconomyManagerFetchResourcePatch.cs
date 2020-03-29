@@ -24,6 +24,7 @@ namespace RealCity.Patch
         public static float PlayerIndustry = 0f;
         public static float PlayerEducation = 0f;
         public static float Museums = 0f;
+        public static float Fishing = 0f;
         public static float VarsitySports = 0f;
         public static MethodBase TargetMethod()
         {
@@ -81,6 +82,9 @@ namespace RealCity.Patch
                 case ItemClass.Service.VarsitySports:
                     ProcessUnit(ref amount, ref VarsitySports);
                     break;
+                case ItemClass.Service.Fishing:
+                    ProcessUnit(ref amount, ref Fishing);
+                    break;
                 default: break;
             }
         }
@@ -96,7 +100,7 @@ namespace RealCity.Patch
             if (container > 1)
             {
                 amount = (int)container;
-                container = container - (int)container;
+                container -= (int)container;
             }
             else
             {

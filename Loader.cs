@@ -4,15 +4,12 @@ using UnityEngine;
 using System.IO;
 using ColossalFramework;
 using System.Reflection;
-using System;
 using System.Collections.Generic;
-using RealCity.CustomAI;
 using RealCity.UI;
 using RealCity.Util;
 using RealCity.CustomManager;
 using ColossalFramework.Plugins;
 using RealCity.CustomData;
-using RealCity.Patch;
 
 namespace RealCity
 {
