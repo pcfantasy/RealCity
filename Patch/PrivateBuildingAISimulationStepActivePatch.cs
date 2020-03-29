@@ -80,7 +80,8 @@ namespace RealCity.Patch
 
                 case ItemClass.Service.Commercial:
                 case ItemClass.Service.Industrial:
-                    float averageBuildingSalary = BuildingUI.CaculateEmployeeOutcome(buildingData, buildingID, out _, out _);
+                case ItemClass.Service.Office:
+                    float averageBuildingSalary = BuildingUI.CaculateEmployeeOutcome(buildingData, out _);
 
                     if (MainDataStore.citizenCount > 0.0)
                     {
@@ -149,7 +150,7 @@ namespace RealCity.Patch
                 int totalVisitCount = 0;
                 RealCityCommercialBuildingAI.InitDelegate();
                 RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)buildingData.Info.m_buildingAI, buildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
-                var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - aliveVisitCount;
+                var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount + aliveVisitCount;
                 var AI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                 var maxcount = AI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(buildingID), buildingData.m_width, buildingData.m_length);
                 if ((amount <= 0) || (maxcount <= totalVisitCount))

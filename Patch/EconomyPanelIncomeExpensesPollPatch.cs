@@ -1,13 +1,19 @@
 ﻿using ColossalFramework;
+using Harmony;
 using RealCity.Util;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RealCity.CustomAI
+namespace RealCity.Patch
 {
-    public class RealCityEconomyPanel
+    [HarmonyPatch]
+    public class EconomyPanelIncomeExpensesPollPatch
     {
+        public static MethodBase TargetMethod()
+        {
+            return typeof(EconomyPanel).GetNestedType("IncomeExpensesPoll", BindingFlags.NonPublic).GetMethod("CalculateArenasExpenses", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(EconomyPanel.ArenaIndex), typeof(long).MakeByRefType() }, null);
+        }
         public static void Init()
         {
             DebugLog.LogToFileOnly("Init fake RealCityEconomyPanel");
@@ -32,7 +38,7 @@ namespace RealCity.CustomAI
             }
         }
 
-        private void CalculateArenasExpenses(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)
+        public static bool Prefix(EconomyPanel.ArenaIndex arenaIndex, ref long expenses)
         {
             if (!init)
             {
@@ -48,9 +54,10 @@ namespace RealCity.CustomAI
                 {
                     Singleton<EconomyManager>.instance.GetIncomeAndExpenses(Info.m_class.m_service, Info.m_class.m_subService, Info.m_class.m_level, out long _, out long expense);
                     expenses += expense;
-                    return;
+                    return false;
                 }
             }
+            return false;
         }
 
         public static bool init = false;

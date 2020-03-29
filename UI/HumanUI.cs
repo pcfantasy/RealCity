@@ -61,7 +61,7 @@ namespace RealCity.UI
             familySalary.autoSize = true;
 
             citizenMoney = AddUIComponent<UILabel>();
-            citizenMoney.text = Localization.Get("CITIZEN_SALARY");
+            citizenMoney.text = Localization.Get("CITIZEN_MONEY");
             citizenMoney.relativePosition = new Vector3(SPACING, familySalary.relativePosition.y + SPACING22);
             citizenMoney.autoSize = true;
 

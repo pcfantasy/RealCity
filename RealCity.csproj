@@ -88,13 +88,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomAI\RealCityEconomyPanel.cs" />
+    <Compile Include="CustomAI\RealCityMarketAI.cs" />
+    <Compile Include="Patch\MarketAIVisitorEnterPatch.cs" />
+    <Compile Include="Patch\MarketAIModifyMaterialBufferPatch.cs" />
+    <Compile Include="Patch\DistrictParkCalculateVarsityExpensesPatch.cs" />
+    <Compile Include="Patch\EconomyPanelIncomeExpensesPollPatch.cs" />
     <Compile Include="CustomAI\RealCityCommercialBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityCommonBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityIndustrialExtractorAI.cs" />
     <Compile Include="CustomAI\RealCityIndustryBuildingAI.cs" />
-    <Compile Include="CustomAI\RealCityOfficeBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityPlayerBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityPrivateBuildingAI.cs" />
     <Compile Include="CustomAI\RealCityResidentAI.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="CustomData\CitizenUnitData.cs" />
     <Compile Include="CustomData\CitizenData.cs" />
     <Compile Include="CustomData\VehicleData.cs" />
+    <Compile Include="Patch\IndustryBuildingGetResourcePricePatch.cs" />
     <Compile Include="Patch\ResidentAIStartMovingPatch.cs" />
     <Compile Include="Patch\TransferManagerAddIncomingOfferPatch.cs" />
     <Compile Include="Patch\TouristAIStartMovingPatch.cs" />
@@ -132,10 +136,12 @@
     <Compile Include="Patch\ResidentAICitizenUnitSimulationStepPatch.cs" />
     <Compile Include="Patch\TollBoothEnterBuildingSegmentPatch.cs" />
     <Compile Include="CustomData\TransportLineData.cs" />
-    <Compile Include="CustomData\CustomDistrictPark.cs" />
+    <Compile Include="Patch\DistrictParkCalculatePolicyExpensesPatch.cs" />
     <Compile Include="Patch\EconomyManagerAddResourceItemClassPatch.cs" />
     <Compile Include="Patch\EconomyManagerAddResourcePatchItemClassDetail.cs" />
+    <Compile Include="Patch\OfficeBuildingAIGetOutgoingTransferReasonPatch.cs" />
     <Compile Include="Patch\VehicleManagerReleaseVehicleImplementationPatch.cs" />
+    <Compile Include="Patch\ResidentAIGetCarProbabilityPatch.cs" />
     <Compile Include="CustomManager\RealCityEconomyManager.cs" />
     <Compile Include="Patch\EconomyManagerFetchResourcePatch.cs" />
     <Compile Include="Patch\CitizenManagerReleaseCitizenImplementationPatch.cs" />
@@ -176,7 +182,6 @@
     <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
-    <Compile Include="Util\RedirectionHelper.cs" />
     <Compile Include="Util\SaveAndRestore.cs" />
     <Compile Include="Util\SpriteUtilities.cs" />
   </ItemGroup>

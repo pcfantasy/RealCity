@@ -15,27 +15,30 @@ namespace RealCity.Patch
         {
             return typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null);
         }
-        public static void Postfix(ref Building data, uint citizen)
+        public static void Postfix(ushort buildingID, ref Building data, uint citizen)
         {
             ushort eventIndex = data.m_eventIndex;
             if (eventIndex == 0)
             {
-                ProcessTourismIncome(ref data, citizen);
+                ProcessTourismIncome(buildingID, ref data, citizen);
             }
         }
-        public static void ProcessTourismIncome(ref Building data, uint citizen)
+        public static void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             BuildingInfo info = data.Info;
             if (info.m_class.m_service == ItemClass.Service.Monument)
             {
-                if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                if (IsRealUniqueBuilding(buildingID))
                 {
-                    ProcessMonumentTourismTouristIncome(ref data, citizen);
-                }
-                else
-                {
-                    ProcessMonumentTourismResidentIncome(ref data, citizen);
+                    if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                    {
+                        ProcessMonumentTourismTouristIncome(ref data, citizen);
+                    }
+                    else
+                    {
+                        ProcessMonumentTourismResidentIncome(ref data, citizen);
+                    }
                 }
             }
             else if (info.m_buildingAI is ParkBuildingAI)
@@ -105,6 +108,24 @@ namespace RealCity.Patch
                 DistrictPark[] park = instance2.m_parks.m_buffer;
                 park[b].m_tempTicketIncome = park[b].m_tempTicketIncome + (uint)(ticketPriceLeft);
             }
+        }
+
+        public static bool IsRealUniqueBuilding(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            if (buildingInfo?.m_class?.m_service != ItemClass.Service.Monument)
+            {
+                return false;
+            }
+
+            var monumentAI = buildingInfo.m_buildingAI as MonumentAI;
+            return monumentAI != null
+                && (monumentAI.m_supportEvents & (EventManager.EventType.Football | EventManager.EventType.Concert)) == 0;
         }
     }
 }

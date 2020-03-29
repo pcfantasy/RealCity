@@ -12,10 +12,6 @@ namespace RealCity.Patch
     [HarmonyPatch]
     public class ResidentAICitizenUnitSimulationStepPatch
     {
-        public static int lastHour = 0;
-        public static int lastMinute = 0;
-        public static int lastSecond = 0;
-        public static int minute = 1;
         public static MethodBase TargetMethod()
         {
             return typeof(ResidentAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(CitizenUnit).MakeByRefType() }, null);
@@ -256,36 +252,6 @@ namespace RealCity.Patch
                 RealCityResidentAI.familyWeightStableHigh = 0;
                 RealCityResidentAI.familyWeightStableLow = 0;
                 RealCityPrivateBuildingAI.profitBuildingMoney = 0;
-
-                if ((lastHour == 0) && (lastMinute == 0) && (lastSecond == 0))
-                {
-                    minute = 1;
-                }
-                else
-                {
-                    if (lastHour > Singleton<SimulationManager>.instance.m_currentGameTime.Hour)
-                    {
-                        minute = (Singleton<SimulationManager>.instance.m_currentGameTime.Hour + 24 - lastHour) * 60 + (Singleton<SimulationManager>.instance.m_currentGameTime.Minute - lastMinute);
-                    }
-                    else
-                    {
-                        minute = (Singleton<SimulationManager>.instance.m_currentGameTime.Hour - lastHour) * 60 + (Singleton<SimulationManager>.instance.m_currentGameTime.Minute - lastMinute);
-                    }
-                }
-
-                if (minute < 0)
-                {
-                    DebugLog.LogToFileOnly($"Error: minute < 0 {Singleton<SimulationManager>.instance.m_currentGameTime.Hour}   {Singleton<SimulationManager>.instance.m_currentGameTime.Minute}   {lastHour}   {lastMinute}");
-                    minute = 0;
-                }
-                else
-                {
-                    DebugLog.LogToFileOnly($"minute = {minute}");
-                }
-
-                lastHour = Singleton<SimulationManager>.instance.m_currentGameTime.Hour;
-                lastMinute = Singleton<SimulationManager>.instance.m_currentGameTime.Minute;
-                lastSecond = Singleton<SimulationManager>.instance.m_currentGameTime.Second;
             }
 
             RealCityResidentAI.preCitizenId = homeID;
@@ -394,7 +360,7 @@ namespace RealCity.Patch
                     Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)17, (int)((Politics.benefitOffset * MainDataStore.govermentSalary) / 100f), ItemClass.Service.Residential, ItemClass.SubService.None, ItemClass.Level.Level1);
                 }
             }
-            
+
             var canBuyGoodMoney = MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
             var familySalaryCurrentTmp = (familySalaryCurrent > canBuyGoodMoney) ? canBuyGoodMoney : familySalaryCurrent;
 
@@ -414,20 +380,10 @@ namespace RealCity.Patch
 
             //8 reduce goods
             float reducedGoods;
-            if (Loader.isRealTimeRunning)
-            {
-                if (CitizenUnitData.familyMoney[homeID] < 10000)
-                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) / 1000f;
-                else
-                    reducedGoods = (CitizenUnitData.familyGoods[homeID] * minute) / 250f;
-            }
+            if (CitizenUnitData.familyMoney[homeID] < canBuyGoodMoney)
+                reducedGoods = CitizenUnitData.familyGoods[homeID] / 200f;
             else
-            {
-                if (CitizenUnitData.familyMoney[homeID] < 10000)
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] / 125f;
-                else
-                    reducedGoods = CitizenUnitData.familyGoods[homeID] / 62.5f;
-            }
+                reducedGoods = CitizenUnitData.familyGoods[homeID] / 100f;
 
             CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
             data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);

@@ -256,4 +256,45 @@ namespace RealCity.RebalancedIndustries
             ___m_expenses.text = (input1 + input2 + input3 + input4).ToString(Settings.moneyFormatNoCents, LocaleManager.cultureInfo);
         }
     }
+
+    [HarmonyPatch]
+    public static class MarketAIProduceGoodsPatch
+    {
+        public static MethodBase TargetMethod()
+        {
+            return typeof(MarketAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
+        public static void Prefix(ref Building buildingData, out ushort[] __state)
+        {
+            __state = new ushort[2];
+            __state[0] = buildingData.m_customBuffer1;
+            __state[1] = buildingData.m_customBuffer2;
+        }
+
+        public static void Postfix(ref Building buildingData, ref ushort[] __state)
+        {
+            int cargoDiff;
+            // Input
+            if (RealCity.reduceVehicle)
+            {
+                cargoDiff = Convert.ToInt32((__state[0] - buildingData.m_customBuffer1) >> MainDataStore.reduceCargoDivShift);
+            }
+            else
+            {
+                cargoDiff = Convert.ToInt32(__state[0] - buildingData.m_customBuffer1);
+            }
+            buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0] - cargoDiff, 0, 64000);
+
+            // Output
+            if (RealCity.reduceVehicle)
+            {
+                cargoDiff = Convert.ToInt32((buildingData.m_customBuffer2 - __state[1]) >> MainDataStore.reduceCargoDivShift);
+            }
+            else
+            {
+                cargoDiff = Convert.ToInt32(buildingData.m_customBuffer2 - __state[1]);
+            }
+            buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1] + cargoDiff, 0, 64000);
+        }
+    }
 }

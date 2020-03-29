@@ -132,7 +132,7 @@ namespace RealCity.UI
                     }
                     else
                     {
-                        float averageEmployeeFee = CaculateEmployeeOutcome(buildingData, BuildingData.lastBuildingID, out int aliveWorkerCount, out int totalWorkerCount);
+                        float averageEmployeeFee = CaculateEmployeeOutcome(buildingData, out int totalWorkerCount);
                         int landRentFee = CaculateLandFee(buildingData, BuildingData.lastBuildingID);
                         string incomeType = RealCityPrivateBuildingAI.GetProductionType(false, BuildingData.lastBuildingID, buildingData);
                         string outgoingType = RealCityPrivateBuildingAI.GetProductionType(true, BuildingData.lastBuildingID, buildingData);
@@ -223,10 +223,10 @@ namespace RealCity.UI
                             int totalVisitCount = 0;
                             RealCityCommercialBuildingAI.InitDelegate();
                             RealCityCommercialBuildingAI.GetVisitBehaviour((CommercialBuildingAI)(buildingData.Info.m_buildingAI), BuildingData.lastBuildingID, ref buildingData, ref behaviour, ref aliveVisitCount, ref totalVisitCount);
-                            var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount;
+                            var amount = buildingData.m_customBuffer2 / MainDataStore.maxGoodPurchase - totalVisitCount + aliveVisitCount;
                             var commercialBuildingAI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
                             var maxCount = commercialBuildingAI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
-                            usedcar.text = string.Format("FORDEBUG" + " [{0}/{1}/{2}]", totalVisitCount, maxCount, amount);
+                            usedcar.text = string.Format("FORDEBUG" + " [{0}/{1}/{2}/{3}]", aliveVisitCount, totalVisitCount, maxCount, amount);
                         }
                         else
                         {
@@ -240,66 +240,60 @@ namespace RealCity.UI
             }
         }
 
-        public static float CaculateEmployeeOutcome(Building building, ushort buildingID, out int aliveWorkerCount, out int totalWorkerCount)
+        public static float CaculateEmployeeOutcome(Building building, out int totalWorkerCount)
         {
-            float num1 = 0;
-            Citizen.BehaviourData behaviour = default;
-            aliveWorkerCount = 0;
             totalWorkerCount = 0;
-            RealCityCommonBuildingAI.InitDelegate();
-            RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviour, ref aliveWorkerCount, ref totalWorkerCount);
-
-            if (totalWorkerCount > 0)
+            float allSalary = 0;
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = building.m_citizenUnits;
+            int num2 = 0;
+            while (num != 0u)
             {
-                if (BuildingData.buildingMoney[buildingID] > 0)
+                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
                 {
-                    float profitShare = 0;
-                    switch (building.Info.m_class.m_subService)
+                    var citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen0;
+                    if (citizenID != 0u)
                     {
-                        case ItemClass.SubService.IndustrialFarming:
-                        case ItemClass.SubService.IndustrialForestry:
-                            if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                                profitShare = MainDataStore.profitShareRatioInduExtractor;
-                            else
-                                profitShare = MainDataStore.profitShareRatioInduOther;
-                            break;
-                        case ItemClass.SubService.IndustrialOil:
-                        case ItemClass.SubService.IndustrialOre:
-                            profitShare = MainDataStore.profitShareRatioInduOther; break;
-                        case ItemClass.SubService.IndustrialGeneric:
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                profitShare = MainDataStore.profitShareRatioInduLevel1;
-                            else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                profitShare = MainDataStore.profitShareRatioInduLevel2;
-                            else
-                                profitShare = MainDataStore.profitShareRatioInduLevel3;
-                            break;
-                        case ItemClass.SubService.CommercialHigh:
-                        case ItemClass.SubService.CommercialLow:
-                            if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                                profitShare = MainDataStore.profitShareRatioCommLevel1;
-                            else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                                profitShare = MainDataStore.profitShareRatioCommLevel2;
-                            else
-                                profitShare = MainDataStore.profitShareRatioCommLevel3;
-                            break;
-                        case ItemClass.SubService.CommercialTourist:
-                        case ItemClass.SubService.CommercialLeisure:
-                            profitShare = MainDataStore.profitShareRatioCommOther; break;
-                        case ItemClass.SubService.CommercialEco:
-                            profitShare = MainDataStore.profitShareRatioCommECO; break;
-                        case ItemClass.SubService.OfficeGeneric:
-                        case ItemClass.SubService.OfficeHightech:
-                            profitShare = 1f; break;
+                        totalWorkerCount++;
+                        allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
                     }
-                    num1 = (int)(BuildingData.buildingMoney[buildingID] * profitShare / totalWorkerCount);
+                    citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen1;
+                    if (citizenID != 0u)
+                    {
+                        totalWorkerCount++;
+                        allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
+                    }
+                    citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen2;
+                    if (citizenID != 0u)
+                    {
+                        totalWorkerCount++;
+                        allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
+                    }
+                    citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen3;
+                    if (citizenID != 0u)
+                    {
+                        totalWorkerCount++;
+                        allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
+                    }
+                    citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen4;
+                    if (citizenID != 0u)
+                    {
+                        totalWorkerCount++;
+                        allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
+                    }
                 }
-                else
+                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                if (++num2 > 524288)
                 {
-                    num1 = 0;
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
                 }
             }
-            return num1;
+
+            if (totalWorkerCount == 0)
+                return 0;
+            else
+                return allSalary / totalWorkerCount;
         }
 
         public int CaculateLandFee(Building building, ushort buildingID)
