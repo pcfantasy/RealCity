@@ -17,6 +17,7 @@ namespace RealCity.Patch
         }
         public static bool Prefix(ref int __result, TransferManager.TransferReason material, ItemClass.Service sourceService = ItemClass.Service.None)
         {
+            bool canRisePrice = true;
             switch (material)
             {
                 case TransferManager.TransferReason.AnimalProducts:
@@ -56,7 +57,7 @@ namespace RealCity.Patch
                     }
                     break;
                 case TransferManager.TransferReason.Fish:
-                    __result = 150; break;
+                    __result = 150; canRisePrice = false; break;
                 case TransferManager.TransferReason.Petrol:
                     __result = 0; break;
                 case TransferManager.TransferReason.Food:
@@ -74,6 +75,7 @@ namespace RealCity.Patch
                     if (sourceService == ItemClass.Service.Fishing)
                     {
                         __result = 200;
+                        canRisePrice = false;
                     }
                     else
                     {
@@ -90,7 +92,7 @@ namespace RealCity.Patch
 
             if (RealCity.reduceVehicle)
             {
-                if (material != TransferManager.TransferReason.Fish)
+                if (canRisePrice)
                     __result <<= MainDataStore.reduceCargoDivShift;
             }
 

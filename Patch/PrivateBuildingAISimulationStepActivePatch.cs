@@ -499,11 +499,11 @@ namespace RealCity.Patch
             }
         }
 
-        public static void GetLandRentNoOffice(out int incomeAccumulation, Building building, ushort buildingID)
+        public static void GetLandRentNoOffice(out int landRent, Building building, ushort buildingID)
         {
             ItemClass @class = building.Info.m_class;
-            incomeAccumulation = 0;
-            Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
+            landRent = 0;
+            Citizen.BehaviourData behaviourData = default;
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             ItemClass.SubService subService = @class.m_subService;
@@ -512,89 +512,85 @@ namespace RealCity.Patch
             {
                 case ItemClass.SubService.OfficeHightech:
                     RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                    //incomeAccumulation = (MainDataStore.office_high_tech);
                     RealCityPrivateBuildingAI.allOfficeHighTechWorkCount += aliveWorkerCount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        //incomeAccumulation = (MainDataStore.office_gen_levell);
                         RealCityPrivateBuildingAI.allOfficeLevel1WorkCount += aliveWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        //incomeAccumulation = (MainDataStore.office_gen_level2);
                         RealCityPrivateBuildingAI.allOfficeLevel2WorkCount += aliveWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        //incomeAccumulation = (MainDataStore.office_gen_level3);
                         RealCityPrivateBuildingAI.allOfficeLevel3WorkCount += aliveWorkerCount;
                     }
                     break;
                 case ItemClass.SubService.IndustrialFarming:
-                    incomeAccumulation = MainDataStore.induFarm;
+                    landRent = MainDataStore.induFarm;
                     break;
                 case ItemClass.SubService.IndustrialForestry:
-                    incomeAccumulation = MainDataStore.induForest;
+                    landRent = MainDataStore.induForest;
                     break;
                 case ItemClass.SubService.IndustrialOil:
-                    incomeAccumulation = MainDataStore.induOil;
+                    landRent = MainDataStore.induOil;
                     break;
                 case ItemClass.SubService.IndustrialOre:
-                    incomeAccumulation = MainDataStore.induOre;
+                    landRent = MainDataStore.induOre;
                     break;
                 case ItemClass.SubService.IndustrialGeneric:
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = MainDataStore.induGenLevel1;
+                        landRent = MainDataStore.induGenLevel1;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = MainDataStore.induGenLevel2;
+                        landRent = MainDataStore.induGenLevel2;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = MainDataStore.induGenLevel3;
+                        landRent = MainDataStore.induGenLevel3;
                     }
                     break;
                 case ItemClass.SubService.CommercialHigh:
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = MainDataStore.commHighLevel1;
+                        landRent = MainDataStore.commHighLevel1;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = MainDataStore.commHighLevel2;
+                        landRent = MainDataStore.commHighLevel2;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = MainDataStore.commHighLevel3;
+                        landRent = MainDataStore.commHighLevel3;
                     }
                     break;
                 case ItemClass.SubService.CommercialLow:
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        incomeAccumulation = MainDataStore.commLowLevel1;
+                        landRent = MainDataStore.commLowLevel1;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        incomeAccumulation = MainDataStore.commLowLevel2;
+                        landRent = MainDataStore.commLowLevel2;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        incomeAccumulation = MainDataStore.commLowLevel3;
+                        landRent = MainDataStore.commLowLevel3;
                     }
                     break;
                 case ItemClass.SubService.CommercialLeisure:
-                    incomeAccumulation = MainDataStore.commLeisure;
+                    landRent = MainDataStore.commLeisure;
                     break;
                 case ItemClass.SubService.CommercialTourist:
-                    incomeAccumulation = MainDataStore.commTourist;
+                    landRent = MainDataStore.commTourist;
                     break;
                 case ItemClass.SubService.CommercialEco:
-                    incomeAccumulation = MainDataStore.commEco;
+                    landRent = MainDataStore.commEco;
                     break;
                 default: break;
             }

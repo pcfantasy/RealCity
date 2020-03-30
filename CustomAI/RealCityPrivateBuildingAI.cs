@@ -372,7 +372,6 @@ namespace RealCity.CustomAI
 
         public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state, bool is16Times = true)
         {
-            //DebugLog.LogToFileOnly($"Process buildingID = {buildingID}");
             //add production pre 16times
             byte shift = 0;
             if (is16Times)
@@ -382,10 +381,8 @@ namespace RealCity.CustomAI
 
             if ((RealCityEconomyExtension.Can16timesUpdate(buildingID)) || (!is16Times))
             {
-                //DebugLog.LogToFileOnly($"Process buildingID inside 16times = {buildingID}");
                 float comsumptionDivider = GetComsumptionDivider(buildingData, buildingID);
                 int deltaCustomBuffer1 = __state[0] - buildingData.m_customBuffer1;
-                deltaCustomBuffer1 = (int)(deltaCustomBuffer1 * GetCompensateForIndustrial(buildingData, buildingID));
                 if (deltaCustomBuffer1 > 0)
                 {
                     if (RealCity.reduceVehicle)
@@ -413,7 +410,6 @@ namespace RealCity.CustomAI
                 }
 
                 int deltaCustomBuffer2 = buildingData.m_customBuffer2 - __state[1];
-                deltaCustomBuffer2 = (int)(deltaCustomBuffer2 * GetCompensateForIndustrial(buildingData, buildingID));
                 if (deltaCustomBuffer2 > 0)
                 {
                     if (RealCity.reduceVehicle)
@@ -480,40 +476,6 @@ namespace RealCity.CustomAI
                     }
                 }
             }
-        }
-
-        //Material buffer will send offer when have 8000 space, so efficiency will be reduced. Compensate this.
-        public static float GetCompensateForIndustrial(Building building, ushort buildingID)
-        {
-            var returnValue = 1f;
-            if (building.Info.m_class.m_service == ItemClass.Service.Industrial)
-            {
-                RealCityIndustrialBuildingAI.InitDelegate();
-                int num5 = RealCityIndustrialBuildingAI.MaxIncomingLoadSize((IndustrialBuildingAI)(building.Info.m_buildingAI));
-                var AI = building.Info.m_buildingAI as IndustrialBuildingAI;
-                int num7 = AI.CalculateProductionCapacity((ItemClass.Level)building.m_level, new Randomizer((int)buildingID), building.m_width, building.m_length);
-                int consumptionDivider = RealCityIndustrialBuildingAI.GetConsumptionDivider((IndustrialBuildingAI)(building.Info.m_buildingAI));
-                int num8 = Mathf.Max(num7 * 500 / consumptionDivider, num5 * 4);
-
-                if (building.m_customBuffer1 > 3000)
-                {
-                    if ((building.m_customBuffer1 + (8000 - (num5 >> 1)) < num8))
-                    {
-                        returnValue =(float)(num8) / (building.m_customBuffer1);
-                    }
-                    else
-                    {
-                        returnValue =(float)(building.m_customBuffer1 + (8000 - (num5 >> 1))) / (building.m_customBuffer1);
-                    }
-
-                    if (returnValue > 1.75f)
-                    {
-                        returnValue = 1.75f;
-                    }
-                }
-            }
-            
-            return returnValue;
         }
     }
 }

@@ -30,9 +30,9 @@
         public const int salaryCommOtherMax = 900;
         public const int salaryCommTouMax = 600;
 
-        public const float bossRatioInduLevel1 = 0.1f;
-        public const float bossRatioInduLevel2 = 0.14f;
-        public const float bossRatioInduLevel3 = 0.16f;
+        public const float bossRatioInduLevel1 = 0.05f;
+        public const float bossRatioInduLevel2 = 0.07f;
+        public const float bossRatioInduLevel3 = 0.08f;
         public const float bossRatioInduOther = 0.05f;
         public const float bossRatioInduExtractor = 0f;
         public const float bossRatioCommLevel1 = 0.15f;
