@@ -1,11 +1,11 @@
 ﻿using ICities;
-using System.Collections.Generic;
 using RealCity.Util;
 using ColossalFramework.UI;
 using ColossalFramework;
 using System;
 using System.Reflection;
 using RealCity.CustomData;
+using HarmonyLib;
 
 namespace RealCity
 {
@@ -55,12 +55,12 @@ namespace RealCity
                 }
                 else
                 {
-                    var harmony = new Harmony.Harmony(HarmonyDetours.Id);
+                    var harmony = new Harmony(HarmonyDetours.Id);
                     var methods = harmony.GetPatchedMethods();
                     int i = 0;
                     foreach (var method in methods)
                     {
-                        var info = Harmony.Harmony.GetPatchInfo(method);
+                        var info = Harmony.GetPatchInfo(method);
                         if (info.Owners?.Contains(HarmonyDetours.Id) == true)
                         {
                             DebugLog.LogToFileOnly("Harmony patch method = " + method.Name.ToString());
