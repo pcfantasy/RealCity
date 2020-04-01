@@ -195,7 +195,10 @@ namespace RealCity.CustomAI
 
                         if (!checkOnly)
                         {
-                            BuildingData.buildingMoney[workBuilding] -= salary;
+                            if (buildingData.Info.m_class.m_service != ItemClass.Service.Office)
+                            {
+                                BuildingData.buildingMoney[workBuilding] -= salary;
+                            }
                         }
                     }
                     else
