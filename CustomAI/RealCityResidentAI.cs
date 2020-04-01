@@ -111,7 +111,7 @@ namespace RealCity.CustomAI
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding];
                     int aliveWorkCount = 0;
                     int totalWorkCount = 0;
-                    Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
+                    Citizen.BehaviourData behaviour = default;
                     RealCityCommonBuildingAI.InitDelegate();
                     RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)buildingData.Info.m_buildingAI, workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     if (!IsGoverment(workBuilding))
@@ -152,6 +152,9 @@ namespace RealCity.CustomAI
                                 profitShare = MainDataStore.profitShareRatioCommOther; break;
                             case ItemClass.SubService.CommercialEco:
                                 profitShare = MainDataStore.profitShareRatioCommECO; break;
+                            case ItemClass.SubService.OfficeGeneric:
+                            case ItemClass.SubService.OfficeHightech:
+                                profitShare = 1f; break;
                         }
 
                         if ((BuildingData.buildingMoney[workBuilding] > 0) && (totalWorkCount != 0))
