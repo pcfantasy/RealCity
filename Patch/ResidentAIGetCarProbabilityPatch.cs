@@ -7,15 +7,17 @@ using System.Reflection;
 
 namespace RealCity.Patch
 {
-    //[HarmonyPatch]
+    [HarmonyPatch]
     public class ResidentAIGetCarProbabilityPatch
     {
         public static MethodBase TargetMethod()
         {
             return typeof(ResidentAI).GetMethod("GetCarProbability", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(Citizen.AgeGroup)}, null);
         }
+        [HarmonyPriority(Priority.First)]
         public static bool Prefix(ref CitizenInstance citizenData, ref int __result)
         {
+            DebugLog.LogToFileOnly("GetCarProbability");
             CitizenManager instance = Singleton<CitizenManager>.instance;
             var citizenID = citizenData.m_citizen;
             ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
@@ -28,7 +30,7 @@ namespace RealCity.Patch
             }
             else
             {
-                if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.highWealth)
+                if (CitizenUnitData.familyMoney[containingUnit] < (MainDataStore.highWealth >> 1))
                 {
                     __result = 0;
                     return false;

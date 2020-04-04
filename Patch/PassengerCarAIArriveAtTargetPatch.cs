@@ -45,7 +45,7 @@ namespace RealCity.Patch
                                     CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
                                 }
                             }
-                            /*else
+                            else
                             {
                                 if (vehicleData.m_citizenUnits != 0)
                                 {
@@ -68,7 +68,7 @@ namespace RealCity.Patch
                                         citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle = 0;
                                     }
                                 }
-                            }*/
+                            }
                         }
                     }
                 }
