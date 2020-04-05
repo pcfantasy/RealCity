@@ -3,6 +3,7 @@ using System.IO;
 using RealCity.Util;
 using ColossalFramework.UI;
 using UnityEngine;
+using CitiesHarmony.API;
 
 namespace RealCity
 {
@@ -63,7 +64,8 @@ namespace RealCity
             IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
-            Loader.HarmonyInitDetour();
+            HarmonyHelper.EnsureHarmonyInstalled();
+            HarmonyHelper.DoOnHarmonyReady(() => Loader.HarmonyInitDetour());
             if (UIView.GetAView() != null)
             {
                 OnGameIntroLoaded();

@@ -50,14 +50,17 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony2.0">
-      <HintPath>..\0Harmony2.0.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Lib.Harmony.2.0.0.9\lib\net35\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="CitiesHarmony.API, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesHarmony.API.1.0.0\lib\net35\CitiesHarmony.API.dll</HintPath>
     </Reference>
     <Reference Include="ColossalManaged">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
@@ -197,10 +200,15 @@
   <ItemGroup>
     <Analyzer Include="..\0Harmony2.0.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "D:\Mod\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
-copy "D:\Mod\RealCity\bin\Release\0Harmony2.0.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"
+    <PostBuildEvent>rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086"
+mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086"
+copy "D:\Mod\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
+copy "D:\Mod\RealCity\bin\Release\CitiesHarmony.API.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\CitiesHarmony.API.dll"
 rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
 mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
 copy "D:\Mod\RealCity\Resources\*.*" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
