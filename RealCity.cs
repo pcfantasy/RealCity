@@ -64,7 +64,6 @@ namespace RealCity
             IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
-            HarmonyHelper.EnsureHarmonyInstalled();
             HarmonyHelper.DoOnHarmonyReady(() => Loader.HarmonyInitDetour());
             if (UIView.GetAView() != null)
             {
