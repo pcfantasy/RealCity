@@ -1,26 +1,26 @@
 ECONOMIC_DATA	Экономическая статистика
-CITIZEN_STATUS	1、Статус жителей (числа в центах)
+CITIZEN_STATUS	1. Статус жителей (числа в центах)
 CITIZEN_COUNT	Количество жителей
 FAMILY_COUNT	Количество семей
 SALARY_PER_FAMILY	Среднесемейный доход
 CITIZEN_TAX_PER_FAMILY	Среднесемейные налоги
 EXPENSE_PER_FAMILY	Среднесемейные затраты
 AVERAGE_TRANPORT_FEE	из них на транспорт
-LEVEL3_HIGH_WEALTH	Level3 High Wealth
-LEVEL2_HIGH_WEALTH	Level2 High Wealth
-LEVEL1_HIGH_WEALTH	Level1 High Wealth
+LEVEL3_HIGH_WEALTH	Сверхбогатые
+LEVEL2_HIGH_WEALTH	Богатые
+LEVEL1_HIGH_WEALTH	Обеспеченные
 WEALTH_HIGH_COUNT	Высокого достатка
 WEALTH_MEDIUM_COUNT	Среднего достатка
 WEALTH_LOW_COUNT	Низкого достатка
-BUILDING_STATUS	2. Building Status
+BUILDING_STATUS	2. Статус предприятий
 PROFIT_BUIDLING_COUNT	Прибыльных (Инд+Ком) предприятий
 EXTERNAL_INVESTMENTS	Внешние инвестиции (для офисов)
-TIP1	Tip1
-TIP2	Tip2
-TIP3	Tip3
-TIP4	Tip4
-TIP5	Tip5
-TIP6	Tip6
+TIP1	Совет 1
+TIP2	Совет 2
+TIP3	Совет 3
+TIP4	Совет 4
+TIP5	Совет 5
+TIP6	Совет 6
 POLICY_COST	3. Затраты на политики (₡)
 LIVING_ALLOWANCE	Выплаты бедным и малоимущим
 USE_TMPE_TIP	Используйте TMPE и запретите исчезновение транспорта
@@ -126,16 +126,16 @@ SELL_TAX	Налог на добавленную стоимость
 PROFIT	Прибыль
 EXCLUDE_VISIT_INCOME	(исключая доход посетителей)
 FAMILY_STATUS	Состояние семьи
-FOOD	Продукты питания
-COAL	Уголь
-LUMBER	Древесина
-PETROL	Нефтепродукты
-GRAIN_MEAT	Зерно/Мясо
-ORE	Руда
-LOG	Лес-кругляк
-OIL	Нефть
-PREGOODS	Полуфабрикаты
-GOODS	Товары
+FOOD	Продукты питания 
+COAL	Уголь 
+LUMBER	Древесина 
+PETROL	Нефтепродукты 
+GRAIN_MEAT	Зерно/Мясо 
+ORE	Руда 
+LOG	Лес-кругляк 
+OIL	Нефть 
+PREGOODS	Полуфабрикаты 
+GOODS	Товары 
 PRICE	Цена
 ANIMALPRODUCTS	Животные продукты
 FLOURS	Мука
@@ -147,14 +147,14 @@ GLASS	Стекло
 METALS	Металл
 LUXURY_PRODUCTS	Предметы роскоши
 FAMILY_MONEY	Семейные финансы (в центах)
-CITIZEN_MONEY	Citizen Money (1/100₡)
+CITIZEN_MONEY	Финансы жителя (1/100₡)
 FAMILY_SALARY	Семейный доход
 FAMILY_GOODS  Товары семьи
 FAMILY_NEED_GOODS	(Семья нуждается)
 CAR_USED	Использовано автомобилей
 MAINTAIN_FEE_TIPS	Затраты на содержания отображаемые в интерфейсе не включают затраты на транспорт
 LOCAL_WORKERS_DIV_TOTAL_WORKERS	Рабочих/ Рабочих мест
-TOURIST_MONEY	Tourist transport budget
+TOURIST_MONEY	Транспортный бюджет туриста
 SHOW_LACK_OF_RESOURCE	Отображать иконку недосточно ресурсов на коммерческих зданиях когда склад пустой
 DEBUG_MODE	Отображать больше информации
 REDUCE_CARGO_DESCRIPTION	Сократить количество груза (и для DLC Industries и для зональных зданий)
@@ -162,35 +162,35 @@ REDUCE_CARGO_ENABLE	Включить функцию сокращения гру�
 INCOMPATIBILITY_CHECK_TIP	Модификация RealCity(series) обнаружила несовместимые модификации
 REMOVE_STUCK_DESCRIPTION	Автоматическое удаление застрявших жителей и транспорта (немного увеличивает производительность)
 REMOVE_STUCK_ENABLE	Включить удаление жителей и транспорта
-BASIC_SETTING	Basic Setting
-SPTB	SPTB function
-SMART_PUBLIC_TRANSPORT_BUDGET_WEEKDAY	Smart public transport budget(weekday)
-SMART_PUBLIC_TRANSPORT_BUDGET_WEEKEND	Smart public transport budget(weekend)
-WEEKDAY_MORNING_BUDGET	weekday morning budget(8-10)
-WEEKDAY_EVENING_BUDGET	weekday evening budget(17-19)
-WEEKDAY_DEEPNIGHT_BUDGET	weekday deepnight budget(0-4)
-WEEKDAY_OTHER_BUDGET	weekday other budget
-WEEKEND_MORNING_BUDGET	weekend morning budget(8-10)
-WEEKEND_EVENING_BUDGET	weekend evening budget(17-19)
-WEEKEND_DEEPNIGHT_BUDGET	weekend deepnight budget(0-4)
-WEEKEND_OTHER_BUDGET	weekend other budget
-WeekDayPlan	WeekDayPlan
-WeekEndPlan	WeekEndPlan
-NoPlan	NoPlan
-TLMRUNNING	TransportLineManager is running, SPTB function disabled, use TLM instead.
-TLMNOTRUNNING	TransportLineManager is not running, SPTB function can be used.
-MAX_MORNING_BUDGET	max morning budget(8-10)
-MAX_EVENING_BUDGET	max evening budget(17-19)
-MAX_DEEPNIGHT_BUDGET	max deepnight budget(0-4)
-MAX_OTHER_BUDGET	max other budget
-MIN_MORNING_BUDGET	min morning budget(8-10)
-MIN_EVENING_BUDGET	min evening budget(17-19)
-MIN_DEEPNIGHT_BUDGET	min deepnight budget(0-4)
-MIN_OTHER_BUDGET	min other budget
-MaxPlan	MaxPlan
-MinPlan	MinPlan
-SPTB2	SPTB function2
-SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Smart public transport budget(max)
-SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Smart public transport budget(min)
-UNFINISHED_DEAL_LOST	Unfinished deal refund
-RESET_VALUE	Reset key value
+BASIC_SETTING	Базовые настройки
+SPTB	Функциональность АБОТ
+SMART_PUBLIC_TRANSPORT_BUDGET_WEEKDAY	Адаптивный бюджет общественного транспорта (будни)
+SMART_PUBLIC_TRANSPORT_BUDGET_WEEKEND	Адаптивный бюджет общественного транспорта (выходные)
+WEEKDAY_MORNING_BUDGET	Утренний бюджет в будни(8-10)
+WEEKDAY_EVENING_BUDGET	Вечерний бюджет в будни(17-19)
+WEEKDAY_DEEPNIGHT_BUDGET	Ночной бюджет в будни(0-4)
+WEEKDAY_OTHER_BUDGET	Обычный бюджет в будни
+WEEKEND_MORNING_BUDGET	Утренний бюджет в выходные(8-10)
+WEEKEND_EVENING_BUDGET	Вечерний бюджет в выходные(17-19)
+WEEKEND_DEEPNIGHT_BUDGET	Ночной бюджет в выходные(0-4)
+WEEKEND_OTHER_BUDGET	Обычный бюджет в выходные
+WeekDayPlan	План для будней
+WeekEndPlan	План для выходных
+NoPlan	Нет плана
+TLMRUNNING	TransportLineManager активен, Функциональность АБОТ отключена, используйте TLM.
+TLMNOTRUNNING	TransportLineManager неактивен, Функциональность АБОТ включена.
+MAX_MORNING_BUDGET	Максимальный утренний бюджет(8-10)
+MAX_EVENING_BUDGET	Максимальный вечерний бюджет(17-19)
+MAX_DEEPNIGHT_BUDGET	Максимальный ночной бюджет(0-4)
+MAX_OTHER_BUDGET	Максимальный обычный бюджет
+MIN_MORNING_BUDGET	Минимальный утренний бюджет(8-10)
+MIN_EVENING_BUDGET	Минимальный вечерний бюджет(17-19)
+MIN_DEEPNIGHT_BUDGET	Минимальный ночной бюджет(0-4)
+MIN_OTHER_BUDGET	Минимальный обычный бюджет
+MaxPlan	Макс
+MinPlan	Мин
+SPTB2	Функциональность АБОТ 2
+SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Адаптивный бюджет общественного транспорта (макс)
+SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Адаптивный бюджет общественного транспорта (мин)
+UNFINISHED_DEAL_LOST	Компенсация по незавершенным сделкам
+RESET_VALUE	Клавиша сброса
