@@ -151,14 +151,17 @@ namespace RealCity.UI
                 if (isVisible)
                 {
                     TransportLineData.lastLineID = GetLineID();
-                    WeekDayPlan.text = Localization.Get("WeekDayPlan");
-                    WeekEndPlan.text = Localization.Get("WeekEndPlan");
-                    WeekDayPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
-                    WeekEndPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
+                    if (WeekDayPlan.text != Localization.Get("WeekDayPlan"))
+                    {
+                        WeekDayPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
+                        WeekEndPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
+                    }
                     if (WeekDayPlanDD.selectedIndex != TransportLineData.WeekDayPlan[TransportLineData.lastLineID])
                         WeekDayPlanDD.selectedIndex = TransportLineData.WeekDayPlan[TransportLineData.lastLineID];
                     if (WeekEndPlanDD.selectedIndex != TransportLineData.WeekEndPlan[TransportLineData.lastLineID])
                         WeekEndPlanDD.selectedIndex = TransportLineData.WeekEndPlan[TransportLineData.lastLineID];
+                    WeekDayPlan.text = Localization.Get("WeekDayPlan");
+                    WeekEndPlan.text = Localization.Get("WeekEndPlan");
                     refeshOnce = false;
                 }
             }
