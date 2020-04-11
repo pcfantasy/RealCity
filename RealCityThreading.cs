@@ -13,7 +13,7 @@ namespace RealCity
     {
         public static bool isFirstTime = true;
         public static Assembly RealGasStation = null;
-        public const int HarmonyPatchNum = 58;
+        public const int HarmonyPatchNum = 57;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -63,7 +63,7 @@ namespace RealCity
                         var info = Harmony.GetPatchInfo(method);
                         if (info.Owners?.Contains(HarmonyDetours.Id) == true)
                         {
-                            DebugLog.LogToFileOnly("Harmony patch method = " + method.Name.ToString());
+                            DebugLog.LogToFileOnly($"Harmony patch method = {method.FullDescription()}");
                             if (info.Prefixes.Count != 0)
                             {
                                 DebugLog.LogToFileOnly("Harmony patch method has PreFix");

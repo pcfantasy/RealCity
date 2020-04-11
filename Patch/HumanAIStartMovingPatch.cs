@@ -11,11 +11,12 @@ using ColossalFramework.Math;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class ResidentAIStartMovingPatch
+    public class HumanAIStartMovingPatch
     {
         public static MethodBase TargetMethod()
         {
-            return typeof(ResidentAI).GetMethod("StartMoving", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(ushort), typeof(ushort) }, null);
+            var method = typeof(HumanAI).GetMethod("StartMoving", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(ushort), typeof(ushort) }, null);
+            return method;
         }
 
         public static void Prefix(uint citizenID, ref Citizen data, ref ushort sourceBuilding, ref ushort targetBuilding)
@@ -26,9 +27,9 @@ namespace RealCity.Patch
                 if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
                 {
                     CitizenManager instance = Singleton<CitizenManager>.instance;
-                    ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                    ushort homeBuilding = data.m_homeBuilding;
                     uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
-                    uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+                    uint containingUnit = data.GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
 
                     Citizen.BehaviourData behaviour = default;
                     int aliveVisitCount = 0;
@@ -47,19 +48,26 @@ namespace RealCity.Patch
                         return;
                     }
 
-                    if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
+                    if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
                     {
-                        //Reject poor citizen to building
-                        sourceBuilding = targetBuilding;
-                        return;
+                        //DebugLog.LogToFileOnly("Find Tourist in HumanAIStartMovingPatch");
                     }
-                    else if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                    else
                     {
-                        //Reject citizen who already have enough goods to building
-                        sourceBuilding = targetBuilding;
-                        return;
+                        //DebugLog.LogToFileOnly("Find Resident in HumanAIStartMovingPatch");
+                        if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
+                        {
+                            //Reject poor citizen to building
+                            sourceBuilding = targetBuilding;
+                            return;
+                        }
+                        else if (CitizenUnitData.familyGoods[containingUnit] > 2000)
+                        {
+                            //Reject citizen who already have enough goods to building
+                            sourceBuilding = targetBuilding;
+                            return;
+                        }
                     }
-
                 }
             }
         }
