@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
+    <Compile Include="Patch\HumanAIStartMovingPatch.cs" />
     <Compile Include="Patch\MarketAIVisitorEnterPatch.cs" />
     <Compile Include="Patch\MarketAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\DistrictParkCalculateVarsityExpensesPatch.cs" />
