@@ -50,7 +50,7 @@ namespace RealCity.Patch
 
                     if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
                     {
-                        //DebugLog.LogToFileOnly("Find Tourist in HumanAIStartMovingPatch");
+                        DebugLog.LogToFileOnly("Find Tourist in HumanAIStartMovingPatch" + Environment.StackTrace);
                     }
                     else
                     {

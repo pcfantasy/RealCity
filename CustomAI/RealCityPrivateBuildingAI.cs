@@ -331,7 +331,7 @@ namespace RealCity.CustomAI
 
         public static float GetComsumptionDivider(Building data, ushort buildingID)
         {
-            Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
+            Citizen.BehaviourData behaviourData = default;
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)data.Info.m_buildingAI, buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
@@ -344,6 +344,7 @@ namespace RealCity.CustomAI
 
             if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
+                RealCityIndustrialBuildingAI.InitDelegate();
                 var incomingTransferReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)data.Info.m_buildingAI, buildingID);
                 //petrol related
                 if (incomingTransferReason == TransferManager.TransferReason.Petrol)
