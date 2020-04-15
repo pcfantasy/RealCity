@@ -36,7 +36,7 @@ namespace RealCity.Patch
             LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
-        
+
         public static void ProcessBuildingDataFinal(ushort buildingID, ref Building buildingData)
         {
             if (RealCityPrivateBuildingAI.preBuidlingId > buildingID)
@@ -76,8 +76,12 @@ namespace RealCity.Patch
             switch (buildingData.Info.m_class.m_service)
             {
                 case ItemClass.Service.Residential:
+                    long familyMoney = GetResidentialBuildingAverageMoney(buildingData);
+                    if (familyMoney < 50000)
+                        BuildingData.buildingMoneyThreat[buildingID] = 1.0f - familyMoney / 100000.0f;
+                    else
+                        BuildingData.buildingMoneyThreat[buildingID] = (150000.0f - familyMoney) / 200000.0f;
                     break;
-
                 case ItemClass.Service.Commercial:
                 case ItemClass.Service.Industrial:
                 case ItemClass.Service.Office:
@@ -139,6 +143,39 @@ namespace RealCity.Patch
                     buildingData.m_problems = problem;
                 }
             }
+        }
+
+        public static long GetResidentialBuildingAverageMoney(Building buildingData)
+        {
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint citzenUnit = buildingData.m_citizenUnits;
+            int unitCount = 0;
+            long totalMoney = 0;
+            long averageMoney = 0;
+            while (citzenUnit != 0u)
+            {
+                if ((ushort)(instance.m_units.m_buffer[citzenUnit].m_flags & CitizenUnit.Flags.Home) != 0)
+                {
+                    if ((instance.m_units.m_buffer[citzenUnit].m_citizen0 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen1 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen2 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen3 != 0) || (instance.m_units.m_buffer[citzenUnit].m_citizen4 != 0))
+                    {
+                        unitCount++;
+                        totalMoney += (long)CitizenUnitData.familyMoney[citzenUnit];
+                    }
+                }
+                citzenUnit = instance.m_units.m_buffer[citzenUnit].m_nextUnit;
+                if (++unitCount > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
+                }
+            }
+
+            if (unitCount != 0)
+            {
+                averageMoney = totalMoney / unitCount;
+            }
+
+            return averageMoney;
         }
 
         public static void LimitCommericalBuildingAccess(ushort buildingID, ref Building buildingData)
