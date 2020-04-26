@@ -29,7 +29,7 @@ namespace RealCity.Patch
             }
             else
             {
-                if (CitizenUnitData.familyMoney[containingUnit] < (MainDataStore.highWealth >> 1))
+                if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.highWealth)
                 {
                     ageGroup = Citizen.AgeGroup.Child;
                 }

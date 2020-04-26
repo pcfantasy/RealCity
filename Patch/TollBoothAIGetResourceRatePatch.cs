@@ -8,11 +8,11 @@ using System.Reflection;
 namespace RealCity.Patch
 {
     [HarmonyPatch]
-    public class PlayerBuildingAIGetResourceRatePatch
+    public class TollBoothAIGetResourceRatePatch
     {
         public static MethodBase TargetMethod()
         {
-            return typeof(PlayerBuildingAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null);
+            return typeof(TollBoothAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null);
         }
         public static void Postfix(ushort buildingID, ref Building data, EconomyManager.Resource resource, ref int __result)
         {

@@ -53,9 +53,9 @@
         public const float investRatioCommECO = 0.2f;
         public const float investRatioCommOther = 0.25f;
         public const float investRatioCommTou = 0.01f;
-        public const int lowWealth = 10000;
-        public const int highWealth = 100000;
-        public const int maxGoodPurchase = 1000;
+        public const int lowWealth = 5000;
+        public const int highWealth = 50000;
+        public static int maxGoodPurchase = 1000;
         public const byte govermentEducation0SalaryFixed = 20;
         public const byte govermentEducation1SalaryFixed = 25;
         public const byte govermentEducation2SalaryFixed = 35;
@@ -196,6 +196,8 @@
             //avoid save data error:
             if (MainDataStore.citizenCount != 0)
                 MainDataStore.govermentSalary = (int)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount);
+            else
+                MainDataStore.govermentSalary = 10;
 
             if (MainDataStore.govermentSalary > 100)
                 MainDataStore.govermentSalary = 100;

@@ -76,11 +76,14 @@ namespace RealCity.Patch
             switch (buildingData.Info.m_class.m_service)
             {
                 case ItemClass.Service.Residential:
-                    long familyMoney = GetResidentialBuildingAverageMoney(buildingData);
-                    if (familyMoney < 50000)
-                        BuildingData.buildingMoneyThreat[buildingID] = 1.0f - familyMoney / 100000.0f;
+                    float familyMoney = GetResidentialBuildingAverageMoney(buildingData);
+                    if (familyMoney < (MainDataStore.highWealth >> 1))
+                        BuildingData.buildingMoneyThreat[buildingID] = 1.0f - familyMoney / MainDataStore.highWealth;
                     else
-                        BuildingData.buildingMoneyThreat[buildingID] = (150000.0f - familyMoney) / 200000.0f;
+                        BuildingData.buildingMoneyThreat[buildingID] = (((MainDataStore.highWealth << 1) - (MainDataStore.highWealth >> 1)) - familyMoney) / (MainDataStore.highWealth << 1);
+
+                    if (BuildingData.buildingMoneyThreat[buildingID] < 0)
+                        BuildingData.buildingMoneyThreat[buildingID] = 0;
                     break;
                 case ItemClass.Service.Commercial:
                 case ItemClass.Service.Industrial:
@@ -145,13 +148,13 @@ namespace RealCity.Patch
             }
         }
 
-        public static long GetResidentialBuildingAverageMoney(Building buildingData)
+        public static float GetResidentialBuildingAverageMoney(Building buildingData)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint citzenUnit = buildingData.m_citizenUnits;
             int unitCount = 0;
             long totalMoney = 0;
-            long averageMoney = 0;
+            float averageMoney = 0;
             while (citzenUnit != 0u)
             {
                 if ((ushort)(instance.m_units.m_buffer[citzenUnit].m_flags & CitizenUnit.Flags.Home) != 0)
@@ -172,7 +175,7 @@ namespace RealCity.Patch
 
             if (unitCount != 0)
             {
-                averageMoney = totalMoney / unitCount;
+                averageMoney = (float)totalMoney / unitCount;
             }
 
             return averageMoney;

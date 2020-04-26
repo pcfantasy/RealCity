@@ -138,10 +138,12 @@ namespace RealCity
                 if (strLine == "True")
                 {
                     reduceVehicle = true;
+                    MainDataStore.maxGoodPurchase = 500;
                 }
                 else
                 {
                     reduceVehicle = false;
+                    MainDataStore.maxGoodPurchase = 1000;
                 }
 
                 strLine = sr.ReadLine();
@@ -333,6 +335,10 @@ namespace RealCity
         public void reduceVehicleEnable(bool index)
         {
             reduceVehicle = index;
+            if (reduceVehicle)
+                MainDataStore.maxGoodPurchase = 500;
+            else
+                MainDataStore.maxGoodPurchase = 1000;
             SaveSetting();
         }
 

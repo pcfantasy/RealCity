@@ -18,9 +18,8 @@ namespace RealCity.Patch
         {
             if (resource == EconomyManager.Resource.Maintenance)
             {
-                int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
                 float salary = RealCityPlayerBuildingAI.CaculateEmployeeOutcome(buildingID, data);
-                __result = (int)((float)__result / MainDataStore.gameExpenseDivide + salary * budget);
+                __result = (int)((float)__result / MainDataStore.gameExpenseDivide - salary * 100f);
             }
         }
     }
