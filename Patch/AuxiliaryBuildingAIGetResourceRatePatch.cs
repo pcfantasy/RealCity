@@ -10,9 +10,9 @@ namespace RealCity.Patch
     [HarmonyPatch]
     public class AuxiliaryBuildingAIGetResourceRatePatch
     {
-        public static MethodBase AuxiliaryBuildingAI()
+        public static MethodBase TargetMethod()
         {
-            return typeof(ExtractingFacilityAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null);
+            return typeof(AuxiliaryBuildingAI).GetMethod("GetResourceRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(EconomyManager.Resource) }, null);
         }
         public static void Postfix(ushort buildingID, ref Building data, EconomyManager.Resource resource, ref int __result)
         {

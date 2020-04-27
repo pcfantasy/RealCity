@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -197,9 +197,6 @@
     <Content Include="Resources\zh.txt" />
     <Content Include="Resources\en.txt" />
     <Content Include="Resources\incompatible_mods.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\0Harmony2.0.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
