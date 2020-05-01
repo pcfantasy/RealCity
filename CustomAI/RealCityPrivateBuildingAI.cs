@@ -83,6 +83,34 @@ namespace RealCity.CustomAI
             }
         }
 
+        public static TransferManager.TransferReason GetIncomingProductionType(ushort buildingID, Building data)
+        {
+            RealCityIndustrialBuildingAI.InitDelegate();
+            if (data.Info.m_buildingAI is IndustrialExtractorAI)
+            {
+            }
+            else
+            {
+                switch (data.Info.m_class.m_subService)
+                {
+                    case ItemClass.SubService.CommercialHigh:
+                    case ItemClass.SubService.CommercialLow:
+                    case ItemClass.SubService.CommercialEco:
+                    case ItemClass.SubService.CommercialLeisure:
+                    case ItemClass.SubService.CommercialTourist:
+                        CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
+                        return commercialBuildingAI.m_incomingResource;
+                    case ItemClass.SubService.IndustrialForestry:
+                    case ItemClass.SubService.IndustrialFarming:
+                    case ItemClass.SubService.IndustrialOil:
+                    case ItemClass.SubService.IndustrialOre:
+                    case ItemClass.SubService.IndustrialGeneric:
+                        return RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
+                }
+            }
+            return TransferManager.TransferReason.None;
+        }
+
         public static string GetProductionType(bool isSelling, ushort buildingID, Building data)
         {
             RealCityIndustrialBuildingAI.InitDelegate();

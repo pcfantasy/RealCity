@@ -114,6 +114,7 @@ RESIDENT_SALARY_TAX	Ставка подоходного налога
 COMMERICAL_TRADE_TAX	Ставка НДС для торговых предприятий
 INDUSTRIAL_TRADE_TAX	Ставка НДС для промышленных предприятий
 BUILDING_MONEY	Баланс предпрития (в центах)
+BUILDING_NETASSET	Building Net Asset (1/100₡)
 MATERIAL_BUFFER	Склад сырья
 PRODUCTION_BUFFER	Склад продукции
 AVERAGE_EMPLOYFEE	Средняя зарплата

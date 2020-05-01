@@ -157,9 +157,10 @@ namespace RealCity.CustomAI
                                 profitShare = 1f; break;
                         }
 
-                        if ((BuildingData.buildingMoney[workBuilding] > 0) && (totalWorkCount != 0))
+                        int buildingAsset = (int)(BuildingData.buildingMoney[workBuilding] + buildingData.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(RealCityPrivateBuildingAI.GetIncomingProductionType(workBuilding, buildingData)));
+                        if ((buildingAsset > 0) && (totalWorkCount != 0))
                         {
-                            salary = (int)(BuildingData.buildingMoney[workBuilding] * profitShare / totalWorkCount);
+                            salary = (int)(buildingAsset * profitShare / totalWorkCount);
                             switch (buildingData.Info.m_class.m_subService)
                             {
                                 case ItemClass.SubService.IndustrialFarming:

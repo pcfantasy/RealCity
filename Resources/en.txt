@@ -115,6 +115,7 @@ RESIDENT_SALARY_TAX	Resident Income Tax
 COMMERICAL_TRADE_TAX	Commercial Trade Tax
 INDUSTRIAL_TRADE_TAX	Industrial Trade Tax
 BUILDING_MONEY	Building Money (1/100₡)
+BUILDING_NETASSET	Building Net Asset (1/100₡)
 MATERIAL_BUFFER	Material Buffer
 PRODUCTION_BUFFER	Production Buffer
 AVERAGE_EMPLOYFEE	Average Employee Salaries

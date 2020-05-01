@@ -94,12 +94,12 @@ namespace RealCity.Patch
                     {
                         float averageCitySalary = MainDataStore.citizenSalaryTotal / MainDataStore.citizenCount;
                         float salaryFactor = averageBuildingSalary / averageCitySalary;
-                        if (salaryFactor > 1.6f)
-                            salaryFactor = 1.6f;
+                        if (salaryFactor > 3f)
+                            salaryFactor = 3f;
                         else if (salaryFactor < 0.0f)
                             salaryFactor = 0.0f;
 
-                        BuildingData.buildingMoneyThreat[buildingID] = (1.0f - salaryFactor / 1.6f);
+                        BuildingData.buildingMoneyThreat[buildingID] = (1.0f - salaryFactor / 3f);
                     }
                     else
                         BuildingData.buildingMoneyThreat[buildingID] = 1.0f;
@@ -398,7 +398,7 @@ namespace RealCity.Patch
                 double c = allOfficeWorker * MainDataStore.citizenCount << 1;
                 if (allOfficeWorker != 0 && (c != 0))
                 {
-                    a = (RealCityPrivateBuildingAI.profitBuildingMoneyFinal / (double)(c));
+                    a = (RealCityPrivateBuildingAI.profitBuildingMoneyFinal / c);
                 }
                 if ((MainDataStore.citizenCount != 0))
                 {

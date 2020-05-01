@@ -7,17 +7,17 @@
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const int reduceCargoDiv = 2;
         public const int reduceCargoDivShift = 1;
-        public const float profitShareRatioInduLevel1 = 0.015f;
-        public const float profitShareRatioInduLevel2 = 0.021f;
-        public const float profitShareRatioInduLevel3 = 0.024f;
-        public const float profitShareRatioInduOther  = 0.021f;
+        public const float profitShareRatioInduLevel1 = 0.01f;
+        public const float profitShareRatioInduLevel2 = 0.014f;
+        public const float profitShareRatioInduLevel3 = 0.016f;
+        public const float profitShareRatioInduOther  = 0.015f;
         public const float profitShareRatioInduExtractor = 1f;
-        public const float profitShareRatioCommLevel1 = 0.01f;
-        public const float profitShareRatioCommLevel2 = 0.014f;
-        public const float profitShareRatioCommLevel3 = 0.016f;
-        public const float profitShareRatioCommECO    = 0.007f;
-        public const float profitShareRatioCommOther  = 0.008f;
-        public const float profitShareRatioCommTou = 0.005f;
+        public const float profitShareRatioCommLevel1 = 0.005f;
+        public const float profitShareRatioCommLevel2 = 0.007f;
+        public const float profitShareRatioCommLevel3 = 0.008f;
+        public const float profitShareRatioCommECO    = 0.002f;
+        public const float profitShareRatioCommOther  = 0.004f;
+        public const float profitShareRatioCommTou = 0.003f;
 
         public const int salaryInduLevel1Max = 300;
         public const int salaryInduLevel2Max = 450;

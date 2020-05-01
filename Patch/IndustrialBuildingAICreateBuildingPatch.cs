@@ -18,7 +18,7 @@ namespace RealCity.Patch
         {
             RealCityIndustrialBuildingAI.InitDelegate();
             var material = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
-            float initialMaterialFee = data.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(material);
+            float initialMaterialFee = data.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(material) + 10000;
             BuildingData.buildingMoney[buildingID] = -initialMaterialFee;
         }
     }
