@@ -110,6 +110,12 @@ namespace RealCity.Patch
 
         public static void Prefix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, ref uint __state)
         {
+            if (amount < 0)
+            {
+                DebugLog.LogToFileOnly($"Error: EconomyManagerFetchResourcePatch: amount < 0 {service} {subService} {level}");
+                amount = 0;
+            }
+
             __state = 0xdeadbeaf;
 
             if (resource == EconomyManager.Resource.PolicyCost)

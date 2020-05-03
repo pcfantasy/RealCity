@@ -640,7 +640,7 @@ namespace RealCity.Patch
             {
                 if (rand.Next(64) <= 1)
                 {
-                    DebugLog.LogToFileOnly("Error: Chance is not equal 800 " + (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance).ToString());
+                    DebugLog.LogToFileOnly($"Error: GetVoteTickets Chance is not equal 800 {(Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance)}");
                 }
             }
 
@@ -752,7 +752,7 @@ namespace RealCity.Patch
 
                     if (idex < 0 || idex > 14)
                     {
-                        DebugLog.LogToFileOnly("Error workplace idex" + idex.ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance workplace idex {idex}");
                     }
 
 
@@ -777,7 +777,7 @@ namespace RealCity.Patch
 
                     if (idex < 0 || idex > 3)
                     {
-                        DebugLog.LogToFileOnly("Error: Invaid money idex = " + idex.ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance Invaid money idex = {idex}");
                     }
                     Politics.cPartyChance += (ushort)(Politics.money[idex, 0] << 1);
                     Politics.gPartyChance += (ushort)(Politics.money[idex, 1] << 1);
@@ -791,7 +791,7 @@ namespace RealCity.Patch
 
                     if (temp < 0)
                     {
-                        DebugLog.LogToFileOnly(temp.ToString() + Citizen.GetAgeGroup(citizen.m_age).ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance temp = {temp} < 0, GetAgeGroup = {Citizen.GetAgeGroup(citizen.m_age)}");
                     }
 
                     Politics.cPartyChance += Politics.age[temp, 0];
@@ -831,7 +831,7 @@ namespace RealCity.Patch
                     }
                     else
                     {
-                        DebugLog.LogToFileOnly("Error: Invalid partyTrend = " + RealCityEconomyExtension.partyTrend.ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance Invalid partyTrend = {RealCityEconomyExtension.partyTrend}");
                     }
 
                     GetVoteTickets();

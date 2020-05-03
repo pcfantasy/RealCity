@@ -176,7 +176,7 @@ namespace RealCity
             }
             else
             {
-                DebugLog.LogToFileOnly("Error: invalid vehicleID = " + vehicleID.ToString());
+                DebugLog.LogToFileOnly($"Error: VehicleStatus invalid vehicleID = {vehicleID}");
             }
         }
 

@@ -157,31 +157,31 @@ namespace RealCity
             //reset playereducation fee
             if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level1 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent.ToString());
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level1 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent}");
                 Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) /100f);                
             }
 
             if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level2 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent.ToString());
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level2 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent}");
                 Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
             }
 
             if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level3 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent.ToString());
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level3 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent}");
                 Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
             }
 
             if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level4 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent.ToString());
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level4 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent}");
                 Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
             }
 
             if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level5 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent.ToString());
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level5 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent}");
                 Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
             }
         }
