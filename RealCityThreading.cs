@@ -112,7 +112,12 @@ namespace RealCity
                                     if (vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Helicopter)
                                         Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
                                     else if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
-                                        Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                                    {
+                                        if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Emergency2))
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                                        else
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 400, vehicle.Info.m_class);
+                                    }
                                     break;
                                 case ItemClass.Service.PublicTransport:
                                     int capacity = 0;

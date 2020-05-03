@@ -10,7 +10,7 @@
         public const float profitShareRatioInduLevel1 = 0.01f;
         public const float profitShareRatioInduLevel2 = 0.014f;
         public const float profitShareRatioInduLevel3 = 0.016f;
-        public const float profitShareRatioInduOther  = 0.005f;
+        public const float profitShareRatioInduOther  = 0.01f;
         public const float profitShareRatioInduExtractor = 1f;
         public const float profitShareRatioCommLevel1 = 0.005f;
         public const float profitShareRatioCommLevel2 = 0.007f;
