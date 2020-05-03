@@ -10,7 +10,7 @@
         public const float profitShareRatioInduLevel1 = 0.01f;
         public const float profitShareRatioInduLevel2 = 0.014f;
         public const float profitShareRatioInduLevel3 = 0.016f;
-        public const float profitShareRatioInduOther  = 0.015f;
+        public const float profitShareRatioInduOther  = 0.005f;
         public const float profitShareRatioInduExtractor = 1f;
         public const float profitShareRatioCommLevel1 = 0.005f;
         public const float profitShareRatioCommLevel2 = 0.007f;
@@ -33,7 +33,7 @@
         public const float bossRatioInduLevel1 = 0.05f;
         public const float bossRatioInduLevel2 = 0.07f;
         public const float bossRatioInduLevel3 = 0.08f;
-        public const float bossRatioInduOther = 0.05f;
+        public const float bossRatioInduOther = 0.01f;
         public const float bossRatioInduExtractor = 0f;
         public const float bossRatioCommLevel1 = 0.15f;
         public const float bossRatioCommLevel2 = 0.21f;
@@ -45,7 +45,7 @@
         public const float investRatioInduLevel1 = 0.001f;
         public const float investRatioInduLevel2 = 0.0014f;
         public const float investRatioInduLevel3 = 0.0016f;
-        public const float investRatioInduOther = 0.005f;
+        public const float investRatioInduOther = 0.0005f;
         public const float investRatioInduExtractor = 0f;
         public const float investRatioCommLevel1 = 0.10f;
         public const float investRatioCommLevel2 = 0.14f;
@@ -74,10 +74,10 @@
         public const ushort induGenLevel1 = 1000;
         public const ushort induGenLevel2 = 2000;
         public const ushort induGenLevel3 = 3000;
-        public const ushort induForest = 2000;
-        public const ushort induFarm = 1000;
-        public const ushort induOil = 4000;
-        public const ushort induOre = 3000;
+        public const ushort induForest = 5000;
+        public const ushort induFarm = 4000;
+        public const ushort induOil = 7000;
+        public const ushort induOre = 6000;
         public const ushort residentLowLevel1Rent = 100;
         public const ushort residentLowLevel2Rent = 150;
         public const ushort residentLowLevel3Rent = 200;

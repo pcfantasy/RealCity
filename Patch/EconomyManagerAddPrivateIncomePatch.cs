@@ -121,7 +121,7 @@ namespace RealCity.Patch
                     break;
                 case ItemClass.SubService.IndustrialForestry:
                     ProcessUnitTax100(ref amount, ref industy_forest_tradeIncome);
-                    RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
+                    RealCityEconomyManager.induForestyTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
                     break;
                 case ItemClass.SubService.IndustrialOil:
                     ProcessUnitTax100(ref amount, ref industy_oil_tradeIncome);

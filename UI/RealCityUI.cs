@@ -535,7 +535,7 @@ namespace RealCity.UI
                 commEcoTradeIncomeForUI+= (double)RealCityEconomyManager.commEcoTradeIncomeForUI[i]  / 100f;
                 induGenTradeIncomeForUI+= (double)RealCityEconomyManager.induGenTradeIncomeForUI[i]  / 100f;
                 induFarmerTradeIncomeForUI+= (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[i]  / 100f;
-                induForestyTradeIncomeForUI+= (double)RealCityEconomyManager.induForestyLandIncomeForUI[i]  / 100f;
+                induForestyTradeIncomeForUI+= (double)RealCityEconomyManager.induForestyTradeIncomeForUI[i]  / 100f;
                 induOilTradeIncomeForUI+= (double)RealCityEconomyManager.induOilTradeIncomeForUI[i]  / 100f;
                 induOreTradeIncomeForUI+= (double)RealCityEconomyManager.induOreTradeIncomeForUI[i]  / 100f;
                 roadIncomeForUI += (double)RealCityEconomyManager.roadIncomeForUI[i]  / 100f;
@@ -573,7 +573,7 @@ namespace RealCity.UI
             commEcoTradeIncomeForUI -= (double)RealCityEconomyManager.commEcoTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induGenTradeIncomeForUI -= (double)RealCityEconomyManager.induGenTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induFarmerTradeIncomeForUI -= (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induForestyTradeIncomeForUI -= (double)RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
+            induForestyTradeIncomeForUI -= (double)RealCityEconomyManager.induForestyTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induOilTradeIncomeForUI -= (double)RealCityEconomyManager.induOilTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induOreTradeIncomeForUI -= (double)RealCityEconomyManager.induOreTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
 
