@@ -102,21 +102,25 @@ namespace RealCity
                         {
                             switch (vehicle.Info.m_class.m_service)
                             {
-                                case ItemClass.Service.Disaster:
                                 case ItemClass.Service.PoliceDepartment:
-                                case ItemClass.Service.Road:
-                                case ItemClass.Service.Garbage:
                                 case ItemClass.Service.HealthCare:
-                                case ItemClass.Service.Electricity:
                                 case ItemClass.Service.FireDepartment:
                                     if (vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Helicopter)
                                         Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
-                                    else if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
+                                    else
                                     {
-                                        if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Emergency2))
+                                        if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Emergency2) || vehicle.m_flags.IsFlagSet(Vehicle.Flags.Emergency1))
                                             Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
                                         else
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 400, vehicle.Info.m_class);
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800, vehicle.Info.m_class);
+                                    }
+                                    break;
+                                case ItemClass.Service.Road:
+                                case ItemClass.Service.Garbage:
+                                case ItemClass.Service.Disaster:
+                                    if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
+                                    {
+                                        Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
                                     }
                                     break;
                                 case ItemClass.Service.PublicTransport:
