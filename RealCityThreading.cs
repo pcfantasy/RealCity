@@ -105,6 +105,7 @@ namespace RealCity
                                 case ItemClass.Service.PoliceDepartment:
                                 case ItemClass.Service.HealthCare:
                                 case ItemClass.Service.FireDepartment:
+                                case ItemClass.Service.Disaster:
                                     if (vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Helicopter)
                                         Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
                                     else
@@ -117,7 +118,6 @@ namespace RealCity
                                     break;
                                 case ItemClass.Service.Road:
                                 case ItemClass.Service.Garbage:
-                                case ItemClass.Service.Disaster:
                                     if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
                                     {
                                         Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
