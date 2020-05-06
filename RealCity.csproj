@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -167,6 +167,7 @@
     <Compile Include="RebalancedIndustries\RI_Detours.cs" />
     <Compile Include="UI\BuildingButton.cs" />
     <Compile Include="UI\BuildingUI.cs" />
+    <Compile Include="UI\OptionUI.cs" />
     <Compile Include="UI\PBLUI.cs" />
     <Compile Include="UI\IncompatibleModsPanel.cs" />
     <Compile Include="UI\EcnomicButton.cs" />

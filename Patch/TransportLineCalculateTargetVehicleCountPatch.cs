@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using HarmonyLib;
 using RealCity.CustomData;
+using RealCity.UI;
 using System;
 using System.Reflection;
 
@@ -24,108 +25,108 @@ namespace RealCity.Patch
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = RealCity.morningBudgetWeekDay * 0.01f;
+                        budget = OptionUI.morningBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = RealCity.otherBudgetWeekDay * 0.01f;
+                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = RealCity.eveningBudgetWeekDay * 0.01f;
+                        budget = OptionUI.eveningBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = RealCity.otherBudgetWeekDay * 0.01f;
+                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = RealCity.deepNightBudgetWeekDay * 0.01f;
+                        budget = OptionUI.deepNightBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = RealCity.otherBudgetWeekDay * 0.01f;
+                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
                     }
                 }
                 else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 2)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = RealCity.morningBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.morningBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = RealCity.otherBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = RealCity.eveningBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.eveningBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = RealCity.otherBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = RealCity.deepNightBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.deepNightBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = RealCity.otherBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
                     }
                 }
                 else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 3)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = RealCity.morningBudgetMax * 0.01f;
+                        budget = OptionUI.morningBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = RealCity.otherBudgetMax * 0.01f;
+                        budget = OptionUI.otherBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = RealCity.eveningBudgetMax * 0.01f;
+                        budget = OptionUI.eveningBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = RealCity.otherBudgetMax * 0.01f;
+                        budget = OptionUI.otherBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = RealCity.deepNightBudgetMax * 0.01f;
+                        budget = OptionUI.deepNightBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = RealCity.otherBudgetMax * 0.01f;
+                        budget = OptionUI.otherBudgetMax * 0.01f;
                     }
                 }
                 else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 4)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = RealCity.morningBudgetMin * 0.01f;
+                        budget = OptionUI.morningBudgetMin * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = RealCity.otherBudgetMin * 0.01f;
+                        budget = OptionUI.otherBudgetMin * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = RealCity.eveningBudgetMin * 0.01f;
+                        budget = OptionUI.eveningBudgetMin * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = RealCity.otherBudgetMin * 0.01f;
+                        budget = OptionUI.otherBudgetMin * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = RealCity.deepNightBudgetMin * 0.01f;
+                        budget = OptionUI.deepNightBudgetMin * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = RealCity.otherBudgetMin * 0.01f;
+                        budget = OptionUI.otherBudgetMin * 0.01f;
                     }
                 }
             }
@@ -136,108 +137,108 @@ namespace RealCity.Patch
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = RealCity.morningBudgetWeekDay * 0.01f;
+                        budget = OptionUI.morningBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = RealCity.otherBudgetWeekDay * 0.01f;
+                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = RealCity.eveningBudgetWeekDay * 0.01f;
+                        budget = OptionUI.eveningBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = RealCity.otherBudgetWeekDay * 0.01f;
+                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = RealCity.deepNightBudgetWeekDay * 0.01f;
+                        budget = OptionUI.deepNightBudgetWeekDay * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = RealCity.otherBudgetWeekDay * 0.01f;
+                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
                     }
                 }
                 else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 2)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = RealCity.morningBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.morningBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = RealCity.otherBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = RealCity.eveningBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.eveningBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = RealCity.otherBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = (RealCity.deepNightBudgetWeekEnd) * 0.01f;
+                        budget = (OptionUI.deepNightBudgetWeekEnd) * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = RealCity.otherBudgetWeekEnd * 0.01f;
+                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
                     }
                 }
                 else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 3)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = RealCity.morningBudgetMax * 0.01f;
+                        budget = OptionUI.morningBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = RealCity.otherBudgetMax * 0.01f;
+                        budget = OptionUI.otherBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = RealCity.eveningBudgetMax * 0.01f;
+                        budget = OptionUI.eveningBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = RealCity.otherBudgetMax * 0.01f;
+                        budget = OptionUI.otherBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = RealCity.deepNightBudgetMax * 0.01f;
+                        budget = OptionUI.deepNightBudgetMax * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = RealCity.otherBudgetMax * 0.01f;
+                        budget = OptionUI.otherBudgetMax * 0.01f;
                     }
                 }
                 else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 4)
                 {
                     if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
                     {
-                        budget = (RealCity.morningBudgetMin) * 0.01f;
+                        budget = (OptionUI.morningBudgetMin) * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                     {
-                        budget = (RealCity.otherBudgetMin) * 0.01f;
+                        budget = (OptionUI.otherBudgetMin) * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
                     {
-                        budget = (RealCity.eveningBudgetMin) * 0.01f;
+                        budget = (OptionUI.eveningBudgetMin) * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                     {
-                        budget = (RealCity.otherBudgetMin) * 0.01f;
+                        budget = (OptionUI.otherBudgetMin) * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                     {
-                        budget = (RealCity.deepNightBudgetMin) * 0.01f;
+                        budget = (OptionUI.deepNightBudgetMin) * 0.01f;
                     }
                     else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
                     {
-                        budget = (RealCity.otherBudgetMin) * 0.01f;
+                        budget = (OptionUI.otherBudgetMin) * 0.01f;
                     }
                 }
             }
