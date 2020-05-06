@@ -70,6 +70,10 @@ namespace RealCity.Patch
                                 }
                             }
                         }
+                        else
+                        {
+                            MainDataStore.outsideTouristMoney -= VehicleData.vehicleTransferTime[vehicleID];
+                        }
                     }
                 }
             }

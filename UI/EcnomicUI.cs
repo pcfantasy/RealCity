@@ -44,6 +44,8 @@ namespace RealCity.UI
         private UILabel thirdLine;
         private UILabel minimumLivingAllowance;
         private UILabel unfinishedTransitionLost;
+        private UILabel outsideGovermentMoney;
+        private UILabel outsideTouristMoney;
         //4 Tips
         private UILabel tip1;
         private UILabel tip2;
@@ -199,9 +201,19 @@ namespace RealCity.UI
             unfinishedTransitionLost.relativePosition = new Vector3(minimumLivingAllowance.relativePosition.x + 450f, minimumLivingAllowance.relativePosition.y);
             unfinishedTransitionLost.autoSize = true;
 
+            outsideGovermentMoney = AddUIComponent<UILabel>();
+            outsideGovermentMoney.text = Localization.Get("OUTSIDE_GOV_MONEY");
+            outsideGovermentMoney.relativePosition = new Vector3(SPACING, minimumLivingAllowance.relativePosition.y + SPACING22);
+            outsideGovermentMoney.autoSize = true;
+
+            outsideTouristMoney = AddUIComponent<UILabel>();
+            outsideTouristMoney.text = Localization.Get("OUTSIDE_TOU_MONEY");
+            outsideTouristMoney.relativePosition = new Vector3(outsideGovermentMoney.relativePosition.x + 450f, minimumLivingAllowance.relativePosition.y);
+            outsideTouristMoney.autoSize = true;
+
             tip1 = AddUIComponent<UILabel>();
             tip1.text = Localization.Get("TIP1");
-            tip1.relativePosition = new Vector3(SPACING, minimumLivingAllowance.relativePosition.y + SPACING22 + 10f);
+            tip1.relativePosition = new Vector3(SPACING, unfinishedTransitionLost.relativePosition.y + SPACING22 + 10f);
             tip1.autoSize = true;;
 
             tip2 = AddUIComponent<UILabel>();
@@ -268,6 +280,8 @@ namespace RealCity.UI
                     thirdLine.text = Localization.Get("POLICY_COST");
                     minimumLivingAllowance.text = string.Format(Localization.Get("LIVING_ALLOWANCE") + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));
                     unfinishedTransitionLost.text = string.Format(Localization.Get("UNFINISHED_DEAL_LOST") + " [{0}]", MainDataStore.unfinishedTransitionLostFinal);
+                    minimumLivingAllowance.text = string.Format(Localization.Get("OUTSIDE_GOV_MONEY") + " [{0}]", (MainDataStore.outsideGovermentMoney / 100));
+                    unfinishedTransitionLost.text = string.Format(Localization.Get("OUTSIDE_TOU_MONEY") + " [{0}]", (MainDataStore.outsideTouristMoney / 100));
                     //Tip
                     tip1.text = string.Format(Localization.Get("TIP1") + "  " + Localization.Get("USE_TMPE_TIP"));
                     tip2.text = string.Format(Localization.Get("TIP2") + "  " + Localization.Get("STARTUP_TIP"));

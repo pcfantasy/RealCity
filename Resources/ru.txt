@@ -15,6 +15,8 @@ WEALTH_LOW_COUNT	Низкого достатка
 BUILDING_STATUS	2. Статус предприятий
 PROFIT_BUIDLING_COUNT	Прибыльных (Инд+Ком) предприятий
 EXTERNAL_INVESTMENTS	Внешние инвестиции (для офисов)
+OUTSIDE_GOV_MONEY	Outside Goverment Money
+OUTSIDE_TOU_MONEY	Outside Toursit Money
 TIP1	Совет 1
 TIP2	Совет 2
 TIP3	Совет 3

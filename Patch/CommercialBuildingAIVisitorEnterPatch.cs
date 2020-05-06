@@ -33,8 +33,13 @@ namespace RealCity.Patch
 
                 consumptionMoney = -consumptionMoney;
                 buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Entertainment, ref consumptionMoney);
+                MainDataStore.outsideTouristMoney += (consumptionMoney);
                 consumptionMoney = -MainDataStore.maxGoodPurchase;
                 buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
+                int priceInt = 0;
+                IndustryBuildingGetResourcePricePatch.Prefix(ref priceInt, TransferManager.TransferReason.Shopping, data.Info.m_class.m_service);
+                var m_goodsSellPrice = priceInt / 100;
+                MainDataStore.outsideTouristMoney += (consumptionMoney * m_goodsSellPrice);
             }
             else
             {
