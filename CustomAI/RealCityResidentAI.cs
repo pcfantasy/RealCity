@@ -245,6 +245,7 @@ namespace RealCity.CustomAI
                             var m_class = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class;
                             Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)(salary * vitualWorkersRatio), m_class);
                             MainDataStore.outsideTouristMoney += (int)(salary * (vitualWorkersRatio - 1f));
+                            MainDataStore.outsideTouristMoney = Math.Min(MainDataStore.outsideTouristMoney, (int.MaxValue >> 1));
                         }
                     }
                 }

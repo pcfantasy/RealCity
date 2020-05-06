@@ -20,11 +20,15 @@ namespace RealCity.Patch
             var data = __instance.m_citizens.m_buffer[citizen];
             if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
             {
-                if (MainDataStore.outsideTouristMoney < 0)
+                if (RealCity.realCityV10)
                 {
-                    __result = false;
-                    return false;
+                    if (MainDataStore.outsideTouristMoney < 0)
+                    {
+                        __result = false;
+                        return false;
+                    }
                 }
+
                 if (data.m_flags.IsFlagSet(Citizen.Flags.MovingIn))
                 {
                     //Add initial money

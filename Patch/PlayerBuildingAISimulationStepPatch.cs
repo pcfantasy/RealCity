@@ -48,6 +48,7 @@ namespace RealCity.Patch
                         float num1 = education3Salary * allWorkCount;
                         Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)num1, data.Info.m_class);
                         MainDataStore.outsideTouristMoney += (int)(num1);
+                        MainDataStore.outsideTouristMoney = Math.Min(MainDataStore.outsideTouristMoney, (int.MaxValue >> 1));
                     }
                 }
             }

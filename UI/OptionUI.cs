@@ -169,6 +169,7 @@ namespace RealCity.UI
             UIHelperBase group = panelHelper.AddGroup(Localization.Get("BASIC_SETTING"));
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), RealCity.debugMode, (index) => debugModeEnable(index));
             group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), RealCity.reduceVehicle, (index) => reduceVehicleEnable(index));
+            group.AddCheckbox(Localization.Get("REALCITY_V10_BETA"), RealCity.realCityV10, (index) => realCityV10Enable(index));
             group.AddButton(Localization.Get("RESET_VALUE"), Loader.InitData);
 
             if (Loader.isTransportLinesManagerRunning)
@@ -269,6 +270,12 @@ namespace RealCity.UI
         public static void debugModeEnable(bool index)
         {
             RealCity.debugMode = index;
+            SaveSetting();
+        }
+
+        public static void realCityV10Enable(bool index)
+        {
+            RealCity.realCityV10 = index;
             SaveSetting();
         }
 

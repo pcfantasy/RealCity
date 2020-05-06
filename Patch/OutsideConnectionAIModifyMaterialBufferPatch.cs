@@ -18,26 +18,6 @@ namespace RealCity.Patch
         {
             switch (material)
             {
-                case TransferManager.TransferReason.DummyPlane:
-                case TransferManager.TransferReason.DummyShip:
-                case TransferManager.TransferReason.DummyTrain:
-                    if (amountDelta < 0)
-                    {
-                        amountDelta = -amountDelta;
-                        MainDataStore.outsideGovermentMoney += (int)(amountDelta * 4f * MainDataStore.outsideGovermentProfitRatio);
-                        MainDataStore.outsideTouristMoney += (int)(amountDelta * 4f * MainDataStore.outsideTouristProfitRatio);
-                        DebugLog.LogToFileOnly($"OutsideConnectionAIModifyMaterialBufferPatch: Find DummyTrain, DummyShip, DummyPlane amount = {amountDelta}");
-                    }
-                    break;
-                case TransferManager.TransferReason.DummyCar:
-                    if (amountDelta < 0)
-                    {
-                        amountDelta = -amountDelta;
-                        MainDataStore.outsideGovermentMoney += (int)(amountDelta * 2f * MainDataStore.outsideGovermentProfitRatio);
-                        MainDataStore.outsideTouristMoney += (int)(amountDelta * 2f * MainDataStore.outsideTouristProfitRatio);
-                        DebugLog.LogToFileOnly($"OutsideConnectionAIModifyMaterialBufferPatch: Find DummyCar amount = {amountDelta}");
-                    }
-                    break;
                 case TransferManager.TransferReason.Oil:
                 case TransferManager.TransferReason.Ore:
                 case TransferManager.TransferReason.Coal:
@@ -62,7 +42,11 @@ namespace RealCity.Patch
                         amountDelta = -amountDelta;
                         MainDataStore.outsideGovermentMoney += (int)(amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideGovermentProfitRatio);
                         MainDataStore.outsideTouristMoney += (int)(amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideTouristProfitRatio);
-                        DebugLog.LogToFileOnly($"OutsideConnectionAIModifyMaterialBufferPatch: Find {material} amount = {amountDelta}");
+
+                        MainDataStore.outsideGovermentMoney = Math.Min(MainDataStore.outsideGovermentMoney, (int.MaxValue >> 1));
+                        MainDataStore.outsideTouristMoney = Math.Min(MainDataStore.outsideTouristMoney, (int.MaxValue >> 1));
+
+                        //DebugLog.LogToFileOnly($"OutsideConnectionAIModifyMaterialBufferPatch: Find {material} amount = {amountDelta}");
                     }
                     break;
                 default:
