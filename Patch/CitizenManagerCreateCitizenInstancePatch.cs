@@ -15,14 +15,14 @@ namespace RealCity.Patch
         {
             return typeof(CitizenManager).GetMethod("CreateCitizenInstance", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(CitizenInfo), typeof(uint) }, null);
         }
-        public static bool Prefix(ref CitizenManager __instance, uint citizen, ref bool _result)
+        public static bool Prefix(ref CitizenManager __instance, uint citizen, ref bool __result)
         {
             var data = __instance.m_citizens.m_buffer[citizen];
             if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
             {
                 if (MainDataStore.outsideTouristMoney < 0)
                 {
-                    _result = false;
+                    __result = false;
                     return false;
                 }
                 if (data.m_flags.IsFlagSet(Citizen.Flags.MovingIn))
