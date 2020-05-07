@@ -7,6 +7,4 @@ Cities: Skylines Mod: Make your city act like a real world! Combine CS and Simci
 [村庄时代(准备进阶)](https://github.com/pcfantasy/RealCity/blob/master/%E6%9D%91%E5%BA%84%E6%97%B6%E4%BB%A3(%E5%87%86%E5%A4%87%E8%BF%9B%E9%98%B6).md) <br>
 [小城小镇(开始转型)](https://github.com/pcfantasy/RealCity/blob/master/%E5%B0%8F%E5%9F%8E%E5%B0%8F%E9%95%87(%E5%BC%80%E5%A7%8B%E8%BD%AC%E5%9E%8B).md) <br>
 [建成城市(最终放弃)](https://github.com/pcfantasy/RealCity/blob/master/%E5%BB%BA%E6%88%90%E5%9F%8E%E5%B8%82(%E6%9C%80%E7%BB%88%E6%94%BE%E5%BC%83).md) <br>
-
-
 [Detail/详细说明书](https://github.com/pcfantasy/RealCity/wiki) <br>
