@@ -57,6 +57,31 @@ namespace RealCity
         {
             OptionUI.MakeSettings(helper);
         }
+
+        public static bool GetRealCityV10()
+        {
+            return realCityV10;
+        }
+
+        public static float GetOutsideTouristMoney()
+        {
+            return MainDataStore.outsideTouristMoney;
+        }
+
+        public static void SetOutsideTouristMoney(float value)
+        {
+            MainDataStore.outsideTouristMoney = value;
+        }
+
+        public static float GetOutsideGovermentMoney()
+        {
+            return MainDataStore.outsideGovermentMoney;
+        }
+
+        public static void SetOutsideGovermentMoney(float value)
+        {
+            MainDataStore.outsideGovermentMoney = value;
+        }
     }
 }
 

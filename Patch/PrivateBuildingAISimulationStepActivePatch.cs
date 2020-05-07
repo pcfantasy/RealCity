@@ -302,13 +302,13 @@ namespace RealCity.Patch
 
         public static void LimitAndCheckOfficeMoney(Building building, ushort buildingID)
         {
-            if (BuildingData.buildingMoney[buildingID] > 100000000f)
+            if (BuildingData.buildingMoney[buildingID] > MainDataStore.maxBuildingMoneyLimit)
             {
-                BuildingData.buildingMoney[buildingID] = 100000000f;
+                BuildingData.buildingMoney[buildingID] = MainDataStore.maxBuildingMoneyLimit;
             }
-            else if (BuildingData.buildingMoney[buildingID] < -100000000f)
+            else if (BuildingData.buildingMoney[buildingID] < -MainDataStore.maxBuildingMoneyLimit)
             {
-                BuildingData.buildingMoney[buildingID] = -100000000f;
+                BuildingData.buildingMoney[buildingID] = -MainDataStore.maxBuildingMoneyLimit;
             }
 
             if (BuildingData.buildingMoney[buildingID] > 0)

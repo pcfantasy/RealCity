@@ -5,11 +5,14 @@
         //Constant value
         public const int gameExpenseDivide = 100;
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
+        public const float maxBuildingMoneyLimit = 100000000f;
+        public const float maxOutsideMoneyLimit = 500000f;
         public const int reduceCargoDiv = 2;
         public const int reduceCargoDivShift = 1;
 
-        public const float outsideGovermentProfitRatio = 0.01f;
-        public const float outsideTouristProfitRatio = 0.01f;
+        public const float outsideGovermentProfitRatio = 0.05f;
+        public const float outsideCompanyProfitRatio = 0.2f;
+        public const float outsideTouristSalaryProfitRatio = 0.15f;
 
         public const float profitShareRatioInduLevel1 = 0.01f;
         public const float profitShareRatioInduLevel2 = 0.014f;
@@ -123,8 +126,8 @@
         public static float prevTime = 0f;
 
         //V10 outside money
-        public static int outsideTouristMoney = 0;
-        public static int outsideGovermentMoney = 0;
+        public static float outsideTouristMoney = 0;
+        public static float outsideGovermentMoney = 0;
 
         public static void Save(ref byte[] saveData)
         {

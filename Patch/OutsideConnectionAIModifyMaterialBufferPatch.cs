@@ -40,12 +40,8 @@ namespace RealCity.Patch
                     if (amountDelta < 0)
                     {
                         amountDelta = -amountDelta;
-                        MainDataStore.outsideGovermentMoney += (int)(amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideGovermentProfitRatio);
-                        MainDataStore.outsideTouristMoney += (int)(amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideTouristProfitRatio);
-
-                        MainDataStore.outsideGovermentMoney = Math.Min(MainDataStore.outsideGovermentMoney, (int.MaxValue >> 1));
-                        MainDataStore.outsideTouristMoney = Math.Min(MainDataStore.outsideTouristMoney, (int.MaxValue >> 1));
-
+                        MainDataStore.outsideGovermentMoney += (amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideGovermentProfitRatio);
+                        MainDataStore.outsideTouristMoney += (amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
                         //DebugLog.LogToFileOnly($"OutsideConnectionAIModifyMaterialBufferPatch: Find {material} amount = {amountDelta}");
                     }
                     break;

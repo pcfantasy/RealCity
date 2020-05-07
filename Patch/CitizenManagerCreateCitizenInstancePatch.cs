@@ -18,7 +18,7 @@ namespace RealCity.Patch
         public static bool Prefix(ref CitizenManager __instance, uint citizen, ref bool __result)
         {
             var data = __instance.m_citizens.m_buffer[citizen];
-            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
+            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist) || data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic))
             {
                 if (RealCity.realCityV10)
                 {
@@ -28,7 +28,10 @@ namespace RealCity.Patch
                         return false;
                     }
                 }
+            }
 
+            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
+            {
                 if (data.m_flags.IsFlagSet(Citizen.Flags.MovingIn))
                 {
                     //Add initial money
