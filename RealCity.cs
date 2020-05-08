@@ -63,6 +63,11 @@ namespace RealCity
             return realCityV10;
         }
 
+        public static int GetReduceCargoDiv()
+        {
+            return MainDataStore.reduceCargoDiv;
+        }
+
         public static float GetOutsideTouristMoney()
         {
             return MainDataStore.outsideTouristMoney;

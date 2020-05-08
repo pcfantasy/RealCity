@@ -39,9 +39,9 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.Paper:
                     if (amountDelta < 0)
                     {
-                        amountDelta = -amountDelta;
-                        MainDataStore.outsideGovermentMoney += (amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideGovermentProfitRatio);
-                        MainDataStore.outsideTouristMoney += (amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
+                        int transferSize = -amountDelta;
+                        MainDataStore.outsideGovermentMoney += (transferSize * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideGovermentProfitRatio);
+                        MainDataStore.outsideTouristMoney += (transferSize * RealCityIndustryBuildingAI.GetResourcePrice(material) * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
                         //DebugLog.LogToFileOnly($"OutsideConnectionAIModifyMaterialBufferPatch: Find {material} amount = {amountDelta}");
                     }
                     break;
