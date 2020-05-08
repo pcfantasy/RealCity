@@ -15,20 +15,12 @@ WEALTH_LOW_COUNT	Низкого достатка
 BUILDING_STATUS	2. Статус предприятий
 PROFIT_BUIDLING_COUNT	Прибыльных (Инд+Ком) предприятий
 EXTERNAL_INVESTMENTS	Внешние инвестиции (для офисов)
+OUTSIDE_GOV_MONEY	Outside Goverment Budget
+OUTSIDE_TOU_MONEY	Outside Toursit Budget
 TIP1	Совет 1
-TIP2	Совет 2
-TIP3	Совет 3
-TIP4	Совет 4
-TIP5	Совет 5
-TIP6	Совет 6
 POLICY_COST	3. Затраты на политики (₡)
 LIVING_ALLOWANCE	Выплаты бедным и малоимущим
 USE_TMPE_TIP	Используйте TMPE и запретите исчезновение транспорта
-STARTUP_TIP	Индустриализация важна для улучшения экономики и Ваших финансов на старте
-TOURIST_TIP	Используйте соответсвующую специализацию, чтобы привлечь туристов
-OFFICE_TIP	Офисы могут привлекать "внешние инвестиции" в зависимости от индустрии
-UNLOCK_TIP	Не разблокируйте всё в начале игры
-UG_TIP	Больше деталей в руководстве пользователя
 CITY_SALARY_TAX_INCOME_TITLE	1. Сборы от подоходного налога
 SALARY_TAX_INCOME	Сборы от подоходного налога
 TOURIST_INCOME_TITLE	2. Сборы от туризма
@@ -195,3 +187,4 @@ SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Адаптивный бюджет общест
 SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Адаптивный бюджет общественного транспорта (мин)
 UNFINISHED_DEAL_LOST	Компенсация по незавершенным сделкам
 RESET_VALUE	Клавиша сброса
+REALCITY_V10_BETA	Open RealCity V10 beta

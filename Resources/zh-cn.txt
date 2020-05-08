@@ -15,20 +15,12 @@ WEALTH_LOW_COUNT	贫穷家庭
 BUILDING_STATUS	2、建筑情况
 PROFIT_BUIDLING_COUNT	赚钱的公司数目
 EXTERNAL_INVESTMENTS	可用于投资办公的钱
+OUTSIDE_GOV_MONEY	外部政府的预算费
+OUTSIDE_TOU_MONEY	外部游客的总预算
 TIP1	提示1
-TIP2	提示2
-TIP3	提示3
-TIP4	提示4
-TIP5	提示5
-TIP6	提示6
 POLICY_COST	3、Mod新增政策费(钱单位: 克朗)
 LIVING_ALLOWANCE	最低生活保障和福利
-USE_TMPE_TIP	最好用TMPE并且禁止车辆消失
-STARTUP_TIP	作为起步的城市,工业化是唯一的致富途径
-TOURIST_TIP	旅游商业会帮你留住更多游客,游客会带来大量访问收入
-OFFICE_TIP	办公会帮你得到外部投资,外部投资靠工商业利润得到
-UNLOCK_TIP	不要上来就解锁全部,发展城市请参考真实世界
-UG_TIP	更多细节请阅读工坊页面的UG
+USE_TMPE_TIP	必须用TMPE并且禁止车辆消失
 CITY_SALARY_TAX_INCOME_TITLE	1、城市居民所得税收入
 SALARY_TAX_INCOME	居民所得税收入
 TOURIST_INCOME_TITLE	2、城市旅游收入
@@ -195,3 +187,4 @@ SMART_PUBLIC_TRANSPORT_BUDGET_MIN	智能公共交通预算(最小发车)
 SMART_PUBLIC_TRANSPORT_BUDGET_MAX	智能公共交通预算(最大发车)
 UNFINISHED_DEAL_LOST	未完成的交易退税
 RESET_VALUE	清除关键数据
+REALCITY_V10_BETA	体验RealCity V10版本

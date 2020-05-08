@@ -15,21 +15,13 @@ WEALTH_LOW_COUNT	Low Wealth Count
 BUILDING_STATUS	2. Building Status
 PROFIT_BUIDLING_COUNT	Profit(I&C) for Building
 EXTERNAL_INVESTMENTS	External Investments (for office)
+OUTSIDE_GOV_MONEY	Outside Goverment Budget
+OUTSIDE_TOU_MONEY	Outside Toursit Budget
 TIP1	Tip1
-TIP2	Tip2
-TIP3	Tip3
-TIP4	Tip4
-TIP5	Tip5
-TIP6	Tip6
 POLICY_COST	3. Mod Policy Cost (₡)
 LIVING_ALLOWANCE	Living Allowance & Benefit
 UNFINISHED_DEAL_LOST	Unfinished deal refund
 USE_TMPE_TIP	Use TMPE and disable vehicle spawning
-STARTUP_TIP	Industrialising is important to improve the economy and your finances at start
-TOURIST_TIP	Try commercial tourist to retain tourists
-OFFICE_TIP	Office can get "external investments" depended on your industry
-UNLOCK_TIP	Avoid unlocking everything at the start of the game.
-UG_TIP	Check more details in UG
 CITY_SALARY_TAX_INCOME_TITLE	City Salary Tax Income
 SALARY_TAX_INCOME	City Salary Tax Income
 TOURIST_INCOME_TITLE	2. City Tourism Income
@@ -195,3 +187,4 @@ SPTB2	SPTB function2
 SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Smart public transport budget(max)
 SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Smart public transport budget(min)
 RESET_VALUE	Reset key value
+REALCITY_V10_BETA	Open RealCity V10 beta

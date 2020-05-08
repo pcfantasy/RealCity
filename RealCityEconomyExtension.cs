@@ -62,6 +62,12 @@ namespace RealCity
                     HumanUI.refeshOnce = true;
                     TouristUI.refeshOnce = true;
                     PBLUI.refeshOnce = true;
+                    //4 limit money
+
+                    if ((MainDataStore.outsideTouristMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideTouristMoney < -MainDataStore.maxOutsideMoneyLimit))
+                        MainDataStore.outsideTouristMoney *= 0.95f;
+                    if ((MainDataStore.outsideGovermentMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideGovermentMoney < -MainDataStore.maxOutsideMoneyLimit))
+                        MainDataStore.outsideGovermentMoney *= 0.95f;
                 }
             }
             return internalMoneyAmount;

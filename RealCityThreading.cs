@@ -3,7 +3,6 @@ using RealCity.Util;
 using ColossalFramework.UI;
 using ColossalFramework;
 using System;
-using System.Reflection;
 using RealCity.CustomData;
 using HarmonyLib;
 
@@ -12,8 +11,7 @@ namespace RealCity
     public class RealCityThreading : ThreadingExtensionBase
     {
         public static bool isFirstTime = true;
-        public static Assembly RealGasStation = null;
-        public const int HarmonyPatchNum = 59;
+        public const int HarmonyPatchNum = 60;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();

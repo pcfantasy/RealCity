@@ -66,7 +66,7 @@ namespace RealCity
                     method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
                     SetupGui();
                     HarmonyInitDetour();
-                    RealCity.LoadSetting();
+                    OptionUI.LoadSetting();
                     RealCityThreading.isFirstTime = true;
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     if (mode == LoadMode.NewGame)

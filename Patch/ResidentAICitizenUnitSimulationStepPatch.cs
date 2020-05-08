@@ -365,15 +365,15 @@ namespace RealCity.Patch
             var familySalaryCurrentTmp = (familySalaryCurrent > canBuyGoodMoney) ? canBuyGoodMoney : familySalaryCurrent;
 
             //7. Process citizen status
-            if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 200)
+            if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 30)
             {
                 RealCityResidentAI.level3HighWealth++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 100)
+            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 20)
             {
                 RealCityResidentAI.level2HighWealth++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 50)
+            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 10)
             {
                 RealCityResidentAI.level1HighWealth++;
             }

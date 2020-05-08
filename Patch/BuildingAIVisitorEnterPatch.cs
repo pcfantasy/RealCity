@@ -64,7 +64,7 @@ namespace RealCity.Patch
                 tourism_fee <<= 2;
 
             RealCityPrivateBuildingAI.profitBuildingMoney += (tourism_fee >> 1);
-
+            MainDataStore.outsideTouristMoney -= (tourism_fee >> 1);
             Singleton<EconomyManager>.instance.AddPrivateIncome((tourism_fee >> 1), ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
         }
 
@@ -94,7 +94,10 @@ namespace RealCity.Patch
                 var ticketPriceLeft = (ticketPrice / 100f);
                 //Negetive price to help identify tourist and resident.
                 if (isTourist)
+                {
                     Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -(int)ticketPriceLeft, data.Info.m_class);
+                    MainDataStore.outsideTouristMoney -= ticketPrice;
+                }
                 else
                 {
                     if (CitizenData.citizenMoney[citizen] > ticketPriceLeft)

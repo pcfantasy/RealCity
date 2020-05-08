@@ -5,8 +5,15 @@
         //Constant value
         public const int gameExpenseDivide = 100;
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
+        public const float maxBuildingMoneyLimit = 100000000f;
+        public const float maxOutsideMoneyLimit = 500000f;
         public const int reduceCargoDiv = 2;
         public const int reduceCargoDivShift = 1;
+
+        public const float outsideGovermentProfitRatio = 0.05f;
+        public const float outsideCompanyProfitRatio = 0.20f;
+        public const float outsideTouristSalaryProfitRatio = 0.10f;
+
         public const float profitShareRatioInduLevel1 = 0.01f;
         public const float profitShareRatioInduLevel2 = 0.014f;
         public const float profitShareRatioInduLevel3 = 0.016f;
@@ -118,9 +125,13 @@
         public static float currentTime = 0f;
         public static float prevTime = 0f;
 
+        //V10 outside money
+        public static float outsideTouristMoney = 0;
+        public static float outsideGovermentMoney = 0;
+
         public static void Save(ref byte[] saveData)
         {
-            //all 117
+            //all 125
             int i = 0;
             //16
             SaveAndRestore.SaveData(ref i, citizenExpensePerFamily, ref saveData);
@@ -153,6 +164,9 @@
             SaveAndRestore.SaveData(ref i, citizenSalaryPerFamily, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenSalaryTotal, ref saveData);
             SaveAndRestore.SaveData(ref i, citizenSalaryTaxTotal, ref saveData);
+
+            SaveAndRestore.SaveData(ref i, outsideTouristMoney, ref saveData);
+            SaveAndRestore.SaveData(ref i, outsideGovermentMoney, ref saveData);
 
             if (i != saveData.Length)
             {
@@ -192,6 +206,9 @@
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryPerFamily);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryTotal);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenSalaryTaxTotal);
+
+            SaveAndRestore.LoadData(ref i, saveData, ref outsideTouristMoney);
+            SaveAndRestore.LoadData(ref i, saveData, ref outsideGovermentMoney);
 
             //avoid save data error:
             if (MainDataStore.citizenCount != 0)
