@@ -1,6 +1,7 @@
 ﻿﻿using ColossalFramework;
 using HarmonyLib;
 using RealCity.CustomData;
+using RealCity.Util;
 using System;
 using System.Reflection;
 
@@ -19,6 +20,13 @@ namespace RealCity.Patch
             if (CitizenData.citizenMoney[citizenID] < 100)
             {
                 FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
+            }
+            else if (RealCity.realCityV10)
+            {
+                if (MainDataStore.outsideTouristMoney < 0)
+                {
+                    FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
+                }
             }
         }
 

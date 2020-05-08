@@ -18,7 +18,7 @@ namespace RealCity.Patch
             return typeof(TransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance);
         }
 
-        [HarmonyPriority(Priority.VeryHigh)]
+        [HarmonyPriority(Priority.First)]
         public static bool Prefix(TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)
         {
             switch (material)
@@ -35,6 +35,19 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
+                case TransferManager.TransferReason.TouristA:
+                case TransferManager.TransferReason.TouristB:
+                case TransferManager.TransferReason.TouristC:
+                case TransferManager.TransferReason.TouristD:
+                    if (RealCity.realCityV10)
+                    {
+                        if (MainDataStore.outsideTouristMoney < 0)
+                        {
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
+                                return false;
+                        }
+                    }
+                    break;
                 case TransferManager.TransferReason.Oil:
                 case TransferManager.TransferReason.Ore:
                 case TransferManager.TransferReason.Coal:

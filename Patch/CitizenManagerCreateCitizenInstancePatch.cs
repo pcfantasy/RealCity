@@ -18,17 +18,6 @@ namespace RealCity.Patch
         public static bool Prefix(ref CitizenManager __instance, uint citizen, ref bool __result)
         {
             var data = __instance.m_citizens.m_buffer[citizen];
-            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist) || data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic))
-            {
-                if (RealCity.realCityV10)
-                {
-                    if (MainDataStore.outsideTouristMoney < 0)
-                    {
-                        __result = false;
-                        return false;
-                    }
-                }
-            }
 
             if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
             {
