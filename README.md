@@ -1,6 +1,9 @@
 ﻿# RealCity [![Steam Downloads](https://img.shields.io/steam/downloads/1192503086.svg?label=Steam%20downloads&logo=steam)](https://steamcommunity.com/sharedfiles/filedetails/?id=1192503086)
 Cities: Skylines Mod: Make your city act like a real world! Combine CS and Simcity in game playing!
 
+### MOD关系图
+![](https://github.com/pcfantasy/RealCity/blob/master/img/RealCityMod%E5%85%B3%E7%B3%BB%E5%9B%BE.jpg)
+
 [入门](https://github.com/pcfantasy/RealCity/blob/master/%E4%B8%AD%E6%96%87%E6%94%BB%E7%95%A5/%E5%85%A5%E9%97%A8.md) <br>
 [开局](https://github.com/pcfantasy/RealCity/blob/master/%E4%B8%AD%E6%96%87%E6%94%BB%E7%95%A5/%E5%BC%80%E5%B1%80.md) <br>
 [村庄时代(站稳脚跟)](https://github.com/pcfantasy/RealCity/blob/master/%E4%B8%AD%E6%96%87%E6%94%BB%E7%95%A5/%E6%9D%91%E5%BA%84%E6%97%B6%E4%BB%A3(%E7%AB%99%E7%A8%B3%E8%84%9A%E8%B7%9F).md) <br>
