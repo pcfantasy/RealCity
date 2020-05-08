@@ -11,7 +11,7 @@
         public const int reduceCargoDivShift = 1;
 
         public const float outsideGovermentProfitRatio = 0.05f;
-        public const float outsideCompanyProfitRatio = 0.15f;
+        public const float outsideCompanyProfitRatio = 0.20f;
         public const float outsideTouristSalaryProfitRatio = 0.10f;
 
         public const float profitShareRatioInduLevel1 = 0.01f;
