@@ -197,3 +197,4 @@ SPTB2	SPTB function2
 SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Smart public transport budget(max)
 SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Smart public transport budget(min)
 RESET_VALUE	Reset key value
+REALCITY_V10_BETA	Open RealCity V10 beta
