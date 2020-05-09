@@ -427,13 +427,13 @@ namespace RealCity.Patch
                     }
 
                     Singleton<ResidentAI>.instance.TryMoveFamily(citizenID, ref instance.m_citizens.m_buffer[citizenID], familySize);
-                }
 
-                CitizenUnitData.familyGoods[homeID] = 5000;
-                data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
-                CitizenUnitData.familyMoney[homeID] -= canBuyGoodMoney;
-                MainDataStore.outsideGovermentMoney += (canBuyGoodMoney * MainDataStore.outsideGovermentProfitRatio);
-                MainDataStore.outsideTouristMoney += (canBuyGoodMoney * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
+                    CitizenUnitData.familyGoods[homeID] = 5000;
+                    data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
+                    CitizenUnitData.familyMoney[homeID] -= canBuyGoodMoney;
+                    MainDataStore.outsideGovermentMoney += (canBuyGoodMoney * MainDataStore.outsideGovermentProfitRatio);
+                    MainDataStore.outsideTouristMoney += (canBuyGoodMoney * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
+                }
             }
 
             //ProcessCitizen post, split all familyMoney to CitizenMoney
