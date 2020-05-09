@@ -63,6 +63,7 @@ namespace RealCity
                     TouristUI.refeshOnce = true;
                     PBLUI.refeshOnce = true;
                     //4 limit money
+                    MainDataStore.maxOutsideMoneyLimit = (500 + MainDataStore.familyCount) * 200f;
 
                     if ((MainDataStore.outsideTouristMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideTouristMoney < -MainDataStore.maxOutsideMoneyLimit))
                         MainDataStore.outsideTouristMoney *= 0.95f;

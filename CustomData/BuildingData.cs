@@ -36,7 +36,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"BuildingData Save Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"BuildingData Save Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
 
@@ -49,7 +49,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"BuildingData Load Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"BuildingData Load Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
     }

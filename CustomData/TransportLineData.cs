@@ -25,7 +25,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"TransportLineData Save Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"TransportLineData Save Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
 
@@ -37,7 +37,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"TransportLineData Load Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"TransportLineData Load Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
     }

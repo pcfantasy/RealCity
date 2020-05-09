@@ -6,7 +6,7 @@
         public const int gameExpenseDivide = 100;
         public const float playerIndustryBuildingProductionSpeedDiv = 1f;
         public const float maxBuildingMoneyLimit = 100000000f;
-        public const float maxOutsideMoneyLimit = 500000f;
+        public static float maxOutsideMoneyLimit = 500000f;
         public const int reduceCargoDiv = 2;
         public const int reduceCargoDivShift = 1;
 
@@ -49,9 +49,9 @@
         public const float bossRatioCommOther = 0.30f;
         public const float bossRatioCommTou = 0.20f;
 
-        public const float investRatioInduLevel1 = 0.001f;
-        public const float investRatioInduLevel2 = 0.0014f;
-        public const float investRatioInduLevel3 = 0.0016f;
+        public const float investRatioInduLevel1 = 0.005f;
+        public const float investRatioInduLevel2 = 0.007f;
+        public const float investRatioInduLevel3 = 0.008f;
         public const float investRatioInduOther = 0.0005f;
         public const float investRatioInduExtractor = 0f;
         public const float investRatioCommLevel1 = 0.10f;
@@ -170,7 +170,7 @@
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"MainDataStore Save Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"MainDataStore Save Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
 
@@ -211,17 +211,17 @@
             SaveAndRestore.LoadData(ref i, saveData, ref outsideGovermentMoney);
 
             //avoid save data error:
-            if (MainDataStore.citizenCount != 0)
-                MainDataStore.govermentSalary = (int)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount);
+            if (citizenCount != 0)
+                govermentSalary = (int)(citizenSalaryTotal / citizenCount);
             else
-                MainDataStore.govermentSalary = 10;
+                govermentSalary = 10;
 
-            if (MainDataStore.govermentSalary > 100)
-                MainDataStore.govermentSalary = 100;
+            if (govermentSalary > 100)
+                govermentSalary = 100;
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"MainDataStore Load Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"MainDataStore Load Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
     }

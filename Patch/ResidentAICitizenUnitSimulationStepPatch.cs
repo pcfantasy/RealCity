@@ -388,10 +388,10 @@ namespace RealCity.Patch
             CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
             data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
 
-            //9 move family
-            if ((CitizenUnitData.familyMoney[homeID] > canBuyGoodMoney) && (familySalaryCurrent > 1))
+            //9 Buy good from outside and try move family
+            if (data.m_goods == 0)
             {
-                if (data.m_goods == 0)
+                if ((CitizenUnitData.familyMoney[homeID] > canBuyGoodMoney) && (familySalaryCurrent > 1))
                 {
                     uint citizenID = 0u;
                     int familySize = 0;
@@ -426,12 +426,14 @@ namespace RealCity.Patch
                         instance.m_citizens.m_buffer[citizenID].m_flags &= ~Citizen.Flags.NeedGoods;
                     }
 
-                    CitizenUnitData.familyGoods[homeID] = 5000;
-                    data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
-                    CitizenUnitData.familyMoney[homeID] -= canBuyGoodMoney;
-
                     Singleton<ResidentAI>.instance.TryMoveFamily(citizenID, ref instance.m_citizens.m_buffer[citizenID], familySize);
                 }
+
+                CitizenUnitData.familyGoods[homeID] = 5000;
+                data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
+                CitizenUnitData.familyMoney[homeID] -= canBuyGoodMoney;
+                MainDataStore.outsideGovermentMoney += (canBuyGoodMoney * MainDataStore.outsideGovermentProfitRatio);
+                MainDataStore.outsideTouristMoney += (canBuyGoodMoney * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
             }
 
             //ProcessCitizen post, split all familyMoney to CitizenMoney

@@ -47,6 +47,7 @@ namespace RealCity.Patch
                             }
                             else
                             {
+                                MainDataStore.outsideTouristMoney -= VehicleData.vehicleTransferTime[vehicleID];
                                 if (vehicleData.m_citizenUnits != 0)
                                 {
                                     if (citizenManager.m_citizens.m_buffer[citizenID].m_vehicle == vehicleID)
