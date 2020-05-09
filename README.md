@@ -2,7 +2,7 @@
 Cities: Skylines Mod: Make your city act like a real world! Combine CS and Simcity in game playing!
 
 ### MOD关系图
-![](https://gitee.com/pcfantasy/Real-City-Doc/blob/master/img/RealCityMod%E5%85%B3%E7%B3%BB%E5%9B%BE.jpg)
+![](https://gitee.com/pcfantasy/Real-City-Doc/raw/master/img/RealCityMod%E5%85%B3%E7%B3%BB%E5%9B%BE.jpg)
 
 [入门](https://github.com/pcfantasy/RealCity/blob/master/%E4%B8%AD%E6%96%87%E6%94%BB%E7%95%A5/%E5%85%A5%E9%97%A8.md) <br>
 [开局](https://github.com/pcfantasy/RealCity/blob/master/%E4%B8%AD%E6%96%87%E6%94%BB%E7%95%A5/%E5%BC%80%E5%B1%80.md) <br>
