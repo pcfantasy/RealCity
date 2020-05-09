@@ -19,7 +19,18 @@ namespace RealCity.Patch
         {
             var data = __instance.m_citizens.m_buffer[citizen];
 
-            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
+            if (data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic))
+            {
+                if (RealCity.realCityV10)
+                {
+                    if (MainDataStore.outsideTouristMoney < 0)
+                    {
+                        __result = false;
+                        return false;
+                    }
+                }
+            } 
+            else if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
             {
                 if (data.m_flags.IsFlagSet(Citizen.Flags.MovingIn))
                 {
