@@ -478,65 +478,30 @@ namespace RealCity.CustomAI
         public static void ProcessAdditionProduct(ref Building buildingData, ref ushort[] __state)
         {
             int deltaCustomBuffer1 = buildingData.m_customBuffer1 - __state[0];
-            if ((buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialForestry) || (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialFarming))
+            if (deltaCustomBuffer1 > 0)
             {
-                if (deltaCustomBuffer1 > 0)
+                if (RealCity.reduceVehicle)
                 {
-                    if (RealCity.reduceVehicle)
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
                     {
-                        if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                        {
-                            //farmer and foresty 2x , reduceVehicle 1/2, so do nothing
-                            //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 * 2 >> MainDataStore.reduceCargoDivShift));
-                        }
-                        else
-                        {
-                            //NightTime 2x , reduceVehicle 1/2, farmer and foresty 2x
-                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
-                        }
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 >> MainDataStore.reduceCargoDivShift));
                     }
-                    else
-                    {
-                        if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                        {
-                            //farmer and foresty 2x
-                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
-                        }
-                        else
-                        {
-                            //NightTime 2x , farmer and foresty 2x
-                            buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + 3 * deltaCustomBuffer1);
-                        }
-                    }
+                    //else
+                    //{
+                    //NightTime 2x , reduceVehicle 1/2, so do nothing
+                    //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 / (float)MainDataStore.reduceCargoDiv) * 2f);
+                    //}
                 }
                 else
                 {
-                    if (deltaCustomBuffer1 > 0)
+                    if (!Singleton<SimulationManager>.instance.m_isNightTime)
                     {
-                        if (RealCity.reduceVehicle)
-                        {
-                            if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                            {
-                                buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 >> MainDataStore.reduceCargoDivShift));
-                            }
-                            //else
-                            //{
-                            //NightTime 2x , reduceVehicle 1/2, so do nothing
-                            //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 / (float)MainDataStore.reduceCargoDiv) * 2f);
-                            //}
-                        }
-                        else
-                        {
-                            if (!Singleton<SimulationManager>.instance.m_isNightTime)
-                            {
-                                //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
-                            }
-                            else
-                            {
-                                //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + 2 * deltaCustomBuffer1);
-                                buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
-                            }
-                        }
+                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
+                    }
+                    else
+                    {
+                        //buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + 2 * deltaCustomBuffer1);
+                        buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
                     }
                 }
             }
