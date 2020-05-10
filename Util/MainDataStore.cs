@@ -49,9 +49,9 @@
         public const float bossRatioCommOther = 0.30f;
         public const float bossRatioCommTou = 0.20f;
 
-        public const float investRatioInduLevel1 = 0.005f;
-        public const float investRatioInduLevel2 = 0.007f;
-        public const float investRatioInduLevel3 = 0.008f;
+        public const float investRatioInduLevel1 = 0.003f;
+        public const float investRatioInduLevel2 = 0.004f;
+        public const float investRatioInduLevel3 = 0.005f;
         public const float investRatioInduOther = 0.0005f;
         public const float investRatioInduExtractor = 0f;
         public const float investRatioCommLevel1 = 0.10f;
