@@ -23,6 +23,7 @@ namespace RealCity.CustomData
                 buildingWorkCount[i] = 0;
                 isBuildingWorkerUpdated[i] = false;
                 commBuildingID[i] = 0;
+                buildingMoneyThreat[i] = 1f;
             }
         }
 
