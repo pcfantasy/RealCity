@@ -22,7 +22,27 @@ namespace RealCity.Patch
             {
                 ProcessTourismIncome(buildingID, ref data, citizen);
             }
+            else
+            {
+                EventManager instance = Singleton<EventManager>.instance;
+                EventInfo info = instance.m_events.m_buffer[(int)eventIndex].Info;
+                if ((info.m_eventAI is SportMatchAI) || (info.m_eventAI is VarsitySportsMatchAI))
+                {
+                    if (buildingID == instance.m_events.m_buffer[(int)eventIndex].m_building && (instance.m_events.m_buffer[(int)eventIndex].m_flags & (EventData.Flags.Preparing | EventData.Flags.Active)) != EventData.Flags.None)
+                    {
+                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+                        {
+                            MainDataStore.outsideTouristMoney -= instance.m_events.m_buffer[(int)eventIndex].m_ticketPrice;
+                        }
+                        else
+                        {
+                            CitizenData.citizenMoney[citizen] -= instance.m_events.m_buffer[(int)eventIndex].m_ticketPrice;
+                        }
+                    }
+                }
+            }
         }
+
         public static void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
