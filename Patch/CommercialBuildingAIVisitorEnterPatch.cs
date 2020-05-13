@@ -24,11 +24,11 @@ namespace RealCity.Patch
                 int consumptionMoney = MainDataStore.govermentSalary << 4;
                 if (citizenManager.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                 {
-                    consumptionMoney <<= 1;
+                    consumptionMoney <<= 2;
                 }
                 if (citizenManager.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                 {
-                    consumptionMoney <<= 2;
+                    consumptionMoney <<= 1;
                 }
 
                 consumptionMoney = -consumptionMoney;

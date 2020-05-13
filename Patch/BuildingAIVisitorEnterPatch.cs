@@ -79,9 +79,9 @@ namespace RealCity.Patch
             CitizenManager instance = Singleton<CitizenManager>.instance;
             int tourism_fee = 1000;
             if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
-                tourism_fee <<= 1;
-            else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                 tourism_fee <<= 2;
+            else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
+                tourism_fee <<= 1;
 
             RealCityPrivateBuildingAI.profitBuildingMoney += (tourism_fee >> 1);
             MainDataStore.outsideTouristMoney -= (tourism_fee >> 1);

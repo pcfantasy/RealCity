@@ -75,14 +75,7 @@ namespace RealCity.Patch
                 }
             }
 
-            //base.VisitorEnter(buildingID, ref data, citizen);
-            ushort eventIndex = data.m_eventIndex;
-            if (eventIndex != 0)
-            {
-                EventManager eventManager = Singleton<EventManager>.instance;
-                EventInfo eventInfo = eventManager.m_events.m_buffer[(int)eventIndex].Info;
-                eventInfo.m_eventAI.VisitorEnter(eventIndex, ref eventManager.m_events.m_buffer[(int)eventIndex], buildingID, citizen);
-            }
+            Singleton<BuildingAI>.instance.VisitorEnter(buildingID, ref data, citizen);
             return false;
         }
     }
