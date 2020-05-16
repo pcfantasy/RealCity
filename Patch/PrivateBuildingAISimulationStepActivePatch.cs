@@ -480,6 +480,103 @@ namespace RealCity.Patch
                 }
                 BuildingData.buildingWorkCount[buildingID] = salary;
             }
+            else
+            {
+                //resident building
+                ItemClass @class = building.Info.m_class;
+                int incomeAccumulation = 0;
+                DistrictManager instance = Singleton<DistrictManager>.instance;
+                byte district = instance.GetDistrict(building.m_position);
+                DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
+                if (@class.m_subService == ItemClass.SubService.ResidentialLow)
+                {
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = MainDataStore.residentLowLevel1Rent;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = MainDataStore.residentLowLevel2Rent;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = MainDataStore.residentLowLevel3Rent;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = MainDataStore.residentLowLevel4Rent;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = MainDataStore.residentLowLevel5Rent;
+                            break;
+                    }
+                }
+                else if (@class.m_subService == ItemClass.SubService.ResidentialLowEco)
+                {
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = MainDataStore.residentLowLevel1Rent << 1;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = MainDataStore.residentLowLevel2Rent << 1;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = MainDataStore.residentLowLevel3Rent << 1;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = MainDataStore.residentLowLevel4Rent << 1;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = MainDataStore.residentLowLevel5Rent << 1;
+                            break;
+                    }
+                }
+                else if (@class.m_subService == ItemClass.SubService.ResidentialHigh)
+                {
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = MainDataStore.residentHighLevel1Rent;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = MainDataStore.residentHighLevel2Rent;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = MainDataStore.residentHighLevel3Rent;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = MainDataStore.residentHighLevel4Rent;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = MainDataStore.residentHighLevel5Rent;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (@class.m_level)
+                    {
+                        case ItemClass.Level.Level1:
+                            incomeAccumulation = MainDataStore.residentHighLevel1Rent << 1;
+                            break;
+                        case ItemClass.Level.Level2:
+                            incomeAccumulation = MainDataStore.residentHighLevel2Rent << 1;
+                            break;
+                        case ItemClass.Level.Level3:
+                            incomeAccumulation = MainDataStore.residentHighLevel3Rent << 1;
+                            break;
+                        case ItemClass.Level.Level4:
+                            incomeAccumulation = MainDataStore.residentHighLevel4Rent << 1;
+                            break;
+                        case ItemClass.Level.Level5:
+                            incomeAccumulation = MainDataStore.residentHighLevel5Rent << 1;
+                            break;
+                    }
+                }
+                int num2;
+                num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
+                incomeAccumulation = (int)((num2 * incomeAccumulation) / 100f);
+                BuildingData.buildingWorkCount[buildingID] = incomeAccumulation;
+            }
         }
 
         public static void ProcessLandFeeOffice(Building building, ushort buildingID, int totalWorkerCount)
