@@ -28,11 +28,11 @@ namespace RealCity.Patch
 
         public static void Postfix(ushort buildingID, ref Building buildingData)
         {
+            ProcessLandFeeNoOffice(buildingData, buildingID);
             if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
             {
-                LimitAndCheckOfficeMoney(buildingData, buildingID);
+                CalculateBuildingMoneyAndSalary(buildingData, buildingID);
             }
-            ProcessLandFeeNoOffice(buildingData, buildingID);
             LimitCommericalBuildingAccess(buildingID, ref buildingData);
             ProcessBuildingDataFinal(buildingID, ref buildingData);
         }
@@ -300,7 +300,7 @@ namespace RealCity.Patch
             }
         }
 
-        public static void LimitAndCheckOfficeMoney(Building building, ushort buildingID)
+        public static void CalculateBuildingMoneyAndSalary(Building building, ushort buildingID)
         {
             if (BuildingData.buildingMoney[buildingID] > MainDataStore.maxBuildingMoneyLimit)
             {
@@ -311,153 +311,174 @@ namespace RealCity.Patch
                 BuildingData.buildingMoney[buildingID] = -MainDataStore.maxBuildingMoneyLimit;
             }
 
-            if (BuildingData.buildingMoney[buildingID] > 0)
+
+            if (building.Info.m_class.m_service == ItemClass.Service.Industrial || building.Info.m_class.m_service == ItemClass.Service.Commercial || building.Info.m_class.m_service == ItemClass.Service.Office)
             {
-                if (building.Info.m_class.m_service == ItemClass.Service.Industrial || building.Info.m_class.m_service == ItemClass.Service.Commercial)
+                Citizen.BehaviourData behaviourData = default;
+                int aliveWorkerCount = 0;
+                int totalWorkerCount = 0;
+                RealCityCommonBuildingAI.InitDelegate();
+                RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
+                float bossTake = 0;
+                float investToOffice = 0;
+                float profitShare = 0;
+
+                switch (building.Info.m_class.m_subService)
                 {
-                    float bossTake = 0;
-                    float investToOffice = 0;
-                    // boss take and return to office
+                    case ItemClass.SubService.IndustrialFarming:
+                    case ItemClass.SubService.IndustrialForestry:
+                        if (building.Info.m_buildingAI is IndustrialExtractorAI)
+                        {
+                            bossTake = MainDataStore.bossRatioInduExtractor;
+                            investToOffice = MainDataStore.investRatioInduExtractor;
+                            profitShare = MainDataStore.profitShareRatioInduExtractor;
+                        }
+                        else
+                        {
+                            bossTake = MainDataStore.bossRatioInduOther;
+                            investToOffice = MainDataStore.investRatioInduOther;
+                            profitShare = MainDataStore.profitShareRatioInduOther;
+                        }
+                        break;
+                    case ItemClass.SubService.IndustrialOil:
+                    case ItemClass.SubService.IndustrialOre:
+                        bossTake = MainDataStore.bossRatioInduOther;
+                        investToOffice = MainDataStore.investRatioInduOther;
+                        profitShare = MainDataStore.profitShareRatioInduOther; break;
+                    case ItemClass.SubService.IndustrialGeneric:
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            bossTake = MainDataStore.bossRatioInduLevel1;
+                            investToOffice = MainDataStore.investRatioInduLevel1;
+                            profitShare = MainDataStore.profitShareRatioInduLevel1;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            bossTake = MainDataStore.bossRatioInduLevel2;
+                            investToOffice = MainDataStore.investRatioInduLevel2;
+                            profitShare = MainDataStore.profitShareRatioInduLevel2;
+                        }
+                        else
+                        {
+                            bossTake = MainDataStore.bossRatioInduLevel3;
+                            investToOffice = MainDataStore.investRatioInduLevel3;
+                            profitShare = MainDataStore.profitShareRatioInduLevel3;
+                        }
+                        break;
+                    case ItemClass.SubService.CommercialHigh:
+                    case ItemClass.SubService.CommercialLow:
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            bossTake = MainDataStore.bossRatioCommLevel1;
+                            investToOffice = MainDataStore.investRatioCommLevel1;
+                            profitShare = MainDataStore.profitShareRatioCommLevel1;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            bossTake = MainDataStore.bossRatioCommLevel2;
+                            investToOffice = MainDataStore.investRatioCommLevel2;
+                            profitShare = MainDataStore.profitShareRatioCommLevel2;
+                        }
+                        else
+                        {
+                            bossTake = MainDataStore.bossRatioCommLevel3;
+                            investToOffice = MainDataStore.investRatioCommLevel3;
+                            profitShare = MainDataStore.profitShareRatioCommLevel1;
+                        }
+                        break;
+                    case ItemClass.SubService.CommercialTourist:
+                        bossTake = MainDataStore.bossRatioCommTou;
+                        investToOffice = MainDataStore.investRatioCommTou;
+                        profitShare = MainDataStore.profitShareRatioCommTou;
+                        break;
+                    case ItemClass.SubService.CommercialLeisure:
+                        bossTake = MainDataStore.bossRatioCommOther;
+                        investToOffice = MainDataStore.investRatioCommOther;
+                        profitShare = MainDataStore.profitShareRatioCommOther; break;
+                    case ItemClass.SubService.CommercialEco:
+                        bossTake = MainDataStore.bossRatioCommECO;
+                        investToOffice = MainDataStore.investRatioCommECO;
+                        profitShare = MainDataStore.profitShareRatioCommECO; break;
+                }
+                // boss take and return to office
+                if (BuildingData.buildingMoney[buildingID] > 0)
+                {
+                    //Reduce Boss fee
+                    RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
+                    BuildingData.buildingMoney[buildingID] -= (long)(BuildingData.buildingMoney[buildingID] * bossTake);
+                }
+
+                if (building.Info.m_class.m_service == ItemClass.Service.Office)
+                {
+                    float allOfficeWorker = RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal + RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
+                    float averageOfficeSalary = 0;
+                    if (allOfficeWorker != 0)
+                    {
+                        averageOfficeSalary = (RealCityPrivateBuildingAI.profitBuildingMoneyFinal / allOfficeWorker);
+                    }
+
+                    if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeGeneric)
+                    {
+                        if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+                        {
+                            BuildingData.buildingMoney[buildingID] = averageOfficeSalary * totalWorkerCount * 0.6f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+                        {
+                            BuildingData.buildingMoney[buildingID] = averageOfficeSalary * totalWorkerCount * 0.8f;
+                        }
+                        else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+                        {
+                            BuildingData.buildingMoney[buildingID] = averageOfficeSalary * totalWorkerCount * 1f;
+                        }
+                    }
+                    else if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
+                    {
+                        BuildingData.buildingMoney[buildingID] = averageOfficeSalary * totalWorkerCount * 0.75f;
+                    }
+
+                    ProcessLandFeeOffice(building, buildingID, totalWorkerCount);
+                }
+
+                //Calculate building salary
+                int buildingAsset = (int)(BuildingData.buildingMoney[buildingID] + building.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(RealCityPrivateBuildingAI.GetIncomingProductionType(buildingID, building)));
+                int salary = 0;
+                if ((buildingAsset > 0) && (totalWorkerCount != 0))
+                {
+                    salary = (int)(buildingAsset * profitShare / totalWorkerCount);
                     switch (building.Info.m_class.m_subService)
                     {
                         case ItemClass.SubService.IndustrialFarming:
                         case ItemClass.SubService.IndustrialForestry:
-                            if (building.Info.m_buildingAI is IndustrialExtractorAI)
-                            {
-                                bossTake = MainDataStore.bossRatioInduExtractor;
-                                investToOffice = MainDataStore.investRatioInduExtractor;
-                            }
-                            else
-                            {
-                                bossTake = MainDataStore.bossRatioInduOther;
-                                investToOffice = MainDataStore.investRatioInduOther;
-                            }
-                            break;
                         case ItemClass.SubService.IndustrialOil:
                         case ItemClass.SubService.IndustrialOre:
-                            bossTake = MainDataStore.bossRatioInduOther; investToOffice = MainDataStore.investRatioInduOther; break;
+                            salary = Math.Min(salary, MainDataStore.salaryInduOtherMax); break;
                         case ItemClass.SubService.IndustrialGeneric:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                            {
-                                bossTake = MainDataStore.bossRatioInduLevel1;
-                                investToOffice = MainDataStore.investRatioInduLevel1;
-                            }
+                                salary = Math.Min(salary, MainDataStore.salaryInduLevel1Max);
                             else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                            {
-                                bossTake = MainDataStore.bossRatioInduLevel2;
-                                investToOffice = MainDataStore.investRatioInduLevel2;
-                            }
+                                salary = Math.Min(salary, MainDataStore.salaryInduLevel2Max);
                             else
-                            {
-                                bossTake = MainDataStore.bossRatioInduLevel3;
-                                investToOffice = MainDataStore.investRatioInduLevel3;
-                            }
+                                salary = Math.Min(salary, MainDataStore.salaryInduLevel3Max);
                             break;
                         case ItemClass.SubService.CommercialHigh:
                         case ItemClass.SubService.CommercialLow:
                             if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                            {
-                                bossTake = MainDataStore.bossRatioCommLevel1;
-                                investToOffice = MainDataStore.investRatioCommLevel1;
-                            }
+                                salary = Math.Min(salary, MainDataStore.salaryCommLevel1Max);
                             else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                            {
-                                bossTake = MainDataStore.bossRatioCommLevel2;
-                                investToOffice = MainDataStore.investRatioCommLevel2;
-                            }
+                                salary = Math.Min(salary, MainDataStore.salaryCommLevel2Max);
                             else
-                            {
-                                bossTake = MainDataStore.bossRatioCommLevel3;
-                                investToOffice = MainDataStore.investRatioCommLevel3;
-                            }
+                                salary = Math.Min(salary, MainDataStore.salaryCommLevel3Max);
                             break;
                         case ItemClass.SubService.CommercialTourist:
-                            bossTake = MainDataStore.bossRatioCommTou; investToOffice = MainDataStore.investRatioCommTou; break;
+                            salary = Math.Min(salary, MainDataStore.salaryCommTouMax); break;
                         case ItemClass.SubService.CommercialLeisure:
-                            bossTake = MainDataStore.bossRatioCommOther; investToOffice = MainDataStore.investRatioCommOther; break;
+                            salary = Math.Min(salary, MainDataStore.salaryCommOtherMax); break;
                         case ItemClass.SubService.CommercialEco:
-                            bossTake = MainDataStore.bossRatioCommECO; investToOffice = MainDataStore.investRatioCommECO; break;
-                    }
-
-
-                    RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
-                    BuildingData.buildingMoney[buildingID] -= (long)(BuildingData.buildingMoney[buildingID] * bossTake);
-                }
-            }
-
-            if (building.Info.m_class.m_service == ItemClass.Service.Office)
-            {
-                Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
-                int aliveWorkerCount = 0;
-                int totalWorkerCount = 0;
-                RealCityCommonBuildingAI.InitDelegate();
-                RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                int allOfficeWorker = RealCityPrivateBuildingAI.allOfficeLevel1WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel2WorkCountFinal + RealCityPrivateBuildingAI.allOfficeLevel3WorkCountFinal + RealCityPrivateBuildingAI.allOfficeHighTechWorkCountFinal;
-                double a = 0;
-                double z = 0;
-                double c = allOfficeWorker * MainDataStore.citizenCount << 1;
-                if (allOfficeWorker != 0 && (c != 0))
-                {
-                    a = (RealCityPrivateBuildingAI.profitBuildingMoneyFinal / c);
-                }
-                if ((MainDataStore.citizenCount != 0))
-                {
-                    z = Math.Pow((aliveWorkerCount / (float)MainDataStore.citizenCount), a);
-                }
-
-                if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeGeneric)
-                {
-                    if (building.Info.m_class.m_level == ItemClass.Level.Level1)
-                    {
-                        if (allOfficeWorker != 0)
-                        {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.65f * z * (aliveWorkerCount / (float)allOfficeWorker));
-                            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
-                        }
-                        else
-                        {
-                            BuildingData.buildingMoney[buildingID] = 0;
-                        }
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
-                    {
-                        if (allOfficeWorker != 0)
-                        {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.7f * z * (aliveWorkerCount / (float)allOfficeWorker));
-                            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
-                        }
-                        else
-                        {
-                            BuildingData.buildingMoney[buildingID] = 0;
-                        }
-                    }
-                    else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
-                    {
-                        if (allOfficeWorker != 0)
-                        {
-                            BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.8f * z * (aliveWorkerCount / (float)allOfficeWorker));
-                            BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
-                        }
-                        else
-                        {
-                            BuildingData.buildingMoney[buildingID] = 0;
-                        }
+                            salary = Math.Min(salary, MainDataStore.salaryCommECOMax); break;
                     }
                 }
-                else if (building.Info.m_class.m_subService == ItemClass.SubService.OfficeHightech)
-                {
-                    if (allOfficeWorker != 0)
-                    {
-                        BuildingData.buildingMoney[buildingID] = (float)(RealCityPrivateBuildingAI.profitBuildingMoneyFinal * 0.75f * z * (aliveWorkerCount / (float)allOfficeWorker));
-                        BuildingData.buildingMoney[buildingID] = (BuildingData.buildingMoney[buildingID] > 0) ? BuildingData.buildingMoney[buildingID] : 0;
-                    }
-                    else
-                    {
-                        BuildingData.buildingMoney[buildingID] = 0;
-                    }
-                }
-
-                ProcessLandFeeOffice(building, buildingID, totalWorkerCount);
+                BuildingData.buildingWorkCount[buildingID] = salary;
             }
         }
 

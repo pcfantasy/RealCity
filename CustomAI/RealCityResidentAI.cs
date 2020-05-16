@@ -109,91 +109,9 @@ namespace RealCity.CustomAI
                 if (workBuilding != 0u)
                 {
                     Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding];
-                    int aliveWorkCount = 0;
-                    int totalWorkCount = 0;
-                    Citizen.BehaviourData behaviour = default;
-                    RealCityCommonBuildingAI.InitDelegate();
-                    RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)buildingData.Info.m_buildingAI, workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                     if (!IsGoverment(workBuilding))
                     {
-                        float profitShare = 0;
-                        switch (buildingData.Info.m_class.m_subService)
-                        {
-                            case ItemClass.SubService.IndustrialFarming:
-                            case ItemClass.SubService.IndustrialForestry:
-                                if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
-                                    profitShare = MainDataStore.profitShareRatioInduExtractor; 
-                                else
-                                    profitShare = MainDataStore.profitShareRatioInduOther;
-                                break;
-                            case ItemClass.SubService.IndustrialOil:
-                            case ItemClass.SubService.IndustrialOre:
-                                profitShare = MainDataStore.profitShareRatioInduOther; break;
-                            case ItemClass.SubService.IndustrialGeneric:
-                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    profitShare = MainDataStore.profitShareRatioInduLevel1;
-                                else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    profitShare = MainDataStore.profitShareRatioInduLevel2;
-                                else
-                                    profitShare = MainDataStore.profitShareRatioInduLevel3;
-                                break;
-                            case ItemClass.SubService.CommercialHigh:
-                            case ItemClass.SubService.CommercialLow:
-                                if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                    profitShare = MainDataStore.profitShareRatioCommLevel1;
-                                else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                    profitShare = MainDataStore.profitShareRatioCommLevel2;
-                                else
-                                    profitShare = MainDataStore.profitShareRatioCommLevel3;
-                                break;
-                            case ItemClass.SubService.CommercialTourist:
-                                profitShare = MainDataStore.profitShareRatioCommTou; break;
-                            case ItemClass.SubService.CommercialLeisure:
-                                profitShare = MainDataStore.profitShareRatioCommOther; break;
-                            case ItemClass.SubService.CommercialEco:
-                                profitShare = MainDataStore.profitShareRatioCommECO; break;
-                            case ItemClass.SubService.OfficeGeneric:
-                            case ItemClass.SubService.OfficeHightech:
-                                profitShare = 1f; break;
-                        }
-
-                        int buildingAsset = (int)(BuildingData.buildingMoney[workBuilding] + buildingData.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(RealCityPrivateBuildingAI.GetIncomingProductionType(workBuilding, buildingData)));
-                        if ((buildingAsset > 0) && (totalWorkCount != 0))
-                        {
-                            salary = (int)(buildingAsset * profitShare / totalWorkCount);
-                            switch (buildingData.Info.m_class.m_subService)
-                            {
-                                case ItemClass.SubService.IndustrialFarming:
-                                case ItemClass.SubService.IndustrialForestry:
-                                case ItemClass.SubService.IndustrialOil:
-                                case ItemClass.SubService.IndustrialOre:
-                                    salary = Math.Min(salary, MainDataStore.salaryInduOtherMax); break;
-                                case ItemClass.SubService.IndustrialGeneric:
-                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                        salary = Math.Min(salary, MainDataStore.salaryInduLevel1Max);
-                                    else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                        salary = Math.Min(salary, MainDataStore.salaryInduLevel2Max);
-                                    else
-                                        salary = Math.Min(salary, MainDataStore.salaryInduLevel3Max);
-                                    break;
-                                case ItemClass.SubService.CommercialHigh:
-                                case ItemClass.SubService.CommercialLow:
-                                    if (buildingData.Info.m_class.m_level == ItemClass.Level.Level1)
-                                        salary = Math.Min(salary, MainDataStore.salaryCommLevel1Max);
-                                    else if (buildingData.Info.m_class.m_level == ItemClass.Level.Level2)
-                                        salary = Math.Min(salary, MainDataStore.salaryCommLevel2Max);
-                                    else
-                                        salary = Math.Min(salary, MainDataStore.salaryCommLevel3Max);
-                                    break;
-                                case ItemClass.SubService.CommercialTourist:
-                                    salary = Math.Min(salary, MainDataStore.salaryCommTouMax); break;
-                                case ItemClass.SubService.CommercialLeisure:
-                                    salary = Math.Min(salary, MainDataStore.salaryCommOtherMax); break;
-                                case ItemClass.SubService.CommercialEco:
-                                    salary = Math.Min(salary, MainDataStore.salaryCommECOMax); break;
-                            }
-                        }
-
+                        salary = BuildingData.buildingWorkCount[workBuilding];
                         if (!checkOnly)
                         {
                             if (buildingData.Info.m_class.m_service != ItemClass.Service.Office)
@@ -204,7 +122,12 @@ namespace RealCity.CustomAI
                     }
                     else
                     {
-                        //Goverment
+                        //Goverment                        
+                        int aliveWorkCount = 0;
+                        int totalWorkCount = 0;
+                        Citizen.BehaviourData behaviour = default;
+                        RealCityCommonBuildingAI.InitDelegate();
+                        RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)buildingData.Info.m_buildingAI, workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
                         int salaryMax = 0;
                         switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
                         {
