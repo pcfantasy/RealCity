@@ -12,7 +12,7 @@ namespace RealCity
         public static bool IsEnabled = false;
         public static bool debugMode = false;
         public static bool reduceVehicle = false;
-        public static bool realCityV10 = false;
+        public static bool realCityV10 = true;
 
         public string Name
         {

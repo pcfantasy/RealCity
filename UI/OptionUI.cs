@@ -95,7 +95,7 @@ namespace RealCity.UI
                     MainDataStore.maxGoodPurchase = 1000;
                 }
 
-                RealCity.realCityV10 = (sr.ReadLine() == "True")? true : false;
+                RealCity.realCityV10 = (sr.ReadLine() == "True")? true : true; // force to true
 
                 strLine = sr.ReadLine();
                 if (!int.TryParse(strLine, out morningBudgetWeekDay)) morningBudgetWeekDay = 200;
@@ -169,7 +169,7 @@ namespace RealCity.UI
             UIHelperBase group = panelHelper.AddGroup(Localization.Get("BASIC_SETTING"));
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), RealCity.debugMode, (index) => debugModeEnable(index));
             group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), RealCity.reduceVehicle, (index) => reduceVehicleEnable(index));
-            group.AddCheckbox(Localization.Get("REALCITY_V10_BETA"), RealCity.realCityV10, (index) => realCityV10Enable(index));
+            //group.AddCheckbox(Localization.Get("REALCITY_V10_BETA"), RealCity.realCityV10, (index) => realCityV10Enable(index));
             group.AddButton(Localization.Get("RESET_VALUE"), Loader.InitData);
 
             if (Loader.isTransportLinesManagerRunning)
