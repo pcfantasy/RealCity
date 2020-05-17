@@ -22,9 +22,9 @@
         public const float profitShareRatioCommLevel1 = 0.005f;
         public const float profitShareRatioCommLevel2 = 0.007f;
         public const float profitShareRatioCommLevel3 = 0.008f;
-        public const float profitShareRatioCommECO    = 0.002f;
-        public const float profitShareRatioCommOther  = 0.004f;
-        public const float profitShareRatioCommTou = 0.003f;
+        public const float profitShareRatioCommECO    = 0.003f;
+        public const float profitShareRatioCommOther  = 0.01f;
+        public const float profitShareRatioCommTou = 0.007f;
 
         public const int salaryInduLevel1Max = 300;
         public const int salaryInduLevel2Max = 450;
@@ -42,24 +42,24 @@
         public const float bossRatioInduLevel3 = 0.08f;
         public const float bossRatioInduOther = 0.01f;
         public const float bossRatioInduExtractor = 0f;
-        public const float bossRatioCommLevel1 = 0.15f;
-        public const float bossRatioCommLevel2 = 0.21f;
-        public const float bossRatioCommLevel3 = 0.24f;
-        public const float bossRatioCommECO = 0.25f;
-        public const float bossRatioCommOther = 0.30f;
-        public const float bossRatioCommTou = 0.20f;
+        public const float bossRatioCommLevel1 = 0.10f;
+        public const float bossRatioCommLevel2 = 0.14f;
+        public const float bossRatioCommLevel3 = 0.16f;
+        public const float bossRatioCommECO = 0.10f;
+        public const float bossRatioCommOther = 0.20f;
+        public const float bossRatioCommTou = 0.15f;
 
         public const float investRatioInduLevel1 = 0.003f;
         public const float investRatioInduLevel2 = 0.004f;
         public const float investRatioInduLevel3 = 0.005f;
         public const float investRatioInduOther = 0.0005f;
         public const float investRatioInduExtractor = 0f;
-        public const float investRatioCommLevel1 = 0.10f;
-        public const float investRatioCommLevel2 = 0.14f;
-        public const float investRatioCommLevel3 = 0.16f;
-        public const float investRatioCommECO = 0.2f;
-        public const float investRatioCommOther = 0.25f;
-        public const float investRatioCommTou = 0.01f;
+        public const float investRatioCommLevel1 = 0.03f;
+        public const float investRatioCommLevel2 = 0.04f;
+        public const float investRatioCommLevel3 = 0.05f;
+        public const float investRatioCommECO = 0.01f;
+        public const float investRatioCommOther = 0.10f;
+        public const float investRatioCommTou = 0.05f;
         public const int lowWealth = 5000;
         public const int highWealth = 50000;
         public static int maxGoodPurchase = 1000;
@@ -68,16 +68,17 @@
         public const byte govermentEducation2SalaryFixed = 35;
         public const byte govermentEducation3SalaryFixed = 50;
 
-        //LandRen
+        //LandRent
         public const ushort commHighLevel1 = 5000;
         public const ushort commHighLevel2 = 10000;
         public const ushort commHighLevel3 = 20000;
         public const ushort commLowLevel1 = 10000;
         public const ushort commLowLevel2 = 20000;
         public const ushort commLowLevel3 = 30000;
-        public const ushort commTourist = 40000;
-        public const ushort commLeisure = 60000;
-        public const ushort commEco = 30000;
+        //Tourist Leisure ECO landtax is fixed 9%, so reduce default LandRent;
+        public const ushort commTourist = 10000;
+        public const ushort commLeisure = 15000;
+        public const ushort commEco = 5000;
         public const ushort induGenLevel1 = 1000;
         public const ushort induGenLevel2 = 2000;
         public const ushort induGenLevel3 = 3000;

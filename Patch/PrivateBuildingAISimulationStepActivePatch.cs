@@ -619,6 +619,7 @@ namespace RealCity.Patch
             int landFee;
             GetLandRentNoOffice(out landFee, building, buildingID);
             int taxRate;
+
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
             if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))

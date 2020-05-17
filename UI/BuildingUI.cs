@@ -312,7 +312,8 @@ namespace RealCity.UI
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
             GetLandRent(building, out int landFee);
-            int taxRate;
+            float taxRate;
+
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
