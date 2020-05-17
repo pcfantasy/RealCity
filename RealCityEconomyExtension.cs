@@ -66,9 +66,9 @@ namespace RealCity
                     MainDataStore.maxOutsideMoneyLimit = (500 + MainDataStore.familyCount) * 200f;
 
                     if ((MainDataStore.outsideTouristMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideTouristMoney < -MainDataStore.maxOutsideMoneyLimit))
-                        MainDataStore.outsideTouristMoney *= 0.95f;
+                        MainDataStore.outsideTouristMoney *= 0.975f;
                     if ((MainDataStore.outsideGovermentMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideGovermentMoney < -MainDataStore.maxOutsideMoneyLimit))
-                        MainDataStore.outsideGovermentMoney *= 0.95f;
+                        MainDataStore.outsideGovermentMoney *= 0.975f;
                 }
             }
             return internalMoneyAmount;
