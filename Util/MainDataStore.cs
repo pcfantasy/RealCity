@@ -82,10 +82,10 @@
         public const ushort induGenLevel1 = 1000;
         public const ushort induGenLevel2 = 2000;
         public const ushort induGenLevel3 = 3000;
-        public const ushort induForest = 6000;
-        public const ushort induFarm = 6000;
-        public const ushort induOil = 4000;
-        public const ushort induOre = 5000;
+        public const ushort induForest = 1000;
+        public const ushort induFarm = 500;
+        public const ushort induOil = 2000;
+        public const ushort induOre = 1500;
         public const ushort residentLowLevel1Rent = 100;
         public const ushort residentLowLevel2Rent = 150;
         public const ushort residentLowLevel3Rent = 200;
