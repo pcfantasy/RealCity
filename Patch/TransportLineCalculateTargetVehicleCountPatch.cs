@@ -244,6 +244,8 @@ namespace RealCity.Patch
             }
 
             __result = (int)(__result * budget);
+            if (__result <= 0)
+                __result = 1;
         }
 
         public static bool IsWeekend(DateTime dateTime)
