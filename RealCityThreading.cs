@@ -129,24 +129,24 @@ namespace RealCity
                                         case ItemClass.SubService.PublicTransportBus:
                                         case ItemClass.SubService.PublicTransportTrolleybus:
                                         case ItemClass.SubService.PublicTransportTours:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 50 * capacity, vehicle.Info.m_class); break;
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10 * capacity, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportMonorail:
                                         case ItemClass.SubService.PublicTransportCableCar:
                                         case ItemClass.SubService.PublicTransportTram:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 50 * capacity, vehicle.Info.m_class); break;
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 15 * capacity, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportMetro:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 150 * capacity, vehicle.Info.m_class); break;
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100 * capacity, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportTrain:
                                             if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5000, vehicle.Info.m_class);
                                             else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 250 * capacity, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 150 * capacity, vehicle.Info.m_class);
                                             break;
                                         case ItemClass.SubService.PublicTransportPlane:
                                             if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10000, vehicle.Info.m_class);
                                             else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 300 * capacity, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 200 * capacity, vehicle.Info.m_class);
                                             break;
                                         case ItemClass.SubService.PublicTransportPost:
                                             Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800, vehicle.Info.m_class); break;
@@ -156,7 +156,7 @@ namespace RealCity
                                             if (vehicle.Info.m_vehicleAI is CargoShipAI)
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 3000, vehicle.Info.m_class);
                                             else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 30 * capacity, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20 * capacity, vehicle.Info.m_class);
                                             break;
                                     }
                                     break;
