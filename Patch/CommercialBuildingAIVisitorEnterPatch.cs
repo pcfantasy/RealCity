@@ -32,8 +32,11 @@ namespace RealCity.Patch
                 }
 
                 consumptionMoney = -consumptionMoney;
-                buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Entertainment, ref consumptionMoney);
-                MainDataStore.outsideTouristMoney += (consumptionMoney);
+                if (MainDataStore.outsideTouristMoney > 0)
+                {
+                    buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Entertainment, ref consumptionMoney);
+                    MainDataStore.outsideTouristMoney += (consumptionMoney);
+                }
                 consumptionMoney = -MainDataStore.maxGoodPurchase;
                 buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
                 int priceInt = 0;

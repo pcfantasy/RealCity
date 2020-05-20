@@ -23,13 +23,6 @@ namespace RealCity.Patch
                 {
                     FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
                 }
-                else if (RealCity.realCityV10)
-                {
-                    if (MainDataStore.outsideTouristMoney < 0)
-                    {
-                        FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
-                    }
-                }
             }
         }
 

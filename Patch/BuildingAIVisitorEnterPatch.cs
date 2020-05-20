@@ -83,8 +83,11 @@ namespace RealCity.Patch
             else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                 tourism_fee <<= 1;
 
-            MainDataStore.outsideTouristMoney -= tourism_fee;
-            Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
+            if (MainDataStore.outsideTouristMoney > 0)
+            {
+                MainDataStore.outsideTouristMoney -= tourism_fee;
+                Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
+            }
         }
 
         public static void ProcessMonumentTourismResidentIncome(ref Building data, uint citizen)
@@ -112,8 +115,15 @@ namespace RealCity.Patch
                 //Negetive price to help identify tourist and resident.
                 if (isTourist)
                 {
-                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -(int)ticketPrice, data.Info.m_class);
-                    MainDataStore.outsideTouristMoney -= ticketPrice;
+                    if (MainDataStore.outsideTouristMoney > 0)
+                    {
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -(int)ticketPrice, data.Info.m_class);
+                        MainDataStore.outsideTouristMoney -= ticketPrice;
+                    }
+                    else
+                    {
+                        ticketPrice = 0;
+                    }
                 }
                 else
                 {
