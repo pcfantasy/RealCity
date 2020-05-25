@@ -281,7 +281,7 @@ namespace RealCity.Patch
             }
 
             //2.We calculate salary tax
-            float tax = (float)Politics.residentTax * familySalaryCurrent / 100f;
+            float tax = (float)(Politics.residentTax << 1) * familySalaryCurrent / 100f;
             RealCityResidentAI.tempCitizenSalaryTaxTotal = RealCityResidentAI.tempCitizenSalaryTaxTotal + (int)tax;
             RealCityResidentAI.citizenSalaryTaxTotal = (int)RealCityResidentAI.tempCitizenSalaryTaxTotal;
             ProcessCitizenIncomeTax(homeID, tax);
