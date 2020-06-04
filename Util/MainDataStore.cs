@@ -61,7 +61,7 @@
         public const float investRatioCommOther = 0.10f;
         public const float investRatioCommTou = 0.05f;
         public const int lowWealth = 5000;
-        public const int highWealth = 50000;
+        public const int highWealth = 30000;
         public static int maxGoodPurchase = 1000;
         public const byte govermentEducation0SalaryFixed = 20;
         public const byte govermentEducation1SalaryFixed = 25;
@@ -80,12 +80,12 @@
         public const ushort commLeisure = 15000;
         public const ushort commEco = 5000;
         public const ushort induGenLevel1 = 1000;
-        public const ushort induGenLevel2 = 2000;
-        public const ushort induGenLevel3 = 3000;
-        public const ushort induForest = 1000;
-        public const ushort induFarm = 500;
-        public const ushort induOil = 2000;
-        public const ushort induOre = 1500;
+        public const ushort induGenLevel2 = 1400;
+        public const ushort induGenLevel3 = 1600;
+        public const ushort induForest = 250;
+        public const ushort induFarm = 200;
+        public const ushort induOil = 1050;
+        public const ushort induOre = 900;
         public const ushort residentLowLevel1Rent = 100;
         public const ushort residentLowLevel2Rent = 150;
         public const ushort residentLowLevel3Rent = 200;
