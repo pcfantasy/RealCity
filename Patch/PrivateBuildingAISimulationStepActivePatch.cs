@@ -404,8 +404,15 @@ namespace RealCity.Patch
                 if (BuildingData.buildingMoney[buildingID] > 0)
                 {
                     //Reduce Boss fee
-                    RealCityPrivateBuildingAI.profitBuildingMoney += (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
-                    BuildingData.buildingMoney[buildingID] -= (long)(BuildingData.buildingMoney[buildingID] * bossTake);
+                    long investToOfficeFee = (long)(BuildingData.buildingMoney[buildingID] * investToOffice);
+                    long bossTakeFee = (long)(BuildingData.buildingMoney[buildingID] * bossTake);
+                    if (building.Info.m_class.m_service == ItemClass.Service.Commercial)
+                    {
+                        //Commercial have help tourism
+                        MainDataStore.outsideTouristMoney += ((bossTakeFee - investToOfficeFee) * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
+                    }
+                    RealCityPrivateBuildingAI.profitBuildingMoney += investToOfficeFee;
+                    BuildingData.buildingMoney[buildingID] -= bossTakeFee;
                 }
 
                 if (building.Info.m_class.m_service == ItemClass.Service.Office)
