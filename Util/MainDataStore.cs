@@ -37,10 +37,10 @@
         public const int salaryCommOtherMax = 900;
         public const int salaryCommTouMax = 600;
 
-        public const float bossRatioInduLevel1 = 0.05f;
-        public const float bossRatioInduLevel2 = 0.07f;
-        public const float bossRatioInduLevel3 = 0.08f;
-        public const float bossRatioInduOther = 0.01f;
+        public const float bossRatioInduLevel1 = 0.005f;
+        public const float bossRatioInduLevel2 = 0.007f;
+        public const float bossRatioInduLevel3 = 0.008f;
+        public const float bossRatioInduOther = 0.001f;
         public const float bossRatioInduExtractor = 0f;
         public const float bossRatioCommLevel1 = 0.10f;
         public const float bossRatioCommLevel2 = 0.14f;
@@ -49,9 +49,9 @@
         public const float bossRatioCommOther = 0.20f;
         public const float bossRatioCommTou = 0.15f;
 
-        public const float investRatioInduLevel1 = 0.003f;
-        public const float investRatioInduLevel2 = 0.004f;
-        public const float investRatioInduLevel3 = 0.005f;
+        public const float investRatioInduLevel1 = 0.002f;
+        public const float investRatioInduLevel2 = 0.003f;
+        public const float investRatioInduLevel3 = 0.004f;
         public const float investRatioInduOther = 0.0005f;
         public const float investRatioInduExtractor = 0f;
         public const float investRatioCommLevel1 = 0.03f;
@@ -63,10 +63,10 @@
         public const int lowWealth = 5000;
         public const int highWealth = 30000;
         public static int maxGoodPurchase = 1000;
-        public const byte govermentEducation0SalaryFixed = 20;
-        public const byte govermentEducation1SalaryFixed = 25;
-        public const byte govermentEducation2SalaryFixed = 35;
-        public const byte govermentEducation3SalaryFixed = 50;
+        public const byte govermentEducation0SalaryFixed = 40;
+        public const byte govermentEducation1SalaryFixed = 50;
+        public const byte govermentEducation2SalaryFixed = 70;
+        public const byte govermentEducation3SalaryFixed = 100;
 
         //LandRent
         public const ushort commHighLevel1 = 5000;
@@ -79,9 +79,9 @@
         public const ushort commTourist = 10000;
         public const ushort commLeisure = 15000;
         public const ushort commEco = 5000;
-        public const ushort induGenLevel1 = 1000;
-        public const ushort induGenLevel2 = 1400;
-        public const ushort induGenLevel3 = 1600;
+        public const ushort induGenLevel1 = 500;
+        public const ushort induGenLevel2 = 700;
+        public const ushort induGenLevel3 = 800;
         public const ushort induForest = 250;
         public const ushort induFarm = 200;
         public const ushort induOil = 1050;
