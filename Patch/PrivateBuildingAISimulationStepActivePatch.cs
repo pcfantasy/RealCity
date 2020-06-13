@@ -325,6 +325,9 @@ namespace RealCity.Patch
 
                 switch (building.Info.m_class.m_subService)
                 {
+                    case ItemClass.SubService.OfficeGeneric:
+                    case ItemClass.SubService.OfficeHightech:
+                        profitShare = 1f; break;
                     case ItemClass.SubService.IndustrialFarming:
                     case ItemClass.SubService.IndustrialForestry:
                         if (building.Info.m_buildingAI is IndustrialExtractorAI)
@@ -678,21 +681,21 @@ namespace RealCity.Patch
             {
                 case ItemClass.SubService.OfficeHightech:
                     RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
-                    RealCityPrivateBuildingAI.allOfficeHighTechWorkCount += aliveWorkerCount;
+                    RealCityPrivateBuildingAI.allOfficeHighTechWorkCount += totalWorkerCount;
                     break;
                 case ItemClass.SubService.OfficeGeneric:
                     RealCityCommonBuildingAI.GetWorkBehaviour((OfficeBuildingAI)building.Info.m_buildingAI, buildingID, ref building, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
                     if (building.Info.m_class.m_level == ItemClass.Level.Level1)
                     {
-                        RealCityPrivateBuildingAI.allOfficeLevel1WorkCount += aliveWorkerCount;
+                        RealCityPrivateBuildingAI.allOfficeLevel1WorkCount += totalWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
                     {
-                        RealCityPrivateBuildingAI.allOfficeLevel2WorkCount += aliveWorkerCount;
+                        RealCityPrivateBuildingAI.allOfficeLevel2WorkCount += totalWorkerCount;
                     }
                     else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
                     {
-                        RealCityPrivateBuildingAI.allOfficeLevel3WorkCount += aliveWorkerCount;
+                        RealCityPrivateBuildingAI.allOfficeLevel3WorkCount += totalWorkerCount;
                     }
                     break;
                 case ItemClass.SubService.IndustrialFarming:

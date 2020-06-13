@@ -161,7 +161,7 @@ namespace RealCity.UI
                         }
                         else
                         {
-                            if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
+                            if ((buildingData.Info.m_buildingAI is IndustrialExtractorAI) || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
                             {
                                 comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " N/A");
                             }
@@ -177,7 +177,7 @@ namespace RealCity.UI
 
                         if (consumptionDivider == 0f)
                         {
-                            profit.text = string.Format(Localization.Get("SELL_TAX") + " N/A");
+                            profit.text = string.Format(Localization.Get("PROFIT") + " N/A");
                         }
                         else
                         {
