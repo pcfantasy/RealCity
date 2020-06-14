@@ -29,7 +29,7 @@ namespace RealCity
             IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
-            HarmonyHelper.DoOnHarmonyReady(() => Loader.HarmonyInitDetour());
+            HarmonyHelper.EnsureHarmonyInstalled();
             if (UIView.GetAView() != null)
             {
                 OnGameIntroLoaded();
@@ -42,7 +42,6 @@ namespace RealCity
 
         public void OnDisabled()
         {
-            Loader.HarmonyRevertDetour();
             IsEnabled = false;
             LoadingManager.instance.m_introLoaded -= OnGameIntroLoaded;
         }

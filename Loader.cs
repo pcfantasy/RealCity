@@ -10,6 +10,7 @@ using RealCity.Util;
 using RealCity.CustomManager;
 using ColossalFramework.Plugins;
 using RealCity.CustomData;
+using CitiesHarmony.API;
 
 namespace RealCity
 {
@@ -45,6 +46,7 @@ namespace RealCity
 
         public override void OnCreated(ILoading loading)
         {
+            HarmonyInitDetour();
             base.OnCreated(loading);
         }
 
@@ -447,22 +449,28 @@ namespace RealCity
 
         public static void HarmonyInitDetour()
         {
-            if (!HarmonyDetourInited)
+            if (HarmonyHelper.IsHarmonyInstalled)
             {
-                DebugLog.LogToFileOnly("Init harmony detours");
-                HarmonyDetours.Apply();
-                HarmonyDetourInited = true;
+                if (!HarmonyDetourInited)
+                {
+                    DebugLog.LogToFileOnly("Init harmony detours");
+                    HarmonyDetours.Apply();
+                    HarmonyDetourInited = true;
+                }
             }
         }
 
         public static void HarmonyRevertDetour()
         {
-            if (HarmonyDetourInited)
+            if (HarmonyHelper.IsHarmonyInstalled)
             {
-                DebugLog.LogToFileOnly("Revert harmony detours");
-                HarmonyDetours.DeApply();
-                HarmonyDetourFailed = true;
-                HarmonyDetourInited = false;
+                if (HarmonyDetourInited)
+                {
+                    DebugLog.LogToFileOnly("Revert harmony detours");
+                    HarmonyDetours.DeApply();
+                    HarmonyDetourFailed = true;
+                    HarmonyDetourInited = false;
+                }
             }
         }
 
