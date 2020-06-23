@@ -381,9 +381,9 @@ namespace RealCity.Patch
             //8 reduce goods
             float reducedGoods;
             if (CitizenUnitData.familyMoney[homeID] < canBuyGoodMoney)
-                reducedGoods = CitizenUnitData.familyGoods[homeID] / 200f;
-            else
                 reducedGoods = CitizenUnitData.familyGoods[homeID] / 100f;
+            else
+                reducedGoods = CitizenUnitData.familyGoods[homeID] / 50f;
 
             CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
             data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);

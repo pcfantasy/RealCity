@@ -58,8 +58,13 @@ namespace RealCity.Patch
                         if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.maxGoodPurchase * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping))
                         {
                             //Reject poor citizen to building
-                            sourceBuilding = targetBuilding;
-                            return;
+                            if (CitizenUnitData.familyGoods[containingUnit] > 1000)
+                            {
+                                //If a family is lacking goods very seriously, even they do not have enough money, they can buy goods.
+                                //minimumLivingAllowance will cover this expense.
+                                sourceBuilding = targetBuilding;
+                                return;
+                            }
                         }
                         else if (CitizenUnitData.familyGoods[containingUnit] > 2000)
                         {
