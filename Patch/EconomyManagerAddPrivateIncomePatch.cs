@@ -268,7 +268,7 @@ namespace RealCity.Patch
         {
             if (amount < 0)
             {
-                DebugLog.LogToFileOnly("Error: EconomyManagerAddPrivateIncomePatch amount < 0 {service} {subService} {level}");
+                DebugLog.LogToFileOnly($"Error: EconomyManagerAddPrivateIncomePatch amount < 0 {service} {subService} {level}");
                 amount = 0;
             }
             if (taxRate == 115333)
