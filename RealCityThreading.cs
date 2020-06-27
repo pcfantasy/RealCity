@@ -44,6 +44,10 @@ namespace RealCity
             {
                 isFirstTime = false;
                 DebugLog.LogToFileOnly("ThreadingExtension.OnBeforeSimulationFrame: First frame detected. Checking detours.");
+                //Caculate goverment salary
+                RealCityEconomyExtension.CaculateGovermentSalary();
+                //reset playereducation fee
+                RealCityEconomyExtension.RefreshPlayerEducationFee();
 
                 if (Loader.HarmonyDetourFailed)
                 {

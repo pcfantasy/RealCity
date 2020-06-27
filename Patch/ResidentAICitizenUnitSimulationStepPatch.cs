@@ -499,6 +499,9 @@ namespace RealCity.Patch
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.PlayerEducation)
                     {
                         var tempEducationFee = (uint)((MainDataStore.govermentSalary) / 100f);
+                        if (tempEducationFee < 1)
+                            tempEducationFee = 1;
+
                         educationFee = (int)tempEducationFee * 100;
                         isCampusDLC = true;
                     }
