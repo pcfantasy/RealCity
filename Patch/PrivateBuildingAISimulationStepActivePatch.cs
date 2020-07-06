@@ -488,7 +488,11 @@ namespace RealCity.Patch
                             salary = Math.Min(salary, MainDataStore.salaryCommECOMax); break;
                     }
                 }
-                BuildingData.buildingWorkCount[buildingID] = salary;
+
+                if (salary > 0)
+                    BuildingData.buildingWorkCount[buildingID] = salary;
+                else
+                    BuildingData.buildingWorkCount[buildingID] = 0;
             }
             else
             {
