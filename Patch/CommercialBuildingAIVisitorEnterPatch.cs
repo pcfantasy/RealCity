@@ -52,21 +52,11 @@ namespace RealCity.Patch
 
                 if (containingUnit != 0)
                 {
-                    int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    //int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    int goodAmount = -MainDataStore.maxGoodPurchase;
 
                     if (goodAmount < 0)
                     {
-                        if (goodAmount < -MainDataStore.maxGoodPurchase)
-                        {
-                            goodAmount = -MainDataStore.maxGoodPurchase;
-                        }
-
-                        if (goodAmount == -100)
-                        {
-                            //Disable other -100 ModifyMaterialBuffer
-                            goodAmount = -99;
-                        }
-
                         buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref goodAmount);
 
                         if (goodAmount != 0)
