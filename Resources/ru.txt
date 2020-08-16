@@ -187,4 +187,4 @@ SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Адаптивный бюджет общест
 SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Адаптивный бюджет общественного транспорта (мин)
 UNFINISHED_DEAL_LOST	Компенсация по незавершенным сделкам
 RESET_VALUE	Клавиша сброса
-REALCITY_V10_BETA	Открытая бета-версия RealCity V10
+NO_PASSENGERCAR	Citizen will not use passenger car if they do not have enough money

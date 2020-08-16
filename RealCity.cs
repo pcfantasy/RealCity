@@ -13,6 +13,7 @@ namespace RealCity
         public static bool debugMode = false;
         public static bool reduceVehicle = false;
         public static bool realCityV10 = true;
+        public static bool noPassengerCar = true;
 
         public string Name
         {
