@@ -65,6 +65,11 @@ namespace RealCity
                     //4 limit money
                     MainDataStore.maxOutsideMoneyLimit = (400 + MainDataStore.familyCount) * 250f;
 
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated0Data.m_finalCount >> 3);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount >> 2);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount >> 1);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount);
+
                     if ((MainDataStore.outsideTouristMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideTouristMoney < -MainDataStore.maxOutsideMoneyLimit))
                         MainDataStore.outsideTouristMoney *= 0.975f;
                     if ((MainDataStore.outsideGovermentMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideGovermentMoney < -MainDataStore.maxOutsideMoneyLimit))
