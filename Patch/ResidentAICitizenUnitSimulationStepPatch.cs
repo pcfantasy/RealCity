@@ -38,7 +38,7 @@ namespace RealCity.Patch
 						if ((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) {
 							if (citizenData.Dead == false) {
 								RealCityResidentAI.citizenCount++;
-								CitizenUnitData.familyMoney[homeID] += CitizenData.citizenMoney[m_citizenI];
+								CitizenUnitData.familyMoney[homeID] += CitizenData.Instance.citizenMoney[m_citizenI];
 							}
 						}
 					}
@@ -76,7 +76,7 @@ namespace RealCity.Patch
 						if (m_citizenI != 0) {
 							Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[m_citizenI];
 							if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false)) {
-								CitizenData.citizenMoney[m_citizenI] = CitizenUnitData.familyMoney[homeID] / temp;
+								CitizenData.Instance.citizenMoney[m_citizenI] = CitizenUnitData.familyMoney[homeID] / temp;
 							}
 						}
 					}

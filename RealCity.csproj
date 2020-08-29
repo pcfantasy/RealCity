@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
+    <Compile Include="CustomData\ICustomGameData.cs" />
     <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\OutsideConnectionAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\TollBoothAIGetResourceRatePatch.cs" />

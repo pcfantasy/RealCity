@@ -346,7 +346,7 @@ namespace RealCity.Util
 
 				//5
 				saveData = new byte[4194304];
-				CitizenData.Save(ref saveData);
+				CitizenData.Instance.Save(ref saveData);
 				_serializableData.SaveData("RealCity CitizenData", saveData);
 
 				//6
@@ -412,7 +412,7 @@ namespace RealCity.Util
 			if (saveData == null)
 				DebugLog.LogToFileOnly("no RealCity CitizenData, please check");
 			else
-				CitizenData.Load(ref saveData);
+				CitizenData.Instance.Load(ref saveData);
 
 			//6
 			saveData = _serializableData.LoadData("RealCity Politics");

@@ -84,7 +84,8 @@ namespace RealCity
 			VehicleData.DataInit();
 			BuildingData.DataInit();
 			CitizenUnitData.DataInit();
-			CitizenData.DataInit();
+			//CitizenData.DataInit();
+			CitizenData.Instance.DataInit();
 			RealCityEconomyManager.DataInit();
 			System.Random rand = new System.Random();
 			RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
