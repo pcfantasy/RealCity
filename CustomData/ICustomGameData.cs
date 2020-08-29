@@ -1,3 +1,5 @@
+﻿namespace RealCity.CustomData
+{
 	public interface ICustomGameData
 	{
 		 void DataInit();
