@@ -4,11 +4,13 @@ namespace RealCity.Util
 {
 	public class Politics
 	{
+		//学历对选举投票的影响因子
 		public static byte[,] education = { {30,  0, 10, 10, 50},
 											{20, 10, 25, 20, 25},
 											{10, 20, 30, 30, 10},
 											{ 5, 25, 40, 25,  5}};
 
+		//工作场所对选举投票的影响因子
 		//0  govement
 		//1  comm level1
 		//2  comm level2
@@ -40,14 +42,15 @@ namespace RealCity.Util
 											{ 0, 50, 10, 40,  0},	//office high tech
 											{35,  0, 10, 10, 45}};  //no work
 
+		//财富积累对选举投票的影响因子
 		// money < 2000
 		// 6000 > money > 2000
 		// money > 6000
 		public static byte[,] money =     { {35,  0, 25, 10, 30},
 											{10, 10, 35, 35, 10},
 											{ 0, 30, 15, 40, 15}};
-
-		//youg
+		//年龄
+		//young
 		//adult
 		//senior
 		public static byte[,] age =       { {15, 20, 30, 20, 15},
@@ -132,6 +135,8 @@ namespace RealCity.Util
 												{70, 30,  0},
 											  };
 
+		private const Citizen.AgeGroup VotingAge = Citizen.AgeGroup.Young;
+
 		public static ushort cPartyChance = 0;
 		public static ushort gPartyChance = 0;
 		public static ushort sPartyChance = 0;
@@ -150,7 +155,8 @@ namespace RealCity.Util
 		public static ushort lPartySeats = 0;
 		public static ushort nPartySeats = 0;
 
-		public static short parliamentCount = 0;
+		//下一届选举倒计时
+		public static short nextElectionInterval = 0;
 
 		public static bool case1 = false;
 		public static bool case2 = false;
@@ -161,14 +167,37 @@ namespace RealCity.Util
 		public static bool case7 = false;
 		public static bool case8 = false;
 
-		public static byte currentIdx = 14;
+		//当前议案Id
+		public static byte currentBillId = 14;
+		//赞成票数
 		public static byte currentYes = 0;
+		//否定票数
 		public static byte currentNo = 0;
+		//中立/缺席（？）
 		public static byte currentNoAttend = 0;
-		public static int residentTax = 20;     //居民税(0-20)
-		public static int commercialTax = 20;   //商业税(0-20)
-		public static int industryTax = 20;     //工业税(0-20)
-		public static short benefitOffset = 0;  //社会福利(0-100)
+
+		//居民税(0-20)
+		public static int residentTax = 20;
+		//商业税(0-20)
+		public static int commercialTax = 20;
+		//工业税(0-20)
+		public static int industryTax = 20;
+		//社会福利(0-100)
+		public static short benefitOffset = 0;
+
+		public static bool IsOnElection() {
+			return nextElectionInterval == 1;
+		}
+
+		/// <summary>
+		/// 是否达到最低投票年龄
+		/// </summary>
+		/// <param name="age"></param>
+		/// <returns></returns>
+		public static bool IsOverVotingAge(Citizen.AgeGroup age) {
+			//这地方不一定能解耦合...政治就是和人相关的嘛...
+			return age >= VotingAge;
+		}
 
 		public static void Save(ref byte[] saveData) {
 			//58
@@ -194,7 +223,7 @@ namespace RealCity.Util
 			SaveAndRestore.SaveData(ref i, nPartySeats, ref saveData);
 
 			//14
-			SaveAndRestore.SaveData(ref i, parliamentCount, ref saveData);
+			SaveAndRestore.SaveData(ref i, nextElectionInterval, ref saveData);
 			SaveAndRestore.SaveData(ref i, case1, ref saveData);
 			SaveAndRestore.SaveData(ref i, case2, ref saveData);
 			SaveAndRestore.SaveData(ref i, case3, ref saveData);
@@ -203,7 +232,7 @@ namespace RealCity.Util
 			SaveAndRestore.SaveData(ref i, case6, ref saveData);
 			SaveAndRestore.SaveData(ref i, case7, ref saveData);
 			SaveAndRestore.SaveData(ref i, case8, ref saveData);
-			SaveAndRestore.SaveData(ref i, currentIdx, ref saveData);
+			SaveAndRestore.SaveData(ref i, currentBillId, ref saveData);
 			SaveAndRestore.SaveData(ref i, currentYes, ref saveData);
 			SaveAndRestore.SaveData(ref i, currentNo, ref saveData);
 			SaveAndRestore.SaveData(ref i, currentNoAttend, ref saveData);
@@ -246,7 +275,7 @@ namespace RealCity.Util
 			SaveAndRestore.LoadData(ref i, saveData, ref lPartySeats);
 			SaveAndRestore.LoadData(ref i, saveData, ref nPartySeats);
 
-			SaveAndRestore.LoadData(ref i, saveData, ref parliamentCount);
+			SaveAndRestore.LoadData(ref i, saveData, ref nextElectionInterval);
 
 			SaveAndRestore.LoadData(ref i, saveData, ref case1);
 			SaveAndRestore.LoadData(ref i, saveData, ref case2);
@@ -257,7 +286,7 @@ namespace RealCity.Util
 			SaveAndRestore.LoadData(ref i, saveData, ref case7);
 			SaveAndRestore.LoadData(ref i, saveData, ref case8);
 
-			SaveAndRestore.LoadData(ref i, saveData, ref currentIdx);
+			SaveAndRestore.LoadData(ref i, saveData, ref currentBillId);
 			SaveAndRestore.LoadData(ref i, saveData, ref currentYes);
 			SaveAndRestore.LoadData(ref i, saveData, ref currentNo);
 			SaveAndRestore.LoadData(ref i, saveData, ref currentNoAttend);

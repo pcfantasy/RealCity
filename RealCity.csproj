@@ -91,8 +91,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ArrayLengthAttribute.cs" />
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
     <Compile Include="CustomData\ICustomGameData.cs" />
+    <Compile Include="Util\Politic\PartyInterest.cs" />
+    <Compile Include="CustomData\PartyInterestData.cs" />
     <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\OutsideConnectionAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\TollBoothAIGetResourceRatePatch.cs" />
@@ -182,7 +185,9 @@
     <Compile Include="UI\RealCityButton.cs" />
     <Compile Include="UI\RealCityUI.cs" />
     <Compile Include="UI\TouristUI.cs" />
+    <Compile Include="Util\Politic\AbstractParty.cs" />
     <Compile Include="Util\FastDelegateFactory.cs" />
+    <Compile Include="Util\Politic\IParty.cs" />
     <Compile Include="Util\ModsCompatibilityChecker.cs" />
     <Compile Include="Util\DebugLog.cs" />
     <Compile Include="Util\HarmonyDetours.cs" />
@@ -207,6 +212,7 @@
   <ItemGroup>
     <Analyzer Include="..\CitiesHarmony-master\libs\0Harmony.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

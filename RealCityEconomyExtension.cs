@@ -24,9 +24,9 @@ namespace RealCity
 				uint frameIndex = currentFrameIndex & 255u;
 				if ((frameIndex == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime)) {
 					if (MainDataStore.updateMoneyCount == 16) {
-						Politics.parliamentCount--;
-						if (Politics.parliamentCount < 0) {
-							Politics.parliamentCount = 10;
+						Politics.nextElectionInterval--;
+						if (Politics.nextElectionInterval < 0) {
+							Politics.nextElectionInterval = 10;
 						}
 						//1. Caculate minimumLivingAllowance and unfinishedTransitionLost
 						MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
@@ -133,7 +133,7 @@ namespace RealCity
 		/// 
 		/// </summary>
 		public void CitizenStatus() {
-			if (Politics.parliamentCount == 0) {
+			if (Politics.nextElectionInterval == 0) {
 				System.Random rand = new System.Random();
 				partyTrend = (byte)rand.Next(5);
 				partyTrendStrength = (byte)rand.Next(300);
@@ -142,7 +142,7 @@ namespace RealCity
 			}
 
 			if ((MainDataStore.updateMoneyCount & 3u) == 0) {
-				if (Politics.parliamentCount != 0) {
+				if (Politics.nextElectionInterval != 0) {
 					HoldMeeting();
 				}
 			}
@@ -239,24 +239,24 @@ namespace RealCity
 				System.Random rand = new System.Random();
 				switch (rand.Next(8)) {
 					case 0:
-						Politics.currentIdx = ReturnOtherIdx(0); break;
+						Politics.currentBillId = ReturnOtherIdx(0); break;
 					case 1:
-						Politics.currentIdx = ReturnOtherIdx(1); break;
+						Politics.currentBillId = ReturnOtherIdx(1); break;
 					case 2:
-						Politics.currentIdx = ReturnOtherIdx(2); break;
+						Politics.currentBillId = ReturnOtherIdx(2); break;
 					case 3:
-						Politics.currentIdx = ReturnOtherIdx(3); break;
+						Politics.currentBillId = ReturnOtherIdx(3); break;
 					case 4:
-						Politics.currentIdx = ReturnOtherIdx(4); break;
+						Politics.currentBillId = ReturnOtherIdx(4); break;
 					case 5:
-						Politics.currentIdx = ReturnOtherIdx(5); break;
+						Politics.currentBillId = ReturnOtherIdx(5); break;
 					case 6:
-						Politics.currentIdx = ReturnOtherIdx(6); break;
+						Politics.currentBillId = ReturnOtherIdx(6); break;
 					case 7:
-						Politics.currentIdx = ReturnOtherIdx(7); break;
-					default: Politics.currentIdx = 8; break;
+						Politics.currentBillId = ReturnOtherIdx(7); break;
+					default: Politics.currentBillId = 8; break;
 				}
-				VoteResult(Politics.currentIdx);
+				VoteResult(Politics.currentBillId);
 			}
 		}
 
@@ -340,7 +340,7 @@ namespace RealCity
 							break;
 					}
 				}
-				Politics.currentIdx = (byte)idex;
+				Politics.currentBillId = (byte)idex;
 			} else if (_cashAmount > 24000000) {
 				MoneyOffset = 4000;
 			} else {
