@@ -7,8 +7,7 @@ namespace RealCity.CustomAI
 {
     public class RealCityPlayerBuildingAI
     {
-        public static float CaculateEmployeeOutcome(ushort buildingID, Building building)
-        {
+        public static float CaculateEmployeeOutcome(ushort buildingID, Building building) {
             float allSalary = 0;
             Citizen.BehaviourData behaviour = default(Citizen.BehaviourData);
             int aliveWorkerCount = 0;
@@ -25,13 +24,11 @@ namespace RealCity.CustomAI
             allSalary += behaviour.m_educated2Count * education2Salary;
             allSalary += behaviour.m_educated3Count * education3Salary;
             int allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, building, true, false);
-            if (totalWorkerCount > allWorkCount)
-            {
+            if (totalWorkerCount > allWorkCount) {
                 allWorkCount = RealCityResidentAI.TotalWorkCount(buildingID, building, true, true);
             }
 
-            if ((aliveWorkerCount == 0) && (allWorkCount != 0))
-            {
+            if ((aliveWorkerCount == 0) && (allWorkCount != 0)) {
                 allSalary = education3Salary * allWorkCount;
             }
 

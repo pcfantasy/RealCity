@@ -125,14 +125,12 @@ namespace RealCity.UI
         public double allTotalIncome;
         public static bool refeshOnce = false;
 
-        public override void Update()
-        {
+        public override void Update() {
             RefreshDisplayData();
             base.Update();
         }
 
-        public override void Start()
-        {
+        public override void Start() {
             base.Start();
             size = new Vector2(WIDTH, HEIGHT);
             backgroundSprite = "MenuPanel";
@@ -153,22 +151,19 @@ namespace RealCity.UI
             closeButton.hoveredBgSprite = "buttonclosehover";
             closeButton.pressedBgSprite = "buttonclosepressed";
             closeButton.relativePosition = new Vector3(WIDTH - 35f, 5f, 10f);
-            closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-            {
+            closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
                 Hide();
             };
             Hide(); //dont show in the beginning
             DoOnStartup();
         }
 
-        private void DoOnStartup()
-        {
+        private void DoOnStartup() {
             ShowOnGui();
             RefreshDisplayData();
         }
 
-        private void ShowOnGui()
-        {
+        private void ShowOnGui() {
             //1、citizen tax income
             citizenTaxIncomeTitle = AddUIComponent<UILabel>();
             citizenTaxIncomeTitle.text = Localization.Get("CITY_SALARY_TAX_INCOME_TITLE");
@@ -398,12 +393,9 @@ namespace RealCity.UI
             allTotalIncomeUI.autoSize = true;
         }
 
-        private void RefreshDisplayData()
-        {
-            if (refeshOnce)
-            {
-                if (isVisible)
-                {
+        private void RefreshDisplayData() {
+            if (refeshOnce) {
+                if (isVisible) {
                     ProcessData();
                     title.text = Localization.Get("CITY_INCOME_DATA");
                     citizenTaxIncomeTitle.text = string.Format(Localization.Get("CITY_SALARY_TAX_INCOME_TITLE") + " [{0}]  [{1:N2}%]", citizenTaxIncomeTotal, citizenTaxIncomePercent * 100);
@@ -454,8 +446,7 @@ namespace RealCity.UI
             }
         }
 
-        private void ProcessData()
-        {
+        private void ProcessData() {
             cityPlayerbuildingIncomeTotal = 0;
             cityPlayerbuildingIncomePercent = 0;
             roadIncomeForUI = 0f;
@@ -507,83 +498,82 @@ namespace RealCity.UI
             cityTransportIncomePercent = 0f;
             int i;
 
-            for (i = 0; i < 17; i++)
-            {
-                citizenTaxIncomeForUI += (double)RealCityEconomyManager.citizenTaxIncomeForUI[i]  / 100f;
-                citizenIncomeForUI+= (double)RealCityEconomyManager.citizenIncomeForUI[i]  / 100f;
-                touristIncomeForUI+= (double)RealCityEconomyManager.touristIncomeForUI[i]  / 100f;
-                residentHighLandIncomeForUI+= (double)RealCityEconomyManager.residentHighLandIncomeForUI[i]  / 100f;
-                residentLowLandIncomeForUI+= (double)RealCityEconomyManager.residentLowLandIncomeForUI[i]  / 100f;
-                residentHighEcoLandIncomeForUI+= (double)RealCityEconomyManager.residentHighEcoLandIncomeForUI[i]  / 100f;
-                residentLowEcoLandIncomeForUI+= (double)RealCityEconomyManager.residentLowEcoLandIncomeForUI[i]  / 100f;
-                commHighLandIncomeForUI+= (double)RealCityEconomyManager.commHighLandIncomeForUI[i]  / 100f;
-                commLowLandIncomeForUI+= (double)RealCityEconomyManager.commLowLandIncomeForUI[i]  / 100f;
-                commLeiLandIncomeForUI+= (double)RealCityEconomyManager.commLeiLandIncomeForUI[i]  / 100f;
-                commTouLandIncomeForUI+= (double)RealCityEconomyManager.commTouLandIncomeForUI[i]  / 100f;
-                commEcoLandIncomeForUI+= (double)RealCityEconomyManager.commEcoLandIncomeForUI[i]  / 100f;
-                induGenLandIncomeForUI+= (double)RealCityEconomyManager.induGenLandIncomeForUI[i]  / 100f;
-                induFarmerLandIncomeForUI+= (double)RealCityEconomyManager.induFarmerLandIncomeForUI[i]  / 100f;
-                induForestyLandIncomeForUI+= (double)RealCityEconomyManager.induForestyLandIncomeForUI[i]  / 100f;
-                induOilLandIncomeForUI+= (double)RealCityEconomyManager.induOilLandIncomeForUI[i]  / 100f;
-                induOreLandIncomeForUI+= (double)RealCityEconomyManager.induOreLandIncomeForUI[i]  / 100f;
-                officeGenLandIncomeForUI+= (double)RealCityEconomyManager.officeGenLandIncomeForUI[i]  / 100f;
-                officeHighTechLandIncomeForUI+= (double)RealCityEconomyManager.officeHighTechLandIncomeForUI[i]  / 100f;
-                commHighTradeIncomeForUI+= (double)RealCityEconomyManager.commHighTradeIncomeForUI[i]  / 100f;
-                commLowTradeIncomeForUI+= (double)RealCityEconomyManager.commLowTradeIncomeForUI[i]  / 100f;
-                commLeiTradeIncomeForUI+= (double)RealCityEconomyManager.commLeiTradeIncomeForUI[i]  / 100f;
-                commTouTradeIncomeForUI+= (double)RealCityEconomyManager.commTouTradeIncomeForUI[i]  / 100f;
-                commEcoTradeIncomeForUI+= (double)RealCityEconomyManager.commEcoTradeIncomeForUI[i]  / 100f;
-                induGenTradeIncomeForUI+= (double)RealCityEconomyManager.induGenTradeIncomeForUI[i]  / 100f;
-                induFarmerTradeIncomeForUI+= (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[i]  / 100f;
-                induForestyTradeIncomeForUI+= (double)RealCityEconomyManager.induForestyTradeIncomeForUI[i]  / 100f;
-                induOilTradeIncomeForUI+= (double)RealCityEconomyManager.induOilTradeIncomeForUI[i]  / 100f;
-                induOreTradeIncomeForUI+= (double)RealCityEconomyManager.induOreTradeIncomeForUI[i]  / 100f;
-                roadIncomeForUI += (double)RealCityEconomyManager.roadIncomeForUI[i]  / 100f;
-                playerIndustryIncomeForUI += (double)RealCityEconomyManager.playerIndustryIncomeForUI[i]  / 100f;
+            for (i = 0; i < 17; i++) {
+                citizenTaxIncomeForUI += (double)RealCityEconomyManager.citizenTaxIncomeForUI[i] / 100f;
+                citizenIncomeForUI += (double)RealCityEconomyManager.citizenIncomeForUI[i] / 100f;
+                touristIncomeForUI += (double)RealCityEconomyManager.touristIncomeForUI[i] / 100f;
+                residentHighLandIncomeForUI += (double)RealCityEconomyManager.residentHighLandIncomeForUI[i] / 100f;
+                residentLowLandIncomeForUI += (double)RealCityEconomyManager.residentLowLandIncomeForUI[i] / 100f;
+                residentHighEcoLandIncomeForUI += (double)RealCityEconomyManager.residentHighEcoLandIncomeForUI[i] / 100f;
+                residentLowEcoLandIncomeForUI += (double)RealCityEconomyManager.residentLowEcoLandIncomeForUI[i] / 100f;
+                commHighLandIncomeForUI += (double)RealCityEconomyManager.commHighLandIncomeForUI[i] / 100f;
+                commLowLandIncomeForUI += (double)RealCityEconomyManager.commLowLandIncomeForUI[i] / 100f;
+                commLeiLandIncomeForUI += (double)RealCityEconomyManager.commLeiLandIncomeForUI[i] / 100f;
+                commTouLandIncomeForUI += (double)RealCityEconomyManager.commTouLandIncomeForUI[i] / 100f;
+                commEcoLandIncomeForUI += (double)RealCityEconomyManager.commEcoLandIncomeForUI[i] / 100f;
+                induGenLandIncomeForUI += (double)RealCityEconomyManager.induGenLandIncomeForUI[i] / 100f;
+                induFarmerLandIncomeForUI += (double)RealCityEconomyManager.induFarmerLandIncomeForUI[i] / 100f;
+                induForestyLandIncomeForUI += (double)RealCityEconomyManager.induForestyLandIncomeForUI[i] / 100f;
+                induOilLandIncomeForUI += (double)RealCityEconomyManager.induOilLandIncomeForUI[i] / 100f;
+                induOreLandIncomeForUI += (double)RealCityEconomyManager.induOreLandIncomeForUI[i] / 100f;
+                officeGenLandIncomeForUI += (double)RealCityEconomyManager.officeGenLandIncomeForUI[i] / 100f;
+                officeHighTechLandIncomeForUI += (double)RealCityEconomyManager.officeHighTechLandIncomeForUI[i] / 100f;
+                commHighTradeIncomeForUI += (double)RealCityEconomyManager.commHighTradeIncomeForUI[i] / 100f;
+                commLowTradeIncomeForUI += (double)RealCityEconomyManager.commLowTradeIncomeForUI[i] / 100f;
+                commLeiTradeIncomeForUI += (double)RealCityEconomyManager.commLeiTradeIncomeForUI[i] / 100f;
+                commTouTradeIncomeForUI += (double)RealCityEconomyManager.commTouTradeIncomeForUI[i] / 100f;
+                commEcoTradeIncomeForUI += (double)RealCityEconomyManager.commEcoTradeIncomeForUI[i] / 100f;
+                induGenTradeIncomeForUI += (double)RealCityEconomyManager.induGenTradeIncomeForUI[i] / 100f;
+                induFarmerTradeIncomeForUI += (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[i] / 100f;
+                induForestyTradeIncomeForUI += (double)RealCityEconomyManager.induForestyTradeIncomeForUI[i] / 100f;
+                induOilTradeIncomeForUI += (double)RealCityEconomyManager.induOilTradeIncomeForUI[i] / 100f;
+                induOreTradeIncomeForUI += (double)RealCityEconomyManager.induOreTradeIncomeForUI[i] / 100f;
+                roadIncomeForUI += (double)RealCityEconomyManager.roadIncomeForUI[i] / 100f;
+                playerIndustryIncomeForUI += (double)RealCityEconomyManager.playerIndustryIncomeForUI[i] / 100f;
                 healthCareIncomeForUI += (double)RealCityEconomyManager.healthCareIncomeForUI[i] / 100f;
                 policeStationIncomeForUI += (double)RealCityEconomyManager.policeStationIncomeForUI[i] / 100f;
                 fireStationIncomeForUI += (double)RealCityEconomyManager.fireStationIncomeForUI[i] / 100f;
-                garbageIncomeForUI += (double)RealCityEconomyManager.garbageIncomeForUI[i]  / 100f;
-                schoolIncomeForUI += (double)RealCityEconomyManager.schoolIncomeForUI[i]  / 100f;
+                garbageIncomeForUI += (double)RealCityEconomyManager.garbageIncomeForUI[i] / 100f;
+                schoolIncomeForUI += (double)RealCityEconomyManager.schoolIncomeForUI[i] / 100f;
             }
 
-            citizenTaxIncomeForUI -= (double)RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            citizenIncomeForUI -= (double)RealCityEconomyManager.citizenIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            touristIncomeForUI -= (double)RealCityEconomyManager.touristIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            residentHighLandIncomeForUI -= (double)RealCityEconomyManager.residentHighLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            residentLowLandIncomeForUI -= (double)RealCityEconomyManager.residentLowLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            residentHighEcoLandIncomeForUI -= (double)RealCityEconomyManager.residentHighEcoLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            residentLowEcoLandIncomeForUI -= (double)RealCityEconomyManager.residentLowEcoLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commHighLandIncomeForUI -= (double)RealCityEconomyManager.commHighLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commLowLandIncomeForUI -= (double)RealCityEconomyManager.commLowLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commLeiLandIncomeForUI -= (double)RealCityEconomyManager.commLeiLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commTouLandIncomeForUI -= (double)RealCityEconomyManager.commTouLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commEcoLandIncomeForUI -= (double)RealCityEconomyManager.commEcoLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induGenLandIncomeForUI -= (double)RealCityEconomyManager.induGenLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induFarmerLandIncomeForUI -= (double)RealCityEconomyManager.induFarmerLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induForestyLandIncomeForUI -= (double)RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induOilLandIncomeForUI -= (double)RealCityEconomyManager.induOilLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induOreLandIncomeForUI -= (double)RealCityEconomyManager.induOreLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            officeGenLandIncomeForUI -= (double)RealCityEconomyManager.officeGenLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            officeHighTechLandIncomeForUI -= (double)RealCityEconomyManager.officeHighTechLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commHighTradeIncomeForUI -= (double)RealCityEconomyManager.commHighTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commLowTradeIncomeForUI -= (double)RealCityEconomyManager.commLowTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commLeiTradeIncomeForUI -= (double)RealCityEconomyManager.commLeiTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commTouTradeIncomeForUI -= (double)RealCityEconomyManager.commTouTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            commEcoTradeIncomeForUI -= (double)RealCityEconomyManager.commEcoTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induGenTradeIncomeForUI -= (double)RealCityEconomyManager.induGenTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induFarmerTradeIncomeForUI -= (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induForestyTradeIncomeForUI -= (double)RealCityEconomyManager.induForestyTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induOilTradeIncomeForUI -= (double)RealCityEconomyManager.induOilTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induOreTradeIncomeForUI -= (double)RealCityEconomyManager.induOreTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
+            citizenTaxIncomeForUI -= (double)RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            citizenIncomeForUI -= (double)RealCityEconomyManager.citizenIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            touristIncomeForUI -= (double)RealCityEconomyManager.touristIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            residentHighLandIncomeForUI -= (double)RealCityEconomyManager.residentHighLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            residentLowLandIncomeForUI -= (double)RealCityEconomyManager.residentLowLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            residentHighEcoLandIncomeForUI -= (double)RealCityEconomyManager.residentHighEcoLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            residentLowEcoLandIncomeForUI -= (double)RealCityEconomyManager.residentLowEcoLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commHighLandIncomeForUI -= (double)RealCityEconomyManager.commHighLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commLowLandIncomeForUI -= (double)RealCityEconomyManager.commLowLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commLeiLandIncomeForUI -= (double)RealCityEconomyManager.commLeiLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commTouLandIncomeForUI -= (double)RealCityEconomyManager.commTouLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commEcoLandIncomeForUI -= (double)RealCityEconomyManager.commEcoLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induGenLandIncomeForUI -= (double)RealCityEconomyManager.induGenLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induFarmerLandIncomeForUI -= (double)RealCityEconomyManager.induFarmerLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induForestyLandIncomeForUI -= (double)RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induOilLandIncomeForUI -= (double)RealCityEconomyManager.induOilLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induOreLandIncomeForUI -= (double)RealCityEconomyManager.induOreLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            officeGenLandIncomeForUI -= (double)RealCityEconomyManager.officeGenLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            officeHighTechLandIncomeForUI -= (double)RealCityEconomyManager.officeHighTechLandIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commHighTradeIncomeForUI -= (double)RealCityEconomyManager.commHighTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commLowTradeIncomeForUI -= (double)RealCityEconomyManager.commLowTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commLeiTradeIncomeForUI -= (double)RealCityEconomyManager.commLeiTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commTouTradeIncomeForUI -= (double)RealCityEconomyManager.commTouTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            commEcoTradeIncomeForUI -= (double)RealCityEconomyManager.commEcoTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induGenTradeIncomeForUI -= (double)RealCityEconomyManager.induGenTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induFarmerTradeIncomeForUI -= (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induForestyTradeIncomeForUI -= (double)RealCityEconomyManager.induForestyTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induOilTradeIncomeForUI -= (double)RealCityEconomyManager.induOilTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            induOreTradeIncomeForUI -= (double)RealCityEconomyManager.induOreTradeIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
 
-            roadIncomeForUI -= (double)RealCityEconomyManager.roadIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            playerIndustryIncomeForUI -= (double)RealCityEconomyManager.playerIndustryIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
+            roadIncomeForUI -= (double)RealCityEconomyManager.roadIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            playerIndustryIncomeForUI -= (double)RealCityEconomyManager.playerIndustryIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
             fireStationIncomeForUI -= (double)RealCityEconomyManager.fireStationIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
             healthCareIncomeForUI -= (double)RealCityEconomyManager.healthCareIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
             policeStationIncomeForUI -= (double)RealCityEconomyManager.policeStationIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
-            garbageIncomeForUI -= (double)RealCityEconomyManager.garbageIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            schoolIncomeForUI -= (double)RealCityEconomyManager.schoolIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
+            garbageIncomeForUI -= (double)RealCityEconomyManager.garbageIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
+            schoolIncomeForUI -= (double)RealCityEconomyManager.schoolIncomeForUI[MainDataStore.updateMoneyCount] / 100f;
 
             citizenTaxIncomeTotal += citizenTaxIncomeForUI;
             cityLandIncomeTotal += residentHighLandIncomeForUI;
@@ -623,8 +613,7 @@ namespace RealCity.UI
             cityPlayerbuildingIncomeTotal += schoolIncomeForUI;
             allTotalIncome = cityPlayerbuildingIncomeTotal + citizenTaxIncomeTotal + cityLandIncomeTotal + cityTourismIncomeTotal + cityTradeIncomeTotal + cityTransportIncomeTotal;
 
-            if (allTotalIncome != 0)
-            {
+            if (allTotalIncome != 0) {
                 citizenTaxIncomePercent = citizenTaxIncomeTotal / allTotalIncome;
                 cityLandIncomePercent = cityLandIncomeTotal / allTotalIncome;
                 cityTourismIncomePercent = cityTourismIncomeTotal / allTotalIncome;

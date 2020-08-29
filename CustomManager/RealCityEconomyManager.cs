@@ -4,7 +4,7 @@ namespace RealCity.CustomManager
 {
     public class RealCityEconomyManager
     {
-       
+
         public static int[] citizenTaxIncomeForUI = new int[17];
         public static int[] citizenIncomeForUI = new int[17];
         public static int[] touristIncomeForUI = new int[17];
@@ -45,8 +45,7 @@ namespace RealCity.CustomManager
         public static int[] healthCareIncomeForUI = new int[17];
         public static int[] fireStationIncomeForUI = new int[17];
 
-        public static void CleanCurrent(int current_idex)
-        {
+        public static void CleanCurrent(int current_idex) {
             citizenTaxIncomeForUI[current_idex] = 0;
             citizenIncomeForUI[current_idex] = 0;
             touristIncomeForUI[current_idex] = 0;
@@ -85,10 +84,8 @@ namespace RealCity.CustomManager
             healthCareIncomeForUI[current_idex] = 0;
         }
 
-        public static void DataInit()
-        {
-            for (int i = 0; i < citizenTaxIncomeForUI.Length; i++)
-            {
+        public static void DataInit() {
+            for (int i = 0; i < citizenTaxIncomeForUI.Length; i++) {
                 citizenTaxIncomeForUI[i] = 0;
                 citizenIncomeForUI[i] = 0;
                 touristIncomeForUI[i] = 0;
@@ -128,8 +125,7 @@ namespace RealCity.CustomManager
             }
         }
 
-        public static void Load(ref byte[] saveData)
-        {
+        public static void Load(ref byte[] saveData) {
             int i = 0;
             SaveAndRestore.LoadData(ref i, saveData, ref citizenTaxIncomeForUI);
             SaveAndRestore.LoadData(ref i, saveData, ref citizenIncomeForUI);
@@ -168,14 +164,12 @@ namespace RealCity.CustomManager
             SaveAndRestore.LoadData(ref i, saveData, ref healthCareIncomeForUI);
             SaveAndRestore.LoadData(ref i, saveData, ref fireStationIncomeForUI);
 
-            if (i != saveData.Length)
-            {
+            if (i != saveData.Length) {
                 DebugLog.LogToFileOnly($"RealCityEconomyManager Load Error: saveData.Length = {saveData.Length} + i = {i}");
             }
         }
 
-        public static void Save(ref byte[] saveData)
-        {
+        public static void Save(ref byte[] saveData) {
             int i = 0;
             //36 * 4 * 17 = 2448
             SaveAndRestore.SaveData(ref i, citizenTaxIncomeForUI, ref saveData);
@@ -215,8 +209,7 @@ namespace RealCity.CustomManager
             SaveAndRestore.SaveData(ref i, healthCareIncomeForUI, ref saveData);
             SaveAndRestore.SaveData(ref i, fireStationIncomeForUI, ref saveData);
 
-            if (i != saveData.Length)
-            {
+            if (i != saveData.Length) {
                 DebugLog.LogToFileOnly($"RealCityEconomyManager Save Error: saveData.Length = {saveData.Length} + i = {i}");
             }
         }

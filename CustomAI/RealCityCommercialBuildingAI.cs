@@ -15,8 +15,7 @@ namespace RealCity.CustomAI
         public delegate void CommercialBuildingAIGetVisitBehaviour(CommercialBuildingAI CommercialBuildingAI, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount);
         public static CommercialBuildingAIGetVisitBehaviour GetVisitBehaviour;
 
-        public static void InitDelegate()
-        {
+        public static void InitDelegate() {
             if (GetIncomingTransferReason != null)
                 return;
             if (MaxIncomingLoadSize != null)

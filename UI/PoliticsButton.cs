@@ -14,34 +14,26 @@ namespace RealCity.UI
         private UIDragHandle m_DragHandler;
         private float tmpX;
         private float tmpY;
-        public static void PoliticsUIToggle()
-        {
-            if (!Loader.politicsUI.isVisible)
-            {
+        public static void PoliticsUIToggle() {
+            if (!Loader.politicsUI.isVisible) {
                 PoliticsUI.refeshOnce = true;
                 Loader.politicsUI.Show();
 
-                if (Loader.realCityUI.isVisible)
-                {
+                if (Loader.realCityUI.isVisible) {
                     Loader.realCityUI.Hide();
                 }
-            }
-            else
-            {
+            } else {
                 Loader.politicsUI.Hide();
             }
         }
 
-        public void PoliticsUIOff()
-        {
-            if (Loader.politicsUI.isVisible && !Loader.politicsUI.containsMouse && !containsMouse && PoliticsUITrigger_paneltime != null && !PoliticsUITrigger_paneltime.containsMouse)
-            {
+        public void PoliticsUIOff() {
+            if (Loader.politicsUI.isVisible && !Loader.politicsUI.containsMouse && !containsMouse && PoliticsUITrigger_paneltime != null && !PoliticsUITrigger_paneltime.containsMouse) {
                 Loader.politicsUI.Hide();
             }
         }
 
-        public override void Start()
-        {
+        public override void Start() {
             relativePosition = new Vector3((Loader.parentGuiView.fixedWidth / 2 + 350f), 35f);
             normalBgSprite = "ToolbarIconGroup1Nomarl";
             hoveredBgSprite = "ToolbarIconGroup1Hovered";
@@ -67,10 +59,8 @@ namespace RealCity.UI
             m_DragHandler.enabled = true;
             tmpX = relativePosition.x;
             tmpY = relativePosition.y;
-            eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-            {
-                if (tmpX == relativePosition.x && tmpY == relativePosition.y)
-                {
+            eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
+                if (tmpX == relativePosition.x && tmpY == relativePosition.y) {
                     PoliticsUIToggle();
                 }
                 tmpX = relativePosition.x;
@@ -82,47 +72,34 @@ namespace RealCity.UI
             PoliticsUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
             PoliticsUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
             PoliticsUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
-            if (PoliticsUITrigger_chirper != null && PoliticsUITrigger_paneltime != null)
-            {
-                PoliticsUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
+            if (PoliticsUITrigger_chirper != null && PoliticsUITrigger_paneltime != null) {
+                PoliticsUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
                     PoliticsUIOff();
                 };
             }
-            if (PoliticsUITrigger_esc != null && PoliticsUITrigger_paneltime != null)
-            {
-                PoliticsUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
+            if (PoliticsUITrigger_esc != null && PoliticsUITrigger_paneltime != null) {
+                PoliticsUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
                     PoliticsUIOff();
                 };
             }
-            if (PoliticsUITrigger_infopanel != null && PoliticsUITrigger_paneltime != null)
-            {
-                PoliticsUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
+            if (PoliticsUITrigger_infopanel != null && PoliticsUITrigger_paneltime != null) {
+                PoliticsUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
                     PoliticsUIOff();
                 };
             }
-            if (PoliticsUITrigger_bottombars != null && PoliticsUITrigger_paneltime != null)
-            {
-                PoliticsUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-                {
+            if (PoliticsUITrigger_bottombars != null && PoliticsUITrigger_paneltime != null) {
+                PoliticsUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
                     PoliticsUIOff();
                 };
             }
         }
 
-        public override void Update()
-        {
-            if (Loader.isGuiRunning)
-            {
-                if (Loader.politicsUI.isVisible)
-                {
+        public override void Update() {
+            if (Loader.isGuiRunning) {
+                if (Loader.politicsUI.isVisible) {
                     //Focus();
                     Hide();
-                }
-                else
-                {
+                } else {
                     Unfocus();
                     Show();
                 }

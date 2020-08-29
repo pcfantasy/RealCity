@@ -50,14 +50,12 @@ namespace RealCity.UI
         private UILabel tip1;
         public static bool refeshOnce = false;
 
-        public override void Update()
-        {
+        public override void Update() {
             RefreshDisplayData();
             base.Update();
         }
 
-        public override void Start()
-        {
+        public override void Start() {
             base.Start();
             size = new Vector2(WIDTH, HEIGHT);
             backgroundSprite = "MenuPanel";
@@ -78,22 +76,19 @@ namespace RealCity.UI
             closeButton.hoveredBgSprite = "buttonclosehover";
             closeButton.pressedBgSprite = "buttonclosepressed";
             closeButton.relativePosition = new Vector3(WIDTH - 35f, 5f, 10f);
-            closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam)
-            {
+            closeButton.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
                 Hide();
             };
             Hide(); //dont show in the beginning
             DoOnStartup();
         }
 
-        private void DoOnStartup()
-        {
+        private void DoOnStartup() {
             ShowOnGui();
             RefreshDisplayData();
         }
 
-        private void ShowOnGui()
-        {
+        private void ShowOnGui() {
             //citizen
             firstline = AddUIComponent<UILabel>();
             firstline.text = Localization.Get("CITIZEN_STATUS");
@@ -209,15 +204,12 @@ namespace RealCity.UI
             tip1 = AddUIComponent<UILabel>();
             tip1.text = Localization.Get("TIP1");
             tip1.relativePosition = new Vector3(SPACING, outsideGovermentMoney.relativePosition.y + SPACING22 + 10f);
-            tip1.autoSize = true;;
+            tip1.autoSize = true; ;
         }
 
-        private void RefreshDisplayData()
-        {
-            if (refeshOnce)
-            {
-                if (isVisible)
-                {
+        private void RefreshDisplayData() {
+            if (refeshOnce) {
+                if (isVisible) {
                     //Citizen
                     title.text = Localization.Get("ECONOMIC_DATA");
                     firstline.text = Localization.Get("CITIZEN_STATUS");
@@ -225,12 +217,9 @@ namespace RealCity.UI
                     familyCount.text = string.Format(Localization.Get("FAMILY_COUNT") + " [{0}]", MainDataStore.familyCount);
                     citizenSalaryPerFamily.text = string.Format(Localization.Get("SALARY_PER_FAMILY") + " [{0}]", MainDataStore.citizenSalaryPerFamily);
 
-                    if (MainDataStore.familyCount != 0)
-                    {
+                    if (MainDataStore.familyCount != 0) {
                         citizenSalaryTaxPerFamily.text = string.Format(Localization.Get("CITIZEN_TAX_PER_FAMILY") + " [{0}]", MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount);
-                    }
-                    else
-                    {
+                    } else {
                         citizenSalaryTaxPerFamily.text = string.Format(Localization.Get("CITIZEN_TAX_PER_FAMILY"));
                     }
                     citizenExpensePerFamily.text = string.Format(Localization.Get("EXPENSE_PER_FAMILY") + " [{0}]", MainDataStore.citizenExpensePerFamily);

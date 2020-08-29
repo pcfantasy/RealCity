@@ -19,12 +19,11 @@ namespace RealCity.CustomAI
 
         public delegate int IndustrialBuildingAIMaxIncomingLoadSize(IndustrialBuildingAI IndustrialBuildingAI);
         public static IndustrialBuildingAIMaxIncomingLoadSize MaxIncomingLoadSize;
-        
+
         public delegate int IndustrialBuildingAIGetConsumptionDivider(IndustrialBuildingAI IndustrialBuildingAI);
         public static IndustrialBuildingAIGetConsumptionDivider GetConsumptionDivider;
 
-        public static void InitDelegate()
-        {
+        public static void InitDelegate() {
             if (GetIncomingTransferReason != null)
                 return;
             if (GetOutgoingTransferReason != null)
