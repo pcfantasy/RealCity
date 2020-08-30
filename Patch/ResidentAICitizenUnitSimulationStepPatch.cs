@@ -401,7 +401,7 @@ namespace RealCity.Patch
 			if (Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age))
 				&& Politics.IsOnElection()) {
 
-				Politics.OnELection();
+				Politics.ResetWinChance();
 				Politics.Parties.ForEach(p => {
 					PartyInterestCalc interestCalc = new PartyInterestCalc(p, ref citizen, citizenID, homeID);
 					interestCalc.Calc();
@@ -531,6 +531,8 @@ namespace RealCity.Patch
 				} else {
 					DebugLog.LogToFileOnly($"Error: GetVoteChance Invalid partyTrend = {RealCityEconomyExtension.partyTrend}");
 				}
+
+
 
 				GetVoteTickets();
 			}

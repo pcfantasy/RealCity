@@ -11,14 +11,14 @@ namespace RealCity.Util.Politic
 		// maybe some customized Bill in parliament here
 
 		private PartyInterestData interestData;
-		private List<IBill> bills;
+		private Dictionary<IBill, byte> billInterestData;
 		public ushort WinChance { get; private set; } = default;
 		public ushort Ticket { get; } = default;
 		public ushort SeatCount { get; } = default;
 
-		public Party(PartyInterestData interestData, List<IBill> bills) {
+		public Party(PartyInterestData interestData, Dictionary<IBill, byte> billInterestData) {
 			this.interestData = interestData;
-			this.bills = bills;
+			this.billInterestData = billInterestData;
 		}
 
 		public void AddWinChance(ushort val) {

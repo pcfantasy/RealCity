@@ -234,7 +234,8 @@ namespace RealCity
 		}
 
 		public void HoldMeeting() {
-			int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+			//int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+			int temp = Politics.GetAllSeatCount();
 			if (temp == 99) {
 				System.Random rand = new System.Random();
 				switch (rand.Next(8)) {
@@ -392,23 +393,24 @@ namespace RealCity
 			commercialLackMoneyCount = 0;
 		}
 
-		public void VoteResult(int idex) {
-			int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+		public void VoteResult(int billId) {
+			//int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+			int seatCount = Politics.GetAllSeatCount();
 			int yes = 0;
 			int no = 0;
 			int noAttend = 0;
 			int residentTax = 10 - (Politics.residentTax);
-			int benefitOffset = 10 - (Politics.benefitOffset / 5);
 			int commercialTax = 10 - (Politics.commercialTax);
 			int industryTax = 10 - (Politics.industryTax);
+			int benefitOffset = 10 - (Politics.benefitOffset / 5);
 			int moneyOffset = 0; // money offset
 			int citizenOffset = 0; // citizen offset
 			int industrialBuildingOffset = 0; //industrial building offset
 			int commercialBuildingOffset = 0; //commercial building offset
-			VoteOffset(ref idex, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
+			VoteOffset(ref billId, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
 
-			if (temp == 99) {
-				switch (idex) {
+			if (seatCount == 99) {
+				switch (billId) {
 					case 0:
 						yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + residentTax);
 						yes += Politics.gPartySeats * (Politics.riseSalaryTax[1, 0] + residentTax);
@@ -595,8 +597,9 @@ namespace RealCity
 				Politics.currentNo = (byte)no;
 				Politics.currentNoAttend = (byte)noAttend;
 
+				// if bill is passed
 				if (Politics.currentYes >= 50) {
-					switch (idex) {
+					switch (billId) {
 						case 0:
 							Politics.residentTax += 1;
 							break;
@@ -716,13 +719,14 @@ namespace RealCity
 		/// </summary>
 		public void GetSeats() {
 			//总票数
-			int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
-			if (allTickets != 0) {
-				Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / allTickets);
-				Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / allTickets);
-				Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / allTickets);
-				Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / allTickets);
-				Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / allTickets);
+			//int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
+			int cnt = Politics.GetAllTicket();
+			if (cnt != 0) {
+				Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / cnt);
+				Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / cnt);
+				Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / cnt);
+				Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / cnt);
+				Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / cnt);
 			} else {
 				Politics.cPartySeats = 0;
 				Politics.gPartySeats = 0;
@@ -736,20 +740,21 @@ namespace RealCity
 			Politics.lPartyTickets = 0;
 			Politics.nPartyTickets = 0;
 
-			allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			if (allTickets < 99) {
+			//allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+			cnt = Politics.GetAllSeatCount();
+			if (cnt < 99) {
 				System.Random rand = new System.Random();
 				switch (rand.Next(5)) {
 					case 0:
-						Politics.cPartySeats += (ushort)(99 - allTickets); break;
+						Politics.cPartySeats += (ushort)(99 - cnt); break;
 					case 1:
-						Politics.gPartySeats += (ushort)(99 - allTickets); break;
+						Politics.gPartySeats += (ushort)(99 - cnt); break;
 					case 2:
-						Politics.sPartySeats += (ushort)(99 - allTickets); break;
+						Politics.sPartySeats += (ushort)(99 - cnt); break;
 					case 3:
-						Politics.lPartySeats += (ushort)(99 - allTickets); break;
+						Politics.lPartySeats += (ushort)(99 - cnt); break;
 					case 4:
-						Politics.nPartySeats += (ushort)(99 - allTickets); break;
+						Politics.nPartySeats += (ushort)(99 - cnt); break;
 				}
 			}
 		}

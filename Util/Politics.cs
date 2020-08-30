@@ -4,6 +4,7 @@ using RealCity.CustomData;
 using RealCity.Util.Politic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RealCity.Util
 {
@@ -74,9 +75,33 @@ namespace RealCity.Util
 			}
 		);
 
+		private const Citizen.AgeGroup VotingAge = Citizen.AgeGroup.Young;
 		public static IParty[] Parties => new IParty[] { cParty, gParty, sParty, lParty, nParty };
-		public static void OnELection() {
+		public static void ResetWinChance() {
 			Parties.ForEach(p => p.ResetWinChance());
+		}
+		public static int GetAllSeatCount() {
+			return Parties.Sum(p => {
+				return p.SeatCount;
+			});
+		}
+		public static int GetAllTicket() {
+			return Parties.Sum(p => {
+				return p.Ticket;
+			});
+		}
+		public static bool IsOnElection() {
+			return nextElectionInterval == 1;
+		}
+
+		/// <summary>
+		/// 是否达到最低投票年龄
+		/// </summary>
+		/// <param name="age"></param>
+		/// <returns></returns>
+		public static bool IsOverVotingAge(Citizen.AgeGroup age) {
+			//这地方不一定能解耦合...政治就是和人相关的嘛...
+			return age >= VotingAge;
 		}
 
 		//学历对选举投票的影响因子
@@ -122,6 +147,7 @@ namespace RealCity.Util
 											{ 5, 15, 40, 35,  5}};
 
 
+		//5个政党对一项议案的赞成度
 		//riseSalaryTax
 		public static byte[,] riseSalaryTax = {
 												{55, 40,  5},
@@ -195,7 +221,6 @@ namespace RealCity.Util
 												{70, 30,  0},
 											  };
 
-		private const Citizen.AgeGroup VotingAge = Citizen.AgeGroup.Young;
 
 		public static ushort cPartyChance = 0;
 		public static ushort gPartyChance = 0;
@@ -245,19 +270,6 @@ namespace RealCity.Util
 		//社会福利(0-100)
 		public static short benefitOffset = 0;
 
-		public static bool IsOnElection() {
-			return nextElectionInterval == 1;
-		}
-
-		/// <summary>
-		/// 是否达到最低投票年龄
-		/// </summary>
-		/// <param name="age"></param>
-		/// <returns></returns>
-		public static bool IsOverVotingAge(Citizen.AgeGroup age) {
-			//这地方不一定能解耦合...政治就是和人相关的嘛...
-			return age >= VotingAge;
-		}
 
 		public static void Save(ref byte[] saveData) {
 			//58
