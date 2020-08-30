@@ -1,9 +1,84 @@
 ﻿using ColossalFramework;
+using ColossalFramework.UI;
+using RealCity.CustomData;
+using RealCity.Util.Politic;
+using System;
+using System.Collections.Generic;
 
 namespace RealCity.Util
 {
-	public class Politics
-	{
+	public class Politics {
+		private static IParty cParty = new Party(
+			new PartyInterestData(
+				new ushort[4] { 30, 20, 10, 5 },
+				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
+				new ushort[3] { 35, 10, 0 },
+				new ushort[3] { 15, 10, 5 },
+				new ushort[2] { 10, 5 }
+			),
+			new List<IBill>() {
+				new Bill(()=>{ }),
+				new Bill(()=>{ })
+			}
+		);
+		private static IParty gParty = new Party(
+			new PartyInterestData(
+				new ushort[4] { 0, 10, 20, 25 },
+				new ushort[15] { 0, 20, 10, 15, 20, 30, 10, 0, 5, 10, 5, 30, 35, 40, 50, },
+				new ushort[3] { 0, 10, 30 },
+				new ushort[3] { 20, 15, 10 },
+				new ushort[2] { 10, 15 }
+			),
+			new List<IBill>() {
+				new Bill(()=>{ }),
+				new Bill(()=>{ })
+			}
+		);
+		private static IParty sParty = new Party(
+			new PartyInterestData(
+				new ushort[4] { 10, 25, 30, 40 },
+				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
+				new ushort[3] { 25, 35, 15 },
+				new ushort[3] { 30, 25, 20 },
+				new ushort[2] { 35, 40 }
+			),
+			new List<IBill>() {
+				new Bill(()=>{ }),
+				new Bill(()=>{ })
+			}
+		);
+		private static IParty lParty = new Party(
+			new PartyInterestData(
+				new ushort[4] { 10, 20, 30, 25 },
+				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
+				new ushort[3] { 10, 35, 40 },
+				new ushort[3] { 20, 30, 40 },
+				new ushort[2] { 35, 35 }
+			),
+			new List<IBill>() {
+				new Bill(()=>{ }),
+				new Bill(()=>{ })
+			}
+		);
+		private static IParty nParty = new Party(
+			new PartyInterestData(
+				new ushort[4] { 50, 25, 10, 5 },
+				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
+				new ushort[3] { 30, 10, 15 },
+				new ushort[3] { 15, 20, 25 },
+				new ushort[2] { 10, 5 }
+			),
+			new List<IBill>() {
+				new Bill(()=>{ }),
+				new Bill(()=>{ })
+			}
+		);
+
+		public static IParty[] Parties => new IParty[] { cParty, gParty, sParty, lParty, nParty };
+		public static void OnELection() {
+			Parties.ForEach(p => p.ResetWinChance());
+		}
+
 		//学历对选举投票的影响因子
 		public static byte[,] education = { {30,  0, 10, 10, 50},
 											{20, 10, 25, 20, 25},
@@ -11,26 +86,11 @@ namespace RealCity.Util
 											{ 5, 25, 40, 25,  5}};
 
 		//工作场所对选举投票的影响因子
-		//0  govement
-		//1  comm level1
-		//2  comm level2
-		//3  comm level3
-		//4  comm tour comm leisure
-		//5  comm eco
-		//6  indus gen level1
-		//7  indus gen level2
-		//8  indus gen level3
-		//9  indus farming foresty oil ore
-		//10 office level1
-		//11 office level2
-		//12 office level3
-		//13 office high tech
-		//14 no work
 		public static byte[,] workplace = { { 0, 20, 40, 40,  0},	//goverment
 											{20, 10, 40, 30,  0},	//comm level1
 											{10, 15, 35, 35,  5},	//comm level2
 											{ 0, 20, 30, 40, 10},	//comm level3
-											{ 0, 30, 25, 45,  0},	//comm tour leisure
+											{ 0, 30, 25, 45,  0},	//comm tour, comm leisure
 											{35, 10,  5, 20, 30},	//comm eco
 											{50,  0, 25, 10, 15},	//indus gen level1
 											{30,  5, 35, 15, 15},	//indus gen level2
