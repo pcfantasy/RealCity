@@ -1,8 +1,4 @@
-﻿using RealCity.CustomData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RealCity.Util.Politic
 {
@@ -11,7 +7,7 @@ namespace RealCity.Util.Politic
 	/// </summary>
 	public class PartyFactory
 	{
-		//TODO: Too much similar codes, need merge 'em
+		//TODO: Too much similar codes, need extract same parts
 
 		public IParty MakeCParty() {
 			var billAttitudeMap = new Dictionary<IBill, VoteResult>();

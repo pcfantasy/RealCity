@@ -2,23 +2,29 @@
 using RealCity.Util;
 using System;
 
-namespace RealCity.CustomData
+namespace RealCity.Util.Politic
 {
 	/// <summary>
 	/// 政党兴趣度数据
 	/// </summary>
 	public class PartyInterestData
 	{
-		private static byte EducationLevelNum { get; } = 4;
-		private static byte SubServiceNum { get; } = 15;
-		private static byte FamilyMoneyNum { get; } = 3;
-		private static byte AgeNum { get; } = 3;
-		private static byte GenderNum { get; } = 2;
-		[ArrayLength(4)] public byte[] EducationLevel { get; private set; }
-		[ArrayLength(15)] public byte[] SubService { get; private set; }
-		[ArrayLength(3)] public byte[] FamilyMoney { get; private set; }
-		[ArrayLength(3)] public byte[] Age { get; private set; }
-		[ArrayLength(2)] public byte[] Gender { get; private set; }
+		private const byte EducationLevelNum = 4;
+		private const byte SubServiceNum = 15;
+		private const byte FamilyMoneyNum = 3;
+		private const byte AgeNum = 3;
+		private const byte GenderNum = 2;
+
+		[ArrayLength(4)]
+		public byte[] EducationLevel { get; private set; }
+		[ArrayLength(15)]
+		public byte[] SubService { get; private set; }
+		[ArrayLength(3)]
+		public byte[] FamilyMoney { get; private set; }
+		[ArrayLength(3)]
+		public byte[] Age { get; private set; }
+		[ArrayLength(2)]
+		public byte[] Gender { get; private set; }
 
 		/// <summary>
 		/// 政党兴趣度数据

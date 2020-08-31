@@ -258,7 +258,8 @@ namespace RealCity
 						Politics.currentBillId = ReturnOtherIdx(6); break;
 					case 7:
 						Politics.currentBillId = ReturnOtherIdx(7); break;
-					default: Politics.currentBillId = 8; break;
+					default: 
+						Politics.currentBillId = 8; break;
 				}
 				VoteResult(Politics.currentBillId);
 			}

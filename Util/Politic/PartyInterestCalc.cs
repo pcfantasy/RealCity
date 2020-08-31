@@ -58,7 +58,14 @@ namespace RealCity.Util.Politic
 		/// <param name="education"></param>
 		/// <returns></returns>
 		private ushort GetFromEducationLevel(Citizen.Education education) {
-			return this.partyInterestData.EducationLevel[(int)education];
+			/*
+			 * 根据ResidentAICitizenUnitSimulationStepPatch.GetVoteTickets()方法
+			 * 似乎所有政党的WinChance加起来应该是800
+			 * 而同一个类里的GetVoteChance()也曾把Politics.education[i,j]的参数乘2
+			 * 这地方要问一下作者...
+			*/
+			ushort val = (ushort)(this.partyInterestData.EducationLevel[(int)education] << 1);
+			return val;
 		}
 
 		/// <summary>

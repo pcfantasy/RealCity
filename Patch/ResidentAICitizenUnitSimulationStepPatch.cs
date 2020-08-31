@@ -376,12 +376,16 @@ namespace RealCity.Patch
 
 		public static void GetVoteTickets() {
 			System.Random rand = new System.Random();
-			if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance != (800 + RealCityEconomyExtension.partyTrendStrength)) {
+			// WTF??? 这里有魔数。800参见PartyInterestCalc.GetFromEducationLevel()中的注释
+			if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance
+				!= (800 + RealCityEconomyExtension.partyTrendStrength)) {
+				//有1/64的机率打印这句话（WTF？）
 				if (rand.Next(64) <= 1) {
 					DebugLog.LogToFileOnly($"Error: GetVoteTickets Chance is not equal 800 {(Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance)}");
 				}
 			}
 
+			//大转盘，政党的chance越大，得票机率就越大
 			int voteRandom = rand.Next(800 + RealCityEconomyExtension.partyTrendStrength) + 1;
 			if (voteRandom < Politics.cPartyChance) {
 				Politics.cPartyTickets++;
@@ -397,9 +401,9 @@ namespace RealCity.Patch
 		}
 
 		public static void GetVoteChance(uint citizenID, Citizen citizen, uint homeID) {
-			//达到最低投票年龄，而且即将选举 if (over Voting Age) and (gonna be election)
-			if (Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age))
-				&& Politics.IsOnElection()) {
+			//如果即将选举，而且达到投票年龄 if (gonna be election) and (over Voting Age)
+			if (Politics.IsOnElection()
+				&& Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age))) {
 
 				Politics.ResetWinChance();
 				Politics.Parties.ForEach(p => {
@@ -408,8 +412,7 @@ namespace RealCity.Patch
 					interestCalc.AddPartyWinChance();
 				});
 
-
-
+				#region old politics code
 				////重置机率
 				//Politics.cPartyChance = 0;
 				//Politics.gPartyChance = 0;
@@ -516,7 +519,7 @@ namespace RealCity.Patch
 				//Politics.sPartyChance += Politics.gender[temp, 2];
 				//Politics.lPartyChance += Politics.gender[temp, 3];
 				//Politics.nPartyChance += Politics.gender[temp, 4];
-
+				#endregion
 
 				if (RealCityEconomyExtension.partyTrend == 0) {
 					Politics.cPartyChance += RealCityEconomyExtension.partyTrendStrength;

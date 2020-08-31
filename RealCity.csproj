@@ -97,10 +97,11 @@
     <Compile Include="Util\ArrayExtension.cs" />
     <Compile Include="Util\Politic\Bill.cs" />
     <Compile Include="Util\Politic\Bills.cs" />
+    <Compile Include="Util\Politic\Election.cs" />
     <Compile Include="Util\Politic\IBill.cs" />
     <Compile Include="Util\Politic\PartyFactory.cs" />
     <Compile Include="Util\Politic\PartyInterestCalc.cs" />
-    <Compile Include="CustomData\PartyInterestData.cs" />
+    <Compile Include="Util\Politic\PartyInterestData.cs" />
     <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\OutsideConnectionAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\TollBoothAIGetResourceRatePatch.cs" />
