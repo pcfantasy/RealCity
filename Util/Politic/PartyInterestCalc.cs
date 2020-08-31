@@ -7,7 +7,7 @@ namespace RealCity.Util.Politic
 	/// <summary>
 	/// 政党兴趣度计算
 	/// </summary>
-	class PartyInterestCalc
+	public class PartyInterestCalc
 	{
 		private IParty party;
 		private PartyInterestData partyInterestData;
@@ -49,7 +49,7 @@ namespace RealCity.Util.Politic
 		public void AddPartyWinChance() {
 			this.party.AddWinChance(this.val);
 			//啊这...不加会出bug吗
-			//this.val = 0;
+			this.val = default;
 		}
 
 		/// <summary>

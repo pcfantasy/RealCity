@@ -1,8 +1,11 @@
 ﻿using ColossalFramework;
+using ColossalFramework.UI;
 using ICities;
 using RealCity.CustomManager;
 using RealCity.UI;
 using RealCity.Util;
+using RealCity.Util.Politic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -409,9 +412,47 @@ namespace RealCity
 			int commercialBuildingOffset = 0; //commercial building offset
 			VoteOffset(ref billId, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
 
+			IBill bill = default;
+
 			if (seatCount == 99) {
-				switch (billId) {
-					case 0:
+				yes += Politics.Parties.Sum(p => {
+					// 
+					return p.GetBillAttitude()[bill].Agree;
+				});
+				yes += (Politics.Parties.Length * residentTax - moneyOffset  -citizenOffset);
+
+				no += Politics.Parties.Sum(p => {
+					return p.GetBillAttitude()[bill].Disagree;
+				});
+				no -= Politics.Parties.Length * residentTax;
+
+				noAttend += Politics.Parties.Sum(p => {
+					return p.GetBillAttitude()[bill].NoVote;
+				});
+				noAttend -= Politics.Parties.Length * residentTax;
+			}
+
+			if (seatCount == 99) {
+				switch (bill) {
+					case Bills.RaiseResidentTax:
+						yes += Politics.Parties.Sum(p => {
+							// 
+							return p.GetBillAttitude()[bill][0];
+						});
+						yes += (Politics.Parties.Length * residentTax;
+
+						no += Politics.Parties.Sum(p => {
+							return p.GetBillAttitude()[bill][1];
+						});
+						no -= Politics.Parties.Length * residentTax;
+
+						noAttend += Politics.Parties.Sum(p => {
+							return p.GetBillAttitude()[bill][2];
+						});
+						noAttend -= Politics.Parties.Length * residentTax;
+						break;
+
+
 						yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + residentTax);
 						yes += Politics.gPartySeats * (Politics.riseSalaryTax[1, 0] + residentTax);
 						yes += Politics.sPartySeats * (Politics.riseSalaryTax[2, 0] + residentTax);

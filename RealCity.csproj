@@ -96,8 +96,9 @@
     <Compile Include="CustomData\ICustomGameData.cs" />
     <Compile Include="Util\ArrayExtension.cs" />
     <Compile Include="Util\Politic\Bill.cs" />
-    <Compile Include="Util\Politic\BillFactory.cs" />
+    <Compile Include="Util\Politic\Bills.cs" />
     <Compile Include="Util\Politic\IBill.cs" />
+    <Compile Include="Util\Politic\PartyFactory.cs" />
     <Compile Include="Util\Politic\PartyInterestCalc.cs" />
     <Compile Include="CustomData\PartyInterestData.cs" />
     <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
@@ -198,6 +199,8 @@
     <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
+    <Compile Include="Util\Politic\Vote.cs" />
+    <Compile Include="Util\Politic\VoteResult.cs" />
     <Compile Include="Util\SaveAndRestore.cs" />
     <Compile Include="Util\SpriteUtilities.cs" />
   </ItemGroup>

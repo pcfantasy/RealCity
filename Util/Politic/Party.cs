@@ -6,27 +6,37 @@ using System.Text;
 
 namespace RealCity.Util.Politic
 {
+	/// <summary>
+	/// 政党
+	/// </summary>
 	public class Party : IParty
 	{
-		// maybe some customized Bill in parliament here
-
 		private PartyInterestData interestData;
-		private Dictionary<IBill, byte> billInterestData;
+		private Dictionary<IBill, VoteResult> billAttitude;
 		public ushort WinChance { get; private set; } = default;
 		public ushort Ticket { get; } = default;
 		public ushort SeatCount { get; } = default;
 
-		public Party(PartyInterestData interestData, Dictionary<IBill, byte> billInterestData) {
+		/// <summary>
+		/// 政党
+		/// </summary>
+		/// <param name="interestData">民众对政党的兴趣度</param>
+		/// <param name="billAttitude">政党对政策的态度</param>
+		public Party(PartyInterestData interestData, Dictionary<IBill, VoteResult> billAttitude) {
 			this.interestData = interestData;
-			this.billInterestData = billInterestData;
-		}
-
-		public void AddWinChance(ushort val) {
-			this.WinChance += val;
+			this.billAttitude = billAttitude;
 		}
 
 		public PartyInterestData GetPartyInterestData() {
 			return this.interestData;
+		}
+
+		public Dictionary<IBill, VoteResult> GetBillAttitude() {
+			return this.billAttitude;
+		}
+
+		public void AddWinChance(ushort val) {
+			this.WinChance += val;
 		}
 
 		public void ResetWinChance() {

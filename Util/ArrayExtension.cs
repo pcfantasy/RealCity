@@ -8,9 +8,9 @@ namespace RealCity.Util
 	public static class ArrayExtension
 	{
 		/// <summary>
-		/// 修正数据长度
+		/// 修正数组长度
 		/// </summary>
-		/// <param name="data"></param>
+		/// <param name="arr"></param>
 		/// <param name="expectedLength"></param>
 		/// <returns></returns>
 		public static T[] EnsureLength<T>(this T[] arr, int expectedLength) {

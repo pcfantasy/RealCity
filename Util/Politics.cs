@@ -9,71 +9,11 @@ using System.Linq;
 namespace RealCity.Util
 {
 	public class Politics {
-		private static IParty cParty = new Party(
-			new PartyInterestData(
-				new ushort[4] { 30, 20, 10, 5 },
-				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
-				new ushort[3] { 35, 10, 0 },
-				new ushort[3] { 15, 10, 5 },
-				new ushort[2] { 10, 5 }
-			),
-			new List<IBill>() {
-				new Bill(()=>{ }),
-				new Bill(()=>{ })
-			}
-		);
-		private static IParty gParty = new Party(
-			new PartyInterestData(
-				new ushort[4] { 0, 10, 20, 25 },
-				new ushort[15] { 0, 20, 10, 15, 20, 30, 10, 0, 5, 10, 5, 30, 35, 40, 50, },
-				new ushort[3] { 0, 10, 30 },
-				new ushort[3] { 20, 15, 10 },
-				new ushort[2] { 10, 15 }
-			),
-			new List<IBill>() {
-				new Bill(()=>{ }),
-				new Bill(()=>{ })
-			}
-		);
-		private static IParty sParty = new Party(
-			new PartyInterestData(
-				new ushort[4] { 10, 25, 30, 40 },
-				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
-				new ushort[3] { 25, 35, 15 },
-				new ushort[3] { 30, 25, 20 },
-				new ushort[2] { 35, 40 }
-			),
-			new List<IBill>() {
-				new Bill(()=>{ }),
-				new Bill(()=>{ })
-			}
-		);
-		private static IParty lParty = new Party(
-			new PartyInterestData(
-				new ushort[4] { 10, 20, 30, 25 },
-				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
-				new ushort[3] { 10, 35, 40 },
-				new ushort[3] { 20, 30, 40 },
-				new ushort[2] { 35, 35 }
-			),
-			new List<IBill>() {
-				new Bill(()=>{ }),
-				new Bill(()=>{ })
-			}
-		);
-		private static IParty nParty = new Party(
-			new PartyInterestData(
-				new ushort[4] { 50, 25, 10, 5 },
-				new ushort[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
-				new ushort[3] { 30, 10, 15 },
-				new ushort[3] { 15, 20, 25 },
-				new ushort[2] { 10, 5 }
-			),
-			new List<IBill>() {
-				new Bill(()=>{ }),
-				new Bill(()=>{ })
-			}
-		);
+		private static IParty cParty;
+		private static IParty gParty;
+		private static IParty sParty;
+		private static IParty lParty;
+		private static IParty nParty;
 
 		private const Citizen.AgeGroup VotingAge = Citizen.AgeGroup.Young;
 		public static IParty[] Parties => new IParty[] { cParty, gParty, sParty, lParty, nParty };
@@ -102,6 +42,15 @@ namespace RealCity.Util
 		public static bool IsOverVotingAge(Citizen.AgeGroup age) {
 			//这地方不一定能解耦合...政治就是和人相关的嘛...
 			return age >= VotingAge;
+		}
+
+		/// <summary>
+		/// 是否达到最低投票年龄
+		/// </summary>
+		/// <param name="citizen"></param>
+		/// <returns></returns>
+		public static bool IsOverVotingAge(ref Citizen citizen) {
+			return IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age));
 		}
 
 		//学历对选举投票的影响因子
@@ -184,24 +133,6 @@ namespace RealCity.Util
 												{45, 45, 10},
 											  };
 
-		//riseBenefit
-		public static byte[,] riseBenefit = {
-												{40, 50, 10},
-												{70, 20, 10},
-												{90, 10,  0},
-												{10, 90,  0},
-												{30, 60, 10},
-											  };
-
-		//fallBenefit
-		public static byte[,] fallBenefit = {
-												{50, 40, 10},
-												{20, 70, 10},
-												{10, 90,  0},
-												{90, 10,  0},
-												{60, 30, 10},
-											  };
-
 
 		//riseIndustryTax
 		public static byte[,] riseIndustryTax = {
@@ -219,6 +150,24 @@ namespace RealCity.Util
 												{30, 60, 10},
 												{30, 70,  0},
 												{70, 30,  0},
+											  };
+
+		//riseBenefit
+		public static byte[,] riseBenefit = {
+												{40, 50, 10},
+												{70, 20, 10},
+												{90, 10,  0},
+												{10, 90,  0},
+												{30, 60, 10},
+											  };
+
+		//fallBenefit
+		public static byte[,] fallBenefit = {
+												{50, 40, 10},
+												{20, 70, 10},
+												{10, 90,  0},
+												{90, 10,  0},
+												{60, 30, 10},
 											  };
 
 
@@ -240,7 +189,7 @@ namespace RealCity.Util
 		public static ushort lPartySeats = 0;
 		public static ushort nPartySeats = 0;
 
-		//下一届选举倒计时
+		//下一次_____倒计时
 		public static short nextElectionInterval = 0;
 
 		public static bool case1 = false;
@@ -269,7 +218,16 @@ namespace RealCity.Util
 		public static int industryTax = 20;
 		//社会福利(0-100)
 		public static short benefitOffset = 0;
+	
 
+		public static void DataInit() {
+			PartyFactory factory = new PartyFactory();
+			cParty = factory.MakeCParty();
+			gParty = factory.MakeGParty();
+			sParty = factory.MakeSParty();
+			lParty = factory.MakeLParty();
+			nParty = factory.MakeNParty();
+		}
 
 		public static void Save(ref byte[] saveData) {
 			//58

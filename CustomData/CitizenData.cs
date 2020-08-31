@@ -26,14 +26,14 @@ namespace RealCity.CustomData
 			return 0u;
 		}
 
-		public  void DataInit() {
+		public void DataInit() {
 			//for (int i = 0; i < citizenMoney.Length; i++) {
 			//	citizenMoney[i] = 0f;
 			//}
 			this.citizenMoney.Initialize();
 		}
 
-		public  void Save(ref byte[] saveData) {
+		public void Save(ref byte[] saveData) {
 			//4194304
 			int i = 0;
 			SaveAndRestore.SaveData(ref i, citizenMoney, ref saveData);
@@ -43,7 +43,7 @@ namespace RealCity.CustomData
 			}
 		}
 
-		public  void Load(ref byte[] saveData) {
+		public void Load(ref byte[] saveData) {
 			int i = 0;
 			SaveAndRestore.LoadData(ref i, saveData, ref citizenMoney);
 

@@ -397,7 +397,7 @@ namespace RealCity.Patch
 		}
 
 		public static void GetVoteChance(uint citizenID, Citizen citizen, uint homeID) {
-			//达到最低投票年龄，而且即将选举 if (elder than Vote Age) and (gonna be election)
+			//达到最低投票年龄，而且即将选举 if (over Voting Age) and (gonna be election)
 			if (Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age))
 				&& Politics.IsOnElection()) {
 

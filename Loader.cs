@@ -80,6 +80,7 @@ namespace RealCity
 
 		public static void InitData() {
 			DebugLog.LogToFileOnly("InitData");
+			Politics.DataInit();
 			TransportLineData.DataInit();
 			VehicleData.DataInit();
 			BuildingData.DataInit();
