@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ColossalFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace RealCity.Util.Politic
@@ -27,6 +29,8 @@ namespace RealCity.Util.Politic
 			int disagree = default;
 			int noVote = default;
 
+			int seatCount = Politics.GetAllSeatCount();
+
 			int residentTax = 10 - (Politics.residentTax);
 			int commercialTax = 10 - (Politics.commercialTax);
 			int industryTax = 10 - (Politics.industryTax);
@@ -35,6 +39,25 @@ namespace RealCity.Util.Politic
 			int citizenOffset = 0; // citizen offset
 			int industrialBuildingOffset = 0; //industrial building offset
 			int commercialBuildingOffset = 0; //commercial building offset
+			VoteOffset(ref billId, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
+
+			if (seatCount == 99) {
+				agree += Politics.Parties.Sum(p => {
+					// 
+					return p.GetBillAttitude()[this.bill].Agree;
+				});
+				agree += (Politics.Parties.Length * residentTax - moneyOffset - citizenOffset);
+
+				disagree += Politics.Parties.Sum(p => {
+					return p.GetBillAttitude()[this.bill].Disagree;
+				});
+				disagree -= Politics.Parties.Length * residentTax;
+
+				noVote += Politics.Parties.Sum(p => {
+					return p.GetBillAttitude()[this.bill].NoVote;
+				});
+				noVote -= Politics.Parties.Length * residentTax;
+			}
 
 			return new VoteResult(agree, disagree, noVote);
 		}
@@ -42,9 +65,10 @@ namespace RealCity.Util.Politic
 		private void VoteOffset(ref int idex, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset) {
 			//MoneyOffset;
 			MoneyOffset = 0;
-			FieldInfo cashAmount;
-			cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
-			long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+			//FieldInfo cashAmount;
+			//cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
+			//long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
+			long _cashAmount = Singleton<EconomyManager>.instance.GetPrivateField<long>("m_cashAmount");
 			if (_cashAmount < 0) {
 				MoneyOffset = -4000;
 				System.Random rand = new System.Random();

@@ -32,18 +32,19 @@ namespace RealCity.Util.Politic
 
 		}
 		private void VoteTicket() {
-			// It's like Roulette Wheel Selection
+			// It's Roulette Wheel Selection
 			// 大转盘，政党的WinChance越大，得票机率就越大
 
 			int i = 0;
 			int segment = this.parties[0].WinChance;
 			int vote = r.Next(800 + RealCityEconomyExtension.partyTrendStrength) + 1;
-			/*
-			 * [     Party A     ][  P.B  ][   P.C   ]
+			/* 
+			 *       Party A         P.B       P.C
+			 * |<--------------->|<------>|<-------->|
 			 *                          ^ vote       ^ length is the sum of party.WinChance
 			 *                   ^ initial Segment
-			 * [     Party A     ][  P.B  ][   P.C   ]
-			 *                            ^ S move forward, now vote is smaller than SR, which means P.B gets a ticket
+			 * |<--------------->|<------>|<-------->|
+			 *                            ^ S move forward, now vote is smaller than S, which means P.B gets 1 ticket
 			 */
 
 			while (i < parties.Length) {

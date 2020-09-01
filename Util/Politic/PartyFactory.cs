@@ -20,13 +20,13 @@ namespace RealCity.Util.Politic
 			VoteResult raiseBenefitOffset = new VoteResult(40, 50, 10);
 			VoteResult reduceBenefitOffset = new VoteResult(50, 40, 10);
 
-			billAttitudeMap.Add(Bills.RaiseResidentTax, raiseResidentTax);
+			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
-			billAttitudeMap.Add(Bills.RaiseCommercialTax, raiseCommercialTax);
+			billAttitudeMap.Add(Bills.RiseCommercialTax, raiseCommercialTax);
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
-			billAttitudeMap.Add(Bills.RaiseIndustryTax, raiseIndustryTax);
+			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RaiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
@@ -53,13 +53,13 @@ namespace RealCity.Util.Politic
 			VoteResult raiseBenefitOffset = new VoteResult(70, 20, 10);
 			VoteResult reduceBenefitOffset = new VoteResult(20, 70, 10);
 
-			billAttitudeMap.Add(Bills.RaiseResidentTax, raiseResidentTax);
+			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
-			billAttitudeMap.Add(Bills.RaiseCommercialTax, raiseCommercialTax);
+			billAttitudeMap.Add(Bills.RiseCommercialTax, raiseCommercialTax);
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
-			billAttitudeMap.Add(Bills.RaiseIndustryTax, raiseIndustryTax);
+			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RaiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
@@ -86,13 +86,13 @@ namespace RealCity.Util.Politic
 			VoteResult raiseBenefitOffset = new VoteResult(90, 10, 0);
 			VoteResult reduceBenefitOffset = new VoteResult(10, 90, 0);
 
-			billAttitudeMap.Add(Bills.RaiseResidentTax, raiseResidentTax);
+			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
-			billAttitudeMap.Add(Bills.RaiseCommercialTax, raiseCommercialTax);
+			billAttitudeMap.Add(Bills.RiseCommercialTax, raiseCommercialTax);
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
-			billAttitudeMap.Add(Bills.RaiseIndustryTax, raiseIndustryTax);
+			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RaiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
@@ -119,13 +119,13 @@ namespace RealCity.Util.Politic
 			VoteResult raiseBenefitOffset = new VoteResult(10, 90, 0);
 			VoteResult reduceBenefitOffset = new VoteResult(90, 10, 0);
 
-			billAttitudeMap.Add(Bills.RaiseResidentTax, raiseResidentTax);
+			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
-			billAttitudeMap.Add(Bills.RaiseCommercialTax, raiseCommercialTax);
+			billAttitudeMap.Add(Bills.RiseCommercialTax, raiseCommercialTax);
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
-			billAttitudeMap.Add(Bills.RaiseIndustryTax, raiseIndustryTax);
+			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RaiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
@@ -152,13 +152,13 @@ namespace RealCity.Util.Politic
 			VoteResult raiseBenefitOffset = new VoteResult(30, 60, 10);
 			VoteResult reduceBenefitOffset = new VoteResult(60, 30, 10);
 
-			billAttitudeMap.Add(Bills.RaiseResidentTax, raiseResidentTax);
+			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
-			billAttitudeMap.Add(Bills.RaiseCommercialTax, raiseCommercialTax);
+			billAttitudeMap.Add(Bills.RiseCommercialTax, raiseCommercialTax);
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
-			billAttitudeMap.Add(Bills.RaiseIndustryTax, raiseIndustryTax);
+			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RaiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(

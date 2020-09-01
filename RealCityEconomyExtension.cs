@@ -434,26 +434,8 @@ namespace RealCity
 			}
 
 			if (seatCount == 99) {
-				switch (bill) {
-					case Bills.RaiseResidentTax:
-						yes += Politics.Parties.Sum(p => {
-							// 
-							return p.GetBillAttitude()[bill][0];
-						});
-						yes += (Politics.Parties.Length * residentTax;
-
-						no += Politics.Parties.Sum(p => {
-							return p.GetBillAttitude()[bill][1];
-						});
-						no -= Politics.Parties.Length * residentTax;
-
-						noAttend += Politics.Parties.Sum(p => {
-							return p.GetBillAttitude()[bill][2];
-						});
-						noAttend -= Politics.Parties.Length * residentTax;
-						break;
-
-
+				switch (billId) {
+					case 0:
 						yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + residentTax);
 						yes += Politics.gPartySeats * (Politics.riseSalaryTax[1, 0] + residentTax);
 						yes += Politics.sPartySeats * (Politics.riseSalaryTax[2, 0] + residentTax);
