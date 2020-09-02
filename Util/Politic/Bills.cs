@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using ColossalFramework;
 using RealCity.Util.Politic.Bill;
 
 namespace RealCity.Util.Politic
 {
 	public static class Bills
 	{
+		private static Random r = new Random();
 
 		public readonly static IBill RiseResidentTax = new RiseResidentTaxBill(1);
 		public readonly static IBill ReduceResidentTax = new ReduceResidentTaxBill(1);
@@ -46,6 +48,10 @@ namespace RealCity.Util.Politic
 			nameof(ReduceBenefit),
 		};
 
+		public static IBill GetRandomBill() {
+			return AllBills[r.Next(AllBills.Length)];
+		}
+
 		public static IBill GetReversedBill(IBill bill) {
 			//string revStr;
 			//int index = Array.IndexOf(AllBills, bill);
@@ -69,22 +75,8 @@ namespace RealCity.Util.Politic
 		}
 
 		public static IBill GetAnotherBill(IBill bill) {
-			int idx = Array.IndexOf(AllBills, bill);
-			bool[] implementable = new bool[AllBills.Length];
-			int i = 0;
-			implementable[i++] = Politics.CanRiseResidentTax;
-			implementable[i++] = Politics.CanReduceResidentTax;
-			implementable[i++] = Politics.CanRiseCommercialTax;
-			implementable[i++] = Politics.CanReduceCommercialTax;
-			implementable[i++] = Politics.CanRiseIndustryTax;
-			implementable[i++] = Politics.CanReduceIndustryTax;
-			implementable[i++] = Politics.CanRiseBenefit;
-			implementable[i++] = Politics.CanReduceBenefit;
-
-			Random r = new Random();
-			for (; implementable[idx] == false; idx = r.Next(AllBills.Length)) ;
-			IBill bi = AllBills[idx];
-			return bi;
+			for (; bill.IsImplementable() == false; bill = GetRandomBill()) ;
+			return bill;
 
 			#region old codes
 			//System.Random rand = new System.Random();

@@ -3,5 +3,6 @@
 	public interface IBill
 	{
 		void Implement();
+		bool IsImplementable();
 	}
 }

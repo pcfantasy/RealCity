@@ -9,5 +9,9 @@
 		public override void Implement() {
 			Politics.residentTax -= base.effectVal;
 		}
+
+		public override bool IsImplementable() {
+			return Politics.CanReduceResidentTax;
+		}
 	}
 }

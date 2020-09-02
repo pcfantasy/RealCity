@@ -12,5 +12,6 @@ namespace RealCity.Util.Politic
 			this.effectVal = effectVal;
 		}
 		public abstract void Implement();
+		public abstract bool IsImplementable();
 	}
 }

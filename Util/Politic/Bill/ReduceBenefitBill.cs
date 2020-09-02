@@ -9,5 +9,9 @@
 		public override void Implement() {
 			Politics.benefitOffset -= base.effectVal;
 		}
+
+		public override bool IsImplementable() {
+			return Politics.CanReduceBenefit;
+		}
 	}
 }
