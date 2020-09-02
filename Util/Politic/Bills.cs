@@ -70,35 +70,19 @@ namespace RealCity.Util.Politic
 
 		public static IBill GetAnotherBill(IBill bill) {
 			int idx = Array.IndexOf(AllBills, bill);
-			int[] avoidIdxs = new int[AllBills.Length >> 1];
+			bool[] implementable = new bool[AllBills.Length];
 			int i = 0;
-			// bad codes
-			if (Politics.CanRiseResidentTax == false) {
-				avoidIdxs[i] = 0;
-			} else if (Politics.CanReduceResidentTax == false) {
-				avoidIdxs[i] = 1;
-			}
-			++i;
-			if (Politics.CanRiseCommercialTax == false) {
-				avoidIdxs[i] = 2;
-			} else if (Politics.CanReduceCommercialTax == false) {
-				avoidIdxs[i] = 3;
-			}
-			++i;
-			if (Politics.CanRiseIndustryTax == false) {
-				avoidIdxs[i] = 4;
-			} else if (Politics.CanReduceIndustryTax == false) {
-				avoidIdxs[i] = 5;
-			}
-			++i;
-			if (Politics.CanRiseBenefit == false) {
-				avoidIdxs[i] = 6;
-			} else if (Politics.CanReduceBenefit == false) {
-				avoidIdxs[i] = 7;
-			}
+			implementable[i++] = Politics.CanRiseResidentTax;
+			implementable[i++] = Politics.CanReduceResidentTax;
+			implementable[i++] = Politics.CanRiseCommercialTax;
+			implementable[i++] = Politics.CanReduceCommercialTax;
+			implementable[i++] = Politics.CanRiseIndustryTax;
+			implementable[i++] = Politics.CanReduceIndustryTax;
+			implementable[i++] = Politics.CanRiseBenefit;
+			implementable[i++] = Politics.CanReduceBenefit;
 
 			Random r = new Random();
-			for (; avoidIdxs.Contains(idx); idx = r.Next(AllBills.Length)) ;
+			for (; implementable[idx] == false; idx = r.Next(AllBills.Length)) ;
 			IBill bi = AllBills[idx];
 			return bi;
 
