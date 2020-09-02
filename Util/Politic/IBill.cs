@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RealCity.Util.Politic
+﻿namespace RealCity.Util.Politic
 {
 	public interface IBill
 	{

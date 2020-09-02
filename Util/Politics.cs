@@ -9,13 +9,17 @@ using System.Linq;
 namespace RealCity.Util
 {
 	public class Politics {
+		private const Citizen.AgeGroup VotingAge = Citizen.AgeGroup.Young;
+		private const int MaxTaxValue = 20;
+		private const int MinTaxValue = 0;
+		private const int MaxBenefitValue = 100;
+		private const int MinBenefitValue = 0;
+
 		private static IParty cParty;
 		private static IParty gParty;
 		private static IParty sParty;
 		private static IParty lParty;
 		private static IParty nParty;
-
-		private const Citizen.AgeGroup VotingAge = Citizen.AgeGroup.Young;
 		public static IParty[] Parties => new IParty[] { cParty, gParty, sParty, lParty, nParty };
 		public static void ResetWinChance() {
 			Parties.ForEach(p => p.ResetWinChance());
@@ -52,6 +56,15 @@ namespace RealCity.Util
 		public static bool IsOverVotingAge(ref Citizen citizen) {
 			return IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age));
 		}
+
+		public static bool CanRiseResidentTax => residentTax < MaxTaxValue;
+		public static bool CanReduceResidentTax => residentTax > MinTaxValue;
+		public static bool CanRiseCommercialTax => commercialTax < MaxTaxValue;
+		public static bool CanReduceCommercialTax => commercialTax > MinTaxValue;
+		public static bool CanRiseIndustryTax => industryTax < MaxTaxValue;
+		public static bool CanReduceIndustryTax => industryTax > MinTaxValue;
+		public static bool CanRiseBenefit => benefitOffset < MaxBenefitValue;
+		public static bool CanReduceBenefit => benefitOffset > MinBenefitValue;
 
 		//学历对选举投票的影响因子
 		public static byte[,] education = { {30,  0, 10, 10, 50},
