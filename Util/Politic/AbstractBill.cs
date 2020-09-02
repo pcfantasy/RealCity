@@ -3,7 +3,7 @@
 namespace RealCity.Util.Politic
 {
 	/// <summary>
-	/// 议案
+	/// 议案（抽象的）
 	/// </summary>
 	public abstract class AbstractBill : IBill
 	{

@@ -2,20 +2,20 @@
 using RealCity.CustomAI;
 using RealCity.CustomData;
 
-namespace RealCity.Util.Politic
+namespace RealCity.Util.Politic.ElectionUtil
 {
 	/// <summary>
 	/// 政党兴趣度计算
 	/// </summary>
 	public class PartyInterestCalc
 	{
-		private IParty party;
 		private PartyInterestData partyInterestData;
 		private Citizen citizen;
 		private uint citizenId;
 		private uint homeId;
 
-		private ushort val = 0;
+		public IParty Party { get; }
+		public ushort Val { get; private set; } = 0;
 
 		/// <summary>
 		/// 政党兴趣度计算
@@ -25,7 +25,7 @@ namespace RealCity.Util.Politic
 		/// <param name="citizenId">市民Id</param>
 		/// <param name="homeId">家庭Id</param>
 		public PartyInterestCalc(IParty party, ref Citizen citizen, uint citizenId, uint homeId) {
-			this.party = party;
+			this.Party = party;
 			this.partyInterestData = party.GetPartyInterestData();
 			this.citizen = citizen;
 			this.citizenId = citizenId;
@@ -36,20 +36,20 @@ namespace RealCity.Util.Politic
 		/// 计算市民对政党的兴趣度
 		/// </summary>
 		public void Calc() {
-			this.val += GetFromEducationLevel(this.citizen.EducationLevel);
-			this.val += GetFromSubService(this.citizen.m_workBuilding);
-			this.val += GetFromFamilyMoney(CitizenUnitData.familyMoney[this.homeId]);
-			this.val += GetFromAgeGroup(Citizen.GetAgeGroup(this.citizen.Age));
-			this.val += GetFromGender(Citizen.GetGender(this.citizenId));
+			this.Val += GetFromEducationLevel(this.citizen.EducationLevel);
+			this.Val += GetFromSubService(this.citizen.m_workBuilding);
+			this.Val += GetFromFamilyMoney(CitizenUnitData.familyMoney[this.homeId]);
+			this.Val += GetFromAgeGroup(Citizen.GetAgeGroup(this.citizen.Age));
+			this.Val += GetFromGender(Citizen.GetGender(this.citizenId));
 		}
 
 		/// <summary>
 		/// 增加政党胜算
 		/// </summary>
 		public void AddPartyWinChance() {
-			this.party.AddWinChance(this.val);
+			this.Party.AddWinChance(this.Val);
 			//啊这...不加会出bug吗
-			this.val = default;
+			this.Val = default;
 		}
 
 		/// <summary>
@@ -79,54 +79,53 @@ namespace RealCity.Util.Politic
 			//自定义行业：在政府工作
 			if (RealCityResidentAI.IsGoverment(workplaceId)) {
 				choiceIndex = 1;
+			} else {
+				ItemClass workplaceItemClass = Singleton<BuildingManager>.instance
+					.m_buildings.m_buffer[workplaceId].Info.m_class;
+				//其他游戏内置行业
+				switch (workplaceItemClass.m_subService) {
+					case ItemClass.SubService.CommercialLow:
+					case ItemClass.SubService.CommercialHigh:
+						if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
+							choiceIndex = 2;
+						} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
+							choiceIndex = 3;
+						} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
+							choiceIndex = 4;
+						}
+						break;
+					case ItemClass.SubService.CommercialTourist:
+					case ItemClass.SubService.CommercialLeisure:
+						choiceIndex = 5; break;
+					case ItemClass.SubService.CommercialEco:
+						choiceIndex = 6; break;
+					case ItemClass.SubService.IndustrialGeneric:
+						if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
+							choiceIndex = 7;
+						} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
+							choiceIndex = 8;
+						} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
+							choiceIndex = 9;
+						}
+						break;
+					case ItemClass.SubService.IndustrialFarming:
+					case ItemClass.SubService.IndustrialForestry:
+					case ItemClass.SubService.IndustrialOil:
+					case ItemClass.SubService.IndustrialOre:
+						choiceIndex = 10; break;
+					case ItemClass.SubService.OfficeGeneric:
+						if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
+							choiceIndex = 11;
+						} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
+							choiceIndex = 12;
+						} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
+							choiceIndex = 13;
+						}
+						break;
+					case ItemClass.SubService.OfficeHightech:
+						choiceIndex = 14; break;
+				}
 			}
-			// here is not very nice
-			ItemClass workplaceItemClass = Singleton<BuildingManager>.instance
-				.m_buildings.m_buffer[workplaceId].Info.m_class;
-			//其他游戏内置行业
-			switch (workplaceItemClass.m_subService) {
-				case ItemClass.SubService.CommercialLow:
-				case ItemClass.SubService.CommercialHigh:
-					if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
-						choiceIndex = 2;
-					} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
-						choiceIndex = 3;
-					} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
-						choiceIndex = 4;
-					}
-					break;
-				case ItemClass.SubService.CommercialTourist:
-				case ItemClass.SubService.CommercialLeisure:
-					choiceIndex = 5; break;
-				case ItemClass.SubService.CommercialEco:
-					choiceIndex = 6; break;
-				case ItemClass.SubService.IndustrialGeneric:
-					if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
-						choiceIndex = 7;
-					} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
-						choiceIndex = 8;
-					} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
-						choiceIndex = 9;
-					}
-					break;
-				case ItemClass.SubService.IndustrialFarming:
-				case ItemClass.SubService.IndustrialForestry:
-				case ItemClass.SubService.IndustrialOil:
-				case ItemClass.SubService.IndustrialOre:
-					choiceIndex = 10; break;
-				case ItemClass.SubService.OfficeGeneric:
-					if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
-						choiceIndex = 11;
-					} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
-						choiceIndex = 12;
-					} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
-						choiceIndex = 13;
-					}
-					break;
-				case ItemClass.SubService.OfficeHightech:
-					choiceIndex = 14; break;
-			}
-
 			return this.partyInterestData.SubService[choiceIndex];
 		}
 

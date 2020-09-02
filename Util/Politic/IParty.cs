@@ -12,5 +12,6 @@ namespace RealCity.Util.Politic
 		ushort WinChance { get; }
 		ushort Ticket { get; }
 		ushort SeatCount { get; }
+		ushort Id { get; }
 	}
 }

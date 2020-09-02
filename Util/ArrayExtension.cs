@@ -38,4 +38,14 @@ public static class ArrayExtension
 			arr.SetValue(value, i);
 		}
 	}
+	/// <summary>
+	/// Returns a random element in the Array.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="arr"></param>
+	/// <param name="random"></param>
+	/// <returns></returns>
+	public static T GetRandomElement<T>(this T[] arr, Random random) {
+		return arr[random.Next(arr.Length)];
+	}
 }

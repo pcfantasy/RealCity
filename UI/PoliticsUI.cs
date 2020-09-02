@@ -161,7 +161,7 @@ namespace RealCity.UI
 					socialist.text = string.Format(Localization.Get("SOCIALIST") + " [{0}]", Politics.sPartySeats);
 					liberal.text = string.Format(Localization.Get("LIBERAL") + " [{0}]", Politics.lPartySeats);
 					national.text = string.Format(Localization.Get("NATIONAL") + " [{0}]", Politics.nPartySeats);
-					nextVote.text = string.Format(Localization.Get("NEXT_VOTE") + " [{0}]", Politics.nextElectionInterval);
+					nextVote.text = string.Format(Localization.Get("NEXT_VOTE") + " [{0}]", Politics.nextMeetingInterval);
 
 					if (Politics.currentBillId > 7) {
 						currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ": N/A");

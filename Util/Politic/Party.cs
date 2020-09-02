@@ -16,13 +16,15 @@ namespace RealCity.Util.Politic
 		public ushort WinChance { get; private set; } = default;
 		public ushort Ticket { get; } = default;
 		public ushort SeatCount { get; } = default;
+		public ushort Id { get; }
 
 		/// <summary>
 		/// 政党
 		/// </summary>
 		/// <param name="interestData">民众对政党的兴趣度</param>
 		/// <param name="billAttitude">政党对政策的态度</param>
-		public Party(PartyInterestData interestData, Dictionary<IBill, VoteResult> billAttitude) {
+		public Party(ushort id,PartyInterestData interestData, Dictionary<IBill, VoteResult> billAttitude) {
+			this.Id = id;
 			this.interestData = interestData;
 			this.billAttitude = billAttitude;
 		}

@@ -1,6 +1,4 @@
 ﻿using RealCity.Attributes;
-using RealCity.Util;
-using System;
 
 namespace RealCity.Util.Politic
 {

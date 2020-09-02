@@ -122,7 +122,7 @@
 		public static uint familyWeightStableLow = 0;
 
 		//other in-game variable
-		public static byte updateMoneyCount = 0;
+		public static byte updateMoneyCount = 0; // see RealCityEconomyExtension.OnUpdateMoneyAmount()
 		public static float currentTime = 0f;
 		public static float prevTime = 0f;
 

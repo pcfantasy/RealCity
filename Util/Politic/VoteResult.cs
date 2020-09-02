@@ -3,7 +3,7 @@
 	/// <summary>
 	/// 投票结果
 	/// </summary>
-	public class VoteResult
+	public class VoteResult  //TODO: consider a better name
 	{
 		/// <summary>
 		/// 同意
@@ -16,17 +16,17 @@
 		/// <summary>
 		/// 弃权
 		/// </summary>
-		public int NoVote { get; }
+		public int Neutral { get; }
 		/// <summary>
 		/// 投票结果
 		/// </summary>
 		/// <param name="agree">同意</param>
 		/// <param name="disagree">反对</param>
-		/// <param name="noVote">弃权</param>
-		public VoteResult(int agree, int disagree, int noVote) {
+		/// <param name="neutral">弃权</param>
+		public VoteResult(int agree, int disagree, int neutral) {
 			this.Agree = agree;
 			this.Disagree = disagree;
-			this.NoVote = noVote;
+			this.Neutral = neutral;
 		}
 	}
 }

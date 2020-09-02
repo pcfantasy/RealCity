@@ -9,6 +9,11 @@ namespace RealCity.Util.Politic
 	{
 		//TODO: Too much similar codes, need extract same parts
 
+		/// <summary>
+		/// 下一个政党的Id
+		/// </summary>
+		public ushort NextPartyId { get; private set; } = 0;
+
 		public IParty MakeCParty() {
 			var billAttitudeMap = new Dictionary<IBill, VoteResult>();
 			VoteResult raiseResidentTax = new VoteResult(55, 40, 5);
@@ -26,10 +31,11 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
 			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefit, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
+				this.NextPartyId++,
 				new PartyInterestData(
 					new byte[4] { 30, 20, 10, 5 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
@@ -59,10 +65,11 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
 			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefit, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
+				this.NextPartyId++,
 				new PartyInterestData(
 					new byte[4] { 0, 10, 20, 25 },
 					new byte[15] { 0, 20, 10, 15, 20, 30, 10, 0, 5, 10, 5, 30, 35, 40, 50, },
@@ -92,10 +99,11 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
 			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefit, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
+				this.NextPartyId++,
 				new PartyInterestData(
 					new byte[4] { 10, 25, 30, 40 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
@@ -125,10 +133,11 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
 			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefit, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
+				this.NextPartyId++,
 				new PartyInterestData(
 					new byte[4] { 10, 20, 30, 25 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
@@ -158,10 +167,11 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceCommercialTax, reduceCommercialTax);
 			billAttitudeMap.Add(Bills.RiseIndustryTax, raiseIndustryTax);
 			billAttitudeMap.Add(Bills.ReduceIndustryTax, reduceIndustryTax);
-			billAttitudeMap.Add(Bills.RiseBenefitOffset, raiseBenefitOffset);
+			billAttitudeMap.Add(Bills.RiseBenefit, raiseBenefitOffset);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
+				this.NextPartyId++,
 				new PartyInterestData(
 					new byte[4] { 50, 25, 10, 5 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },

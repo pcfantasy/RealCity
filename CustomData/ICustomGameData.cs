@@ -1,9 +1,13 @@
-﻿namespace RealCity.CustomData
+﻿using System;
+
+namespace RealCity.CustomData
 {
 	public interface ICustomGameData
 	{
-		 void DataInit();
-		 void Save(ref byte[] saveData);
-		 void Load(ref byte[] saveData);
+		void DataInit();
+
+		//TODO: let ICustomGameData obey the SRP
+		void Save(ref byte[] saveData);
+		void Load(ref byte[] saveData);
 	}
 }

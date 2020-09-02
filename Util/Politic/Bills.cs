@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using ColossalFramework;
 using RealCity.Util.Politic.Bill;
 
 namespace RealCity.Util.Politic
@@ -49,7 +47,7 @@ namespace RealCity.Util.Politic
 		};
 
 		public static IBill GetRandomBill() {
-			return AllBills[r.Next(AllBills.Length)];
+			return AllBills.GetRandomElement(r);
 		}
 
 		public static IBill GetReversedBill(IBill bill) {

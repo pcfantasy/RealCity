@@ -13,8 +13,8 @@ namespace RealCity
 {
 	public class RealCityEconomyExtension : EconomyExtensionBase
 	{
-		public static byte partyTrend = 0;
-		public static ushort partyTrendStrength = 0;
+		public static byte partyTrend => 0;
+		public static ushort partyTrendStrength => 0;
 		public static ushort industrialLackMoneyCount = 0;
 		public static ushort industrialEarnMoneyCount = 0;
 		public static ushort commercialLackMoneyCount = 0;
@@ -27,9 +27,9 @@ namespace RealCity
 				uint frameIndex = currentFrameIndex & 255u;
 				if ((frameIndex == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime)) {
 					if (MainDataStore.updateMoneyCount == 16) {
-						Politics.nextElectionInterval--;
-						if (Politics.nextElectionInterval < 0) {
-							Politics.nextElectionInterval = 10;
+						Politics.nextMeetingInterval--;
+						if (Politics.nextMeetingInterval < 0) {
+							Politics.nextMeetingInterval = 10;
 						}
 						//1. Caculate minimumLivingAllowance and unfinishedTransitionLost
 						MainDataStore.minimumLivingAllowanceFinal = MainDataStore.minimumLivingAllowance;
@@ -136,16 +136,18 @@ namespace RealCity
 		/// 
 		/// </summary>
 		public void CitizenStatus() {
-			if (Politics.nextElectionInterval == 0) {
-				System.Random rand = new System.Random();
-				partyTrend = (byte)rand.Next(5);
-				partyTrendStrength = (byte)rand.Next(300);
+			if (Politics.nextMeetingInterval == 0) {
+
+				Election e = new Election(Politics.Parties);
+				
+
 				GetSeats();
 				CreateGoverment();
+
 			}
 
 			if ((MainDataStore.updateMoneyCount & 3u) == 0) {
-				if (Politics.nextElectionInterval != 0) {
+				if (Politics.nextMeetingInterval != 0) {
 					HoldMeeting();
 				}
 			}
@@ -428,7 +430,7 @@ namespace RealCity
 				no -= Politics.Parties.Length * residentTax;
 
 				noAttend += Politics.Parties.Sum(p => {
-					return p.GetBillAttitude()[bill].NoVote;
+					return p.GetBillAttitude()[bill].Neutral;
 				});
 				noAttend -= Politics.Parties.Length * residentTax;
 			}

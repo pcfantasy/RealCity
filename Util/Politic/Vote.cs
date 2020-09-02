@@ -54,7 +54,7 @@ namespace RealCity.Util.Politic
 				disagree -= Politics.Parties.Length * residentTax;
 
 				noVote += Politics.Parties.Sum(p => {
-					return p.GetBillAttitude()[this.bill].NoVote;
+					return p.GetBillAttitude()[this.bill].Neutral;
 				});
 				noVote -= Politics.Parties.Length * residentTax;
 			}

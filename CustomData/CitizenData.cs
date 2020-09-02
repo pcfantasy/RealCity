@@ -12,12 +12,13 @@ namespace RealCity.CustomData
 		public static CitizenData Instance {
 			get {
 				if (_inst == null) {
-					_inst = new CitizenData();
+					CustomGameDataFactory f = new CustomGameDataFactory();
+					_inst = f.MakeCitizenData();
 				}
 				return _inst;
 			}
 		}
-		private CitizenData() { }
+		public CitizenData() { }
 
 		public static uint GetCitizenUnit(ushort buildingId) {
 			if (buildingId != 0) {

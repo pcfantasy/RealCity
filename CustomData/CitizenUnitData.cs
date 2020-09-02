@@ -9,11 +9,13 @@ namespace RealCity.CustomData
 		public static ushort[] familyGoods = new ushort[524288];
 
 		public static void DataInit() {
-			for (int i = 0; i < familyMoney.Length; i++) {
-				familyMoney[i] = 0f;
-				//default;
-				familyGoods[i] = 65535;
-			}
+			//for (int i = 0; i < familyMoney.Length; i++) {
+			//	familyMoney[i] = 0f;
+			//	//default;
+			//	familyGoods[i] = 65535;
+			//}
+			familyMoney.Initialize();
+			familyGoods.Initialize(ushort.MaxValue);
 		}
 
 		public static void Save(ref byte[] saveData) {

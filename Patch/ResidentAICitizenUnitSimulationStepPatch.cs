@@ -5,6 +5,7 @@ using RealCity.CustomAI;
 using RealCity.CustomData;
 using RealCity.Util;
 using RealCity.Util.Politic;
+using RealCity.Util.Politic.ElectionUtil;
 using System;
 using System.Reflection;
 
@@ -46,7 +47,7 @@ namespace RealCity.Patch
 					}
 				}
 			} else {
-				//
+				// post-process
 				if (CitizenUnitData.familyMoney[homeID] < MainDataStore.lowWealth) {
 					RealCityResidentAI.familyWeightStableLow++;
 				} else if (CitizenUnitData.familyMoney[homeID] >= MainDataStore.highWealth) {
@@ -64,6 +65,7 @@ namespace RealCity.Patch
 							++temp;
 #if FASTRUN
 #else
+							//add a party.chancce by its citizen data
 							GetVoteChance(m_citizenI, citizenData, homeID);
 #endif
 						}
@@ -374,36 +376,12 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static void GetVoteTickets() {
-			System.Random rand = new System.Random();
-			// WTF??? 这里有魔数。800参见PartyInterestCalc.GetFromEducationLevel()中的注释
-			if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance
-				!= (800 + RealCityEconomyExtension.partyTrendStrength)) {
-				//有1/64的机率打印这句话（WTF？）
-				if (rand.Next(64) <= 1) {
-					DebugLog.LogToFileOnly($"Error: GetVoteTickets Chance is not equal 800 {(Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance)}");
-				}
-			}
-
-			//大转盘，政党的chance越大，得票机率就越大
-			int voteRandom = rand.Next(800 + RealCityEconomyExtension.partyTrendStrength) + 1;
-			if (voteRandom < Politics.cPartyChance) {
-				Politics.cPartyTickets++;
-			} else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance) {
-				Politics.gPartyTickets++;
-			} else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance) {
-				Politics.sPartyTickets++;
-			} else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance) {
-				Politics.lPartyTickets++;
-			} else {
-				Politics.nPartyTickets++;
-			}
-		}
-
 		public static void GetVoteChance(uint citizenID, Citizen citizen, uint homeID) {
 			//如果即将选举，而且达到投票年龄 if (gonna be election) and (over Voting Age)
 			if (Politics.IsOnElection()
 				&& Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age))) {
+
+				ElectionVoter voter = new ElectionVoter(citizenID, ref citizen, homeID,);
 
 				Politics.ResetWinChance();
 				Politics.Parties.ForEach(p => {
@@ -534,10 +512,33 @@ namespace RealCity.Patch
 				} else {
 					DebugLog.LogToFileOnly($"Error: GetVoteChance Invalid partyTrend = {RealCityEconomyExtension.partyTrend}");
 				}
-
-
-
 				GetVoteTickets();
+			}
+		}
+
+		public static void GetVoteTickets() {
+			System.Random rand = new System.Random();
+			//魔数800参见PartyInterestCalc.GetFromEducationLevel()中的注释
+			if (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance
+				!= (800 + RealCityEconomyExtension.partyTrendStrength)) {
+				//有1/64的机率打印这句话（WTF？）
+				if (rand.Next(64) <= 1) {
+					DebugLog.LogToFileOnly($"Error: GetVoteTickets Chance is not equal 800 {(Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance)}");
+				}
+			}
+
+			//大转盘，政党的chance越大，得票机率就越大
+			int voteRandom = rand.Next(800 + RealCityEconomyExtension.partyTrendStrength) + 1;
+			if (voteRandom < Politics.cPartyChance) {
+				Politics.cPartyTickets++;
+			} else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance) {
+				Politics.gPartyTickets++;
+			} else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance) {
+				Politics.sPartyTickets++;
+			} else if (voteRandom < Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance) {
+				Politics.lPartyTickets++;
+			} else {
+				Politics.nPartyTickets++;
 			}
 		}
 	}

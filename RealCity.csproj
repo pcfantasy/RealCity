@@ -95,6 +95,7 @@
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
     <Compile Include="CustomData\ICustomGameData.cs" />
     <Compile Include="Util\ArrayExtension.cs" />
+    <Compile Include="Util\CustomGameDataFactory.cs" />
     <Compile Include="Util\ObjectPrivateDataExtension.cs" />
     <Compile Include="Util\Politic\AbstractBill.cs" />
     <Compile Include="Util\Politic\Bills.cs" />
@@ -107,9 +108,12 @@
     <Compile Include="Util\Politic\Bill\RiseCommercialTaxBill.cs" />
     <Compile Include="Util\Politic\Bill\RiseResidentTaxBill.cs" />
     <Compile Include="Util\Politic\Election.cs" />
+    <Compile Include="Util\Politic\ElectionUtil\ElectionInfo.cs" />
+    <Compile Include="Util\Politic\ElectionUtil\ElectionVoter.cs" />
+    <Compile Include="Util\Politic\Government.cs" />
     <Compile Include="Util\Politic\IBill.cs" />
     <Compile Include="Util\Politic\PartyFactory.cs" />
-    <Compile Include="Util\Politic\PartyInterestCalc.cs" />
+    <Compile Include="Util\Politic\ElectionUtil\PartyInterestCalc.cs" />
     <Compile Include="Util\Politic\PartyInterestData.cs" />
     <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\OutsideConnectionAIModifyMaterialBufferPatch.cs" />

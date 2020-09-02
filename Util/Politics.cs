@@ -1,6 +1,5 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
-using RealCity.CustomData;
 using RealCity.Util.Politic;
 using System;
 using System.Collections.Generic;
@@ -20,7 +19,8 @@ namespace RealCity.Util
 		private static IParty sParty;
 		private static IParty lParty;
 		private static IParty nParty;
-		public static IParty[] Parties => new IParty[] { cParty, gParty, sParty, lParty, nParty };
+
+		public static IParty[] Parties;
 		public static void ResetWinChance() {
 			Parties.ForEach(p => p.ResetWinChance());
 		}
@@ -35,7 +35,7 @@ namespace RealCity.Util
 			});
 		}
 		public static bool IsOnElection() {
-			return nextElectionInterval == 1;
+			return nextMeetingInterval == 1;
 		}
 
 		/// <summary>
@@ -203,7 +203,7 @@ namespace RealCity.Util
 		public static ushort nPartySeats = 0;
 
 		//下一次_____倒计时
-		public static short nextElectionInterval = 0;
+		public static short nextMeetingInterval = 0;
 
 		public static bool case1 = false;
 		public static bool case2 = false;
@@ -230,8 +230,8 @@ namespace RealCity.Util
 		//工业税(0-20)
 		public static int industryTax = 20;
 		//社会福利(0-100)
-		public static short benefitOffset = 0;
-	
+		public static int benefitOffset = 0;
+
 
 		public static void DataInit() {
 			PartyFactory factory = new PartyFactory();
@@ -240,6 +240,13 @@ namespace RealCity.Util
 			sParty = factory.MakeSParty();
 			lParty = factory.MakeLParty();
 			nParty = factory.MakeNParty();
+			IParty[] ps = new IParty[] {
+				cParty, gParty, sParty, lParty, nParty
+			};
+			// sort ps using p.Id as key
+			// maybe this can help improve performance
+			Array.Sort(ps, ps.Select(p => p.Id).ToArray());
+			Parties = ps;
 		}
 
 		public static void Save(ref byte[] saveData) {
@@ -266,7 +273,7 @@ namespace RealCity.Util
 			SaveAndRestore.SaveData(ref i, nPartySeats, ref saveData);
 
 			//14
-			SaveAndRestore.SaveData(ref i, nextElectionInterval, ref saveData);
+			SaveAndRestore.SaveData(ref i, nextMeetingInterval, ref saveData);
 			SaveAndRestore.SaveData(ref i, case1, ref saveData);
 			SaveAndRestore.SaveData(ref i, case2, ref saveData);
 			SaveAndRestore.SaveData(ref i, case3, ref saveData);
@@ -318,7 +325,7 @@ namespace RealCity.Util
 			SaveAndRestore.LoadData(ref i, saveData, ref lPartySeats);
 			SaveAndRestore.LoadData(ref i, saveData, ref nPartySeats);
 
-			SaveAndRestore.LoadData(ref i, saveData, ref nextElectionInterval);
+			SaveAndRestore.LoadData(ref i, saveData, ref nextMeetingInterval);
 
 			SaveAndRestore.LoadData(ref i, saveData, ref case1);
 			SaveAndRestore.LoadData(ref i, saveData, ref case2);
