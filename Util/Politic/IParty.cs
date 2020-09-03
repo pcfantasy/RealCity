@@ -1,5 +1,4 @@
-﻿using RealCity.CustomData;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RealCity.Util.Politic
 {
@@ -9,6 +8,7 @@ namespace RealCity.Util.Politic
 		Dictionary<IBill, VoteResult> GetBillAttitude();
 		void AddWinChance(ushort val);
 		void ResetWinChance();
+		string Name { get; }
 		ushort WinChance { get; }
 		ushort Ticket { get; }
 		ushort SeatCount { get; }

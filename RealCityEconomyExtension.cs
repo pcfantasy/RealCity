@@ -5,6 +5,7 @@ using RealCity.CustomManager;
 using RealCity.UI;
 using RealCity.Util;
 using RealCity.Util.Politic;
+using System;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -138,17 +139,19 @@ namespace RealCity
 		public void CitizenStatus() {
 			if (Politics.nextMeetingInterval == 0) {
 
-				Election e = new Election(Politics.Parties);
-				
+				Election.NextElection();
 
-				GetSeats();
-				CreateGoverment();
+				Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
+				Government.Instance.UpdateGovType();
+				//GetSeats();
+				//CreateGoverment();
 
 			}
 
 			if ((MainDataStore.updateMoneyCount & 3u) == 0) {
 				if (Politics.nextMeetingInterval != 0) {
-					HoldMeeting();
+					Government.Instance.HoldMeeting();
+					//HoldMeeting();
 				}
 			}
 
@@ -238,6 +241,7 @@ namespace RealCity
 			}
 		}
 
+		[Obsolete("call Government.Instance.HoldMeeting() instead")]
 		public void HoldMeeting() {
 			//int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
 			int temp = Politics.GetAllSeatCount();
@@ -652,7 +656,7 @@ namespace RealCity
 				}
 			}
 		}
-
+		[Obsolete("call Governemt.Instance.UpdateGovType() instead")]
 		public void CreateGoverment() {
 			if (Politics.cPartySeats >= 50) {
 				//c only
@@ -740,49 +744,52 @@ namespace RealCity
 			}
 		}
 
+		[Obsolete("call Government.Instance.UpdateSeats() instead")]
 		/// <summary>
 		/// 更新议会席位数量
 		/// </summary>
 		public void GetSeats() {
-			//总票数
-			//int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
-			int cnt = Politics.GetAllTicket();
-			if (cnt != 0) {
-				Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / cnt);
-				Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / cnt);
-				Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / cnt);
-				Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / cnt);
-				Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / cnt);
-			} else {
-				Politics.cPartySeats = 0;
-				Politics.gPartySeats = 0;
-				Politics.sPartySeats = 0;
-				Politics.lPartySeats = 0;
-				Politics.nPartySeats = 0;
-			}
-			Politics.cPartyTickets = 0;
-			Politics.gPartyTickets = 0;
-			Politics.sPartyTickets = 0;
-			Politics.lPartyTickets = 0;
-			Politics.nPartyTickets = 0;
 
-			//allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			cnt = Politics.GetAllSeatCount();
-			if (cnt < 99) {
-				System.Random rand = new System.Random();
-				switch (rand.Next(5)) {
-					case 0:
-						Politics.cPartySeats += (ushort)(99 - cnt); break;
-					case 1:
-						Politics.gPartySeats += (ushort)(99 - cnt); break;
-					case 2:
-						Politics.sPartySeats += (ushort)(99 - cnt); break;
-					case 3:
-						Politics.lPartySeats += (ushort)(99 - cnt); break;
-					case 4:
-						Politics.nPartySeats += (ushort)(99 - cnt); break;
-				}
-			}
+			Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
+			////总票数
+			////int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
+			//int cnt = Politics.GetAllTicket();
+			//if (cnt != 0) {
+			//	Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / cnt);
+			//	Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / cnt);
+			//	Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / cnt);
+			//	Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / cnt);
+			//	Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / cnt);
+			//} else {
+			//	Politics.cPartySeats = 0;
+			//	Politics.gPartySeats = 0;
+			//	Politics.sPartySeats = 0;
+			//	Politics.lPartySeats = 0;
+			//	Politics.nPartySeats = 0;
+			//}
+			//Politics.cPartyTickets = 0;
+			//Politics.gPartyTickets = 0;
+			//Politics.sPartyTickets = 0;
+			//Politics.lPartyTickets = 0;
+			//Politics.nPartyTickets = 0;
+
+			////allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+			//cnt = Politics.GetAllSeatCount();
+			//if (cnt < 99) {
+			//	System.Random rand = new System.Random();
+			//	switch (rand.Next(5)) {
+			//		case 0:
+			//			Politics.cPartySeats += (ushort)(99 - cnt); break;
+			//		case 1:
+			//			Politics.gPartySeats += (ushort)(99 - cnt); break;
+			//		case 2:
+			//			Politics.sPartySeats += (ushort)(99 - cnt); break;
+			//		case 3:
+			//			Politics.lPartySeats += (ushort)(99 - cnt); break;
+			//		case 4:
+			//			Politics.nPartySeats += (ushort)(99 - cnt); break;
+			//	}
+			//}
 		}
 
 		public static bool Can16timesUpdate(ushort ID) {

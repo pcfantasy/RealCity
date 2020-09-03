@@ -381,7 +381,7 @@ namespace RealCity.Patch
 			if (Politics.IsOnElection()
 				&& Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age))) {
 
-				ElectionVoter voter = new ElectionVoter(citizenID, ref citizen, homeID,);
+				ElectionVoter voter = new ElectionVoter(citizenID, ref citizen, homeID, Election.CurrentElectionInfo);
 
 				Politics.ResetWinChance();
 				Politics.Parties.ForEach(p => {

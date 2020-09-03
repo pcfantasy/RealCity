@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ColossalFramework.UI;
+using System;
+using System.Linq;
 
 namespace RealCity.Util.Politic.ElectionUtil
 {
@@ -22,6 +24,10 @@ namespace RealCity.Util.Politic.ElectionUtil
 				throw new ArgumentException("No party joins in an election.");
 			this.Parties = parties;
 			this.TicketCounter = new int[parties.Length];
+		}
+		public int GetAllTickets() {
+			// possible overflow?
+			return TicketCounter.Sum();
 		}
 	}
 }

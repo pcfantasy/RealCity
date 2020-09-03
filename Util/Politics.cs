@@ -214,6 +214,8 @@ namespace RealCity.Util
 		public static bool case7 = false;
 		public static bool case8 = false;
 
+
+
 		//当前议案Id
 		public static byte currentBillId = 14;
 		//赞成票数

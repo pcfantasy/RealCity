@@ -1,5 +1,4 @@
 ﻿using RealCity.Util.Politic.ElectionUtil;
-using System;
 
 namespace RealCity.Util.Politic
 {
@@ -12,11 +11,11 @@ namespace RealCity.Util.Politic
 		/// <summary>
 		/// 选举信息
 		/// </summary>
-		public static ElectionInfo Info { get; private set; }
+		public static ElectionInfo CurrentElectionInfo { get; private set; }
 
 
 		public static void NextElection() {
-			Info = new ElectionInfo(Parties);
+			CurrentElectionInfo = new ElectionInfo(Parties);
 		}
 
 		/// <summary>

@@ -112,6 +112,8 @@
     <Compile Include="Util\Politic\ElectionUtil\ElectionVoter.cs" />
     <Compile Include="Util\Politic\Government.cs" />
     <Compile Include="Util\Politic\IBill.cs" />
+    <Compile Include="Util\Politic\IGovernment.cs" />
+    <Compile Include="Util\Politic\IVoteRusult.cs" />
     <Compile Include="Util\Politic\PartyFactory.cs" />
     <Compile Include="Util\Politic\ElectionUtil\PartyInterestCalc.cs" />
     <Compile Include="Util\Politic\PartyInterestData.cs" />
@@ -213,7 +215,7 @@
     <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
-    <Compile Include="Util\Politic\Vote.cs" />
+    <Compile Include="Util\Politic\ParliamentalVote.cs" />
     <Compile Include="Util\Politic\VoteResult.cs" />
     <Compile Include="Util\SaveAndRestore.cs" />
     <Compile Include="Util\SpriteUtilities.cs" />
@@ -227,6 +229,7 @@
     <Content Include="Resources\en.txt" />
     <Content Include="Resources\incompatible_mods.txt" />
     <Content Include="Util\Politic\bill-desc.txt" />
+    <Content Include="Util\Politic\gov-desc.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

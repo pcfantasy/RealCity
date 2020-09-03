@@ -1,30 +1,30 @@
 ﻿using ColossalFramework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace RealCity.Util.Politic
 {
 	/// <summary>
 	/// 议会投票
 	/// </summary>
-	public class Vote
+	public class ParliamentalVote
 	{
-		private IBill bill;
 		private IParty[] parties;
 
 
-		public Vote(IBill bill) {
-			this.bill = bill;
+		public IBill Bill { get; }
+		public AbstractVoteResult VoteResult { get; private set; }
+
+		public ParliamentalVote(IParty[] parties, IBill bill) {
+			this.parties = parties;
+			this.Bill = bill;
 		}
 
-		//public Vote(IBill bill):this(bill, Politics.Parties) { }
-		//public Vote(IBill bill, IParty[] parties) { }
+		public void Implement() {
+			this.Bill.Implement();
+		}
 
 
-		public VoteResult Calc() {
+		public AbstractVoteResult Calc() {
 			int agree = default;
 			int disagree = default;
 			int noVote = default;
@@ -44,22 +44,23 @@ namespace RealCity.Util.Politic
 			if (seatCount == 99) {
 				agree += Politics.Parties.Sum(p => {
 					// 
-					return p.GetBillAttitude()[this.bill].Agree;
+					return p.GetBillAttitude()[this.Bill].Agree;
 				});
 				agree += (Politics.Parties.Length * residentTax - moneyOffset - citizenOffset);
 
 				disagree += Politics.Parties.Sum(p => {
-					return p.GetBillAttitude()[this.bill].Disagree;
+					return p.GetBillAttitude()[this.Bill].Disagree;
 				});
 				disagree -= Politics.Parties.Length * residentTax;
 
 				noVote += Politics.Parties.Sum(p => {
-					return p.GetBillAttitude()[this.bill].Neutral;
+					return p.GetBillAttitude()[this.Bill].Neutral;
 				});
 				noVote -= Politics.Parties.Length * residentTax;
 			}
-
-			return new VoteResult(agree, disagree, noVote);
+			AbstractVoteResult result = new VoteResult(agree, disagree, noVote);
+			this.VoteResult = result;
+			return result;
 		}
 
 		private void VoteOffset(ref int idex, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset) {
