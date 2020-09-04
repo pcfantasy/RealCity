@@ -7,7 +7,7 @@ namespace RealCity.Util.Politic
 	/// </summary>
 	public static class Election
 	{
-		private static IParty[] Parties { get; set; }
+		private static IParty[] Parties { get; set; } = Politics.Parties;
 		/// <summary>
 		/// 选举信息
 		/// </summary>

@@ -83,7 +83,7 @@ namespace RealCity.Patch
 						consumptionMoney = 0;
 					}
 
-					CitizenData.Instance.citizenMoney[citizen] = (CitizenData.Instance.citizenMoney[citizen] + consumptionMoney + goodAmount * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+					CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + consumptionMoney + goodAmount * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
 					CitizenUnitData.familyMoney[containingUnit] = CitizenUnitData.familyMoney[containingUnit] + consumptionMoney + goodAmount * RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping);
 				}
 			}

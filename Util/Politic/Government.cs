@@ -11,11 +11,11 @@ namespace RealCity.Util.Politic
 		private const int MinSeatCount = 99;
 		public static IGovernment Instance { get; }
 
-		private IBill currentBill = default;
+		private IBill currentBill = Bills.GetRandomBill();
 
 		public IParty[] Parties { get; private set; }
 		public GovernmentType GovernmentType { get; private set; }
-		public IParty[] RulingParties { get; private set; }
+		//public IParty[] RulingParties { get; private set; }
 		// refer RealCityEconomyExtension.cs
 		public int[] Seats { get; private set; }
 		public int AllSeatCount => this.Seats.Sum();
@@ -74,42 +74,50 @@ namespace RealCity.Util.Politic
 			for (int i = 0; i < this.Seats.Length; i++) {
 				if (this.Seats[i] >= halfSeatCount) {
 					this.GovernmentType = GovernmentType.Single;
-					this.RulingParties = new IParty[] { this.Parties[i] };
+					//this.RulingParties = new IParty[] { this.Parties[i] };
 					isOk = true;
 				}
 			}
-			if (isOk == false) {
-				// bad codes
-				int left, wideLeft, right;
-				left = wideLeft = right = default;
-				for (int i = 0; i < this.Seats.Length; i++) {
-					if (this.Parties[i].Name == "Green" || this.Parties[i].Name == "Socialist") {
-						left += this.Seats[i];
-					} else if (this.Parties[i].Name == "Communist") {
-						wideLeft += this.Seats[i];
-					} else if (this.Parties[i].Name == "Liberal" || this.Parties[i].Name == "National") {
-						right += this.Seats[i];
-					}
+
+			if (isOk)
+				return;
+
+			// bad codes
+			int left, wideLeft, right;
+			left = wideLeft = right = default;
+			for (int i = 0; i < this.Seats.Length; i++) {
+				if (this.Parties[i].Name == "Green" || this.Parties[i].Name == "Socialist") {
+					left += this.Seats[i];
+				} else if (this.Parties[i].Name == "Communist") {
+					wideLeft += this.Seats[i];
+				} else if (this.Parties[i].Name == "Liberal" || this.Parties[i].Name == "National") {
+					right += this.Seats[i];
 				}
-				wideLeft += left;
-				if(left>= halfSeatCount) {
-					this.GovernmentType = GovernmentType.LeftUnion;
-				}else if(wideLeft>= halfSeatCount) {
-					this.GovernmentType = GovernmentType.WideLeftUnion;
-				} else if(right>= halfSeatCount) {
-					this.GovernmentType = GovernmentType.RightUnion;
-				} else {
-					this.GovernmentType = GovernmentType.Grand;
-				}
+			}
+			wideLeft += left;
+			if (left >= halfSeatCount) {
+				this.GovernmentType = GovernmentType.LeftUnion;
+			} else if (wideLeft >= halfSeatCount) {
+				this.GovernmentType = GovernmentType.WideLeftUnion;
+			} else if (right >= halfSeatCount) {
+				this.GovernmentType = GovernmentType.RightUnion;
+			} else {
+				this.GovernmentType = GovernmentType.Grand;
 			}
 		}
-		public ParliamentalVote HoldMeeting() {
-			if(this.currentBill == null) {
-				this.currentBill = Bills.GetRandomBill();
-			}
-			ParliamentalVote v = new ParliamentalVote(this.Parties,Bills.GetAnotherBill(this.currentBill));
+
+		/// <summary>
+		/// Hold a governmental meeting and decide a <see cref="IBill"/> to implement.
+		/// </summary>
+		/// <returns></returns>
+		public IGovernmentalMeeting HoldMeeting() {
+			//if(this.currentBill == null) {
+			//	this.currentBill = Bills.GetRandomBill();
+			//}
+			IGovernmentalMeeting v = new GovernmentalMeeting(this, Bills.GetAnotherBill(this.currentBill));
+			v.Start();
 			if (v.VoteResult.IsApprovable) {
-				v.Implement();
+				v.Bill.Implement();
 			}
 			return v;
 		}
@@ -119,7 +127,7 @@ namespace RealCity.Util.Politic
 		}
 
 		/// <summary>
-		/// 修正Seat数量至MinSeatCount个
+		/// 修正Seat数量至 <see cref="MinSeatCount"/> 个
 		/// </summary>
 		private void FixSeatCount() {
 			int missingCount = MinSeatCount - this.AllSeatCount;

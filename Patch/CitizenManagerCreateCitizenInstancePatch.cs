@@ -28,11 +28,11 @@ namespace RealCity.Patch
 				if (data.m_flags.IsFlagSet(Citizen.Flags.MovingIn)) {
 					//Add initial money
 					if (data.WealthLevel == Citizen.Wealth.Low) {
-						CitizenData.Instance.citizenMoney[citizen] = 2048;
+						CitizenData.citizenMoney[citizen] = 2048;
 					} else if (data.WealthLevel == Citizen.Wealth.Medium) {
-						CitizenData.Instance.citizenMoney[citizen] = 4096;
+						CitizenData.citizenMoney[citizen] = 4096;
 					} else {
-						CitizenData.Instance.citizenMoney[citizen] = 8192;
+						CitizenData.citizenMoney[citizen] = 8192;
 					}
 				}
 			}

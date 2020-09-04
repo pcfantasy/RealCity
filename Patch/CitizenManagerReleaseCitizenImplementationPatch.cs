@@ -12,7 +12,7 @@ namespace RealCity.Patch
 			return typeof(CitizenManager).GetMethod("ReleaseCitizenImplementation", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
 		public static void Postfix(uint citizen) {
-			CitizenData.Instance.citizenMoney[citizen] = 0;
+			CitizenData.citizenMoney[citizen] = 0;
 		}
 	}
 }

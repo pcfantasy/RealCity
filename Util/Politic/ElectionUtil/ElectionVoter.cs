@@ -6,7 +6,7 @@ namespace RealCity.Util.Politic.ElectionUtil
 	/// <summary>
 	/// 选民
 	/// </summary>
-	class ElectionVoter
+	public class ElectionVoter
 	{
 		private const int MaxTrandStrength = 300;
 		//private const int ChanceSum = 800;
@@ -40,22 +40,15 @@ namespace RealCity.Util.Politic.ElectionUtil
 			}
 			this.Chance = new int[this.EleInfo.PartiesCount];
 		}
+		/// <summary>
+		/// Vote to a <see cref="IParty"/> based on its interest.
+		/// </summary>
 		public void VoteTicket() {
-			int i;
-			for (i = 0; i < this.EleInfo.PartiesCount; i++) {
-				this.Interests[i].Calc();
-				this.Chance[i] = this.Interests[i].Val;
-			}
-			// choose a lucky party as trend party
-			this.trandPartyIdx = this.r.Next(this.EleInfo.PartiesCount);
-			this.trendStrength = this.r.Next(MaxTrandStrength);
-			// add its chance
-			this.Chance[trandPartyIdx] += this.trendStrength;
+			CalcChance();
 
 			// It's Roulette Wheel Selection
 			// 大转盘，政党的Chance越大，得票机率就越大
-
-			i = 0;
+			int i = 0;
 			int segment = this.Chance[0];
 			// assert this.Chance.Sum() == 800 ?
 			int vote = this.r.Next(this.Chance.Sum() + this.trendStrength);
@@ -75,6 +68,17 @@ namespace RealCity.Util.Politic.ElectionUtil
 				}
 				segment += this.Chance[0];
 			}
+		}
+		private void CalcChance() {
+			for (int i = 0; i < this.EleInfo.PartiesCount; i++) {
+				this.Interests[i].Calc();
+				this.Chance[i] = this.Interests[i].Val;
+			}
+			// choose a lucky party as trend party
+			this.trandPartyIdx = this.r.Next(this.EleInfo.PartiesCount);
+			this.trendStrength = this.r.Next(MaxTrandStrength);
+			// add its chance
+			this.Chance[trandPartyIdx] += this.trendStrength;
 		}
 	}
 }

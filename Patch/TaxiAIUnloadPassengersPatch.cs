@@ -32,11 +32,11 @@ namespace RealCity.Patch
 							if (expense != 0) {
 								//DebugLog.LogToFileOnly("UnloadPassengers ticketPrice pre = " + num4.ToString());
 								if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) {
-									CitizenData.Instance.citizenMoney[citizen] -= (expense);
+									CitizenData.citizenMoney[citizen] -= (expense);
 								} else {
-									if (CitizenData.Instance.citizenMoney[citizen] < expense) {
-										expense = (CitizenData.Instance.citizenMoney[citizen] > 0) ? (int)CitizenData.Instance.citizenMoney[citizen] + 1 : 1;
-										CitizenData.Instance.citizenMoney[citizen] = (CitizenData.Instance.citizenMoney[citizen] - (expense) - 1);
+									if (CitizenData.citizenMoney[citizen] < expense) {
+										expense = (CitizenData.citizenMoney[citizen] > 0) ? (int)CitizenData.citizenMoney[citizen] + 1 : 1;
+										CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (expense) - 1);
 										MainDataStore.outsideTouristMoney -= (expense + 1);
 									}
 								}

@@ -41,7 +41,7 @@ namespace RealCity.Patch
 						if ((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) {
 							if (citizenData.Dead == false) {
 								RealCityResidentAI.citizenCount++;
-								CitizenUnitData.familyMoney[homeID] += CitizenData.Instance.citizenMoney[m_citizenI];
+								CitizenUnitData.familyMoney[homeID] += CitizenData.citizenMoney[m_citizenI];
 							}
 						}
 					}
@@ -66,7 +66,11 @@ namespace RealCity.Patch
 #if FASTRUN
 #else
 							//add a party.chancce by its citizen data
-							GetVoteChance(m_citizenI, citizenData, homeID);
+							//GetVoteChance(m_citizenI, citizenData, homeID);
+							if (Politics.IsOnElection() && Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizenData.m_age))) {
+								ElectionVoter v = new ElectionVoter(m_citizenI, ref citizenData, homeID, Election.CurrentElectionInfo);
+								v.VoteTicket();
+							}
 #endif
 						}
 					}
@@ -80,7 +84,7 @@ namespace RealCity.Patch
 						if (m_citizenI != 0) {
 							Citizen citizenData = Singleton<CitizenManager>.instance.m_citizens.m_buffer[m_citizenI];
 							if (((citizenData.m_flags & Citizen.Flags.MovingIn) == Citizen.Flags.None) && (citizenData.Dead == false)) {
-								CitizenData.Instance.citizenMoney[m_citizenI] = CitizenUnitData.familyMoney[homeID] / temp;
+								CitizenData.citizenMoney[m_citizenI] = CitizenUnitData.familyMoney[homeID] / temp;
 							}
 						}
 					}
@@ -376,128 +380,119 @@ namespace RealCity.Patch
 			}
 		}
 
+		[Obsolete("It's calculated in ElectionVoter. If wants to vote, call ElectionVoter.VoteTicket() instead.")]
 		public static void GetVoteChance(uint citizenID, Citizen citizen, uint homeID) {
 			//如果即将选举，而且达到投票年龄 if (gonna be election) and (over Voting Age)
 			if (Politics.IsOnElection()
 				&& Politics.IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age))) {
 
-				ElectionVoter voter = new ElectionVoter(citizenID, ref citizen, homeID, Election.CurrentElectionInfo);
-
-				Politics.ResetWinChance();
-				Politics.Parties.ForEach(p => {
-					PartyInterestCalc interestCalc = new PartyInterestCalc(p, ref citizen, citizenID, homeID);
-					interestCalc.Calc();
-					interestCalc.AddPartyWinChance();
-				});
-
-				#region old politics code
 				////重置机率
-				//Politics.cPartyChance = 0;
-				//Politics.gPartyChance = 0;
-				//Politics.sPartyChance = 0;
-				//Politics.lPartyChance = 0;
-				//Politics.nPartyChance = 0;
+				Politics.cPartyChance = 0;
+				Politics.gPartyChance = 0;
+				Politics.sPartyChance = 0;
+				Politics.lPartyChance = 0;
+				Politics.nPartyChance = 0;
 
 
-				//Politics.cPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 0] << 1);
-				//Politics.gPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 1] << 1);
-				//Politics.sPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 2] << 1);
-				//Politics.lPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 3] << 1);
-				//Politics.nPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 4] << 1);
+				Politics.cPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 0] << 1);
+				Politics.gPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 1] << 1);
+				Politics.sPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 2] << 1);
+				Politics.lPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 3] << 1);
+				Politics.nPartyChance += (ushort)(Politics.education[(int)citizen.EducationLevel, 4] << 1);
 
 
-				//int choiceIndex = 14;
-				////根据工作地点决定投票策略
-				//if (RealCityResidentAI.IsGoverment(citizen.m_workBuilding)) {
-				//	choiceIndex = 0;
-				//}
-				//switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_subService) {
-				//	case ItemClass.SubService.CommercialLow:
-				//	case ItemClass.SubService.CommercialHigh:
-				//		if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1) {
-				//			choiceIndex = 1;
-				//		} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2) {
-				//			choiceIndex = 2;
-				//		} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3) {
-				//			choiceIndex = 3;
-				//		}
-				//		break;
-				//	case ItemClass.SubService.CommercialTourist:
-				//	case ItemClass.SubService.CommercialLeisure:
-				//		choiceIndex = 4; break;
-				//	case ItemClass.SubService.CommercialEco:
-				//		choiceIndex = 5; break;
-				//	case ItemClass.SubService.IndustrialGeneric:
-				//		if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1) {
-				//			choiceIndex = 6;
-				//		} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2) {
-				//			choiceIndex = 7;
-				//		} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3) {
-				//			choiceIndex = 8;
-				//		}
-				//		break;
-				//	case ItemClass.SubService.IndustrialFarming:
-				//	case ItemClass.SubService.IndustrialForestry:
-				//	case ItemClass.SubService.IndustrialOil:
-				//	case ItemClass.SubService.IndustrialOre:
-				//		choiceIndex = 9; break;
-				//	case ItemClass.SubService.OfficeGeneric:
-				//		if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1) {
-				//			choiceIndex = 10;
-				//		} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2) {
-				//			choiceIndex = 11;
-				//		} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3) {
-				//			choiceIndex = 12;
-				//		}
-				//		break;
-				//	case ItemClass.SubService.OfficeHightech:
-				//		choiceIndex = 13; break;
-				//}
-				//if (choiceIndex < 0 || choiceIndex > 14) {
-				//	DebugLog.LogToFileOnly($"Error: GetVoteChance workplace idex {choiceIndex}");
-				//}
-				//Politics.cPartyChance += (ushort)(Politics.workplace[choiceIndex, 0] << 1);
-				//Politics.gPartyChance += (ushort)(Politics.workplace[choiceIndex, 1] << 1);
-				//Politics.sPartyChance += (ushort)(Politics.workplace[choiceIndex, 2] << 1);
-				//Politics.lPartyChance += (ushort)(Politics.workplace[choiceIndex, 3] << 1);
-				//Politics.nPartyChance += (ushort)(Politics.workplace[choiceIndex, 4] << 1);
+				int choiceIndex = 14;
+				//根据工作地点决定投票策略
+				if (RealCityResidentAI.IsGoverment(citizen.m_workBuilding)) {
+					choiceIndex = 0;
+				}
+				switch (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_subService) {
+					case ItemClass.SubService.CommercialLow:
+					case ItemClass.SubService.CommercialHigh:
+						if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1) {
+							choiceIndex = 1;
+						} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2) {
+							choiceIndex = 2;
+						} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3) {
+							choiceIndex = 3;
+						}
+						break;
+					case ItemClass.SubService.CommercialTourist:
+					case ItemClass.SubService.CommercialLeisure:
+						choiceIndex = 4; break;
+					case ItemClass.SubService.CommercialEco:
+						choiceIndex = 5; break;
+					case ItemClass.SubService.IndustrialGeneric:
+						if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1) {
+							choiceIndex = 6;
+						} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2) {
+							choiceIndex = 7;
+						} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3) {
+							choiceIndex = 8;
+						}
+						break;
+					case ItemClass.SubService.IndustrialFarming:
+					case ItemClass.SubService.IndustrialForestry:
+					case ItemClass.SubService.IndustrialOil:
+					case ItemClass.SubService.IndustrialOre:
+						choiceIndex = 9; break;
+					case ItemClass.SubService.OfficeGeneric:
+						if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level1) {
+							choiceIndex = 10;
+						} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level2) {
+							choiceIndex = 11;
+						} else if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[citizen.m_workBuilding].Info.m_class.m_level == ItemClass.Level.Level3) {
+							choiceIndex = 12;
+						}
+						break;
+					case ItemClass.SubService.OfficeHightech:
+						choiceIndex = 13; break;
+				}
+				if (choiceIndex < 0 || choiceIndex > 14) {
+					DebugLog.LogToFileOnly($"Error: GetVoteChance workplace idex {choiceIndex}");
+				}
+				Politics.cPartyChance += (ushort)(Politics.workplace[choiceIndex, 0] << 1);
+				Politics.gPartyChance += (ushort)(Politics.workplace[choiceIndex, 1] << 1);
+				Politics.sPartyChance += (ushort)(Politics.workplace[choiceIndex, 2] << 1);
+				Politics.lPartyChance += (ushort)(Politics.workplace[choiceIndex, 3] << 1);
+				Politics.nPartyChance += (ushort)(Politics.workplace[choiceIndex, 4] << 1);
 
 
-				//if (CitizenUnitData.familyMoney[homeID] < 5000) {
-				//	choiceIndex = 0;
-				//} else if (CitizenUnitData.familyMoney[homeID] >= 20000) {
-				//	choiceIndex = 2;
-				//} else {
-				//	choiceIndex = 1;
-				//}
-				//if (choiceIndex < 0 || choiceIndex > 3) {
-				//	DebugLog.LogToFileOnly($"Error: GetVoteChance Invaid money idex = {choiceIndex}");
-				//}
-				//Politics.cPartyChance += (ushort)(Politics.money[choiceIndex, 0] << 1);
-				//Politics.gPartyChance += (ushort)(Politics.money[choiceIndex, 1] << 1);
-				//Politics.sPartyChance += (ushort)(Politics.money[choiceIndex, 2] << 1);
-				//Politics.lPartyChance += (ushort)(Politics.money[choiceIndex, 3] << 1);
-				//Politics.nPartyChance += (ushort)(Politics.money[choiceIndex, 4] << 1);
+				if (CitizenUnitData.familyMoney[homeID] < 5000) {
+					choiceIndex = 0;
+				} else if (CitizenUnitData.familyMoney[homeID] >= 20000) {
+					choiceIndex = 2;
+				} else {
+					choiceIndex = 1;
+				}
+				if (choiceIndex < 0 || choiceIndex > 3) {
+					DebugLog.LogToFileOnly($"Error: GetVoteChance Invaid money idex = {choiceIndex}");
+				}
+				Politics.cPartyChance += (ushort)(Politics.money[choiceIndex, 0] << 1);
+				Politics.gPartyChance += (ushort)(Politics.money[choiceIndex, 1] << 1);
+				Politics.sPartyChance += (ushort)(Politics.money[choiceIndex, 2] << 1);
+				Politics.lPartyChance += (ushort)(Politics.money[choiceIndex, 3] << 1);
+				Politics.nPartyChance += (ushort)(Politics.money[choiceIndex, 4] << 1);
 
 
-				//int temp = (int)Citizen.GetAgeGroup(citizen.m_age) - 2;
-				//if (temp < 0) {
-				//	DebugLog.LogToFileOnly($"Error: GetVoteChance temp = {temp} < 0, GetAgeGroup = {Citizen.GetAgeGroup(citizen.m_age)}");
-				//}
-				//Politics.cPartyChance += Politics.age[temp, 0];
-				//Politics.gPartyChance += Politics.age[temp, 1];
-				//Politics.sPartyChance += Politics.age[temp, 2];
-				//Politics.lPartyChance += Politics.age[temp, 3];
-				//Politics.nPartyChance += Politics.age[temp, 4];
+				int temp = (int)Citizen.GetAgeGroup(citizen.m_age) - 2;
+				if (temp < 0) {
+					DebugLog.LogToFileOnly($"Error: GetVoteChance temp = {temp} < 0, GetAgeGroup = {Citizen.GetAgeGroup(citizen.m_age)}");
+				}
+				Politics.cPartyChance += Politics.age[temp, 0];
+				Politics.gPartyChance += Politics.age[temp, 1];
+				Politics.sPartyChance += Politics.age[temp, 2];
+				Politics.lPartyChance += Politics.age[temp, 3];
+				Politics.nPartyChance += Politics.age[temp, 4];
 
 
-				//temp = (int)Citizen.GetGender(citizenID);
-				//Politics.cPartyChance += Politics.gender[temp, 0];
-				//Politics.gPartyChance += Politics.gender[temp, 1];
-				//Politics.sPartyChance += Politics.gender[temp, 2];
-				//Politics.lPartyChance += Politics.gender[temp, 3];
-				//Politics.nPartyChance += Politics.gender[temp, 4];
-				#endregion
+				temp = (int)Citizen.GetGender(citizenID);
+				Politics.cPartyChance += Politics.gender[temp, 0];
+				Politics.gPartyChance += Politics.gender[temp, 1];
+				Politics.sPartyChance += Politics.gender[temp, 2];
+				Politics.lPartyChance += Politics.gender[temp, 3];
+				Politics.nPartyChance += Politics.gender[temp, 4];
+
 
 				if (RealCityEconomyExtension.partyTrend == 0) {
 					Politics.cPartyChance += RealCityEconomyExtension.partyTrendStrength;
@@ -516,6 +511,7 @@ namespace RealCity.Patch
 			}
 		}
 
+		[Obsolete("Call ElectionVoter.VoteTicket() instead.")]
 		public static void GetVoteTickets() {
 			System.Random rand = new System.Random();
 			//魔数800参见PartyInterestCalc.GetFromEducationLevel()中的注释

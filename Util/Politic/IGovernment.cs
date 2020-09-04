@@ -8,10 +8,10 @@ namespace RealCity.Util.Politic
 		int AllSeatCount { get; }
 		IParty[] Parties { get; }
 		GovernmentType GovernmentType { get; }
-		IParty[] RulingParties { get; }
+		//IParty[] RulingParties { get; }
 		void UpdateSeats(ElectionInfo info);
 		void UpdateGovType();
-		ParliamentalVote HoldMeeting();
+		IGovernmentalMeeting HoldMeeting();
 	}
 	public enum GovernmentType
 	{

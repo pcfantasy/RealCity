@@ -16,7 +16,7 @@ namespace RealCity.Patch
 		}
 		public static void Postfix(uint citizenID, ref Citizen data) {
 			if (!data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic)) {
-				if (CitizenData.Instance.citizenMoney[citizenID] < 100) {
+				if (CitizenData.citizenMoney[citizenID] < 100) {
 					FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
 				}
 			}

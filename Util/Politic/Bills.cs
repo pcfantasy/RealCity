@@ -20,8 +20,6 @@ namespace RealCity.Util.Politic
 		public readonly static IBill ReduceBenefit = new ReduceBenefitBill(10);
 
 
-		//这里需要null object吗 ？
-
 		private readonly static IBill[] AllBills = {
 			RiseResidentTax,
 			ReduceResidentTax,
@@ -33,17 +31,6 @@ namespace RealCity.Util.Politic
 			ReduceBenefit,
 			// must pair the Rise and Reduce bills,
 			// which is NOT elegant
-		};
-
-		private readonly static string[] AllBillsNameStr = {
-			nameof(RiseResidentTax),
-			nameof(ReduceResidentTax),
-			nameof(RiseCommercialTax),
-			nameof(ReduceCommercialTax),
-			nameof(RiseIndustryTax),
-			nameof(ReduceIndustryTax),
-			nameof(RiseBenefit),
-			nameof(ReduceBenefit),
 		};
 
 		public static IBill GetRandomBill() {

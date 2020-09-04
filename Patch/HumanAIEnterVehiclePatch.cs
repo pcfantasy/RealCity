@@ -28,13 +28,13 @@ namespace RealCity.Patch
 						// NON-STOCK CODE START
 						CitizenManager citizenManager = Singleton<CitizenManager>.instance;
 						if ((citizenManager.m_citizens.m_buffer[citizenData.m_citizen].m_flags & Citizen.Flags.Tourist) == Citizen.Flags.None) {
-							CitizenData.Instance.citizenMoney[citizen] = (CitizenData.Instance.citizenMoney[citizen] - (ticketPrice));
+							CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (ticketPrice));
 						} else {
-							if (CitizenData.Instance.citizenMoney[citizen] < ticketPrice) {
-								ticketPrice = (CitizenData.Instance.citizenMoney[citizen] > 0) ? (int)CitizenData.Instance.citizenMoney[citizen] + 1 : 1;
-								CitizenData.Instance.citizenMoney[citizen] = (CitizenData.Instance.citizenMoney[citizen] - ticketPrice);
+							if (CitizenData.citizenMoney[citizen] < ticketPrice) {
+								ticketPrice = (CitizenData.citizenMoney[citizen] > 0) ? (int)CitizenData.citizenMoney[citizen] + 1 : 1;
+								CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPrice);
 							} else {
-								CitizenData.Instance.citizenMoney[citizen] = (CitizenData.Instance.citizenMoney[citizen] - (ticketPrice));
+								CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (ticketPrice));
 							}
 							MainDataStore.outsideTouristMoney -= ticketPrice;
 						}

@@ -6,6 +6,14 @@
 	public class VoteResult : AbstractVoteResult
 	{
 		public override bool IsApprovable => this.Agree >= (this.Sum >> 1);
+
+		/// <summary>
+		/// 投票结果
+		/// </summary>
+		public VoteResult()
+			: base() {
+
+		}
 		/// <summary>
 		/// 投票结果
 		/// </summary>

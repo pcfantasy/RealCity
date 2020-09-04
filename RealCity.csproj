@@ -95,7 +95,6 @@
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
     <Compile Include="CustomData\ICustomGameData.cs" />
     <Compile Include="Util\ArrayExtension.cs" />
-    <Compile Include="Util\CustomGameDataFactory.cs" />
     <Compile Include="Util\ObjectPrivateDataExtension.cs" />
     <Compile Include="Util\Politic\AbstractBill.cs" />
     <Compile Include="Util\Politic\Bills.cs" />
@@ -113,7 +112,8 @@
     <Compile Include="Util\Politic\Government.cs" />
     <Compile Include="Util\Politic\IBill.cs" />
     <Compile Include="Util\Politic\IGovernment.cs" />
-    <Compile Include="Util\Politic\IVoteRusult.cs" />
+    <Compile Include="Util\Politic\AbstractVoteResult.cs" />
+    <Compile Include="Util\Politic\IGovernmentalMeeting.cs" />
     <Compile Include="Util\Politic\PartyFactory.cs" />
     <Compile Include="Util\Politic\ElectionUtil\PartyInterestCalc.cs" />
     <Compile Include="Util\Politic\PartyInterestData.cs" />
@@ -215,7 +215,7 @@
     <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
-    <Compile Include="Util\Politic\ParliamentalVote.cs" />
+    <Compile Include="Util\Politic\GovernmentalMeeting.cs" />
     <Compile Include="Util\Politic\VoteResult.cs" />
     <Compile Include="Util\SaveAndRestore.cs" />
     <Compile Include="Util\SpriteUtilities.cs" />

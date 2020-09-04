@@ -14,8 +14,8 @@ namespace RealCity
 {
 	public class RealCityEconomyExtension : EconomyExtensionBase
 	{
-		public static byte partyTrend => 0;
-		public static ushort partyTrendStrength => 0;
+		public static byte partyTrend = 0;
+		public static ushort partyTrendStrength = 0;
 		public static ushort industrialLackMoneyCount = 0;
 		public static ushort industrialEarnMoneyCount = 0;
 		public static ushort commercialLackMoneyCount = 0;
@@ -133,9 +133,6 @@ namespace RealCity
 			}
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public void CitizenStatus() {
 			if (Politics.nextMeetingInterval == 0) {
 
@@ -151,6 +148,7 @@ namespace RealCity
 			if ((MainDataStore.updateMoneyCount & 3u) == 0) {
 				if (Politics.nextMeetingInterval != 0) {
 					Government.Instance.HoldMeeting();
+					ClearBuildingStats();
 					//HoldMeeting();
 				}
 			}
@@ -271,8 +269,17 @@ namespace RealCity
 			}
 		}
 
+		/*
+		 * MoneyOffset = -4000 + EconomyManager.instance.m_cashAmount / 3000, [-4000, 4000]
+		 * citizenOffset = 1000 - 5 * citizenOffsetBySalary， [-500, 500]
+		 *							citizenOffsetBySalary是家庭工资减去赋税和开销的值
+		 * 
+		 * 
+		 */
+
+		[Obsolete]
 		public void VoteOffset(ref int idex, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset) {
-			//MoneyOffset;
+			//MoneyOffset
 			MoneyOffset = 0;
 			FieldInfo cashAmount;
 			cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -280,19 +287,20 @@ namespace RealCity
 			if (_cashAmount < 0) {
 				MoneyOffset = -4000;
 				System.Random rand = new System.Random();
+				// 80% chance to change a bill
 				if (rand.Next(10) < 8) {
 					switch (rand.Next(15)) {
 						case 0:
 						case 1:
 						case 2:
 							if (Politics.residentTax < 20) {
-								idex = 0;
+								idex = 0; // rise resi
 							} else if (Politics.benefitOffset > 0) {
-								idex = 3;
+								idex = 3; // rise bene
 							} else if (Politics.industryTax < 20) {
-								idex = 6;
+								idex = 6; // rise indu
 							} else if (Politics.commercialTax < 20) {
-								idex = 4;
+								idex = 4; // rise comm
 							}
 							break;
 						case 3:
@@ -352,18 +360,20 @@ namespace RealCity
 					}
 				}
 				Politics.currentBillId = (byte)idex;
-			} else if (_cashAmount > 24000000) {
+			} else if (_cashAmount > 24000000) { // 2.4e7
 				MoneyOffset = 4000;
 			} else {
 				MoneyOffset = -4000 + (int)(_cashAmount / 3000);
 			}
 
+
 			//citizenOffset
 			int citizenOffsetBySalary = 0;
 			if (MainDataStore.familyCount > 0) {
+				//citizenOffsetBySalary is the salary of its family excluding the tax and expense.
+				//citizenOffsetBySalary是家庭工资减去赋税和开销的值
 				citizenOffsetBySalary = (int)(MainDataStore.citizenSalaryPerFamily - (MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount) - MainDataStore.citizenExpensePerFamily);
 			}
-
 			if (citizenOffsetBySalary < 100) {
 				citizenOffset = 500;
 			} else if (citizenOffsetBySalary > 300) {
@@ -372,10 +382,15 @@ namespace RealCity
 				citizenOffset = 1000 - 5 * citizenOffsetBySalary;
 			}
 
+
 			//buildingOffset
 			buildingOffset = 0;
+			// if have industrial buildings
 			if (industrialEarnMoneyCount + industrialLackMoneyCount > 0) {
-				buildingOffset = ((int)(100f * (industrialEarnMoneyCount - industrialLackMoneyCount) / (industrialEarnMoneyCount + industrialLackMoneyCount))) << 4;
+				buildingOffset = (
+					(int)(100f * (industrialEarnMoneyCount - industrialLackMoneyCount) 
+					/ (industrialEarnMoneyCount + industrialLackMoneyCount))
+					) << 4;
 				if (buildingOffset > 1500) {
 					buildingOffset = 1500;
 				}
@@ -386,6 +401,7 @@ namespace RealCity
 			}
 
 			commBuildingOffset = 0;
+			// if have commercial buildings
 			if (commercialEarnMoneyCount + commercialLackMoneyCount > 0) {
 				commBuildingOffset = ((int)(100f * (commercialEarnMoneyCount - commercialLackMoneyCount) / (commercialEarnMoneyCount + commercialLackMoneyCount))) << 4;
 				if (commBuildingOffset > 1500) {
@@ -397,15 +413,12 @@ namespace RealCity
 				}
 			}
 
-			industrialEarnMoneyCount = 0;
-			industrialLackMoneyCount = 0;
-			commercialEarnMoneyCount = 0;
-			commercialLackMoneyCount = 0;
+			ClearBuildingStats();
 		}
-
+	
+		[Obsolete]
 		public void VoteResult(int billId) {
-			//int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			int seatCount = Politics.GetAllSeatCount();
+			int seatCount = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
 			int yes = 0;
 			int no = 0;
 			int noAttend = 0;
@@ -419,29 +432,10 @@ namespace RealCity
 			int commercialBuildingOffset = 0; //commercial building offset
 			VoteOffset(ref billId, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
 
-			IBill bill = default;
-
-			if (seatCount == 99) {
-				yes += Politics.Parties.Sum(p => {
-					// 
-					return p.GetBillAttitude()[bill].Agree;
-				});
-				yes += (Politics.Parties.Length * residentTax - moneyOffset  -citizenOffset);
-
-				no += Politics.Parties.Sum(p => {
-					return p.GetBillAttitude()[bill].Disagree;
-				});
-				no -= Politics.Parties.Length * residentTax;
-
-				noAttend += Politics.Parties.Sum(p => {
-					return p.GetBillAttitude()[bill].Neutral;
-				});
-				noAttend -= Politics.Parties.Length * residentTax;
-			}
-
 			if (seatCount == 99) {
 				switch (billId) {
 					case 0:
+						//提高居民税，受到当前税率、政府资金、居民工资的制约
 						yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + residentTax);
 						yes += Politics.gPartySeats * (Politics.riseSalaryTax[1, 0] + residentTax);
 						yes += Politics.sPartySeats * (Politics.riseSalaryTax[2, 0] + residentTax);
@@ -656,6 +650,7 @@ namespace RealCity
 				}
 			}
 		}
+	
 		[Obsolete("call Governemt.Instance.UpdateGovType() instead")]
 		public void CreateGoverment() {
 			if (Politics.cPartySeats >= 50) {
@@ -744,52 +739,51 @@ namespace RealCity
 			}
 		}
 
-		[Obsolete("call Government.Instance.UpdateSeats() instead")]
+		[Obsolete("Call Government.UpdateSeats() instead.")]
 		/// <summary>
 		/// 更新议会席位数量
 		/// </summary>
 		public void GetSeats() {
+			//Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
+			//总票数
+			//int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
+			int cnt = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
+			if (cnt != 0) {
+				Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / cnt);
+				Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / cnt);
+				Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / cnt);
+				Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / cnt);
+				Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / cnt);
+			} else {
+				Politics.cPartySeats = 0;
+				Politics.gPartySeats = 0;
+				Politics.sPartySeats = 0;
+				Politics.lPartySeats = 0;
+				Politics.nPartySeats = 0;
+			}
+			Politics.cPartyTickets = 0;
+			Politics.gPartyTickets = 0;
+			Politics.sPartyTickets = 0;
+			Politics.lPartyTickets = 0;
+			Politics.nPartyTickets = 0;
 
-			Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
-			////总票数
-			////int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
-			//int cnt = Politics.GetAllTicket();
-			//if (cnt != 0) {
-			//	Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / cnt);
-			//	Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / cnt);
-			//	Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / cnt);
-			//	Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / cnt);
-			//	Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / cnt);
-			//} else {
-			//	Politics.cPartySeats = 0;
-			//	Politics.gPartySeats = 0;
-			//	Politics.sPartySeats = 0;
-			//	Politics.lPartySeats = 0;
-			//	Politics.nPartySeats = 0;
-			//}
-			//Politics.cPartyTickets = 0;
-			//Politics.gPartyTickets = 0;
-			//Politics.sPartyTickets = 0;
-			//Politics.lPartyTickets = 0;
-			//Politics.nPartyTickets = 0;
-
-			////allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			//cnt = Politics.GetAllSeatCount();
-			//if (cnt < 99) {
-			//	System.Random rand = new System.Random();
-			//	switch (rand.Next(5)) {
-			//		case 0:
-			//			Politics.cPartySeats += (ushort)(99 - cnt); break;
-			//		case 1:
-			//			Politics.gPartySeats += (ushort)(99 - cnt); break;
-			//		case 2:
-			//			Politics.sPartySeats += (ushort)(99 - cnt); break;
-			//		case 3:
-			//			Politics.lPartySeats += (ushort)(99 - cnt); break;
-			//		case 4:
-			//			Politics.nPartySeats += (ushort)(99 - cnt); break;
-			//	}
-			//}
+			//allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
+			cnt = Politics.GetAllSeatCount();
+			if (cnt < 99) {
+				System.Random rand = new System.Random();
+				switch (rand.Next(5)) {
+					case 0:
+						Politics.cPartySeats += (ushort)(99 - cnt); break;
+					case 1:
+						Politics.gPartySeats += (ushort)(99 - cnt); break;
+					case 2:
+						Politics.sPartySeats += (ushort)(99 - cnt); break;
+					case 3:
+						Politics.lPartySeats += (ushort)(99 - cnt); break;
+					case 4:
+						Politics.nPartySeats += (ushort)(99 - cnt); break;
+				}
+			}
 		}
 
 		public static bool Can16timesUpdate(ushort ID) {
@@ -799,6 +793,18 @@ namespace RealCity
 				return true;
 			}
 			return false;
+		}
+		/// <summary>
+		/// Set <see cref="industrialEarnMoneyCount"/>, 
+		/// <see cref="industrialLackMoneyCount"/>, 
+		/// <see cref="commercialEarnMoneyCount"/>, 
+		/// <see cref="commercialLackMoneyCount"/> to 0.
+		/// </summary>
+		public static void ClearBuildingStats() {
+			industrialEarnMoneyCount = default;
+			industrialLackMoneyCount = default;
+			commercialEarnMoneyCount = default;
+			commercialLackMoneyCount = default;
 		}
 	}
 }

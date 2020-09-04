@@ -33,7 +33,7 @@ namespace RealCity.Patch
 							if (!IsOutSide(citizenManager.m_instances.m_buffer[instanceID].GetLastFramePosition())) {
 								MainDataStore.totalCitizenDrivingTime += VehicleData.vehicleTransferTime[vehicleID];
 								if (vehicleData.m_citizenUnits != 0) {
-									CitizenData.Instance.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
+									CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
 								}
 							} else {
 								MainDataStore.outsideTouristMoney -= VehicleData.vehicleTransferTime[vehicleID];

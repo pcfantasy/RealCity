@@ -49,7 +49,7 @@ namespace RealCity.Patch
 						goodAmount = 0;
 					}
 
-					CitizenData.Instance.citizenMoney[citizen] = (CitizenData.Instance.citizenMoney[citizen] + goodAmount * m_goodsSellPrice);
+					CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] + goodAmount * m_goodsSellPrice);
 					CitizenUnitData.familyMoney[containingUnit] = CitizenUnitData.familyMoney[containingUnit] + goodAmount * m_goodsSellPrice;
 				}
 			}

@@ -1,8 +1,4 @@
-﻿using RealCity.CustomData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RealCity.Util.Politic
 {
@@ -12,12 +8,12 @@ namespace RealCity.Util.Politic
 	public class Party : IParty
 	{
 		private PartyInterestData interestData;
-		private Dictionary<IBill, VoteResult> billAttitude;
 		public string Name { get; }
 		public ushort WinChance { get; private set; } = default;
 		public ushort Ticket { get; } = default;
 		public ushort SeatCount { get; } = default;
 		public ushort Id { get; }
+		public IDictionary<IBill,AbstractVoteResult> BillAttitude { get; }
 
 		/// <summary>
 		/// 政党
@@ -26,19 +22,15 @@ namespace RealCity.Util.Politic
 		/// <param name="id">Id</param>
 		/// <param name="interestData">民众对政党的兴趣度</param>
 		/// <param name="billAttitude">政党对政策的态度</param>
-		public Party(string name, ushort id,PartyInterestData interestData, Dictionary<IBill, VoteResult> billAttitude) {
+		public Party(string name, ushort id, PartyInterestData interestData, Dictionary<IBill, AbstractVoteResult> billAttitude) {
 			this.Name = name;
 			this.Id = id;
 			this.interestData = interestData;
-			this.billAttitude = billAttitude;
+			this.BillAttitude = billAttitude;
 		}
 
 		public PartyInterestData GetPartyInterestData() {
 			return this.interestData;
-		}
-
-		public Dictionary<IBill, VoteResult> GetBillAttitude() {
-			return this.billAttitude;
 		}
 
 		public void AddWinChance(ushort val) {

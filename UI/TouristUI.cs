@@ -46,10 +46,10 @@ namespace RealCity.UI
 		}
 
 		private void RefreshDisplayData() {
-			if (refeshOnce || (CitizenData.Instance.lastCitizenID != WorldInfoPanel.GetCurrentInstanceID().Citizen)) {
+			if (refeshOnce || (CitizenData.lastCitizenID != WorldInfoPanel.GetCurrentInstanceID().Citizen)) {
 				if (isVisible) {
-					CitizenData.Instance.lastCitizenID = WorldInfoPanel.GetCurrentInstanceID().Citizen;
-					TouristMoney.text = string.Format(Localization.Get("TOURIST_MONEY") + " [{0}]", CitizenData.Instance.citizenMoney[CitizenData.Instance.lastCitizenID]);
+					CitizenData.lastCitizenID = WorldInfoPanel.GetCurrentInstanceID().Citizen;
+					TouristMoney.text = string.Format(Localization.Get("TOURIST_MONEY") + " [{0}]", CitizenData.citizenMoney[CitizenData.lastCitizenID]);
 					refeshOnce = false;
 				}
 			}
