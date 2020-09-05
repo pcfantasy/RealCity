@@ -1,5 +1,4 @@
-﻿using ColossalFramework.UI;
-using System;
+﻿using System;
 using System.Linq;
 
 namespace RealCity.Util.Politic.ElectionUtil
@@ -26,7 +25,6 @@ namespace RealCity.Util.Politic.ElectionUtil
 			this.TicketCounter = new int[parties.Length];
 		}
 		public int GetAllTickets() {
-			// possible overflow?
 			return TicketCounter.Sum();
 		}
 	}

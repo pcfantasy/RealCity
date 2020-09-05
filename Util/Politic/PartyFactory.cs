@@ -35,8 +35,9 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
-				"Communist",
+				"COMMUNIST",
 				this.NextPartyId++,
+				PartyType.Communist,
 				new PartyInterestData(
 					new byte[4] { 30, 20, 10, 5 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
@@ -70,8 +71,9 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
-				"Green",
+				"GREEN",
 				this.NextPartyId++,
+				PartyType.Green,
 				new PartyInterestData(
 					new byte[4] { 0, 10, 20, 25 },
 					new byte[15] { 0, 20, 10, 15, 20, 30, 10, 0, 5, 10, 5, 30, 35, 40, 50, },
@@ -105,8 +107,9 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
-				"Socialist",
+				"SOCIALIST",
 				this.NextPartyId++,
+				PartyType.Socialist,
 				new PartyInterestData(
 					new byte[4] { 10, 25, 30, 40 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
@@ -140,8 +143,9 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
-				"Liberal",
+				"LIBERAL",
 				this.NextPartyId++,
+				PartyType.Liberal,
 				new PartyInterestData(
 					new byte[4] { 10, 20, 30, 25 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },
@@ -175,8 +179,9 @@ namespace RealCity.Util.Politic
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceBenefitOffset);
 
 			IParty party = new Party(
-				"National",
+				"NATIONAL",
 				this.NextPartyId++,
+				PartyType.National,
 				new PartyInterestData(
 					new byte[4] { 50, 25, 10, 5 },
 					new byte[15] { 35, 0, 20, 10, 0, 0, 35, 50, 30, 15, 25, 10, 5, 0, 0, },

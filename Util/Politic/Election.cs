@@ -8,18 +8,18 @@ namespace RealCity.Util.Politic
 	public static class Election
 	{
 		private static IParty[] Parties { get; set; } = Politics.Parties;
+
 		/// <summary>
 		/// 选举信息
 		/// </summary>
-		public static ElectionInfo CurrentElectionInfo { get; private set; };
-
+		public static ElectionInfo CurrentElectionInfo { get; private set; }
 
 		public static void NextElection() {
 			CurrentElectionInfo = new ElectionInfo(Parties);
 		}
 
 		/// <summary>
-		/// 是否即将选举
+		/// Is on election?
 		/// </summary>
 		/// <returns></returns>
 		public static bool IsOnElection() {

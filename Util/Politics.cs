@@ -1,8 +1,6 @@
 ﻿using ColossalFramework;
-using ColossalFramework.UI;
 using RealCity.Util.Politic;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace RealCity.Util
@@ -22,6 +20,22 @@ namespace RealCity.Util
 		private static IParty nParty;
 
 		public static IParty[] Parties;
+		public static bool CanRiseResidentTax => residentTax < MaxTaxValue;
+		public static bool CanReduceResidentTax => residentTax > MinTaxValue;
+		public static bool CanRiseCommercialTax => commercialTax < MaxTaxValue;
+		public static bool CanReduceCommercialTax => commercialTax > MinTaxValue;
+		public static bool CanRiseIndustryTax => industryTax < MaxTaxValue;
+		public static bool CanReduceIndustryTax => industryTax > MinTaxValue;
+		public static bool CanRiseBenefit => benefitOffset < MaxBenefitValue;
+		public static bool CanReduceBenefit => benefitOffset > MinBenefitValue;
+
+		public static IParty[] FindPartiesByType(PartyType type) {
+			var q =
+				from p in Parties
+				where p.PartyType == type
+				select p;
+			return q.ToArray();
+		}
 
 		public static bool IsOnElection() {
 			return nextMeetingInterval == 1;
@@ -33,7 +47,6 @@ namespace RealCity.Util
 		/// <param name="age"></param>
 		/// <returns></returns>
 		public static bool IsOverVotingAge(Citizen.AgeGroup age) {
-			//这地方不一定能解耦合...政治就是和人相关的嘛...
 			return age >= VotingAge;
 		}
 
@@ -46,14 +59,6 @@ namespace RealCity.Util
 			return IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age));
 		}
 
-		public static bool CanRiseResidentTax => residentTax < MaxTaxValue;
-		public static bool CanReduceResidentTax => residentTax > MinTaxValue;
-		public static bool CanRiseCommercialTax => commercialTax < MaxTaxValue;
-		public static bool CanReduceCommercialTax => commercialTax > MinTaxValue;
-		public static bool CanRiseIndustryTax => industryTax < MaxTaxValue;
-		public static bool CanReduceIndustryTax => industryTax > MinTaxValue;
-		public static bool CanRiseBenefit => benefitOffset < MaxBenefitValue;
-		public static bool CanReduceBenefit => benefitOffset > MinBenefitValue;
 
 		//学历对选举投票的影响因子
 		public static byte[,] education = { {30,  0, 10, 10, 50},
@@ -239,6 +244,7 @@ namespace RealCity.Util
 			Array.Sort(ps, ps.Select(p => p.Id).ToArray());
 			Parties = ps;
 
+			Government.Start();
 			Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
 
 		}

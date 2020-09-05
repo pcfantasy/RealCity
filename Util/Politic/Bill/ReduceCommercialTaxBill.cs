@@ -2,10 +2,13 @@
 {
 	public class ReduceCommercialTaxBill : AbstractBill
 	{
+		public override string Name => "FALL_COMMERIAL_TAX";
+
 		public ReduceCommercialTaxBill(int val)
 			: base(val) {
 
 		}
+
 		public override void Implement() {
 			Politics.commercialTax -= base.effectVal;
 		}

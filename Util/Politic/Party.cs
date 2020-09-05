@@ -13,7 +13,8 @@ namespace RealCity.Util.Politic
 		public ushort Ticket { get; } = default;
 		public ushort SeatCount { get; } = default;
 		public ushort Id { get; }
-		public IDictionary<IBill,AbstractVoteResult> BillAttitudes { get; }
+		public PartyType PartyType { get; }
+		public IDictionary<IBill, AbstractVoteResult> BillAttitudes { get; }
 
 		/// <summary>
 		/// 政党
@@ -22,9 +23,10 @@ namespace RealCity.Util.Politic
 		/// <param name="id">Id</param>
 		/// <param name="interestData">民众对政党的兴趣度</param>
 		/// <param name="billAttitude">政党对政策的态度</param>
-		public Party(string name, ushort id, PartyInterestData interestData, Dictionary<IBill, AbstractVoteResult> billAttitude) {
+		public Party(string name, ushort id, PartyType type, PartyInterestData interestData, Dictionary<IBill, AbstractVoteResult> billAttitude) {
 			this.Name = name;
 			this.Id = id;
+			this.PartyType = type;
 			this.interestData = interestData;
 			this.BillAttitudes = billAttitude;
 		}
@@ -45,7 +47,12 @@ namespace RealCity.Util.Politic
 			if (this.BillAttitudes.ContainsKey(bill)) {
 				return this.BillAttitudes[bill];
 			}
+			// dont wanna Party know VoteResult...
 			return null;
+		}
+
+		public override string ToString() {
+			return Localization.Get(this.PartyType.ToString("G").ToUpper());
 		}
 	}
 }

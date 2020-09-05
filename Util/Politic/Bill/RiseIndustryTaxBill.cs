@@ -5,10 +5,13 @@ namespace RealCity.Util.Politic.Bill
 {
 	public class RiseIndustryTaxBill : AbstractBill
 	{
+		public override string Name => "RISE_INDUSTRIAL_TAX";
+
 		public RiseIndustryTaxBill(int val)
 			: base(val) {
 
 		}
+
 		public override void Implement() {
 			Politics.industryTax += base.effectVal;
 		}

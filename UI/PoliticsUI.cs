@@ -2,6 +2,8 @@
 using ColossalFramework.UI;
 using UnityEngine;
 using RealCity.Util;
+using RealCity.Util.Politic;
+using System.Text;
 
 namespace RealCity.UI
 {
@@ -17,11 +19,12 @@ namespace RealCity.UI
 		private UIButton m_closeButton;
 		private UILabel m_title;
 		private UILabel parliamentSeats;
-		private UILabel communist;
+		private UILabel communist { get; set; }
 		private UILabel green;
 		private UILabel socialist;
 		private UILabel liberal;
 		private UILabel national;
+		private UILabel[] parties;
 		private UILabel goverment;
 		private UILabel nextVote;
 		private UILabel currentMeetingItem;
@@ -78,34 +81,46 @@ namespace RealCity.UI
 			parliamentSeats.relativePosition = new Vector3(SPACING, 50f);
 			parliamentSeats.autoSize = true;
 
-			communist = AddUIComponent<UILabel>();
-			communist.text = Localization.Get("COMMUNIST");
-			communist.relativePosition = new Vector3(SPACING, parliamentSeats.relativePosition.y + SPACING22);
-			communist.autoSize = true;
+			this.parties = new UILabel[Politics.Parties.Length];
+			var posX = SPACING;
+			var posY = parliamentSeats.relativePosition.y + SPACING22;
+			for (int i = 0; i < this.parties.Length; i++) {
+				this.parties[i] = AddUIComponent<UILabel>();
+				this.parties[i].text = Localization.Get(Politics.Parties[0].PartyType.ToString("G").ToUpper());
+				this.parties[i].relativePosition = new Vector3(posX, posY);
+				this.parties[i].autoSize = true;
+				posX += 160f;
+				//posY = this.parties[i].relativePosition.y;
+			}
 
-			green = AddUIComponent<UILabel>();
-			green.text = Localization.Get("GREEN");
-			green.relativePosition = new Vector3(communist.relativePosition.x + 160f, communist.relativePosition.y);
-			green.autoSize = true;
+			//communist = AddUIComponent<UILabel>();
+			//communist.text = Localization.Get("COMMUNIST");
+			//communist.relativePosition = new Vector3(SPACING, parliamentSeats.relativePosition.y + SPACING22);
+			//communist.autoSize = true;
 
-			socialist = AddUIComponent<UILabel>();
-			socialist.text = Localization.Get("SOCIALIST");
-			socialist.relativePosition = new Vector3(green.relativePosition.x + 160f, green.relativePosition.y);
-			socialist.autoSize = true;
+			//green = AddUIComponent<UILabel>();
+			//green.text = Localization.Get("GREEN");
+			//green.relativePosition = new Vector3(communist.relativePosition.x + 160f, communist.relativePosition.y);
+			//green.autoSize = true;
 
-			liberal = AddUIComponent<UILabel>();
-			liberal.text = Localization.Get("LIBERAL");
-			liberal.relativePosition = new Vector3(socialist.relativePosition.x + 160f, socialist.relativePosition.y);
-			liberal.autoSize = true;
+			//socialist = AddUIComponent<UILabel>();
+			//socialist.text = Localization.Get("SOCIALIST");
+			//socialist.relativePosition = new Vector3(green.relativePosition.x + 160f, green.relativePosition.y);
+			//socialist.autoSize = true;
 
-			national = AddUIComponent<UILabel>();
-			national.text = Localization.Get("NATIONAL");
-			national.relativePosition = new Vector3(liberal.relativePosition.x + 160f, liberal.relativePosition.y);
-			national.autoSize = true;
+			//liberal = AddUIComponent<UILabel>();
+			//liberal.text = Localization.Get("LIBERAL");
+			//liberal.relativePosition = new Vector3(socialist.relativePosition.x + 160f, socialist.relativePosition.y);
+			//liberal.autoSize = true;
+
+			//national = AddUIComponent<UILabel>();
+			//national.text = Localization.Get("NATIONAL");
+			//national.relativePosition = new Vector3(liberal.relativePosition.x + 160f, liberal.relativePosition.y);
+			//national.autoSize = true;
 
 			goverment = AddUIComponent<UILabel>();
 			goverment.text = Localization.Get("GOVERMENT");
-			goverment.relativePosition = new Vector3(SPACING, communist.relativePosition.y + SPACING22 + 20f);
+			goverment.relativePosition = new Vector3(SPACING, this.parties[0].relativePosition.y + SPACING22 + 20f);
 			goverment.autoSize = true;
 
 			nextVote = AddUIComponent<UILabel>();
@@ -156,45 +171,60 @@ namespace RealCity.UI
 				if (isVisible) {
 					m_title.text = Localization.Get("PARLIAMENT_HALL");
 					parliamentSeats.text = Localization.Get("PARLIAMENT_SEATS");
-					communist.text = string.Format(Localization.Get("COMMUNIST") + " [{0}]", Politics.cPartySeats);
-					green.text = string.Format(Localization.Get("GREEN") + " [{0}]", Politics.gPartySeats);
-					socialist.text = string.Format(Localization.Get("SOCIALIST") + " [{0}]", Politics.sPartySeats);
-					liberal.text = string.Format(Localization.Get("LIBERAL") + " [{0}]", Politics.lPartySeats);
-					national.text = string.Format(Localization.Get("NATIONAL") + " [{0}]", Politics.nPartySeats);
-					nextVote.text = string.Format(Localization.Get("NEXT_VOTE") + " [{0}]", Politics.nextMeetingInterval);
+					//communist.text = string.Format(Localization.Get("COMMUNIST") + " [{0}]", Politics.cPartySeats);
+					//green.text = string.Format(Localization.Get("GREEN") + " [{0}]", Politics.gPartySeats);
+					//socialist.text = string.Format(Localization.Get("SOCIALIST") + " [{0}]", Politics.sPartySeats);
+					//liberal.text = string.Format(Localization.Get("LIBERAL") + " [{0}]", Politics.lPartySeats);
+					//national.text = string.Format(Localization.Get("NATIONAL") + " [{0}]", Politics.nPartySeats);
+					//nextVote.text = string.Format(Localization.Get("NEXT_VOTE") + " [{0}]", Politics.nextMeetingInterval);
 
-					if (Politics.currentBillId > 7) {
-						currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ": N/A");
-					} else {
-						switch (Politics.currentBillId) {
-							case 0:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_RESIDENT_TAX"));
-								break;
-							case 1:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_RESIDENT_TAX"));
-								break;
-							case 2:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_BENEFIT"));
-								break;
-							case 3:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_BENEFIT"));
-								break;
-							case 4:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_COMMERIAL_TAX"));
-								break;
-							case 5:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_COMMERIAL_TAX"));
-								break;
-							case 6:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_INDUSTRIAL_TAX"));
-								break;
-							case 7:
-								currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_INDUSTRIAL_TAX"));
-								break;
-						}
+					for (int i = 0; i < this.parties.Length; i++) {
+						this.parties[i].text = $"{Localization.Get(Politics.Parties[i].PartyType.ToString("G").ToUpper())} [{Government.Instance.Seats[i]}]";
 					}
 
-					voteResult.text = string.Format(Localization.Get("VOTE_RESULT") + ": " + Localization.Get("YES") + ":" + Politics.currentYes.ToString() + " " + Localization.Get("NO") + ":" + Politics.currentNo.ToString() + " " + Localization.Get("NO_ATTEND") + ":" + Politics.currentNoAttend.ToString());
+					currentMeetingItem.text = $"{Localization.Get("CURRENT_MEETING_ITEM")}:{Localization.Get(Government.Instance.currentBill.Name)}";
+
+					//if (Politics.currentBillId > 7) {
+					//	currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ": N/A");
+					//} else {
+					//	switch (Politics.currentBillId) {
+					//		case 0:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_RESIDENT_TAX"));
+					//			break;
+					//		case 1:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_RESIDENT_TAX"));
+					//			break;
+					//		case 2:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_BENEFIT"));
+					//			break;
+					//		case 3:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_BENEFIT"));
+					//			break;
+					//		case 4:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_COMMERIAL_TAX"));
+					//			break;
+					//		case 5:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_COMMERIAL_TAX"));
+					//			break;
+					//		case 6:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("RISE_INDUSTRIAL_TAX"));
+					//			break;
+					//		case 7:
+					//			currentMeetingItem.text = string.Format(Localization.Get("CURRENT_MEETING_ITEM") + ":" + Localization.Get("FALL_INDUSTRIAL_TAX"));
+					//			break;
+					//	}
+					//}
+
+					//voteResult.text = string.Format(Localization.Get("VOTE_RESULT") + ": " + Localization.Get("YES") + ":" + Politics.currentYes.ToString() + " " + Localization.Get("NO") + ":" + Politics.currentNo.ToString() + " " + Localization.Get("NO_ATTEND") + ":" + Politics.currentNoAttend.ToString());
+					voteResult.text = string.Format("{0}: {1}:{2} {3}:{4} {5}:{6}",
+						Localization.Get("VOTE_RESULT"),
+						Localization.Get("YES"),
+						Government.Instance.LastMeeting.VoteResult.Agree,
+						Localization.Get("NO"),
+						Government.Instance.LastMeeting.VoteResult.Disagree,
+						Localization.Get("NO_ATTEND"),
+						Government.Instance.LastMeeting.VoteResult.Neutral
+						);
 					currentPolitics.text = string.Format(Localization.Get("CURRENT_POLICY"));
 					benefit.text = string.Format(Localization.Get("BENEFIT") + " " + ((int)((Politics.benefitOffset * MainDataStore.govermentSalary) / 100f)).ToString());
 					resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + (Politics.residentTax << 1).ToString() + "%");
@@ -220,6 +250,24 @@ namespace RealCity.UI
 					} else {
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("COMMUNIST") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("LIBERAL") + " " + Localization.Get("NATIONAL") + " " + Localization.Get("ALL_UNION"));
 					}
+
+					StringBuilder sb = new StringBuilder();
+					sb.Append(Localization.Get("GOVERMENT")).Append(' ');
+					Government.Instance.RulingParties.ForEach(p =>
+						//sb.Append(Localization.Get(p.PartyType.ToString("G").ToUpper()))
+						sb.Append(p.ToString()).Append(' ')
+					);
+					// bad codes
+					if (Government.Instance.GovernmentType == GovernmentType.LeftUnion) {
+						sb.Append(Localization.Get("LEFT_UNION"));
+					} else if (Government.Instance.GovernmentType == GovernmentType.WideLeftUnion) {
+						sb.Append(Localization.Get("WIDE_LEFT_UNION"));
+					} else if (Government.Instance.GovernmentType == GovernmentType.RightUnion) {
+						sb.Append(Localization.Get("RIGHT_UNION"));
+					} else if (Government.Instance.GovernmentType == GovernmentType.RightUnion) {
+						sb.Append(Localization.Get("ALL_UNION"));
+					}
+					goverment.text = sb.ToString();
 
 					refeshOnce = false;
 				}

@@ -5,10 +5,13 @@ namespace RealCity.Util.Politic.Bill
 {
 	public class RiseResidentTaxBill : AbstractBill
 	{
+		public override string Name => "RISE_RESIDENT_TAX";
+
 		public RiseResidentTaxBill(int val)
 			: base(val) {
 
 		}
+
 		public override void Implement() {
 			Politics.residentTax += base.effectVal;
 		}

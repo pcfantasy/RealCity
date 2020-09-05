@@ -44,15 +44,6 @@ namespace RealCity.Util.Politic.ElectionUtil
 		}
 
 		/// <summary>
-		/// 增加政党胜算
-		/// </summary>
-		public void AddPartyWinChance() {
-			this.Party.AddWinChance(this.Val);
-			//啊这...不加会出bug吗
-			this.Val = default;
-		}
-
-		/// <summary>
 		/// 以教育背景计算对政党的兴趣度
 		/// </summary>
 		/// <param name="education"></param>

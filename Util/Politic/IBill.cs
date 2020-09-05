@@ -2,6 +2,7 @@
 {
 	public interface IBill
 	{
+		string Name { get; }
 		void Implement();
 		bool IsImplementable();
 	}
