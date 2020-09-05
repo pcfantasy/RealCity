@@ -91,7 +91,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ArrayLengthAttribute.cs" />
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
     <Compile Include="CustomData\ICustomGameData.cs" />
     <Compile Include="Util\ArrayExtension.cs" />

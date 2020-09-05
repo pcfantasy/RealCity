@@ -20,7 +20,8 @@ namespace RealCity.CustomAI
 		public delegate void CommonBuildingAIGetWorkBehaviour(CommonBuildingAI CommonBuildingAI, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount);
 		public static CommonBuildingAIGetWorkBehaviour GetWorkBehaviour;
 
-		public static void InitDelegate() {
+		public static void InitDelegate()
+		{
 			if (CalculateOwnVehicles != null)
 				return;
 			if (GetWorkBehaviour != null)

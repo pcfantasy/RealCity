@@ -12,6 +12,7 @@ namespace RealCity.Util.Politic
 		ushort Ticket { get; }
 		ushort SeatCount { get; }
 		ushort Id { get; }
-		IDictionary<IBill, AbstractVoteResult> BillAttitude { get; }
+		IDictionary<IBill, AbstractVoteResult> BillAttitudes { get; }
+		AbstractVoteResult GetBillAttitude(IBill bill);
 	}
 }

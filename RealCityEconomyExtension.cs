@@ -241,8 +241,7 @@ namespace RealCity
 
 		[Obsolete("call Government.Instance.HoldMeeting() instead")]
 		public void HoldMeeting() {
-			//int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			int temp = Politics.GetAllSeatCount();
+			int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
 			if (temp == 99) {
 				System.Random rand = new System.Random();
 				switch (rand.Next(8)) {
@@ -262,7 +261,7 @@ namespace RealCity
 						Politics.currentBillId = ReturnOtherIdx(6); break;
 					case 7:
 						Politics.currentBillId = ReturnOtherIdx(7); break;
-					default: 
+					default:
 						Politics.currentBillId = 8; break;
 				}
 				VoteResult(Politics.currentBillId);
@@ -388,7 +387,7 @@ namespace RealCity
 			// if have industrial buildings
 			if (industrialEarnMoneyCount + industrialLackMoneyCount > 0) {
 				buildingOffset = (
-					(int)(100f * (industrialEarnMoneyCount - industrialLackMoneyCount) 
+					(int)(100f * (industrialEarnMoneyCount - industrialLackMoneyCount)
 					/ (industrialEarnMoneyCount + industrialLackMoneyCount))
 					) << 4;
 				if (buildingOffset > 1500) {
@@ -415,7 +414,7 @@ namespace RealCity
 
 			ClearBuildingStats();
 		}
-	
+
 		[Obsolete]
 		public void VoteResult(int billId) {
 			int seatCount = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
@@ -650,7 +649,7 @@ namespace RealCity
 				}
 			}
 		}
-	
+
 		[Obsolete("call Governemt.Instance.UpdateGovType() instead")]
 		public void CreateGoverment() {
 			if (Politics.cPartySeats >= 50) {
@@ -767,8 +766,7 @@ namespace RealCity
 			Politics.lPartyTickets = 0;
 			Politics.nPartyTickets = 0;
 
-			//allTickets = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			cnt = Politics.GetAllSeatCount();
+			cnt = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
 			if (cnt < 99) {
 				System.Random rand = new System.Random();
 				switch (rand.Next(5)) {

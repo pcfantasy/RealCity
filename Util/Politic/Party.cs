@@ -13,7 +13,7 @@ namespace RealCity.Util.Politic
 		public ushort Ticket { get; } = default;
 		public ushort SeatCount { get; } = default;
 		public ushort Id { get; }
-		public IDictionary<IBill,AbstractVoteResult> BillAttitude { get; }
+		public IDictionary<IBill,AbstractVoteResult> BillAttitudes { get; }
 
 		/// <summary>
 		/// 政党
@@ -26,7 +26,7 @@ namespace RealCity.Util.Politic
 			this.Name = name;
 			this.Id = id;
 			this.interestData = interestData;
-			this.BillAttitude = billAttitude;
+			this.BillAttitudes = billAttitude;
 		}
 
 		public PartyInterestData GetPartyInterestData() {
@@ -39,6 +39,13 @@ namespace RealCity.Util.Politic
 
 		public void ResetWinChance() {
 			this.WinChance = default;
+		}
+
+		public AbstractVoteResult GetBillAttitude(IBill bill) {
+			if (this.BillAttitudes.ContainsKey(bill)) {
+				return this.BillAttitudes[bill];
+			}
+			return null;
 		}
 	}
 }

@@ -1,6 +1,4 @@
-﻿using RealCity.Attributes;
-
-namespace RealCity.Util.Politic
+﻿namespace RealCity.Util.Politic
 {
 	/// <summary>
 	/// 政党兴趣度数据
@@ -13,15 +11,10 @@ namespace RealCity.Util.Politic
 		private const byte AgeNum = 3;
 		private const byte GenderNum = 2;
 
-		[ArrayLength(4)]
 		public byte[] EducationLevel { get; private set; }
-		[ArrayLength(15)]
 		public byte[] SubService { get; private set; }
-		[ArrayLength(3)]
 		public byte[] FamilyMoney { get; private set; }
-		[ArrayLength(3)]
 		public byte[] Age { get; private set; }
-		[ArrayLength(2)]
 		public byte[] Gender { get; private set; }
 
 		/// <summary>

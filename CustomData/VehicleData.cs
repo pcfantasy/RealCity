@@ -2,7 +2,7 @@
 
 namespace RealCity.CustomData
 {
-	public class VehicleData 
+	public class VehicleData
 	{
 		public static ushort[] vehicleTransferTime = new ushort[65536];
 		public static bool[] isVehicleCharged = new bool[65536];

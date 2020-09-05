@@ -7,7 +7,8 @@ using System.Linq;
 
 namespace RealCity.Util
 {
-	public class Politics {
+	public class Politics
+	{
 		private const Citizen.AgeGroup VotingAge = Citizen.AgeGroup.Young;
 		private const int MaxTaxValue = 20;
 		private const int MinTaxValue = 0;
@@ -21,19 +22,7 @@ namespace RealCity.Util
 		private static IParty nParty;
 
 		public static IParty[] Parties;
-		public static void ResetWinChance() {
-			Parties.ForEach(p => p.ResetWinChance());
-		}
-		public static int GetAllSeatCount() {
-			return Parties.Sum(p => {
-				return p.SeatCount;
-			});
-		}
-		public static int GetAllTicket() {
-			return Parties.Sum(p => {
-				return p.Ticket;
-			});
-		}
+
 		public static bool IsOnElection() {
 			return nextMeetingInterval == 1;
 		}
@@ -249,6 +238,9 @@ namespace RealCity.Util
 			// maybe this can help improve performance
 			Array.Sort(ps, ps.Select(p => p.Id).ToArray());
 			Parties = ps;
+
+			Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
+
 		}
 
 		public static void Save(ref byte[] saveData) {

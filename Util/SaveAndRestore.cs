@@ -76,7 +76,7 @@ namespace RealCity.Util
 
 		public static void SaveData(ref int idex, byte item, ref byte[] container) {
 			container[idex] = item;
-			idex ++;
+			idex++;
 		}
 
 
@@ -296,7 +296,7 @@ namespace RealCity.Util
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
-			idex ++;
+			idex++;
 		}
 
 		public static void LoadData(ref int idex, byte[] container, ref byte[] item) {
@@ -304,11 +304,11 @@ namespace RealCity.Util
 			if (idex < container.Length) {
 				for (i = 0; i < item.Length; i++) {
 					item[i] = container[idex];
-					idex ++;
+					idex++;
 				}
 			} else {
 				for (i = 0; i < item.Length; i++) {
-					idex ++;
+					idex++;
 				}
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 			}

@@ -11,7 +11,7 @@ namespace RealCity.Util.Politic
 		/// <summary>
 		/// 选举信息
 		/// </summary>
-		public static ElectionInfo CurrentElectionInfo { get; private set; }
+		public static ElectionInfo CurrentElectionInfo { get; private set; };
 
 
 		public static void NextElection() {

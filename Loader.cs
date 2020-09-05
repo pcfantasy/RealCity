@@ -80,14 +80,15 @@ namespace RealCity
 
 		public static void InitData() {
 			DebugLog.LogToFileOnly("InitData");
-			Politics.DataInit();
 			TransportLineData.DataInit();
 			VehicleData.DataInit();
 			BuildingData.DataInit();
 			CitizenUnitData.DataInit();
-			//CitizenData.DataInit();
 			CitizenData.DataInit();
 			RealCityEconomyManager.DataInit();
+
+			Politics.DataInit();
+
 			System.Random rand = new System.Random();
 			RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
 			RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);

@@ -36,9 +36,9 @@ namespace RealCity.Util.Politic
 			VoteOffset(ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
 
 			r.AppendChange(
-				+this.parties.Sum(p => p.BillAttitude[this.Bill].Agree),
-				+this.parties.Sum(p => p.BillAttitude[this.Bill].Disagree),
-				+this.parties.Sum(p => p.BillAttitude[this.Bill].Neutral)
+				+this.parties.Sum(p => p.BillAttitudes[this.Bill].Agree),
+				+this.parties.Sum(p => p.BillAttitudes[this.Bill].Disagree),
+				+this.parties.Sum(p => p.BillAttitudes[this.Bill].Neutral)
 			);
 
 			// offset the value of agree by the class of IBill
