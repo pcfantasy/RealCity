@@ -246,7 +246,6 @@ namespace RealCity.Util
 
 			Government.Start();
 			Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
-
 		}
 
 		public static void Save(ref byte[] saveData) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public static class ArrayExtension
 {
@@ -48,5 +49,16 @@ public static class ArrayExtension
 	/// <returns></returns>
 	public static T GetRandomElement<T>(this T[] arr, Random random) {
 		return arr[random.Next(arr.Length)];
+	}
+	/// <summary>
+	/// Performs the specified action on each element of the <see cref="IEnumerable{T}"/>
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="value"></param>
+	/// <param name="action">The <see cref="Action"/> delegate to perform on each element of the <see cref="IEnumerable{T}"/></param>
+	public static void ForEach<T>(this IEnumerable<T> value, Action<T> action) {
+		foreach (T item in value) {
+			action(item);
+		}
 	}
 }

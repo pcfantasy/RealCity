@@ -89,9 +89,9 @@ namespace RealCity
 
 			Politics.DataInit();
 
-			System.Random rand = new System.Random();
-			RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
-			RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);
+			//System.Random rand = new System.Random();
+			//RealCityEconomyExtension.partyTrend = (byte)rand.Next(5);
+			//RealCityEconomyExtension.partyTrendStrength = (byte)rand.Next(300);
 
 			DebugLog.LogToFileOnly("InitData Done");
 		}

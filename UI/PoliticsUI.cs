@@ -1,5 +1,4 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using UnityEngine;
 using RealCity.Util;
 using RealCity.Util.Politic;
@@ -257,6 +256,7 @@ namespace RealCity.UI
 						//sb.Append(Localization.Get(p.PartyType.ToString("G").ToUpper()))
 						sb.Append(p.ToString()).Append(' ')
 					);
+
 					// bad codes
 					if (Government.Instance.GovernmentType == GovernmentType.LeftUnion) {
 						sb.Append(Localization.Get("LEFT_UNION"));
