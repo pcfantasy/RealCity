@@ -92,6 +92,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
+    <Compile Include="Util\ArrayExtension.cs" />
+    <Compile Include="Util\ObjectPrivateDataExtension.cs" />
+    <Compile Include="Util\Politic\AbstractBill.cs" />
+    <Compile Include="Util\Politic\Bills.cs" />
+    <Compile Include="Util\Politic\Bill\ReduceBenefitBill.cs" />
+    <Compile Include="Util\Politic\Bill\ReduceCommercialTaxBill.cs" />
+    <Compile Include="Util\Politic\Bill\ReduceIndustryTaxBill.cs" />
+    <Compile Include="Util\Politic\Bill\ReduceResidentTaxBill.cs" />
+    <Compile Include="Util\Politic\Bill\RiseBenefitBill.cs" />
+    <Compile Include="Util\Politic\Bill\RiseIndustryTaxBill.cs" />
+    <Compile Include="Util\Politic\Bill\RiseCommercialTaxBill.cs" />
+    <Compile Include="Util\Politic\Bill\RiseResidentTaxBill.cs" />
+    <Compile Include="Util\Politic\Election.cs" />
+    <Compile Include="Util\Politic\ElectionUtil\ElectionInfo.cs" />
+    <Compile Include="Util\Politic\ElectionUtil\ElectionVoter.cs" />
+    <Compile Include="Util\Politic\Government.cs" />
+    <Compile Include="Util\Politic\IBill.cs" />
+    <Compile Include="Util\Politic\IGovernment.cs" />
+    <Compile Include="Util\Politic\AbstractVoteResult.cs" />
+    <Compile Include="Util\Politic\IGovernmentalMeeting.cs" />
+    <Compile Include="Util\Politic\PartyFactory.cs" />
+    <Compile Include="Util\Politic\ElectionUtil\PartyInterestCalc.cs" />
+    <Compile Include="Util\Politic\PartyInterestData.cs" />
     <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\OutsideConnectionAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\TollBoothAIGetResourceRatePatch.cs" />
@@ -181,13 +204,17 @@
     <Compile Include="UI\RealCityButton.cs" />
     <Compile Include="UI\RealCityUI.cs" />
     <Compile Include="UI\TouristUI.cs" />
+    <Compile Include="Util\Politic\Party.cs" />
     <Compile Include="Util\FastDelegateFactory.cs" />
+    <Compile Include="Util\Politic\IParty.cs" />
     <Compile Include="Util\ModsCompatibilityChecker.cs" />
     <Compile Include="Util\DebugLog.cs" />
     <Compile Include="Util\HarmonyDetours.cs" />
     <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\MainDataStore.cs" />
     <Compile Include="Util\Politics.cs" />
+    <Compile Include="Util\Politic\GovernmentalMeeting.cs" />
+    <Compile Include="Util\Politic\VoteResult.cs" />
     <Compile Include="Util\SaveAndRestore.cs" />
     <Compile Include="Util\SpriteUtilities.cs" />
   </ItemGroup>
@@ -199,6 +226,8 @@
     <Content Include="Resources\zh.txt" />
     <Content Include="Resources\en.txt" />
     <Content Include="Resources\incompatible_mods.txt" />
+    <Content Include="Util\Politic\bill-desc.txt" />
+    <Content Include="Util\Politic\gov-desc.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

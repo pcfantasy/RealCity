@@ -10,10 +10,10 @@ namespace RealCity.CustomData
 
         public static void DataInit()
         {
-            for (int i = 0; i < citizenMoney.Length; i++)
-            {
-                citizenMoney[i] = 0f;
-            }
+            //for (int i = 0; i < citizenMoney.Length; i++) {
+            //    citizenMoney[i] = 0f;
+            //}
+            citizenMoney.Initialize();
         }
 
         public static void Save(ref byte[] saveData)

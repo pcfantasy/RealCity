@@ -1,0 +1,16 @@
+﻿case 0:
+Politics.residentTax += 1;
+case 1:
+Politics.residentTax -= 1;
+case 2:
+Politics.benefitOffset += 10;
+case 3:
+Politics.benefitOffset -= 10;
+case 4:
+Politics.commercialTax += 1;
+case 5:
+Politics.commercialTax -= 1;
+case 6:
+Politics.industryTax += 1;
+case 7:
+Politics.industryTax -= 1;
