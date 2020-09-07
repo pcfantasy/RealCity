@@ -19,17 +19,20 @@ namespace RealCity.UI
 		private UILabel fishAmount;
 		private UILabel fishVisitor;
 
-		public override void Update() {
+		public override void Update()
+		{
 			RefreshDisplayData();
 			base.Update();
 		}
 
-		public override void Awake() {
+		public override void Awake()
+		{
 			base.Awake();
 			DoOnStartup();
 		}
 
-		public override void Start() {
+		public override void Start()
+		{
 			base.Start();
 			canFocus = true;
 			isInteractive = true;
@@ -40,12 +43,14 @@ namespace RealCity.UI
 			Hide();
 		}
 
-		private void DoOnStartup() {
+		private void DoOnStartup()
+		{
 			ShowOnGui();
 			Hide();
 		}
 
-		private void ShowOnGui() {
+		private void ShowOnGui()
+		{
 			maintainFeeTips = AddUIComponent<UILabel>();
 			maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
 			maintainFeeTips.relativePosition = new Vector3(SPACING, 10f);
@@ -67,9 +72,12 @@ namespace RealCity.UI
 			fishVisitor.autoSize = true;
 		}
 
-		private void RefreshDisplayData() {
-			if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building)) {
-				if (isVisible) {
+		private void RefreshDisplayData()
+		{
+			if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building))
+			{
+				if (isVisible)
+				{
 					BuildingData.lastBuildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
 					Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[BuildingData.lastBuildingID];
 					int aliveWorkCount = 0;
@@ -81,7 +89,8 @@ namespace RealCity.UI
 					maintainFeeTips.text = Localization.Get("MAINTAIN_FEE_TIPS");
 					workerStatus.text = Localization.Get("LOCAL_WORKERS_DIV_TOTAL_WORKERS") + totalWorkCount.ToString() + "/" + allWorkCount.ToString();
 
-					if (buildingData.Info.m_buildingAI is MarketAI) {
+					if (buildingData.Info.m_buildingAI is MarketAI)
+					{
 						fishAmount.text = Localization.Get("MATERIAL_BUFFER") + "/" + Localization.Get("PRODUCTION_BUFFER") + ":" + buildingData.m_customBuffer1.ToString() + "/" + buildingData.m_customBuffer2.ToString();
 						int aliveVisitCount = 0;
 						int totalVisitCount = 0;
@@ -91,7 +100,9 @@ namespace RealCity.UI
 						fishVisitor.text = string.Format("FORDEBUG" + " [{0}/{1}/{2}]", aliveVisitCount, totalVisitCount, amount);
 					}
 					refeshOnce = false;
-				} else {
+				}
+				else
+				{
 					Hide();
 				}
 			}

@@ -25,7 +25,8 @@
 		/// 投票结果
 		/// </summary>
 		public AbstractVoteResult()
-			: this(default, default, default) {
+			: this(default, default, default)
+		{
 		}
 		/// <summary>
 		/// 投票结果
@@ -33,15 +34,18 @@
 		/// <param name="agree">同意</param>
 		/// <param name="disagree">反对</param>
 		/// <param name="neutral">弃权</param>
-		public AbstractVoteResult(int agree, int disagree, int neutral) {
+		public AbstractVoteResult(int agree, int disagree, int neutral)
+		{
 			this.Agree = agree;
 			this.Disagree = disagree;
 			this.Neutral = neutral;
 		}
-		public void AppendChange(int dAgree, int dDisagree) {
+		public void AppendChange(int dAgree, int dDisagree)
+		{
 			this.AppendChange(dAgree, dDisagree, 0);
 		}
-		public void AppendChange(int dAgree, int dDisagree, int dNeutral) {
+		public void AppendChange(int dAgree, int dDisagree, int dNeutral)
+		{
 			this.Agree += dAgree;
 			this.Disagree += dDisagree;
 			this.Neutral += dNeutral;

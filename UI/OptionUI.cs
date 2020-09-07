@@ -44,7 +44,8 @@ namespace RealCity.UI
 		static UISlider deepNightBudgetMinSlider;
 		static UISlider otherBudgetMinSlider;
 
-		public static void SaveSetting() {
+		public static void SaveSetting()
+		{
 			//save langugae
 			FileStream fs = File.Create("RealCity_setting.txt");
 			StreamWriter streamWriter = new StreamWriter(fs);
@@ -71,8 +72,10 @@ namespace RealCity.UI
 			fs.Close();
 		}
 
-		public static void LoadSetting() {
-			if (File.Exists("RealCity_setting.txt")) {
+		public static void LoadSetting()
+		{
+			if (File.Exists("RealCity_setting.txt"))
+			{
 				FileStream fs = new FileStream("RealCity_setting.txt", FileMode.Open);
 				StreamReader sr = new StreamReader(fs);
 				string strLine;
@@ -81,10 +84,13 @@ namespace RealCity.UI
 
 				strLine = sr.ReadLine();
 
-				if (strLine == "True") {
+				if (strLine == "True")
+				{
 					RealCity.reduceVehicle = true;
 					MainDataStore.maxGoodPurchase = 500;
-				} else {
+				}
+				else
+				{
 					RealCity.reduceVehicle = false;
 					MainDataStore.maxGoodPurchase = 1000;
 				}
@@ -130,7 +136,8 @@ namespace RealCity.UI
 			}
 		}
 
-		public static void MakeSettings(UIHelperBase helper) {
+		public static void MakeSettings(UIHelperBase helper)
+		{
 			LoadSetting();
 			UIHelper actualHelper = helper as UIHelper;
 			UIComponent container = actualHelper.self as UIComponent;
@@ -165,9 +172,12 @@ namespace RealCity.UI
 			group.AddCheckbox(Localization.Get("NO_PASSENGERCAR"), RealCity.noPassengerCar, (index) => noPassengerCarEnable(index));
 			group.AddButton(Localization.Get("RESET_VALUE"), Loader.InitData);
 
-			if (Loader.isTransportLinesManagerRunning) {
+			if (Loader.isTransportLinesManagerRunning)
+			{
 				UIHelperBase group1 = panelHelper.AddGroup(Localization.Get("TLMRUNNING"));
-			} else {
+			}
+			else
+			{
 				UIHelperBase group1 = panelHelper.AddGroup(Localization.Get("TLMNOTRUNNING"));
 			}
 
@@ -240,7 +250,8 @@ namespace RealCity.UI
 			SaveSetting();
 		}
 
-		private static UIButton AddOptionTab(UITabstrip tabStrip, string caption) {
+		private static UIButton AddOptionTab(UITabstrip tabStrip, string caption)
+		{
 			UIButton tabButton = tabStrip.AddTab(caption);
 
 			tabButton.normalBgSprite = "SubBarButtonBase";
@@ -256,17 +267,20 @@ namespace RealCity.UI
 			return tabButton;
 		}
 
-		public static void debugModeEnable(bool index) {
+		public static void debugModeEnable(bool index)
+		{
 			RealCity.debugMode = index;
 			SaveSetting();
 		}
 
-		public static void noPassengerCarEnable(bool index) {
+		public static void noPassengerCarEnable(bool index)
+		{
 			RealCity.noPassengerCar = index;
 			SaveSetting();
 		}
 
-		public static void reduceVehicleEnable(bool index) {
+		public static void reduceVehicleEnable(bool index)
+		{
 			RealCity.reduceVehicle = index;
 			if (RealCity.reduceVehicle)
 				MainDataStore.maxGoodPurchase = 500;
@@ -275,112 +289,128 @@ namespace RealCity.UI
 			SaveSetting();
 		}
 
-		private static void onMorningBudgetWeekDayChanged(float newVal) {
+		private static void onMorningBudgetWeekDayChanged(float newVal)
+		{
 			morningBudgetWeekDay = (int)newVal;
 			morningBudgetWeekDaySlider.tooltip = newVal.ToString();
 			morningBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_MORNING_BUDGET") + "(" + morningBudgetWeekDay.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onEveningBudgetWeekDayChanged(float newVal) {
+		private static void onEveningBudgetWeekDayChanged(float newVal)
+		{
 			eveningBudgetWeekDay = (int)newVal;
 			eveningBudgetWeekDaySlider.tooltip = newVal.ToString();
 			eveningBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_EVENING_BUDGET") + "(" + eveningBudgetWeekDay.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onDeepNightBudgetWeekDayChanged(float newVal) {
+		private static void onDeepNightBudgetWeekDayChanged(float newVal)
+		{
 			deepNightBudgetWeekDay = (int)newVal;
 			deepNightBudgetWeekDaySlider.tooltip = newVal.ToString();
 			deepNightBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetWeekDay.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onOtherBudgetWeekDayChanged(float newVal) {
+		private static void onOtherBudgetWeekDayChanged(float newVal)
+		{
 			otherBudgetWeekDay = (int)newVal;
 			otherBudgetWeekDaySlider.tooltip = newVal.ToString();
 			otherBudgetWeekDaySlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_OTHER_BUDGET") + "(" + otherBudgetWeekDay.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onMorningBudgetWeekEndChanged(float newVal) {
+		private static void onMorningBudgetWeekEndChanged(float newVal)
+		{
 			morningBudgetWeekEnd = (int)newVal;
 			morningBudgetWeekEndSlider.tooltip = newVal.ToString();
 			morningBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKDAY_MORNING_BUDGET") + "(" + morningBudgetWeekEnd.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onEveningBudgetWeekEndChanged(float newVal) {
+		private static void onEveningBudgetWeekEndChanged(float newVal)
+		{
 			eveningBudgetWeekEnd = (int)newVal;
 			eveningBudgetWeekEndSlider.tooltip = newVal.ToString();
 			eveningBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKEND_EVENING_BUDGET") + "(" + eveningBudgetWeekEnd.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onDeepNightBudgetWeekEndChanged(float newVal) {
+		private static void onDeepNightBudgetWeekEndChanged(float newVal)
+		{
 			deepNightBudgetWeekEnd = (int)newVal;
 			deepNightBudgetWeekEndSlider.tooltip = newVal.ToString();
 			deepNightBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKEND_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetWeekEnd.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onOtherBudgetWeekEndChanged(float newVal) {
+		private static void onOtherBudgetWeekEndChanged(float newVal)
+		{
 			otherBudgetWeekEnd = (int)newVal;
 			otherBudgetWeekEndSlider.tooltip = newVal.ToString();
 			otherBudgetWeekEndSlider.parent.Find<UILabel>("Label").text = Localization.Get("WEEKEND_OTHER_BUDGET") + "(" + otherBudgetWeekEnd.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onMorningBudgetMaxChanged(float newVal) {
+		private static void onMorningBudgetMaxChanged(float newVal)
+		{
 			morningBudgetMax = (int)newVal;
 			morningBudgetMaxSlider.tooltip = newVal.ToString();
 			morningBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_MORNING_BUDGET") + "(" + morningBudgetMax.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onEveningBudgetMaxChanged(float newVal) {
+		private static void onEveningBudgetMaxChanged(float newVal)
+		{
 			eveningBudgetMax = (int)newVal;
 			eveningBudgetMaxSlider.tooltip = newVal.ToString();
 			eveningBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_EVENING_BUDGET") + "(" + eveningBudgetMax.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onDeepNightBudgetMaxChanged(float newVal) {
+		private static void onDeepNightBudgetMaxChanged(float newVal)
+		{
 			deepNightBudgetMax = (int)newVal;
 			deepNightBudgetMaxSlider.tooltip = newVal.ToString();
 			deepNightBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMax.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onOtherBudgetMaxChanged(float newVal) {
+		private static void onOtherBudgetMaxChanged(float newVal)
+		{
 			otherBudgetMax = (int)newVal;
 			otherBudgetMaxSlider.tooltip = newVal.ToString();
 			otherBudgetMaxSlider.parent.Find<UILabel>("Label").text = Localization.Get("MAX_OTHER_BUDGET") + "(" + otherBudgetMax.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onMorningBudgetMinChanged(float newVal) {
+		private static void onMorningBudgetMinChanged(float newVal)
+		{
 			morningBudgetMin = (int)newVal;
 			morningBudgetMinSlider.tooltip = newVal.ToString();
 			morningBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_MORNING_BUDGET") + "(" + morningBudgetMin.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onEveningBudgetMinChanged(float newVal) {
+		private static void onEveningBudgetMinChanged(float newVal)
+		{
 			eveningBudgetMin = (int)newVal;
 			eveningBudgetMinSlider.tooltip = newVal.ToString();
 			eveningBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_EVENING_BUDGET") + "(" + eveningBudgetMin.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onDeepNightBudgetMinChanged(float newVal) {
+		private static void onDeepNightBudgetMinChanged(float newVal)
+		{
 			deepNightBudgetMin = (int)newVal;
 			deepNightBudgetMinSlider.tooltip = newVal.ToString();
 			deepNightBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_DEEPNIGHT_BUDGET") + "(" + deepNightBudgetMin.ToString() + "%)";
 			SaveSetting();
 		}
 
-		private static void onOtherBudgetMinChanged(float newVal) {
+		private static void onOtherBudgetMinChanged(float newVal)
+		{
 			otherBudgetMin = (int)newVal;
 			otherBudgetMinSlider.tooltip = newVal.ToString();
 			otherBudgetMinSlider.parent.Find<UILabel>("Label").text = Localization.Get("MIN_OTHER_BUDGET") + "(" + otherBudgetMin.ToString() + "%)";

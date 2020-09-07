@@ -11,12 +11,15 @@ namespace RealCity.Patch
 	[HarmonyPatch]
 	public class IndustryBuildingGetResourcePricePatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(IndustryBuildingAI).GetMethod("GetResourcePrice", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 		}
-		public static bool Prefix(ref int __result, TransferManager.TransferReason material, ItemClass.Service sourceService = ItemClass.Service.None) {
+		public static bool Prefix(ref int __result, TransferManager.TransferReason material, ItemClass.Service sourceService = ItemClass.Service.None)
+		{
 			bool canRisePrice = true;
-			switch (material) {
+			switch (material)
+			{
 				case TransferManager.TransferReason.AnimalProducts:
 					__result = 150; break;
 				case TransferManager.TransferReason.Flours:
@@ -44,9 +47,12 @@ namespace RealCity.Patch
 				case TransferManager.TransferReason.Grain:
 					__result = 100; break;
 				case TransferManager.TransferReason.Goods:
-					if (sourceService == ItemClass.Service.Fishing) {
+					if (sourceService == ItemClass.Service.Fishing)
+					{
 						__result = 500;
-					} else {
+					}
+					else
+					{
 						__result = 0;
 					}
 					break;
@@ -66,10 +72,13 @@ namespace RealCity.Patch
 				case TransferManager.TransferReason.ShoppingD:
 				case TransferManager.TransferReason.ShoppingE:
 				case TransferManager.TransferReason.ShoppingH:
-					if (sourceService == ItemClass.Service.Fishing) {
+					if (sourceService == ItemClass.Service.Fishing)
+					{
 						__result = 200;
 						canRisePrice = false;
-					} else {
+					}
+					else
+					{
 						__result = 0;
 					}
 					break;
@@ -81,7 +90,8 @@ namespace RealCity.Patch
 				default: __result = 0; break;
 			}
 
-			if (RealCity.reduceVehicle) {
+			if (RealCity.reduceVehicle)
+			{
 				if (canRisePrice)
 					__result <<= MainDataStore.reduceCargoDivShift;
 			}

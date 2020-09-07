@@ -8,20 +8,26 @@ namespace RealCity.Util.Politic.Bill
 		public override string Name => "RISE_INDUSTRIAL_TAX";
 
 		public RiseIndustryTaxBill(int val)
-			: base(val) {
+			: base(val)
+		{
 
 		}
 
-		public override void Implement() {
+		public override void Implement()
+		{
 			Politics.industryTax += base.effectVal;
 		}
 
-		public override bool IsImplementable() {
+		public override bool IsImplementable()
+		{
 			// 20% oppotunity to implement though financial shortage
-			if (new Random().Next(5) == 0) {
+			if (new Random().Next(5) == 0)
+			{
 				return Politics.CanRiseIndustryTax
 					&& Singleton<EconomyManager>.instance.GetPrivateField<long>("m_cashAmount") < 0L;
-			} else {
+			}
+			else
+			{
 				return Politics.CanRiseIndustryTax;
 			}
 		}

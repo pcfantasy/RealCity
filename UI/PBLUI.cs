@@ -19,17 +19,20 @@ namespace RealCity.UI
 		private static UIDropDown WeekDayPlanDD;
 		private static UIDropDown WeekEndPlanDD;
 
-		public override void Update() {
+		public override void Update()
+		{
 			RefreshDisplayData();
 			base.Update();
 		}
 
-		public override void Awake() {
+		public override void Awake()
+		{
 			base.Awake();
 			DoOnStartup();
 		}
 
-		public override void Start() {
+		public override void Start()
+		{
 			base.Start();
 			canFocus = true;
 			isInteractive = true;
@@ -39,11 +42,13 @@ namespace RealCity.UI
 			RefreshDisplayData();
 		}
 
-		private void DoOnStartup() {
+		private void DoOnStartup()
+		{
 			ShowOnGui();
 		}
 
-		private void ShowOnGui() {
+		private void ShowOnGui()
+		{
 			WeekDayPlan = AddUIComponent<UILabel>();
 			WeekDayPlan.text = Localization.Get("WeekDayPlan");
 			WeekDayPlan.relativePosition = new Vector3(0, 0f);
@@ -73,17 +78,21 @@ namespace RealCity.UI
 			WeekEndPlanDD.relativePosition = new Vector3(0f, 70f);
 		}
 
-		public UITextureAtlas GetAtlas(string name) {
+		public UITextureAtlas GetAtlas(string name)
+		{
 			UITextureAtlas[] array = Resources.FindObjectsOfTypeAll(typeof(UITextureAtlas)) as UITextureAtlas[];
-			for (int i = 0; i < array.Length; i++) {
-				if (array[i].name == name) {
+			for (int i = 0; i < array.Length; i++)
+			{
+				if (array[i].name == name)
+				{
 					return array[i];
 				}
 			}
 			return null;
 		}
 
-		public UIDropDown CreateDropDown(UIComponent parent) {
+		public UIDropDown CreateDropDown(UIComponent parent)
+		{
 			UIDropDown dropDown = parent.AddUIComponent<UIDropDown>();
 			dropDown.atlas = GetAtlas("Ingame");
 			dropDown.size = new Vector2(90f, 30f);
@@ -132,11 +141,15 @@ namespace RealCity.UI
 			return dropDown;
 		}
 
-		private void RefreshDisplayData() {
-			if (refeshOnce || (TransportLineData.lastLineID != GetLineID())) {
-				if (isVisible) {
+		private void RefreshDisplayData()
+		{
+			if (refeshOnce || (TransportLineData.lastLineID != GetLineID()))
+			{
+				if (isVisible)
+				{
 					TransportLineData.lastLineID = GetLineID();
-					if (WeekDayPlan.text != Localization.Get("WeekDayPlan")) {
+					if (WeekDayPlan.text != Localization.Get("WeekDayPlan"))
+					{
 						WeekDayPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
 						WeekEndPlanDD.items = new string[] { Localization.Get("NoPlan"), Localization.Get("WeekDayPlan"), Localization.Get("WeekEndPlan"), Localization.Get("MaxPlan"), Localization.Get("MinPlan") };
 					}
@@ -151,13 +164,17 @@ namespace RealCity.UI
 			}
 		}
 
-		private ushort GetLineID() {
-			if (WorldInfoPanel.GetCurrentInstanceID().Type == InstanceType.TransportLine) {
+		private ushort GetLineID()
+		{
+			if (WorldInfoPanel.GetCurrentInstanceID().Type == InstanceType.TransportLine)
+			{
 				return WorldInfoPanel.GetCurrentInstanceID().TransportLine;
 			}
-			if (WorldInfoPanel.GetCurrentInstanceID().Type == InstanceType.Vehicle) {
+			if (WorldInfoPanel.GetCurrentInstanceID().Type == InstanceType.Vehicle)
+			{
 				ushort firstVehicle = Singleton<VehicleManager>.instance.m_vehicles.m_buffer[WorldInfoPanel.GetCurrentInstanceID().Vehicle].GetFirstVehicle(WorldInfoPanel.GetCurrentInstanceID().Vehicle);
-				if (firstVehicle != 0) {
+				if (firstVehicle != 0)
+				{
 					return Singleton<VehicleManager>.instance.m_vehicles.m_buffer[firstVehicle].m_transportLine;
 				}
 			}

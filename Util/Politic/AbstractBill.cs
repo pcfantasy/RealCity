@@ -8,7 +8,8 @@
 		protected int effectVal;
 		public abstract string Name { get; }
 
-		public AbstractBill(int effectVal) {
+		public AbstractBill(int effectVal)
+		{
 			this.effectVal = effectVal;
 		}
 

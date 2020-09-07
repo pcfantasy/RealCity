@@ -47,12 +47,15 @@ namespace RealCity.Patch
 		public static float healthCareIncome = 0f;
 		public static float fireStationIncome = 0f;
 
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(EconomyManager).GetMethod("AddPrivateIncome", BindingFlags.Public | BindingFlags.Instance);
 		}
 
-		public static void CustomAddGovermentIncome(ref int amount, ItemClass.Service service) {
-			switch (service) {
+		public static void CustomAddGovermentIncome(ref int amount, ItemClass.Service service)
+		{
+			switch (service)
+			{
 				case ItemClass.Service.Garbage:
 					ProcessUnitTax100(ref amount, ref garbageIncome);
 					RealCityEconomyManager.garbageIncomeForUI[MainDataStore.updateMoneyCount] += amount;
@@ -80,8 +83,10 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static void CustomAddPersonalTaxIncome(ref int amount, ItemClass.Service service) {
-			switch (service) {
+		public static void CustomAddPersonalTaxIncome(ref int amount, ItemClass.Service service)
+		{
+			switch (service)
+			{
 				case ItemClass.Service.Residential:
 					ProcessUnitTax100(ref amount, ref residentTaxIncome);
 					break;
@@ -92,18 +97,24 @@ namespace RealCity.Patch
 			RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] = RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] + amount;
 		}
 
-		public static void CustomAddTourismIncome(ref int amount, int taxRate) {
-			if (taxRate == 114333) {
+		public static void CustomAddTourismIncome(ref int amount, int taxRate)
+		{
+			if (taxRate == 114333)
+			{
 				ProcessUnitTax100(ref amount, ref citizenIncome);
 				RealCityEconomyManager.citizenIncomeForUI[MainDataStore.updateMoneyCount] += amount;
-			} else {
+			}
+			else
+			{
 				ProcessUnitTax100(ref amount, ref touristIncome);
 				RealCityEconomyManager.touristIncomeForUI[MainDataStore.updateMoneyCount] += amount;
 			}
 		}
 
-		public static void CustomAddPrivateTradeIncome(ref int amount, ItemClass.SubService subService) {
-			switch (subService) {
+		public static void CustomAddPrivateTradeIncome(ref int amount, ItemClass.SubService subService)
+		{
+			switch (subService)
+			{
 				case ItemClass.SubService.IndustrialFarming:
 					ProcessUnitTax100(ref amount, ref industyFarmTradeIncome);
 					RealCityEconomyManager.induFarmerTradeIncomeForUI[MainDataStore.updateMoneyCount] += amount;
@@ -151,8 +162,10 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static void CustomAddPrivateLandIncome(ref int amount, ItemClass.SubService subService, int taxRate) {
-			switch (subService) {
+		public static void CustomAddPrivateLandIncome(ref int amount, ItemClass.SubService subService, int taxRate)
+		{
+			switch (subService)
+			{
 				case ItemClass.SubService.IndustrialFarming:
 					ProcessUnit(ref amount, ref industyFarmIncome, taxRate);
 					RealCityEconomyManager.induFarmerLandIncomeForUI[MainDataStore.updateMoneyCount] += amount;
@@ -224,53 +237,74 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static void ProcessUnit(ref int amount, ref float container, int taxRate) {
+		public static void ProcessUnit(ref int amount, ref float container, int taxRate)
+		{
 			container += (amount * taxRate / 100f);
-			if (container > 1) {
+			if (container > 1)
+			{
 				amount = (int)container;
 				container -= (int)container;
-			} else {
+			}
+			else
+			{
 				amount = 0;
 			}
 		}
 
-		public static void ProcessUnitTax100(ref int amount, ref float container) {
+		public static void ProcessUnitTax100(ref int amount, ref float container)
+		{
 			container += amount;
-			if (container > 1) {
+			if (container > 1)
+			{
 				amount = (int)container;
 				container -= (int)container;
-			} else {
+			}
+			else
+			{
 				amount = 0;
 			}
 		}
-		public static bool Prefix(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate) {
-			if (amount < 0) {
+		public static bool Prefix(int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, int taxRate)
+		{
+			if (amount < 0)
+			{
 				DebugLog.LogToFileOnly($"Error: EconomyManagerAddPrivateIncomePatch amount < 0 {service} {subService} {level}");
 				amount = 0;
 			}
-			if (taxRate == 115333) {
+			if (taxRate == 115333)
+			{
 				//115333 means playerbuilding income
 				//taxRate = 100; no need to send taxRate.
 				CustomAddGovermentIncome(ref amount, service);
 				service = ItemClass.Service.Industrial;
 				subService = ItemClass.SubService.IndustrialGeneric;
 				level = ItemClass.Level.Level3;
-			} else if ((taxRate == 113333) || (taxRate == 114333)) {
+			}
+			else if ((taxRate == 113333) || (taxRate == 114333))
+			{
 				//113333 means tourist tourism income // 114333 means resident tourism income
 				CustomAddTourismIncome(ref amount, taxRate);
-			} else if (taxRate == 112333) {
+			}
+			else if (taxRate == 112333)
+			{
 				//112333 means personal slary tax income
 				//taxRate = 100; no need to send taxRate.
 				CustomAddPersonalTaxIncome(ref amount, service);
-			} else if (taxRate == 111333) {
+			}
+			else if (taxRate == 111333)
+			{
 				//111333 means trade income
 				//taxRate = 100; no need to send taxRate.
 				CustomAddPrivateTradeIncome(ref amount, subService);
-			} else if (taxRate >= 100) {
+			}
+			else if (taxRate >= 100)
+			{
 				taxRate = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Economics, taxRate);
 				taxRate /= 100;
 				CustomAddPrivateLandIncome(ref amount, subService, taxRate);
-			} else {
+			}
+			else
+			{
 				amount = 0;
 			}
 

@@ -26,11 +26,14 @@ namespace RealCity.Patch
 		public static float Museums = 0f;
 		public static float Fishing = 0f;
 		public static float VarsitySports = 0f;
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(EconomyManager).GetMethod("FetchResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null);
 		}
-		public static void OnFetchResourceMaintenance(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level) {
-			switch (service) {
+		public static void OnFetchResourceMaintenance(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
+		{
+			switch (service)
+			{
 				case ItemClass.Service.Road:
 					ProcessUnit(ref amount, ref Road);
 					break;
@@ -86,45 +89,60 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static void OnFetchResourcePolicy(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level) {
+		public static void OnFetchResourcePolicy(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
+		{
 			ProcessUnit(ref amount, ref Policy_cost);
 		}
 
-		public static void ProcessUnit(ref int amount, ref float container) {
+		public static void ProcessUnit(ref int amount, ref float container)
+		{
 			container += amount / MainDataStore.gameExpenseDivide;
-			if (container > 1) {
+			if (container > 1)
+			{
 				amount = (int)container;
 				container -= (int)container;
-			} else {
+			}
+			else
+			{
 				amount = 0;
 			}
 		}
 
-		public static void Prefix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, ref uint __state) {
-			if (amount < 0) {
+		public static void Prefix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, ref uint __state)
+		{
+			if (amount < 0)
+			{
 				DebugLog.LogToFileOnly($"Error: EconomyManagerFetchResourcePatch: amount < 0 {service} {subService} {level}");
 				amount = 0;
 			}
 
 			__state = 0xdeadbeaf;
 
-			if (resource == EconomyManager.Resource.PolicyCost) {
+			if (resource == EconomyManager.Resource.PolicyCost)
+			{
 				OnFetchResourcePolicy(resource, ref amount, service, subService, level);
 			}
-			if (resource == EconomyManager.Resource.Maintenance) {
+			if (resource == EconomyManager.Resource.Maintenance)
+			{
 				//we must return right amount for playerbuilding to work normally.
 				if (amount > 0)
 					__state = (uint)amount;
 				OnFetchResourceMaintenance(resource, ref amount, service, subService, level);
-			} else if (resource == (EconomyManager.Resource)16) {
+			}
+			else if (resource == (EconomyManager.Resource)16)
+			{
 				resource = EconomyManager.Resource.Maintenance;
-			} else if (resource == (EconomyManager.Resource)17) {
+			}
+			else if (resource == (EconomyManager.Resource)17)
+			{
 				resource = EconomyManager.Resource.PolicyCost;
 			}
 		}
 
-		public static void Postfix(ref int __result, ref uint __state) {
-			if (__state != 0xdeadbeaf) {
+		public static void Postfix(ref int __result, ref uint __state)
+		{
+			if (__state != 0xdeadbeaf)
+			{
 				__result = (int)__state;
 			}
 		}

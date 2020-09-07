@@ -10,7 +10,8 @@ namespace RealCity.Patch
 	[HarmonyPatch]
 	public class CommonBuildingAIGetColorPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(CommonBuildingAI).GetMethod(
 					"GetColor",
 					BindingFlags.Instance | BindingFlags.Public,
@@ -19,11 +20,14 @@ namespace RealCity.Patch
 					new ParameterModifier[0]);
 		}
 
-		public static void Postfix(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode, ref Color __result) {
-			if (infoMode == InfoManager.InfoMode.LandValue) {
+		public static void Postfix(ushort buildingID, ref Building data, InfoManager.InfoMode infoMode, ref Color __result)
+		{
+			if (infoMode == InfoManager.InfoMode.LandValue)
+			{
 				ItemClass @class = data.Info.m_class;
 				ItemClass.Service service = @class.m_service;
-				switch (service) {
+				switch (service)
+				{
 					case ItemClass.Service.Residential:
 					case ItemClass.Service.Office:
 					case ItemClass.Service.Industrial:

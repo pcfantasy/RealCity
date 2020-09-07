@@ -15,61 +15,76 @@ namespace RealCity
 		public static bool realCityV10 = true;
 		public static bool noPassengerCar = true;
 
-		public string Name {
+		public string Name
+		{
 			get { return "Real City"; }
 		}
 
-		public string Description {
+		public string Description
+		{
 			get { return "Make your city reality, Combine CS and SimCity in game playing"; }
 		}
 
-		public void OnEnabled() {
+		public void OnEnabled()
+		{
 			IsEnabled = true;
 			FileStream fs = File.Create("RealCity.txt");
 			fs.Close();
 			HarmonyHelper.EnsureHarmonyInstalled();
-			if (UIView.GetAView() != null) {
+			if (UIView.GetAView() != null)
+			{
 				OnGameIntroLoaded();
-			} else {
+			}
+			else
+			{
 				LoadingManager.instance.m_introLoaded += OnGameIntroLoaded;
 			}
 		}
 
-		public void OnDisabled() {
+		public void OnDisabled()
+		{
 			IsEnabled = false;
 			LoadingManager.instance.m_introLoaded -= OnGameIntroLoaded;
 		}
 
-		private static void OnGameIntroLoaded() {
+		private static void OnGameIntroLoaded()
+		{
 			ModsCompatibilityChecker mcc = new ModsCompatibilityChecker();
 			mcc.PerformModCheck();
 		}
 
-		public void OnSettingsUI(UIHelperBase helper) {
+		public void OnSettingsUI(UIHelperBase helper)
+		{
 			OptionUI.MakeSettings(helper);
 		}
 
-		public static bool GetRealCityV10() {
+		public static bool GetRealCityV10()
+		{
 			return realCityV10;
 		}
 
-		public static int GetReduceCargoDiv() {
+		public static int GetReduceCargoDiv()
+		{
 			return MainDataStore.reduceCargoDiv;
 		}
 
-		public static float GetOutsideTouristMoney() {
+		public static float GetOutsideTouristMoney()
+		{
 			return MainDataStore.outsideTouristMoney;
 		}
 
-		public static void SetOutsideTouristMoney(float value) {
+		public static void SetOutsideTouristMoney(float value)
+		{
 			MainDataStore.outsideTouristMoney = value;
 		}
 
-		public static float GetOutsideGovermentMoney() {
+		public static float GetOutsideGovermentMoney()
+		{
 			return MainDataStore.outsideGovermentMoney;
 		}
 
-		public static void SetOutsideGovermentMoney(float value) {
+		public static void SetOutsideGovermentMoney(float value)
+		{
 			MainDataStore.outsideGovermentMoney = value;
 		}
 	}

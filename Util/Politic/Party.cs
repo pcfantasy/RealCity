@@ -23,7 +23,8 @@ namespace RealCity.Util.Politic
 		/// <param name="id">Id</param>
 		/// <param name="interestData">民众对政党的兴趣度</param>
 		/// <param name="billAttitude">政党对政策的态度</param>
-		public Party(string name, ushort id, PartyType type, PartyInterestData interestData, Dictionary<IBill, AbstractVoteResult> billAttitude) {
+		public Party(string name, ushort id, PartyType type, PartyInterestData interestData, Dictionary<IBill, AbstractVoteResult> billAttitude)
+		{
 			this.Name = name;
 			this.Id = id;
 			this.PartyType = type;
@@ -31,27 +32,33 @@ namespace RealCity.Util.Politic
 			this.BillAttitudes = billAttitude;
 		}
 
-		public PartyInterestData GetPartyInterestData() {
+		public PartyInterestData GetPartyInterestData()
+		{
 			return this.interestData;
 		}
 
-		public void AddWinChance(ushort val) {
+		public void AddWinChance(ushort val)
+		{
 			this.WinChance += val;
 		}
 
-		public void ResetWinChance() {
+		public void ResetWinChance()
+		{
 			this.WinChance = default;
 		}
 
-		public AbstractVoteResult GetBillAttitude(IBill bill) {
-			if (this.BillAttitudes.ContainsKey(bill)) {
+		public AbstractVoteResult GetBillAttitude(IBill bill)
+		{
+			if (this.BillAttitudes.ContainsKey(bill))
+			{
 				return this.BillAttitudes[bill];
 			}
 			// dont wanna Party know VoteResult...
 			return null;
 		}
 
-		public override string ToString() {
+		public override string ToString()
+		{
 			return Localization.Get(this.PartyType.ToString("G").ToUpper());
 		}
 	}

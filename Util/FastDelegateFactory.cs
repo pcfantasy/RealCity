@@ -37,12 +37,15 @@ namespace RealCity.Util
 		/// as a reference to a <paramref name="type"/> instance (<c>this</c> reference). Default is <c>true</c>.</param>
 		/// <returns>An instance of the <typeparamref name="TDelegate"/> delegate that can be called directly.</returns>
 		public static TDelegate Create<TDelegate>(Type type, string name, bool instanceMethod)
-			where TDelegate : Delegate {
-			if (type == null) {
+			where TDelegate : Delegate
+		{
+			if (type == null)
+			{
 				throw new ArgumentNullException(nameof(type));
 			}
 
-			if (string.IsNullOrEmpty(name)) {
+			if (string.IsNullOrEmpty(name))
+			{
 				throw new ArgumentException("The method name cannot be null or empty string.");
 			}
 
@@ -50,9 +53,11 @@ namespace RealCity.Util
 			return (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), methodInfo);
 		}
 
-		private static MethodInfo GetMethodInfo<TDelegate>(Type type, string name, bool instanceMethod) {
+		private static MethodInfo GetMethodInfo<TDelegate>(Type type, string name, bool instanceMethod)
+		{
 			IEnumerable<ParameterInfo> parameters = typeof(TDelegate).GetMethod("Invoke").GetParameters();
-			if (instanceMethod) {
+			if (instanceMethod)
+			{
 				parameters = parameters.Skip(1);
 			}
 
@@ -63,7 +68,8 @@ namespace RealCity.Util
 				parameters.Select(p => p.ParameterType).ToArray(),
 				new ParameterModifier[0]);
 
-			if (methodInfo == null) {
+			if (methodInfo == null)
+			{
 				throw new MissingMethodException($"The method '{type.Name}.{name}' matching the specified signature doesn't exist: {typeof(TDelegate)}");
 			}
 

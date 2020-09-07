@@ -11,21 +11,31 @@ namespace RealCity.Patch
 	[HarmonyPatch]
 	public class BuildingAIVisitorEnterPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(BuildingAI).GetMethod("VisitorEnter", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(uint) }, null);
 		}
-		public static void Postfix(ushort buildingID, ref Building data, uint citizen) {
+		public static void Postfix(ushort buildingID, ref Building data, uint citizen)
+		{
 			ushort eventIndex = data.m_eventIndex;
-			if (eventIndex == 0) {
+			if (eventIndex == 0)
+			{
 				ProcessTourismIncome(buildingID, ref data, citizen);
-			} else {
+			}
+			else
+			{
 				EventManager instance = Singleton<EventManager>.instance;
 				EventInfo info = instance.m_events.m_buffer[(int)eventIndex].Info;
-				if ((info.m_eventAI is SportMatchAI) || (info.m_eventAI is VarsitySportsMatchAI)) {
-					if (buildingID == instance.m_events.m_buffer[(int)eventIndex].m_building && (instance.m_events.m_buffer[(int)eventIndex].m_flags & (EventData.Flags.Preparing | EventData.Flags.Active)) != EventData.Flags.None) {
-						if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None) {
+				if ((info.m_eventAI is SportMatchAI) || (info.m_eventAI is VarsitySportsMatchAI))
+				{
+					if (buildingID == instance.m_events.m_buffer[(int)eventIndex].m_building && (instance.m_events.m_buffer[(int)eventIndex].m_flags & (EventData.Flags.Preparing | EventData.Flags.Active)) != EventData.Flags.None)
+					{
+						if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+						{
 							MainDataStore.outsideTouristMoney -= instance.m_events.m_buffer[(int)eventIndex].m_ticketPrice;
-						} else {
+						}
+						else
+						{
 							CitizenData.citizenMoney[citizen] -= instance.m_events.m_buffer[(int)eventIndex].m_ticketPrice;
 						}
 					}
@@ -33,27 +43,39 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen) {
+		public static void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
+		{
 			CitizenManager instance = Singleton<CitizenManager>.instance;
 			BuildingInfo info = data.Info;
-			if (info.m_class.m_service == ItemClass.Service.Monument) {
-				if (IsRealUniqueBuilding(buildingID)) {
-					if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None) {
+			if (info.m_class.m_service == ItemClass.Service.Monument)
+			{
+				if (IsRealUniqueBuilding(buildingID))
+				{
+					if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+					{
 						ProcessMonumentTourismTouristIncome(ref data, citizen);
-					} else {
+					}
+					else
+					{
 						ProcessMonumentTourismResidentIncome(ref data, citizen);
 					}
 				}
-			} else if (info.m_buildingAI is ParkBuildingAI) {
-				if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None) {
+			}
+			else if (info.m_buildingAI is ParkBuildingAI)
+			{
+				if ((instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
+				{
 					ProcessParkIncome(ref data, citizen, true);
-				} else {
+				}
+				else
+				{
 					ProcessParkIncome(ref data, citizen, false);
 				}
 			}
 		}
 
-		public static void ProcessMonumentTourismTouristIncome(ref Building data, uint citizen) {
+		public static void ProcessMonumentTourismTouristIncome(ref Building data, uint citizen)
+		{
 			CitizenManager instance = Singleton<CitizenManager>.instance;
 			int tourism_fee = 1000;
 			if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
@@ -61,39 +83,52 @@ namespace RealCity.Patch
 			else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
 				tourism_fee <<= 1;
 
-			if (MainDataStore.outsideTouristMoney > 0) {
+			if (MainDataStore.outsideTouristMoney > 0)
+			{
 				MainDataStore.outsideTouristMoney -= tourism_fee;
 				Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
 			}
 		}
 
-		public static void ProcessMonumentTourismResidentIncome(ref Building data, uint citizen) {
+		public static void ProcessMonumentTourismResidentIncome(ref Building data, uint citizen)
+		{
 			int tourism_fee = (int)(0.2f * CitizenData.citizenMoney[citizen]);
-			if (tourism_fee > 0) {
+			if (tourism_fee > 0)
+			{
 				CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);
 				Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
 			}
 		}
 
-		public static void ProcessParkIncome(ref Building data, uint citizen, bool isTourist) {
+		public static void ProcessParkIncome(ref Building data, uint citizen, bool isTourist)
+		{
 			DistrictManager instance2 = Singleton<DistrictManager>.instance;
 			byte b = instance2.GetPark(data.m_position);
-			if (b != 0 && !instance2.m_parks.m_buffer[b].IsPark) {
+			if (b != 0 && !instance2.m_parks.m_buffer[b].IsPark)
+			{
 				b = 0;
 			}
 
-			if (b != 0) {
+			if (b != 0)
+			{
 				int ticketPrice = instance2.m_parks.m_buffer[b].GetTicketPrice();
 				//Negetive price to help identify tourist and resident.
-				if (isTourist) {
-					if (MainDataStore.outsideTouristMoney > 0) {
+				if (isTourist)
+				{
+					if (MainDataStore.outsideTouristMoney > 0)
+					{
 						Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -(int)ticketPrice, data.Info.m_class);
 						MainDataStore.outsideTouristMoney -= ticketPrice;
-					} else {
+					}
+					else
+					{
 						ticketPrice = 0;
 					}
-				} else {
-					if (CitizenData.citizenMoney[citizen] > ticketPrice) {
+				}
+				else
+				{
+					if (CitizenData.citizenMoney[citizen] > ticketPrice)
+					{
 						CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPrice);
 						Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, (int)ticketPrice, data.Info.m_class);
 					}
@@ -104,13 +139,16 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static bool IsRealUniqueBuilding(ushort buildingId) {
-			if (buildingId == 0) {
+		public static bool IsRealUniqueBuilding(ushort buildingId)
+		{
+			if (buildingId == 0)
+			{
 				return false;
 			}
 
 			var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
-			if (buildingInfo?.m_class?.m_service != ItemClass.Service.Monument) {
+			if (buildingInfo?.m_class?.m_service != ItemClass.Service.Monument)
+			{
 				return false;
 			}
 

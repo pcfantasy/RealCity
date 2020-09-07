@@ -5,15 +5,18 @@
 		public override string Name => "FALL_RESIDENT_TAX";
 
 		public ReduceResidentTaxBill(int val)
-			: base(val) {
+			: base(val)
+		{
 
 		}
 
-		public override void Implement() {
+		public override void Implement()
+		{
 			Politics.residentTax -= base.effectVal;
 		}
 
-		public override bool IsImplementable() {
+		public override bool IsImplementable()
+		{
 			return Politics.CanReduceResidentTax;
 		}
 	}

@@ -27,7 +27,8 @@ namespace RealCity.CustomAI
 		public static ushort profitBuildingCountFinal = 0;
 		public static ushort allBuildingsFinal = 0;
 
-		public static void Load(ref byte[] saveData) {
+		public static void Load(ref byte[] saveData)
+		{
 			//60
 			int i = 0;
 			SaveAndRestore.LoadData(ref i, saveData, ref preBuidlingId);
@@ -48,12 +49,14 @@ namespace RealCity.CustomAI
 			SaveAndRestore.LoadData(ref i, saveData, ref profitBuildingCount);
 			SaveAndRestore.LoadData(ref i, saveData, ref profitBuildingCountFinal);
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"RealCityPrivateBuildingAI Load Error: saveData.Length = {saveData.Length} + i = {i}");
 			}
 		}
 
-		public static void Save(ref byte[] saveData) {
+		public static void Save(ref byte[] saveData)
+		{
 			//60
 			int i = 0;
 			SaveAndRestore.SaveData(ref i, preBuidlingId, ref saveData);
@@ -74,16 +77,22 @@ namespace RealCity.CustomAI
 			SaveAndRestore.SaveData(ref i, profitBuildingCount, ref saveData);
 			SaveAndRestore.SaveData(ref i, profitBuildingCountFinal, ref saveData);
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"RealCityPrivateBuildingAI Save Error: saveData.Length = {saveData.Length} + i = {i}");
 			}
 		}
 
-		public static TransferManager.TransferReason GetIncomingProductionType(ushort buildingID, Building data) {
+		public static TransferManager.TransferReason GetIncomingProductionType(ushort buildingID, Building data)
+		{
 			RealCityIndustrialBuildingAI.InitDelegate();
-			if (data.Info.m_buildingAI is IndustrialExtractorAI) {
-			} else {
-				switch (data.Info.m_class.m_subService) {
+			if (data.Info.m_buildingAI is IndustrialExtractorAI)
+			{
+			}
+			else
+			{
+				switch (data.Info.m_class.m_subService)
+				{
 					case ItemClass.SubService.CommercialHigh:
 					case ItemClass.SubService.CommercialLow:
 					case ItemClass.SubService.CommercialEco:
@@ -102,20 +111,27 @@ namespace RealCity.CustomAI
 			return TransferManager.TransferReason.None;
 		}
 
-		public static string GetProductionType(bool isSelling, ushort buildingID, Building data) {
+		public static string GetProductionType(bool isSelling, ushort buildingID, Building data)
+		{
 			RealCityIndustrialBuildingAI.InitDelegate();
 			string material = "";
-			if (!isSelling) {
-				if (data.Info.m_buildingAI is IndustrialExtractorAI) {
-				} else {
-					switch (data.Info.m_class.m_subService) {
+			if (!isSelling)
+			{
+				if (data.Info.m_buildingAI is IndustrialExtractorAI)
+				{
+				}
+				else
+				{
+					switch (data.Info.m_class.m_subService)
+					{
 						case ItemClass.SubService.CommercialHigh:
 						case ItemClass.SubService.CommercialLow:
 						case ItemClass.SubService.CommercialEco:
 						case ItemClass.SubService.CommercialLeisure:
 						case ItemClass.SubService.CommercialTourist:
 							CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
-							switch (commercialBuildingAI.m_incomingResource) {
+							switch (commercialBuildingAI.m_incomingResource)
+							{
 								case TransferManager.TransferReason.Goods:
 									material = Localization.Get("PREGOODS") + Localization.Get("LUXURY_PRODUCTS"); break;
 								case TransferManager.TransferReason.Food:
@@ -139,7 +155,8 @@ namespace RealCity.CustomAI
 						case ItemClass.SubService.IndustrialFarming:
 						case ItemClass.SubService.IndustrialOil:
 						case ItemClass.SubService.IndustrialOre:
-							switch (RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID)) {
+							switch (RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID))
+							{
 								case TransferManager.TransferReason.Grain:
 									material = Localization.Get("GRAIN_MEAT"); break;
 								case TransferManager.TransferReason.Logs:
@@ -152,7 +169,8 @@ namespace RealCity.CustomAI
 							}
 							break;
 						case ItemClass.SubService.IndustrialGeneric:
-							switch (RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID)) {
+							switch (RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID))
+							{
 								case TransferManager.TransferReason.Food:
 									material = Localization.Get("FOOD"); break;
 								case TransferManager.TransferReason.Lumber:
@@ -163,7 +181,8 @@ namespace RealCity.CustomAI
 									material = Localization.Get("COAL"); break;
 								default: break;
 							}
-							switch (RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID)) {
+							switch (RealCityIndustrialBuildingAI.GetSecondaryIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID))
+							{
 								case TransferManager.TransferReason.AnimalProducts:
 									material += Localization.Get("ANIMALPRODUCTS"); break;
 								case TransferManager.TransferReason.Flours:
@@ -187,9 +206,13 @@ namespace RealCity.CustomAI
 							material = ""; break;
 					}
 				}
-			} else {
-				if (data.Info.m_buildingAI is IndustrialExtractorAI) {
-					switch (data.Info.m_class.m_subService) {
+			}
+			else
+			{
+				if (data.Info.m_buildingAI is IndustrialExtractorAI)
+				{
+					switch (data.Info.m_class.m_subService)
+					{
 						case ItemClass.SubService.IndustrialForestry:
 							material = Localization.Get("LOG"); break;
 						case ItemClass.SubService.IndustrialFarming:
@@ -201,8 +224,11 @@ namespace RealCity.CustomAI
 						default:
 							material = ""; break;
 					}
-				} else {
-					switch (data.Info.m_class.m_subService) {
+				}
+				else
+				{
+					switch (data.Info.m_class.m_subService)
+					{
 						case ItemClass.SubService.IndustrialForestry:
 							material = Localization.Get("LUMBER"); break;
 						case ItemClass.SubService.IndustrialFarming:
@@ -227,22 +253,29 @@ namespace RealCity.CustomAI
 			return material;
 		}
 
-		public static float GetPrice(bool isSelling, ushort buildingID, Building data) {
+		public static float GetPrice(bool isSelling, ushort buildingID, Building data)
+		{
 			RealCityIndustrialBuildingAI.InitDelegate();
 			float price = 0f;
-			if (!isSelling) {
-				if (!(data.Info.m_buildingAI is IndustrialExtractorAI)) {
-					switch (data.Info.m_class.m_subService) {
+			if (!isSelling)
+			{
+				if (!(data.Info.m_buildingAI is IndustrialExtractorAI))
+				{
+					switch (data.Info.m_class.m_subService)
+					{
 						case ItemClass.SubService.CommercialHigh:
 						case ItemClass.SubService.CommercialLow:
 						case ItemClass.SubService.CommercialEco:
 						case ItemClass.SubService.CommercialLeisure:
 						case ItemClass.SubService.CommercialTourist:
 							CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
-							if (commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Food || commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Goods) {
+							if (commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Food || commercialBuildingAI.m_incomingResource == TransferManager.TransferReason.Goods)
+							{
 								//SecondaryIncoming : FirstIncoming = 1:3
 								price = (3f * RealCityIndustryBuildingAI.GetResourcePrice(commercialBuildingAI.m_incomingResource) + (RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.LuxuryProducts))) / 4f;
-							} else {
+							}
+							else
+							{
 								price = RealCityIndustryBuildingAI.GetResourcePrice(commercialBuildingAI.m_incomingResource);
 							}
 							break;
@@ -263,9 +296,13 @@ namespace RealCity.CustomAI
 							price = 0; break;
 					}
 				}
-			} else {
-				if (data.Info.m_buildingAI is IndustrialExtractorAI) {
-					switch (data.Info.m_class.m_subService) {
+			}
+			else
+			{
+				if (data.Info.m_buildingAI is IndustrialExtractorAI)
+				{
+					switch (data.Info.m_class.m_subService)
+					{
 						case ItemClass.SubService.IndustrialForestry:
 							price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Logs); break;
 						case ItemClass.SubService.IndustrialFarming:
@@ -277,8 +314,11 @@ namespace RealCity.CustomAI
 						default:
 							price = 0; break;
 					}
-				} else {
-					switch (data.Info.m_class.m_subService) {
+				}
+				else
+				{
+					switch (data.Info.m_class.m_subService)
+					{
 						case ItemClass.SubService.IndustrialForestry:
 							price = RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Lumber); break;
 						case ItemClass.SubService.IndustrialFarming:
@@ -303,41 +343,55 @@ namespace RealCity.CustomAI
 			return price;
 		}
 
-		public static int GetTaxRate(Building data) {
-			if (data.Info.m_class.m_service == ItemClass.Service.Commercial) {
+		public static int GetTaxRate(Building data)
+		{
+			if (data.Info.m_class.m_service == ItemClass.Service.Commercial)
+			{
 				return Politics.commercialTax;
-			} else if (data.Info.m_class.m_service == ItemClass.Service.Industrial) {
+			}
+			else if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
+			{
 				return Politics.industryTax;
 			}
 
 			return 0;
 		}
 
-		public static float GetComsumptionDivider(Building data, ushort buildingID) {
+		public static float GetComsumptionDivider(Building data, ushort buildingID)
+		{
 			Citizen.BehaviourData behaviourData = default;
 			int aliveWorkerCount = 0;
 			int totalWorkerCount = 0;
 			RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)data.Info.m_buildingAI, buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
 			float comsumptionDivider = aliveWorkerCount / 8f;
 
-			if (comsumptionDivider < 1f) {
+			if (comsumptionDivider < 1f)
+			{
 				comsumptionDivider = 1f;
 			}
 
-			if (data.Info.m_class.m_service == ItemClass.Service.Industrial) {
+			if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
+			{
 				RealCityIndustrialBuildingAI.InitDelegate();
 				var incomingTransferReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)data.Info.m_buildingAI, buildingID);
 				//petrol related
-				if (incomingTransferReason == TransferManager.TransferReason.Petrol) {
+				if (incomingTransferReason == TransferManager.TransferReason.Petrol)
+				{
 					//*2 / 4
 					comsumptionDivider /= 2f;
-				} else if (incomingTransferReason == TransferManager.TransferReason.Coal) {
+				}
+				else if (incomingTransferReason == TransferManager.TransferReason.Coal)
+				{
 					//*1.67 / 4
 					comsumptionDivider /= 2.4f;
-				} else if (incomingTransferReason == TransferManager.TransferReason.Lumber) {
+				}
+				else if (incomingTransferReason == TransferManager.TransferReason.Lumber)
+				{
 					//*1.33 / 4
 					comsumptionDivider /= 3f;
-				} else if (incomingTransferReason == TransferManager.TransferReason.Food) {
+				}
+				else if (incomingTransferReason == TransferManager.TransferReason.Food)
+				{
 					comsumptionDivider /= 4f;
 				}
 			}
@@ -345,62 +399,91 @@ namespace RealCity.CustomAI
 			return comsumptionDivider;
 		}
 
-		public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state, bool is16Times = true) {
+		public static void ProcessAdditionProduct(ushort buildingID, ref Building buildingData, ref ushort[] __state, bool is16Times = true)
+		{
 			//add production pre 16times
 			byte shift = 0;
-			if (is16Times) {
+			if (is16Times)
+			{
 				shift = 4;
 			}
 
-			if ((RealCityEconomyExtension.Can16timesUpdate(buildingID)) || (!is16Times)) {
+			if ((RealCityEconomyExtension.Can16timesUpdate(buildingID)) || (!is16Times))
+			{
 				float comsumptionDivider = GetComsumptionDivider(buildingData, buildingID);
 				int deltaCustomBuffer1 = __state[0] - buildingData.m_customBuffer1;
-				if (deltaCustomBuffer1 > 0) {
-					if (RealCity.reduceVehicle) {
-						if (!Singleton<SimulationManager>.instance.m_isNightTime) {
+				if (deltaCustomBuffer1 > 0)
+				{
+					if (RealCity.reduceVehicle)
+					{
+						if (!Singleton<SimulationManager>.instance.m_isNightTime)
+						{
 							buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / (comsumptionDivider * MainDataStore.reduceCargoDiv)) << shift));
-						} else {
+						}
+						else
+						{
 							buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / comsumptionDivider) << shift));
 						}
-					} else {
-						if (!Singleton<SimulationManager>.instance.m_isNightTime) {
+					}
+					else
+					{
+						if (!Singleton<SimulationManager>.instance.m_isNightTime)
+						{
 							buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)(deltaCustomBuffer1 / comsumptionDivider) << shift));
-						} else {
+						}
+						else
+						{
 							buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1 - ((int)((deltaCustomBuffer1 << 1) / comsumptionDivider) << shift));
 						}
 					}
 				}
 
 				int deltaCustomBuffer2 = buildingData.m_customBuffer2 - __state[1];
-				if (deltaCustomBuffer2 > 0) {
-					if (RealCity.reduceVehicle) {
-						if (!Singleton<SimulationManager>.instance.m_isNightTime) {
+				if (deltaCustomBuffer2 > 0)
+				{
+					if (RealCity.reduceVehicle)
+					{
+						if (!Singleton<SimulationManager>.instance.m_isNightTime)
+						{
 							buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + ((deltaCustomBuffer2 >> MainDataStore.reduceCargoDivShift) << shift));
-						} else {
+						}
+						else
+						{
 							//NightTime 2x , reduceVehicle 1/2, so do nothing
 							buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (((int)(deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv) << 1) << shift));
 						}
-					} else {
-						if (!Singleton<SimulationManager>.instance.m_isNightTime) {
+					}
+					else
+					{
+						if (!Singleton<SimulationManager>.instance.m_isNightTime)
+						{
 							buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (deltaCustomBuffer2 << shift));
-						} else {
+						}
+						else
+						{
 							buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + ((deltaCustomBuffer2 << MainDataStore.reduceCargoDivShift) << shift));
 							//buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 + (deltaCustomBuffer2 << 4));
 						}
 					}
 				}
-			} else {
+			}
+			else
+			{
 				//DebugLog.LogToFileOnly($"Process buildingID outside 16times = {buildingID}");
 				buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0], 0, 64000);
 				buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1], 0, 64000);
 			}
 		}
 
-		public static void ProcessAdditionProduct(ref Building buildingData, ref ushort[] __state) {
+		public static void ProcessAdditionProduct(ref Building buildingData, ref ushort[] __state)
+		{
 			int deltaCustomBuffer1 = buildingData.m_customBuffer1 - __state[0];
-			if (deltaCustomBuffer1 > 0) {
-				if (RealCity.reduceVehicle) {
-					if (!Singleton<SimulationManager>.instance.m_isNightTime) {
+			if (deltaCustomBuffer1 > 0)
+			{
+				if (RealCity.reduceVehicle)
+				{
+					if (!Singleton<SimulationManager>.instance.m_isNightTime)
+					{
 						buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 >> MainDataStore.reduceCargoDivShift));
 					}
 					//else
@@ -408,10 +491,15 @@ namespace RealCity.CustomAI
 					//NightTime 2x , reduceVehicle 1/2, so do nothing
 					//buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + (deltaCustomBuffer1 / (float)MainDataStore.reduceCargoDiv) * 2f);
 					//}
-				} else {
-					if (!Singleton<SimulationManager>.instance.m_isNightTime) {
+				}
+				else
+				{
+					if (!Singleton<SimulationManager>.instance.m_isNightTime)
+					{
 						//buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + deltaCustomBuffer1);
-					} else {
+					}
+					else
+					{
 						//buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 - deltaCustomBuffer1 + 2 * deltaCustomBuffer1);
 						buildingData.m_customBuffer1 = (ushort)(buildingData.m_customBuffer1 + deltaCustomBuffer1);
 					}

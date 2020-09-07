@@ -7,7 +7,8 @@ namespace RealCity.CustomAI
 		public delegate TransferManager.TransferReason IndustrialExtractorAIGetOutgoingTransferReason(IndustrialExtractorAI IndustrialExtractorAI);
 		public static IndustrialExtractorAIGetOutgoingTransferReason GetOutgoingTransferReason;
 
-		public static void InitDelegate() {
+		public static void InitDelegate()
+		{
 			if (GetOutgoingTransferReason != null)
 				return;
 			GetOutgoingTransferReason = FastDelegateFactory.Create<IndustrialExtractorAIGetOutgoingTransferReason>(typeof(IndustrialExtractorAI), "GetOutgoingTransferReason", instanceMethod: true);

@@ -21,7 +21,8 @@ namespace RealCity.CustomAI
 		public static uint familyWeightStableHigh = 0;
 		public static uint familyWeightStableLow = 0;
 
-		public static void Load(ref byte[] saveData) {
+		public static void Load(ref byte[] saveData)
+		{
 			int i = 0;
 			SaveAndRestore.LoadData(ref i, saveData, ref preCitizenId);
 			SaveAndRestore.LoadData(ref i, saveData, ref familyCount);
@@ -36,12 +37,14 @@ namespace RealCity.CustomAI
 			SaveAndRestore.LoadData(ref i, saveData, ref familyWeightStableLow);
 			SaveAndRestore.LoadData(ref i, saveData, ref citizenCount);
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"RealCityResidentAI Load Error: saveData.Length = {saveData.Length} + i = {i}");
 			}
 		}
 
-		public static void Save(ref byte[] saveData) {
+		public static void Save(ref byte[] saveData)
+		{
 			int i = 0;
 
 			//48
@@ -58,15 +61,18 @@ namespace RealCity.CustomAI
 			SaveAndRestore.SaveData(ref i, familyWeightStableLow, ref saveData);
 			SaveAndRestore.SaveData(ref i, citizenCount, ref saveData);
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"RealCityResidentAI Save Error: saveData.Length = {saveData.Length} + i = {i}");
 			}
 		}
 
-		public static bool IsGoverment(ushort buildingID) {
+		public static bool IsGoverment(ushort buildingID)
+		{
 			bool isGoverment = false;
 			Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
-			switch (buildingData.Info.m_class.m_service) {
+			switch (buildingData.Info.m_class.m_service)
+			{
 				case ItemClass.Service.Disaster:
 				case ItemClass.Service.PoliceDepartment:
 				case ItemClass.Service.Education:
@@ -89,24 +95,33 @@ namespace RealCity.CustomAI
 			return isGoverment;
 		}
 
-		public static int ProcessCitizenSalary(uint citizenId, bool checkOnly) {
+		public static int ProcessCitizenSalary(uint citizenId, bool checkOnly)
+		{
 			int salary = 0;
-			if (citizenId != 0u) {
+			if (citizenId != 0u)
+			{
 				Citizen.Flags citizenFlag = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_flags;
-				if ((citizenFlag & Citizen.Flags.Student) != Citizen.Flags.None) {
+				if ((citizenFlag & Citizen.Flags.Student) != Citizen.Flags.None)
+				{
 					return salary;
 				}
 				ushort workBuilding = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].m_workBuilding;
-				if (workBuilding != 0u) {
+				if (workBuilding != 0u)
+				{
 					Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding];
-					if (!IsGoverment(workBuilding)) {
+					if (!IsGoverment(workBuilding))
+					{
 						salary = BuildingData.buildingWorkCount[workBuilding];
-						if (!checkOnly) {
-							if (buildingData.Info.m_class.m_service != ItemClass.Service.Office) {
+						if (!checkOnly)
+						{
+							if (buildingData.Info.m_class.m_service != ItemClass.Service.Office)
+							{
 								BuildingData.buildingMoney[workBuilding] -= salary;
 							}
 						}
-					} else {
+					}
+					else
+					{
 						//Goverment                        
 						int aliveWorkCount = 0;
 						int totalWorkCount = 0;
@@ -114,7 +129,8 @@ namespace RealCity.CustomAI
 						RealCityCommonBuildingAI.InitDelegate();
 						RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)buildingData.Info.m_buildingAI, workBuilding, ref buildingData, ref behaviour, ref aliveWorkCount, ref totalWorkCount);
 						int salaryMax = 0;
-						switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel) {
+						switch (Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].EducationLevel)
+						{
 							case Citizen.Education.Uneducated:
 								salaryMax = (int)(MainDataStore.govermentSalary * 0.5);
 								salary = MainDataStore.govermentEducation0SalaryFixed; break;
@@ -133,7 +149,8 @@ namespace RealCity.CustomAI
 						//If a building have 10 workers and have 100 workplacecount, we assume that the other 90 vitual workers are from outside
 						//Which will give addition cost
 						allWorkCount = TotalWorkCount(workBuilding, buildingData, false, false);
-						if (totalWorkCount > allWorkCount) {
+						if (totalWorkCount > allWorkCount)
+						{
 							Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId].SetWorkplace(citizenId, 0, 0u);
 						}
 						float vitualWorkersRatio = (totalWorkCount != 0) ? (allWorkCount / (float)totalWorkCount) : 1f;
@@ -146,7 +163,8 @@ namespace RealCity.CustomAI
 						DebugLog.LogToFileOnly("DebugInfo: LandPrice offset for Salary is " + landPriceOffset.ToString());
 #endif
 						salary = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, salary);
-						if (!checkOnly) {
+						if (!checkOnly)
+						{
 							var m_class = Singleton<BuildingManager>.instance.m_buildings.m_buffer[workBuilding].Info.m_class;
 							Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (int)(salary * vitualWorkersRatio), m_class);
 							MainDataStore.outsideTouristMoney += (salary * (vitualWorkersRatio - 1f) * MainDataStore.outsideTouristSalaryProfitRatio);
@@ -158,146 +176,238 @@ namespace RealCity.CustomAI
 			return salary;
 		}//public
 
-		public static int TotalWorkCount(ushort buildingID, Building data, bool checkOnly, bool update) {
+		public static int TotalWorkCount(ushort buildingID, Building data, bool checkOnly, bool update)
+		{
 			int totalWorkCount = 0;
 			//For performance
 #if FASTRUN
 			update = false;
 #endif
-			if (BuildingData.isBuildingWorkerUpdated[buildingID] && !update) {
+			if (BuildingData.isBuildingWorkerUpdated[buildingID] && !update)
+			{
 				totalWorkCount = BuildingData.buildingWorkCount[buildingID];
-			} else {
-				if (data.Info.m_buildingAI is LandfillSiteAI) {
+			}
+			else
+			{
+				if (data.Info.m_buildingAI is LandfillSiteAI)
+				{
 					LandfillSiteAI buildingAI = data.Info.m_buildingAI as LandfillSiteAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is ExtractingFacilityAI) {
+				}
+				else if (data.Info.m_buildingAI is ExtractingFacilityAI)
+				{
 					ExtractingFacilityAI buildingAI = data.Info.m_buildingAI as ExtractingFacilityAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is ProcessingFacilityAI) {
+				}
+				else if (data.Info.m_buildingAI is ProcessingFacilityAI)
+				{
 					ProcessingFacilityAI buildingAI = data.Info.m_buildingAI as ProcessingFacilityAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is PoliceStationAI) {
+				}
+				else if (data.Info.m_buildingAI is PoliceStationAI)
+				{
 					PoliceStationAI buildingAI = data.Info.m_buildingAI as PoliceStationAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is FireStationAI) {
+				}
+				else if (data.Info.m_buildingAI is FireStationAI)
+				{
 					FireStationAI buildingAI = data.Info.m_buildingAI as FireStationAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is HospitalAI) {
+				}
+				else if (data.Info.m_buildingAI is HospitalAI)
+				{
 					HospitalAI buildingAI = data.Info.m_buildingAI as HospitalAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is CargoStationAI) {
+				}
+				else if (data.Info.m_buildingAI is CargoStationAI)
+				{
 					CargoStationAI buildingAI = data.Info.m_buildingAI as CargoStationAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is TransportStationAI) {
+				}
+				else if (data.Info.m_buildingAI is TransportStationAI)
+				{
 					TransportStationAI buildingAI = data.Info.m_buildingAI as TransportStationAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is CemeteryAI) {
+				}
+				else if (data.Info.m_buildingAI is CemeteryAI)
+				{
 					CemeteryAI buildingAI = data.Info.m_buildingAI as CemeteryAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is MedicalCenterAI) {
+				}
+				else if (data.Info.m_buildingAI is MedicalCenterAI)
+				{
 					MedicalCenterAI buildingAI = data.Info.m_buildingAI as MedicalCenterAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is MonumentAI) {
+				}
+				else if (data.Info.m_buildingAI is MonumentAI)
+				{
 					MonumentAI buildingAI = data.Info.m_buildingAI as MonumentAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is DepotAI) {
+				}
+				else if (data.Info.m_buildingAI is DepotAI)
+				{
 					DepotAI buildingAI = data.Info.m_buildingAI as DepotAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is HelicopterDepotAI) {
+				}
+				else if (data.Info.m_buildingAI is HelicopterDepotAI)
+				{
 					HelicopterDepotAI buildingAI = data.Info.m_buildingAI as HelicopterDepotAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is MaintenanceDepotAI) {
+				}
+				else if (data.Info.m_buildingAI is MaintenanceDepotAI)
+				{
 					MaintenanceDepotAI buildingAI = data.Info.m_buildingAI as MaintenanceDepotAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is FirewatchTowerAI) {
+				}
+				else if (data.Info.m_buildingAI is FirewatchTowerAI)
+				{
 					FirewatchTowerAI buildingAI = data.Info.m_buildingAI as FirewatchTowerAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is DoomsdayVaultAI) {
+				}
+				else if (data.Info.m_buildingAI is DoomsdayVaultAI)
+				{
 					DoomsdayVaultAI buildingAI = data.Info.m_buildingAI as DoomsdayVaultAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is DisasterResponseBuildingAI) {
+				}
+				else if (data.Info.m_buildingAI is DisasterResponseBuildingAI)
+				{
 					DisasterResponseBuildingAI buildingAI = data.Info.m_buildingAI as DisasterResponseBuildingAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is HadronColliderAI) {
+				}
+				else if (data.Info.m_buildingAI is HadronColliderAI)
+				{
 					HadronColliderAI buildingAI = data.Info.m_buildingAI as HadronColliderAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is SchoolAI) {
+				}
+				else if (data.Info.m_buildingAI is SchoolAI)
+				{
 					SchoolAI buildingAI = data.Info.m_buildingAI as SchoolAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is PowerPlantAI) {
+				}
+				else if (data.Info.m_buildingAI is PowerPlantAI)
+				{
 					PowerPlantAI buildingAI = data.Info.m_buildingAI as PowerPlantAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is SnowDumpAI) {
+				}
+				else if (data.Info.m_buildingAI is SnowDumpAI)
+				{
 					SnowDumpAI buildingAI = data.Info.m_buildingAI as SnowDumpAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is WarehouseAI) {
+				}
+				else if (data.Info.m_buildingAI is WarehouseAI)
+				{
 					WarehouseAI buildingAI = data.Info.m_buildingAI as WarehouseAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is WaterFacilityAI) {
+				}
+				else if (data.Info.m_buildingAI is WaterFacilityAI)
+				{
 					WaterFacilityAI buildingAI = data.Info.m_buildingAI as WaterFacilityAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is SaunaAI) {
+				}
+				else if (data.Info.m_buildingAI is SaunaAI)
+				{
 					SaunaAI buildingAI = data.Info.m_buildingAI as SaunaAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is PostOfficeAI) {
+				}
+				else if (data.Info.m_buildingAI is PostOfficeAI)
+				{
 					PostOfficeAI buildingAI = data.Info.m_buildingAI as PostOfficeAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is RadioMastAI) {
+				}
+				else if (data.Info.m_buildingAI is RadioMastAI)
+				{
 					RadioMastAI buildingAI = data.Info.m_buildingAI as RadioMastAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is SpaceElevatorAI) {
+				}
+				else if (data.Info.m_buildingAI is SpaceElevatorAI)
+				{
 					SpaceElevatorAI buildingAI = data.Info.m_buildingAI as SpaceElevatorAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is SpaceRadarAI) {
+				}
+				else if (data.Info.m_buildingAI is SpaceRadarAI)
+				{
 					SpaceRadarAI buildingAI = data.Info.m_buildingAI as SpaceRadarAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is MainIndustryBuildingAI) {
+				}
+				else if (data.Info.m_buildingAI is MainIndustryBuildingAI)
+				{
 					MainIndustryBuildingAI buildingAI = data.Info.m_buildingAI as MainIndustryBuildingAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is AuxiliaryBuildingAI) {
+				}
+				else if (data.Info.m_buildingAI is AuxiliaryBuildingAI)
+				{
 					AuxiliaryBuildingAI buildingAI = data.Info.m_buildingAI as AuxiliaryBuildingAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is ShelterAI) {
+				}
+				else if (data.Info.m_buildingAI is ShelterAI)
+				{
 					ShelterAI buildingAI = data.Info.m_buildingAI as ShelterAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is HeatingPlantAI) {
+				}
+				else if (data.Info.m_buildingAI is HeatingPlantAI)
+				{
 					HeatingPlantAI buildingAI = data.Info.m_buildingAI as HeatingPlantAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is MainCampusBuildingAI) {
+				}
+				else if (data.Info.m_buildingAI is MainCampusBuildingAI)
+				{
 					MainCampusBuildingAI buildingAI = data.Info.m_buildingAI as MainCampusBuildingAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is MuseumAI) {
+				}
+				else if (data.Info.m_buildingAI is MuseumAI)
+				{
 					MuseumAI buildingAI = data.Info.m_buildingAI as MuseumAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is UniqueFactoryAI) {
+				}
+				else if (data.Info.m_buildingAI is UniqueFactoryAI)
+				{
 					UniqueFactoryAI buildingAI = data.Info.m_buildingAI as UniqueFactoryAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is UniqueFacultyAI) {
+				}
+				else if (data.Info.m_buildingAI is UniqueFacultyAI)
+				{
 					UniqueFacultyAI buildingAI = data.Info.m_buildingAI as UniqueFacultyAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is VarsitySportsArenaAI) {
+				}
+				else if (data.Info.m_buildingAI is VarsitySportsArenaAI)
+				{
 					VarsitySportsArenaAI buildingAI = data.Info.m_buildingAI as VarsitySportsArenaAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is LibraryAI) {
+				}
+				else if (data.Info.m_buildingAI is LibraryAI)
+				{
 					LibraryAI buildingAI = data.Info.m_buildingAI as LibraryAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is FishFarmAI) {
+				}
+				else if (data.Info.m_buildingAI is FishFarmAI)
+				{
 					FishFarmAI buildingAI = data.Info.m_buildingAI as FishFarmAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is FishingHarborAI) {
+				}
+				else if (data.Info.m_buildingAI is FishingHarborAI)
+				{
 					FishingHarborAI buildingAI = data.Info.m_buildingAI as FishingHarborAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is EldercareAI) {
+				}
+				else if (data.Info.m_buildingAI is EldercareAI)
+				{
 					EldercareAI buildingAI = data.Info.m_buildingAI as EldercareAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is ChildcareAI) {
+				}
+				else if (data.Info.m_buildingAI is ChildcareAI)
+				{
 					ChildcareAI buildingAI = data.Info.m_buildingAI as ChildcareAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else if (data.Info.m_buildingAI is MarketAI) {
+				}
+				else if (data.Info.m_buildingAI is MarketAI)
+				{
 					MarketAI buildingAI = data.Info.m_buildingAI as MarketAI;
 					totalWorkCount = buildingAI.m_workPlaceCount0 + buildingAI.m_workPlaceCount1 + buildingAI.m_workPlaceCount2 + buildingAI.m_workPlaceCount3;
-				} else {
-					if (!checkOnly) {
+				}
+				else
+				{
+					if (!checkOnly)
+					{
 						DebugLog.LogToFileOnly("Error: find unknow building = " + data.Info.m_buildingAI.ToString());
 					}
 				}

@@ -20,17 +20,20 @@ namespace RealCity.UI
 		private UILabel familySalary;
 		private UILabel familyGoods;
 
-		public override void Update() {
+		public override void Update()
+		{
 			RefreshDisplayData();
 			base.Update();
 		}
 
-		public override void Awake() {
+		public override void Awake()
+		{
 			base.Awake();
 			DoOnStartup();
 		}
 
-		public override void Start() {
+		public override void Start()
+		{
 			base.Start();
 			canFocus = true;
 			isInteractive = true;
@@ -40,11 +43,13 @@ namespace RealCity.UI
 			RefreshDisplayData();
 		}
 
-		private void DoOnStartup() {
+		private void DoOnStartup()
+		{
 			ShowOnGui();
 		}
 
-		private void ShowOnGui() {
+		private void ShowOnGui()
+		{
 			familyMoney = AddUIComponent<UILabel>();
 			familyMoney.text = Localization.Get("FAMILY_MONEY");
 			familyMoney.relativePosition = new Vector3(SPACING, 50f);
@@ -66,9 +71,12 @@ namespace RealCity.UI
 			familyGoods.autoSize = true;
 		}
 
-		private void RefreshDisplayData() {
-			if (refeshOnce || (CitizenData.lastCitizenID != WorldInfoPanel.GetCurrentInstanceID().Citizen)) {
-				if (isVisible) {
+		private void RefreshDisplayData()
+		{
+			if (refeshOnce || (CitizenData.lastCitizenID != WorldInfoPanel.GetCurrentInstanceID().Citizen))
+			{
+				if (isVisible)
+				{
 					CitizenData.lastCitizenID = WorldInfoPanel.GetCurrentInstanceID().Citizen;
 					CitizenManager instance3 = Singleton<CitizenManager>.instance;
 					ushort homeBuilding = instance3.m_citizens.m_buffer[(int)((UIntPtr)CitizenData.lastCitizenID)].m_homeBuilding;
@@ -78,9 +86,12 @@ namespace RealCity.UI
 					citizenMoney.text = string.Format(Localization.Get("CITIZEN_MONEY") + " [{0}]", CitizenData.citizenMoney[CitizenData.lastCitizenID]);
 					familySalary.text = string.Format(Localization.Get("FAMILY_SALARY") + " [{0}]", CaculateFamilySalary(homeId).ToString());
 
-					if ((instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].m_flags & Citizen.Flags.NeedGoods) != 0) {
+					if ((instance3.m_citizens.m_buffer[CitizenData.lastCitizenID].m_flags & Citizen.Flags.NeedGoods) != 0)
+					{
 						familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}] " + Localization.Get("FAMILY_NEED_GOODS"), (CitizenUnitData.familyGoods[homeId] / 10f).ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
-					} else {
+					}
+					else
+					{
 						familyGoods.text = string.Format(Localization.Get("FAMILY_GOODS") + " [{0}]", (CitizenUnitData.familyGoods[homeId] / 10f).ToString()) + $"({instance3.m_units.m_buffer[homeId].m_goods})";
 					}
 
@@ -89,27 +100,33 @@ namespace RealCity.UI
 			}
 		}
 
-		public int CaculateFamilySalary(uint homeid) {
+		public int CaculateFamilySalary(uint homeid)
+		{
 			int totalSalary = 0;
 
 			uint citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen0;
-			if (citizenID != 0) {
+			if (citizenID != 0)
+			{
 				totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 			}
 			citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen1;
-			if (citizenID != 0) {
+			if (citizenID != 0)
+			{
 				totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 			}
 			citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen2;
-			if (citizenID != 0) {
+			if (citizenID != 0)
+			{
 				totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 			}
 			citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen3;
-			if (citizenID != 0) {
+			if (citizenID != 0)
+			{
 				totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 			}
 			citizenID = Singleton<CitizenManager>.instance.m_units.m_buffer[homeid].m_citizen4;
-			if (citizenID != 0) {
+			if (citizenID != 0)
+			{
 				totalSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 			}
 			return totalSalary;

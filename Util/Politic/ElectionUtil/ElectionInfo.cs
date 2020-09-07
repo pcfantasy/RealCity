@@ -18,13 +18,15 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// 选举信息
 		/// </summary>
 		/// <param name="parties">参选政党</param>
-		public ElectionInfo(IParty[] parties) {
+		public ElectionInfo(IParty[] parties)
+		{
 			if (parties.Length <= 0)
 				throw new ArgumentException("No party joins in an election.");
 			this.Parties = parties;
 			this.TicketCounter = new int[parties.Length];
 		}
-		public int GetAllTickets() {
+		public int GetAllTickets()
+		{
 			return TicketCounter.Sum();
 		}
 	}

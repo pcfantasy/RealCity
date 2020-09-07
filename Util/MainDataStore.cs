@@ -130,7 +130,8 @@
 		public static float outsideTouristMoney = 0;
 		public static float outsideGovermentMoney = 0;
 
-		public static void Save(ref byte[] saveData) {
+		public static void Save(ref byte[] saveData)
+		{
 			//all 125
 			int i = 0;
 			//16
@@ -168,12 +169,14 @@
 			SaveAndRestore.SaveData(ref i, outsideTouristMoney, ref saveData);
 			SaveAndRestore.SaveData(ref i, outsideGovermentMoney, ref saveData);
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"MainDataStore Save Error: saveData.Length = {saveData.Length} actually = {i}");
 			}
 		}
 
-		public static void Load(ref byte[] saveData) {
+		public static void Load(ref byte[] saveData)
+		{
 			int i = 0;
 			SaveAndRestore.LoadData(ref i, saveData, ref citizenExpensePerFamily);
 			SaveAndRestore.LoadData(ref i, saveData, ref citizenExpense);
@@ -217,7 +220,8 @@
 			if (govermentSalary > 100)
 				govermentSalary = 100;
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"MainDataStore Load Error: saveData.Length = {saveData.Length} actually = {i}");
 			}
 		}

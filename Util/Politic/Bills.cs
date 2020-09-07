@@ -33,11 +33,13 @@ namespace RealCity.Util.Politic
 			// which is NOT elegant
 		};
 
-		public static IBill GetRandomBill() {
+		public static IBill GetRandomBill()
+		{
 			return AllBills.GetRandomElement(r);
 		}
 
-		public static IBill GetReversedBill(IBill bill) {
+		public static IBill GetReversedBill(IBill bill)
+		{
 			//string revStr;
 			//int index = Array.IndexOf(AllBills, bill);
 			//// even = rise, odd = reduce
@@ -51,15 +53,19 @@ namespace RealCity.Util.Politic
 			IBill revBill;
 			int index = Array.IndexOf(AllBills, bill);
 			// even = rise, odd = reduce
-			if ((index & 1) == 1) {
+			if ((index & 1) == 1)
+			{
 				revBill = AllBills[index - 1];
-			} else {
+			}
+			else
+			{
 				revBill = AllBills[index + 1];
 			}
 			return revBill;
 		}
 
-		public static IBill GetAnotherBill(IBill bill) {
+		public static IBill GetAnotherBill(IBill bill)
+		{
 			for (; bill.IsImplementable() == false; bill = GetRandomBill()) ;
 			return bill;
 

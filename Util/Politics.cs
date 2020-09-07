@@ -29,7 +29,8 @@ namespace RealCity.Util
 		public static bool CanRiseBenefit => benefitOffset < MaxBenefitValue;
 		public static bool CanReduceBenefit => benefitOffset > MinBenefitValue;
 
-		public static IParty[] FindPartiesByType(PartyType type) {
+		public static IParty[] FindPartiesByType(PartyType type)
+		{
 			var q =
 				from p in Parties
 				where p.PartyType == type
@@ -37,7 +38,8 @@ namespace RealCity.Util
 			return q.ToArray();
 		}
 
-		public static bool IsOnElection() {
+		public static bool IsOnElection()
+		{
 			return nextMeetingInterval == 1;
 		}
 
@@ -46,7 +48,8 @@ namespace RealCity.Util
 		/// </summary>
 		/// <param name="age"></param>
 		/// <returns></returns>
-		public static bool IsOverVotingAge(Citizen.AgeGroup age) {
+		public static bool IsOverVotingAge(Citizen.AgeGroup age)
+		{
 			return age >= VotingAge;
 		}
 
@@ -55,7 +58,8 @@ namespace RealCity.Util
 		/// </summary>
 		/// <param name="citizen"></param>
 		/// <returns></returns>
-		public static bool IsOverVotingAge(ref Citizen citizen) {
+		public static bool IsOverVotingAge(ref Citizen citizen)
+		{
 			return IsOverVotingAge(Citizen.GetAgeGroup(citizen.m_age));
 		}
 
@@ -229,7 +233,8 @@ namespace RealCity.Util
 		public static int benefitOffset = 0;
 
 
-		public static void DataInit() {
+		public static void DataInit()
+		{
 			PartyFactory factory = new PartyFactory();
 			cParty = factory.MakeCParty();
 			gParty = factory.MakeGParty();
@@ -248,7 +253,8 @@ namespace RealCity.Util
 			Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
 		}
 
-		public static void Save(ref byte[] saveData) {
+		public static void Save(ref byte[] saveData)
+		{
 			//58
 			int i = 0;
 
@@ -297,12 +303,14 @@ namespace RealCity.Util
 			industryTax = COMath.Clamp((int)industryTax, 0, 20);
 			benefitOffset = (short)COMath.Clamp((int)benefitOffset, 0, 100);
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"Politics Save Error: saveData.Length = {saveData.Length} + i = {i}");
 			}
 		}
 
-		public static void Load(ref byte[] saveData) {
+		public static void Load(ref byte[] saveData)
+		{
 			int i = 0;
 
 
@@ -344,7 +352,8 @@ namespace RealCity.Util
 			SaveAndRestore.LoadData(ref i, saveData, ref industryTax);
 			SaveAndRestore.LoadData(ref i, saveData, ref benefitOffset);
 
-			if (i != saveData.Length) {
+			if (i != saveData.Length)
+			{
 				DebugLog.LogToFileOnly($"Politics Load Error: saveData.Length = {saveData.Length} + i = {i}");
 			}
 		}

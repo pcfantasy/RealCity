@@ -4,8 +4,10 @@ namespace RealCity.RebalancedIndustries
 {
 	public class RI_Data
 	{
-		public static float GetFactorCargo(TransferManager.TransferReason material) {
-			switch (material) {
+		public static float GetFactorCargo(TransferManager.TransferReason material)
+		{
+			switch (material)
+			{
 				case TransferManager.TransferReason.Oil:
 				case TransferManager.TransferReason.Ore:
 				case TransferManager.TransferReason.Coal:
@@ -30,9 +32,12 @@ namespace RealCity.RebalancedIndustries
 				case TransferManager.TransferReason.ShoppingD:
 				case TransferManager.TransferReason.ShoppingE:
 				case TransferManager.TransferReason.ShoppingH:
-					if (RealCity.reduceVehicle) {
+					if (RealCity.reduceVehicle)
+					{
 						return MainDataStore.playerIndustryBuildingProductionSpeedDiv * MainDataStore.reduceCargoDiv;
-					} else {
+					}
+					else
+					{
 						return MainDataStore.playerIndustryBuildingProductionSpeedDiv;
 					}
 			}

@@ -16,9 +16,12 @@ namespace RealCity.UI
 		public UISprite warningIcon;
 		private static IncompatibleModsPanel _instance;
 
-		public static IncompatibleModsPanel Instance {
-			get {
-				if (_instance == null) {
+		public static IncompatibleModsPanel Instance
+		{
+			get
+			{
+				if (_instance == null)
+				{
 					_instance = (UIView.GetAView().AddUIComponent(typeof(IncompatibleModsPanel)) as IncompatibleModsPanel);
 				}
 
@@ -28,7 +31,8 @@ namespace RealCity.UI
 
 		public Dictionary<ulong, string> IncompatibleMods { get; set; }
 
-		public void Initialize() {
+		public void Initialize()
+		{
 			DebugLog.LogToFileOnly("IncompatibleModsPanel initialize");
 			isVisible = true;
 
@@ -61,7 +65,8 @@ namespace RealCity.UI
 			scrollablePanel.size = new Vector2(550, 340);
 			scrollablePanel.relativePosition = new Vector3(0, 0);
 			scrollablePanel.clipChildren = true;
-			if (IncompatibleMods.Count != 0) {
+			if (IncompatibleMods.Count != 0)
+			{
 				int acc = 0;
 				UIPanel item;
 				IncompatibleMods.ForEach((pair) => {
@@ -109,13 +114,15 @@ namespace RealCity.UI
 			BringToFront();
 		}
 
-		private void CloseButtonClick(UIComponent component, UIMouseEventParameter eventparam) {
+		private void CloseButtonClick(UIComponent component, UIMouseEventParameter eventparam)
+		{
 			closeButton.eventClick -= CloseButtonClick;
 			TryPopModal();
 			Hide();
 		}
 
-		private UIPanel CreateEntry(ref UIScrollablePanel parent, string name, ulong steamId) {
+		private UIPanel CreateEntry(ref UIScrollablePanel parent, string name, ulong steamId)
+		{
 			UIPanel panel = parent.AddUIComponent<UIPanel>();
 			panel.size = new Vector2(560, 50);
 			panel.backgroundSprite = "ContentManagerItemBackground";
@@ -127,21 +134,26 @@ namespace RealCity.UI
 			return panel;
 		}
 
-		private void UnsubscribeClick(UIComponent component, UIMouseEventParameter eventparam, ulong steamId) {
+		private void UnsubscribeClick(UIComponent component, UIMouseEventParameter eventparam, ulong steamId)
+		{
 			DebugLog.LogToFileOnly("Trying to unsubscribe workshop item " + steamId);
 			component.isEnabled = false;
-			if (PlatformService.workshop.Unsubscribe(new PublishedFileId(steamId))) {
+			if (PlatformService.workshop.Unsubscribe(new PublishedFileId(steamId)))
+			{
 				IncompatibleMods.Remove(steamId);
 				component.parent.Disable();
 				component.isVisible = false;
 				DebugLog.LogToFileOnly("Workshop item " + steamId + " unsubscribed");
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly("Failed unsubscribing workshop item " + steamId);
 				component.isEnabled = true;
 			}
 		}
 
-		private UIButton CreateButton(UIComponent parent, string text, int x, int y, MouseEventHandler eventClick) {
+		private UIButton CreateButton(UIComponent parent, string text, int x, int y, MouseEventHandler eventClick)
+		{
 			var button = parent.AddUIComponent<UIButton>();
 			button.textScale = 0.8f;
 			button.width = 150f;
@@ -160,7 +172,8 @@ namespace RealCity.UI
 			return button;
 		}
 
-		private new void OnEnable() {
+		private new void OnEnable()
+		{
 			DebugLog.LogToFileOnly("IncompatibleModsPanel enabled");
 			PlatformService.workshop.eventUGCQueryCompleted += OnQueryCompleted;
 			Singleton<PluginManager>.instance.eventPluginsChanged += OnPluginsChanged;
@@ -168,15 +181,18 @@ namespace RealCity.UI
 			LocaleManager.eventLocaleChanged += OnLocaleChanged;
 		}
 
-		private void OnQueryCompleted(UGCDetails result, bool ioerror) {
+		private void OnQueryCompleted(UGCDetails result, bool ioerror)
+		{
 			DebugLog.LogToFileOnly("IncompatibleModsPanel.OnQueryCompleted() - " + result.result.ToString("D") + " IO error?:" + ioerror);
 		}
 
-		private void OnPluginsChanged() {
+		private void OnPluginsChanged()
+		{
 			DebugLog.LogToFileOnly("IncompatibleModsPanel.OnPluginsChanged() - Plugins changed");
 		}
 
-		private new void OnDisable() {
+		private new void OnDisable()
+		{
 			DebugLog.LogToFileOnly("IncompatibleModsPanel disabled");
 			PlatformService.workshop.eventUGCQueryCompleted -= OnQueryCompleted;
 			Singleton<PluginManager>.instance.eventPluginsChanged -= OnPluginsChanged;
@@ -184,8 +200,10 @@ namespace RealCity.UI
 			LocaleManager.eventLocaleChanged -= OnLocaleChanged;
 		}
 
-		protected override void OnKeyDown(UIKeyEventParameter p) {
-			if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Return)) {
+		protected override void OnKeyDown(UIKeyEventParameter p)
+		{
+			if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Return))
+			{
 				TryPopModal();
 				p.Use();
 				Hide();
@@ -194,11 +212,14 @@ namespace RealCity.UI
 			base.OnKeyDown(p);
 		}
 
-		private void TryPopModal() {
-			if (UIView.HasModalInput()) {
+		private void TryPopModal()
+		{
+			if (UIView.HasModalInput())
+			{
 				UIView.PopModal();
 				UIComponent component = UIView.GetModalComponent();
-				if (component != null) {
+				if (component != null)
+				{
 					UIView.SetFocus(component);
 				}
 			}

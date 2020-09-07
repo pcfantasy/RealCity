@@ -14,7 +14,8 @@ namespace RealCity.Util.Politic
 		/// </summary>
 		public static ElectionInfo CurrentElectionInfo { get; private set; }
 
-		public static void NextElection() {
+		public static void NextElection()
+		{
 			CurrentElectionInfo = new ElectionInfo(Parties);
 		}
 
@@ -22,7 +23,8 @@ namespace RealCity.Util.Politic
 		/// Is on election?
 		/// </summary>
 		/// <returns></returns>
-		public static bool IsOnElection() {
+		public static bool IsOnElection()
+		{
 			return Politics.IsOnElection();
 		}
 	}

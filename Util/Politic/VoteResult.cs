@@ -11,7 +11,8 @@
 		/// 投票结果
 		/// </summary>
 		public VoteResult()
-			: base() {
+			: base()
+		{
 
 		}
 		/// <summary>
@@ -21,7 +22,8 @@
 		/// <param name="disagree">反对</param>
 		/// <param name="neutral">弃权</param>
 		public VoteResult(int agree, int disagree, int neutral)
-			: base(agree, disagree, neutral) {
+			: base(agree, disagree, neutral)
+		{
 
 		}
 	}

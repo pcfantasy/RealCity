@@ -11,19 +11,25 @@ namespace RealCity.Patch
 	public class TouristAISimulationStepPatch
 	{
 		public static ushort touristCount;
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(TouristAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
 		}
-		public static void Postfix(uint citizenID, ref Citizen data) {
-			if (!data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic)) {
-				if (CitizenData.citizenMoney[citizenID] < 100) {
+		public static void Postfix(uint citizenID, ref Citizen data)
+		{
+			if (!data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic))
+			{
+				if (CitizenData.citizenMoney[citizenID] < 100)
+				{
 					FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
 				}
 			}
 		}
 
-		public static TransferManager.TransferReason GetLeavingReason(ref Citizen data) {
-			switch (data.WealthLevel) {
+		public static TransferManager.TransferReason GetLeavingReason(ref Citizen data)
+		{
+			switch (data.WealthLevel)
+			{
 				case Citizen.Wealth.Low:
 					return TransferManager.TransferReason.LeaveCity0;
 				case Citizen.Wealth.Medium:
@@ -35,7 +41,8 @@ namespace RealCity.Patch
 			}
 		}
 
-		public static void FindVisitPlace(uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason) {
+		public static void FindVisitPlace(uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+		{
 			TransferManager.TransferOffer offer = default;
 			offer.Priority = Singleton<SimulationManager>.instance.m_randomizer.Int32(7u);
 			offer.Citizen = citizenID;

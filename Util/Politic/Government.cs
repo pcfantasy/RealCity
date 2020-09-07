@@ -13,7 +13,7 @@ namespace RealCity.Util.Politic
 		private const int MinSeatCount = 99;
 
 		public static Government Null = new Government();
-		public static Government Instance { get;  set; }
+		public static Government Instance { get; set; }
 
 		public IGovernmentalMeeting LastMeeting { get; private set; }
 
@@ -25,10 +25,12 @@ namespace RealCity.Util.Politic
 		public int[] Seats { get; private set; }
 		public int AllSeatCount => this.Seats.Sum();
 
-		public void UpdateSeats(ElectionInfo info) {
+		public void UpdateSeats(ElectionInfo info)
+		{
 			int cnt = info.GetAllTickets();
 			this.Seats = new int[info.PartiesCount];
-			for (int i = 0; i < info.PartiesCount; i++) {
+			for (int i = 0; i < info.PartiesCount; i++)
+			{
 				this.Seats[i] = GetSeatCount(info.TicketCounter[i], ref cnt);
 			}
 			this.FixSeatCount();
@@ -75,11 +77,14 @@ namespace RealCity.Util.Politic
 			#endregion
 		}
 
-		public void UpdateGovType() {
+		public void UpdateGovType()
+		{
 			bool isOk = default;
 			int halfSeatCount = (MinSeatCount >> 1) + 1;
-			for (int i = 0; i < this.Seats.Length; i++) {
-				if (this.Seats[i] >= halfSeatCount) {
+			for (int i = 0; i < this.Seats.Length; i++)
+			{
+				if (this.Seats[i] >= halfSeatCount)
+				{
 					this.GovernmentType = GovernmentType.Single;
 					this.RulingParties = new IParty[] { this.Parties[i] };
 					isOk = true;
@@ -92,32 +97,45 @@ namespace RealCity.Util.Politic
 			// bad codes
 			int left, wideLeft, right;
 			left = wideLeft = right = default;
-			for (int i = 0; i < this.Seats.Length; i++) {
-				if (this.Parties[i].PartyType == PartyType.Green || this.Parties[i].PartyType == PartyType.Socialist) {
+			for (int i = 0; i < this.Seats.Length; i++)
+			{
+				if (this.Parties[i].PartyType == PartyType.Green || this.Parties[i].PartyType == PartyType.Socialist)
+				{
 					left += this.Seats[i];
-				} else if (this.Parties[i].PartyType == PartyType.Communist) {
+				}
+				else if (this.Parties[i].PartyType == PartyType.Communist)
+				{
 					wideLeft += this.Seats[i];
-				} else if (this.Parties[i].PartyType == PartyType.Liberal || this.Parties[i].PartyType == PartyType.National) {
+				}
+				else if (this.Parties[i].PartyType == PartyType.Liberal || this.Parties[i].PartyType == PartyType.National)
+				{
 					right += this.Seats[i];
 				}
 			}
 			wideLeft += left;
-			if (left >= halfSeatCount) {
+			if (left >= halfSeatCount)
+			{
 				this.GovernmentType = GovernmentType.LeftUnion;
 				this.RulingParties = this.Parties
 					.Where(p => p.PartyType == PartyType.Green || p.PartyType == PartyType.Socialist)
 					.ToArray();
-			} else if (wideLeft >= halfSeatCount) {
+			}
+			else if (wideLeft >= halfSeatCount)
+			{
 				this.GovernmentType = GovernmentType.WideLeftUnion;
 				this.RulingParties = this.Parties
 					.Where(p => p.PartyType == PartyType.Green || p.PartyType == PartyType.Socialist || p.PartyType == PartyType.Communist)
 					.ToArray();
-			} else if (right >= halfSeatCount) {
+			}
+			else if (right >= halfSeatCount)
+			{
 				this.GovernmentType = GovernmentType.RightUnion;
 				this.RulingParties = this.Parties
 					.Where(p => p.PartyType == PartyType.Liberal || p.PartyType == PartyType.National)
 					.ToArray();
-			} else {
+			}
+			else
+			{
 				this.GovernmentType = GovernmentType.Grand;
 				this.RulingParties = this.Parties;
 			}
@@ -127,37 +145,43 @@ namespace RealCity.Util.Politic
 		/// Hold a governmental meeting and decide a <see cref="IBill"/> to implement.
 		/// </summary>
 		/// <returns></returns>
-		public IGovernmentalMeeting HoldMeeting() {
+		public IGovernmentalMeeting HoldMeeting()
+		{
 			//if(this.currentBill == null) {
 			//	this.currentBill = Bills.GetRandomBill();
 			//}
 			IGovernmentalMeeting v = new GovernmentalMeeting(this, Bills.GetAnotherBill(this.currentBill));
 			v.Start();
-			if (v.VoteResult.IsApprovable) {
+			if (v.VoteResult.IsApprovable)
+			{
 				v.Bill.Implement();
 			}
 			this.LastMeeting = v;
 			return v;
 		}
 
-		private int GetSeatCount(int ticketCount, ref int ticketSum) {
+		private int GetSeatCount(int ticketCount, ref int ticketSum)
+		{
 			return (int)(99 * ticketCount / ticketSum);
 		}
 
 		/// <summary>
 		/// 修正Seat数量至 <see cref="MinSeatCount"/> 个
 		/// </summary>
-		private void FixSeatCount() {
+		private void FixSeatCount()
+		{
 			int missingCount = MinSeatCount - this.AllSeatCount;
 			// if have missing seats
-			if (missingCount > 0) {
+			if (missingCount > 0)
+			{
 				System.Random r = new System.Random();
 				int idx = r.Next(this.Seats.Length);
 				this.Seats[idx] += missingCount;
 			}
 		}
 
-		public static void Start() {
+		public static void Start()
+		{
 			Instance = Null as Government;
 			Instance.Parties = Politics.Parties;
 		}

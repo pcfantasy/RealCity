@@ -14,13 +14,15 @@ namespace RealCity.Util.Politic
 		public IBill Bill { get; }
 		public AbstractVoteResult VoteResult { get; private set; }
 
-		public GovernmentalMeeting(IGovernment gov, IBill bill) {
+		public GovernmentalMeeting(IGovernment gov, IBill bill)
+		{
 			this.gov = gov;
 			this.parties = gov.Parties;
 			this.Bill = bill;
 		}
 
-		public void Start() {
+		public void Start()
+		{
 			AbstractVoteResult r = new VoteResult();
 
 			int seatCount = this.gov.AllSeatCount;
@@ -43,7 +45,8 @@ namespace RealCity.Util.Politic
 
 			// offset the value of agree by the class of IBill
 			// bad codes
-			if (this.Bill is RiseResidentTaxBill) {
+			if (this.Bill is RiseResidentTaxBill)
+			{
 				//agree += resiTaxOffset * this.parties.Length;
 				//agree -= moneyOffset;
 				//agree -= citizenOffset;
@@ -52,7 +55,9 @@ namespace RealCity.Util.Politic
 					+(resiTaxOffset * this.parties.Length - moneyOffset - citizenOffset),
 					-(resiTaxOffset * this.parties.Length)
 					);
-			} else if (this.Bill is ReduceResidentTaxBill) {
+			}
+			else if (this.Bill is ReduceResidentTaxBill)
+			{
 				//agree -= resiTaxOffset * this.parties.Length;
 				//agree += moneyOffset;
 				//agree += citizenOffset;
@@ -61,7 +66,9 @@ namespace RealCity.Util.Politic
 					-(resiTaxOffset * this.parties.Length - moneyOffset - citizenOffset),
 					+(resiTaxOffset * this.parties.Length)
 					);
-			} else if (this.Bill is RiseCommercialTaxBill) {
+			}
+			else if (this.Bill is RiseCommercialTaxBill)
+			{
 				//agree += commTaxOffset * this.parties.Length;
 				//agree -= moneyOffset;
 				//agree += commercialBuildingOffset;
@@ -70,7 +77,9 @@ namespace RealCity.Util.Politic
 					+(commTaxOffset * this.parties.Length - moneyOffset + commercialBuildingOffset),
 					-(resiTaxOffset * this.parties.Length)
 					);
-			} else if (this.Bill is ReduceCommercialTaxBill) {
+			}
+			else if (this.Bill is ReduceCommercialTaxBill)
+			{
 				//agree -= commTaxOffset * this.parties.Length;
 				//agree += moneyOffset;
 				//agree -= commercialBuildingOffset;
@@ -79,7 +88,9 @@ namespace RealCity.Util.Politic
 					-(commTaxOffset * this.parties.Length - moneyOffset + commercialBuildingOffset),
 					+(resiTaxOffset * this.parties.Length)
 					);
-			} else if (this.Bill is RiseIndustryTaxBill) {
+			}
+			else if (this.Bill is RiseIndustryTaxBill)
+			{
 				//agree += induTaxOffset * this.parties.Length;
 				//agree -= moneyOffset;
 				//agree += industrialBuildingOffset;
@@ -88,7 +99,9 @@ namespace RealCity.Util.Politic
 					+(induTaxOffset * this.parties.Length - moneyOffset + industrialBuildingOffset),
 					-(induTaxOffset * this.parties.Length)
 					);
-			} else if (this.Bill is ReduceIndustryTaxBill) {
+			}
+			else if (this.Bill is ReduceIndustryTaxBill)
+			{
 				//agree -= induTaxOffset * this.parties.Length;
 				//agree += moneyOffset;
 				//agree -= industrialBuildingOffset;
@@ -97,7 +110,9 @@ namespace RealCity.Util.Politic
 					-(induTaxOffset * this.parties.Length - moneyOffset + industrialBuildingOffset),
 					+(induTaxOffset * this.parties.Length)
 					);
-			} else if (this.Bill is RiseBenefitBill) {
+			}
+			else if (this.Bill is RiseBenefitBill)
+			{
 				//agree += beneOffset * this.parties.Length;
 				//agree += moneyOffset;
 				//disagree -= beneOffset * this.parties.Length;
@@ -105,7 +120,9 @@ namespace RealCity.Util.Politic
 					+(beneOffset * this.parties.Length + moneyOffset),
 					-(beneOffset * this.parties.Length)
 					);
-			} else if (this.Bill is ReduceBenefitBill) {
+			}
+			else if (this.Bill is ReduceBenefitBill)
+			{
 				//agree -= beneOffset * this.parties.Length;
 				//agree -= moneyOffset;
 				//disagree += beneOffset * this.parties.Length;
@@ -117,32 +134,44 @@ namespace RealCity.Util.Politic
 			this.VoteResult = r;
 		}
 
-		private void VoteOffset(ref int moneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset) {
+		private void VoteOffset(ref int moneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset)
+		{
 			//moenyOffset
 			//FieldInfo cashAmountField = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
 			//long cashAmount = (long)cashAmountField.GetValue(Singleton<EconomyManager>.instance);
 			long cashAmount = EconomyManager.instance.GetPrivateField<long>("m_cashAmount");
-			if (cashAmount < 0) {
+			if (cashAmount < 0)
+			{
 				moneyOffset = -4000;
-			} else if (cashAmount > 24000000) { // 2.4e7
+			}
+			else if (cashAmount > 24000000)
+			{ // 2.4e7
 				moneyOffset = 4000;
-			} else {
+			}
+			else
+			{
 				moneyOffset = -4000 + (int)(cashAmount / 3000); // equals 0 when cashAmount = 1.2e7
 			}
 
 
 			//citizenOffset
 			int citizenOffsetBySalary = 0;
-			if (MainDataStore.familyCount > 0) {
+			if (MainDataStore.familyCount > 0)
+			{
 				//citizenOffsetBySalary is the salary of its family excluding the tax and expense.
 				//citizenOffsetBySalary是家庭工资减去赋税和开销的值
 				citizenOffsetBySalary = (int)(MainDataStore.citizenSalaryPerFamily - (MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount) - MainDataStore.citizenExpensePerFamily);
 			}
-			if (citizenOffsetBySalary < 100) {
+			if (citizenOffsetBySalary < 100)
+			{
 				citizenOffset = 500;
-			} else if (citizenOffsetBySalary > 300) {
+			}
+			else if (citizenOffsetBySalary > 300)
+			{
 				citizenOffset = -500;
-			} else {
+			}
+			else
+			{
 				citizenOffset = 1000 - 5 * citizenOffsetBySalary;
 			}
 
@@ -150,29 +179,35 @@ namespace RealCity.Util.Politic
 			//buildingOffset
 			buildingOffset = 0;
 			// if have industrial buildings
-			if (RealCityEconomyExtension.industrialEarnMoneyCount + RealCityEconomyExtension.industrialLackMoneyCount > 0) {
+			if (RealCityEconomyExtension.industrialEarnMoneyCount + RealCityEconomyExtension.industrialLackMoneyCount > 0)
+			{
 				buildingOffset = (
 					(int)(100f * (RealCityEconomyExtension.industrialEarnMoneyCount - RealCityEconomyExtension.industrialLackMoneyCount)
 					/ (RealCityEconomyExtension.industrialEarnMoneyCount + RealCityEconomyExtension.industrialLackMoneyCount))
 					) << 4;
-				if (buildingOffset > 1500) {
+				if (buildingOffset > 1500)
+				{
 					buildingOffset = 1500;
 				}
 
-				if (buildingOffset < -1500) {
+				if (buildingOffset < -1500)
+				{
 					buildingOffset = -1500;
 				}
 			}
 
 			commBuildingOffset = 0;
 			// if have commercial buildings
-			if (RealCityEconomyExtension.commercialEarnMoneyCount + RealCityEconomyExtension.commercialLackMoneyCount > 0) {
+			if (RealCityEconomyExtension.commercialEarnMoneyCount + RealCityEconomyExtension.commercialLackMoneyCount > 0)
+			{
 				commBuildingOffset = ((int)(100f * (RealCityEconomyExtension.commercialEarnMoneyCount - RealCityEconomyExtension.commercialLackMoneyCount) / (RealCityEconomyExtension.commercialEarnMoneyCount + RealCityEconomyExtension.commercialLackMoneyCount))) << 4;
-				if (commBuildingOffset > 1500) {
+				if (commBuildingOffset > 1500)
+				{
 					commBuildingOffset = 1500;
 				}
 
-				if (commBuildingOffset < -1500) {
+				if (commBuildingOffset < -1500)
+				{
 					commBuildingOffset = -1500;
 				}
 			}

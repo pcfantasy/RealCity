@@ -14,7 +14,8 @@ namespace RealCity.Util.Politic
 		/// </summary>
 		public ushort NextPartyId { get; private set; } = 0;
 
-		public IParty MakeCParty() {
+		public IParty MakeCParty()
+		{
 			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
 			AbstractVoteResult raiseResidentTax = new VoteResult(55, 40, 5);
 			AbstractVoteResult reduceResidentTax = new VoteResult(40, 55, 5);
@@ -50,7 +51,8 @@ namespace RealCity.Util.Politic
 			return party;
 		}
 
-		public IParty MakeGParty() {
+		public IParty MakeGParty()
+		{
 			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
 			AbstractVoteResult raiseResidentTax = new VoteResult(10, 80, 10);
 			AbstractVoteResult reduceResidentTax = new VoteResult(80, 10, 10);
@@ -86,7 +88,8 @@ namespace RealCity.Util.Politic
 			return party;
 		}
 
-		public IParty MakeSParty() {
+		public IParty MakeSParty()
+		{
 			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
 			AbstractVoteResult raiseResidentTax = new VoteResult(30, 70, 0);
 			AbstractVoteResult reduceResidentTax = new VoteResult(70, 30, 0);
@@ -122,7 +125,8 @@ namespace RealCity.Util.Politic
 			return party;
 		}
 
-		public IParty MakeLParty() {
+		public IParty MakeLParty()
+		{
 			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
 			AbstractVoteResult raiseResidentTax = new VoteResult(70, 30, 0);
 			AbstractVoteResult reduceResidentTax = new VoteResult(30, 70, 0);
@@ -158,7 +162,8 @@ namespace RealCity.Util.Politic
 			return party;
 		}
 
-		public IParty MakeNParty() {
+		public IParty MakeNParty()
+		{
 			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
 			AbstractVoteResult raiseResidentTax = new VoteResult(35, 55, 10);
 			AbstractVoteResult reduceResidentTax = new VoteResult(55, 35, 10);

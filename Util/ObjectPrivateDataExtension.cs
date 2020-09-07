@@ -13,7 +13,8 @@ public static class ObjectPrivateDataExtension
 	/// <param name="instance">实例</param>
 	/// <param name="fieldName">字段名</param>
 	/// <returns></returns>
-	public static T GetPrivateField<T>(this object instance, string fieldName) {
+	public static T GetPrivateField<T>(this object instance, string fieldName)
+	{
 		Type type = instance.GetType();
 		BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
 		FieldInfo field = type.GetField(fieldName, flag);
@@ -26,7 +27,8 @@ public static class ObjectPrivateDataExtension
 	/// <param name="instance">实例</param>
 	/// <param name="propertyName">属性名</param>
 	/// <returns></returns>
-	public static T GetPrivateProperty<T>(this object instance, string propertyName) {
+	public static T GetPrivateProperty<T>(this object instance, string propertyName)
+	{
 		Type type = instance.GetType();
 		BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
 		PropertyInfo field = type.GetProperty(propertyName, flag);
@@ -38,7 +40,8 @@ public static class ObjectPrivateDataExtension
 	/// <param name="instance">实例</param>
 	/// <param name="fieldName">字段名</param>
 	/// <param name="value">新值</param>
-	public static void SetPrivateField(this object instance, string fieldName, object value) {
+	public static void SetPrivateField(this object instance, string fieldName, object value)
+	{
 		Type type = instance.GetType();
 		BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
 		FieldInfo field = type.GetField(fieldName, flag);
@@ -50,7 +53,8 @@ public static class ObjectPrivateDataExtension
 	/// <param name="instance">实例</param>
 	/// <param name="propertyName">属性名</param>
 	/// <param name="value">新值</param>
-	public static void SetPrivateProperty(this object instance, string propertyName, object value) {
+	public static void SetPrivateProperty(this object instance, string propertyName, object value)
+	{
 		Type type = instance.GetType();
 		BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
 		PropertyInfo field = type.GetProperty(propertyName, flag);
@@ -64,7 +68,8 @@ public static class ObjectPrivateDataExtension
 	/// <param name="name">方法名</param>
 	/// <param name="param">参数</param>
 	/// <returns></returns>
-	public static T CallPrivateMethod<T>(this object instance, string name, params object[] param) {
+	public static T CallPrivateMethod<T>(this object instance, string name, params object[] param)
+	{
 		Type type = instance.GetType();
 		BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
 		MethodInfo method = type.GetMethod(name, flag);

@@ -125,12 +125,14 @@ namespace RealCity.UI
 		public double allTotalIncome;
 		public static bool refeshOnce = false;
 
-		public override void Update() {
+		public override void Update()
+		{
 			RefreshDisplayData();
 			base.Update();
 		}
 
-		public override void Start() {
+		public override void Start()
+		{
 			base.Start();
 			size = new Vector2(WIDTH, HEIGHT);
 			backgroundSprite = "MenuPanel";
@@ -158,12 +160,14 @@ namespace RealCity.UI
 			DoOnStartup();
 		}
 
-		private void DoOnStartup() {
+		private void DoOnStartup()
+		{
 			ShowOnGui();
 			RefreshDisplayData();
 		}
 
-		private void ShowOnGui() {
+		private void ShowOnGui()
+		{
 			//1、citizen tax income
 			citizenTaxIncomeTitle = AddUIComponent<UILabel>();
 			citizenTaxIncomeTitle.text = Localization.Get("CITY_SALARY_TAX_INCOME_TITLE");
@@ -393,9 +397,12 @@ namespace RealCity.UI
 			allTotalIncomeUI.autoSize = true;
 		}
 
-		private void RefreshDisplayData() {
-			if (refeshOnce) {
-				if (isVisible) {
+		private void RefreshDisplayData()
+		{
+			if (refeshOnce)
+			{
+				if (isVisible)
+				{
 					ProcessData();
 					title.text = Localization.Get("CITY_INCOME_DATA");
 					citizenTaxIncomeTitle.text = string.Format(Localization.Get("CITY_SALARY_TAX_INCOME_TITLE") + " [{0}]  [{1:N2}%]", citizenTaxIncomeTotal, citizenTaxIncomePercent * 100);
@@ -446,7 +453,8 @@ namespace RealCity.UI
 			}
 		}
 
-		private void ProcessData() {
+		private void ProcessData()
+		{
 			cityPlayerbuildingIncomeTotal = 0;
 			cityPlayerbuildingIncomePercent = 0;
 			roadIncomeForUI = 0f;
@@ -498,7 +506,8 @@ namespace RealCity.UI
 			cityTransportIncomePercent = 0f;
 			int i;
 
-			for (i = 0; i < 17; i++) {
+			for (i = 0; i < 17; i++)
+			{
 				citizenTaxIncomeForUI += (double)RealCityEconomyManager.citizenTaxIncomeForUI[i] / 100f;
 				citizenIncomeForUI += (double)RealCityEconomyManager.citizenIncomeForUI[i] / 100f;
 				touristIncomeForUI += (double)RealCityEconomyManager.touristIncomeForUI[i] / 100f;
@@ -613,7 +622,8 @@ namespace RealCity.UI
 			cityPlayerbuildingIncomeTotal += schoolIncomeForUI;
 			allTotalIncome = cityPlayerbuildingIncomeTotal + citizenTaxIncomeTotal + cityLandIncomeTotal + cityTourismIncomeTotal + cityTradeIncomeTotal + cityTransportIncomeTotal;
 
-			if (allTotalIncome != 0) {
+			if (allTotalIncome != 0)
+			{
 				citizenTaxIncomePercent = citizenTaxIncomeTotal / allTotalIncome;
 				cityLandIncomePercent = cityLandIncomeTotal / allTotalIncome;
 				cityTourismIncomePercent = cityTourismIncomeTotal / allTotalIncome;

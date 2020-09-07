@@ -24,7 +24,8 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// <param name="citizen">市民</param>
 		/// <param name="citizenId">市民Id</param>
 		/// <param name="homeId">家庭Id</param>
-		public PartyInterestCalc(IParty party, ref Citizen citizen, uint citizenId, uint homeId) {
+		public PartyInterestCalc(IParty party, ref Citizen citizen, uint citizenId, uint homeId)
+		{
 			this.Party = party;
 			this.partyInterestData = party.GetPartyInterestData();
 			this.citizen = citizen;
@@ -35,7 +36,8 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// <summary>
 		/// 计算市民对政党的兴趣度
 		/// </summary>
-		public void Calc() {
+		public void Calc()
+		{
 			this.Val += GetFromEducationLevel(this.citizen.EducationLevel);
 			this.Val += GetFromSubService(this.citizen.m_workBuilding);
 			this.Val += GetFromFamilyMoney(CitizenUnitData.familyMoney[this.homeId]);
@@ -48,7 +50,8 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// </summary>
 		/// <param name="education"></param>
 		/// <returns></returns>
-		private ushort GetFromEducationLevel(Citizen.Education education) {
+		private ushort GetFromEducationLevel(Citizen.Education education)
+		{
 			/*
 			 * 根据ResidentAICitizenUnitSimulationStepPatch.GetVoteTickets()方法
 			 * 似乎所有政党的WinChance加起来应该是800
@@ -64,24 +67,34 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// </summary>
 		/// <param name="workplaceId"></param>
 		/// <returns></returns>
-		private ushort GetFromSubService(ushort workplaceId) {
+		private ushort GetFromSubService(ushort workplaceId)
+		{
 			//默认市民是没有工作的
 			int choiceIndex = 0;
 			//自定义行业：在政府工作
-			if (RealCityResidentAI.IsGoverment(workplaceId)) {
+			if (RealCityResidentAI.IsGoverment(workplaceId))
+			{
 				choiceIndex = 1;
-			} else {
+			}
+			else
+			{
 				ItemClass workplaceItemClass = Singleton<BuildingManager>.instance
 					.m_buildings.m_buffer[workplaceId].Info.m_class;
 				//其他游戏内置行业
-				switch (workplaceItemClass.m_subService) {
+				switch (workplaceItemClass.m_subService)
+				{
 					case ItemClass.SubService.CommercialLow:
 					case ItemClass.SubService.CommercialHigh:
-						if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
+						if (workplaceItemClass.m_level == ItemClass.Level.Level1)
+						{
 							choiceIndex = 2;
-						} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
+						}
+						else if (workplaceItemClass.m_level == ItemClass.Level.Level2)
+						{
 							choiceIndex = 3;
-						} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
+						}
+						else if (workplaceItemClass.m_level == ItemClass.Level.Level3)
+						{
 							choiceIndex = 4;
 						}
 						break;
@@ -91,11 +104,16 @@ namespace RealCity.Util.Politic.ElectionUtil
 					case ItemClass.SubService.CommercialEco:
 						choiceIndex = 6; break;
 					case ItemClass.SubService.IndustrialGeneric:
-						if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
+						if (workplaceItemClass.m_level == ItemClass.Level.Level1)
+						{
 							choiceIndex = 7;
-						} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
+						}
+						else if (workplaceItemClass.m_level == ItemClass.Level.Level2)
+						{
 							choiceIndex = 8;
-						} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
+						}
+						else if (workplaceItemClass.m_level == ItemClass.Level.Level3)
+						{
 							choiceIndex = 9;
 						}
 						break;
@@ -105,11 +123,16 @@ namespace RealCity.Util.Politic.ElectionUtil
 					case ItemClass.SubService.IndustrialOre:
 						choiceIndex = 10; break;
 					case ItemClass.SubService.OfficeGeneric:
-						if (workplaceItemClass.m_level == ItemClass.Level.Level1) {
+						if (workplaceItemClass.m_level == ItemClass.Level.Level1)
+						{
 							choiceIndex = 11;
-						} else if (workplaceItemClass.m_level == ItemClass.Level.Level2) {
+						}
+						else if (workplaceItemClass.m_level == ItemClass.Level.Level2)
+						{
 							choiceIndex = 12;
-						} else if (workplaceItemClass.m_level == ItemClass.Level.Level3) {
+						}
+						else if (workplaceItemClass.m_level == ItemClass.Level.Level3)
+						{
 							choiceIndex = 13;
 						}
 						break;
@@ -125,13 +148,19 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// </summary>
 		/// <param name="familyMoney"></param>
 		/// <returns></returns>
-		private ushort GetFromFamilyMoney(float familyMoney) {
+		private ushort GetFromFamilyMoney(float familyMoney)
+		{
 			int choiceIndex;
-			if (familyMoney < 5000) {
+			if (familyMoney < 5000)
+			{
 				choiceIndex = 0;
-			} else if (familyMoney >= 20000) {
+			}
+			else if (familyMoney >= 20000)
+			{
 				choiceIndex = 2;
-			} else {
+			}
+			else
+			{
 				choiceIndex = 1;
 			}
 			return this.partyInterestData.FamilyMoney[choiceIndex];
@@ -142,7 +171,8 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// </summary>
 		/// <param name="ageGroup"></param>
 		/// <returns></returns>
-		private ushort GetFromAgeGroup(Citizen.AgeGroup ageGroup) {
+		private ushort GetFromAgeGroup(Citizen.AgeGroup ageGroup)
+		{
 			return this.partyInterestData.Age[(int)ageGroup - 2];
 		}
 
@@ -151,7 +181,8 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// </summary>
 		/// <param name="gender"></param>
 		/// <returns></returns>
-		private ushort GetFromGender(Citizen.Gender gender) {
+		private ushort GetFromGender(Citizen.Gender gender)
+		{
 			return this.partyInterestData.Gender[(int)gender];
 		}
 	}

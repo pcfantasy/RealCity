@@ -9,20 +9,25 @@ namespace RealCity.Patch
 	[HarmonyPatch]
 	public class MarketAIModifyMaterialBufferPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(MarketAI).GetMethod("ModifyMaterialBuffer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(TransferManager.TransferReason), typeof(int).MakeByRefType() }, null);
 		}
 
-		public static bool Prefix(ref Building data, TransferManager.TransferReason material, ref int amountDelta) {
-			switch (material) {
+		public static bool Prefix(ref Building data, TransferManager.TransferReason material, ref int amountDelta)
+		{
+			switch (material)
+			{
 				case TransferManager.TransferReason.ShoppingB:
 				case TransferManager.TransferReason.ShoppingC:
 				case TransferManager.TransferReason.ShoppingD:
 				case TransferManager.TransferReason.ShoppingE:
 				case TransferManager.TransferReason.ShoppingF:
 				case TransferManager.TransferReason.ShoppingG:
-				case TransferManager.TransferReason.ShoppingH: {
-					if (amountDelta == -100) {
+				case TransferManager.TransferReason.ShoppingH:
+				{
+					if (amountDelta == -100)
+					{
 						//Disable other -100 ModifyMaterialBuffer
 						return false;
 					}
@@ -36,7 +41,8 @@ namespace RealCity.Patch
 					IndustryBuildingGetResourcePricePatch.Prefix(ref priceInt, material, data.Info.m_class.m_service);
 					var m_goodsSellPrice = priceInt / 100;
 					int num = (-amountDelta * m_goodsSellPrice + 50) / 100;
-					if (num != 0) {
+					if (num != 0)
+					{
 						Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.ResourcePrice, num, data.Info.m_class);
 					}
 					return false;

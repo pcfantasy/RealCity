@@ -12,25 +12,31 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class ExtractingFacilityAIProduceGoodsPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(ExtractingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
-		public static void Prefix(ref Building buildingData, ExtractingFacilityAI __instance, out ushort __state) {
+		public static void Prefix(ref Building buildingData, ExtractingFacilityAI __instance, out ushort __state)
+		{
 			if (Mod.IsIndustriesBuilding(__instance))
 				__state = buildingData.m_customBuffer1;
 			else
 				__state = 0;
 		}
 
-		public static void Postfix(ref Building buildingData, ExtractingFacilityAI __instance, ref ushort __state) {
+		public static void Postfix(ref Building buildingData, ExtractingFacilityAI __instance, ref ushort __state)
+		{
 			int cargoDiff;
 
-			if (Mod.IsIndustriesBuilding(__instance)) {
+			if (Mod.IsIndustriesBuilding(__instance))
+			{
 				// Output
 				cargoDiff = Convert.ToInt32((buildingData.m_customBuffer1 - __state) / RI_Data.GetFactorCargo(__instance.m_outputResource));
 				//DebugLog.LogToFileOnly($"ID:{buildingID}={(ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000)} ({__state + cargoDiff}), state:{__state}, buff:{buildingData.m_customBuffer1}, diff:{cargoDiff}");
 				buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"Unknown EF instance {__instance.name} ({__instance.GetType()})");
 			}
 		}
@@ -39,18 +45,22 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class ExtractingFacilityAIGetLocalizedStatsPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(ExtractingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
 		}
 
-		public static void Prefix(ref Building data, out byte __state) {
+		public static void Prefix(ref Building data, out byte __state)
+		{
 			__state = data.m_education3;
-			if (RealCity.reduceVehicle) {
+			if (RealCity.reduceVehicle)
+			{
 				data.m_education3 = (byte)(data.m_education3 / (MainDataStore.reduceCargoDiv * MainDataStore.playerIndustryBuildingProductionSpeedDiv));
 			}
 		}
 
-		public static void Postfix(ref Building data, ref byte __state) {
+		public static void Postfix(ref Building data, ref byte __state)
+		{
 			data.m_education3 = __state;
 		}
 	}
@@ -59,72 +69,91 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class ProcessingFacilityAIProduceGoodsPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(ProcessingFacilityAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
-		public static void Prefix(ref Building buildingData, ProcessingFacilityAI __instance, out ushort[] __state) {
+		public static void Prefix(ref Building buildingData, ProcessingFacilityAI __instance, out ushort[] __state)
+		{
 			__state = new ushort[5];
 
-			if (Mod.IsIndustriesBuilding(__instance)) {
+			if (Mod.IsIndustriesBuilding(__instance))
+			{
 				__state[0] = buildingData.m_customBuffer1; // Output (increases during production)
 				__state[1] = buildingData.m_customBuffer2; // Input1 (used during prodction)
 				__state[2] = Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs); // Input2
 				__state[3] = Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors); // Input3
 				__state[4] = Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2); // Input4
-			} else
+			}
+			else
 				__state[0] = __state[1] = __state[2] = __state[3] = __state[4] = 0;
 		}
 
-		public static void Postfix(ushort buildingID, ref Building buildingData, ProcessingFacilityAI __instance, ref ushort[] __state) {
-			if (Mod.IsIndustriesBuilding(__instance)) {
-				if (RealCityEconomyExtension.Can16timesUpdate(buildingID)) {
+		public static void Postfix(ushort buildingID, ref Building buildingData, ProcessingFacilityAI __instance, ref ushort[] __state)
+		{
+			if (Mod.IsIndustriesBuilding(__instance))
+			{
+				if (RealCityEconomyExtension.Can16timesUpdate(buildingID))
+				{
 					int allInputRate = 0;
 					float reduceInputRate = 1f;
-					if (__instance.m_inputResource1 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource1 != TransferManager.TransferReason.None)
+					{
 						allInputRate += __instance.m_inputRate1;
 					}
-					if (__instance.m_inputResource2 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource2 != TransferManager.TransferReason.None)
+					{
 						allInputRate += __instance.m_inputRate2;
 					}
-					if (__instance.m_inputResource3 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource3 != TransferManager.TransferReason.None)
+					{
 						allInputRate += __instance.m_inputRate3;
 					}
-					if (__instance.m_inputResource4 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource4 != TransferManager.TransferReason.None)
+					{
 						allInputRate += __instance.m_inputRate4;
 					}
 
-					if (allInputRate != 0) {
+					if (allInputRate != 0)
+					{
 						reduceInputRate = (float)allInputRate / __instance.m_outputRate;
 					}
 
 					int cargoDiff;
 					// Input
-					if (__instance.m_inputResource1 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource1 != TransferManager.TransferReason.None)
+					{
 						cargoDiff = Convert.ToInt32((__state[1] - buildingData.m_customBuffer2) / RI_Data.GetFactorCargo(__instance.m_inputResource1));
 						buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1] - (cargoDiff << 4), 0, 64000);
 					}
 
-					if (__instance.m_inputResource2 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource2 != TransferManager.TransferReason.None)
+					{
 						cargoDiff = Convert.ToInt32((__state[2] - Mod.CombineBytes(buildingData.m_teens, buildingData.m_youngs)) / RI_Data.GetFactorCargo(__instance.m_inputResource2));
 						Mod.SplitBytes((ushort)Mathf.Clamp(__state[2] - (cargoDiff << 4), 0, 64000), ref buildingData.m_teens, ref buildingData.m_youngs);
 					}
 
-					if (__instance.m_inputResource3 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource3 != TransferManager.TransferReason.None)
+					{
 						cargoDiff = Convert.ToInt32((__state[3] - Mod.CombineBytes(buildingData.m_adults, buildingData.m_seniors)) / RI_Data.GetFactorCargo(__instance.m_inputResource3));
 						Mod.SplitBytes((ushort)Mathf.Clamp(__state[3] - (cargoDiff << 4), 0, 64000), ref buildingData.m_adults, ref buildingData.m_seniors);
 					}
 
-					if (__instance.m_inputResource4 != TransferManager.TransferReason.None) {
+					if (__instance.m_inputResource4 != TransferManager.TransferReason.None)
+					{
 						cargoDiff = Convert.ToInt32((__state[4] - Mod.CombineBytes(buildingData.m_education1, buildingData.m_education2)) / RI_Data.GetFactorCargo(__instance.m_inputResource4));
 						Mod.SplitBytes((ushort)Mathf.Clamp(__state[4] - (cargoDiff << 4), 0, 64000), ref buildingData.m_education1, ref buildingData.m_education2);
 					}
 
 					// Output (materials being produced)
-					if (__instance.m_outputResource != TransferManager.TransferReason.None) {
+					if (__instance.m_outputResource != TransferManager.TransferReason.None)
+					{
 						cargoDiff = Convert.ToInt32((buildingData.m_customBuffer1 - __state[0]) * reduceInputRate / RI_Data.GetFactorCargo(__instance.m_outputResource));
 						buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0] + (cargoDiff << 4), 0, 64000);
 					}
-				} else {
+				}
+				else
+				{
 					buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1], 0, 64000);
 					Mod.SplitBytes((ushort)Mathf.Clamp(__state[2], 0, 64000), ref buildingData.m_teens, ref buildingData.m_youngs);
 					Mod.SplitBytes((ushort)Mathf.Clamp(__state[3], 0, 64000), ref buildingData.m_adults, ref buildingData.m_seniors);
@@ -138,17 +167,21 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class ProcessingFacilityAIGetLocalizedStatsPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(ProcessingFacilityAI).GetMethod("GetLocalizedStats", BindingFlags.Public | BindingFlags.Instance);
 		}
-		public static void Prefix(ushort buildingID, ref Building data, out byte __state) {
+		public static void Prefix(ushort buildingID, ref Building data, out byte __state)
+		{
 			__state = data.m_education3;
-			if (RealCity.reduceVehicle) {
+			if (RealCity.reduceVehicle)
+			{
 				data.m_education3 = (byte)(data.m_education3 / (MainDataStore.reduceCargoDiv * MainDataStore.playerIndustryBuildingProductionSpeedDiv));
 			}
 		}
 
-		public static void Postfix(ushort buildingID, ref Building data, ref byte __state) {
+		public static void Postfix(ushort buildingID, ref Building data, ref byte __state)
+		{
 			data.m_education3 = __state;
 		}
 	}
@@ -156,19 +189,25 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class LandfillSiteAIProduceGoodsPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(LandfillSiteAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
-		public static void Prefix(ref Building buildingData, out ushort __state) {
+		public static void Prefix(ref Building buildingData, out ushort __state)
+		{
 			__state = buildingData.m_customBuffer2;
 		}
 
-		public static void Postfix(ref Building buildingData, ref ushort __state) {
+		public static void Postfix(ref Building buildingData, ref ushort __state)
+		{
 			int cargoDiff;
 			// Output
-			if (RealCity.reduceVehicle) {
+			if (RealCity.reduceVehicle)
+			{
 				cargoDiff = Convert.ToInt32((buildingData.m_customBuffer2 - __state) >> MainDataStore.reduceCargoDivShift);
-			} else {
+			}
+			else
+			{
 				cargoDiff = Convert.ToInt32(buildingData.m_customBuffer2 - __state);
 			}
 			buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state + cargoDiff, 0, 64000);
@@ -178,11 +217,14 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class LandfillSiteAIGetGarbageRate
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(LandfillSiteAI).GetMethod("GetGarbageRate", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort), typeof(Building).MakeByRefType() }, null);
 		}
-		public static void Postfix(ref int __result) {
-			if (RealCity.reduceVehicle) {
+		public static void Postfix(ref int __result)
+		{
+			if (RealCity.reduceVehicle)
+			{
 				__result >>= 1;
 			}
 		}
@@ -191,10 +233,12 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class UniqueFactoryWorldInfoPanelUpdateBindingsPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(UniqueFactoryWorldInfoPanel).GetMethod("UpdateBindings", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
-		public static void Postfix(ref InstanceID ___m_InstanceID, ref UILabel ___m_expenses) {
+		public static void Postfix(ref InstanceID ___m_InstanceID, ref UILabel ___m_expenses)
+		{
 			ushort id = ___m_InstanceID.Building;
 			Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[id];
 			UniqueFactoryAI ai = (UniqueFactoryAI)building.Info.m_buildingAI;
@@ -216,29 +260,38 @@ namespace RealCity.RebalancedIndustries
 	[HarmonyPatch]
 	public static class MarketAIProduceGoodsPatch
 	{
-		public static MethodBase TargetMethod() {
+		public static MethodBase TargetMethod()
+		{
 			return typeof(MarketAI).GetMethod("ProduceGoods", BindingFlags.NonPublic | BindingFlags.Instance);
 		}
-		public static void Prefix(ref Building buildingData, out ushort[] __state) {
+		public static void Prefix(ref Building buildingData, out ushort[] __state)
+		{
 			__state = new ushort[2];
 			__state[0] = buildingData.m_customBuffer1;
 			__state[1] = buildingData.m_customBuffer2;
 		}
 
-		public static void Postfix(ref Building buildingData, ref ushort[] __state) {
+		public static void Postfix(ref Building buildingData, ref ushort[] __state)
+		{
 			int cargoDiff;
 			// Input
-			if (RealCity.reduceVehicle) {
+			if (RealCity.reduceVehicle)
+			{
 				cargoDiff = Convert.ToInt32((__state[0] - buildingData.m_customBuffer1) >> MainDataStore.reduceCargoDivShift);
-			} else {
+			}
+			else
+			{
 				cargoDiff = Convert.ToInt32(__state[0] - buildingData.m_customBuffer1);
 			}
 			buildingData.m_customBuffer1 = (ushort)Mathf.Clamp(__state[0] - cargoDiff, 0, 64000);
 
 			// Output
-			if (RealCity.reduceVehicle) {
+			if (RealCity.reduceVehicle)
+			{
 				cargoDiff = Convert.ToInt32((buildingData.m_customBuffer2 - __state[1]) >> MainDataStore.reduceCargoDivShift);
-			} else {
+			}
+			else
+			{
 				cargoDiff = Convert.ToInt32(buildingData.m_customBuffer2 - __state[1]);
 			}
 			buildingData.m_customBuffer2 = (ushort)Mathf.Clamp(__state[1] + cargoDiff, 0, 64000);

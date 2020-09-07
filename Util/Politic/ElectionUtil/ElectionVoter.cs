@@ -21,16 +21,18 @@ namespace RealCity.Util.Politic.ElectionUtil
 		public Citizen Citizen => this.citizen;
 		public uint HomeId { get; }
 		public ElectionInfo EleInfo { get; }
-		public PartyInterestCalc[] Interests{ get; }
+		public PartyInterestCalc[] Interests { get; }
 		public int[] Chance { get; }
-		public ElectionVoter(uint citizenID, ref Citizen citizen, uint homeID,ElectionInfo eleInfo) {
+		public ElectionVoter(uint citizenID, ref Citizen citizen, uint homeID, ElectionInfo eleInfo)
+		{
 			this.CitizenId = citizenID;
 			this.citizen = citizen;
 			this.HomeId = homeID;
 			this.EleInfo = eleInfo;
 
 			this.Interests = new PartyInterestCalc[this.EleInfo.PartiesCount];
-			for (int i = 0; i < this.Interests.Length; i++) {
+			for (int i = 0; i < this.Interests.Length; i++)
+			{
 				this.Interests[i] = new PartyInterestCalc(
 					this.EleInfo.Parties[i],
 					ref this.citizen,
@@ -43,7 +45,8 @@ namespace RealCity.Util.Politic.ElectionUtil
 		/// <summary>
 		/// Vote to a <see cref="IParty"/> based on its interest.
 		/// </summary>
-		public void VoteTicket() {
+		public void VoteTicket()
+		{
 			CalcChance();
 
 			// It's Roulette Wheel Selection
@@ -61,16 +64,20 @@ namespace RealCity.Util.Politic.ElectionUtil
 			 *                            ^ S move forward, now vote is smaller than S, which means P.B gets 1 ticket
 			 */
 
-			while (i < this.EleInfo.Parties.Length) {
-				if (vote < segment) {
+			while (i < this.EleInfo.Parties.Length)
+			{
+				if (vote < segment)
+				{
 					this.EleInfo.TicketCounter[i]++;
 					break;
 				}
 				segment += this.Chance[0];
 			}
 		}
-		private void CalcChance() {
-			for (int i = 0; i < this.EleInfo.PartiesCount; i++) {
+		private void CalcChance()
+		{
+			for (int i = 0; i < this.EleInfo.PartiesCount; i++)
+			{
 				this.Interests[i].Calc();
 				this.Chance[i] = this.Interests[i].Val;
 			}

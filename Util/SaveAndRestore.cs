@@ -10,319 +10,420 @@ namespace RealCity.Util
 	{
 		private static ISerializableData _serializableData;
 
-		public static void SaveData(ref int idex, long item, ref byte[] container) {
+		public static void SaveData(ref int idex, long item, ref byte[] container)
+		{
 			int i;
 			byte[] temp_data;
 			temp_data = BitConverter.GetBytes(item);
-			for (i = 0; i < temp_data.Length; i++) {
+			for (i = 0; i < temp_data.Length; i++)
+			{
 				container[idex + i] = temp_data[i];
 			}
 			idex += temp_data.Length;
 		}
 
-		public static void SaveData(ref int idex, float item, ref byte[] container) {
+		public static void SaveData(ref int idex, float item, ref byte[] container)
+		{
 			int i;
 			byte[] temp_data;
 			temp_data = BitConverter.GetBytes(item);
-			for (i = 0; i < temp_data.Length; i++) {
+			for (i = 0; i < temp_data.Length; i++)
+			{
 				container[idex + i] = temp_data[i];
 			}
 			idex += temp_data.Length;
 		}
 
-		public static void SaveData(ref int idex, float[] item, ref byte[] container) {
+		public static void SaveData(ref int idex, float[] item, ref byte[] container)
+		{
 			int i, j;
 			byte[] temp_data;
-			for (j = 0; j < item.Length; j++) {
+			for (j = 0; j < item.Length; j++)
+			{
 				temp_data = BitConverter.GetBytes(item[j]);
-				for (i = 0; i < temp_data.Length; i++) {
+				for (i = 0; i < temp_data.Length; i++)
+				{
 					container[idex + i] = temp_data[i];
 				}
 				idex += temp_data.Length;
 			}
 		}
 
-		public static void SaveData(ref int idex, uint item, ref byte[] container) {
+		public static void SaveData(ref int idex, uint item, ref byte[] container)
+		{
 			int i;
 			byte[] temp_data;
 			temp_data = BitConverter.GetBytes(item);
-			for (i = 0; i < temp_data.Length; i++) {
+			for (i = 0; i < temp_data.Length; i++)
+			{
 				container[idex + i] = temp_data[i];
 			}
 			idex += temp_data.Length;
 		}
 
-		public static void SaveData(ref int idex, int item, ref byte[] container) {
+		public static void SaveData(ref int idex, int item, ref byte[] container)
+		{
 			int i;
 			byte[] temp_data;
 			temp_data = BitConverter.GetBytes(item);
-			for (i = 0; i < temp_data.Length; i++) {
+			for (i = 0; i < temp_data.Length; i++)
+			{
 				container[idex + i] = temp_data[i];
 			}
 			idex += temp_data.Length;
 		}
 
-		public static void SaveData(ref int idex, int[] item, ref byte[] container) {
+		public static void SaveData(ref int idex, int[] item, ref byte[] container)
+		{
 			int i, j;
 			byte[] temp_data;
-			for (j = 0; j < item.Length; j++) {
+			for (j = 0; j < item.Length; j++)
+			{
 				temp_data = BitConverter.GetBytes(item[j]);
-				for (i = 0; i < temp_data.Length; i++) {
+				for (i = 0; i < temp_data.Length; i++)
+				{
 					container[idex + i] = temp_data[i];
 				}
 				idex += temp_data.Length;
 			}
 		}
 
-		public static void SaveData(ref int idex, byte item, ref byte[] container) {
+		public static void SaveData(ref int idex, byte item, ref byte[] container)
+		{
 			container[idex] = item;
 			idex++;
 		}
 
 
-		public static void SaveData(ref int idex, byte[] item, ref byte[] container) {
+		public static void SaveData(ref int idex, byte[] item, ref byte[] container)
+		{
 			int j;
-			for (j = 0; j < item.Length; j++) {
+			for (j = 0; j < item.Length; j++)
+			{
 				container[idex + j] = item[j];
 			}
 			idex += item.Length;
 		}
 
-		public static void SaveData(ref int idex, short item, ref byte[] container) {
+		public static void SaveData(ref int idex, short item, ref byte[] container)
+		{
 			int i;
 			byte[] temp_data;
 			temp_data = BitConverter.GetBytes(item);
-			for (i = 0; i < temp_data.Length; i++) {
+			for (i = 0; i < temp_data.Length; i++)
+			{
 				container[idex + i] = temp_data[i];
 			}
 			idex += temp_data.Length;
 		}
 
-		public static void SaveData(ref int idex, ushort item, ref byte[] container) {
+		public static void SaveData(ref int idex, ushort item, ref byte[] container)
+		{
 			int i;
 			byte[] temp_data;
 			temp_data = BitConverter.GetBytes(item);
-			for (i = 0; i < temp_data.Length; i++) {
+			for (i = 0; i < temp_data.Length; i++)
+			{
 				container[idex + i] = temp_data[i];
 			}
 			idex += temp_data.Length;
 		}
 
-		public static void SaveData(ref int idex, ushort[] item, ref byte[] container) {
+		public static void SaveData(ref int idex, ushort[] item, ref byte[] container)
+		{
 			int i; int j;
 			byte[] temp_data;
-			for (j = 0; j < item.Length; j++) {
+			for (j = 0; j < item.Length; j++)
+			{
 				temp_data = BitConverter.GetBytes(item[j]);
-				for (i = 0; i < temp_data.Length; i++) {
+				for (i = 0; i < temp_data.Length; i++)
+				{
 					container[idex + i] = temp_data[i];
 				}
 				idex += temp_data.Length;
 			}
 		}
 
-		public static void SaveData(ref int idex, bool item, ref byte[] container) {
+		public static void SaveData(ref int idex, bool item, ref byte[] container)
+		{
 			int i;
 			byte[] temp_data;
 			temp_data = BitConverter.GetBytes(item);
-			for (i = 0; i < temp_data.Length; i++) {
+			for (i = 0; i < temp_data.Length; i++)
+			{
 				container[idex + i] = temp_data[i];
 			}
 			idex += temp_data.Length;
 		}
 
-		public static void SaveData(ref int idex, bool[] item, ref byte[] container) {
+		public static void SaveData(ref int idex, bool[] item, ref byte[] container)
+		{
 			int i; int j;
 			byte[] temp_data;
-			for (j = 0; j < item.Length; j++) {
+			for (j = 0; j < item.Length; j++)
+			{
 				temp_data = BitConverter.GetBytes(item[j]);
-				for (i = 0; i < temp_data.Length; i++) {
+				for (i = 0; i < temp_data.Length; i++)
+				{
 					container[idex + i] = temp_data[i];
 				}
 				idex += temp_data.Length;
 			}
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref bool item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref bool item)
+		{
+			if (idex < container.Length)
+			{
 				item = BitConverter.ToBoolean(container, idex);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = false;
 			}
 			idex++;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref bool[] item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref bool[] item)
+		{
+			if (idex < container.Length)
+			{
 				int i;
-				for (i = 0; i < item.Length; i++) {
+				for (i = 0; i < item.Length; i++)
+				{
 					item[i] = BitConverter.ToBoolean(container, idex);
 					idex++;
 				}
-			} else {
+			}
+			else
+			{
 				int i;
-				for (i = 0; i < item.Length; i++) {
+				for (i = 0; i < item.Length; i++)
+				{
 					idex++;
 				}
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 			}
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref int item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref int item)
+		{
+			if (idex < container.Length)
+			{
 				item = BitConverter.ToInt32(container, idex);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
 			idex += 4;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref int[] item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref int[] item)
+		{
+			if (idex < container.Length)
+			{
 				int i;
-				for (i = 0; i < item.Length; i++) {
+				for (i = 0; i < item.Length; i++)
+				{
 					item[i] = BitConverter.ToInt32(container, idex);
 					idex += 4;
 				}
-			} else {
+			}
+			else
+			{
 				int i;
-				for (i = 0; i < item.Length; i++) {
+				for (i = 0; i < item.Length; i++)
+				{
 					idex += 4;
 				}
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 			}
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref float item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref float item)
+		{
+			if (idex < container.Length)
+			{
 				item = BitConverter.ToSingle(container, idex);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
 			idex += 4;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref float[] item) {
+		public static void LoadData(ref int idex, byte[] container, ref float[] item)
+		{
 			int i;
-			if (idex < container.Length) {
-				for (i = 0; i < item.Length; i++) {
+			if (idex < container.Length)
+			{
+				for (i = 0; i < item.Length; i++)
+				{
 					item[i] = BitConverter.ToSingle(container, idex);
 					idex += 4;
 				}
-			} else {
-				for (i = 0; i < item.Length; i++) {
+			}
+			else
+			{
+				for (i = 0; i < item.Length; i++)
+				{
 					idex += 4;
 				}
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 			}
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref uint item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref uint item)
+		{
+			if (idex < container.Length)
+			{
 				item = BitConverter.ToUInt32(container, idex);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
 			idex += 4;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref uint[] item) {
+		public static void LoadData(ref int idex, byte[] container, ref uint[] item)
+		{
 			int i;
-			if (idex < container.Length) {
-				for (i = 0; i < item.Length; i++) {
+			if (idex < container.Length)
+			{
+				for (i = 0; i < item.Length; i++)
+				{
 					item[i] = BitConverter.ToUInt32(container, idex);
 					idex += 4;
 				}
-			} else {
-				for (i = 0; i < item.Length; i++) {
+			}
+			else
+			{
+				for (i = 0; i < item.Length; i++)
+				{
 					idex += 4;
 				}
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 			}
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref ushort item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref ushort item)
+		{
+			if (idex < container.Length)
+			{
 				item = BitConverter.ToUInt16(container, idex);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
 			idex += 2;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref short item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref short item)
+		{
+			if (idex < container.Length)
+			{
 				item = BitConverter.ToInt16(container, idex);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
 			idex += 2;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref ushort[] item) {
+		public static void LoadData(ref int idex, byte[] container, ref ushort[] item)
+		{
 			int i;
-			if (idex < container.Length) {
-				for (i = 0; i < item.Length; i++) {
+			if (idex < container.Length)
+			{
+				for (i = 0; i < item.Length; i++)
+				{
 					item[i] = BitConverter.ToUInt16(container, idex);
 					idex += 2;
 				}
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
-				for (i = 0; i < item.Length; i++) {
+				for (i = 0; i < item.Length; i++)
+				{
 					idex += 2;
 				}
 			}
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref long item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref long item)
+		{
+			if (idex < container.Length)
+			{
 				item = BitConverter.ToInt64(container, idex);
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
 			idex += 8;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref byte item) {
-			if (idex < container.Length) {
+		public static void LoadData(ref int idex, byte[] container, ref byte item)
+		{
+			if (idex < container.Length)
+			{
 				item = container[idex];
-			} else {
+			}
+			else
+			{
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 				item = 0;
 			}
 			idex++;
 		}
 
-		public static void LoadData(ref int idex, byte[] container, ref byte[] item) {
+		public static void LoadData(ref int idex, byte[] container, ref byte[] item)
+		{
 			int i;
-			if (idex < container.Length) {
-				for (i = 0; i < item.Length; i++) {
+			if (idex < container.Length)
+			{
+				for (i = 0; i < item.Length; i++)
+				{
 					item[i] = container[idex];
 					idex++;
 				}
-			} else {
-				for (i = 0; i < item.Length; i++) {
+			}
+			else
+			{
+				for (i = 0; i < item.Length; i++)
+				{
 					idex++;
 				}
 				DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
 			}
 		}
 
-		public override void OnCreated(ISerializableData serializableData) {
+		public override void OnCreated(ISerializableData serializableData)
+		{
 			_serializableData = serializableData;
 		}
 
-		public override void OnReleased() {
+		public override void OnReleased()
+		{
 		}
 
-		public override void OnSaveData() {
-			if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame) {
+		public override void OnSaveData()
+		{
+			if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+			{
 				DebugLog.LogToFileOnly("StartSave");
 				//1
 				var saveData = new byte[2448];
@@ -376,7 +477,8 @@ namespace RealCity.Util
 			}
 		}
 
-		public override void OnLoadData() {
+		public override void OnLoadData()
+		{
 			Loader.InitData();
 			DebugLog.LogToFileOnly("StartLoad");
 			//1

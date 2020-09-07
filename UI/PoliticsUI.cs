@@ -35,12 +35,14 @@ namespace RealCity.UI
 		private UILabel industrial;
 		public static bool refeshOnce = false;
 
-		public override void Update() {
+		public override void Update()
+		{
 			RefreshDisplayData();
 			base.Update();
 		}
 
-		public override void Start() {
+		public override void Start()
+		{
 			base.Start();
 			size = new Vector2(WIDTH, HEIGHT);
 			backgroundSprite = "MenuPanel";
@@ -68,12 +70,14 @@ namespace RealCity.UI
 			DoOnStartup();
 		}
 
-		private void DoOnStartup() {
+		private void DoOnStartup()
+		{
 			ShowOnGui();
 			RefreshDisplayData();
 		}
 
-		private void ShowOnGui() {
+		private void ShowOnGui()
+		{
 			parliamentSeats = AddUIComponent<UILabel>();
 			parliamentSeats.text = Localization.Get("PARLIAMENT_SEATS");
 			parliamentSeats.textScale = 1.1f;
@@ -83,7 +87,8 @@ namespace RealCity.UI
 			this.parties = new UILabel[Politics.Parties.Length];
 			var posX = SPACING;
 			var posY = parliamentSeats.relativePosition.y + SPACING22;
-			for (int i = 0; i < this.parties.Length; i++) {
+			for (int i = 0; i < this.parties.Length; i++)
+			{
 				this.parties[i] = AddUIComponent<UILabel>();
 				this.parties[i].text = Localization.Get(Politics.Parties[0].PartyType.ToString("G").ToUpper());
 				this.parties[i].relativePosition = new Vector3(posX, posY);
@@ -165,9 +170,12 @@ namespace RealCity.UI
 			industrial.autoSize = true;
 		}
 
-		private void RefreshDisplayData() {
-			if (refeshOnce) {
-				if (isVisible) {
+		private void RefreshDisplayData()
+		{
+			if (refeshOnce)
+			{
+				if (isVisible)
+				{
 					m_title.text = Localization.Get("PARLIAMENT_HALL");
 					parliamentSeats.text = Localization.Get("PARLIAMENT_SEATS");
 					//communist.text = string.Format(Localization.Get("COMMUNIST") + " [{0}]", Politics.cPartySeats);
@@ -177,7 +185,8 @@ namespace RealCity.UI
 					//national.text = string.Format(Localization.Get("NATIONAL") + " [{0}]", Politics.nPartySeats);
 					//nextVote.text = string.Format(Localization.Get("NEXT_VOTE") + " [{0}]", Politics.nextMeetingInterval);
 
-					for (int i = 0; i < this.parties.Length; i++) {
+					for (int i = 0; i < this.parties.Length; i++)
+					{
 						this.parties[i].text = $"{Localization.Get(Politics.Parties[i].PartyType.ToString("G").ToUpper())} [{Government.Instance.Seats[i]}]";
 					}
 
@@ -230,23 +239,40 @@ namespace RealCity.UI
 					commercial.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commercialTax.ToString() + "%");
 					industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + Politics.industryTax.ToString() + "%");
 
-					if (Politics.case1) {
+					if (Politics.case1)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("COMMUNIST"));
-					} else if (Politics.case2) {
+					}
+					else if (Politics.case2)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("GREEN"));
-					} else if (Politics.case3) {
+					}
+					else if (Politics.case3)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("SOCIALIST"));
-					} else if (Politics.case4) {
+					}
+					else if (Politics.case4)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("LIBERAL"));
-					} else if (Politics.case5) {
+					}
+					else if (Politics.case5)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("NATIONAL"));
-					} else if (Politics.case6) {
+					}
+					else if (Politics.case6)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("LEFT_UNION"));
-					} else if (Politics.case7) {
+					}
+					else if (Politics.case7)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("COMMUNIST") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("WIDE_LEFT_UNION"));
-					} else if (Politics.case8) {
+					}
+					else if (Politics.case8)
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("LIBERAL") + " " + Localization.Get("NATIONAL") + " " + Localization.Get("RIGHT_UNION"));
-					} else {
+					}
+					else
+					{
 						goverment.text = string.Format(Localization.Get("GOVERMENT") + Localization.Get("COMMUNIST") + " " + Localization.Get("GREEN") + " " + Localization.Get("SOCIALIST") + " " + Localization.Get("LIBERAL") + " " + Localization.Get("NATIONAL") + " " + Localization.Get("ALL_UNION"));
 					}
 
@@ -258,13 +284,20 @@ namespace RealCity.UI
 					);
 
 					// bad codes
-					if (Government.Instance.GovernmentType == GovernmentType.LeftUnion) {
+					if (Government.Instance.GovernmentType == GovernmentType.LeftUnion)
+					{
 						sb.Append(Localization.Get("LEFT_UNION"));
-					} else if (Government.Instance.GovernmentType == GovernmentType.WideLeftUnion) {
+					}
+					else if (Government.Instance.GovernmentType == GovernmentType.WideLeftUnion)
+					{
 						sb.Append(Localization.Get("WIDE_LEFT_UNION"));
-					} else if (Government.Instance.GovernmentType == GovernmentType.RightUnion) {
+					}
+					else if (Government.Instance.GovernmentType == GovernmentType.RightUnion)
+					{
 						sb.Append(Localization.Get("RIGHT_UNION"));
-					} else if (Government.Instance.GovernmentType == GovernmentType.RightUnion) {
+					}
+					else if (Government.Instance.GovernmentType == GovernmentType.RightUnion)
+					{
 						sb.Append(Localization.Get("ALL_UNION"));
 					}
 					goverment.text = sb.ToString();

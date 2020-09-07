@@ -21,15 +21,20 @@ namespace RealCity
 		public static ushort commercialLackMoneyCount = 0;
 		public static ushort commercialEarnMoneyCount = 0;
 
-		public override long OnUpdateMoneyAmount(long internalMoneyAmount) {
-			if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame) {
+		public override long OnUpdateMoneyAmount(long internalMoneyAmount)
+		{
+			if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+			{
 				MainDataStore.currentTime = Singleton<SimulationManager>.instance.m_currentDayTimeHour;
 				uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
 				uint frameIndex = currentFrameIndex & 255u;
-				if ((frameIndex == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime)) {
-					if (MainDataStore.updateMoneyCount == 16) {
+				if ((frameIndex == 255u) && (MainDataStore.currentTime != MainDataStore.prevTime))
+				{
+					if (MainDataStore.updateMoneyCount == 16)
+					{
 						Politics.nextMeetingInterval--;
-						if (Politics.nextMeetingInterval < 0) {
+						if (Politics.nextMeetingInterval < 0)
+						{
 							Politics.nextMeetingInterval = 10;
 						}
 						//1. Caculate minimumLivingAllowance and unfinishedTransitionLost
@@ -37,7 +42,8 @@ namespace RealCity
 						MainDataStore.minimumLivingAllowance = 0;
 						MainDataStore.unfinishedTransitionLostFinal = MainDataStore.unfinishedTransitionLost;
 						MainDataStore.unfinishedTransitionLost = 0;
-						if (MainDataStore.citizenCount > 0) {
+						if (MainDataStore.citizenCount > 0)
+						{
 							//2. Citizen Status
 							CitizenStatus();
 						}
@@ -45,7 +51,8 @@ namespace RealCity
 
 					CaculateCitizenTransportFee();
 					MainDataStore.updateMoneyCount++;
-					if (MainDataStore.updateMoneyCount == 17) {
+					if (MainDataStore.updateMoneyCount == 17)
+					{
 						MainDataStore.updateMoneyCount = 0;
 					}
 					RealCityEconomyManager.CleanCurrent(MainDataStore.updateMoneyCount);
@@ -79,7 +86,8 @@ namespace RealCity
 		/// <summary>
 		/// 计算市民路费
 		/// </summary>
-		public void CaculateCitizenTransportFee() {
+		public void CaculateCitizenTransportFee()
+		{
 			ItemClass vituralClass = ScriptableObject.CreateInstance<ItemClass>();
 			MainDataStore.publicTransportFee = 0L;
 			vituralClass.m_service = ItemClass.Service.PublicTransport;
@@ -127,14 +135,17 @@ namespace RealCity
 
 			//汇总
 			MainDataStore.allTransportFee = MainDataStore.publicTransportFee + MainDataStore.totalCitizenDrivingTimeFinal;
-			if (MainDataStore.familyCount > 0) {
+			if (MainDataStore.familyCount > 0)
+			{
 				//顺便统计家庭平均路费
 				MainDataStore.citizenAverageTransportFee = (byte)(MainDataStore.allTransportFee / MainDataStore.familyCount);
 			}
 		}
 
-		public void CitizenStatus() {
-			if (Politics.nextMeetingInterval == 0) {
+		public void CitizenStatus()
+		{
+			if (Politics.nextMeetingInterval == 0)
+			{
 
 				Election.NextElection();
 
@@ -145,8 +156,10 @@ namespace RealCity
 
 			}
 
-			if ((MainDataStore.updateMoneyCount & 3u) == 0) {
-				if (Politics.nextMeetingInterval != 0) {
+			if ((MainDataStore.updateMoneyCount & 3u) == 0)
+			{
+				if (Politics.nextMeetingInterval != 0)
+				{
 					Government.Instance.HoldMeeting();
 					ClearBuildingStats();
 					//HoldMeeting();
@@ -159,92 +172,121 @@ namespace RealCity
 			RefreshPlayerEducationFee();
 		}
 
-		public static void CaculateGovermentSalary() {
-			if (MainDataStore.citizenCount != 0) {
+		public static void CaculateGovermentSalary()
+		{
+			if (MainDataStore.citizenCount != 0)
+			{
 				MainDataStore.govermentSalary = (int)(MainDataStore.citizenSalaryTotal / MainDataStore.citizenCount);
 			}
 		}
 
-		public static void RefreshPlayerEducationFee() {
+		public static void RefreshPlayerEducationFee()
+		{
 			//reset playereducation fee
 			var playereducationFee = (uint)(MainDataStore.govermentSalary / 100f);
 			if (playereducationFee < 1)
 				playereducationFee = 1;
 
-			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent != playereducationFee) {
+			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent != playereducationFee)
+			{
 				DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level1 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent}");
 				Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent = playereducationFee;
 			}
 
-			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent != playereducationFee) {
+			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent != playereducationFee)
+			{
 				DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level2 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent}");
 				Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent = playereducationFee;
 			}
 
-			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent != playereducationFee) {
+			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent != playereducationFee)
+			{
 				DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level3 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent}");
 				Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent = playereducationFee;
 			}
 
-			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent != playereducationFee) {
+			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent != playereducationFee)
+			{
 				DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level4 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent}");
 				Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent = playereducationFee;
 			}
 
-			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent != playereducationFee) {
+			if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent != playereducationFee)
+			{
 				DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level5 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent}");
 				Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent = playereducationFee;
 			}
 		}
 
-		public byte ReturnOtherIdx(byte orgIdx) {
+		public byte ReturnOtherIdx(byte orgIdx)
+		{
 			System.Random rand = new System.Random();
 			int avoidIdx0 = 8;
 			int avoidIdx1 = 8;
 			int avoidIdx2 = 8;
 			int avoidIdx3 = 8;
-			if (Politics.residentTax >= 20) {
+			if (Politics.residentTax >= 20)
+			{
 				avoidIdx0 = 0;
-			} else if (Politics.residentTax <= 1) {
+			}
+			else if (Politics.residentTax <= 1)
+			{
 				avoidIdx0 = 1;
 			}
 
-			if (Politics.benefitOffset >= 100) {
+			if (Politics.benefitOffset >= 100)
+			{
 				avoidIdx1 = 2;
-			} else if (Politics.benefitOffset <= 0) {
+			}
+			else if (Politics.benefitOffset <= 0)
+			{
 				avoidIdx1 = 3;
 			}
 
-			if (Politics.commercialTax >= 20) {
+			if (Politics.commercialTax >= 20)
+			{
 				avoidIdx2 = 4;
-			} else if (Politics.commercialTax <= 1) {
+			}
+			else if (Politics.commercialTax <= 1)
+			{
 				avoidIdx2 = 5;
 			}
 
-			if (Politics.industryTax >= 20) {
+			if (Politics.industryTax >= 20)
+			{
 				avoidIdx3 = 6;
-			} else if (Politics.industryTax <= 1) {
+			}
+			else if (Politics.industryTax <= 1)
+			{
 				avoidIdx3 = 7;
 			}
 
-			if ((orgIdx == avoidIdx0) || (orgIdx == avoidIdx1) || (orgIdx == avoidIdx2) || (orgIdx == avoidIdx3)) {
-				while (true) {
+			if ((orgIdx == avoidIdx0) || (orgIdx == avoidIdx1) || (orgIdx == avoidIdx2) || (orgIdx == avoidIdx3))
+			{
+				while (true)
+				{
 					byte returnValue = (byte)rand.Next(8);
-					if (!((returnValue == avoidIdx0) || (returnValue == avoidIdx1) || (returnValue == avoidIdx2) || (returnValue == avoidIdx3))) {
+					if (!((returnValue == avoidIdx0) || (returnValue == avoidIdx1) || (returnValue == avoidIdx2) || (returnValue == avoidIdx3)))
+					{
 						return returnValue;
 					}
 				}
-			} else {
+			}
+			else
+			{
 				return orgIdx;
 			}
 		}
 
 		[Obsolete("call Government.Instance.HoldMeeting() instead")]
-		public void HoldMeeting() {
+		public void HoldMeeting()
+		{
 			int temp = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			if (temp == 99) {
+			if (temp == 99)
+			{
 				System.Random rand = new System.Random();
-				switch (rand.Next(8)) {
+				switch (rand.Next(8))
+				{
 					case 0:
 						Politics.currentBillId = ReturnOtherIdx(0); break;
 					case 1:
@@ -277,107 +319,158 @@ namespace RealCity
 		 */
 
 		[Obsolete]
-		public void VoteOffset(ref int idex, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset) {
+		public void VoteOffset(ref int idex, ref int MoneyOffset, ref int citizenOffset, ref int buildingOffset, ref int commBuildingOffset)
+		{
 			//MoneyOffset
 			MoneyOffset = 0;
 			FieldInfo cashAmount;
 			cashAmount = typeof(EconomyManager).GetField("m_cashAmount", BindingFlags.NonPublic | BindingFlags.Instance);
 			long _cashAmount = (long)cashAmount.GetValue(Singleton<EconomyManager>.instance);
-			if (_cashAmount < 0) {
+			if (_cashAmount < 0)
+			{
 				MoneyOffset = -4000;
 				System.Random rand = new System.Random();
 				// 80% chance to change a bill
-				if (rand.Next(10) < 8) {
-					switch (rand.Next(15)) {
+				if (rand.Next(10) < 8)
+				{
+					switch (rand.Next(15))
+					{
 						case 0:
 						case 1:
 						case 2:
-							if (Politics.residentTax < 20) {
+							if (Politics.residentTax < 20)
+							{
 								idex = 0; // rise resi
-							} else if (Politics.benefitOffset > 0) {
+							}
+							else if (Politics.benefitOffset > 0)
+							{
 								idex = 3; // rise bene
-							} else if (Politics.industryTax < 20) {
+							}
+							else if (Politics.industryTax < 20)
+							{
 								idex = 6; // rise indu
-							} else if (Politics.commercialTax < 20) {
+							}
+							else if (Politics.commercialTax < 20)
+							{
 								idex = 4; // rise comm
 							}
 							break;
 						case 3:
 						case 4:
 						case 5:
-							if (Politics.benefitOffset > 0) {
+							if (Politics.benefitOffset > 0)
+							{
 								idex = 3;
-							} else if (Politics.industryTax < 20) {
+							}
+							else if (Politics.industryTax < 20)
+							{
 								idex = 6;
-							} else if (Politics.commercialTax < 20) {
+							}
+							else if (Politics.commercialTax < 20)
+							{
 								idex = 4;
-							} else if (Politics.residentTax < 20) {
+							}
+							else if (Politics.residentTax < 20)
+							{
 								idex = 0;
 							}
 							break;
 						case 6:
 						case 7:
 						case 8:
-							if (Politics.commercialTax < 20) {
+							if (Politics.commercialTax < 20)
+							{
 								idex = 4;
-							} else if (Politics.benefitOffset > 0) {
+							}
+							else if (Politics.benefitOffset > 0)
+							{
 								idex = 3;
-							} else if (Politics.industryTax < 20) {
+							}
+							else if (Politics.industryTax < 20)
+							{
 								idex = 6;
-							} else if (Politics.residentTax < 20) {
+							}
+							else if (Politics.residentTax < 20)
+							{
 								idex = 0;
-							} else if (Politics.commercialTax < 20) {
+							}
+							else if (Politics.commercialTax < 20)
+							{
 								idex = 4;
 							}
 							break;
 						case 9:
 						case 10:
 						case 11:
-							if (Politics.industryTax < 20) {
+							if (Politics.industryTax < 20)
+							{
 								idex = 6;
-							} else if (Politics.commercialTax < 20) {
+							}
+							else if (Politics.commercialTax < 20)
+							{
 								idex = 4;
-							} else if (Politics.benefitOffset > 0) {
+							}
+							else if (Politics.benefitOffset > 0)
+							{
 								idex = 3;
-							} else if (Politics.residentTax < 20) {
+							}
+							else if (Politics.residentTax < 20)
+							{
 								idex = 0;
 							}
 							break;
 						case 12:
 						case 13:
 						case 14:
-							if (Politics.benefitOffset > 0) {
+							if (Politics.benefitOffset > 0)
+							{
 								idex = 3;
-							} else if (Politics.industryTax < 20) {
+							}
+							else if (Politics.industryTax < 20)
+							{
 								idex = 6;
-							} else if (Politics.residentTax < 20) {
+							}
+							else if (Politics.residentTax < 20)
+							{
 								idex = 0;
-							} else if (Politics.commercialTax < 20) {
+							}
+							else if (Politics.commercialTax < 20)
+							{
 								idex = 4;
 							}
 							break;
 					}
 				}
 				Politics.currentBillId = (byte)idex;
-			} else if (_cashAmount > 24000000) { // 2.4e7
+			}
+			else if (_cashAmount > 24000000)
+			{ // 2.4e7
 				MoneyOffset = 4000;
-			} else {
+			}
+			else
+			{
 				MoneyOffset = -4000 + (int)(_cashAmount / 3000);
 			}
 
 
 			//citizenOffset
 			int citizenOffsetBySalary = 0;
-			if (MainDataStore.familyCount > 0) {
+			if (MainDataStore.familyCount > 0)
+			{
 				//citizenOffsetBySalary is the salary of its family excluding the tax and expense.
 				//citizenOffsetBySalary是家庭工资减去赋税和开销的值
 				citizenOffsetBySalary = (int)(MainDataStore.citizenSalaryPerFamily - (MainDataStore.citizenSalaryTaxTotal / MainDataStore.familyCount) - MainDataStore.citizenExpensePerFamily);
 			}
-			if (citizenOffsetBySalary < 100) {
+			if (citizenOffsetBySalary < 100)
+			{
 				citizenOffset = 500;
-			} else if (citizenOffsetBySalary > 300) {
+			}
+			else if (citizenOffsetBySalary > 300)
+			{
 				citizenOffset = -500;
-			} else {
+			}
+			else
+			{
 				citizenOffset = 1000 - 5 * citizenOffsetBySalary;
 			}
 
@@ -385,29 +478,35 @@ namespace RealCity
 			//buildingOffset
 			buildingOffset = 0;
 			// if have industrial buildings
-			if (industrialEarnMoneyCount + industrialLackMoneyCount > 0) {
+			if (industrialEarnMoneyCount + industrialLackMoneyCount > 0)
+			{
 				buildingOffset = (
 					(int)(100f * (industrialEarnMoneyCount - industrialLackMoneyCount)
 					/ (industrialEarnMoneyCount + industrialLackMoneyCount))
 					) << 4;
-				if (buildingOffset > 1500) {
+				if (buildingOffset > 1500)
+				{
 					buildingOffset = 1500;
 				}
 
-				if (buildingOffset < -1500) {
+				if (buildingOffset < -1500)
+				{
 					buildingOffset = -1500;
 				}
 			}
 
 			commBuildingOffset = 0;
 			// if have commercial buildings
-			if (commercialEarnMoneyCount + commercialLackMoneyCount > 0) {
+			if (commercialEarnMoneyCount + commercialLackMoneyCount > 0)
+			{
 				commBuildingOffset = ((int)(100f * (commercialEarnMoneyCount - commercialLackMoneyCount) / (commercialEarnMoneyCount + commercialLackMoneyCount))) << 4;
-				if (commBuildingOffset > 1500) {
+				if (commBuildingOffset > 1500)
+				{
 					commBuildingOffset = 1500;
 				}
 
-				if (commBuildingOffset < -1500) {
+				if (commBuildingOffset < -1500)
+				{
 					commBuildingOffset = -1500;
 				}
 			}
@@ -416,7 +515,8 @@ namespace RealCity
 		}
 
 		[Obsolete]
-		public void VoteResult(int billId) {
+		public void VoteResult(int billId)
+		{
 			int seatCount = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
 			int yes = 0;
 			int no = 0;
@@ -431,8 +531,10 @@ namespace RealCity
 			int commercialBuildingOffset = 0; //commercial building offset
 			VoteOffset(ref billId, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
 
-			if (seatCount == 99) {
-				switch (billId) {
+			if (seatCount == 99)
+			{
+				switch (billId)
+				{
 					case 0:
 						//提高居民税，受到当前税率、政府资金、居民工资的制约
 						yes += Politics.cPartySeats * (Politics.riseSalaryTax[0, 0] + residentTax);
@@ -586,26 +688,32 @@ namespace RealCity
 						break;
 				}
 
-				if (yes < 0) {
+				if (yes < 0)
+				{
 					yes = 0;
 				}
-				if (no < 0) {
+				if (no < 0)
+				{
 					no = 0;
 				}
-				if (noAttend < 0) {
+				if (noAttend < 0)
+				{
 					noAttend = 0;
 				}
 
 				int allTickets = yes + no + noAttend;
-				if (allTickets != 0) {
+				if (allTickets != 0)
+				{
 					yes = ((yes * 99) / allTickets);
 					no = ((no * 99) / allTickets);
 					noAttend = ((noAttend * 99) / allTickets);
 					allTickets = yes + no + noAttend;
 
-					if (allTickets < 99) {
+					if (allTickets < 99)
+					{
 						System.Random rand = new System.Random();
-						switch (rand.Next(3)) {
+						switch (rand.Next(3))
+						{
 							case 0:
 								yes += 99 - allTickets; break;
 							case 1:
@@ -621,8 +729,10 @@ namespace RealCity
 				Politics.currentNoAttend = (byte)noAttend;
 
 				// if bill is passed
-				if (Politics.currentYes >= 50) {
-					switch (billId) {
+				if (Politics.currentYes >= 50)
+				{
+					switch (billId)
+					{
 						case 0:
 							Politics.residentTax += 1;
 							break;
@@ -651,8 +761,10 @@ namespace RealCity
 		}
 
 		[Obsolete("call Governemt.Instance.UpdateGovType() instead")]
-		public void CreateGoverment() {
-			if (Politics.cPartySeats >= 50) {
+		public void CreateGoverment()
+		{
+			if (Politics.cPartySeats >= 50)
+			{
 				//c only
 				Politics.case1 = true;
 				Politics.case2 = false;
@@ -663,7 +775,9 @@ namespace RealCity
 				Politics.case7 = false;
 				Politics.case8 = false;
 
-			} else if (Politics.gPartySeats >= 50) {
+			}
+			else if (Politics.gPartySeats >= 50)
+			{
 				Politics.case1 = false;
 				Politics.case2 = true;
 				Politics.case3 = false;
@@ -672,7 +786,9 @@ namespace RealCity
 				Politics.case6 = false;
 				Politics.case7 = false;
 				Politics.case8 = false;
-			} else if (Politics.sPartySeats >= 50) {
+			}
+			else if (Politics.sPartySeats >= 50)
+			{
 				Politics.case1 = false;
 				Politics.case2 = false;
 				Politics.case3 = true;
@@ -681,7 +797,9 @@ namespace RealCity
 				Politics.case6 = false;
 				Politics.case7 = false;
 				Politics.case8 = false;
-			} else if (Politics.lPartySeats >= 50) {
+			}
+			else if (Politics.lPartySeats >= 50)
+			{
 				Politics.case1 = false;
 				Politics.case2 = false;
 				Politics.case3 = false;
@@ -690,7 +808,9 @@ namespace RealCity
 				Politics.case6 = false;
 				Politics.case7 = false;
 				Politics.case8 = false;
-			} else if (Politics.nPartySeats >= 50) {
+			}
+			else if (Politics.nPartySeats >= 50)
+			{
 				Politics.case1 = false;
 				Politics.case2 = false;
 				Politics.case3 = false;
@@ -699,7 +819,9 @@ namespace RealCity
 				Politics.case6 = false;
 				Politics.case7 = false;
 				Politics.case8 = false;
-			} else if (Politics.sPartySeats + Politics.gPartySeats >= 50) {
+			}
+			else if (Politics.sPartySeats + Politics.gPartySeats >= 50)
+			{
 				Politics.case1 = false;
 				Politics.case2 = false;
 				Politics.case3 = false;
@@ -708,7 +830,9 @@ namespace RealCity
 				Politics.case6 = true;
 				Politics.case7 = false;
 				Politics.case8 = false;
-			} else if (Politics.sPartySeats + Politics.gPartySeats + Politics.cPartySeats >= 50) {
+			}
+			else if (Politics.sPartySeats + Politics.gPartySeats + Politics.cPartySeats >= 50)
+			{
 				Politics.case1 = false;
 				Politics.case2 = false;
 				Politics.case3 = false;
@@ -717,7 +841,9 @@ namespace RealCity
 				Politics.case6 = false;
 				Politics.case7 = true;
 				Politics.case8 = false;
-			} else if (Politics.nPartySeats + Politics.lPartySeats >= 50) {
+			}
+			else if (Politics.nPartySeats + Politics.lPartySeats >= 50)
+			{
 				Politics.case1 = false;
 				Politics.case2 = false;
 				Politics.case3 = false;
@@ -726,7 +852,9 @@ namespace RealCity
 				Politics.case6 = false;
 				Politics.case7 = false;
 				Politics.case8 = true;
-			} else {
+			}
+			else
+			{
 				Politics.case1 = false;
 				Politics.case2 = false;
 				Politics.case3 = false;
@@ -742,18 +870,22 @@ namespace RealCity
 		/// <summary>
 		/// 更新议会席位数量
 		/// </summary>
-		public void GetSeats() {
+		public void GetSeats()
+		{
 			//Government.Instance.UpdateSeats(Election.CurrentElectionInfo);
 			//总票数
 			//int allTickets = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
 			int cnt = Politics.cPartyTickets + Politics.gPartyTickets + Politics.sPartyTickets + Politics.lPartyTickets + Politics.nPartyTickets;
-			if (cnt != 0) {
+			if (cnt != 0)
+			{
 				Politics.cPartySeats = (ushort)(99 * Politics.cPartyTickets / cnt);
 				Politics.gPartySeats = (ushort)(99 * Politics.gPartyTickets / cnt);
 				Politics.sPartySeats = (ushort)(99 * Politics.sPartyTickets / cnt);
 				Politics.lPartySeats = (ushort)(99 * Politics.lPartyTickets / cnt);
 				Politics.nPartySeats = (ushort)(99 * Politics.nPartyTickets / cnt);
-			} else {
+			}
+			else
+			{
 				Politics.cPartySeats = 0;
 				Politics.gPartySeats = 0;
 				Politics.sPartySeats = 0;
@@ -767,9 +899,11 @@ namespace RealCity
 			Politics.nPartyTickets = 0;
 
 			cnt = Politics.cPartySeats + Politics.gPartySeats + Politics.sPartySeats + Politics.lPartySeats + Politics.nPartySeats;
-			if (cnt < 99) {
+			if (cnt < 99)
+			{
 				System.Random rand = new System.Random();
-				switch (rand.Next(5)) {
+				switch (rand.Next(5))
+				{
 					case 0:
 						Politics.cPartySeats += (ushort)(99 - cnt); break;
 					case 1:
@@ -784,10 +918,12 @@ namespace RealCity
 			}
 		}
 
-		public static bool Can16timesUpdate(ushort ID) {
+		public static bool Can16timesUpdate(ushort ID)
+		{
 			uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
 			int frameIndex = (int)(currentFrameIndex & 4095u);
-			if (((frameIndex >> 8) & 15u) == (ID & 15u)) {
+			if (((frameIndex >> 8) & 15u) == (ID & 15u))
+			{
 				return true;
 			}
 			return false;
@@ -798,7 +934,8 @@ namespace RealCity
 		/// <see cref="commercialEarnMoneyCount"/>, 
 		/// <see cref="commercialLackMoneyCount"/> to 0.
 		/// </summary>
-		public static void ClearBuildingStats() {
+		public static void ClearBuildingStats()
+		{
 			industrialEarnMoneyCount = default;
 			industrialLackMoneyCount = default;
 			commercialEarnMoneyCount = default;

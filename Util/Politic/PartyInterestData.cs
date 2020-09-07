@@ -25,7 +25,8 @@
 		/// <param name="familyMoney">长度为3的数组，代表3种家庭富裕程度</param>
 		/// <param name="age">长度为3的数组，代表3种（有投票权的）年龄阶段</param>
 		/// <param name="gender">长度为2的数组，代表2种性别</param>
-		public PartyInterestData(byte[] edu, byte[] service, byte[] familyMoney, byte[] age, byte[] gender) {
+		public PartyInterestData(byte[] edu, byte[] service, byte[] familyMoney, byte[] age, byte[] gender)
+		{
 			edu = edu.EnsureLength(EducationLevelNum);
 			service = service.EnsureLength(SubServiceNum);
 			familyMoney = familyMoney.EnsureLength(FamilyMoneyNum);

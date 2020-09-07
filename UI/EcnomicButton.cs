@@ -14,22 +14,29 @@ namespace RealCity.UI
 		private UIDragHandle m_DragHandler;
 		private float tmpX;
 		private float tmpY;
-		public static void MoreeconomicUIToggle() {
-			if (!Loader.ecnomicUI.isVisible) {
+		public static void MoreeconomicUIToggle()
+		{
+			if (!Loader.ecnomicUI.isVisible)
+			{
 				EcnomicUI.refeshOnce = true;
 				Loader.ecnomicUI.Show();
-			} else {
+			}
+			else
+			{
 				Loader.ecnomicUI.Hide();
 			}
 		}
 
-		public void MoreeconomicUIOff() {
-			if (Loader.ecnomicUI.isVisible && !Loader.ecnomicUI.containsMouse && !containsMouse && MoreeconomicUITrigger_paneltime != null && !MoreeconomicUITrigger_paneltime.containsMouse) {
+		public void MoreeconomicUIOff()
+		{
+			if (Loader.ecnomicUI.isVisible && !Loader.ecnomicUI.containsMouse && !containsMouse && MoreeconomicUITrigger_paneltime != null && !MoreeconomicUITrigger_paneltime.containsMouse)
+			{
 				Loader.ecnomicUI.Hide();
 			}
 		}
 
-		public override void Start() {
+		public override void Start()
+		{
 			name = "EcButton";
 			relativePosition = new Vector3((Loader.parentGuiView.fixedWidth / 2 - 350f), 35f);
 			normalBgSprite = "ToolbarIconGroup1Nomarl";
@@ -56,7 +63,8 @@ namespace RealCity.UI
 			tmpX = relativePosition.x;
 			tmpY = relativePosition.y;
 			eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
-				if (tmpX == relativePosition.x && tmpY == relativePosition.y) {
+				if (tmpX == relativePosition.x && tmpY == relativePosition.y)
+				{
 					MoreeconomicUIToggle();
 				}
 				tmpX = relativePosition.x;
@@ -67,34 +75,43 @@ namespace RealCity.UI
 			MoreeconomicUITrigger_infopanel = UIView.Find<UIPanel>("InfoPanel");
 			MoreeconomicUITrigger_bottombars = UIView.Find<UISlicedSprite>("TSBar");
 			MoreeconomicUITrigger_paneltime = UIView.Find<UIPanel>("PanelTime");
-			if (MoreeconomicUITrigger_chirper != null && MoreeconomicUITrigger_paneltime != null) {
+			if (MoreeconomicUITrigger_chirper != null && MoreeconomicUITrigger_paneltime != null)
+			{
 				MoreeconomicUITrigger_chirper.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
 					MoreeconomicUIOff();
 				};
 			}
-			if (MoreeconomicUITrigger_esc != null && MoreeconomicUITrigger_paneltime != null) {
+			if (MoreeconomicUITrigger_esc != null && MoreeconomicUITrigger_paneltime != null)
+			{
 				MoreeconomicUITrigger_esc.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
 					MoreeconomicUIOff();
 				};
 			}
-			if (MoreeconomicUITrigger_infopanel != null && MoreeconomicUITrigger_paneltime != null) {
+			if (MoreeconomicUITrigger_infopanel != null && MoreeconomicUITrigger_paneltime != null)
+			{
 				MoreeconomicUITrigger_infopanel.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
 					MoreeconomicUIOff();
 				};
 			}
-			if (MoreeconomicUITrigger_bottombars != null && MoreeconomicUITrigger_paneltime != null) {
+			if (MoreeconomicUITrigger_bottombars != null && MoreeconomicUITrigger_paneltime != null)
+			{
 				MoreeconomicUITrigger_bottombars.eventClick += delegate (UIComponent component, UIMouseEventParameter eventParam) {
 					MoreeconomicUIOff();
 				};
 			}
 		}
 
-		public override void Update() {
-			if (Loader.isGuiRunning) {
-				if (Loader.ecnomicUI.isVisible) {
+		public override void Update()
+		{
+			if (Loader.isGuiRunning)
+			{
+				if (Loader.ecnomicUI.isVisible)
+				{
 					//Focus();
 					Hide();
-				} else {
+				}
+				else
+				{
 					Unfocus();
 					Show();
 				}

@@ -31,17 +31,20 @@ namespace RealCity.UI
 		private UILabel profit;
 		private UILabel usedcar;
 
-		public override void Update() {
+		public override void Update()
+		{
 			RefreshDisplayData();
 			base.Update();
 		}
 
-		public override void Awake() {
+		public override void Awake()
+		{
 			base.Awake();
 			DoOnStartup();
 		}
 
-		public override void Start() {
+		public override void Start()
+		{
 			base.Start();
 			canFocus = true;
 			isInteractive = true;
@@ -52,12 +55,14 @@ namespace RealCity.UI
 			Hide();
 		}
 
-		private void DoOnStartup() {
+		private void DoOnStartup()
+		{
 			ShowOnGui();
 			Hide();
 		}
 
-		private void ShowOnGui() {
+		private void ShowOnGui()
+		{
 			buildingMoney = AddUIComponent<UILabel>();
 			buildingMoney.text = Localization.Get("BUILDING_MONEY");
 			buildingMoney.relativePosition = new Vector3(SPACING, 50f);
@@ -119,14 +124,20 @@ namespace RealCity.UI
 			usedcar.autoSize = true;
 		}
 
-		private void RefreshDisplayData() {
-			if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building)) {
-				if (isVisible) {
+		private void RefreshDisplayData()
+		{
+			if (refeshOnce || (BuildingData.lastBuildingID != WorldInfoPanel.GetCurrentInstanceID().Building))
+			{
+				if (isVisible)
+				{
 					BuildingData.lastBuildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
 					Building buildingData = Singleton<BuildingManager>.instance.m_buildings.m_buffer[BuildingData.lastBuildingID];
-					if (buildingData.Info.m_class.m_service == ItemClass.Service.Residential) {
+					if (buildingData.Info.m_class.m_service == ItemClass.Service.Residential)
+					{
 						Hide();
-					} else {
+					}
+					else
+					{
 						float averageEmployeeFee = CaculateEmployeeOutcome(buildingData, out int totalWorkerCount);
 						int landRentFee = CaculateLandFee(buildingData, BuildingData.lastBuildingID);
 						string incomeType = RealCityPrivateBuildingAI.GetProductionType(false, BuildingData.lastBuildingID, buildingData);
@@ -143,13 +154,19 @@ namespace RealCity.UI
 						sellPrice.text = string.Format(Localization.Get("SELL_PRICE") + " " + outgoingType + " [{0:N2}]", outgoingPrice);
 
 						float consumptionDivider = 0f;
-						if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric) {
+						if (buildingData.Info.m_class.m_subService == ItemClass.SubService.IndustrialGeneric)
+						{
 							consumptionDivider = RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, BuildingData.lastBuildingID) * 4f;
 							comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " [1:{0:N2}]", consumptionDivider);
-						} else {
-							if ((buildingData.Info.m_buildingAI is IndustrialExtractorAI) || buildingData.Info.m_class.m_service == ItemClass.Service.Office) {
+						}
+						else
+						{
+							if ((buildingData.Info.m_buildingAI is IndustrialExtractorAI) || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
+							{
 								comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " N/A");
-							} else {
+							}
+							else
+							{
 								consumptionDivider = RealCityPrivateBuildingAI.GetComsumptionDivider(buildingData, BuildingData.lastBuildingID);
 								comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " [1:{0:N2}]", consumptionDivider);
 							}
@@ -158,13 +175,19 @@ namespace RealCity.UI
 						int m_sellTax = RealCityPrivateBuildingAI.GetTaxRate(buildingData);
 						sellTax.text = string.Format(Localization.Get("SELL_TAX") + " [{0}%]", m_sellTax);
 
-						if (consumptionDivider == 0f) {
+						if (consumptionDivider == 0f)
+						{
 							profit.text = string.Format(Localization.Get("PROFIT") + " N/A");
-						} else {
+						}
+						else
+						{
 							float profitRatio = (outgoingPrice * (1f - m_sellTax / 100f) - (incomePrice / consumptionDivider)) / outgoingPrice;
-							if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) {
+							if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+							{
 								profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]" + Localization.Get("EXCLUDE_VISIT_INCOME"), (int)(profitRatio * 100f));
-							} else {
+							}
+							else
+							{
 								profit.text = string.Format(Localization.Get("PROFIT") + " [{0}%]", (int)(profitRatio * 100f));
 							}
 						}
@@ -174,9 +197,11 @@ namespace RealCity.UI
 						int num1 = 0;
 						int num2 = 0;
 						int car = 0;
-						if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial) {
+						if (buildingData.Info.m_class.m_service == ItemClass.Service.Industrial)
+						{
 							TransferManager.TransferReason tempReason = default(TransferManager.TransferReason);
-							if (buildingData.Info.m_buildingAI is IndustrialExtractorAI) {
+							if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
+							{
 								RealCityIndustrialExtractorAI.InitDelegate();
 								var industrialExtractorAI = (IndustrialExtractorAI)buildingData.Info.m_buildingAI;
 								int productionCapacity = industrialExtractorAI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
@@ -184,7 +209,9 @@ namespace RealCity.UI
 								tempReason = RealCityIndustrialExtractorAI.GetOutgoingTransferReason((IndustrialExtractorAI)buildingData.Info.m_buildingAI);
 								RealCityCommonBuildingAI.InitDelegate();
 								RealCityCommonBuildingAI.CalculateOwnVehicles((IndustrialExtractorAI)buildingData.Info.m_buildingAI, BuildingData.lastBuildingID, ref buildingData, tempReason, ref usedCar, ref num, ref num1, ref num2);
-							} else {
+							}
+							else
+							{
 								RealCityIndustrialBuildingAI.InitDelegate();
 								var industrialBuildingAI = (IndustrialBuildingAI)buildingData.Info.m_buildingAI;
 								int productionCapacity = industrialBuildingAI.CalculateProductionCapacity((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
@@ -195,7 +222,9 @@ namespace RealCity.UI
 							}
 
 							usedcar.text = string.Format(Localization.Get("CAR_USED") + " [{0}/{1}]", usedCar, car);
-						} else if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) {
+						}
+						else if (buildingData.Info.m_class.m_service == ItemClass.Service.Commercial)
+						{
 							Citizen.BehaviourData behaviour = default;
 							int aliveVisitCount = 0;
 							int totalVisitCount = 0;
@@ -205,7 +234,9 @@ namespace RealCity.UI
 							var commercialBuildingAI = buildingData.Info.m_buildingAI as CommercialBuildingAI;
 							var maxCount = commercialBuildingAI.CalculateVisitplaceCount((ItemClass.Level)buildingData.m_level, new Randomizer(BuildingData.lastBuildingID), buildingData.m_width, buildingData.m_length);
 							usedcar.text = string.Format("FORDEBUG" + " [{0}/{1}/{2}/{3}]", aliveVisitCount, totalVisitCount, maxCount, amount);
-						} else {
+						}
+						else
+						{
 							usedcar.text = Localization.Get("CAR_USED") + " 0/0";
 						}
 
@@ -216,42 +247,51 @@ namespace RealCity.UI
 			}
 		}
 
-		public static float CaculateEmployeeOutcome(Building building, out int totalWorkerCount) {
+		public static float CaculateEmployeeOutcome(Building building, out int totalWorkerCount)
+		{
 			totalWorkerCount = 0;
 			float allSalary = 0;
 			CitizenManager instance = Singleton<CitizenManager>.instance;
 			uint num = building.m_citizenUnits;
 			int num2 = 0;
-			while (num != 0u) {
-				if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0) {
+			while (num != 0u)
+			{
+				if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Work) != 0)
+				{
 					var citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen0;
-					if (citizenID != 0u) {
+					if (citizenID != 0u)
+					{
 						totalWorkerCount++;
 						allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 					}
 					citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen1;
-					if (citizenID != 0u) {
+					if (citizenID != 0u)
+					{
 						totalWorkerCount++;
 						allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 					}
 					citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen2;
-					if (citizenID != 0u) {
+					if (citizenID != 0u)
+					{
 						totalWorkerCount++;
 						allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 					}
 					citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen3;
-					if (citizenID != 0u) {
+					if (citizenID != 0u)
+					{
 						totalWorkerCount++;
 						allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 					}
 					citizenID = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen4;
-					if (citizenID != 0u) {
+					if (citizenID != 0u)
+					{
 						totalWorkerCount++;
 						allSalary += RealCityResidentAI.ProcessCitizenSalary(citizenID, true);
 					}
 				}
 				num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-				if (++num2 > 524288) {
+				if (++num2 > 524288)
+				{
 					CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
 					break;
 				}
@@ -263,7 +303,8 @@ namespace RealCity.UI
 				return allSalary / totalWorkerCount;
 		}
 
-		public int CaculateLandFee(Building building, ushort buildingID) {
+		public int CaculateLandFee(Building building, ushort buildingID)
+		{
 			DistrictManager instance = Singleton<DistrictManager>.instance;
 			byte district = instance.GetDistrict(building.m_position);
 			DistrictPolicies.Services servicePolicies = instance.m_districts.m_buffer[district].m_servicePolicies;
@@ -275,26 +316,34 @@ namespace RealCity.UI
 
 			taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
-			if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation)) {
-				if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None) {
+			if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))
+			{
+				if ((servicePolicies & DistrictPolicies.Services.ExtraInsulation) != DistrictPolicies.Services.None)
+				{
 					taxRate = taxRate * 95 / 100;
 				}
 			}
-			if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None) {
+			if ((servicePolicies & DistrictPolicies.Services.Recycling) != DistrictPolicies.Services.None)
+			{
 				taxRate = taxRate * 95 / 100;
 			}
 
-			if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)) {
+			if (((taxationPolicies & DistrictPolicies.Taxation.DontTaxLeisure) != DistrictPolicies.Taxation.None) && (building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure))
+			{
 				landFee = 0;
 			}
 
-			if (BuildingData.buildingMoney[buildingID] > 0) {
-				if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial)) {
+			if (BuildingData.buildingMoney[buildingID] > 0)
+			{
+				if ((building.Info.m_class.m_service == ItemClass.Service.Commercial) || (building.Info.m_class.m_service == ItemClass.Service.Industrial))
+				{
 					if (BuildingData.buildingMoney[buildingID] > (taxRate * landFee / 100f))
 						return (int)(taxRate * landFee / 100f);
 					else
 						return 0;
-				} else if (building.Info.m_class.m_service == ItemClass.Service.Office) {
+				}
+				else if (building.Info.m_class.m_service == ItemClass.Service.Office)
+				{
 					Citizen.BehaviourData behaviourData = default;
 					int aliveWorkerCount = 0;
 					int totalWorkerCount = 0;
@@ -307,11 +356,13 @@ namespace RealCity.UI
 			return 0;
 		}
 
-		public void GetLandRent(Building building, out int incomeAccumulation) {
+		public void GetLandRent(Building building, out int incomeAccumulation)
+		{
 			ItemClass @class = building.Info.m_class;
 			incomeAccumulation = 0;
 			ItemClass.SubService subService = @class.m_subService;
-			switch (subService) {
+			switch (subService)
+			{
 				case ItemClass.SubService.IndustrialFarming:
 					incomeAccumulation = MainDataStore.induFarm;
 					break;
@@ -325,29 +376,44 @@ namespace RealCity.UI
 					incomeAccumulation = MainDataStore.induOre;
 					break;
 				case ItemClass.SubService.IndustrialGeneric:
-					if (building.Info.m_class.m_level == ItemClass.Level.Level1) {
+					if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+					{
 						incomeAccumulation = MainDataStore.induGenLevel1;
-					} else if (building.Info.m_class.m_level == ItemClass.Level.Level2) {
+					}
+					else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+					{
 						incomeAccumulation = MainDataStore.induGenLevel2;
-					} else if (building.Info.m_class.m_level == ItemClass.Level.Level3) {
+					}
+					else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+					{
 						incomeAccumulation = MainDataStore.induGenLevel3;
 					}
 					break;
 				case ItemClass.SubService.CommercialHigh:
-					if (building.Info.m_class.m_level == ItemClass.Level.Level1) {
+					if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+					{
 						incomeAccumulation = MainDataStore.commHighLevel1;
-					} else if (building.Info.m_class.m_level == ItemClass.Level.Level2) {
+					}
+					else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+					{
 						incomeAccumulation = MainDataStore.commHighLevel2;
-					} else if (building.Info.m_class.m_level == ItemClass.Level.Level3) {
+					}
+					else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+					{
 						incomeAccumulation = MainDataStore.commHighLevel3;
 					}
 					break;
 				case ItemClass.SubService.CommercialLow:
-					if (building.Info.m_class.m_level == ItemClass.Level.Level1) {
+					if (building.Info.m_class.m_level == ItemClass.Level.Level1)
+					{
 						incomeAccumulation = MainDataStore.commLowLevel1;
-					} else if (building.Info.m_class.m_level == ItemClass.Level.Level2) {
+					}
+					else if (building.Info.m_class.m_level == ItemClass.Level.Level2)
+					{
 						incomeAccumulation = MainDataStore.commLowLevel2;
-					} else if (building.Info.m_class.m_level == ItemClass.Level.Level3) {
+					}
+					else if (building.Info.m_class.m_level == ItemClass.Level.Level3)
+					{
 						incomeAccumulation = MainDataStore.commLowLevel3;
 					}
 					break;
