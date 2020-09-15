@@ -96,7 +96,7 @@ namespace RealCity.Patch
 
         public static void ProcessUnit(ref int amount, ref float container)
         {
-            container += amount / MainDataStore.gameExpenseDivide;
+            container += (float)amount / (float)MainDataStore.gameExpenseDivide;
             if (container > 1)
             {
                 amount = (int)container;
