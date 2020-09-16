@@ -71,7 +71,7 @@ namespace RealCity.Util.Politic.ElectionUtil
 					this.EleInfo.TicketCounter[i]++;
 					break;
 				}
-				segment += this.Chance[0];
+				segment += this.Chance[++i];
 			}
 		}
 		private void CalcChance()
