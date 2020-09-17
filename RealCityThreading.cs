@@ -133,29 +133,29 @@ namespace RealCity
                                         case ItemClass.SubService.PublicTransportBus:
                                         case ItemClass.SubService.PublicTransportTrolleybus:
                                         case ItemClass.SubService.PublicTransportTours:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10 * capacity, vehicle.Info.m_class); break;
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportMonorail:
                                         case ItemClass.SubService.PublicTransportCableCar:
                                         case ItemClass.SubService.PublicTransportTram:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 15 * capacity, vehicle.Info.m_class); break;
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5 * capacity, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportMetro:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 200 * capacity, vehicle.Info.m_class); break;
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800 * capacity, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportTrain:
                                             if (vehicle.Info.m_vehicleAI is CargoTrainAI)
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5000, vehicle.Info.m_class);
                                             else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 300 * capacity, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 900 * capacity, vehicle.Info.m_class);
                                             break;
                                         case ItemClass.SubService.PublicTransportPlane:
                                             if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10000, vehicle.Info.m_class);
                                             else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 400 * capacity, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 500 * capacity, vehicle.Info.m_class);
                                             break;
                                         case ItemClass.SubService.PublicTransportPost:
                                             Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportTaxi:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 200, vehicle.Info.m_class); break;
+                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportShip:
                                             if (vehicle.Info.m_vehicleAI is CargoShipAI)
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 3000, vehicle.Info.m_class);
