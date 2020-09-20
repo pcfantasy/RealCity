@@ -3,7 +3,7 @@
 	public interface IGovernmentalMeeting
 	{
 		IBill Bill { get; }
-		AbstractVoteResult VoteResult { get; }
+		VoteResult VoteResult { get; }
 		void Start();
 	}
 }

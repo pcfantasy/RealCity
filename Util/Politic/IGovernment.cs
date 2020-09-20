@@ -12,6 +12,7 @@ namespace RealCity.Util.Politic
 		void UpdateSeats(ElectionInfo info);
 		void UpdateGovType();
 		IGovernmentalMeeting HoldMeeting();
+		bool IsVoteResultApprovable(VoteResult meeting);
 	}
 	public enum GovernmentType
 	{

@@ -13,7 +13,17 @@ namespace RealCity.Patch
 	{
 		public static MethodBase TargetMethod()
 		{
-			return typeof(CitizenManager).GetMethod("CreateCitizenInstance", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(CitizenInfo), typeof(uint) }, null);
+			return typeof(CitizenManager).GetMethod(
+				"CreateCitizenInstance", 
+				BindingFlags.Public | BindingFlags.Instance, 
+				null,
+				new Type[] { 
+					typeof(ushort).MakeByRefType(), 
+					typeof(Randomizer).MakeByRefType(),
+					typeof(CitizenInfo), 
+					typeof(uint) 
+				}, 
+				null);
 		}
 		public static bool Prefix(ref CitizenManager __instance, uint citizen, ref bool __result)
 		{

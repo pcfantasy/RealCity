@@ -203,7 +203,7 @@ namespace RealCity
 					capacity += 5;
 				}
 				num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-				if (++num2 > 524288)
+				if (++num2 > CitizenManager.MAX_UNIT_COUNT)
 				{
 					CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
 					break;

@@ -16,15 +16,15 @@ namespace RealCity.Util.Politic
 
 		public IParty MakeCParty()
 		{
-			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
-			AbstractVoteResult raiseResidentTax = new VoteResult(55, 40, 5);
-			AbstractVoteResult reduceResidentTax = new VoteResult(40, 55, 5);
-			AbstractVoteResult raiseCommercialTax = new VoteResult(80, 20, 0);
-			AbstractVoteResult reduceCommercialTax = new VoteResult(20, 80, 0);
-			AbstractVoteResult raiseIndustryTax = new VoteResult(20, 70, 10);
-			AbstractVoteResult reduceIndustryTax = new VoteResult(70, 20, 10);
-			AbstractVoteResult raiseBenefitOffset = new VoteResult(40, 50, 10);
-			AbstractVoteResult reduceBenefitOffset = new VoteResult(50, 40, 10);
+			var billAttitudeMap = new Dictionary<IBill, VoteResult>();
+			VoteResult raiseResidentTax = new VoteResult(55, 40, 5);
+			VoteResult reduceResidentTax = new VoteResult(40, 55, 5);
+			VoteResult raiseCommercialTax = new VoteResult(80, 20, 0);
+			VoteResult reduceCommercialTax = new VoteResult(20, 80, 0);
+			VoteResult raiseIndustryTax = new VoteResult(20, 70, 10);
+			VoteResult reduceIndustryTax = new VoteResult(70, 20, 10);
+			VoteResult raiseBenefitOffset = new VoteResult(40, 50, 10);
+			VoteResult reduceBenefitOffset = new VoteResult(50, 40, 10);
 
 			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
@@ -53,15 +53,15 @@ namespace RealCity.Util.Politic
 
 		public IParty MakeGParty()
 		{
-			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
-			AbstractVoteResult raiseResidentTax = new VoteResult(10, 80, 10);
-			AbstractVoteResult reduceResidentTax = new VoteResult(80, 10, 10);
-			AbstractVoteResult raiseCommercialTax = new VoteResult(40, 50, 10);
-			AbstractVoteResult reduceCommercialTax = new VoteResult(50, 40, 10);
-			AbstractVoteResult raiseIndustryTax = new VoteResult(50, 50, 0);
-			AbstractVoteResult reduceIndustryTax = new VoteResult(50, 50, 0);
-			AbstractVoteResult raiseBenefitOffset = new VoteResult(70, 20, 10);
-			AbstractVoteResult reduceBenefitOffset = new VoteResult(20, 70, 10);
+			var billAttitudeMap = new Dictionary<IBill, VoteResult>();
+			VoteResult raiseResidentTax = new VoteResult(10, 80, 10);
+			VoteResult reduceResidentTax = new VoteResult(80, 10, 10);
+			VoteResult raiseCommercialTax = new VoteResult(40, 50, 10);
+			VoteResult reduceCommercialTax = new VoteResult(50, 40, 10);
+			VoteResult raiseIndustryTax = new VoteResult(50, 50, 0);
+			VoteResult reduceIndustryTax = new VoteResult(50, 50, 0);
+			VoteResult raiseBenefitOffset = new VoteResult(70, 20, 10);
+			VoteResult reduceBenefitOffset = new VoteResult(20, 70, 10);
 
 			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
@@ -90,15 +90,15 @@ namespace RealCity.Util.Politic
 
 		public IParty MakeSParty()
 		{
-			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
-			AbstractVoteResult raiseResidentTax = new VoteResult(30, 70, 0);
-			AbstractVoteResult reduceResidentTax = new VoteResult(70, 30, 0);
-			AbstractVoteResult raiseCommercialTax = new VoteResult(55, 40, 5);
-			AbstractVoteResult reduceCommercialTax = new VoteResult(40, 55, 5);
-			AbstractVoteResult raiseIndustryTax = new VoteResult(60, 30, 10);
-			AbstractVoteResult reduceIndustryTax = new VoteResult(30, 60, 10);
-			AbstractVoteResult raiseBenefitOffset = new VoteResult(90, 10, 0);
-			AbstractVoteResult reduceBenefitOffset = new VoteResult(10, 90, 0);
+			var billAttitudeMap = new Dictionary<IBill, VoteResult>();
+			VoteResult raiseResidentTax = new VoteResult(30, 70, 0);
+			VoteResult reduceResidentTax = new VoteResult(70, 30, 0);
+			VoteResult raiseCommercialTax = new VoteResult(55, 40, 5);
+			VoteResult reduceCommercialTax = new VoteResult(40, 55, 5);
+			VoteResult raiseIndustryTax = new VoteResult(60, 30, 10);
+			VoteResult reduceIndustryTax = new VoteResult(30, 60, 10);
+			VoteResult raiseBenefitOffset = new VoteResult(90, 10, 0);
+			VoteResult reduceBenefitOffset = new VoteResult(10, 90, 0);
 
 			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
@@ -127,15 +127,15 @@ namespace RealCity.Util.Politic
 
 		public IParty MakeLParty()
 		{
-			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
-			AbstractVoteResult raiseResidentTax = new VoteResult(70, 30, 0);
-			AbstractVoteResult reduceResidentTax = new VoteResult(30, 70, 0);
-			AbstractVoteResult raiseCommercialTax = new VoteResult(10, 90, 0);
-			AbstractVoteResult reduceCommercialTax = new VoteResult(90, 10, 0);
-			AbstractVoteResult raiseIndustryTax = new VoteResult(70, 30, 0);
-			AbstractVoteResult reduceIndustryTax = new VoteResult(30, 70, 0);
-			AbstractVoteResult raiseBenefitOffset = new VoteResult(10, 90, 0);
-			AbstractVoteResult reduceBenefitOffset = new VoteResult(90, 10, 0);
+			var billAttitudeMap = new Dictionary<IBill, VoteResult>();
+			VoteResult raiseResidentTax = new VoteResult(70, 30, 0);
+			VoteResult reduceResidentTax = new VoteResult(30, 70, 0);
+			VoteResult raiseCommercialTax = new VoteResult(10, 90, 0);
+			VoteResult reduceCommercialTax = new VoteResult(90, 10, 0);
+			VoteResult raiseIndustryTax = new VoteResult(70, 30, 0);
+			VoteResult reduceIndustryTax = new VoteResult(30, 70, 0);
+			VoteResult raiseBenefitOffset = new VoteResult(10, 90, 0);
+			VoteResult reduceBenefitOffset = new VoteResult(90, 10, 0);
 
 			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);
@@ -164,15 +164,15 @@ namespace RealCity.Util.Politic
 
 		public IParty MakeNParty()
 		{
-			var billAttitudeMap = new Dictionary<IBill, AbstractVoteResult>();
-			AbstractVoteResult raiseResidentTax = new VoteResult(35, 55, 10);
-			AbstractVoteResult reduceResidentTax = new VoteResult(55, 35, 10);
-			AbstractVoteResult raiseCommercialTax = new VoteResult(45, 45, 100);
-			AbstractVoteResult reduceCommercialTax = new VoteResult(45, 45, 10);
-			AbstractVoteResult raiseIndustryTax = new VoteResult(30, 70, 0);
-			AbstractVoteResult reduceIndustryTax = new VoteResult(70, 30, 0);
-			AbstractVoteResult raiseBenefitOffset = new VoteResult(30, 60, 10);
-			AbstractVoteResult reduceBenefitOffset = new VoteResult(60, 30, 10);
+			var billAttitudeMap = new Dictionary<IBill, VoteResult>();
+			VoteResult raiseResidentTax = new VoteResult(35, 55, 10);
+			VoteResult reduceResidentTax = new VoteResult(55, 35, 10);
+			VoteResult raiseCommercialTax = new VoteResult(45, 45, 100);
+			VoteResult reduceCommercialTax = new VoteResult(45, 45, 10);
+			VoteResult raiseIndustryTax = new VoteResult(30, 70, 0);
+			VoteResult reduceIndustryTax = new VoteResult(70, 30, 0);
+			VoteResult raiseBenefitOffset = new VoteResult(30, 60, 10);
+			VoteResult reduceBenefitOffset = new VoteResult(60, 30, 10);
 
 			billAttitudeMap.Add(Bills.RiseResidentTax, raiseResidentTax);
 			billAttitudeMap.Add(Bills.ReduceResidentTax, reduceResidentTax);

@@ -94,7 +94,8 @@ namespace RealCity.Patch
 					DebugLog.LogToFileOnly("Find unknown  EXAddPrivateLandIncome building" + " building service is" + service);
 					break;
 			}
-			RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] = RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] + amount;
+			RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] 
+				= RealCityEconomyManager.citizenTaxIncomeForUI[MainDataStore.updateMoneyCount] + amount;
 		}
 
 		public static void CustomAddTourismIncome(ref int amount, int taxRate)

@@ -150,14 +150,14 @@ namespace RealCity.Util.Politic
 			//if(this.currentBill == null) {
 			//	this.currentBill = Bills.GetRandomBill();
 			//}
-			IGovernmentalMeeting v = new GovernmentalMeeting(this, Bills.GetAnotherBill(this.currentBill));
-			v.Start();
-			if (v.VoteResult.IsApprovable)
+			IGovernmentalMeeting meeting = new GovernmentalMeeting(this, Bills.GetAnotherBill(this.currentBill));
+			meeting.Start();
+			if (IsVoteResultApprovable(meeting.VoteResult))
 			{
-				v.Bill.Implement();
+				meeting.Bill.Implement();
 			}
-			this.LastMeeting = v;
-			return v;
+			this.LastMeeting = meeting;
+			return meeting;
 		}
 
 		private int GetSeatCount(int ticketCount, ref int ticketSum)
@@ -184,6 +184,11 @@ namespace RealCity.Util.Politic
 		{
 			Instance = Null as Government;
 			Instance.Parties = Politics.Parties;
+		}
+
+		public bool IsVoteResultApprovable(VoteResult voteResult)
+		{
+			return voteResult.Agree >= (voteResult.Sum >> 1);
 		}
 	}
 }

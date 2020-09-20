@@ -12,7 +12,7 @@ namespace RealCity.Util.Politic
 		private IParty[] parties;
 
 		public IBill Bill { get; }
-		public AbstractVoteResult VoteResult { get; private set; }
+		public VoteResult VoteResult { get; private set; }
 
 		public GovernmentalMeeting(IGovernment gov, IBill bill)
 		{
@@ -23,7 +23,7 @@ namespace RealCity.Util.Politic
 
 		public void Start()
 		{
-			AbstractVoteResult r = new VoteResult();
+			VoteResult r = new VoteResult();
 
 			int seatCount = this.gov.AllSeatCount;
 			int resiTaxOffset = 10 - (Politics.residentTax);

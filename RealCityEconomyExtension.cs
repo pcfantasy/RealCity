@@ -218,6 +218,7 @@ namespace RealCity
 			}
 		}
 
+		[Obsolete("call Bills.GetAnotherBill() instead")]
 		public byte ReturnOtherIdx(byte orgIdx)
 		{
 			System.Random rand = new System.Random();

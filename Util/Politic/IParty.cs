@@ -13,8 +13,8 @@ namespace RealCity.Util.Politic
 		ushort SeatCount { get; }
 		ushort Id { get; }
 		PartyType PartyType { get; }
-		IDictionary<IBill, AbstractVoteResult> BillAttitudes { get; }
-		AbstractVoteResult GetBillAttitude(IBill bill);
+		IDictionary<IBill, VoteResult> BillAttitudes { get; }
+		VoteResult GetBillAttitude(IBill bill);
 	}
 	public enum PartyType
 	{
