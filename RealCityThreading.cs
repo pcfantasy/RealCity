@@ -11,7 +11,7 @@ namespace RealCity
     public class RealCityThreading : ThreadingExtensionBase
     {
         public static bool isFirstTime = true;
-        public const int HarmonyPatchNum = 60;
+        public const int HarmonyPatchNum = 61;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -142,13 +142,13 @@ namespace RealCity
                                             Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800 * capacity, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportTrain:
                                             if (vehicle.Info.m_vehicleAI is CargoTrainAI)
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5000, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10000, vehicle.Info.m_class);
                                             else
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 900 * capacity, vehicle.Info.m_class);
                                             break;
                                         case ItemClass.SubService.PublicTransportPlane:
                                             if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10000, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
                                             else
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 500 * capacity, vehicle.Info.m_class);
                                             break;
@@ -158,7 +158,7 @@ namespace RealCity
                                             Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100, vehicle.Info.m_class); break;
                                         case ItemClass.SubService.PublicTransportShip:
                                             if (vehicle.Info.m_vehicleAI is CargoShipAI)
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 3000, vehicle.Info.m_class);
+                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5000, vehicle.Info.m_class);
                                             else
                                                 Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20 * capacity, vehicle.Info.m_class);
                                             break;

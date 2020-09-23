@@ -456,7 +456,7 @@ namespace RealCity.Util
                 _serializableData.SaveData("RealCity Politics", saveData);
 
                 //7
-                saveData = new byte[512];
+                saveData = new byte[1536];
                 TransportLineData.Save(ref saveData);
                 _serializableData.SaveData("RealCity TransportLineData", saveData);
 
