@@ -154,37 +154,14 @@ DEBUG_MODE	More Information
 REDUCE_CARGO_DESCRIPTION	Reduce cargo amount(for both industry dlc and growable building)
 REDUCE_CARGO_ENABLE	Reduce cargo function enable
 INCOMPATIBILITY_CHECK_TIP	RealCity(series) Mod detected incompatible mods
-REMOVE_STUCK_DESCRIPTION	Auto remove stuck citizen&vehicle(impact performance a little)
-REMOVE_STUCK_ENABLE	Remove stuck citizen&vehicle enable
 BASIC_SETTING	Basic Setting
-SPTB	SPTB function
-SMART_PUBLIC_TRANSPORT_BUDGET_WEEKDAY	Smart public transport budget(weekday)
-SMART_PUBLIC_TRANSPORT_BUDGET_WEEKEND	Smart public transport budget(weekend)
-WEEKDAY_MORNING_BUDGET	weekday morning budget(8-10)
-WEEKDAY_EVENING_BUDGET	weekday evening budget(17-19)
-WEEKDAY_DEEPNIGHT_BUDGET	weekday deepnight budget(0-4)
-WEEKDAY_OTHER_BUDGET	weekday other budget
-WEEKEND_MORNING_BUDGET	weekend morning budget(8-10)
-WEEKEND_EVENING_BUDGET	weekend evening budget(17-19)
-WEEKEND_DEEPNIGHT_BUDGET	weekend deepnight budget(0-4)
-WEEKEND_OTHER_BUDGET	weekend other budget
-WeekDayPlan	WeekDayPlan
-WeekEndPlan	WeekEndPlan
-NoPlan	NoPlan
+WeekDayRush	WeekDayRush
+WeekDayLow	WeekDayLow
+WeekDayNight	WeekDayNight
+WeekEndRush	WeekEndRush
+WeekEndLow	WeekEndLow
+WeekEndNight	WeekEndNight
 TLMRUNNING	TransportLineManager is running or RealTime is not running, SPTB function disabled.
 TLMNOTRUNNING	TransportLineManager is not running, SPTB function can be used.
-MAX_MORNING_BUDGET	max morning budget(8-10)
-MAX_EVENING_BUDGET	max evening budget(17-19)
-MAX_DEEPNIGHT_BUDGET	max deepnight budget(0-4)
-MAX_OTHER_BUDGET	max other budget
-MIN_MORNING_BUDGET	min morning budget(8-10)
-MIN_EVENING_BUDGET	min evening budget(17-19)
-MIN_DEEPNIGHT_BUDGET	min deepnight budget(0-4)
-MIN_OTHER_BUDGET	min other budget
-MaxPlan	MaxPlan
-MinPlan	MinPlan
-SPTB2	SPTB function2
-SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Smart public transport budget(max)
-SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Smart public transport budget(min)
 RESET_VALUE	Reset key value
 NO_PASSENGERCAR	Citizen will not use passenger car if they do not have enough money

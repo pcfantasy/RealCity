@@ -65,7 +65,7 @@ namespace RealCity.UI
             WeekDayRush.autoSize = true;
 
             WeekDayRushDD = CreateDropDown(this);
-            WeekDayRushDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
+            WeekDayRushDD.items = new string[] { "25%", "50%", "75%", "100%", "150%", "175%", "200%" };
             WeekDayRushDD.selectedIndex = TransportLineData.WeekDayRush[TransportLineData.lastLineID];
             WeekDayRushDD.size = new Vector2(70f, 20f);
             WeekDayRushDD.relativePosition = new Vector3(0f, 15f);
@@ -81,7 +81,7 @@ namespace RealCity.UI
             WeekDayLow.autoSize = true;
 
             WeekDayLowDD = CreateDropDown(this);
-            WeekDayLowDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%")};
+            WeekDayLowDD.items = new string[] { "25%", "50%", "75%", "100%", "125%", "150%", "175%", "200%"};
             WeekDayLowDD.selectedIndex = TransportLineData.WeekDayLow[TransportLineData.lastLineID];
             WeekDayLowDD.eventSelectedIndexChanged += delegate (UIComponent c, int sel)
             {
@@ -97,7 +97,7 @@ namespace RealCity.UI
             WeekDayNight.autoSize = true;
 
             WeekDayNightDD = CreateDropDown(this);
-            WeekDayNightDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
+            WeekDayNightDD.items = new string[] { "25%", "50%", "75%", "100%", "150%", "175%", "200%" };
             WeekDayNightDD.selectedIndex = TransportLineData.WeekDayNight[TransportLineData.lastLineID];
             WeekDayNightDD.eventSelectedIndexChanged += delegate (UIComponent c, int sel)
             {
@@ -114,7 +114,7 @@ namespace RealCity.UI
             WeekEndRush.autoSize = true;
 
             WeekEndRushDD = CreateDropDown(this);
-            WeekEndRushDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
+            WeekEndRushDD.items = new string[] { "25%", "50%", "75%", "100%", "150%", "175%", "200%" };
             WeekEndRushDD.selectedIndex = TransportLineData.WeekEndRush[TransportLineData.lastLineID];
             WeekEndRushDD.size = new Vector2(70f, 20f);
             WeekEndRushDD.relativePosition = new Vector3(0f, 120f);
@@ -130,7 +130,7 @@ namespace RealCity.UI
             WeekEndLow.autoSize = true;
             WeekEndLow.textScale = 0.8f;
             WeekEndLowDD = CreateDropDown(this);
-            WeekEndLowDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
+            WeekEndLowDD.items = new string[] { "25%", "50%", "75%", "100%", "150%", "175%", "200%" };
             WeekEndLowDD.selectedIndex = TransportLineData.WeekEndLow[TransportLineData.lastLineID];
             WeekEndLowDD.eventSelectedIndexChanged += delegate (UIComponent c, int sel)
             {
@@ -146,7 +146,7 @@ namespace RealCity.UI
             WeekEndNight.autoSize = true;
 
             WeekEndNightDD = CreateDropDown(this);
-            WeekEndNightDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
+            WeekEndNightDD.items = new string[] { "25%", "50%", "75%", "100%", "150%", "175%", "200%" };
             WeekEndNightDD.selectedIndex = TransportLineData.WeekEndNight[TransportLineData.lastLineID];
             WeekEndNightDD.eventSelectedIndexChanged += delegate (UIComponent c, int sel)
             {
@@ -227,15 +227,7 @@ namespace RealCity.UI
                 if (isVisible)
                 {
                     TransportLineData.lastLineID = GetLineID();
-                    if (WeekDayRush.text != Localization.Get("WeekDayRush"))
-                    {
-                        WeekDayRushDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
-                        WeekDayLowDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
-                        WeekDayNightDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
-                        WeekEndRushDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
-                        WeekEndLowDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
-                        WeekEndNightDD.items = new string[] { Localization.Get("25%"), Localization.Get("50%"), Localization.Get("75%"), Localization.Get("100%"), Localization.Get("125%"), Localization.Get("150%"), Localization.Get("175%"), Localization.Get("200%") };
-                    }
+
                     if (WeekDayRushDD.selectedIndex != TransportLineData.WeekDayRush[TransportLineData.lastLineID])
                         WeekDayRushDD.selectedIndex = TransportLineData.WeekDayRush[TransportLineData.lastLineID];
                     if (WeekDayLowDD.selectedIndex != TransportLineData.WeekDayLow[TransportLineData.lastLineID])
