@@ -63,6 +63,14 @@ namespace RealCity
             return realCityV10;
         }
 
+        public static float GetAverageSalary()
+        {
+            if (MainDataStore.citizenCount != 0)
+                return MainDataStore.citizenSalaryTotal / MainDataStore.citizenCount;
+            else
+                return 1f;
+        }
+
         public static int GetReduceCargoDiv()
         {
             return MainDataStore.reduceCargoDiv;
