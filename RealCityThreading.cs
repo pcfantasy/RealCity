@@ -11,7 +11,7 @@ namespace RealCity
     public class RealCityThreading : ThreadingExtensionBase
     {
         public static bool isFirstTime = true;
-        public const int HarmonyPatchNum = 61;
+        public const int HarmonyPatchNum = 62;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
