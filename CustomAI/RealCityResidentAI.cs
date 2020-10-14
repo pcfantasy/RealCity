@@ -159,9 +159,6 @@ namespace RealCity.CustomAI
                         int budget = Singleton<EconomyManager>.instance.GetBudget(buildingData.Info.m_class);
                         salary = (int)(salary * budget / 100f);
                         salary = Math.Max(salary, salaryMax);
-#if Debug
-                        DebugLog.LogToFileOnly("DebugInfo: LandPrice offset for Salary is " + landPriceOffset.ToString());
-#endif
                         salary = UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, salary);
                         if (!checkOnly)
                         {

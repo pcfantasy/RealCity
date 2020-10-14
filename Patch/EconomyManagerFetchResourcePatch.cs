@@ -35,6 +35,8 @@ namespace RealCity.Patch
             switch (service)
             {
                 case ItemClass.Service.Road:
+                    if (Loader.roadShift != 0)
+                        amount <<= Loader.roadShift;
                     ProcessUnit(ref amount, ref Road);
                     break;
                 case ItemClass.Service.Garbage:
