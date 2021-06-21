@@ -17,6 +17,7 @@ namespace RealCity.UI
             streamWriter.WriteLine(RealCity.debugMode);
             streamWriter.WriteLine(RealCity.reduceVehicle);
             streamWriter.WriteLine(RealCity.noPassengerCar);
+            streamWriter.WriteLine(RealCity.randomEvent);
             streamWriter.Flush();
             fs.Close();
         }
@@ -45,7 +46,8 @@ namespace RealCity.UI
                 }
 
                 RealCity.noPassengerCar = (sr.ReadLine() == "True")? true : false;
-               
+                RealCity.randomEvent = (sr.ReadLine() == "True") ? true : false;
+
                 sr.Close();
                 fs.Close();
             }
@@ -85,6 +87,7 @@ namespace RealCity.UI
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), RealCity.debugMode, (index) => debugModeEnable(index));
             group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), RealCity.reduceVehicle, (index) => reduceVehicleEnable(index));
             group.AddCheckbox(Localization.Get("NO_PASSENGERCAR"), RealCity.noPassengerCar, (index) => noPassengerCarEnable(index));
+            group.AddCheckbox(Localization.Get("ENABLE_RANDOM_EVENT"), RealCity.randomEvent, (index) => randomEventEnable(index));
             group.AddButton(Localization.Get("RESET_VALUE"), Loader.InitData);
 
             if (Loader.isTransportLinesManagerRunning)
@@ -127,7 +130,11 @@ namespace RealCity.UI
             RealCity.noPassengerCar = index;
             SaveSetting();
         }
-
+        public static void randomEventEnable(bool index)
+        {
+            RealCity.randomEvent = index;
+            SaveSetting();
+        }
         public static void reduceVehicleEnable(bool index)
         {
             RealCity.reduceVehicle = index;

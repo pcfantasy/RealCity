@@ -167,3 +167,10 @@ WeekEndNight	WeekEndNight
 UNFINISHED_DEAL_LOST	Компенсация по незавершенным сделкам
 RESET_VALUE	Клавиша сброса
 NO_PASSENGERCAR	Citizen will not use passenger car if they do not have enough money
+RANDOM_EVENT	random event
+ENABLE_RANDOM_EVENT	enable random event
+NO_DUMMY_TRAFFIC	no dummy traffic/
+NO_EXPORT	no export/
+NO_IMPORT	no import/
+NO_TOURIST	no tourist/
+TIME_LEFT	remaining time

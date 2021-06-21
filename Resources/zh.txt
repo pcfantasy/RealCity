@@ -165,3 +165,10 @@ WeekEndNight	周末深夜
 UNFINISHED_DEAL_LOST	未完成的交易退税
 RESET_VALUE	清除关键数据
 NO_PASSENGERCAR	没足够钱的居民不会有车
+RANDOM_EVENT	随机事件
+ENABLE_RANDOM_EVENT	启用随机事件
+NO_DUMMY_TRAFFIC	无过境车流/
+NO_EXPORT	无出口需求/
+NO_IMPORT	无进口需求/
+NO_TOURIST	没有游客/
+TIME_LEFT	剩余时间

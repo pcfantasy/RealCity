@@ -431,7 +431,7 @@ namespace RealCity.Util
                 _serializableData.SaveData("RealCity RealCityEconomyManager", saveData);
 
                 //2
-                saveData = new byte[125];
+                saveData = new byte[131];
                 MainDataStore.Save(ref saveData);
                 _serializableData.SaveData("RealCity MainDataStore", saveData);
 

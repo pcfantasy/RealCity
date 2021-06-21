@@ -183,6 +183,7 @@
     <Compile Include="UI\RealCityButton.cs" />
     <Compile Include="UI\RealCityUI.cs" />
     <Compile Include="UI\TouristUI.cs" />
+    <Compile Include="Unlock.cs" />
     <Compile Include="Util\FastDelegateFactory.cs" />
     <Compile Include="Util\ModsCompatibilityChecker.cs" />
     <Compile Include="Util\DebugLog.cs" />

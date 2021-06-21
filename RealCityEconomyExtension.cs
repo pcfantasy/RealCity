@@ -74,6 +74,90 @@ namespace RealCity
                         MainDataStore.outsideTouristMoney *= 0.975f;
                     if ((MainDataStore.outsideGovermentMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideGovermentMoney < -MainDataStore.maxOutsideMoneyLimit))
                         MainDataStore.outsideGovermentMoney *= 0.975f;
+
+                    //5 random event
+                    if (RealCity.randomEvent)
+                    {
+                        if (MainDataStore.randomEventTime < 2)
+                        {
+                            System.Random rand = new System.Random();
+                            MainDataStore.randomEventTime = (ushort)(rand.Next(3900) + 100);
+                            var randomData = (ushort)(rand.Next(900) + 100);
+                            MainDataStore.noImport = false;
+                            MainDataStore.noExport = false;
+                            MainDataStore.noDummyTraffic = false;
+                            MainDataStore.noTourist = false;
+
+                            if (randomData < 130)
+                            {
+                                MainDataStore.noExport = true;
+                                MainDataStore.noDummyTraffic = true;
+                                MainDataStore.noTourist = true;
+                            }
+                            else if (randomData < 160)
+                            {
+                                MainDataStore.noImport = true;
+                                MainDataStore.noDummyTraffic = true;
+                                MainDataStore.noTourist = true;
+                            }
+                            else if (randomData < 190)
+                            {
+                                MainDataStore.noExport = true;
+                                MainDataStore.noTourist = true;
+                            }
+                            else if (randomData < 220)
+                            {
+                                MainDataStore.noImport = true;
+                                MainDataStore.noTourist = true;
+                            }
+                            else if (randomData < 250)
+                            {
+                                MainDataStore.noExport = true;
+                                MainDataStore.noDummyTraffic = true;
+                            }
+                            else if (randomData < 280)
+                            {
+                                MainDataStore.noTourist = true;
+                                MainDataStore.noDummyTraffic = true;
+                            }
+                            else if (randomData < 320)
+                            {
+                                MainDataStore.noTourist = true;
+                            }
+                            else if (randomData < 360)
+                            {
+                                MainDataStore.noDummyTraffic = true;
+                            }
+                            else if (randomData < 390)
+                            {
+                                MainDataStore.noExport = true;
+                            }
+                            else if (randomData < 420)
+                            {
+                                MainDataStore.noImport = true;
+                            }
+                            else
+                            {
+                                MainDataStore.noImport = false;
+                                MainDataStore.noExport = false;
+                                MainDataStore.noDummyTraffic = false;
+                                MainDataStore.noTourist = false;
+                            }
+                        }
+                        else
+                        {
+                            MainDataStore.randomEventTime--;
+                        }
+                    } 
+                    else
+                    {
+                        MainDataStore.noImport = false;
+                        MainDataStore.noExport = false;
+                        MainDataStore.noDummyTraffic = false;
+                        MainDataStore.noTourist = false;
+                        MainDataStore.randomEventTime = 0;
+                    }
+                    //end
                 }
             }
             return internalMoneyAmount;
@@ -507,6 +591,58 @@ namespace RealCity
             int industrialBuildingOffset = 0; //industrial building offset
             int commercialBuildingOffset = 0; //commercial building offset
             VoteOffset(ref idex, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
+
+            if (MainDataStore.noExport)
+            {
+                //Goods demand is much lower than supply
+                moneyOffset = -4000;
+                citizenOffset = -500;
+                industrialBuildingOffset = -1500;
+                commercialBuildingOffset = -1500;
+            }
+
+            if (MainDataStore.noImport)
+            {
+                //Goods demand is much higher than supply
+                moneyOffset = 4000;
+                citizenOffset = 500;
+                industrialBuildingOffset = 1500;
+                commercialBuildingOffset = 1500;
+            }
+
+            if (MainDataStore.noDummyTraffic)
+            {
+                //no money
+                industrialBuildingOffset -= 1500;
+                commercialBuildingOffset -= 1500;
+            }
+
+            if (MainDataStore.noTourist)
+            {
+                //demand decrease
+                industrialBuildingOffset += 1500;
+                commercialBuildingOffset += 1500;
+            }
+
+            if (industrialBuildingOffset > 1500)
+            {
+                industrialBuildingOffset = 1500;
+            }
+
+            if (industrialBuildingOffset < -1500)
+            {
+                industrialBuildingOffset = -1500;
+            }
+
+            if (commercialBuildingOffset > 1500)
+            {
+                commercialBuildingOffset = 1500;
+            }
+
+            if (commercialBuildingOffset < -1500)
+            {
+                commercialBuildingOffset = -1500;
+            }
 
             if (temp == 99)
             {

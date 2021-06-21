@@ -130,9 +130,16 @@
         public static float outsideTouristMoney = 0;
         public static float outsideGovermentMoney = 0;
 
+        //random event
+        public static ushort randomEventTime = 0;
+        public static bool noImport = false;
+        public static bool noExport = false;
+        public static bool noTourist = false;
+        public static bool noDummyTraffic = false;
+
         public static void Save(ref byte[] saveData)
         {
-            //all 125
+            //all 131
             int i = 0;
             //16
             SaveAndRestore.SaveData(ref i, citizenExpensePerFamily, ref saveData);
@@ -168,6 +175,12 @@
 
             SaveAndRestore.SaveData(ref i, outsideTouristMoney, ref saveData);
             SaveAndRestore.SaveData(ref i, outsideGovermentMoney, ref saveData);
+
+            SaveAndRestore.SaveData(ref i, randomEventTime, ref saveData);
+            SaveAndRestore.SaveData(ref i, noImport, ref saveData);
+            SaveAndRestore.SaveData(ref i, noExport, ref saveData);
+            SaveAndRestore.SaveData(ref i, noTourist, ref saveData);
+            SaveAndRestore.SaveData(ref i, noDummyTraffic, ref saveData);
 
             if (i != saveData.Length)
             {
@@ -210,6 +223,11 @@
 
             SaveAndRestore.LoadData(ref i, saveData, ref outsideTouristMoney);
             SaveAndRestore.LoadData(ref i, saveData, ref outsideGovermentMoney);
+            SaveAndRestore.LoadData(ref i, saveData, ref randomEventTime);
+            SaveAndRestore.LoadData(ref i, saveData, ref noImport);
+            SaveAndRestore.LoadData(ref i, saveData, ref noExport);
+            SaveAndRestore.LoadData(ref i, saveData, ref noTourist);
+            SaveAndRestore.LoadData(ref i, saveData, ref noDummyTraffic);
 
             //avoid save data error:
             if (citizenCount != 0)
