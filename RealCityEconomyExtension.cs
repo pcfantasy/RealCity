@@ -82,7 +82,7 @@ namespace RealCity
                         {
                             System.Random rand = new System.Random();
                             MainDataStore.randomEventTime = (ushort)(rand.Next(3900) + 100);
-                            var randomData = (ushort)(rand.Next(900) + 100);
+                            var randomData = (ushort)(rand.Next(600) + 100);
                             MainDataStore.noImport = false;
                             MainDataStore.noExport = false;
                             MainDataStore.noDummyTraffic = false;
@@ -91,50 +91,18 @@ namespace RealCity
                             if (randomData < 130)
                             {
                                 MainDataStore.noExport = true;
-                                MainDataStore.noDummyTraffic = true;
-                                MainDataStore.noTourist = true;
                             }
                             else if (randomData < 160)
                             {
                                 MainDataStore.noImport = true;
-                                MainDataStore.noDummyTraffic = true;
-                                MainDataStore.noTourist = true;
                             }
                             else if (randomData < 190)
                             {
-                                MainDataStore.noExport = true;
                                 MainDataStore.noTourist = true;
                             }
                             else if (randomData < 220)
                             {
-                                MainDataStore.noImport = true;
-                                MainDataStore.noTourist = true;
-                            }
-                            else if (randomData < 250)
-                            {
-                                MainDataStore.noExport = true;
                                 MainDataStore.noDummyTraffic = true;
-                            }
-                            else if (randomData < 280)
-                            {
-                                MainDataStore.noTourist = true;
-                                MainDataStore.noDummyTraffic = true;
-                            }
-                            else if (randomData < 320)
-                            {
-                                MainDataStore.noTourist = true;
-                            }
-                            else if (randomData < 360)
-                            {
-                                MainDataStore.noDummyTraffic = true;
-                            }
-                            else if (randomData < 390)
-                            {
-                                MainDataStore.noExport = true;
-                            }
-                            else if (randomData < 420)
-                            {
-                                MainDataStore.noImport = true;
                             }
                             else
                             {
