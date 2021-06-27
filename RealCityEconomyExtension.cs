@@ -76,7 +76,7 @@ namespace RealCity
                         MainDataStore.outsideGovermentMoney *= 0.975f;
 
                     //5 random event
-                    if (RealCity.randomEvent)
+                    if (RealCity.randomEvent && (MainDataStore.citizenCount > 6000))
                     {
                         if (MainDataStore.randomEventTime < 2)
                         {
