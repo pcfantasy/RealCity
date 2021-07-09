@@ -28,7 +28,7 @@ namespace RealCity.CustomAI
                     price *= (UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, 100) / 100f);
                     break;
                 case TransferManager.TransferReason.Food:
-                    price = 1.5f;
+                    price = 2.4f;
                     if (RealCity.reduceVehicle)
                     {
                         price *= MainDataStore.reduceCargoDiv;
@@ -36,7 +36,7 @@ namespace RealCity.CustomAI
                     price *= (UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, 100) / 100f);
                     break;
                 case TransferManager.TransferReason.Lumber:
-                    price = 2f;
+                    price = 2.6f;
                     if (RealCity.reduceVehicle)
                     {
                         price *= MainDataStore.reduceCargoDiv;
@@ -44,7 +44,7 @@ namespace RealCity.CustomAI
                     price *= (UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, 100) / 100f);
                     break;
                 case TransferManager.TransferReason.Coal:
-                    price = 2.5f;
+                    price = 2.8f;
                     if (RealCity.reduceVehicle)
                     {
                         price *= MainDataStore.reduceCargoDiv;
