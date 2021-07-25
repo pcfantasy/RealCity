@@ -11,7 +11,7 @@ namespace RealCity
     public class RealCityThreading : ThreadingExtensionBase
     {
         public static bool isFirstTime = true;
-        public const int HarmonyPatchNum = 62;
+        public const int HarmonyPatchNum = 63;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -122,7 +122,7 @@ namespace RealCity
                                 case ItemClass.Service.Garbage:
                                     if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
                                     {
-                                        Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                                        Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1200, vehicle.Info.m_class);
                                     }
                                     break;
                                 case ItemClass.Service.PublicTransport:
