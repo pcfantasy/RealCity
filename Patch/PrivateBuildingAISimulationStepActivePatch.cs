@@ -528,19 +528,19 @@ namespace RealCity.Patch
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.residentLowLevel1Rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel1Rent;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.residentLowLevel2Rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel2Rent;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.residentLowLevel3Rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel3Rent;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.residentLowLevel4Rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel4Rent;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.residentLowLevel5Rent << 1;
+                            incomeAccumulation = MainDataStore.residentLowLevel5Rent;
                             break;
                     }
                 }
@@ -570,19 +570,19 @@ namespace RealCity.Patch
                     switch (@class.m_level)
                     {
                         case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.residentHighLevel1Rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel1Rent;
                             break;
                         case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.residentHighLevel2Rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel2Rent;
                             break;
                         case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.residentHighLevel3Rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel3Rent;
                             break;
                         case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.residentHighLevel4Rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel4Rent;
                             break;
                         case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.residentHighLevel5Rent << 1;
+                            incomeAccumulation = MainDataStore.residentHighLevel5Rent;
                             break;
                     }
                 }
