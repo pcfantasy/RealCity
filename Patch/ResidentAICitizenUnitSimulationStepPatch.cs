@@ -257,9 +257,9 @@ namespace RealCity.Patch
             RealCityResidentAI.preCitizenId = homeID;
             RealCityResidentAI.familyCount++;
 
-            if (homeID > 524288)
+            if (homeID > Singleton<CitizenManager>.instance.m_units.m_size)
             {
-                DebugLog.LogToFileOnly("Error: citizen ID greater than 524288");
+                DebugLog.LogToFileOnly("Error: home ID greater than CitizenUnit array size");
             }
 
             //DebugLog.LogToFileOnly($"ProcessCitizen pre family {homeID} moneny {CitizenUnitData.familyMoney[homeID]}");

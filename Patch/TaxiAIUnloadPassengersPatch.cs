@@ -20,6 +20,7 @@ namespace RealCity.Patch
             CitizenManager instance = Singleton<CitizenManager>.instance;
             Vector3 lastFramePosition = data.GetLastFramePosition();
             uint num2 = data.m_citizenUnits;
+            uint numCitizenUnits = instance.m_units.m_size;
             int num3 = 0;
             while (num2 != 0u)
             {
@@ -58,7 +59,7 @@ namespace RealCity.Patch
                     }
                 }
                 num2 = nextUnit;
-                if (++num3 > 524288)
+                if (++num3 > numCitizenUnits)
                 {
                     CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                     break;

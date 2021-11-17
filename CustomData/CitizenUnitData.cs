@@ -1,14 +1,19 @@
-﻿using RealCity.Util;
+﻿using ColossalFramework;
+using RealCity.Util;
 
 namespace RealCity.CustomData
 {
     public class CitizenUnitData
     {
-        public static float[] familyMoney = new float[524288];
-        public static ushort[] familyGoods = new ushort[524288];
+        public static float[] familyMoney;
+        public static ushort[] familyGoods;
 
         public static void DataInit()
         {
+            uint numCitizenUnits = Singleton<CitizenManager>.instance.m_units.m_size;
+            familyMoney = new float[numCitizenUnits];
+            familyGoods = new ushort[numCitizenUnits];
+
             for (int i = 0; i < familyMoney.Length; i++)
             {
                 familyMoney[i] = 0f;
