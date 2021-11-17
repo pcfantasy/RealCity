@@ -253,6 +253,7 @@ namespace RealCity.UI
             float allSalary = 0;
             CitizenManager instance = Singleton<CitizenManager>.instance;
             uint num = building.m_citizenUnits;
+            uint numCitizenUnits = instance.m_units.m_size;
             int num2 = 0;
             while (num != 0u)
             {
@@ -290,7 +291,7 @@ namespace RealCity.UI
                     }
                 }
                 num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-                if (++num2 > 524288)
+                if (++num2 > numCitizenUnits)
                 {
                     CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                     break;
