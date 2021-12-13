@@ -13,6 +13,8 @@ namespace RealCity
         public static bool debugMode = false;
         public static bool reduceVehicle = false;
         public static bool realCityV10 = true;
+        public static bool randomEvent = false;
+        public static bool noPassengerCar = true;
 
         public string Name
         {
@@ -60,6 +62,14 @@ namespace RealCity
         public static bool GetRealCityV10()
         {
             return realCityV10;
+        }
+
+        public static float GetAverageSalary()
+        {
+            if (MainDataStore.citizenCount != 0)
+                return MainDataStore.citizenSalaryTotal / MainDataStore.citizenCount;
+            else
+                return 1f;
         }
 
         public static int GetReduceCargoDiv()

@@ -28,6 +28,12 @@ namespace RealCity.Patch
                         __result = false;
                         return false;
                     }
+
+                    if (MainDataStore.noDummyTraffic)
+                    {
+                        __result = false;
+                        return false;
+                    }
                 }
             } 
             else if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))

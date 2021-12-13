@@ -12,7 +12,7 @@
 
         public const float outsideGovermentProfitRatio = 0.05f;
         public const float outsideCompanyProfitRatio = 0.20f;
-        public const float outsideTouristSalaryProfitRatio = 0.10f;
+        public const float outsideTouristSalaryProfitRatio = 0.15f;
 
         public const float profitShareRatioInduLevel1 = 0.01f;
         public const float profitShareRatioInduLevel2 = 0.014f;
@@ -86,16 +86,16 @@
         public const ushort induFarm = 200;
         public const ushort induOil = 1050;
         public const ushort induOre = 900;
-        public const ushort residentLowLevel1Rent = 100;
-        public const ushort residentLowLevel2Rent = 150;
-        public const ushort residentLowLevel3Rent = 200;
-        public const ushort residentLowLevel4Rent = 250;
-        public const ushort residentLowLevel5Rent = 300;
+        public const ushort residentLowLevel1Rent = 150;
+        public const ushort residentLowLevel2Rent = 250;
+        public const ushort residentLowLevel3Rent = 400;
+        public const ushort residentLowLevel4Rent = 600;
+        public const ushort residentLowLevel5Rent = 850;
         public const ushort residentHighLevel1Rent = 60;
         public const ushort residentHighLevel2Rent = 80;
-        public const ushort residentHighLevel3Rent = 100;
-        public const ushort residentHighLevel4Rent = 120;
-        public const ushort residentHighLevel5Rent = 150;
+        public const ushort residentHighLevel3Rent = 120;
+        public const ushort residentHighLevel4Rent = 180;
+        public const ushort residentHighLevel5Rent = 260;
 
         //start from V6, goverment salary is floating now
         public static int govermentSalary = 100;
@@ -130,9 +130,16 @@
         public static float outsideTouristMoney = 0;
         public static float outsideGovermentMoney = 0;
 
+        //random event
+        public static ushort randomEventTime = 0;
+        public static bool noImport = false;
+        public static bool noExport = false;
+        public static bool noTourist = false;
+        public static bool noDummyTraffic = false;
+
         public static void Save(ref byte[] saveData)
         {
-            //all 125
+            //all 131
             int i = 0;
             //16
             SaveAndRestore.SaveData(ref i, citizenExpensePerFamily, ref saveData);
@@ -168,6 +175,12 @@
 
             SaveAndRestore.SaveData(ref i, outsideTouristMoney, ref saveData);
             SaveAndRestore.SaveData(ref i, outsideGovermentMoney, ref saveData);
+
+            SaveAndRestore.SaveData(ref i, randomEventTime, ref saveData);
+            SaveAndRestore.SaveData(ref i, noImport, ref saveData);
+            SaveAndRestore.SaveData(ref i, noExport, ref saveData);
+            SaveAndRestore.SaveData(ref i, noTourist, ref saveData);
+            SaveAndRestore.SaveData(ref i, noDummyTraffic, ref saveData);
 
             if (i != saveData.Length)
             {
@@ -210,6 +223,11 @@
 
             SaveAndRestore.LoadData(ref i, saveData, ref outsideTouristMoney);
             SaveAndRestore.LoadData(ref i, saveData, ref outsideGovermentMoney);
+            SaveAndRestore.LoadData(ref i, saveData, ref randomEventTime);
+            SaveAndRestore.LoadData(ref i, saveData, ref noImport);
+            SaveAndRestore.LoadData(ref i, saveData, ref noExport);
+            SaveAndRestore.LoadData(ref i, saveData, ref noTourist);
+            SaveAndRestore.LoadData(ref i, saveData, ref noDummyTraffic);
 
             //avoid save data error:
             if (citizenCount != 0)

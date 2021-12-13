@@ -156,35 +156,21 @@ INCOMPATIBILITY_CHECK_TIP	Модификация RealCity(series) обнаруж
 REMOVE_STUCK_DESCRIPTION	Автоматическое удаление застрявших жителей и транспорта (немного увеличивает производительность)
 REMOVE_STUCK_ENABLE	Включить удаление жителей и транспорта
 BASIC_SETTING	Базовые настройки
-SPTB	Функциональность АБОТ
-SMART_PUBLIC_TRANSPORT_BUDGET_WEEKDAY	Адаптивный бюджет общественного транспорта (будни)
-SMART_PUBLIC_TRANSPORT_BUDGET_WEEKEND	Адаптивный бюджет общественного транспорта (выходные)
-WEEKDAY_MORNING_BUDGET	Утренний бюджет в будни(8-10)
-WEEKDAY_EVENING_BUDGET	Вечерний бюджет в будни(17-19)
-WEEKDAY_DEEPNIGHT_BUDGET	Ночной бюджет в будни(0-4)
-WEEKDAY_OTHER_BUDGET	Обычный бюджет в будни
-WEEKEND_MORNING_BUDGET	Утренний бюджет в выходные(8-10)
-WEEKEND_EVENING_BUDGET	Вечерний бюджет в выходные(17-19)
-WEEKEND_DEEPNIGHT_BUDGET	Ночной бюджет в выходные(0-4)
-WEEKEND_OTHER_BUDGET	Обычный бюджет в выходные
-WeekDayPlan	План для будней
-WeekEndPlan	План для выходных
-NoPlan	Нет плана
 TLMRUNNING	TransportLineManager активен, Функциональность АБОТ отключена, используйте TLM.
 TLMNOTRUNNING	TransportLineManager неактивен, Функциональность АБОТ включена.
-MAX_MORNING_BUDGET	Максимальный утренний бюджет(8-10)
-MAX_EVENING_BUDGET	Максимальный вечерний бюджет(17-19)
-MAX_DEEPNIGHT_BUDGET	Максимальный ночной бюджет(0-4)
-MAX_OTHER_BUDGET	Максимальный обычный бюджет
-MIN_MORNING_BUDGET	Минимальный утренний бюджет(8-10)
-MIN_EVENING_BUDGET	Минимальный вечерний бюджет(17-19)
-MIN_DEEPNIGHT_BUDGET	Минимальный ночной бюджет(0-4)
-MIN_OTHER_BUDGET	Минимальный обычный бюджет
-MaxPlan	Макс
-MinPlan	Мин
-SPTB2	Функциональность АБОТ 2
-SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Адаптивный бюджет общественного транспорта (макс)
-SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Адаптивный бюджет общественного транспорта (мин)
+WeekDayRush	WeekDayRush
+WeekDayLow	WeekDayLow
+WeekDayNight	WeekDayNight
+WeekEndRush	WeekEndRush
+WeekEndLow	WeekEndLow
+WeekEndNight	WeekEndNight
 UNFINISHED_DEAL_LOST	Компенсация по незавершенным сделкам
 RESET_VALUE	Клавиша сброса
-REALCITY_V10_BETA	Открытая бета-версия RealCity V10
+NO_PASSENGERCAR	Citizen will not use passenger car if they do not have enough money
+RANDOM_EVENT	random event
+ENABLE_RANDOM_EVENT	enable random event
+NO_DUMMY_TRAFFIC	no dummy traffic/
+NO_EXPORT	no export/
+NO_IMPORT	no import/
+NO_TOURIST	no tourist/
+TIME_LEFT	remaining time

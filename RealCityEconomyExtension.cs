@@ -63,12 +63,69 @@ namespace RealCity
                     TouristUI.refeshOnce = true;
                     PBLUI.refeshOnce = true;
                     //4 limit money
-                    MainDataStore.maxOutsideMoneyLimit = (500 + MainDataStore.familyCount) * 200f;
+                    MainDataStore.maxOutsideMoneyLimit = (400 + MainDataStore.familyCount) * 250f;
+
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated0Data.m_finalCount >> 3);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount >> 2);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount >> 1);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount);
 
                     if ((MainDataStore.outsideTouristMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideTouristMoney < -MainDataStore.maxOutsideMoneyLimit))
                         MainDataStore.outsideTouristMoney *= 0.975f;
                     if ((MainDataStore.outsideGovermentMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideGovermentMoney < -MainDataStore.maxOutsideMoneyLimit))
                         MainDataStore.outsideGovermentMoney *= 0.975f;
+
+                    //5 random event
+                    if (RealCity.randomEvent && (MainDataStore.citizenCount > 6000))
+                    {
+                        if (MainDataStore.randomEventTime < 2)
+                        {
+                            System.Random rand = new System.Random();
+                            MainDataStore.randomEventTime = (ushort)(rand.Next(3900) + 100);
+                            var randomData = (ushort)(rand.Next(600) + 100);
+                            MainDataStore.noImport = false;
+                            MainDataStore.noExport = false;
+                            MainDataStore.noDummyTraffic = false;
+                            MainDataStore.noTourist = false;
+
+                            if (randomData < 130)
+                            {
+                                MainDataStore.noExport = true;
+                            }
+                            else if (randomData < 160)
+                            {
+                                MainDataStore.noImport = true;
+                            }
+                            else if (randomData < 190)
+                            {
+                                MainDataStore.noTourist = true;
+                            }
+                            else if (randomData < 220)
+                            {
+                                MainDataStore.noDummyTraffic = true;
+                            }
+                            else
+                            {
+                                MainDataStore.noImport = false;
+                                MainDataStore.noExport = false;
+                                MainDataStore.noDummyTraffic = false;
+                                MainDataStore.noTourist = false;
+                            }
+                        }
+                        else
+                        {
+                            MainDataStore.randomEventTime--;
+                        }
+                    } 
+                    else
+                    {
+                        MainDataStore.noImport = false;
+                        MainDataStore.noExport = false;
+                        MainDataStore.noDummyTraffic = false;
+                        MainDataStore.noTourist = false;
+                        MainDataStore.randomEventTime = 0;
+                    }
+                    //end
                 }
             }
             return internalMoneyAmount;
@@ -502,6 +559,58 @@ namespace RealCity
             int industrialBuildingOffset = 0; //industrial building offset
             int commercialBuildingOffset = 0; //commercial building offset
             VoteOffset(ref idex, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
+
+            if (MainDataStore.noExport)
+            {
+                //Goods demand is much lower than supply
+                moneyOffset = -4000;
+                citizenOffset = -500;
+                industrialBuildingOffset = -1500;
+                commercialBuildingOffset = -1500;
+            }
+
+            if (MainDataStore.noImport)
+            {
+                //Goods demand is much higher than supply
+                moneyOffset = 4000;
+                citizenOffset = 500;
+                industrialBuildingOffset = 1500;
+                commercialBuildingOffset = 1500;
+            }
+
+            if (MainDataStore.noDummyTraffic)
+            {
+                //no money
+                industrialBuildingOffset -= 1500;
+                commercialBuildingOffset -= 1500;
+            }
+
+            if (MainDataStore.noTourist)
+            {
+                //demand decrease
+                industrialBuildingOffset += 1500;
+                commercialBuildingOffset += 1500;
+            }
+
+            if (industrialBuildingOffset > 1500)
+            {
+                industrialBuildingOffset = 1500;
+            }
+
+            if (industrialBuildingOffset < -1500)
+            {
+                industrialBuildingOffset = -1500;
+            }
+
+            if (commercialBuildingOffset > 1500)
+            {
+                commercialBuildingOffset = 1500;
+            }
+
+            if (commercialBuildingOffset < -1500)
+            {
+                commercialBuildingOffset = -1500;
+            }
 
             if (temp == 99)
             {

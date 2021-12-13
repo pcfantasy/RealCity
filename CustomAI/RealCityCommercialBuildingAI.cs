@@ -18,11 +18,11 @@ namespace RealCity.CustomAI
         public static void InitDelegate()
         {
             if (GetIncomingTransferReason != null)
-                return;
-            if (MaxIncomingLoadSize != null)
-                return;
-            if (GetVisitBehaviour != null)
-                return;
+                if (MaxIncomingLoadSize != null)
+                    if (GetVisitBehaviour != null)
+                        return;
+
+            DebugLog.LogToFileOnly("Try to InitDelegate in RealCityCommercialBuildingAI");
             GetVisitBehaviour = FastDelegateFactory.Create<CommercialBuildingAIGetVisitBehaviour>(typeof(CommercialBuildingAI), "GetVisitBehaviour", instanceMethod: true);
             GetIncomingTransferReason = FastDelegateFactory.Create<CommercialBuildingAIGetIncomingTransferReason>(typeof(CommercialBuildingAI), "GetIncomingTransferReason", instanceMethod: true);
             MaxIncomingLoadSize = FastDelegateFactory.Create<CommercialBuildingAIMaxIncomingLoadSize>(typeof(CommercialBuildingAI), "MaxIncomingLoadSize", instanceMethod: true);

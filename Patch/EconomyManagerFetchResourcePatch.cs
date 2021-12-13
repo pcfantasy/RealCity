@@ -35,6 +35,8 @@ namespace RealCity.Patch
             switch (service)
             {
                 case ItemClass.Service.Road:
+                    if (Loader.roadShift != 0)
+                        amount <<= Loader.roadShift;
                     ProcessUnit(ref amount, ref Road);
                     break;
                 case ItemClass.Service.Garbage:
@@ -96,7 +98,7 @@ namespace RealCity.Patch
 
         public static void ProcessUnit(ref int amount, ref float container)
         {
-            container += amount / MainDataStore.gameExpenseDivide;
+            container += (float)amount / (float)MainDataStore.gameExpenseDivide;
             if (container > 1)
             {
                 amount = (int)container;

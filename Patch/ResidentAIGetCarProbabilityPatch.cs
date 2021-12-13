@@ -17,21 +17,24 @@ namespace RealCity.Patch
         [HarmonyPriority(Priority.First)]
         public static void Prefix(ref CitizenInstance citizenData, ref Citizen.AgeGroup ageGroup)
         {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            var citizenID = citizenData.m_citizen;
-            ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
-            uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
-            uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
-            if ((containingUnit == 0) || (citizenID == 0))
+            if (RealCity.noPassengerCar)
             {
-                //Change ageGroup to Child to disable car.
-                ageGroup = Citizen.AgeGroup.Child;
-            }
-            else
-            {
-                if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.highWealth)
+                CitizenManager instance = Singleton<CitizenManager>.instance;
+                var citizenID = citizenData.m_citizen;
+                ushort homeBuilding = instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+                uint citizenUnit = CitizenData.GetCitizenUnit(homeBuilding);
+                uint containingUnit = instance.m_citizens.m_buffer[citizenID].GetContainingUnit((uint)citizenID, citizenUnit, CitizenUnit.Flags.Home);
+                if ((containingUnit == 0) || (citizenID == 0))
                 {
+                    //Change ageGroup to Child to disable car.
                     ageGroup = Citizen.AgeGroup.Child;
+                }
+                else
+                {
+                    if (CitizenUnitData.familyMoney[containingUnit] < MainDataStore.highWealth)
+                    {
+                        ageGroup = Citizen.AgeGroup.Child;
+                    }
                 }
             }
         }

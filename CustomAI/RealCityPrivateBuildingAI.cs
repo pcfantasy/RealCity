@@ -382,17 +382,15 @@ namespace RealCity.CustomAI
                 }
                 else if (incomingTransferReason == TransferManager.TransferReason.Coal)
                 {
-                    //*1.67 / 4
-                    comsumptionDivider /= 2.4f;
+                    comsumptionDivider /= 2.06f;
                 }
                 else if (incomingTransferReason == TransferManager.TransferReason.Lumber)
                 {
-                    //*1.33 / 4
-                    comsumptionDivider /= 3f;
+                    comsumptionDivider /= 2.13f;
                 }
                 else if (incomingTransferReason == TransferManager.TransferReason.Food)
                 {
-                    comsumptionDivider /= 4f;
+                    comsumptionDivider /= 2.2f;
                 }
             }
 

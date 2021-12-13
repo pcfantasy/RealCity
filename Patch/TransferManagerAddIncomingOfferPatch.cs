@@ -46,6 +46,12 @@ namespace RealCity.Patch
                             if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
                                 return false;
                         }
+
+                        if (MainDataStore.noTourist)
+                        {
+                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
+                                return false;
+                        }
                     }
                     break;
                 case TransferManager.TransferReason.Oil:
@@ -66,6 +72,11 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.Glass:
                 case TransferManager.TransferReason.PlanedTimber:
                 case TransferManager.TransferReason.Paper:
+                    if (MainDataStore.noExport)
+                    {
+                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
+                            return false;
+                    }
                     break;
                 default:
                     return true;

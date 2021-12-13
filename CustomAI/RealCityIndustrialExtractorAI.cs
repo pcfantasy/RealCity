@@ -11,6 +11,8 @@ namespace RealCity.CustomAI
         {
             if (GetOutgoingTransferReason != null)
                 return;
+
+            DebugLog.LogToFileOnly("Try to InitDelegate in RealCityIndustrialExtractorAI");
             GetOutgoingTransferReason = FastDelegateFactory.Create<IndustrialExtractorAIGetOutgoingTransferReason>(typeof(IndustrialExtractorAI), "GetOutgoingTransferReason", instanceMethod: true);
         }
     }

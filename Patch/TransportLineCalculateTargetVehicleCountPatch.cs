@@ -19,227 +19,50 @@ namespace RealCity.Patch
         {
             if (Loader.isTransportLinesManagerRunning) { return; }
             float budget = 1f;
-            if (IsWeekend(Singleton<SimulationManager>.instance.m_currentGameTime))
+            if (!IsWeekend(Singleton<SimulationManager>.instance.m_currentGameTime))
             {
-                if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 1)
+                if ((Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10) || (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19))
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = OptionUI.morningBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = OptionUI.eveningBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = OptionUI.deepNightBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekDayRush[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
-                else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 2)
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = OptionUI.morningBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = OptionUI.eveningBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = OptionUI.deepNightBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekDayLow[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
-                else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 3)
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = OptionUI.morningBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = OptionUI.otherBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = OptionUI.eveningBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = OptionUI.otherBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = OptionUI.deepNightBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = OptionUI.otherBudgetMax * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekDayLow[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
-                else if (TransportLineData.WeekEndPlan[FindLineID(ref __instance)] == 4)
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = OptionUI.morningBudgetMin * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = OptionUI.otherBudgetMin * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = OptionUI.eveningBudgetMin * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = OptionUI.otherBudgetMin * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = OptionUI.deepNightBudgetMin * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = OptionUI.otherBudgetMin * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekDayNight[FindLineID(ref __instance)] + 1) * 0.25f;
+                }
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
+                {
+                    budget = (TransportLineData.WeekDayLow[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
             }
             else
             {
-                //PlanA
-                if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 1)
+                if ((Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10) || (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19))
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = OptionUI.morningBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = OptionUI.eveningBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = OptionUI.deepNightBudgetWeekDay * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = OptionUI.otherBudgetWeekDay * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekEndRush[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
-                else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 2)
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = OptionUI.morningBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = OptionUI.eveningBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = (OptionUI.deepNightBudgetWeekEnd) * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = OptionUI.otherBudgetWeekEnd * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekEndLow[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
-                else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 3)
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = OptionUI.morningBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = OptionUI.otherBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = OptionUI.eveningBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = OptionUI.otherBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = OptionUI.deepNightBudgetMax * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = OptionUI.otherBudgetMax * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekEndLow[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
-                else if (TransportLineData.WeekDayPlan[FindLineID(ref __instance)] == 4)
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
                 {
-                    if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 8 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 10)
-                    {
-                        budget = (OptionUI.morningBudgetMin) * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 10 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 17)
-                    {
-                        budget = (OptionUI.otherBudgetMin) * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 17 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 19)
-                    {
-                        budget = (OptionUI.eveningBudgetMin) * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 19 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 24)
-                    {
-                        budget = (OptionUI.otherBudgetMin) * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 0 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 4)
-                    {
-                        budget = (OptionUI.deepNightBudgetMin) * 0.01f;
-                    }
-                    else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
-                    {
-                        budget = (OptionUI.otherBudgetMin) * 0.01f;
-                    }
+                    budget = (TransportLineData.WeekEndNight[FindLineID(ref __instance)] + 1) * 0.25f;
+                }
+                else if (Singleton<SimulationManager>.instance.m_currentGameTime.Hour >= 4 && Singleton<SimulationManager>.instance.m_currentGameTime.Hour < 8)
+                {
+                    budget = (TransportLineData.WeekEndLow[FindLineID(ref __instance)] + 1) * 0.25f;
                 }
             }
 

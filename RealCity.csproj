@@ -50,17 +50,17 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Lib.Harmony.2.0.1\lib\net35\0Harmony.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="CitiesHarmony.API, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\CitiesHarmony.API.1.0.5\lib\net35\CitiesHarmony.API.dll</HintPath>
+    <Reference Include="CitiesHarmony.API, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesHarmony.API.2.0.0\lib\net35\CitiesHarmony.API.dll</HintPath>
+    </Reference>
+    <Reference Include="CitiesHarmony.Harmony, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesHarmony.Harmony.2.0.4\lib\net35\CitiesHarmony.Harmony.dll</HintPath>
     </Reference>
     <Reference Include="ColossalManaged">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
@@ -93,6 +93,9 @@
   <ItemGroup>
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
     <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
+    <Compile Include="Patch\IndustryBuildingExchangeResourcePatch.cs" />
+    <Compile Include="Patch\MainIndustryBuildingAIGetResourceRatePatch.cs" />
+    <Compile Include="Patch\TransportManagerReleaseLineImplementationPatch.cs" />
     <Compile Include="Patch\OutsideConnectionAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\TollBoothAIGetResourceRatePatch.cs" />
     <Compile Include="Patch\HumanAIStartMovingPatch.cs" />

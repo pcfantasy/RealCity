@@ -23,13 +23,12 @@ namespace RealCity.CustomAI
         public static void InitDelegate()
         {
             if (CalculateOwnVehicles != null)
-                return;
-            if (GetWorkBehaviour != null)
-                return;
-            if (CalculateGuestVehicles != null)
-                return;
-            if (CalculateGuestVehicles1 != null)
-                return;
+                if (GetWorkBehaviour != null)
+                    if (CalculateGuestVehicles != null)
+                        if (CalculateGuestVehicles1 != null)
+                            return;
+
+            DebugLog.LogToFileOnly("Try to InitDelegate in RealCityCommonBuildingAI");
             CalculateOwnVehicles = FastDelegateFactory.Create<CommonBuildingAICalculateOwnVehicles>(typeof(CommonBuildingAI), "CalculateOwnVehicles", instanceMethod: true);
             GetWorkBehaviour = FastDelegateFactory.Create<CommonBuildingAIGetWorkBehaviour>(typeof(CommonBuildingAI), "GetWorkBehaviour", instanceMethod: true);
             CalculateGuestVehicles = FastDelegateFactory.Create<CommonBuildingAICalculateGuestVehicles>(typeof(CommonBuildingAI), "CalculateGuestVehicles", instanceMethod: true);

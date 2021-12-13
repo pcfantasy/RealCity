@@ -52,21 +52,11 @@ namespace RealCity.Patch
 
                 if (containingUnit != 0)
                 {
-                    int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    //int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
+                    int goodAmount = -MainDataStore.maxGoodPurchase;
 
                     if (goodAmount < 0)
                     {
-                        if (goodAmount < -MainDataStore.maxGoodPurchase)
-                        {
-                            goodAmount = -MainDataStore.maxGoodPurchase;
-                        }
-
-                        if (goodAmount == -100)
-                        {
-                            //Disable other -100 ModifyMaterialBuffer
-                            goodAmount = -99;
-                        }
-
                         buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref goodAmount);
 
                         if (goodAmount != 0)
@@ -88,11 +78,11 @@ namespace RealCity.Patch
                     float consumptionIndex;
                     if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
                     {
-                        consumptionIndex = 0.25f;
+                        consumptionIndex = 0.55f;
                     }
                     else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        consumptionIndex = 0.2f;
+                        consumptionIndex = 0.35f;
                     }
                     else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialEco))
                     {
@@ -100,11 +90,21 @@ namespace RealCity.Patch
                     }
                     else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialHigh))
                     {
-                        consumptionIndex = 0.15f;
+                        if (buildingInfo.m_class.m_level == ItemClass.Level.Level1)
+                            consumptionIndex = 0.15f;
+                        else if (buildingInfo.m_class.m_level == ItemClass.Level.Level2)
+                            consumptionIndex = 0.2f;
+                        else
+                            consumptionIndex = 0.25f;
                     }
                     else
                     {
-                        consumptionIndex = 0.1f;
+                        if (buildingInfo.m_class.m_level == ItemClass.Level.Level1)
+                            consumptionIndex = 0.1f;
+                        else if (buildingInfo.m_class.m_level == ItemClass.Level.Level2)
+                            consumptionIndex = 0.15f;
+                        else
+                            consumptionIndex = 0.2f;
                     }
 
                     int consumptionMoney = -(int)(consumptionIndex * familyMoney);

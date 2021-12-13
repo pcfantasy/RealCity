@@ -43,6 +43,7 @@ namespace RealCity
         public static GameObject PBLWindowGameObject;
         public static bool isTransportLinesManagerRunning = false;
         public static bool isRealTimeRunning = false;
+        public static int roadShift = 0;
 
         public override void OnCreated(ILoading loading)
         {
@@ -63,6 +64,11 @@ namespace RealCity
                     isRealTimeRunning = CheckRealTimeIsLoaded();
                     DebugLog.LogToFileOnly($"Check RealTime running = {isRealTimeRunning}");
                     isTransportLinesManagerRunning = isTransportLinesManagerRunning || (!isRealTimeRunning);
+                    roadShift = 0;
+                    if (CheckElectricRoadsModIsLoaded() || CheckRemoveNeedForPowerLinesIsLoaded())
+                        roadShift += 1;
+                    if (CheckRemoveNeedForPipesIsLoaded())
+                        roadShift += 1;
                     //refresh OptionsMainPanel
                     MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
                     method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
@@ -482,6 +488,21 @@ namespace RealCity
         private bool CheckRealTimeIsLoaded()
         {
             return Check3rdPartyModLoaded("RealTime.Core", false);
+        }
+
+        private bool CheckRemoveNeedForPowerLinesIsLoaded()
+        {
+            return Check3rdPartyModLoaded("RemoveNeedForPowerLines", false);
+        }
+
+        private bool CheckRemoveNeedForPipesIsLoaded()
+        {
+            return Check3rdPartyModLoaded("RemoveNeedForPipes", false);
+        }
+
+        private bool CheckElectricRoadsModIsLoaded()
+        {
+            return Check3rdPartyModLoaded("Klyte.ElectricRoads", false);
         }
     }
 }
