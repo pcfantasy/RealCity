@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿using Harmony;
 using RealCity.CustomData;
 using System.Reflection;
 
@@ -16,7 +16,7 @@ namespace RealCity.Patch
             BuildingData.buildingMoney[buildingID] = 0;
             BuildingData.buildingWorkCount[buildingID] = 0;
             BuildingData.isBuildingWorkerUpdated[buildingID] = false;
-            BuildingData.buildingMoneyThreat[buildingID] = 1f;
+            BuildingData.buildingMoneyThreat[buildingID] = 0;
         }
     }
 }

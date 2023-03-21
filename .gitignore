@@ -11,5 +11,3 @@
 *.ide-wal
 obj/Release/RealCity.csproj.CopyComplete
 obj/Release/RealCity.csproj.FileListAbsolute.txt
-
-packages/*

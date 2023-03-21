@@ -1,7 +1,6 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomData;
-using RealCity.Util;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -48,7 +47,6 @@ namespace RealCity.Patch
                                     {
                                         expense = (CitizenData.citizenMoney[citizen] > 0) ? (int)CitizenData.citizenMoney[citizen] + 1 : 1;
                                         CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (expense) - 1);
-                                        MainDataStore.outsideTouristMoney -= (expense + 1);
                                     }
                                 }
                                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, expense, data.Info.m_class);

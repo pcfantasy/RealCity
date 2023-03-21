@@ -179,7 +179,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = false;
             }
             idex = idex + 1;
@@ -203,7 +203,7 @@ namespace RealCity.Util
                 {
                     idex = idex + 1;
                 }
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
         }
 
@@ -215,7 +215,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = 0;
             }
             idex = idex + 4;
@@ -239,7 +239,7 @@ namespace RealCity.Util
                 {
                     idex = idex + 4;
                 }
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
         }
 
@@ -251,7 +251,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = 0;
             }
             idex = idex + 4;
@@ -274,7 +274,7 @@ namespace RealCity.Util
                 {
                     idex = idex + 4;
                 }
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
         }
 
@@ -286,7 +286,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = 0;
             }
             idex = idex + 4;
@@ -309,7 +309,7 @@ namespace RealCity.Util
                 {
                     idex = idex + 4;
                 }
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
         }
 
@@ -321,7 +321,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = 0;
             }
             idex = idex + 2;
@@ -335,7 +335,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = 0;
             }
             idex = idex + 2;
@@ -354,7 +354,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 for (i = 0; i < item.Length; i++)
                 {
                     idex = idex + 2;
@@ -370,7 +370,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = 0;
             }
             idex = idex + 8;
@@ -384,7 +384,7 @@ namespace RealCity.Util
             }
             else
             {
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
                 item = 0;
             }
             idex = idex + 1;
@@ -407,7 +407,7 @@ namespace RealCity.Util
                 {
                     idex = idex + 1;
                 }
-                DebugLog.LogToFileOnly($"load data is too short, please check {container.Length}");
+                DebugLog.LogToFileOnly("load data is too short, please check" + container.Length.ToString());
             }
         }
 
@@ -431,7 +431,7 @@ namespace RealCity.Util
                 _serializableData.SaveData("RealCity RealCityEconomyManager", saveData);
 
                 //2
-                saveData = new byte[131];
+                saveData = new byte[117];
                 MainDataStore.Save(ref saveData);
                 _serializableData.SaveData("RealCity MainDataStore", saveData);
 
@@ -456,7 +456,7 @@ namespace RealCity.Util
                 _serializableData.SaveData("RealCity Politics", saveData);
 
                 //7
-                saveData = new byte[1536];
+                saveData = new byte[512];
                 TransportLineData.Save(ref saveData);
                 _serializableData.SaveData("RealCity TransportLineData", saveData);
 

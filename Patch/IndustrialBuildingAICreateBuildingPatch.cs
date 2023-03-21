@@ -1,5 +1,5 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomAI;
 using RealCity.CustomData;
 using System;
@@ -18,7 +18,7 @@ namespace RealCity.Patch
         {
             RealCityIndustrialBuildingAI.InitDelegate();
             var material = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
-            float initialMaterialFee = data.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(material) + 10000;
+            float initialMaterialFee = data.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(material);
             BuildingData.buildingMoney[buildingID] = -initialMaterialFee;
         }
     }

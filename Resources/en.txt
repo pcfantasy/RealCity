@@ -15,13 +15,21 @@ WEALTH_LOW_COUNT	Low Wealth Count
 BUILDING_STATUS	2. Building Status
 PROFIT_BUIDLING_COUNT	Profit(I&C) for Building
 EXTERNAL_INVESTMENTS	External Investments (for office)
-OUTSIDE_GOV_MONEY	Outside Goverment Budget
-OUTSIDE_TOU_MONEY	Outside Toursit Budget
 TIP1	Tip1
+TIP2	Tip2
+TIP3	Tip3
+TIP4	Tip4
+TIP5	Tip5
+TIP6	Tip6
 POLICY_COST	3. Mod Policy Cost (₡)
 LIVING_ALLOWANCE	Living Allowance & Benefit
 UNFINISHED_DEAL_LOST	Unfinished deal refund
 USE_TMPE_TIP	Use TMPE and disable vehicle spawning
+STARTUP_TIP	Industrialising is important to improve the economy and your finances at start
+TOURIST_TIP	Try commercial tourist to retain tourists
+OFFICE_TIP	Office can get "external investments" depended on your industry
+UNLOCK_TIP	Avoid unlocking everything at the start of the game.
+UG_TIP	Check more details in UG
 CITY_SALARY_TAX_INCOME_TITLE	City Salary Tax Income
 SALARY_TAX_INCOME	City Salary Tax Income
 TOURIST_INCOME_TITLE	2. City Tourism Income
@@ -107,7 +115,6 @@ RESIDENT_SALARY_TAX	Resident Income Tax
 COMMERICAL_TRADE_TAX	Commercial Trade Tax
 INDUSTRIAL_TRADE_TAX	Industrial Trade Tax
 BUILDING_MONEY	Building Money (1/100₡)
-BUILDING_NETASSET	Building Net Asset (1/100₡)
 MATERIAL_BUFFER	Material Buffer
 PRODUCTION_BUFFER	Production Buffer
 AVERAGE_EMPLOYFEE	Average Employee Salaries
@@ -154,21 +161,36 @@ DEBUG_MODE	More Information
 REDUCE_CARGO_DESCRIPTION	Reduce cargo amount(for both industry dlc and growable building)
 REDUCE_CARGO_ENABLE	Reduce cargo function enable
 INCOMPATIBILITY_CHECK_TIP	RealCity(series) Mod detected incompatible mods
+REMOVE_STUCK_DESCRIPTION	Auto remove stuck citizen&vehicle(impact performance a little)
+REMOVE_STUCK_ENABLE	Remove stuck citizen&vehicle enable
 BASIC_SETTING	Basic Setting
-WeekDayRush	WeekDayRush
-WeekDayLow	WeekDayLow
-WeekDayNight	WeekDayNight
-WeekEndRush	WeekEndRush
-WeekEndLow	WeekEndLow
-WeekEndNight	WeekEndNight
+SPTB	SPTB function
+SMART_PUBLIC_TRANSPORT_BUDGET_WEEKDAY	Smart public transport budget(weekday)
+SMART_PUBLIC_TRANSPORT_BUDGET_WEEKEND	Smart public transport budget(weekend)
+WEEKDAY_MORNING_BUDGET	weekday morning budget(8-10)
+WEEKDAY_EVENING_BUDGET	weekday evening budget(17-19)
+WEEKDAY_DEEPNIGHT_BUDGET	weekday deepnight budget(0-4)
+WEEKDAY_OTHER_BUDGET	weekday other budget
+WEEKEND_MORNING_BUDGET	weekend morning budget(8-10)
+WEEKEND_EVENING_BUDGET	weekend evening budget(17-19)
+WEEKEND_DEEPNIGHT_BUDGET	weekend deepnight budget(0-4)
+WEEKEND_OTHER_BUDGET	weekend other budget
+WeekDayPlan	WeekDayPlan
+WeekEndPlan	WeekEndPlan
+NoPlan	NoPlan
 TLMRUNNING	TransportLineManager is running or RealTime is not running, SPTB function disabled.
 TLMNOTRUNNING	TransportLineManager is not running, SPTB function can be used.
-RESET_VALUE	Reset key value
-NO_PASSENGERCAR	Citizen will not use passenger car if they do not have enough money
-RANDOM_EVENT	random event
-ENABLE_RANDOM_EVENT	enable random event
-NO_DUMMY_TRAFFIC	no dummy traffic/
-NO_EXPORT	no export/
-NO_IMPORT	no import/
-NO_TOURIST	no tourist/
-TIME_LEFT	remaining time
+MAX_MORNING_BUDGET	max morning budget(8-10)
+MAX_EVENING_BUDGET	max evening budget(17-19)
+MAX_DEEPNIGHT_BUDGET	max deepnight budget(0-4)
+MAX_OTHER_BUDGET	max other budget
+MIN_MORNING_BUDGET	min morning budget(8-10)
+MIN_EVENING_BUDGET	min evening budget(17-19)
+MIN_DEEPNIGHT_BUDGET	min deepnight budget(0-4)
+MIN_OTHER_BUDGET	min other budget
+MaxPlan	MaxPlan
+MinPlan	MinPlan
+SPTB2	SPTB function2
+SMART_PUBLIC_TRANSPORT_BUDGET_MAX	Smart public transport budget(max)
+SMART_PUBLIC_TRANSPORT_BUDGET_MIN	Smart public transport budget(min)
+RESET_VALUE	Клавиша сброса

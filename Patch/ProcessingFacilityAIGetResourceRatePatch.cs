@@ -1,5 +1,5 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomAI;
 using RealCity.Util;
 using System;
@@ -18,8 +18,9 @@ namespace RealCity.Patch
         {
             if (resource == EconomyManager.Resource.Maintenance)
             {
+                int budget = Singleton<EconomyManager>.instance.GetBudget(data.Info.m_class);
                 float salary = RealCityPlayerBuildingAI.CaculateEmployeeOutcome(buildingID, data);
-                __result = (int)((float)__result / MainDataStore.gameExpenseDivide - salary * 100f);
+                __result = (int)((float)__result / MainDataStore.gameExpenseDivide + salary * budget);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomAI;
 using RealCity.CustomData;
 using RealCity.Util;
@@ -45,38 +45,30 @@ namespace RealCity.Patch
                                     CitizenData.citizenMoney[citizenID] -= VehicleData.vehicleTransferTime[vehicleID];
                                 }
                             }
-                            else
+                            /*else
                             {
-                                MainDataStore.outsideTouristMoney -= VehicleData.vehicleTransferTime[vehicleID];
-                                if (RealCity.noPassengerCar)
+                                if (vehicleData.m_citizenUnits != 0)
                                 {
-                                    if (vehicleData.m_citizenUnits != 0)
+                                    if (citizenManager.m_citizens.m_buffer[citizenID].m_vehicle == vehicleID)
                                     {
-                                        if (citizenManager.m_citizens.m_buffer[citizenID].m_vehicle == vehicleID)
-                                        {
-                                            Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
-                                            citizenManager.m_citizens.m_buffer[citizenID].m_vehicle = 0;
-                                        }
-                                        else if (citizenManager.m_citizens.m_buffer[citizenID].m_vehicle != 0)
-                                        {
-                                            DebugLog.LogToFileOnly($"Warning: citizen vehicleID = {citizenManager.m_citizens.m_buffer[citizenID].m_vehicle}, but vehicleID = {vehicleID}");
-                                            Singleton<VehicleManager>.instance.ReleaseVehicle(citizenManager.m_citizens.m_buffer[citizenID].m_vehicle);
-                                            Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
-                                            citizenManager.m_citizens.m_buffer[citizenID].m_vehicle = 0;
-                                        }
+                                        Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                                        citizenManager.m_citizens.m_buffer[citizenID].m_vehicle = 0;
+                                    }
+                                    else if (citizenManager.m_citizens.m_buffer[citizenID].m_vehicle != 0)
+                                    {
+                                        DebugLog.LogToFileOnly($"Warning: citizen vehicleID = {citizenManager.m_citizens.m_buffer[citizenID].m_vehicle}, but vehicleID = {vehicleID}");
+                                        Singleton<VehicleManager>.instance.ReleaseVehicle(citizenManager.m_citizens.m_buffer[citizenID].m_vehicle);
+                                        Singleton<VehicleManager>.instance.ReleaseVehicle(vehicleID);
+                                        citizenManager.m_citizens.m_buffer[citizenID].m_vehicle = 0;
+                                    }
 
-                                        if (citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle != 0)
-                                        {
-                                            Singleton<VehicleManager>.instance.ReleaseParkedVehicle(citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle);
-                                            citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle = 0;
-                                        }
+                                    if (citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle != 0)
+                                    {
+                                        Singleton<VehicleManager>.instance.ReleaseParkedVehicle(citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle);
+                                        citizenManager.m_citizens.m_buffer[citizenID].m_parkedVehicle = 0;
                                     }
                                 }
-                            }
-                        }
-                        else
-                        {
-                            MainDataStore.outsideTouristMoney -= VehicleData.vehicleTransferTime[vehicleID];
+                            }*/
                         }
                     }
                 }

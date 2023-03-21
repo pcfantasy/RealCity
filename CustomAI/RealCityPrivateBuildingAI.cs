@@ -1,6 +1,7 @@
 ﻿using ColossalFramework.Math;
 using RealCity.Util;
 using RealCity.UI;
+using RealCity.CustomData;
 using ColossalFramework;
 using UnityEngine;
 using System;
@@ -82,35 +83,38 @@ namespace RealCity.CustomAI
                 DebugLog.LogToFileOnly($"RealCityPrivateBuildingAI Save Error: saveData.Length = {saveData.Length} + i = {i}");
             }
         }
-
-        public static TransferManager.TransferReason GetIncomingProductionType(ushort buildingID, Building data)
+        public static long GetResidentialBuildingAverageMoney(ushort buildingID, ref Building buildingData)
         {
-            RealCityIndustrialBuildingAI.InitDelegate();
-            if (data.Info.m_buildingAI is IndustrialExtractorAI)
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = buildingData.m_citizenUnits;
+            int num2 = 0;
+            long totalMoney = 0;
+            long averageMoney = 0;
+            while (num != 0u)
             {
-            }
-            else
-            {
-                switch (data.Info.m_class.m_subService)
+                if ((ushort)(instance.m_units.m_buffer[(int)((UIntPtr)num)].m_flags & CitizenUnit.Flags.Home) != 0)
                 {
-                    case ItemClass.SubService.CommercialHigh:
-                    case ItemClass.SubService.CommercialLow:
-                    case ItemClass.SubService.CommercialEco:
-                    case ItemClass.SubService.CommercialLeisure:
-                    case ItemClass.SubService.CommercialTourist:
-                        CommercialBuildingAI commercialBuildingAI = data.Info.m_buildingAI as CommercialBuildingAI;
-                        return commercialBuildingAI.m_incomingResource;
-                    case ItemClass.SubService.IndustrialForestry:
-                    case ItemClass.SubService.IndustrialFarming:
-                    case ItemClass.SubService.IndustrialOil:
-                    case ItemClass.SubService.IndustrialOre:
-                    case ItemClass.SubService.IndustrialGeneric:
-                        return RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)(data.Info.m_buildingAI), buildingID);
+                    if ((instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen0 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen1 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen2 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen3 != 0) || (instance.m_units.m_buffer[(int)((UIntPtr)num)].m_citizen4 != 0))
+                    {
+                        num2++;
+                        totalMoney += 0;
+                    }
+                }
+                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+                if (++num2 > 524288)
+                {
+                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
+                    break;
                 }
             }
-            return TransferManager.TransferReason.None;
-        }
 
+            if (num2 != 0)
+            {
+                averageMoney = totalMoney / num2;
+            }
+
+            return averageMoney;
+        }
         public static string GetProductionType(bool isSelling, ushort buildingID, Building data)
         {
             RealCityIndustrialBuildingAI.InitDelegate();
@@ -359,7 +363,7 @@ namespace RealCity.CustomAI
 
         public static float GetComsumptionDivider(Building data, ushort buildingID)
         {
-            Citizen.BehaviourData behaviourData = default;
+            Citizen.BehaviourData behaviourData = default(Citizen.BehaviourData);
             int aliveWorkerCount = 0;
             int totalWorkerCount = 0;
             RealCityCommonBuildingAI.GetWorkBehaviour((CommonBuildingAI)data.Info.m_buildingAI, buildingID, ref data, ref behaviourData, ref aliveWorkerCount, ref totalWorkerCount);
@@ -372,7 +376,6 @@ namespace RealCity.CustomAI
 
             if (data.Info.m_class.m_service == ItemClass.Service.Industrial)
             {
-                RealCityIndustrialBuildingAI.InitDelegate();
                 var incomingTransferReason = RealCityIndustrialBuildingAI.GetIncomingTransferReason((IndustrialBuildingAI)data.Info.m_buildingAI, buildingID);
                 //petrol related
                 if (incomingTransferReason == TransferManager.TransferReason.Petrol)
@@ -382,15 +385,17 @@ namespace RealCity.CustomAI
                 }
                 else if (incomingTransferReason == TransferManager.TransferReason.Coal)
                 {
-                    comsumptionDivider /= 2.06f;
+                    //*1.67 / 4
+                    comsumptionDivider /= 2.4f;
                 }
                 else if (incomingTransferReason == TransferManager.TransferReason.Lumber)
                 {
-                    comsumptionDivider /= 2.13f;
+                    //*1.33 / 4
+                    comsumptionDivider /= 3f;
                 }
                 else if (incomingTransferReason == TransferManager.TransferReason.Food)
                 {
-                    comsumptionDivider /= 2.2f;
+                    comsumptionDivider /= 4f;
                 }
             }
 
@@ -447,7 +452,7 @@ namespace RealCity.CustomAI
                         }
                         else
                         {
-                            //NightTime 2x , reduceVehicle 1/2, so do nothing
+                        //NightTime 2x , reduceVehicle 1/2, so do nothing
                             buildingData.m_customBuffer2 = (ushort)(buildingData.m_customBuffer2 - deltaCustomBuffer2 + (((int)(deltaCustomBuffer2 / (float)MainDataStore.reduceCargoDiv) << 1) << shift));
                         }
                     }

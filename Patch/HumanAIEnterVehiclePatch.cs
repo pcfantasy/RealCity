@@ -1,7 +1,6 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomData;
-using RealCity.Util;
 using System;
 using System.Reflection;
 
@@ -48,7 +47,6 @@ namespace RealCity.Patch
                             {
                                 CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - (ticketPrice));
                             }
-                            MainDataStore.outsideTouristMoney -= ticketPrice;
                         }
                         /// NON-STOCK CODE END ///
                     }

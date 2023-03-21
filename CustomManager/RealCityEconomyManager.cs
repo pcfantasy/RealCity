@@ -73,7 +73,7 @@ namespace RealCity.CustomManager
             commEcoTradeIncomeForUI[current_idex] = 0;
             induGenTradeIncomeForUI[current_idex] = 0;
             induFarmerTradeIncomeForUI[current_idex] = 0;
-            induForestyTradeIncomeForUI[current_idex] = 0;
+            induForestyLandIncomeForUI[current_idex] = 0;
             induOilTradeIncomeForUI[current_idex] = 0;
             induOreTradeIncomeForUI[current_idex] = 0;
             garbageIncomeForUI[current_idex] = 0;
@@ -115,7 +115,7 @@ namespace RealCity.CustomManager
                 commEcoTradeIncomeForUI[i] = 0;
                 induGenTradeIncomeForUI[i] = 0;
                 induFarmerTradeIncomeForUI[i] = 0;
-                induForestyTradeIncomeForUI[i] = 0;
+                induForestyLandIncomeForUI[i] = 0;
                 induOilTradeIncomeForUI[i] = 0;
                 induOreTradeIncomeForUI[i] = 0;
                 roadIncomeForUI[i] = 0;
@@ -157,7 +157,7 @@ namespace RealCity.CustomManager
             SaveAndRestore.LoadData(ref i, saveData, ref commEcoTradeIncomeForUI);
             SaveAndRestore.LoadData(ref i, saveData, ref induGenTradeIncomeForUI);
             SaveAndRestore.LoadData(ref i, saveData, ref induFarmerTradeIncomeForUI);
-            SaveAndRestore.LoadData(ref i, saveData, ref induForestyTradeIncomeForUI);
+            SaveAndRestore.LoadData(ref i, saveData, ref induForestyLandIncomeForUI);
             SaveAndRestore.LoadData(ref i, saveData, ref induOilTradeIncomeForUI);
             SaveAndRestore.LoadData(ref i, saveData, ref induOreTradeIncomeForUI);
             SaveAndRestore.LoadData(ref i, saveData, ref roadIncomeForUI);
@@ -204,7 +204,7 @@ namespace RealCity.CustomManager
             SaveAndRestore.SaveData(ref i, commEcoTradeIncomeForUI, ref saveData);
             SaveAndRestore.SaveData(ref i, induGenTradeIncomeForUI, ref saveData);
             SaveAndRestore.SaveData(ref i, induFarmerTradeIncomeForUI, ref saveData);
-            SaveAndRestore.SaveData(ref i, induForestyTradeIncomeForUI, ref saveData);
+            SaveAndRestore.SaveData(ref i, induForestyLandIncomeForUI, ref saveData);
             SaveAndRestore.SaveData(ref i, induOilTradeIncomeForUI, ref saveData);
             SaveAndRestore.SaveData(ref i, induOreTradeIncomeForUI, ref saveData);
             SaveAndRestore.SaveData(ref i, roadIncomeForUI, ref saveData);

@@ -25,7 +25,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"VehicleData Save Error: saveData.Length = {saveData.Length} actually = {i}");
+                DebugLog.LogToFileOnly($"VehicleData Save Error: saveData.Length = {saveData.Length} + i = {i}");
             }
         }
 
@@ -37,7 +37,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"VehicleData Load Error: saveData.Length = {saveData.Length} actually = {i}");
+                DebugLog.LogToFileOnly($"VehicleData Load Error: saveData.Length = {saveData.Length} + i = {i}");
             }
         }
     }

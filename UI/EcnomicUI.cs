@@ -11,7 +11,7 @@ namespace RealCity.UI
     {
         public static readonly string cacheName = "EcnomicUI";
         private static readonly float WIDTH = 900f;
-        private static readonly float HEIGHT = 400f;
+        private static readonly float HEIGHT = 450f;
         private static readonly float HEADER = 40f;
         private static readonly float SPACING = 17f;
         private static readonly float SPACING22 = 23f;
@@ -44,10 +44,13 @@ namespace RealCity.UI
         private UILabel thirdLine;
         private UILabel minimumLivingAllowance;
         private UILabel unfinishedTransitionLost;
-        private UILabel outsideGovermentMoney;
-        private UILabel outsideTouristMoney;
         //4 Tips
         private UILabel tip1;
+        private UILabel tip2;
+        private UILabel tip3;
+        private UILabel tip4;
+        private UILabel tip5;
+        private UILabel tip6;
         public static bool refeshOnce = false;
 
         public override void Update()
@@ -196,20 +199,35 @@ namespace RealCity.UI
             unfinishedTransitionLost.relativePosition = new Vector3(minimumLivingAllowance.relativePosition.x + 450f, minimumLivingAllowance.relativePosition.y);
             unfinishedTransitionLost.autoSize = true;
 
-            outsideGovermentMoney = AddUIComponent<UILabel>();
-            outsideGovermentMoney.text = Localization.Get("OUTSIDE_GOV_MONEY");
-            outsideGovermentMoney.relativePosition = new Vector3(SPACING, minimumLivingAllowance.relativePosition.y + SPACING22);
-            outsideGovermentMoney.autoSize = true;
-
-            outsideTouristMoney = AddUIComponent<UILabel>();
-            outsideTouristMoney.text = Localization.Get("OUTSIDE_TOU_MONEY");
-            outsideTouristMoney.relativePosition = new Vector3(outsideGovermentMoney.relativePosition.x + 450f, outsideGovermentMoney.relativePosition.y);
-            outsideTouristMoney.autoSize = true;
-
             tip1 = AddUIComponent<UILabel>();
             tip1.text = Localization.Get("TIP1");
-            tip1.relativePosition = new Vector3(SPACING, outsideGovermentMoney.relativePosition.y + SPACING22 + 10f);
+            tip1.relativePosition = new Vector3(SPACING, minimumLivingAllowance.relativePosition.y + SPACING22 + 10f);
             tip1.autoSize = true;;
+
+            tip2 = AddUIComponent<UILabel>();
+            tip2.text = Localization.Get("TIP2");
+            tip2.relativePosition = new Vector3(SPACING, tip1.relativePosition.y + SPACING22);
+            tip2.autoSize = true;
+
+            tip3 = AddUIComponent<UILabel>();
+            tip3.text = Localization.Get("TIP3");
+            tip3.relativePosition = new Vector3(SPACING, tip2.relativePosition.y + SPACING22);
+            tip3.autoSize = true;
+
+            tip4 = AddUIComponent<UILabel>();
+            tip4.text = Localization.Get("TIP4");
+            tip4.relativePosition = new Vector3(SPACING, tip3.relativePosition.y + SPACING22);
+            tip4.autoSize = true;
+
+            tip5 = AddUIComponent<UILabel>();
+            tip5.text = Localization.Get("TIP5");
+            tip5.relativePosition = new Vector3(SPACING, tip4.relativePosition.y + SPACING22);
+            tip5.autoSize = true;
+
+            tip6 = AddUIComponent<UILabel>();
+            tip6.text = Localization.Get("TIP6");
+            tip6.relativePosition = new Vector3(SPACING, tip5.relativePosition.y + SPACING22);
+            tip6.autoSize = true;
         }
 
         private void RefreshDisplayData()
@@ -250,10 +268,13 @@ namespace RealCity.UI
                     thirdLine.text = Localization.Get("POLICY_COST");
                     minimumLivingAllowance.text = string.Format(Localization.Get("LIVING_ALLOWANCE") + " [{0}]", (MainDataStore.minimumLivingAllowanceFinal / 100));
                     unfinishedTransitionLost.text = string.Format(Localization.Get("UNFINISHED_DEAL_LOST") + " [{0}]", MainDataStore.unfinishedTransitionLostFinal);
-                    outsideGovermentMoney.text = string.Format(Localization.Get("OUTSIDE_GOV_MONEY") + " [{0}]", (MainDataStore.outsideGovermentMoney / 100));
-                    outsideTouristMoney.text = string.Format(Localization.Get("OUTSIDE_TOU_MONEY") + " [{0}]", (MainDataStore.outsideTouristMoney / 100));
                     //Tip
                     tip1.text = string.Format(Localization.Get("TIP1") + "  " + Localization.Get("USE_TMPE_TIP"));
+                    tip2.text = string.Format(Localization.Get("TIP2") + "  " + Localization.Get("STARTUP_TIP"));
+                    tip3.text = string.Format(Localization.Get("TIP3") + "  " + Localization.Get("TOURIST_TIP"));
+                    tip4.text = string.Format(Localization.Get("TIP4") + "  " + Localization.Get("OFFICE_TIP"));
+                    tip5.text = string.Format(Localization.Get("TIP5") + "  " + Localization.Get("UNLOCK_TIP"));
+                    tip6.text = string.Format(Localization.Get("TIP6") + "  " + Localization.Get("UG_TIP"));
 
                     refeshOnce = false;
                 }

@@ -31,7 +31,6 @@ namespace RealCity.UI
         private UILabel resident;
         private UILabel commercial;
         private UILabel industrial;
-        private UILabel randomEvent;
         public static bool refeshOnce = false;
 
         public override void Update()
@@ -155,11 +154,6 @@ namespace RealCity.UI
             industrial.text = Localization.Get("INDUSTRIAL_TRADE_TAX");
             industrial.relativePosition = new Vector3(SPACING, commercial.relativePosition.y + SPACING22);
             industrial.autoSize = true;
-
-            randomEvent = AddUIComponent<UILabel>();
-            randomEvent.text = Localization.Get("RANDOM_EVENT");
-            randomEvent.relativePosition = new Vector3(SPACING, industrial.relativePosition.y + SPACING22);
-            randomEvent.autoSize = true;
         }
 
         private void RefreshDisplayData()
@@ -215,15 +209,9 @@ namespace RealCity.UI
                     voteResult.text = string.Format(Localization.Get("VOTE_RESULT") + ": " + Localization.Get("YES") + ":" + Politics.currentYes.ToString() + " " + Localization.Get("NO") + ":" + Politics.currentNo.ToString() + " " + Localization.Get("NO_ATTEND") + ":" + Politics.currentNoAttend.ToString());
                     currentPolitics.text = string.Format(Localization.Get("CURRENT_POLICY"));
                     benefit.text = string.Format(Localization.Get("BENEFIT") + " " + ((int)((Politics.benefitOffset * MainDataStore.govermentSalary) / 100f)).ToString());
-                    resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + (Politics.residentTax << 1).ToString() + "%");
+                    resident.text = string.Format(Localization.Get("RESIDENT_SALARY_TAX") + " " + Politics.residentTax.ToString() + "%");
                     commercial.text = string.Format(Localization.Get("COMMERICAL_TRADE_TAX") + " " + Politics.commercialTax.ToString() + "%");
                     industrial.text = string.Format(Localization.Get("INDUSTRIAL_TRADE_TAX") + " " + Politics.industryTax.ToString() + "%");
-                    randomEvent.text = string.Format(Localization.Get("RANDOM_EVENT"));
-                    randomEvent.text += (MainDataStore.noDummyTraffic)? string.Format(Localization.Get("NO_DUMMY_TRAFFIC")): "";
-                    randomEvent.text += (MainDataStore.noExport) ? string.Format(Localization.Get("NO_EXPORT")) : "";
-                    randomEvent.text += (MainDataStore.noImport) ? string.Format(Localization.Get("NO_IMPORT")) : "";
-                    randomEvent.text += (MainDataStore.noTourist) ? string.Format(Localization.Get("NO_TOURIST")) : "";
-                    randomEvent.text += string.Format(Localization.Get("TIME_LEFT")) + " " + MainDataStore.randomEventTime.ToString();
 
                     if (Politics.case1)
                     {

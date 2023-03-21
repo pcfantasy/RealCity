@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿using Harmony;
 using RealCity.Util;
 using System;
 using System.Collections.Generic;
@@ -21,31 +21,31 @@ namespace RealCity.Patch
             switch (material)
             {
                 case TransferManager.TransferReason.AnimalProducts:
-                    __result = 270; break;
+                    __result = 150; break;
                 case TransferManager.TransferReason.Flours:
-                    __result = 270; break;
+                    __result = 150; break;
                 case TransferManager.TransferReason.Paper:
-                    __result = 280; break;
+                    __result = 200; break;
                 case TransferManager.TransferReason.PlanedTimber:
-                    __result = 280; break;
+                    __result = 200; break;
                 case TransferManager.TransferReason.Petroleum:
                     __result = 300; break;
                 case TransferManager.TransferReason.Plastics:
                     __result = 300; break;
                 case TransferManager.TransferReason.Glass:
-                    __result = 290; break;
+                    __result = 250; break;
                 case TransferManager.TransferReason.Metals:
-                    __result = 290; break;
+                    __result = 250; break;
                 case TransferManager.TransferReason.LuxuryProducts:
                     __result = 350; break;
                 case TransferManager.TransferReason.Oil:
                     __result = 200; break;
                 case TransferManager.TransferReason.Ore:
-                    __result = 190; break;
+                    __result = 160; break;
                 case TransferManager.TransferReason.Logs:
-                    __result = 180; break;
+                    __result = 130; break;
                 case TransferManager.TransferReason.Grain:
-                    __result = 170; break;
+                    __result = 100; break;
                 case TransferManager.TransferReason.Goods:
                     if (sourceService == ItemClass.Service.Fishing)
                     {

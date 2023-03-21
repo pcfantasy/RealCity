@@ -1,4 +1,5 @@
-﻿using RealCity.Patch;
+﻿using ColossalFramework.Math;
+using RealCity.Patch;
 using RealCity.Util;
 
 namespace RealCity.CustomAI
@@ -28,7 +29,7 @@ namespace RealCity.CustomAI
                     price *= (UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, 100) / 100f);
                     break;
                 case TransferManager.TransferReason.Food:
-                    price = 2.4f;
+                    price = 1.5f;
                     if (RealCity.reduceVehicle)
                     {
                         price *= MainDataStore.reduceCargoDiv;
@@ -36,7 +37,7 @@ namespace RealCity.CustomAI
                     price *= (UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, 100) / 100f);
                     break;
                 case TransferManager.TransferReason.Lumber:
-                    price = 2.6f;
+                    price = 2f;
                     if (RealCity.reduceVehicle)
                     {
                         price *= MainDataStore.reduceCargoDiv;
@@ -44,7 +45,7 @@ namespace RealCity.CustomAI
                     price *= (UniqueFacultyAI.IncreaseByBonus(UniqueFacultyAI.FacultyBonus.Science, 100) / 100f);
                     break;
                 case TransferManager.TransferReason.Coal:
-                    price = 2.8f;
+                    price = 2.5f;
                     if (RealCity.reduceVehicle)
                     {
                         price *= MainDataStore.reduceCargoDiv;

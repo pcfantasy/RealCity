@@ -1,8 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Math;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomData;
-using RealCity.Util;
 using System;
 using System.Reflection;
 
@@ -15,47 +14,25 @@ namespace RealCity.Patch
         {
             return typeof(CitizenManager).GetMethod("CreateCitizenInstance", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(ushort).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(CitizenInfo), typeof(uint) }, null);
         }
-        public static bool Prefix(ref CitizenManager __instance, uint citizen, ref bool __result)
+        public static void Prefix(ref CitizenManager __instance, uint citizen)
         {
             var data = __instance.m_citizens.m_buffer[citizen];
-
-            if (data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic))
+            if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist) && data.m_flags.IsFlagSet(Citizen.Flags.MovingIn))
             {
-                if (RealCity.realCityV10)
+                //Add initial money
+                if (data.WealthLevel == Citizen.Wealth.Low)
                 {
-                    if (MainDataStore.outsideTouristMoney < 0)
-                    {
-                        __result = false;
-                        return false;
-                    }
-
-                    if (MainDataStore.noDummyTraffic)
-                    {
-                        __result = false;
-                        return false;
-                    }
+                    CitizenData.citizenMoney[citizen] = 2048;
                 }
-            } 
-            else if (data.m_flags.IsFlagSet(Citizen.Flags.Tourist))
-            {
-                if (data.m_flags.IsFlagSet(Citizen.Flags.MovingIn))
+                else if (data.WealthLevel == Citizen.Wealth.Medium)
                 {
-                    //Add initial money
-                    if (data.WealthLevel == Citizen.Wealth.Low)
-                    {
-                        CitizenData.citizenMoney[citizen] = 2048;
-                    }
-                    else if (data.WealthLevel == Citizen.Wealth.Medium)
-                    {
-                        CitizenData.citizenMoney[citizen] = 4096;
-                    }
-                    else
-                    {
-                        CitizenData.citizenMoney[citizen] = 8192;
-                    }
+                    CitizenData.citizenMoney[citizen] = 4096;
+                }
+                else
+                {
+                    CitizenData.citizenMoney[citizen] = 8192;
                 }
             }
-            return true;
         }
     }
 }

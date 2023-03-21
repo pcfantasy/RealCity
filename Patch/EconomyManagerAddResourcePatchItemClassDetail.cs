@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿using Harmony;
 using RealCity.CustomManager;
 using RealCity.Util;
 using System;
@@ -14,7 +14,7 @@ namespace RealCity.Patch
             return typeof(EconomyManager).GetMethod("AddResource", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(EconomyManager.Resource), typeof(int), typeof(ItemClass.Service), typeof(ItemClass.SubService), typeof(ItemClass.Level) }, null);
         }
 
-        public static void Prefix(EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
+        public static void Prefix(EconomyManager.Resource resource, ref int amount, ItemClass.Service service)
         {
             // NON-STOCK CODE START
             if (resource == EconomyManager.Resource.PublicIncome)
@@ -22,14 +22,6 @@ namespace RealCity.Patch
                 if (service == ItemClass.Service.Vehicles)
                 {
                     RealCityEconomyManager.roadIncomeForUI[MainDataStore.updateMoneyCount] += amount;
-
-                    if (subService == ItemClass.SubService.None)
-                    {
-                        if (level == ItemClass.Level.Level2)
-                            MainDataStore.outsideGovermentMoney -= amount;
-                        else
-                            MainDataStore.outsideTouristMoney -= amount;
-                    }
                 }
             }
             else if (resource == EconomyManager.Resource.ResourcePrice)

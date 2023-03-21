@@ -26,13 +26,15 @@ namespace RealCity.CustomAI
         public static void InitDelegate()
         {
             if (GetIncomingTransferReason != null)
-                if (GetOutgoingTransferReason != null)
-                    if (GetSecondaryIncomingTransferReason != null)
-                        if (MaxIncomingLoadSize != null)
-                            if (GetConsumptionDivider != null)
-                                return;
-
-            DebugLog.LogToFileOnly("Try to InitDelegate in RealCityIndustrialBuildingAI");
+                return;
+            if (GetOutgoingTransferReason != null)
+                return;
+            if (GetSecondaryIncomingTransferReason != null)
+                return;
+            if (MaxIncomingLoadSize != null)
+                return;
+            if (GetConsumptionDivider != null)
+                return;
             GetIncomingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetIncomingTransferReason>(typeof(IndustrialBuildingAI), "GetIncomingTransferReason", instanceMethod: true);
             GetOutgoingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetOutgoingTransferReason>(typeof(IndustrialBuildingAI), "GetOutgoingTransferReason", instanceMethod: true);
             GetSecondaryIncomingTransferReason = FastDelegateFactory.Create<IndustrialBuildingAIGetSecondaryIncomingTransferReason>(typeof(IndustrialBuildingAI), "GetSecondaryIncomingTransferReason", instanceMethod: true);

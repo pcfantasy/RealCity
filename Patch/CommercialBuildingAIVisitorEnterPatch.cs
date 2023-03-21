@@ -1,5 +1,5 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomAI;
 using RealCity.CustomData;
 using RealCity.Util;
@@ -24,25 +24,17 @@ namespace RealCity.Patch
                 int consumptionMoney = MainDataStore.govermentSalary << 4;
                 if (citizenManager.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
                 {
-                    consumptionMoney <<= 2;
+                    consumptionMoney <<= 1;
                 }
                 if (citizenManager.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                 {
-                    consumptionMoney <<= 1;
+                    consumptionMoney <<= 2;
                 }
 
                 consumptionMoney = -consumptionMoney;
-                if (MainDataStore.outsideTouristMoney > 0)
-                {
-                    buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Entertainment, ref consumptionMoney);
-                    MainDataStore.outsideTouristMoney += (consumptionMoney);
-                }
+                buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Entertainment, ref consumptionMoney);
                 consumptionMoney = -MainDataStore.maxGoodPurchase;
                 buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
-                int priceInt = 0;
-                IndustryBuildingGetResourcePricePatch.Prefix(ref priceInt, TransferManager.TransferReason.Shopping, data.Info.m_class.m_service);
-                var m_goodsSellPrice = priceInt / 100;
-                MainDataStore.outsideTouristMoney += (consumptionMoney * m_goodsSellPrice);
             }
             else
             {
@@ -52,11 +44,21 @@ namespace RealCity.Patch
 
                 if (containingUnit != 0)
                 {
-                    //int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
-                    int goodAmount = -MainDataStore.maxGoodPurchase;
+                    int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / RealCityIndustryBuildingAI.GetResourcePrice(TransferManager.TransferReason.Shopping));
 
                     if (goodAmount < 0)
                     {
+                        if (goodAmount < -MainDataStore.maxGoodPurchase)
+                        {
+                            goodAmount = -MainDataStore.maxGoodPurchase;
+                        }
+
+                        if (goodAmount == -100)
+                        {
+                            //Disable other -100 ModifyMaterialBuffer
+                            goodAmount = -99;
+                        }
+
                         buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref goodAmount);
 
                         if (goodAmount != 0)
@@ -78,11 +80,11 @@ namespace RealCity.Patch
                     float consumptionIndex;
                     if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
                     {
-                        consumptionIndex = 0.55f;
+                        consumptionIndex = 0.25f;
                     }
                     else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialTourist))
                     {
-                        consumptionIndex = 0.35f;
+                        consumptionIndex = 0.2f;
                     }
                     else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialEco))
                     {
@@ -90,21 +92,11 @@ namespace RealCity.Patch
                     }
                     else if ((buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialHigh))
                     {
-                        if (buildingInfo.m_class.m_level == ItemClass.Level.Level1)
-                            consumptionIndex = 0.15f;
-                        else if (buildingInfo.m_class.m_level == ItemClass.Level.Level2)
-                            consumptionIndex = 0.2f;
-                        else
-                            consumptionIndex = 0.25f;
+                        consumptionIndex = 0.15f;
                     }
                     else
                     {
-                        if (buildingInfo.m_class.m_level == ItemClass.Level.Level1)
-                            consumptionIndex = 0.1f;
-                        else if (buildingInfo.m_class.m_level == ItemClass.Level.Level2)
-                            consumptionIndex = 0.15f;
-                        else
-                            consumptionIndex = 0.2f;
+                        consumptionIndex = 0.1f;
                     }
 
                     int consumptionMoney = -(int)(consumptionIndex * familyMoney);
@@ -124,7 +116,14 @@ namespace RealCity.Patch
                 }
             }
 
-            Singleton<BuildingAI>.instance.VisitorEnter(buildingID, ref data, citizen);
+            //base.VisitorEnter(buildingID, ref data, citizen);
+            ushort eventIndex = data.m_eventIndex;
+            if (eventIndex != 0)
+            {
+                EventManager eventManager = Singleton<EventManager>.instance;
+                EventInfo eventInfo = eventManager.m_events.m_buffer[(int)eventIndex].Info;
+                eventInfo.m_eventAI.VisitorEnter(eventIndex, ref eventManager.m_events.m_buffer[(int)eventIndex], buildingID, citizen);
+            }
             return false;
         }
     }

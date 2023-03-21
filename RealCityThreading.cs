@@ -1,17 +1,20 @@
 ﻿using ICities;
+using System.Collections.Generic;
 using RealCity.Util;
 using ColossalFramework.UI;
 using ColossalFramework;
 using System;
+using System.Reflection;
 using RealCity.CustomData;
-using HarmonyLib;
+using Harmony;
 
 namespace RealCity
 {
     public class RealCityThreading : ThreadingExtensionBase
     {
         public static bool isFirstTime = true;
-        public const int HarmonyPatchNum = 63;
+        public static Assembly RealGasStation = null;
+        public const int HarmonyPatchNum = 56;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -44,10 +47,6 @@ namespace RealCity
             {
                 isFirstTime = false;
                 DebugLog.LogToFileOnly("ThreadingExtension.OnBeforeSimulationFrame: First frame detected. Checking detours.");
-                //Caculate goverment salary
-                RealCityEconomyExtension.CaculateGovermentSalary();
-                //reset playereducation fee
-                RealCityEconomyExtension.RefreshPlayerEducationFee();
 
                 if (Loader.HarmonyDetourFailed)
                 {
@@ -57,15 +56,15 @@ namespace RealCity
                 }
                 else
                 {
-                    var harmony = new Harmony(HarmonyDetours.Id);
+                    var harmony = new Harmony.Harmony(HarmonyDetours.Id);
                     var methods = harmony.GetPatchedMethods();
                     int i = 0;
                     foreach (var method in methods)
                     {
-                        var info = Harmony.GetPatchInfo(method);
+                        var info = Harmony.Harmony.GetPatchInfo(method);
                         if (info.Owners?.Contains(HarmonyDetours.Id) == true)
                         {
-                            DebugLog.LogToFileOnly($"Harmony patch method = {method.FullDescription()}");
+                            DebugLog.LogToFileOnly("Harmony patch method = " + method.Name.ToString());
                             if (info.Prefixes.Count != 0)
                             {
                                 DebugLog.LogToFileOnly("Harmony patch method has PreFix");
@@ -102,84 +101,97 @@ namespace RealCity
                     {
                         if ((TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyCar && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyPlane && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyTrain && (TransferManager.TransferReason)vehicle.m_transferType != TransferManager.TransferReason.DummyShip)
                         {
-                            switch (vehicle.Info.m_class.m_service)
+                            if (vehicle.Info.m_vehicleAI is PoliceCarAI || vehicle.Info.m_vehicleAI is DisasterResponseVehicleAI || vehicle.Info.m_vehicleAI is FireTruckAI || vehicle.Info.m_vehicleAI is MaintenanceTruckAI)
                             {
-                                case ItemClass.Service.PoliceDepartment:
-                                case ItemClass.Service.HealthCare:
-                                case ItemClass.Service.FireDepartment:
-                                case ItemClass.Service.Disaster:
-                                    if (vehicle.Info.m_vehicleType == VehicleInfo.VehicleType.Helicopter)
-                                        Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is GarbageTruckAI || vehicle.Info.m_vehicleAI is HearseAI)
+                            {
+                                Building building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[vehicle.m_sourceBuilding];
+                                if (!building.m_flags.IsFlagSet(Building.Flags.Untouchable))
+                                {
+                                    Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                                }
+                            }
+                            else if (vehicle.Info.m_vehicleAI is AmbulanceAI || vehicle.Info.m_vehicleAI is SnowTruckAI || vehicle.Info.m_vehicleAI is ParkMaintenanceVehicleAI || vehicle.Info.m_vehicleAI is WaterTruckAI || vehicle.Info.m_vehicleAI is PostVanAI)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is TaxiAI)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 500, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is BusAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100 * capacity, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is TrolleybusAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 75 * capacity, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is PassengerShipAI || vehicle.Info.m_vehicleAI is PassengerFerryAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 50 * capacity, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is CargoShipAI)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5000, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is PassengerPlaneAI || vehicle.Info.m_vehicleAI is PassengerBlimpAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity * 300, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 15000, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is PassengerTrainAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity * 250, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is CargoTrainAI)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10000, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is MetroTrainAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity * 200, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is PoliceCopterAI || vehicle.Info.m_vehicleAI is FireCopterAI || vehicle.Info.m_vehicleAI is DisasterResponseCopterAI || vehicle.Info.m_vehicleAI is AmbulanceCopterAI)
+                            {
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is CableCarAI || vehicle.Info.m_vehicleAI is TramAI)
+                            {
+                                int capacity = 0;
+                                GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
+                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, (capacity * 150), vehicle.Info.m_class);
+                            }
+                            else if (vehicle.Info.m_vehicleAI is PassengerCarAI  && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Parking) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Arriving))
+                            {
+                                if ((vehicle.Info.m_class.m_subService == ItemClass.SubService.ResidentialLow))
+                                {
+                                    if (RealCity.reduceVehicle)
+                                        VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + (24 << MainDataStore.reduceCargoDivShift));
                                     else
-                                    {
-                                        if (vehicle.m_flags.IsFlagSet(Vehicle.Flags.Emergency2) || vehicle.m_flags.IsFlagSet(Vehicle.Flags.Emergency1))
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1600, vehicle.Info.m_class);
-                                        else
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800, vehicle.Info.m_class);
-                                    }
-                                    break;
-                                case ItemClass.Service.Road:
-                                case ItemClass.Service.Garbage:
-                                    if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Importing))
-                                    {
-                                        Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 1200, vehicle.Info.m_class);
-                                    }
-                                    break;
-                                case ItemClass.Service.PublicTransport:
-                                    int capacity = 0;
-                                    GetVehicleCapacity((ushort)vehicleID, ref vehicle, ref capacity);
-                                    switch (vehicle.Info.m_class.m_subService)
-                                    {
-                                        case ItemClass.SubService.PublicTransportBus:
-                                        case ItemClass.SubService.PublicTransportTrolleybus:
-                                        case ItemClass.SubService.PublicTransportTours:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, capacity, vehicle.Info.m_class); break;
-                                        case ItemClass.SubService.PublicTransportMonorail:
-                                        case ItemClass.SubService.PublicTransportCableCar:
-                                        case ItemClass.SubService.PublicTransportTram:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5 * capacity, vehicle.Info.m_class); break;
-                                        case ItemClass.SubService.PublicTransportMetro:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800 * capacity, vehicle.Info.m_class); break;
-                                        case ItemClass.SubService.PublicTransportTrain:
-                                            if (vehicle.Info.m_vehicleAI is CargoTrainAI)
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 10000, vehicle.Info.m_class);
-                                            else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 900 * capacity, vehicle.Info.m_class);
-                                            break;
-                                        case ItemClass.SubService.PublicTransportPlane:
-                                            if (vehicle.Info.m_vehicleAI is CargoPlaneAI)
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20000, vehicle.Info.m_class);
-                                            else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 500 * capacity, vehicle.Info.m_class);
-                                            break;
-                                        case ItemClass.SubService.PublicTransportPost:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 800, vehicle.Info.m_class); break;
-                                        case ItemClass.SubService.PublicTransportTaxi:
-                                            Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 100, vehicle.Info.m_class); break;
-                                        case ItemClass.SubService.PublicTransportShip:
-                                            if (vehicle.Info.m_vehicleAI is CargoShipAI)
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 5000, vehicle.Info.m_class);
-                                            else
-                                                Singleton<EconomyManager>.instance.FetchResource((EconomyManager.Resource)16, 20 * capacity, vehicle.Info.m_class);
-                                            break;
-                                    }
-                                    break;
-                                case ItemClass.Service.Residential:
-                                    if (!vehicle.m_flags.IsFlagSet(Vehicle.Flags.Parking) && !vehicle.m_flags.IsFlagSet(Vehicle.Flags.Arriving))
-                                    {
-                                        if ((vehicle.Info.m_class.m_subService == ItemClass.SubService.ResidentialLow))
-                                        {
-                                            if (RealCity.reduceVehicle)
-                                                VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + (24 << MainDataStore.reduceCargoDivShift));
-                                            else
-                                                VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + 24);
-                                        }
-                                        else
-                                        {
-                                            VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + 12);
-                                        }
-                                    }
-                                    break;
+                                        VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + 24);
+                                }
+                                else
+                                {
+                                    VehicleData.vehicleTransferTime[vehicleID] = (ushort)(VehicleData.vehicleTransferTime[vehicleID] + 12);
+                                }
                             }
                         }
                     }
@@ -187,7 +199,7 @@ namespace RealCity
             }
             else
             {
-                DebugLog.LogToFileOnly($"Error: VehicleStatus invalid vehicleID = {vehicleID}");
+                DebugLog.LogToFileOnly("Error: invalid vehicleID = " + vehicleID.ToString());
             }
         }
 

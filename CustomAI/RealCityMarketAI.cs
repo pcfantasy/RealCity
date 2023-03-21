@@ -13,8 +13,6 @@ namespace RealCity.CustomAI
         {
             if (GetVisitBehaviour != null)
                 return;
-
-            DebugLog.LogToFileOnly("Try to InitDelegate in RealCityMarketAI");
             GetVisitBehaviour = FastDelegateFactory.Create<MarketAIGetVisitBehaviour>(typeof(MarketAI), "GetVisitBehaviour", instanceMethod: true);
         }
     }

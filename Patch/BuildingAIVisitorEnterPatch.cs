@@ -1,5 +1,5 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomAI;
 using RealCity.CustomData;
 using RealCity.Util;
@@ -22,27 +22,7 @@ namespace RealCity.Patch
             {
                 ProcessTourismIncome(buildingID, ref data, citizen);
             }
-            else
-            {
-                EventManager instance = Singleton<EventManager>.instance;
-                EventInfo info = instance.m_events.m_buffer[(int)eventIndex].Info;
-                if ((info.m_eventAI is SportMatchAI) || (info.m_eventAI is VarsitySportsMatchAI))
-                {
-                    if (buildingID == instance.m_events.m_buffer[(int)eventIndex].m_building && (instance.m_events.m_buffer[(int)eventIndex].m_flags & (EventData.Flags.Preparing | EventData.Flags.Active)) != EventData.Flags.None)
-                    {
-                        if ((Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizen].m_flags & Citizen.Flags.Tourist) != Citizen.Flags.None)
-                        {
-                            MainDataStore.outsideTouristMoney -= instance.m_events.m_buffer[(int)eventIndex].m_ticketPrice;
-                        }
-                        else
-                        {
-                            CitizenData.citizenMoney[citizen] -= instance.m_events.m_buffer[(int)eventIndex].m_ticketPrice;
-                        }
-                    }
-                }
-            }
         }
-
         public static void ProcessTourismIncome(ushort buildingID, ref Building data, uint citizen)
         {
             CitizenManager instance = Singleton<CitizenManager>.instance;
@@ -79,15 +59,13 @@ namespace RealCity.Patch
             CitizenManager instance = Singleton<CitizenManager>.instance;
             int tourism_fee = 1000;
             if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.High)
-                tourism_fee <<= 2;
-            else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
                 tourism_fee <<= 1;
+            else if (instance.m_citizens.m_buffer[citizen].WealthLevel == Citizen.Wealth.Medium)
+                tourism_fee <<= 2;
 
-            if (MainDataStore.outsideTouristMoney > 0)
-            {
-                MainDataStore.outsideTouristMoney -= tourism_fee;
-                Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
-            }
+            RealCityPrivateBuildingAI.profitBuildingMoney += (tourism_fee >> 1);
+
+            Singleton<EconomyManager>.instance.AddPrivateIncome((tourism_fee >> 1), ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 113333);
         }
 
         public static void ProcessMonumentTourismResidentIncome(ref Building data, uint citizen)
@@ -96,7 +74,8 @@ namespace RealCity.Patch
             if (tourism_fee > 0)
             {
                 CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - tourism_fee);
-                Singleton<EconomyManager>.instance.AddPrivateIncome(tourism_fee, ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
+                RealCityPrivateBuildingAI.profitBuildingMoney += (tourism_fee >> 1);
+                Singleton<EconomyManager>.instance.AddPrivateIncome((tourism_fee >> 1), ItemClass.Service.Commercial, ItemClass.SubService.CommercialTourist, ItemClass.Level.Level1, 114333);
             }
         }
 
@@ -112,30 +91,22 @@ namespace RealCity.Patch
             if (b != 0)
             {
                 int ticketPrice = instance2.m_parks.m_buffer[b].GetTicketPrice();
+                var ticketPriceLeft = (ticketPrice / 100f);
                 //Negetive price to help identify tourist and resident.
                 if (isTourist)
-                {
-                    if (MainDataStore.outsideTouristMoney > 0)
-                    {
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -(int)ticketPrice, data.Info.m_class);
-                        MainDataStore.outsideTouristMoney -= ticketPrice;
-                    }
-                    else
-                    {
-                        ticketPrice = 0;
-                    }
-                }
+                    Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, -(int)ticketPriceLeft, data.Info.m_class);
                 else
                 {
-                    if (CitizenData.citizenMoney[citizen] > ticketPrice)
+                    if (CitizenData.citizenMoney[citizen] > ticketPriceLeft)
                     {
-                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPrice);
-                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, (int)ticketPrice, data.Info.m_class);
+                        CitizenData.citizenMoney[citizen] = (CitizenData.citizenMoney[citizen] - ticketPriceLeft);
+                        Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, (int)ticketPriceLeft, data.Info.m_class);
                     }
                 }
 
+                RealCityPrivateBuildingAI.profitBuildingMoney += (long)(ticketPrice - ticketPriceLeft);
                 DistrictPark[] park = instance2.m_parks.m_buffer;
-                park[b].m_tempTicketIncome = park[b].m_tempTicketIncome + (uint)(ticketPrice);
+                park[b].m_tempTicketIncome = park[b].m_tempTicketIncome + (uint)(ticketPriceLeft);
             }
         }
 

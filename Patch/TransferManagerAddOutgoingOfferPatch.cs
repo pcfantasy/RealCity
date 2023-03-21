@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿using Harmony;
 using System;
 using System.Reflection;
 using ColossalFramework;
@@ -33,30 +33,6 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
-                    break;
-                case TransferManager.TransferReason.Oil:
-                case TransferManager.TransferReason.Ore:
-                case TransferManager.TransferReason.Coal:
-                case TransferManager.TransferReason.Petrol:
-                case TransferManager.TransferReason.Food:
-                case TransferManager.TransferReason.Grain:
-                case TransferManager.TransferReason.Lumber:
-                case TransferManager.TransferReason.Logs:
-                case TransferManager.TransferReason.Goods:
-                case TransferManager.TransferReason.LuxuryProducts:
-                case TransferManager.TransferReason.AnimalProducts:
-                case TransferManager.TransferReason.Flours:
-                case TransferManager.TransferReason.Petroleum:
-                case TransferManager.TransferReason.Plastics:
-                case TransferManager.TransferReason.Metals:
-                case TransferManager.TransferReason.Glass:
-                case TransferManager.TransferReason.PlanedTimber:
-                case TransferManager.TransferReason.Paper:
-                    if (MainDataStore.noImport)
-                    {
-                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
-                            return false;
-                    }
                     break;
                 default:
                     return true;

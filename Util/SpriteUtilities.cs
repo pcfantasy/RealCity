@@ -58,7 +58,7 @@ namespace RealCity.Util
                 {
                     if (File.Exists(texturePath))
                     {
-                        Texture2D spriteTexture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
+                        Texture2D spriteTexture = new Texture2D(2, 2);
                         FileStream fileStream = new FileStream(texturePath, FileMode.Open, FileAccess.Read);
                         byte[] imageData = new byte[fileStream.Length];
 

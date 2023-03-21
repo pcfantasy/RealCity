@@ -1,7 +1,6 @@
 ﻿﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomData;
-using RealCity.Util;
 using System;
 using System.Reflection;
 
@@ -10,19 +9,15 @@ namespace RealCity.Patch
     [HarmonyPatch]
     public class TouristAISimulationStepPatch
     {
-        public static ushort touristCount;
         public static MethodBase TargetMethod()
         {
             return typeof(TouristAI).GetMethod("SimulationStep", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(uint), typeof(Citizen).MakeByRefType() }, null);
         }
         public static void Postfix(uint citizenID, ref Citizen data)
         {
-            if (!data.m_flags.IsFlagSet(Citizen.Flags.DummyTraffic))
+            if (CitizenData.citizenMoney[citizenID] < 100)
             {
-                if (CitizenData.citizenMoney[citizenID] < 100)
-                {
-                    FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
-                }
+                FindVisitPlace(citizenID, data.m_visitBuilding, GetLeavingReason(ref data));
             }
         }
 

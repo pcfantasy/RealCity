@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿using Harmony;
 using System;
 using System.Reflection;
 using ColossalFramework;
@@ -18,7 +18,7 @@ namespace RealCity.Patch
             return typeof(TransferManager).GetMethod("AddIncomingOffer", BindingFlags.Public | BindingFlags.Instance);
         }
 
-        [HarmonyPriority(Priority.First)]
+        [HarmonyPriority(Priority.VeryHigh)]
         public static bool Prefix(TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)
         {
             switch (material)
@@ -35,25 +35,6 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.EntertainmentB:
                 case TransferManager.TransferReason.EntertainmentC:
                 case TransferManager.TransferReason.EntertainmentD:
-                case TransferManager.TransferReason.TouristA:
-                case TransferManager.TransferReason.TouristB:
-                case TransferManager.TransferReason.TouristC:
-                case TransferManager.TransferReason.TouristD:
-                    if (RealCity.realCityV10)
-                    {
-                        if (MainDataStore.outsideTouristMoney < 0)
-                        {
-                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
-                                return false;
-                        }
-
-                        if (MainDataStore.noTourist)
-                        {
-                            if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
-                                return false;
-                        }
-                    }
-                    break;
                 case TransferManager.TransferReason.Oil:
                 case TransferManager.TransferReason.Ore:
                 case TransferManager.TransferReason.Coal:
@@ -72,11 +53,6 @@ namespace RealCity.Patch
                 case TransferManager.TransferReason.Glass:
                 case TransferManager.TransferReason.PlanedTimber:
                 case TransferManager.TransferReason.Paper:
-                    if (MainDataStore.noExport)
-                    {
-                        if (Singleton<BuildingManager>.instance.m_buildings.m_buffer[offer.Building].Info.m_buildingAI is OutsideConnectionAI)
-                            return false;
-                    }
                     break;
                 default:
                     return true;

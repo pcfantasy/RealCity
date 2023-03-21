@@ -1,5 +1,5 @@
 ﻿using ColossalFramework;
-using HarmonyLib;
+using Harmony;
 using RealCity.CustomAI;
 using RealCity.CustomData;
 using RealCity.Util;
@@ -58,7 +58,7 @@ namespace RealCity.Patch
                         product_value = -amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
                         Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.ResourcePrice, (int)product_value, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
                         break;
-                    default: DebugLog.LogToFileOnly($"Error: ProcessGabargeIncome find unknown gabarge transition {building.Info.m_class} transfer reason {material}"); break;
+                    default: DebugLog.LogToFileOnly("Error: ProcessGabargeIncome find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + material.ToString()); break;
                 }
             }
         }
@@ -81,7 +81,7 @@ namespace RealCity.Patch
                     productValue = amountDelta * RealCityIndustryBuildingAI.GetResourcePrice(material);
                     Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.ResourcePrice, (int)productValue, ItemClass.Service.PlayerIndustry, ItemClass.SubService.PlayerIndustryOil, ItemClass.Level.Level1);
                     break;
-                default: DebugLog.LogToFileOnly($"Error: RevertGabargeIncome find unknown gabarge transition {building.Info.m_class} transfer reason {material}"); break;
+                default: DebugLog.LogToFileOnly("Error: ProcessGabargeIncome find unknow gabarge transition" + building.Info.m_class.ToString() + "transfer reason " + material.ToString()); break;
             }
         }
     }
