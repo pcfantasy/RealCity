@@ -6,7 +6,7 @@ using ColossalFramework;
 using System;
 using System.Reflection;
 using RealCity.CustomData;
-using Harmony;
+using HarmonyLib;
 
 namespace RealCity
 {
@@ -14,7 +14,7 @@ namespace RealCity
     {
         public static bool isFirstTime = true;
         public static Assembly RealGasStation = null;
-        public const int HarmonyPatchNum = 56;
+        public const int HarmonyPatchNum = 55;
         public override void OnBeforeSimulationFrame()
         {
             base.OnBeforeSimulationFrame();
@@ -56,12 +56,12 @@ namespace RealCity
                 }
                 else
                 {
-                    var harmony = new Harmony.Harmony(HarmonyDetours.Id);
+                    var harmony = new HarmonyLib.Harmony(HarmonyDetours.Id);
                     var methods = harmony.GetPatchedMethods();
                     int i = 0;
                     foreach (var method in methods)
                     {
-                        var info = Harmony.Harmony.GetPatchInfo(method);
+                        var info = HarmonyLib.Harmony.GetPatchInfo(method);
                         if (info.Owners?.Contains(HarmonyDetours.Id) == true)
                         {
                             DebugLog.LogToFileOnly("Harmony patch method = " + method.Name.ToString());

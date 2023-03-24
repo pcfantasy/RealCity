@@ -15,7 +15,7 @@ namespace RealCity
 
         public string Name
         {
-            get { return "Real City"; }
+            get { return "Real City Revised"; }
         }
 
         public string Description
@@ -142,15 +142,6 @@ namespace RealCity
             group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), debugMode, (index) => debugModeEnable(index));
             group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), reduceVehicle, (index) => reduceVehicleEnable(index));
             group.AddButton(Localization.Get("RESET_VALUE"), Loader.InitData);
-
-            if (Loader.isTransportLinesManagerRunning)
-            {
-                UIHelperBase group1 = panelHelper.AddGroup(Localization.Get("TLMRUNNING"));
-            }
-            else
-            {
-                UIHelperBase group1 = panelHelper.AddGroup(Localization.Get("TLMNOTRUNNING"));
-            }
 
             SaveSetting();
         }
