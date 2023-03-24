@@ -125,23 +125,23 @@ namespace RealCity.Patch
                 }
             }
 
-            if (buildingData.m_problems == Notification.Problem.None)
+            if (buildingData.m_problems == Notification.Problem1.None)
             {
                 //mark no good
                 if ((buildingData.Info.m_class.m_service == ItemClass.Service.Commercial) && (RealCity.debugMode))
                 {
-                    Notification.Problem problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem.NoGoods);
+                    Notification.Problem1 problem = Notification.RemoveProblems(buildingData.m_problems, Notification.Problem1.NoGoods);
                     if (buildingData.m_customBuffer2 < 500)
                     {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods | Notification.Problem.MajorProblem);
+                        problem = Notification.AddProblems(problem, Notification.Problem1.NoGoods | Notification.Problem1.MajorProblem);
                     }
                     else if (buildingData.m_customBuffer2 < 1000)
                     {
-                        problem = Notification.AddProblems(problem, Notification.Problem.NoGoods);
+                        problem = Notification.AddProblems(problem, Notification.Problem1.NoGoods);
                     }
                     else
                     {
-                        problem = Notification.Problem.None;
+                        problem = Notification.Problem1.None;
                     }
                     buildingData.m_problems = problem;
                 }
