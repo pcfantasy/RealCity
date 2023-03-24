@@ -50,14 +50,17 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony1.9">
-      <HintPath>..\0Harmony1.9.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="CitiesHarmony.API, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesHarmony.API.2.0.0\lib\net35\CitiesHarmony.API.dll</HintPath>
+    </Reference>
+    <Reference Include="CitiesHarmony.Harmony, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesHarmony.Harmony.2.0.4\lib\net35\CitiesHarmony.Harmony.dll</HintPath>
     </Reference>
     <Reference Include="ColossalManaged">
       <HintPath>F:\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
@@ -89,6 +92,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAI\RealCityMarketAI.cs" />
+    <Compile Include="Patch\AuxiliaryBuildingAIGetResourceRatePatch.cs" />
+    <Compile Include="Patch\IndustryBuildingExchangeResourcePatch.cs" />
+    <Compile Include="Patch\MainIndustryBuildingAIGetResourceRatePatch.cs" />
+    <Compile Include="Patch\TransportManagerReleaseLineImplementationPatch.cs" />
+    <Compile Include="Patch\OutsideConnectionAIModifyMaterialBufferPatch.cs" />
+    <Compile Include="Patch\TollBoothAIGetResourceRatePatch.cs" />
+    <Compile Include="Patch\HumanAIStartMovingPatch.cs" />
     <Compile Include="Patch\MarketAIVisitorEnterPatch.cs" />
     <Compile Include="Patch\MarketAIModifyMaterialBufferPatch.cs" />
     <Compile Include="Patch\DistrictParkCalculateVarsityExpensesPatch.cs" />
@@ -106,9 +116,7 @@
     <Compile Include="CustomData\CitizenData.cs" />
     <Compile Include="CustomData\VehicleData.cs" />
     <Compile Include="Patch\IndustryBuildingGetResourcePricePatch.cs" />
-    <Compile Include="Patch\ResidentAIStartMovingPatch.cs" />
     <Compile Include="Patch\TransferManagerAddIncomingOfferPatch.cs" />
-    <Compile Include="Patch\TouristAIStartMovingPatch.cs" />
     <Compile Include="Patch\TransferManagerAddOutgoingOfferPatch.cs" />
     <Compile Include="Patch\IndustrialExtractorAISimulationStepActivePatch.cs" />
     <Compile Include="Patch\IndustrialBuildingAISimulationStepActivePatch.cs" />
@@ -163,6 +171,7 @@
     <Compile Include="RebalancedIndustries\RI_Detours.cs" />
     <Compile Include="UI\BuildingButton.cs" />
     <Compile Include="UI\BuildingUI.cs" />
+    <Compile Include="UI\OptionUI.cs" />
     <Compile Include="UI\PBLUI.cs" />
     <Compile Include="UI\IncompatibleModsPanel.cs" />
     <Compile Include="UI\EcnomicButton.cs" />
@@ -194,11 +203,15 @@
     <Content Include="Resources\en.txt" />
     <Content Include="Resources\incompatible_mods.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "D:\Mod\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
-copy "D:\Mod\RealCity\bin\Release\0Harmony1.9.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\0Harmony.dll"
+    <PostBuildEvent>rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086"
+mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086"
+copy "D:\Mod\RealCity\bin\Release\RealCity.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\RealCity.dll"
+copy "D:\Mod\RealCity\bin\Release\CitiesHarmony.API.dll"  "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\CitiesHarmony.API.dll"
 rd /q /s "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
 mkdir "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"
 copy "D:\Mod\RealCity\Resources\*.*" "F:\SteamLibrary\steamapps\workshop\content\255710\1192503086\Resources"

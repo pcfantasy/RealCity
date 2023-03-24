@@ -17,7 +17,7 @@ namespace RealCity.Patch
         public static void Postfix(ushort buildingID, ref Building data)
         {
             var material = TransferManager.TransferReason.Goods;
-            float initialMaterialFee = data.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(material);
+            float initialMaterialFee = data.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(material) + 10000;
             BuildingData.buildingMoney[buildingID] = -initialMaterialFee;
         }
     }

@@ -2,7 +2,8 @@
 using System.IO;
 using RealCity.Util;
 using ColossalFramework.UI;
-using UnityEngine;
+using CitiesHarmony.API;
+using RealCity.UI;
 
 namespace RealCity
 {
@@ -11,11 +12,13 @@ namespace RealCity
         public static bool IsEnabled = false;
         public static bool debugMode = false;
         public static bool reduceVehicle = false;
-        public static bool removeStuck = false;
+        public static bool realCityV10 = true;
+        public static bool randomEvent = false;
+        public static bool noPassengerCar = true;
 
         public string Name
         {
-            get { return "Real City Revised"; }
+            get { return "Real City"; }
         }
 
         public string Description
@@ -28,7 +31,7 @@ namespace RealCity
             IsEnabled = true;
             FileStream fs = File.Create("RealCity.txt");
             fs.Close();
-            Loader.HarmonyInitDetour();
+            HarmonyHelper.EnsureHarmonyInstalled();
             if (UIView.GetAView() != null)
             {
                 OnGameIntroLoaded();
@@ -41,7 +44,6 @@ namespace RealCity
 
         public void OnDisabled()
         {
-            Loader.HarmonyRevertDetour();
             IsEnabled = false;
             LoadingManager.instance.m_introLoaded -= OnGameIntroLoaded;
         }
@@ -52,127 +54,47 @@ namespace RealCity
             mcc.PerformModCheck();
         }
 
-        public static void SaveSetting()
-        {
-            //save langugae
-            FileStream fs = File.Create("RealCity_setting.txt");
-            StreamWriter streamWriter = new StreamWriter(fs);
-            streamWriter.WriteLine(debugMode);
-            streamWriter.WriteLine(reduceVehicle);
-            streamWriter.WriteLine(removeStuck);
-            streamWriter.Flush();
-            fs.Close();
-        }
-
-        public static void LoadSetting()
-        {
-            if (File.Exists("RealCity_setting.txt"))
-            {
-                FileStream fs = new FileStream("RealCity_setting.txt", FileMode.Open);
-                StreamReader sr = new StreamReader(fs);
-                string strLine = sr.ReadLine();
-
-                if (strLine == "True")
-                {
-                    debugMode = true;
-                }
-                else
-                {
-                    debugMode = false;
-                }
-
-                strLine = sr.ReadLine();
-
-                if (strLine == "True")
-                {
-                    reduceVehicle = true;
-                }
-                else
-                {
-                    reduceVehicle = false;
-                }
-
-                strLine = sr.ReadLine();
-
-                if (strLine == "True")
-                {
-                    removeStuck = true;
-                }
-                else
-                {
-                    removeStuck = false;
-                }
-
-                sr.Close();
-                fs.Close();
-            }
-        }
-
         public void OnSettingsUI(UIHelperBase helper)
         {
-            LoadSetting();
-            UIHelper actualHelper = helper as UIHelper;
-            UIComponent container = actualHelper.self as UIComponent;
-
-            UITabstrip tabStrip = container.AddUIComponent<UITabstrip>();
-            tabStrip.relativePosition = new Vector3(0, 0);
-            tabStrip.size = new Vector2(container.width - 20, 40);
-
-            UITabContainer tabContainer = container.AddUIComponent<UITabContainer>();
-            tabContainer.relativePosition = new Vector3(0, 40);
-            tabContainer.size = new Vector2(container.width - 20, container.height - tabStrip.height - 20);
-            tabStrip.tabPages = tabContainer;
-
-            int tabIndex = 0;
-            // Lane_ShortCut
-
-            AddOptionTab(tabStrip, Localization.Get("BASIC_SETTING"));
-            tabStrip.selectedIndex = tabIndex;
-
-            UIPanel currentPanel = tabStrip.tabContainer.components[tabIndex] as UIPanel;
-            currentPanel.autoLayout = true;
-            currentPanel.autoLayoutDirection = LayoutDirection.Vertical;
-            currentPanel.autoLayoutPadding.top = 5;
-            currentPanel.autoLayoutPadding.left = 10;
-            currentPanel.autoLayoutPadding.right = 10;
-
-            UIHelper panelHelper = new UIHelper(currentPanel);
-
-            UIHelperBase group = panelHelper.AddGroup(Localization.Get("BASIC_SETTING"));
-            group.AddCheckbox(Localization.Get("SHOW_LACK_OF_RESOURCE"), debugMode, (index) => debugModeEnable(index));
-            group.AddCheckbox(Localization.Get("REDUCE_CARGO_ENABLE"), reduceVehicle, (index) => reduceVehicleEnable(index));
-            group.AddButton(Localization.Get("RESET_VALUE"), Loader.InitData);
-
-            SaveSetting();
+            OptionUI.MakeSettings(helper);
         }
 
-        private static UIButton AddOptionTab(UITabstrip tabStrip, string caption)
+        public static bool GetRealCityV10()
         {
-            UIButton tabButton = tabStrip.AddTab(caption);
-
-            tabButton.normalBgSprite = "SubBarButtonBase";
-            tabButton.disabledBgSprite = "SubBarButtonBaseDisabled";
-            tabButton.focusedBgSprite = "SubBarButtonBaseFocused";
-            tabButton.hoveredBgSprite = "SubBarButtonBaseHovered";
-            tabButton.pressedBgSprite = "SubBarButtonBasePressed";
-
-            tabButton.textPadding = new RectOffset(10, 10, 10, 10);
-            tabButton.autoSize = true;
-            tabButton.tooltip = caption;
-
-            return tabButton;
+            return realCityV10;
         }
 
-        public void debugModeEnable(bool index)
+        public static float GetAverageSalary()
         {
-            debugMode = index;
-            SaveSetting();
+            if (MainDataStore.citizenCount != 0)
+                return MainDataStore.citizenSalaryTotal / MainDataStore.citizenCount;
+            else
+                return 1f;
         }
 
-        public void reduceVehicleEnable(bool index)
+        public static int GetReduceCargoDiv()
         {
-            reduceVehicle = index;
-            SaveSetting();
+            return MainDataStore.reduceCargoDiv;
+        }
+
+        public static float GetOutsideTouristMoney()
+        {
+            return MainDataStore.outsideTouristMoney;
+        }
+
+        public static void SetOutsideTouristMoney(float value)
+        {
+            MainDataStore.outsideTouristMoney = value;
+        }
+
+        public static float GetOutsideGovermentMoney()
+        {
+            return MainDataStore.outsideGovermentMoney;
+        }
+
+        public static void SetOutsideGovermentMoney(float value)
+        {
+            MainDataStore.outsideGovermentMoney = value;
         }
     }
 }

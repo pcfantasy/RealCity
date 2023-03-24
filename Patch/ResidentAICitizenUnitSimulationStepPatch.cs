@@ -281,7 +281,7 @@ namespace RealCity.Patch
             }
 
             //2.We calculate salary tax
-            float tax = (float)Politics.residentTax * familySalaryCurrent / 100f;
+            float tax = (float)(Politics.residentTax << 1) * familySalaryCurrent / 100f;
             RealCityResidentAI.tempCitizenSalaryTaxTotal = RealCityResidentAI.tempCitizenSalaryTaxTotal + (int)tax;
             RealCityResidentAI.citizenSalaryTaxTotal = (int)RealCityResidentAI.tempCitizenSalaryTaxTotal;
             ProcessCitizenIncomeTax(homeID, tax);
@@ -365,15 +365,15 @@ namespace RealCity.Patch
             var familySalaryCurrentTmp = (familySalaryCurrent > canBuyGoodMoney) ? canBuyGoodMoney : familySalaryCurrent;
 
             //7. Process citizen status
-            if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 200)
+            if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 30)
             {
                 RealCityResidentAI.level3HighWealth++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 100)
+            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 20)
             {
                 RealCityResidentAI.level2HighWealth++;
             }
-            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 50)
+            else if ((CitizenUnitData.familyMoney[homeID] / (canBuyGoodMoney + 1000f - familySalaryCurrentTmp)) >= 10)
             {
                 RealCityResidentAI.level1HighWealth++;
             }
@@ -381,17 +381,17 @@ namespace RealCity.Patch
             //8 reduce goods
             float reducedGoods;
             if (CitizenUnitData.familyMoney[homeID] < canBuyGoodMoney)
-                reducedGoods = CitizenUnitData.familyGoods[homeID] / 200f;
-            else
                 reducedGoods = CitizenUnitData.familyGoods[homeID] / 100f;
+            else
+                reducedGoods = CitizenUnitData.familyGoods[homeID] / 50f;
 
             CitizenUnitData.familyGoods[homeID] = (ushort)COMath.Clamp((int)(CitizenUnitData.familyGoods[homeID] - reducedGoods), 0, 60000);
             data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
 
-            //9 move family
-            if ((CitizenUnitData.familyMoney[homeID] > canBuyGoodMoney) && (familySalaryCurrent > 1))
+            //9 Buy good from outside and try move family
+            if (data.m_goods == 0)
             {
-                if (data.m_goods == 0)
+                if ((CitizenUnitData.familyMoney[homeID] > canBuyGoodMoney) && (familySalaryCurrent > 1))
                 {
                     uint citizenID = 0u;
                     int familySize = 0;
@@ -426,11 +426,13 @@ namespace RealCity.Patch
                         instance.m_citizens.m_buffer[citizenID].m_flags &= ~Citizen.Flags.NeedGoods;
                     }
 
+                    Singleton<ResidentAI>.instance.TryMoveFamily(citizenID, ref instance.m_citizens.m_buffer[citizenID], familySize);
+
                     CitizenUnitData.familyGoods[homeID] = 5000;
                     data.m_goods = (ushort)(CitizenUnitData.familyGoods[homeID] / 10f);
                     CitizenUnitData.familyMoney[homeID] -= canBuyGoodMoney;
-
-                    Singleton<ResidentAI>.instance.TryMoveFamily(citizenID, ref instance.m_citizens.m_buffer[citizenID], familySize);
+                    MainDataStore.outsideGovermentMoney += (canBuyGoodMoney * MainDataStore.outsideGovermentProfitRatio);
+                    MainDataStore.outsideTouristMoney += (canBuyGoodMoney * MainDataStore.outsideCompanyProfitRatio * MainDataStore.outsideTouristSalaryProfitRatio);
                 }
             }
 
@@ -480,101 +482,8 @@ namespace RealCity.Patch
         {
             BuildingManager instance1 = Singleton<BuildingManager>.instance;
             CitizenManager instance2 = Singleton<CitizenManager>.instance;
-            ItemClass @class = instance1.m_buildings.m_buffer[instance2.m_citizens.m_buffer[citizenID].m_homeBuilding].Info.m_class;
-            incomeAccumulation = 0;
-            DistrictManager instance = Singleton<DistrictManager>.instance;
-            if (instance2.m_citizens.m_buffer[citizenID].m_homeBuilding != 0)
-            {
-                byte district = instance.GetDistrict(instance1.m_buildings.m_buffer[instance2.m_citizens.m_buffer[citizenID].m_homeBuilding].m_position);
-                DistrictPolicies.Taxation taxationPolicies = instance.m_districts.m_buffer[district].m_taxationPolicies;
-                if (@class.m_subService == ItemClass.SubService.ResidentialLow)
-                {
-                    switch (@class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.residentLowLevel1Rent;
-                            break;
-                        case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.residentLowLevel2Rent;
-                            break;
-                        case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.residentLowLevel3Rent;
-                            break;
-                        case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.residentLowLevel4Rent;
-                            break;
-                        case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.residentLowLevel5Rent;
-                            break;
-                    }
-                }
-                else if (@class.m_subService == ItemClass.SubService.ResidentialLowEco)
-                {
-                    switch (@class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.residentLowLevel1Rent << 1;
-                            break;
-                        case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.residentLowLevel2Rent << 1;
-                            break;
-                        case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.residentLowLevel3Rent << 1;
-                            break;
-                        case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.residentLowLevel4Rent << 1;
-                            break;
-                        case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.residentLowLevel5Rent << 1;
-                            break;
-                    }
-                }
-                else if (@class.m_subService == ItemClass.SubService.ResidentialHigh)
-                {
-                    switch (@class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.residentHighLevel1Rent;
-                            break;
-                        case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.residentHighLevel2Rent;
-                            break;
-                        case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.residentHighLevel3Rent;
-                            break;
-                        case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.residentHighLevel4Rent;
-                            break;
-                        case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.residentHighLevel5Rent;
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (@class.m_level)
-                    {
-                        case ItemClass.Level.Level1:
-                            incomeAccumulation = MainDataStore.residentHighLevel1Rent << 1;
-                            break;
-                        case ItemClass.Level.Level2:
-                            incomeAccumulation = MainDataStore.residentHighLevel2Rent << 1;
-                            break;
-                        case ItemClass.Level.Level3:
-                            incomeAccumulation = MainDataStore.residentHighLevel3Rent << 1;
-                            break;
-                        case ItemClass.Level.Level4:
-                            incomeAccumulation = MainDataStore.residentHighLevel4Rent << 1;
-                            break;
-                        case ItemClass.Level.Level5:
-                            incomeAccumulation = MainDataStore.residentHighLevel5Rent << 1;
-                            break;
-                    }
-                }
-                int num2;
-                num2 = Singleton<EconomyManager>.instance.GetTaxRate(@class, taxationPolicies);
-                incomeAccumulation = (int)((num2 * incomeAccumulation) / 100f);
-            }
+            var buildingID = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].m_homeBuilding;
+            incomeAccumulation = BuildingData.buildingWorkCount[buildingID];
 
             educationFee = 0;
             hospitalFee = 0;
@@ -590,6 +499,9 @@ namespace RealCity.Patch
                     if (buildingData.Info.m_class.m_service == ItemClass.Service.PlayerEducation)
                     {
                         var tempEducationFee = (uint)((MainDataStore.govermentSalary) / 100f);
+                        if (tempEducationFee < 1)
+                            tempEducationFee = 1;
+
                         educationFee = (int)tempEducationFee * 100;
                         isCampusDLC = true;
                     }
@@ -640,7 +552,7 @@ namespace RealCity.Patch
             {
                 if (rand.Next(64) <= 1)
                 {
-                    DebugLog.LogToFileOnly("Error: Chance is not equal 800 " + (Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance).ToString());
+                    DebugLog.LogToFileOnly($"Error: GetVoteTickets Chance is not equal 800 {(Politics.cPartyChance + Politics.gPartyChance + Politics.sPartyChance + Politics.lPartyChance + Politics.nPartyChance)}");
                 }
             }
 
@@ -752,7 +664,7 @@ namespace RealCity.Patch
 
                     if (idex < 0 || idex > 14)
                     {
-                        DebugLog.LogToFileOnly("Error workplace idex" + idex.ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance workplace idex {idex}");
                     }
 
 
@@ -777,7 +689,7 @@ namespace RealCity.Patch
 
                     if (idex < 0 || idex > 3)
                     {
-                        DebugLog.LogToFileOnly("Error: Invaid money idex = " + idex.ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance Invaid money idex = {idex}");
                     }
                     Politics.cPartyChance += (ushort)(Politics.money[idex, 0] << 1);
                     Politics.gPartyChance += (ushort)(Politics.money[idex, 1] << 1);
@@ -791,7 +703,7 @@ namespace RealCity.Patch
 
                     if (temp < 0)
                     {
-                        DebugLog.LogToFileOnly(temp.ToString() + Citizen.GetAgeGroup(citizen.m_age).ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance temp = {temp} < 0, GetAgeGroup = {Citizen.GetAgeGroup(citizen.m_age)}");
                     }
 
                     Politics.cPartyChance += Politics.age[temp, 0];
@@ -831,7 +743,7 @@ namespace RealCity.Patch
                     }
                     else
                     {
-                        DebugLog.LogToFileOnly("Error: Invalid partyTrend = " + RealCityEconomyExtension.partyTrend.ToString());
+                        DebugLog.LogToFileOnly($"Error: GetVoteChance Invalid partyTrend = {RealCityEconomyExtension.partyTrend}");
                     }
 
                     GetVoteTickets();

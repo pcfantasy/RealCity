@@ -16,7 +16,7 @@ namespace RealCity.Patch
             BuildingData.buildingMoney[buildingID] = 0;
             BuildingData.buildingWorkCount[buildingID] = 0;
             BuildingData.isBuildingWorkerUpdated[buildingID] = false;
-            BuildingData.buildingMoneyThreat[buildingID] = 0;
+            BuildingData.buildingMoneyThreat[buildingID] = 1f;
         }
     }
 }

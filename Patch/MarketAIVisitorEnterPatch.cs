@@ -23,6 +23,10 @@ namespace RealCity.Patch
             {
                 var consumptionMoney = -MainDataStore.maxGoodPurchase;
                 buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref consumptionMoney);
+                int priceInt = 0;
+                IndustryBuildingGetResourcePricePatch.Prefix(ref priceInt, TransferManager.TransferReason.Shopping, data.Info.m_class.m_service);
+                var m_goodsSellPrice = priceInt / 100;
+                MainDataStore.outsideTouristMoney += (consumptionMoney * m_goodsSellPrice);
             }
             else
             {
@@ -35,21 +39,11 @@ namespace RealCity.Patch
 
                 if (containingUnit != 0)
                 {
-                    int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / m_goodsSellPrice);
+                    //int goodAmount = (int)(-(CitizenUnitData.familyMoney[containingUnit]) / m_goodsSellPrice);
+                    int goodAmount = -MainDataStore.maxGoodPurchase;
 
                     if (goodAmount < 0)
                     {
-                        if (goodAmount < -MainDataStore.maxGoodPurchase)
-                        {
-                            goodAmount = -MainDataStore.maxGoodPurchase;
-                        }
-
-                        if (goodAmount == -100)
-                        {
-                            //Disable other -100 ModifyMaterialBuffer
-                            goodAmount = -99;
-                        }
-
                         buildingInfo.m_buildingAI.ModifyMaterialBuffer(buildingID, ref data, TransferManager.TransferReason.Shopping, ref goodAmount);
 
                         if (goodAmount != 0)
@@ -71,14 +65,7 @@ namespace RealCity.Patch
                 }
             }
 
-            //base.VisitorEnter(buildingID, ref data, citizen);
-            ushort eventIndex = data.m_eventIndex;
-            if (eventIndex != 0)
-            {
-                EventManager eventManager = Singleton<EventManager>.instance;
-                EventInfo eventInfo = eventManager.m_events.m_buffer[(int)eventIndex].Info;
-                eventInfo.m_eventAI.VisitorEnter(eventIndex, ref eventManager.m_events.m_buffer[(int)eventIndex], buildingID, citizen);
-            }
+            Singleton<BuildingAI>.instance.VisitorEnter(buildingID, ref data, citizen);
             return false;
         }
     }

@@ -48,7 +48,7 @@ namespace RealCity.UI
         private UILabel comLowTradeIncome;
         private UILabel comLeiTradeIncome;
         private UILabel comTouTradeIncome;
-        private UILabel comeco_tradeincome;
+        private UILabel comEcoTradeIncome;
         private UILabel induGenTradeIncome;
         private UILabel induFarmerTradeIncome;
         private UILabel induForestyTradeIncome;
@@ -302,10 +302,10 @@ namespace RealCity.UI
             comLowTradeIncome.relativePosition = new Vector3(comHighTradeIncome.relativePosition.x + 450f, comHighTradeIncome.relativePosition.y);
             comLowTradeIncome.autoSize = true;
 
-            comeco_tradeincome = AddUIComponent<UILabel>();
-            comeco_tradeincome.text = Localization.Get("COMMERICAL_ECO_TRADE_INCOME");
-            comeco_tradeincome.relativePosition = new Vector3(SPACING, comHighTradeIncome.relativePosition.y + SPACING22);
-            comeco_tradeincome.autoSize = true;
+            comEcoTradeIncome = AddUIComponent<UILabel>();
+            comEcoTradeIncome.text = Localization.Get("COMMERICAL_ECO_TRADE_INCOME");
+            comEcoTradeIncome.relativePosition = new Vector3(SPACING, comHighTradeIncome.relativePosition.y + SPACING22);
+            comEcoTradeIncome.autoSize = true;
 
             comTouTradeIncome = AddUIComponent<UILabel>();
             comTouTradeIncome.text = Localization.Get("COMMERICAL_TOURISM_TRADE_INCOME");
@@ -314,7 +314,7 @@ namespace RealCity.UI
 
             comLeiTradeIncome = AddUIComponent<UILabel>();
             comLeiTradeIncome.text = Localization.Get("COMMERICAL_LEISURE_TRADE_INCOME");
-            comLeiTradeIncome.relativePosition = new Vector3(SPACING, comeco_tradeincome.relativePosition.y + SPACING22);
+            comLeiTradeIncome.relativePosition = new Vector3(SPACING, comEcoTradeIncome.relativePosition.y + SPACING22);
             comLeiTradeIncome.autoSize = true;
 
             induGenTradeIncome = AddUIComponent<UILabel>();
@@ -433,7 +433,7 @@ namespace RealCity.UI
                     comLowTradeIncome.text = string.Format(Localization.Get("COMMERICAL_LOW_TRADE_INCOME") + " [{0}]", commLowTradeIncomeForUI);
                     comLeiTradeIncome.text = string.Format(Localization.Get("COMMERICAL_LEISURE_TRADE_INCOME") + " [{0}]", commLeiTradeIncomeForUI);
                     comTouTradeIncome.text = string.Format(Localization.Get("COMMERICAL_TOURISM_TRADE_INCOME") + " [{0}]", commTouTradeIncomeForUI);
-                    comeco_tradeincome.text = string.Format(Localization.Get("COMMERICAL_ECO_TRADE_INCOME") + " [{0}]", commEcoTradeIncomeForUI);
+                    comEcoTradeIncome.text = string.Format(Localization.Get("COMMERICAL_ECO_TRADE_INCOME") + " [{0}]", commEcoTradeIncomeForUI);
                     induGenTradeIncome.text = string.Format(Localization.Get("INDUSTRIAL_GENERAL_TRADE_INCOME") + " [{0}]", induGenTradeIncomeForUI);
                     induFarmerTradeIncome.text = string.Format(Localization.Get("INDUSTRIAL_FARMING_TRADE_INCOME") + " [{0}]", induFarmerTradeIncomeForUI);
                     induForestyTradeIncome.text = string.Format(Localization.Get("INDUSTRIAL_FORESTY_TRADE_INCOME") + " [{0}]", induForestyTradeIncomeForUI);
@@ -535,7 +535,7 @@ namespace RealCity.UI
                 commEcoTradeIncomeForUI+= (double)RealCityEconomyManager.commEcoTradeIncomeForUI[i]  / 100f;
                 induGenTradeIncomeForUI+= (double)RealCityEconomyManager.induGenTradeIncomeForUI[i]  / 100f;
                 induFarmerTradeIncomeForUI+= (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[i]  / 100f;
-                induForestyTradeIncomeForUI+= (double)RealCityEconomyManager.induForestyLandIncomeForUI[i]  / 100f;
+                induForestyTradeIncomeForUI+= (double)RealCityEconomyManager.induForestyTradeIncomeForUI[i]  / 100f;
                 induOilTradeIncomeForUI+= (double)RealCityEconomyManager.induOilTradeIncomeForUI[i]  / 100f;
                 induOreTradeIncomeForUI+= (double)RealCityEconomyManager.induOreTradeIncomeForUI[i]  / 100f;
                 roadIncomeForUI += (double)RealCityEconomyManager.roadIncomeForUI[i]  / 100f;
@@ -573,7 +573,7 @@ namespace RealCity.UI
             commEcoTradeIncomeForUI -= (double)RealCityEconomyManager.commEcoTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induGenTradeIncomeForUI -= (double)RealCityEconomyManager.induGenTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induFarmerTradeIncomeForUI -= (double)RealCityEconomyManager.induFarmerTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
-            induForestyTradeIncomeForUI -= (double)RealCityEconomyManager.induForestyLandIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
+            induForestyTradeIncomeForUI -= (double)RealCityEconomyManager.induForestyTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induOilTradeIncomeForUI -= (double)RealCityEconomyManager.induOilTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
             induOreTradeIncomeForUI -= (double)RealCityEconomyManager.induOreTradeIncomeForUI[MainDataStore.updateMoneyCount]  / 100f;
 

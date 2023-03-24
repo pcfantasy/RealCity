@@ -88,6 +88,7 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION 
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DOTNET_REFERENCES_COPY_LOCAL False)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VS_DOTNET_REFERENCE_0Harmony "${CMAKE_BINARY_DIR}/packages/Lib.Harmony.2.0.0.9/lib/net35/0Harmony.dll")
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_DOTNET_REFERENCE_CitiesHarmony.API "${CMAKE_BINARY_DIR}/packages/CitiesHarmony.API.1.0.4/lib/net35/CitiesHarmony.API.dll")
 
 function(add_mod_file SRC DEST)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${SRC}" "${DEST}" COMMENT "Copying ${SRC} -> ${DEST}\r")

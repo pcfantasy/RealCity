@@ -19,6 +19,7 @@ namespace RealCity.UI
         public ZonedBuildingWorldInfoPanel baseBuildingWindow;
         public static bool refeshOnce = false;
         private UILabel buildingMoney;
+        private UILabel buildingNetAsset;
         private UILabel buildingIncomeBuffer;
         private UILabel buildingOutgoingBuffer;
         private UILabel employFee;
@@ -67,9 +68,14 @@ namespace RealCity.UI
             buildingMoney.relativePosition = new Vector3(SPACING, 50f);
             buildingMoney.autoSize = true;
 
+            buildingNetAsset = AddUIComponent<UILabel>();
+            buildingNetAsset.text = Localization.Get("BUILDING_NETASSET");
+            buildingNetAsset.relativePosition = new Vector3(SPACING, buildingMoney.relativePosition.y + SPACING22);
+            buildingNetAsset.autoSize = true;
+
             buildingIncomeBuffer = AddUIComponent<UILabel>();
             buildingIncomeBuffer.text = Localization.Get("MATERIAL_BUFFER");
-            buildingIncomeBuffer.relativePosition = new Vector3(SPACING, buildingMoney.relativePosition.y + SPACING22);
+            buildingIncomeBuffer.relativePosition = new Vector3(SPACING, buildingNetAsset.relativePosition.y + SPACING22);
             buildingIncomeBuffer.autoSize = true;
 
             buildingOutgoingBuffer = AddUIComponent<UILabel>();
@@ -139,6 +145,7 @@ namespace RealCity.UI
                         float incomePrice = RealCityPrivateBuildingAI.GetPrice(false, BuildingData.lastBuildingID, buildingData);
                         float outgoingPrice = RealCityPrivateBuildingAI.GetPrice(true, BuildingData.lastBuildingID, buildingData);
                         buildingMoney.text = string.Format(Localization.Get("BUILDING_MONEY") + " [{0}]", BuildingData.buildingMoney[BuildingData.lastBuildingID]);
+                        buildingNetAsset.text = string.Format(Localization.Get("BUILDING_NETASSET") + " [{0}]", (BuildingData.buildingMoney[BuildingData.lastBuildingID] + buildingData.m_customBuffer1 * RealCityIndustryBuildingAI.GetResourcePrice(RealCityPrivateBuildingAI.GetIncomingProductionType(BuildingData.lastBuildingID, buildingData))));
                         buildingIncomeBuffer.text = string.Format(Localization.Get("MATERIAL_BUFFER") + " [{0}]" + " " + incomeType, buildingData.m_customBuffer1);
                         buildingOutgoingBuffer.text = string.Format(Localization.Get("PRODUCTION_BUFFER") + " [{0}]"+ " " + outgoingType, buildingData.m_customBuffer2);
                         employFee.text = Localization.Get("AVERAGE_EMPLOYFEE") + " " + averageEmployeeFee.ToString() + " " + Localization.Get("PROFIT_SHARING");
@@ -154,7 +161,7 @@ namespace RealCity.UI
                         }
                         else
                         {
-                            if (buildingData.Info.m_buildingAI is IndustrialExtractorAI)
+                            if ((buildingData.Info.m_buildingAI is IndustrialExtractorAI) || buildingData.Info.m_class.m_service == ItemClass.Service.Office)
                             {
                                 comsuptionDivide.text = string.Format(Localization.Get("MATERIAL_DIV_PRODUCTION") + " N/A");
                             }
@@ -170,7 +177,7 @@ namespace RealCity.UI
 
                         if (consumptionDivider == 0f)
                         {
-                            profit.text = string.Format(Localization.Get("SELL_TAX") + " N/A");
+                            profit.text = string.Format(Localization.Get("PROFIT") + " N/A");
                         }
                         else
                         {
@@ -305,7 +312,8 @@ namespace RealCity.UI
             DistrictPolicies.CityPlanning cityPlanningPolicies = instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
 
             GetLandRent(building, out int landFee);
-            int taxRate;
+            float taxRate;
+
             taxRate = Singleton<EconomyManager>.instance.GetTaxRate(building.Info.m_class, taxationPolicies);
 
             if (instance.IsPolicyLoaded(DistrictPolicies.Policies.ExtraInsulation))

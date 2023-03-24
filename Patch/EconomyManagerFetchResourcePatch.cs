@@ -35,6 +35,8 @@ namespace RealCity.Patch
             switch (service)
             {
                 case ItemClass.Service.Road:
+                    if (Loader.roadShift != 0)
+                        amount <<= Loader.roadShift;
                     ProcessUnit(ref amount, ref Road);
                     break;
                 case ItemClass.Service.Garbage:
@@ -96,7 +98,7 @@ namespace RealCity.Patch
 
         public static void ProcessUnit(ref int amount, ref float container)
         {
-            container += amount / MainDataStore.gameExpenseDivide;
+            container += (float)amount / (float)MainDataStore.gameExpenseDivide;
             if (container > 1)
             {
                 amount = (int)container;
@@ -110,6 +112,12 @@ namespace RealCity.Patch
 
         public static void Prefix(ref EconomyManager.Resource resource, ref int amount, ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, ref uint __state)
         {
+            if (amount < 0)
+            {
+                DebugLog.LogToFileOnly($"Error: EconomyManagerFetchResourcePatch: amount < 0 {service} {subService} {level}");
+                amount = 0;
+            }
+
             __state = 0xdeadbeaf;
 
             if (resource == EconomyManager.Resource.PolicyCost)

@@ -23,6 +23,7 @@ namespace RealCity.CustomData
                 buildingWorkCount[i] = 0;
                 isBuildingWorkerUpdated[i] = false;
                 commBuildingID[i] = 0;
+                buildingMoneyThreat[i] = 1f;
             }
         }
 
@@ -36,7 +37,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"BuildingData Save Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"BuildingData Save Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
 
@@ -49,7 +50,7 @@ namespace RealCity.CustomData
 
             if (i != saveData.Length)
             {
-                DebugLog.LogToFileOnly($"BuildingData Load Error: saveData.Length = {saveData.Length} + i = {i}");
+                DebugLog.LogToFileOnly($"BuildingData Load Error: saveData.Length = {saveData.Length} actually = {i}");
             }
         }
     }

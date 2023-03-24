@@ -10,6 +10,7 @@ using RealCity.Util;
 using RealCity.CustomManager;
 using ColossalFramework.Plugins;
 using RealCity.CustomData;
+using CitiesHarmony.API;
 
 namespace RealCity
 {
@@ -37,13 +38,16 @@ namespace RealCity
         public static PlayerBuildingButton PBButton;
         public static string m_atlasName = "RealCity";
         public static bool m_atlasLoaded;
-       // public static UIPanel PBLInfo;
+        public static UIPanel PBLInfo;
+        public static PBLUI PBLUI;
         public static GameObject PBLWindowGameObject;
         public static bool isTransportLinesManagerRunning = false;
         public static bool isRealTimeRunning = false;
+        public static int roadShift = 0;
 
         public override void OnCreated(ILoading loading)
         {
+            HarmonyInitDetour();
             base.OnCreated(loading);
         }
 
@@ -60,12 +64,17 @@ namespace RealCity
                     isRealTimeRunning = CheckRealTimeIsLoaded();
                     DebugLog.LogToFileOnly($"Check RealTime running = {isRealTimeRunning}");
                     isTransportLinesManagerRunning = isTransportLinesManagerRunning || (!isRealTimeRunning);
+                    roadShift = 0;
+                    if (CheckElectricRoadsModIsLoaded() || CheckRemoveNeedForPowerLinesIsLoaded())
+                        roadShift += 1;
+                    if (CheckRemoveNeedForPipesIsLoaded())
+                        roadShift += 1;
                     //refresh OptionsMainPanel
                     MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
                     method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
                     SetupGui();
                     HarmonyInitDetour();
-                    RealCity.LoadSetting();
+                    OptionUI.LoadSetting();
                     RealCityThreading.isFirstTime = true;
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     if (mode == LoadMode.NewGame)
@@ -169,7 +178,48 @@ namespace RealCity
                 SetupCityButton();
                 SetupBuildingButton();
                 SetupPlayerBuildingButton();
+                if (!isTransportLinesManagerRunning)
+                    SetupPBLUIGui();
                 isGuiRunning = true;
+            }
+        }
+        public static void SetupPBLUIGui()
+        {
+            PBLWindowGameObject = new GameObject("PBLWindowGameObject");
+            PBLUI = (PBLUI)PBLWindowGameObject.AddComponent(typeof(PBLUI));
+            PBLInfo = UIView.Find<UIPanel>("(Library) PublicTransportWorldInfoPanel");
+            if (PBLInfo == null)
+            {
+                DebugLog.LogToFileOnly("UIPanel not found (update broke the mod!): (Library) PublicTransportWorldInfoPanel\nAvailable panels are:\n");
+            }
+            else
+            {
+                PBLUI.transform.parent = PBLInfo.transform;
+                PBLUI.size = new Vector3(150, 100);
+                PBLUI.baseBuildingWindow = PBLInfo.gameObject.transform.GetComponentInChildren<PublicTransportWorldInfoPanel>();
+                UILabel UILabel = PBLUI.baseBuildingWindow.Find<UILabel>("ModelLabel");
+                PBLUI.position = new Vector3(UILabel.relativePosition.x + 50f, PBLInfo.size.y - (UILabel.relativePosition.y + 160f));
+                PBLInfo.eventVisibilityChanged += PBLInfo_eventVisibilityChanged;
+            }
+        }
+        public static void PBLInfo_eventVisibilityChanged(UIComponent component, bool value)
+        {
+            PBLUI.isEnabled = value;
+            if (value)
+            {
+                //initialize PBL ui again
+                PBLUI.transform.parent = PBLInfo.transform;
+                PBLUI.size = new Vector3(150, 100);
+                PBLUI.baseBuildingWindow = PBLInfo.gameObject.transform.GetComponentInChildren<PublicTransportWorldInfoPanel>();
+                UILabel UILabel = PBLUI.baseBuildingWindow.Find<UILabel>("ModelLabel");
+                //DebugLog.LogToFileOnly(UILabel.relativePosition.x.ToString() + "    " +  UILabel.relativePosition.y.ToString());
+                PBLUI.position = new Vector3(UILabel.relativePosition.x + 50f, PBLInfo.size.y - (UILabel.relativePosition.y + 160f));
+                PBLUI.refeshOnce = true;
+                PBLUI.Show();
+            }
+            else
+            {
+                PBLUI.Hide();
             }
         }
         public static void SetupHumanGui()
@@ -356,6 +406,23 @@ namespace RealCity
             {
                 UnityEngine.Object.Destroy(TouristWindowGameObject);
             }
+
+            if (!isTransportLinesManagerRunning)
+            {
+                if (PBLUI != null)
+                {
+                    if (PBLUI.parent != null)
+                    {
+                        PBLUI.parent.eventVisibilityChanged -= PBLInfo_eventVisibilityChanged;
+                    }
+                }
+
+                if (PBLWindowGameObject != null)
+                {
+                    UnityEngine.Object.Destroy(PBLWindowGameObject);
+                }
+                PBLUI._initialized = false;
+            }
         }
 
         private bool Check3rdPartyModLoaded(string namespaceStr, bool printAll = false)
@@ -388,22 +455,28 @@ namespace RealCity
 
         public static void HarmonyInitDetour()
         {
-            if (!HarmonyDetourInited)
+            if (HarmonyHelper.IsHarmonyInstalled)
             {
-                DebugLog.LogToFileOnly("Init harmony detours");
-                HarmonyDetours.Apply();
-                HarmonyDetourInited = true;
+                if (!HarmonyDetourInited)
+                {
+                    DebugLog.LogToFileOnly("Init harmony detours");
+                    HarmonyDetours.Apply();
+                    HarmonyDetourInited = true;
+                }
             }
         }
 
         public static void HarmonyRevertDetour()
         {
-            if (HarmonyDetourInited)
+            if (HarmonyHelper.IsHarmonyInstalled)
             {
-                DebugLog.LogToFileOnly("Revert harmony detours");
-                HarmonyDetours.DeApply();
-                HarmonyDetourFailed = true;
-                HarmonyDetourInited = false;
+                if (HarmonyDetourInited)
+                {
+                    DebugLog.LogToFileOnly("Revert harmony detours");
+                    HarmonyDetours.DeApply();
+                    HarmonyDetourFailed = true;
+                    HarmonyDetourInited = false;
+                }
             }
         }
 
@@ -415,6 +488,21 @@ namespace RealCity
         private bool CheckRealTimeIsLoaded()
         {
             return Check3rdPartyModLoaded("RealTime.Core", false);
+        }
+
+        private bool CheckRemoveNeedForPowerLinesIsLoaded()
+        {
+            return Check3rdPartyModLoaded("RemoveNeedForPowerLines", false);
+        }
+
+        private bool CheckRemoveNeedForPipesIsLoaded()
+        {
+            return Check3rdPartyModLoaded("RemoveNeedForPipes", false);
+        }
+
+        private bool CheckElectricRoadsModIsLoaded()
+        {
+            return Check3rdPartyModLoaded("Klyte.ElectricRoads", false);
         }
     }
 }

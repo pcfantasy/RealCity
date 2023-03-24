@@ -61,6 +61,71 @@ namespace RealCity
                     BuildingUI.refeshOnce = true;
                     HumanUI.refeshOnce = true;
                     TouristUI.refeshOnce = true;
+                    PBLUI.refeshOnce = true;
+                    //4 limit money
+                    MainDataStore.maxOutsideMoneyLimit = (400 + MainDataStore.familyCount) * 250f;
+
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated0Data.m_finalCount >> 3);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated1Data.m_finalCount >> 2);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated2Data.m_finalCount >> 1);
+                    MainDataStore.outsideTouristMoney += (Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_educated3Data.m_finalCount);
+
+                    if ((MainDataStore.outsideTouristMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideTouristMoney < -MainDataStore.maxOutsideMoneyLimit))
+                        MainDataStore.outsideTouristMoney *= 0.975f;
+                    if ((MainDataStore.outsideGovermentMoney > MainDataStore.maxOutsideMoneyLimit) || (MainDataStore.outsideGovermentMoney < -MainDataStore.maxOutsideMoneyLimit))
+                        MainDataStore.outsideGovermentMoney *= 0.975f;
+
+                    //5 random event
+                    if (RealCity.randomEvent && (MainDataStore.citizenCount > 6000))
+                    {
+                        if (MainDataStore.randomEventTime < 2)
+                        {
+                            System.Random rand = new System.Random();
+                            MainDataStore.randomEventTime = (ushort)(rand.Next(3900) + 100);
+                            var randomData = (ushort)(rand.Next(600) + 100);
+                            MainDataStore.noImport = false;
+                            MainDataStore.noExport = false;
+                            MainDataStore.noDummyTraffic = false;
+                            MainDataStore.noTourist = false;
+
+                            if (randomData < 130)
+                            {
+                                MainDataStore.noExport = true;
+                            }
+                            else if (randomData < 160)
+                            {
+                                MainDataStore.noImport = true;
+                            }
+                            else if (randomData < 190)
+                            {
+                                MainDataStore.noTourist = true;
+                            }
+                            else if (randomData < 220)
+                            {
+                                MainDataStore.noDummyTraffic = true;
+                            }
+                            else
+                            {
+                                MainDataStore.noImport = false;
+                                MainDataStore.noExport = false;
+                                MainDataStore.noDummyTraffic = false;
+                                MainDataStore.noTourist = false;
+                            }
+                        }
+                        else
+                        {
+                            MainDataStore.randomEventTime--;
+                        }
+                    } 
+                    else
+                    {
+                        MainDataStore.noImport = false;
+                        MainDataStore.noExport = false;
+                        MainDataStore.noDummyTraffic = false;
+                        MainDataStore.noTourist = false;
+                        MainDataStore.randomEventTime = 0;
+                    }
+                    //end
                 }
             }
             return internalMoneyAmount;
@@ -149,39 +214,54 @@ namespace RealCity
             }
 
             //Caculate goverment salary
+            CaculateGovermentSalary();
+            //reset playereducation fee
+            RefreshPlayerEducationFee();
+        }
+
+        public static void CaculateGovermentSalary()
+        {
             if (MainDataStore.citizenCount != 0)
             {
                 MainDataStore.govermentSalary = (int)((MainDataStore.citizenSalaryTotal) / MainDataStore.citizenCount);
             }
+        }
+
+        public static void RefreshPlayerEducationFee()
+        {
             //reset playereducation fee
-            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
+            var playereducationFee = (uint)((MainDataStore.govermentSalary) / 100f);
+            if (playereducationFee < 1)
+                playereducationFee = 1;
+
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent != playereducationFee)
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level1 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent.ToString());
-                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) /100f);                
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level1 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent}");
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[1].m_tuitionMoneyPerStudent = playereducationFee;
             }
 
-            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent != playereducationFee)
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level2 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent.ToString());
-                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level2 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent}");
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[2].m_tuitionMoneyPerStudent = playereducationFee;
             }
 
-            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent != playereducationFee)
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level3 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent.ToString());
-                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level3 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent}");
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[3].m_tuitionMoneyPerStudent = playereducationFee;
             }
 
-            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent != playereducationFee)
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level4 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent.ToString());
-                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level4 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent}");
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[4].m_tuitionMoneyPerStudent = playereducationFee;
             }
 
-            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent != (uint)((MainDataStore.govermentSalary) / 100f))
+            if (Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent != playereducationFee)
             {
-                DebugLog.LogToFileOnly("m_tuitionMoneyPerStudent level5 = " + Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent.ToString());
-                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent = (uint)((MainDataStore.govermentSalary) / 100f);
+                DebugLog.LogToFileOnly($"m_tuitionMoneyPerStudent level5 = {Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent}");
+                Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusLevelInfo[5].m_tuitionMoneyPerStudent = playereducationFee;
             }
         }
 
@@ -479,6 +559,58 @@ namespace RealCity
             int industrialBuildingOffset = 0; //industrial building offset
             int commercialBuildingOffset = 0; //commercial building offset
             VoteOffset(ref idex, ref moneyOffset, ref citizenOffset, ref industrialBuildingOffset, ref commercialBuildingOffset);
+
+            if (MainDataStore.noExport)
+            {
+                //Goods demand is much lower than supply
+                moneyOffset = -4000;
+                citizenOffset = -500;
+                industrialBuildingOffset = -1500;
+                commercialBuildingOffset = -1500;
+            }
+
+            if (MainDataStore.noImport)
+            {
+                //Goods demand is much higher than supply
+                moneyOffset = 4000;
+                citizenOffset = 500;
+                industrialBuildingOffset = 1500;
+                commercialBuildingOffset = 1500;
+            }
+
+            if (MainDataStore.noDummyTraffic)
+            {
+                //no money
+                industrialBuildingOffset -= 1500;
+                commercialBuildingOffset -= 1500;
+            }
+
+            if (MainDataStore.noTourist)
+            {
+                //demand decrease
+                industrialBuildingOffset += 1500;
+                commercialBuildingOffset += 1500;
+            }
+
+            if (industrialBuildingOffset > 1500)
+            {
+                industrialBuildingOffset = 1500;
+            }
+
+            if (industrialBuildingOffset < -1500)
+            {
+                industrialBuildingOffset = -1500;
+            }
+
+            if (commercialBuildingOffset > 1500)
+            {
+                commercialBuildingOffset = 1500;
+            }
+
+            if (commercialBuildingOffset < -1500)
+            {
+                commercialBuildingOffset = -1500;
+            }
 
             if (temp == 99)
             {
